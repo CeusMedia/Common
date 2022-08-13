@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Parses a XML Document to a Tree of XML_DOM_Nodes.
+ *	Parses an XML Document to a Tree of XML_DOM_Nodes.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -33,7 +34,7 @@ use DOMElement;
 use Exception;
 
 /**
- *	Parses a XML Document to a Tree of XML_DOM_Nodes.
+ *	Parses an XML Document to a Tree of XML_DOM_Nodes.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -45,6 +46,7 @@ class Parser extends OptionObject
 {
 	/**	@var	DOMDocument		$document		DOM Document */
 	protected $document			= NULL;
+
 	/**	@var	array			$attributes		List of DOM Document Options */
 	protected $attributes	= array(
 		"version",
@@ -60,7 +62,7 @@ class Parser extends OptionObject
 	 *	@access		public
 	 *	@return		DOMDocument
 	 */
-	public function getDocument()
+	public function getDocument(): DOMDocument
 	{
 		return $this->document;
 	}
@@ -70,12 +72,13 @@ class Parser extends OptionObject
 	 *	@access		public
 	 *	@param		string		$xml			XML to be parsed
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	protected function loadXml( $xml )
+	protected function loadXml( string $xml )
 	{
 		$xsv	= new SyntaxValidator;
 		if( !$xsv->validate( $xml ) )
-			throw new Exception( "XML Document is not valid:".$xsv->getErrors() );
+			throw new Exception( "XML Document is not valid:".join( ', ', $xsv->getErrors() ) );
 		$this->document	= $xsv->getDocument();
 		$this->clearOptions();
 		foreach( $this->attributes as $attribute )
@@ -88,8 +91,9 @@ class Parser extends OptionObject
 	 *	@access		public
 	 *	@param		string		$xml			XML to parse
 	 *	@return		Node
+	 *	@throws		Exception
 	 */
-	public function parse( $xml )
+	public function parse( string $xml ): Node
 	{
 		$this->loadXml( $xml );
 		$root	= $this->document->firstChild;
@@ -97,8 +101,7 @@ class Parser extends OptionObject
 			$root	= $root->nextSibling;
 
 		$tree	= new Node( $root->nodeName );
-		if( $root->hasAttributes())
-		{
+		if( $root->hasAttributes()){
 			$attributeNodes	= $root->attributes;
 			foreach( $attributeNodes as $attributeNode )
 				$tree->setAttribute( $attributeNode->nodeName, $attributeNode->nodeValue );
@@ -114,20 +117,15 @@ class Parser extends OptionObject
 	 *	@param		Node			$tree		Parent XML Node
 	 *	@return		bool
 	 */
-	protected function parseRecursive( $root, $tree )
+	protected function parseRecursive( DOMElement  $root, Node $tree ): bool
 	{
-		$nodes = array();
-		if( $child = $root->firstChild )
-		{
-			while( $child )
-			{
+		if( $child = $root->firstChild ){
+			while( $child ){
 				$attributes	= $child->hasAttributes()? $child->attributes : array();
-				switch( $child->nodeType )
-				{
+				switch( $child->nodeType ){
 					case XML_ELEMENT_NODE:
 						$node = new Node( $child->nodeName );
-						if( !$this->parseRecursive( $child, $node ) )
-						{
+						if( !$this->parseRecursive( $child, $node ) ){
 	#						$node->setContent( utf8_decode( $child->textContent ) );
 							$node->setContent( $child->textContent );
 						}
@@ -136,14 +134,10 @@ class Parser extends OptionObject
 						$tree->addChild( $node );
 						break;
 					case XML_TEXT_NODE:
-						if( strlen( trim( $content = $child->textContent ) ) )
-						{
-							return false;
-						}
+						if( strlen( trim( $child->textContent ) ) )
+							return FALSE;
 						else if( isset( $attributes['type'] ) && preg_match( "/.*ml/i", $attributes['type'] ) )
-						{
-							return false;
-						}
+							return FALSE;
 						break;
 					case XML_CDATA_SECTION_NODE:
 						$tree->setContent( stripslashes( $child->textContent ) );
@@ -154,6 +148,6 @@ class Parser extends OptionObject
 				$child = $child->nextSibling;
 			}
 		}
-		return true;
+		return TRUE;
 	}
 }

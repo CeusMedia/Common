@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds and writes Google Sitemap.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
 
 namespace CeusMedia\Common\XML\DOM;
+
+use Exception;
 
 /**
  *	Builds and writes Google Sitemap.
@@ -36,12 +38,11 @@ namespace CeusMedia\Common\XML\DOM;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
 class GoogleSitemapBuilder
 {
 	/**	@var	array		$list		List of URLs */
-	protected $list	= array();
+	protected $list	= [];
 
 	/**
 	 *	Adds another Link to Sitemap.
@@ -49,7 +50,7 @@ class GoogleSitemapBuilder
 	 *	@param		string		$link		Link to add to Sitemap
 	 *	@return		void
 	 */
-	public function addLink( $link )
+	public function addLink( string $link )
 	{
 		$this->list[]	= $link;
 	}
@@ -59,8 +60,9 @@ class GoogleSitemapBuilder
 	 *	@access		public
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public function build( $baseUrl )
+	public function build( string $baseUrl ): bool
 	{
 		return self::buildSitemap( $this->list, $baseUrl );
 	}
@@ -69,14 +71,15 @@ class GoogleSitemapBuilder
 	 *	Builds and return XML of Sitemap.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$links		List of Sitemap Link
+	 *	@param		array		$links		List of Sitemap Link
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
-	 *	@return		bool
+	 *	@return		string
+	 *	@throws		Exception
 	 */
-	public static function buildSitemap( $links, $baseUrl = "" )
+	public static function buildSitemap( array $links, string $baseUrl = '' ): string
 	{
 		$root	= new Node( "urlset" );
-		$root->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
+		$root->setAttribute( 'xmlns', "https://www.google.com/schemas/sitemap/0.84" );
 		foreach( $links as $link )
 		{
 			$child	= new Node( "url" );

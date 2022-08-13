@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Validates XML.
  *
@@ -43,14 +44,14 @@ use CeusMedia\Common\Net\Reader as NetReader;
 class Validator
 {
 	/**	@var		array		$error		Array of Error Information */
-	protected $error	= array();
+	protected $error	= [];
 
 	/**
 	 *	Returns last error line.
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getErrorLine()
+	public function getErrorLine(): int
 	{
 		if( $this->error )
 			return $this->error['line'];
@@ -62,7 +63,7 @@ class Validator
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getErrorMessage()
+	public function getErrorMessage(): string
 	{
 		if( $this->error )
 			return $this->error['message'];
@@ -72,23 +73,23 @@ class Validator
 	/**
 	 *	Validates XML File.
 	 *	@access		public
+	 *	@param		string		$fileName		...
 	 *	@return		bool
 	 */
-	public function validateFile( $fileName )
+	public function validateFile( string $fileName ): bool
 	{
-		$xml = FileReader::load( $fileName );
-		return $this->validate( $xml );
+		return $this->validate( FileReader::load( $fileName ) );
 	}
 
 	/**
 	 *	Validates XML URL.
 	 *	@access		public
+	 *	@param		string		$url		...
 	 *	@return		bool
 	 */
-	public function validateUrl( $url)
+	public function validateUrl( string $url ): bool
 	{
-		$xml	= NetReader::readUrl( $url );
-		return $this->validate( $xml );
+		return $this->validate( NetReader::readUrl( $url ) );
 	}
 
 	/**
@@ -97,7 +98,7 @@ class Validator
 	 *	@param		string		$xml		XML String to validate
 	 *	@return		bool
 	 */
-	public function validate( $xml )
+	public function validate( string $xml ): bool
 	{
 		$parser	= xml_parser_create();
 		$dummy	= create_function( '', '' );

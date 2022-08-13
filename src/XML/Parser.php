@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parses XML String and returns Array or Object Structure.
  *
@@ -44,22 +45,23 @@ class Parser
 {
 	/**	@var		resource		$xml		Resource of XML Parser */
 	protected $xml;
+
 	/**	@var		array			$last		Last Node while parsing */
-	protected $last	= array();
+	protected $last	= [];
+
 	/**	@var		mixed			$data		Parsed XML Data as Array or Object Structure */
-	protected $data	= array();
+	protected $data	= [];
 
 	/**
 	 *	Callback Method for Character Data.
 	 *	@access		protected
-	 *	@param		resource	parser		Resource of XML Parser
-	 *	@param		string	cdata		Data of parsed tag
+	 *	@param		resource	$parser		Resource of XML Parser
+	 *	@param		string		$cdata		Data of parsed tag
 	 *	@return		void
 	 */
-	protected function handleCDataForArray( $parser, $cdata )
+	protected function handleCDataForArray( $parser, string $cdata )
 	{
-		if( strlen( ltrim( $cdata ) ) > 0 )
-		{
+		if( strlen( ltrim( $cdata ) ) > 0 ){
 			$pointer	= count( $this->last ) - 2;
 			$index		= count( $this->last[$pointer] ) - 1;
 			$content	= str_replace( '\n', "\n", trim( $cdata ) );
@@ -70,15 +72,15 @@ class Parser
 	/**
 	 *	Callback Method for Character Data.
 	 *	@access		protected
-	 *	@param		resource	parser		Resource of XML Parser
-	 *	@param		string	cdata		Data of parsed tag
+	 *	@param		resource	$parser		Resource of XML Parser
+	 *	@param		string		$cdata		Data of parsed tag
 	 *	@return		void
 	 */
-	protected function handleCDataForObject( $parser, $cdata )
+	protected function handleCDataForObject( $parser, string $cdata )
 	{
 		if( strlen( ltrim( $cdata ) ) <= 0 )
 			return;
-		$pointer		= count( $this->last ) - 2;
+		$pointer	= count( $this->last ) - 2;
 		$index		= count( $this->last[$pointer]->getChildren() ) - 1;
 		$parent		=& $this->last[$pointer];
 		$node		= $parent->getChildByIndex( $index );
@@ -94,7 +96,7 @@ class Parser
 	 *	@param		string		$tag		Name of parsed tag
 	 *	@return		void
 	 */
-	protected function handleTagCloseForArray( $parser, $tag )
+	protected function handleTagCloseForArray( $parser, string $tag )
 	{
 		array_pop( $this->last );
 	}
@@ -106,7 +108,7 @@ class Parser
 	 *	@param		string		$tag		Name of parsed tag
 	 *	@return		void
 	 */
-	protected function handleTagCloseForObject( $parser, $tag )
+	protected function handleTagCloseForObject( $parser, string $tag )
 	{
 		array_pop( $this->last );
 	}
@@ -119,15 +121,15 @@ class Parser
 	 *	@param		array		$attributes	Array of parsed Attributes
 	 *	@return		void
 	 */
-	protected function handleTagOpenForArray( $parser, $tag, $attributes )
+	protected function handleTagOpenForArray( $parser, string $tag, array $attributes )
 	{
 		$count	= count( $this->last ) - 1;
-		$this->last[$count][]	= array(
+		$this->last[$count][]	= [
 			"tag"			=> $tag,
 			"attributes"	=> $attributes,
 			"content"		=> '',
-			"children"		=> array()
-		);
+			"children"		=> []
+		];
 		$index	= count( $this->last[$count] ) - 1;
 		$this->last[]	= &$this->last[$count][$index]['children'];
 	}
@@ -140,15 +142,11 @@ class Parser
 	 *	@param		array		$attributes	Array of parsed Attributes
 	 *	@return		void
 	 */
-	protected function handleTagOpenForObject( $parser, $tag, $attributes )
+	protected function handleTagOpenForObject( $parser, string $tag, array $attributes )
 	{
 		$count		= count( $this->last ) - 1;
 		$parentNode	=& $this->last[$count];
-		$childNode	= new Node(
-			$tag,
-			"",
-			$attributes
-		);
+		$childNode	= new Node( $tag, '', $attributes );
 		$parentNode->addChild( $childNode );
 		$this->last[]	=& $childNode;
 	}
@@ -158,7 +156,7 @@ class Parser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray( $xml )
+	public function toArray( string $xml ): array
 	{
 		$this->data	= array();
 		$this->xml	= xml_parser_create();
@@ -166,8 +164,7 @@ class Parser
 		xml_set_element_handler( $this->xml, 'handleTagOpenForArray', 'handleTagCloseForArray' );
 		xml_set_character_data_handler( $this->xml, 'handleCDataForArray' );
 		$this->last	= array( &$this->data );
-		if( !xml_parse( $this->xml, $xml ) )
-		{
+		if( !xml_parse( $this->xml, $xml ) ){
 			$msg	= "XML error: %s at line %d";
 			$error	= xml_error_string( xml_get_error_code( $this->xml ) );
 			$line	= xml_get_current_line_number( $this->xml );
@@ -182,7 +179,7 @@ class Parser
 	 *	@access		public
 	 *	@return		Node
 	 */
-	public function toObject( $xml )
+	public function toObject( string $xml ): Node
 	{
 		$this->data	= new Node( "root" );
 		$this->xml	= xml_parser_create();
@@ -190,8 +187,7 @@ class Parser
 		xml_set_element_handler( $this->xml, 'handleTagOpenForObject', 'handleTagCloseForObject' );
 		xml_set_character_data_handler( $this->xml, 'handleCDataForObject' );
 		$this->last	= array( &$this->data );
-		if( !xml_parse( $this->xml, $xml ) )
-		{
+		if( !xml_parse( $this->xml, $xml ) ){
 			$msg	= "XML error: %s at line %d";
 			$error	= xml_error_string( xml_get_error_code( $this->xml ) );
 			$line	= xml_get_current_line_number( $this->xml );

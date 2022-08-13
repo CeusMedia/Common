@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writes XML Files from Trees build with XML_DOM_Nodes.
  *
@@ -28,6 +29,7 @@
 namespace CeusMedia\Common\XML\DOM;
 
 use CeusMedia\Common\FS\File\Writer as RawFileWriter;
+use DOMException;
 
 /**
  *	Writes XML Files from Trees build with XML_DOM_Nodes.
@@ -49,7 +51,7 @@ class FileWriter
 	 *	@param		string			$fileName		URI of XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -57,12 +59,12 @@ class FileWriter
 	/**
 	 *	Writes XML Tree into XML File.
 	 *	@access		public
-	 *	@param		string			$fileName		URI of XML File
 	 *	@param		Node			$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Type
-	 *	@return		bool
+	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	public function write( $tree, $encoding = "utf-8" )
+	public function write( Node $tree, string $encoding = "utf-8" ): int
 	{
 		return self::save( $this->fileName, $tree, $encoding );
 	}
@@ -74,9 +76,10 @@ class FileWriter
 	 *	@param		string			$fileName		URI of XML File
 	 *	@param		Node			$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Type
-	 *	@return		bool
+	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	public static function save( $fileName, $tree, $encoding = "utf-8" )
+	public static function save( string $fileName, Node $tree, string $encoding = "utf-8" ): int
 	{
 		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -51,45 +52,45 @@ class Reader
 		$this->parser	= new Parser();
 	}
 
-	public function readXml( $xml )
+	public function readXml( string $xml ): void
 	{
 		$this->parser->parse( $xml );
 	}
 
-	public function readUrl( $url )
+	public function readUrl( string $url ): void
 	{
 		$xml	= NetReader::readUrl( $url );
 		$this->parser->parse( $xml );
 	}
 
-	public function readFile( $fileName )
+	public function readFile( string $fileName ): void
 	{
 		$xml	= FileReader::load( $fileName );
 		$this->parser->parse( $xml );
 	}
 
-	protected function checkEntryIndex( $index )
+	protected function checkEntryIndex( int $index )
 	{
 		if( !isset( $this->parser->entries[$index] ) )
 			throw new InvalidArgumentException( 'Entry with Index "'.$index.'" is not existing.' );
 	}
 
-	public function getChannelAuthors()
+	public function getChannelAuthors(): array
 	{
 		return $this->parser->channelData['author'];
 	}
 
-	public function getChannelCategories()
+	public function getChannelCategories(): array
 	{
 		return $this->parser->channelData['category'];
 	}
 
-	public function getChannelContributors()
+	public function getChannelContributors(): array
 	{
 		return $this->parser->channelData['contributor'];
 	}
 
-	protected function getChannelElementAndAttribute( $element, $attribute = NULL )
+	protected function getChannelElementAndAttribute( string $element, ?string $attribute = NULL )
 	{
 		if( !$attribute )
 			return $this->parser->channelData[$element];
@@ -98,42 +99,42 @@ class Reader
 		return $this->parser->channelData[$element][$attribute];
 	}
 
-	public function getChannelGenerator()
+	public function getChannelGenerator(): array
 	{
 		return $this->parser->channelData['generator'];
 	}
 
-	public function getChannelIcon()
+	public function getChannelIcon(): string
 	{
 		return $this->parser->channelData['icon'];
 	}
 
-	public function getChannelId()
+	public function getChannelId(): string
 	{
 		return $this->parser->channelData['id'];
 	}
 
-	public function getChannelLinks()
+	public function getChannelLinks(): array
 	{
 		return $this->parser->channelData['link'];
 	}
 
-	public function getChannelLogo()
+	public function getChannelLogo(): string
 	{
 		return $this->parser->channelData['logo'];
 	}
 
-	public function getChannelRights()
+	public function getChannelRights(): string
 	{
 		return $this->parser->channelData['rights'];
 	}
 
-	public function getChannelSubtitle( $attribute = 'content' )
+	public function getChannelSubtitle( string $attribute = 'content' )
 	{
 		return $this->getChannelElementAndAttribute( 'subtitle', $attribute );
 	}
 
-	public function getChannelTitle( $attribute = 'content' )
+	public function getChannelTitle( string $attribute = 'content' )
 	{
 		return $this->getChannelElementAndAttribute( 'title', $attribute );
 	}
@@ -148,39 +149,38 @@ class Reader
 		return $this->parser->channelData;
 	}
 
-	public function getEntries( $language = NULL )
+	public function getEntries( ?string $language = NULL )
 	{
 		return $this->parser->entries;
 	}
 
-
-	public function getEntry( $index )
+	public function getEntry( int $index )
 	{
 		$this->checkEntryIndex( $index );
 		return $this->parser->entries[$index];
 	}
 
-	public function getEntryAuthors( $index )
+	public function getEntryAuthors( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'author' );
 	}
 
-	public function getEntryCategories( $index )
+	public function getEntryCategories( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'category' );
 	}
 
-	public function getEntryContent( $index, $attribute = 'content' )
+	public function getEntryContent( int $index, string $attribute = 'content' )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'content', $attribute );
 	}
 
-	public function getEntryContributors( $index )
+	public function getEntryContributors( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'contributor' );
 	}
 
-	protected function getEntryElementAndAttribute( $index, $element, $attribute = NULL )
+	protected function getEntryElementAndAttribute( int $index, string $element, string $attribute = NULL )
 	{
 		$this->checkEntryIndex( $index );
 		if( !$attribute )
@@ -192,47 +192,47 @@ class Reader
 		return $this->parser->entries[$index][$element][$attribute];
 	}
 
-	public function getEntryId( $index )
+	public function getEntryId( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'id' );
 	}
 
-	public function getEntryLinks( $index )
+	public function getEntryLinks( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'link' );
 	}
 
-	public function getEntryPublished( $index )
+	public function getEntryPublished( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'published' );
 	}
 
-	public function getEntryRights( $index )
+	public function getEntryRights( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'rights' );
 	}
 
-	public function getEntrySource( $index )
+	public function getEntrySource( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'source' );
 	}
 
-	public function getEntrySummary( $index, $attribute = 'content' )
+	public function getEntrySummary( int $index, string $attribute = 'content' )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'summary', $attribute );
 	}
 
-	public function getEntryTitle( $index, $attribute = 'content' )
+	public function getEntryTitle( int $index, string $attribute = 'content' )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'title', $attribute );
 	}
 
-	public function getEntryUpdated( $index )
+	public function getEntryUpdated( int $index )
 	{
 		return $this->getEntryElementAndAttribute( $index, 'updated' );
 	}
 
-	public function getLanguage()
+	public function getLanguage(): string
 	{
 		return $this->parser->language;
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for XML Strings with DOM.
  *
@@ -29,6 +30,7 @@ namespace CeusMedia\Common\XML\DOM;
 
 use DOMDocument;
 use DOMElement;
+use DOMException;
 
 /**
  *	Builder for XML Strings with DOM.
@@ -48,8 +50,9 @@ class Builder
 	 *	@param		Node			$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string							Rendered tree as XML string
+	 *	@throws		DOMException
 	 */
-	static public function build( Node $tree, $encoding = "utf-8", $namespaces = array() )
+	static public function build( Node $tree, string $encoding = "utf-8", array $namespaces = [] ): string
 	{
 		$document	= new DOMDocument( "1.0", $encoding );
 		$document->formatOutput = TRUE;
@@ -65,30 +68,27 @@ class Builder
 	 *	Writes XML Tree to XML File recursive.
 	 *	@static
 	 *	@access		protected
-	 *	@param		DOMElement		$document	DOM Document
+	 *	@param		DOMDocument		$document	DOM Document
 	 *	@param		DOMElement		$root		DOM Element
 	 *	@param		Node			$tree		Parent XML Node
 	 *	@param		string			$encoding	Encoding Character Set (utf-8 etc.)
 	 *	@return		void
+	 *	@throws		DOMException
 	 */
-	static protected function buildRecursive( DOMDocument $document, DOMElement $root, Node $tree, $encoding )
+	protected static function buildRecursive( DOMDocument $document, DOMElement $root, Node $tree, string $encoding )
 	{
-		foreach( $tree->getAttributes() as $key => $value )
-		{
+		foreach( $tree->getAttributes() as $key => $value ){
 			$root->setAttribute( $key, $value );
 		}
-		if( $tree->hasChildren() )
-		{
+		if( $tree->hasChildren() ){
 			$children = $tree->getChildren();
-			foreach( $children as $child )
-			{
+			foreach( $children as $child ){
 				$element = $document->createElement( $child->getNodename() );
 				self::buildRecursive( $document, $element, $child, $encoding );
 				$element = $root->appendChild( $element );
 			}
 		}
-		else if( $tree->hasContent() )
-		{
+		else if( $tree->hasContent() ){
 			$text	= $tree->getContent();
 			$text	= $document->createTextNode( $text );
 			$text	= $root->appendChild( $text );

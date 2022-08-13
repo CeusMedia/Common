@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for XML Files.
  *
@@ -26,7 +27,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.05.2008
  */
 
 namespace CeusMedia\Common\XML\DOM;
@@ -45,7 +45,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.05.2008
  */
 class FileEditor
 {
@@ -61,7 +60,7 @@ class FileEditor
 	 *	@param		string		$fileName		File Name of XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 		$this->xmlTree	= FileReader::load( $fileName );
@@ -70,13 +69,13 @@ class FileEditor
 	/**
 	 *	Adds a new Node Attribute to an existing Node.
 	 *	@access		public
-	 *	@param		string		$nodePath		Path to existring Node in XML Tree
+	 *	@param		string		$nodePath		Path to existing Node in XML Tree
 	 *	@param		string		$name			Name of new Node
-	 *	@param		string		$content		Cotnent of new Node
+	 *	@param		string		$content		Content of new Node
 	 *	@param		array		$attributes		Array of Attribute of new Content
 	 *	@return		bool
 	 */
-	public function addNode( $nodePath, $name, $content = "", $attributes = array() )
+	public function addNode( string $nodePath, string $name, string $content = '', array $attributes = array() ): bool
 	{
 		$branch	= $this->getNode( $nodePath );
 		$node	= new Node( $name, $content, $attributes );
@@ -89,9 +88,10 @@ class FileEditor
 	 *	@access		public
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@param		string		$key			Attribute Key
+	 *	@param		mixed		$value			Attribute Value
 	 *	@return		bool
 	 */
-	public function editNodeAttribute( $nodePath, $key, $value )
+	public function editNodeAttribute( string $nodePath, string $key, $value ): bool
 	{
 		$node	= $this->getNode( $nodePath );
 		if( $node->setAttribute( $key, $value ) )
@@ -106,7 +106,7 @@ class FileEditor
 	 *	@param		string		$content		Content to set to Node
 	 *	@return		bool
 	 */
-	public function editNodeContent( $nodePath, $content )
+	public function editNodeContent( string $nodePath, string $content ): bool
 	{
 		$node	= $this->getNode( $nodePath );
 		if( $node->setContent( $content ) )
@@ -118,18 +118,16 @@ class FileEditor
 	 *	Returns Node Object for a Node Path.
 	 *	@access		public
 	 *	@param		string		$nodePath		Path to Node in XML Tree
-	 *	@return		bool
+	 *	@return		Node
 	 */
-	protected function getNode( $nodePath )
+	protected function getNode( string $nodePath ): Node
 	{
 		$pathNodes	= explode( "/", $nodePath );
 		$xmlNode	=& $this->xmlTree;
-		while( $pathNodes )
-		{
+		while( $pathNodes ){
 			$pathNode	= trim( array_shift( $pathNodes ) );
 			$matches	= array();
-			if( preg_match_all( "@^(.*)\[([0-9]+)\]$@", $pathNode, $matches ) )
-			{
+			if( preg_match_all( "@^(.*)\[(\d+)\]$@", $pathNode, $matches ) ){
 				$pathNode	= $matches[1][0];
 				$itemNumber	= $matches[2][0];
 				$nodes		= $xmlNode->getChildren( $pathNode );
@@ -139,7 +137,6 @@ class FileEditor
 				continue;
 			}
 			$xmlNode	=& $xmlNode->getChild( $pathNode );
-			continue;
 		}
 		return $xmlNode;
 	}
@@ -150,24 +147,21 @@ class FileEditor
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@return		bool
 	 */
-	public function removeNode( $nodePath )
+	public function removeNode( string $nodePath ): bool
 	{
 		$pathNodes	= explode( "/", $nodePath );
 		$nodeName	= array_pop( $pathNodes );
 		$nodePath	= implode( "/", $pathNodes );
 		$nodeNumber	= 0;
 		$branch		= $this->getNode( $nodePath );
-		if( preg_match_all( "@^(.*)\[([0-9]+)\]$@", $nodeName, $matches ) )
-		{
+		if( preg_match_all( "@^(.*)\[(\d+)\]$@", $nodeName, $matches ) ){
 			$nodeName	= $matches[1][0];
 			$nodeNumber	= $matches[2][0];
 		}
 		$nodes		=& $branch->getChildren();
 		$index		= -1;
-		for( $i=0; $i<count( $nodes ); $i++ )
-		{
-			if( !$nodeName || $nodes[$i]->getNodeName() == $nodeName )
-			{
+		for( $i=0; $i<count( $nodes ); $i++ ){
+			if( !$nodeName || $nodes[$i]->getNodeName() == $nodeName ){
 				$index++;
 				if( $index != $nodeNumber )
 					continue;
@@ -185,7 +179,7 @@ class FileEditor
 	 *	@param		string		$key			Attribute Key
 	 *	@return		bool
 	 */
-	public function removeNodeAttribute( $nodePath, $key )
+	public function removeNodeAttribute( string $nodePath, string $key ): bool
 	{
 		$node	= $this->getNode( $nodePath );
 		if( $node->removeAttribute( $key ) )
@@ -198,7 +192,7 @@ class FileEditor
 	 *	@access		protected
 	 *	@return		int
 	 */
-	protected function write()
+	protected function write(): int
 	{
 		return FileWriter::save( $this->fileName, $this->xmlTree );
 	}

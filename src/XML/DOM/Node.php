@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Simplified XML Node DOM Implementation.
  *
@@ -15,7 +16,7 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
@@ -52,12 +53,12 @@ class Node
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$nodeName		Tag Name of XML Node
-	 *	@param		string		$content		Content of XML Node
-	 *	@param		array		$attributes		Array of Node Attributes
+	 *	@param		string			$nodeName		Tag Name of XML Node
+	 *	@param		string|NULL		$content		Content of XML Node
+	 *	@param		array			$attributes		Array of Node Attributes
 	 *	@return		void
 	 */
-	public function __construct( $nodeName, $content = NULL, $attributes = array() )
+	public function __construct( string $nodeName, ?string $content = NULL, array $attributes = array() )
 	{
 		$this->setNodeName( $nodeName );
 		if( $content !== NULL )
@@ -69,10 +70,9 @@ class Node
 				$this->setAttribute( $key, $value );
 	}
 
-	public function __get( $key )
+	public function __get( string $key )
 	{
-		switch( $key )
-		{
+		switch( $key ){
 			case 'name':
 			case 'nodeName':
 				return $this->nodeName;
@@ -94,7 +94,7 @@ class Node
 	 *	@param		Node		$xmlNode	XML Node to add
 	 *	@return		Node
 	 */
-	public function addChild( $xmlNode )
+	public function addChild( Node $xmlNode ): Node
 	{
 		$this->children[] = $xmlNode;
 		return $xmlNode;
@@ -106,20 +106,19 @@ class Node
 	 *	@param		string		$key			Key of Attribute
 	 *	@return		string
 	 */
-	public function getAttribute( $key )
+	public function getAttribute( string $key )
 	{
 		if( $this->hasAttribute( $key ) )
 			return $this->attributes[$key];
-		return "";
+		return '';
 	}
 
 	/**
 	 *	Returns Array of all Attributes.
 	 *	@access		public
-	 *	@param		string		$key			Key of attribute
 	 *	@return		array
 	 */
-	public function getAttributes()
+	public function getAttributes(): array
 	{
 		return $this->attributes;
 	}
@@ -130,7 +129,7 @@ class Node
 	 *	@param		string		$nodeName		Name of Child Node
 	 *	@return		Node
 	 */
-	public function getChild( $nodeName )
+	public function getChild( string $nodeName ): Node
 	{
 		for( $i=0; $i<count( $this->children ); $i++ )
 			if( $this->children[$i]->getNodeName() == $nodeName )
@@ -145,7 +144,7 @@ class Node
 	 *	@return		Node
 	 *	@todo		write Unit Test
 	 */
-	public function getChildByIndex( $index )
+	public function getChildByIndex( int $index ): Node
 	{
 		if( $index > count( $this->children ) )
 			throw new InvalidArgumentException( 'Child Node with Index "'.$index.'" is not existing.' );
@@ -155,14 +154,14 @@ class Node
 	/**
 	 *	Returns all Child Nodes.
 	 *	@access		public
-	 *	@param		string		$nodeName		Name of Child Node
+	 *	@param		string|NULL		$nodeName		Name of Child Node
 	 *	@return		array
 	 */
-	public function getChildren( $nodeName = NULL )
+	public function getChildren( ?string $nodeName = NULL ): array
 	{
 		if( !$nodeName )
 			return $this->children;
-		$list	= array();
+		$list	= [];
 		for( $i=0; $i<count( $this->children ); $i++ )
 			if( $this->children[$i]->getNodeName() == $nodeName )
 				$list[]	= $this->children[$i];
@@ -172,9 +171,9 @@ class Node
 	/**
 	 *	Returns Content if it is set.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getContent()
+	public function getContent(): ?string
 	{
 		return $this->content;
 	}
@@ -184,7 +183,7 @@ class Node
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getNodeName()
+	public function getNodeName(): string
 	{
 		return $this->nodeName;
 	}
@@ -194,9 +193,9 @@ class Node
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function hasAttributes()
+	public function hasAttributes(): bool
 	{
-		return (bool) count( $this->attributes );
+		return count( $this->attributes ) !== 0;
 	}
 
 	/**
@@ -205,7 +204,7 @@ class Node
 	 *	@param		string		$key			Name of attribute to check
 	 *	@return		bool
 	 */
-	public function hasAttribute( $key )
+	public function hasAttribute( string $key ): bool
 	{
 		return array_key_exists( $key, $this->attributes );
 	}
@@ -215,9 +214,9 @@ class Node
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function hasChild( $nodeName )
+	public function hasChild( string $nodeName ): bool
 	{
-		return (bool) count( $this->getChildren( $nodeName ) );
+		return count( $this->getChildren( $nodeName ) ) !== 0;
 	}
 
 	/**
@@ -225,9 +224,9 @@ class Node
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function hasChildren()
+	public function hasChildren(): bool
 	{
-		return (bool) count( $this->children );
+		return count( $this->children ) !== 0;
 	}
 
 	/**
@@ -235,9 +234,9 @@ class Node
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function hasContent()
+	public function hasContent(): bool
 	{
-		return $this->content != NULL;
+		return $this->content !== NULL;
 	}
 
 	/**
@@ -246,7 +245,7 @@ class Node
 	 *	@param		string		$key			Key of attribute to be removed
 	 *	@return		bool
 	 */
-	public function removeAttribute( $key )
+	public function removeAttribute( string $key ): bool
 	{
 		if( !$this->hasAttribute( $key ) )
 			return FALSE;
@@ -260,14 +259,12 @@ class Node
 	 *	@param		string		$nodeName		Name of Child Node to be removed
 	 *	@return		bool
 	 */
-	public function removeChild( $nodeName )
+	public function removeChild( string $nodeName ): bool
 	{
 		$found		= false;
 		$children	= array();
-		foreach( $this->children as $child )
-		{
-			if( !$found && $child->getNodeName() == $nodeName )
-			{
+		foreach( $this->children as $child ){
+			if( !$found && $child->getNodeName() == $nodeName ){
 				$found	= TRUE;
 				continue;
 			}
@@ -284,7 +281,7 @@ class Node
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function removeContent()
+	public function removeContent(): bool
 	{
 		if( !$this->hasContent() )
 			return FALSE;
@@ -299,9 +296,9 @@ class Node
 	 *	@param		string		$value			Value of attribute
 	 *	@return		bool
 	 */
-	public function setAttribute( $key, $value )
+	public function setAttribute( string $key, string $value ): bool
 	{
-		if( $this->getAttribute( $key ) === (string) $value )
+		if( $this->getAttribute( $key ) === $value )
 			return FALSE;
 		$this->attributes[$key] = (string) $value;
 		return TRUE;
@@ -313,7 +310,7 @@ class Node
 	 *	@param		string		$content		Content of XML Node
 	 *	@return		bool
 	 */
-	public function setContent( $content )
+	public function setContent( string $content ): bool
 	{
 		if( $this->content === (string) $content )
 			return FALSE;
@@ -327,7 +324,7 @@ class Node
 	 *	@param		string		$name			Name of XML Node
 	 *	@return		bool
 	 */
-	public function setNodeName( $name )
+	public function setNodeName( string $name ): bool
 	{
 		if( $this->nodeName == (string) $name )
 			return FALSE;

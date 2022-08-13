@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Serializer for Data Object into a XML File.
+ *	Serializer for Data Object into an XML File.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -23,22 +24,21 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
 
 namespace CeusMedia\Common\XML\DOM;
 
 use CeusMedia\Common\FS\File\Writer as FileWriter;
+use DOMException;
 
 /**
- *	Serializer for Data Object into a XML File.
+ *	Serializer for Data Object into an XML File.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
 class ObjectFileSerializer
 {
@@ -48,9 +48,10 @@ class ObjectFileSerializer
 	 *	@static
 	 *	@param		mixed		$object			Object to serialize
 	 *	@param		string		$fileName		XML File to write to
-	 *	@return		void
+	 *	@return		integer
+	 *	@throws		DOMException
 	 */
-	public static function serialize( $object, $fileName )
+	public static function serialize( $object, string $fileName ): int
 	{
 		return FileWriter::save( $fileName, ObjectSerializer::serialize( $object ) );
 	}

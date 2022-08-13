@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Transformator for XML and XSLT.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			30.07.2005
  */
 
 namespace CeusMedia\Common\XML\XSL;
@@ -42,7 +42,6 @@ use XSLTProcessor;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			30.07.2005
  */
 class Transformator
 {
@@ -57,7 +56,7 @@ class Transformator
 	 *	@param		string		$xmlFile		File Name of XML File
 	 *	@return		void
 	 */
-	public function loadXmlFile( $xmlFile )
+	public function loadXmlFile( string $xmlFile ): void
 	{
 		$reader		= new FileReader( $xmlFile );
 		$this->xml	= $reader->readString();
@@ -69,7 +68,7 @@ class Transformator
 	 *	@param		string		$xslFile		File Name of XSL File
 	 *	@return		void
 	 */
-	public function loadXslFile( $xslFile )
+	public function loadXslFile( string $xslFile ): void
 	{
 		$reader		= new FileReader( $xslFile );
 		$this->xsl	= $reader->readString();
@@ -80,27 +79,25 @@ class Transformator
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function transform()
+	public function transform(): string
 	{
 		if( !( $this->xml && $this->xsl ) )
 			throw new InvalidArgumentException( 'XML and XSL must be set.' );
-		$xml	= DOMDocument::loadXML( $this->xml );
-		$xsl	= DOMDocument::loadXML( $this->xsl );
+		$doc	= new DOMDocument();
+		$xml	= $doc->loadXML( $this->xml );
+		$xsl	= $doc->loadXML( $this->xsl );
 		$proc	= new XSLTProcessor();
 		$proc->importStyleSheet( $xsl );
-		$result =  $proc->transformToXML( $xml );
-		return $result;
+		return $proc->transformToXML( $xml );
 	}
 
 	/**
 	 *	Transforms XML with XSLT.
 	 *	@access		public
-	 *	@param		string		$xmlFile		File Name of XML File
-	 *	@param		string		$xsltFile		File Name of XSLT File
 	 *	@param		string		$outFile		File Name for Output
-	 *	@return		string
+	 *	@return		integer
 	 */
-	public function transformToFile( $outFile = false )
+	public function transformToFile( string $outFile ): int
 	{
 		$result	= $this->transform();
 		$writer	= new FileWriter( $outFile );

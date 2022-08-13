@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
+ *	Loads and parses an XML File to a Tree of XML_DOM_Nodes.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -31,7 +32,7 @@ use CeusMedia\Common\FS\File\Reader as RawFileReader;
 use RuntimeException;
 
 /**
- *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
+ *	Loads and parses an XML File to a Tree of XML_DOM_Nodes.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -50,25 +51,24 @@ class FileReader
 	 *	@param		string			$fileName		URI of XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
 
 	/**
-	 *	Loads a XML File statically and returns parsed Tree.
+	 *	Loads an XML File statically and returns parsed Tree.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		URI of XML File
 	 *	@return		Node
 	 *	@throws		RuntimeException			if file is not existing or not readable
 	 */
-	public static function load( $fileName )
+	public static function load( string $fileName ): Node
 	{
 		$parser	= new Parser();
 		$xml	= RawFileReader::load( $fileName );
-		$tree	= $parser->parse( $xml );
-		return $tree;
+		return $parser->parse( $xml );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class FileReader
 	 *	@access		public
 	 *	@return		Node
 	 */
-	public function read()
+	public function read(): Node
 	{
 		return self::load( $this->fileName );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Evaluator for XPath Queries.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			24.01.2006
  */
 
 namespace CeusMedia\Common\XML\DOM;
@@ -32,6 +32,7 @@ use CeusMedia\Common\ADT\OptionObject;
 use CeusMedia\Common\Net\Reader as NetReader;
 use CeusMedia\Common\XML\Validator;
 use DOMDocument;
+use DOMNodeList;
 use DOMXpath;
 use InvalidArgumentException;
 use RuntimeException;
@@ -44,7 +45,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			24.01.2006
  */
 class XPathQuery extends OptionObject
 {
@@ -57,7 +57,7 @@ class XPathQuery extends OptionObject
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		void
 	 */
 	public function __construct()
 	{
@@ -70,10 +70,10 @@ class XPathQuery extends OptionObject
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		DOMNodeList|FALSE|mixed
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
-	public function evaluate( $path, $node = NULL )
+	public function evaluate( string $path, $node = NULL )
 	{
 		if( !$this->xPath )
 			throw new RuntimeException( 'No XML loaded yet.' );
@@ -90,7 +90,7 @@ class XPathQuery extends OptionObject
 	 *	@return		DOMDocument
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
-	public function getDocument()
+	public function getDocument(): DOMDocument
 	{
 		if( !$this->document )
 			throw new RuntimeException( 'No XML loaded yet.' );
@@ -102,14 +102,14 @@ class XPathQuery extends OptionObject
 	 *	@param		string		$fileName		File Name to load XML from
 	 *	@return		bool
 	 */
-	public function loadFile( $fileName )
+	public function loadFile( string $fileName ): bool
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'XML File "'.$fileName.'" is not existing.' );
 		$this->document	= new DOMDocument();
 		$this->document->load( $fileName );
 		$this->xPath	= new DOMXpath( $this->document );
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -119,7 +119,7 @@ class XPathQuery extends OptionObject
 	 *	@return		bool
 	 *	@todo		Error Handling
 	 */
-	public function loadUrl( $url )
+	public function loadUrl( string $url ): bool
 	{
 		$options	= array();
 		foreach( $this->getOptions() as $key => $value )
@@ -128,7 +128,7 @@ class XPathQuery extends OptionObject
 		if( !$xml )
 			throw new RuntimeException( 'No XML found for URL "'.$url.'".' );
 		$this->loadXml( $xml );
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -136,7 +136,7 @@ class XPathQuery extends OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function loadXml( $xml )
+	public function loadXml( string $xml )
 	{
 		$this->document	= new DOMDocument();
 		$validator	= new Validator();
@@ -151,10 +151,10 @@ class XPathQuery extends OptionObject
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		DOMNodeList|FALSE|mixed
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
-	public function query( $path, $node = NULL )
+	public function query( string $path, $node = NULL )
 	{
 		if( !$this->xPath )
 			throw new RuntimeException( 'No XML loaded yet.' );
@@ -174,7 +174,7 @@ class XPathQuery extends OptionObject
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 *	@see		http://tw.php.net/manual/de/function.dom-domxpath-registernamespace.php
 	 */
-	public function registerNamespace( $prefix, $namespace )
+	public function registerNamespace( string $prefix, string $namespace ): bool
 	{
 		if( !$this->xPath )
 			throw new RuntimeException( 'No XML loaded yet.' );

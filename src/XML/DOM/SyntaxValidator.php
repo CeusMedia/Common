@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Validator for XML Syntax.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 
 namespace CeusMedia\Common\XML\DOM;
@@ -38,12 +38,12 @@ use DOMDocument;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 class SyntaxValidator
 {
 	/**	@var	DOMDocument		$document	DOM Document of Syntax is valid */
 	protected $document	= NULL;
+
 	/**	@var	array			$errors		Parsing Errors if Syntax is invalid */
 	protected $errors	= array();
 
@@ -52,7 +52,7 @@ class SyntaxValidator
 	 *	@access		public
 	 *	@return		DOMDocument
 	 */
-	public function & getDocument()
+	public function & getDocument(): DOMDocument
 	{
 		return $this->document;
 	}
@@ -60,9 +60,9 @@ class SyntaxValidator
 	/**
 	 *	Returns Array of parsing Errors.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
 		return $this->errors;
 	}
@@ -73,7 +73,7 @@ class SyntaxValidator
 	 *	@param		string		$xml		XML to be validated
 	 *	@return		bool
 	 */
-	public function validate( $xml )
+	public function validate( string $xml ): bool
 	{
 		$this->document	= new DOMDocument();
 		ob_start();

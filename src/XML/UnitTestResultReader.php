@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for XML Result File written by PHPUnit.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  */
 
 namespace CeusMedia\Common\XML;
+
+use Exception;
 
 /**
  *	Reader for XML Result File written by PHPUnit.
@@ -36,7 +38,6 @@ namespace CeusMedia\Common\XML;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  *	@todo			Code Documentation
  *	@todo			Unit Test
  */
@@ -44,15 +45,18 @@ class UnitTestResultReader
 {
 	/**	@var		int			$date			Date of XML File */
 	protected $date;
+
 	/**	@var		Element		$tree			XML Element Tree from XML File */
 	protected $tree;
+
 	/**
 	 *	Constructor, reads XML.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of XML File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->tree	= ElementReader::readFile( $fileName );
 		$this->date	= filemtime( $fileName );
@@ -73,9 +77,9 @@ class UnitTestResultReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getErrorCount()
+	public function getErrorCount(): int
 	{
-		return $this->tree->testsuite[0]->getAttribute( 'errors' );
+		return (int) $this->tree->testsuite[0]->getAttribute( 'errors' );
 	}
 
 	/**
@@ -83,9 +87,9 @@ class UnitTestResultReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->tree->children() as $testSuite )
 			$this->getMessagesRecursive( $testSuite, $list, "error" );
 		return $list;
@@ -93,23 +97,24 @@ class UnitTestResultReader
 
 	/**
 	 *	Collects Error or Failure Messages by iterating Tree recursive and returns Lists.
+	 *	Works in-situ on 2nd parameter $list.
 	 *	@access		private
-	 *	@param		Element		$element		Current XML Element
-	 *	@param		array		$list			Reference to Result List
-	 *	@param		string		$type			Message Type (error|failure)
-	 *	@param		string		$testSuite		Current Test Suite
-	 *	@return		array
+	 *	@param		Element	$element		Current XML Element
+	 *	@param		array				$list			Reference to Result List
+	 *	@param		string				$type			Message Type (error|failure)
+	 *	@param		string				$testSuite		Current Test Suite
+	 *	@return		void
 	 */
-	private function getMessagesRecursive( SimpleXMLElement $element, &$list, $type, $testSuite = "" )
+	private function getMessagesRecursive( Element $element, array &$list, string $type, string $testSuite = "" ): void
 	{
-		if( $element->getName() == "testcase" && $element->$type )
-		{
-			return $list[]	= array(
+		if( $element->getName() == "testcase" && $element->$type ){
+			$list[]	= array(
 				'suite'		=> $testSuite,
 				'case'		=> $element->getAttribute( 'name' ),
 				'error'		=> $element->$type,
 				'type'		=> $element->$type->getAttribute( 'type' ),
 			);
+			return;
 		}
 		foreach( $element->children() as $child )
 			$this->getMessagesRecursive( $child, $list, $type, $element->getAttribute( 'name' ) );
@@ -120,9 +125,9 @@ class UnitTestResultReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getFailureCount()
+	public function getFailureCount(): int
 	{
-		return $this->tree->testsuite[0]->getAttribute( 'failures' );
+		return (int) $this->tree->testsuite[0]->getAttribute( 'failures' );
 	}
 
 	/**
@@ -130,9 +135,9 @@ class UnitTestResultReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getFailures()
+	public function getFailures(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->tree->children() as $testSuite )
 			$this->getMessagesRecursive( $testSuite, $list, "failure" );
 		return $list;
@@ -143,12 +148,12 @@ class UnitTestResultReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getTestCount()
+	public function getTestCount(): int
 	{
-		return $this->tree->testsuite[0]->getAttribute( 'tests' );
+		return (int) $this->tree->testsuite[0]->getAttribute( 'tests' );
 	}
 
-	public function getTestSuiteCount( $element = NULL )
+	public function getTestSuiteCount( ?Element $element = NULL ): int
 	{
 		$count		= 1;
 		$element	= $element === NULL ? $this->tree : $element;
@@ -157,7 +162,7 @@ class UnitTestResultReader
 		return $count;
 	}
 
-	public function getTestCaseCount( $element = NULL )
+	public function getTestCaseCount( ?Element $element = NULL ): int
 	{
 		$count		= 0;
 		$element	= $element === NULL ? $this->tree : $element;
@@ -167,7 +172,7 @@ class UnitTestResultReader
 		return $count;
 	}
 
-	public function getTime()
+	public function getTime(): string
 	{
 		return $this->tree->testsuite[0]->getAttribute( 'time' );
 	}

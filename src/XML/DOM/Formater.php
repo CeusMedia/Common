@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Formats a XML String or recodes it to another Character Set.
+ *	Formats an XML String or recodes it to another Character Set.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.05.2008
  */
 
 namespace CeusMedia\Common\XML\DOM;
@@ -39,20 +39,19 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.05.2008
  *	@todo			Unit Test
  */
 class Formater
 {
 	/**
-	 *	Formats a XML String with Line Breaks and Indention and returns it.
+	 *	Formats an XML String with Line Breaks and Indention and returns it.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$xml			XML String to format
 	 *	@param		boolean		$leadingTabs	Flag: replace leading spaces by tabs
 	 *	@return		string
 	 */
-	public static function format( $xml, $leadingTabs = FALSE )
+	public static function format( string $xml, bool $leadingTabs = FALSE ): string
 	{
 		$validator	= new SyntaxValidator();
 		if( !$validator->validate( $xml ) )
@@ -67,15 +66,15 @@ class Formater
 		if( $leadingTabs ){
 			$lines	= explode( "\n", $xml );
 			foreach( $lines as $nr => $line )
-				while( preg_match( "/^\t*  /", $lines[$nr] ) )
-					$lines[$nr]	= preg_replace( "/^(\t*)  /", "\\1\t", $lines[$nr] );
+				while( preg_match( "/^\t* {2}/", $lines[$nr] ) )
+					$lines[$nr]	= preg_replace( "/^(\t*) {2}/", "\\1\t", $lines[$nr] );
 			$xml	= implode( "\n", $lines );
 		}
 		return $xml;
 	}
 
 	/**
-	 *	Recodes a XML String to another Character Set.
+	 *	Recodes an XML String to another Character Set.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$xml		XML String to format
@@ -83,7 +82,7 @@ class Formater
 	 *	@see		http://www.iana.org/assignments/character-sets
 	 *	@return		string
 	 */
-	public static function recode( $xml, $encodeTo = "UTF-8" )
+	public static function recode( string $xml, string $encodeTo = "UTF-8" ): string
 	{
 		$validator	= new SyntaxValidator();
 		if( !$validator->validate( $xml ) )
@@ -93,7 +92,7 @@ class Formater
 
 		$document	= new DOMDocument();
 		$document->loadXml( $xml );
-		$encoding	= strtoupper( $document->actualEncoding );
+		$encoding	= strtoupper( $document->encoding );
 #		remark( "Encoding: ".$encoding );
 		if( $encoding == $encodeTo )
 			return $xml;
@@ -101,7 +100,6 @@ class Formater
 		$pattern		= '@<\?(.*) encoding=(\'|")'.$encoding.'(\'|")(.*)\?>@i';
 		$replacement	= '<?\\1 encoding="'.$encodeTo.'"\\4?>';
 		$xml	= iconv( $encoding, $encodeTo, $xml );
-		$xml	= preg_replace( $pattern, $replacement, $xml );
-		return $xml;
+		return preg_replace( $pattern, $replacement, $xml );
 	}
 }

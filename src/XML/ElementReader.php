@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for XML Elements from File or URL.
  *
@@ -23,14 +24,13 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 
 namespace CeusMedia\Common\XML;
 
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\Net\Reader as NetReader;
-
+use Exception;
 
 /**
  *	Reader for XML Elements from File or URL.
@@ -40,7 +40,6 @@ use CeusMedia\Common\Net\Reader as NetReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 class ElementReader
 {
@@ -50,8 +49,9 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$xml		XML string to read
 	 *	@return		Element
+	 *	@throws		Exception	if the XML data could not be parsed
 	 */
-	static public function read( $xml )
+	public static function read( string $xml ): Element
 	{
 		return new Element( $xml );
 	}
@@ -62,8 +62,9 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$fileName	File name to XML file
 	 *	@return		Element
+	 *	@throws		Exception	if the XML data could not be parsed
 	 */
-	static public function readFile( $fileName )
+	public static function readFile( string $fileName ): Element
 	{
 		$xml	= FileReader::load( $fileName );
 		return self::read( $xml );
@@ -75,10 +76,10 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$url		URL to read XML from
 	 *	@return		Element
+	 *	@throws		Exception	if the XML data could not be parsed
 	 */
-	static public function readUrl( $url )
+	public static function readUrl( string $url ): Element
 	{
-		$xml	= NetReader::readUrl( $url );
-		return self::read( $xml );
+		return self::read( NetReader::readUrl( $url ) );
 	}
 }

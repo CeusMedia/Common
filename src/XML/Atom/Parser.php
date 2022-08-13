@@ -48,86 +48,86 @@ class Parser
 	public $channelData;
 
 	/**	@var		array		$emptyChannelData	Template of empty Category Data Structure */
-	protected $emptyCategory	= array(
-		'label'		=> "",
-		'scheme'	=> "",
-		'term'		=> "",
-	);
+	protected $emptyCategory	= [
+		'label'		=> '',
+		'scheme'	=> '',
+		'term'		=> '',
+	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Channel Data Structure */
-	protected $emptyChannelData	= array(
-		'author'		=> array(),
-		'category'		=> array(),
-		'contributor'	=> array(),
+	protected $emptyChannelData	= [
+		'author'		=> [],
+		'category'		=> [],
+		'contributor'	=> [],
 		//  will be set to emptyGenerator by Parser
-		'generator' 	=> array(),
-		'icon'			=> "",
-		'id'			=> "",
-		'link'			=> array(),
-		'logo'			=> "",
-		'rights'		=> "",
-		'source'		=> "",
-		'subtitle'		=> "",
-		'title'			=> "",
-		'updated'		=> "",
-	);
+		'generator' 	=> [],
+		'icon'			=> '',
+		'id'			=> '',
+		'link'			=> [],
+		'logo'			=> '',
+		'rights'		=> '',
+		'source'		=> '',
+		'subtitle'		=> '',
+		'title'			=> '',
+		'updated'		=> '',
+	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Entry Data Structure */
-	protected $emptyEntry		= array(
-		'author'		=> array(),
-		'category'		=> array(),
+	protected $emptyEntry		= [
+		'author'		=> [],
+		'category'		=> [],
 		//  will be set to emptyText by Constructor
-		'content'		=> array(),
-		'contributor'	=> array(),
-		'id'			=> "",
-		'link'			=> array(),
-		'published'		=> "",
-		'rights'		=> "",
+		'content'		=> [],
+		'contributor'	=> [],
+		'id'			=> '',
+		'link'			=> [],
+		'published'		=> '',
+		'rights'		=> '',
 		//  will be set to emptyText by Constructor
-		'source'		=> array(),
+		'source'		=> [],
 		//  will be set to emptyText by Constructor
-		'summary'		=> array(),
+		'summary'		=> [],
 		//  will be set to emptyText by Constructor
-		'title'			=> array(),
-		'updated'		=> "",
-	);
+		'title'			=> [],
+		'updated'		=> '',
+	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Generator Data Structure */
-	protected $emptyGenerator	= array(
-		'uri'		=> "",
-		'version'	=> "",
-		'name'		=> "",
-	);
+	protected $emptyGenerator	= [
+		'uri'		=> '',
+		'version'	=> '',
+		'name'		=> '',
+	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Link Data Structure */
-	protected $emptyLink	= array(
-		'href'			=> "",
+	protected $emptyLink	= [
+		'href'			=> '',
 		'rel'			=> NULL,
 		'type'			=> NULL,
 		'hreflang'		=> NULL,
 		'title'			=> NULL,
 		'length'		=> NULL,
-	);
+	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Person Data Structure */
 	protected $emptyPerson	= array(
-		'name'	=> "",
-		'uri'	=> "",
-		'email'	=> "",
+		'name'	=> '',
+		'uri'	=> '',
+		'email'	=> '',
 	);
 
 	/**	@var		array		$emptyChannelData	Template of empty Text Data Structure */
-	protected $emptyText		= array(
-		'base'		=> "",
-		'content'	=> "",
-		'lang'		=> "",
+	protected $emptyText		= [
+		'base'		=> '',
+		'content'	=> '',
+		'lang'		=> '',
 		'type'		=> "text",
-	);
+	];
 
 	/**	@var		array		$entries			Array of Entries in Atom Feed */
 	public $entries;
 
-	protected $language;
+	public $language;
 
 	/**
 	 *	Constructor.
@@ -145,13 +145,13 @@ class Parser
 	}
 
 	/**
-	 *	Creates a Data Structure with Attributes with a Tempate for a Node.
+	 *	Creates a Data Structure with Attributes with a Template for a Node.
 	 *	@access		protected
 	 *	@param		XmlElement	$node				Node to build Data Structure for
 	 *	@param		array							Template Data Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
 	 *	@return		array
 	 */
-	protected function createAttributeNode( $node, $template = array() )
+	protected function createAttributeNode( XmlElement $node, array $template = [] ): array
 	{
 		$text	= $template;
 		foreach( $node->getAttributes() as $key => $value )
@@ -166,16 +166,16 @@ class Parser
 	 *	@param		string		$xml				XML String to parse
 	 *	@param		bool		$validateRules		Validate Atom Feed against Atom Rules.
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function parse( $xml, $validateRules = TRUE )
+	public function parse( string $xml, bool $validateRules = TRUE )
 	{
 		$this->language		= "en";
 		$this->channelData	= $this->emptyChannelData;
-		$this->entries		= array();
+		$this->entries		= [];
 
 		$root		= new XmlElement( $xml );
-		if( $validateRules )
-		{
+		if( $validateRules ){
 			$validator	= new Validator();
 			if( !$validator->isValid( $root ) )
 				throw new Exception( $validator->getFirstError() );
@@ -192,16 +192,14 @@ class Parser
 	 *	@param		array			$template		Template of new Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
 	 *	@return		array
 	 */
-	protected function parseNodes( $nodes, $template = array() )
+	protected function parseNodes( XmlElement $nodes, array $template = [] ): array
 	{
 		$target	= $template;
-		foreach( $nodes as $nodeName => $node )
-		{
-			$language	= $this->getNodeLanguage( $node );
-			switch( $nodeName )
-			{
+		foreach( $nodes as $nodeName => $node ){
+//			$language	= $this->getNodeLanguage( $node );
+			switch( $nodeName ){
 				case 'author':
-				case 'constributor':
+				case 'contributor':
 					$target[$nodeName][]	= $this->parseNodes( $node, $this->emptyPerson );
 					break;
 				case 'entry':
@@ -240,10 +238,9 @@ class Parser
 	 *	@param		string			$attributeName	Name of Language Attribute
 	 *	@return		string
 	 */
-	protected function getNodeLanguage( $node, $attributeName = "xml:lang" )
+	protected function getNodeLanguage( XmlElement $node, string $attributeName = "xml:lang" ): string
 	{
-		if( strpos( $attributeName, ":" ) )
-		{
+		if( strpos( $attributeName, ":" ) ){
 			$parts	= explode( ":", $attributeName );
 			if( $node->hasAttribute( $parts[1], $parts[0] ) )
 				return $node->getAttribute( $parts[1], $parts[0] );

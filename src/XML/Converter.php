@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converts XML strings statically to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Ceus Media
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\XML;
@@ -41,39 +41,39 @@ use stdClass;
  *	@copyright		2010-2022 Ceus Media
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 class Converter
 {
 	/**
-	 *	Converts a XML string to a tree of plain objects and returns JSON string.
+	 *	Converts an XML string to a tree of plain objects and returns JSON string.
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$xml		XML string
 	 *	@return		string		JSON representation of XML string
 	 */
-	public static function toJson( $xml )
+	public static function toJson( string $xml ): string
 	{
 		$object	= self::toPlainObject( $xml );
 		return json_encode( $object );
 	}
 
 	/**
-	 *	Converts a XML string to a tree of plain objects (stdClass).
+	 *	Converts an XML string to a tree of plain objects (stdClass).
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$xml		XML string
 	 *	@return		object
 	 */
-	public static function toPlainObject( $xml )
+	public static function toPlainObject( string $xml ): object
 	{
 		$parser		= new Parser();
 		$document	= $parser->parse( $xml );
-		$rootNode	= array_shift( $document->getChildren() );
+		$children	= $document->getChildren();
+		$rootNode	= array_shift( $children );
 		$rootName	= $rootNode->getNodeName();
-		$object		= (object) array(
+		$object		= (object) [
 			$rootName => new stdClass()
-		);
+		];
 		self::convertToObjectRecursive( $rootNode, $object->$rootName );
 		return $object;
 	}
@@ -86,19 +86,17 @@ class Converter
 	 *	@param		object		$object		Tree for objects
 	 *	@return		void
 	 */
-	protected static function convertToObjectRecursive( $node, $object )
+	protected static function convertToObjectRecursive( DOMNode $node, object $object )
 	{
 		$object->children	= new stdClass();
 		$object->attributes	= new stdClass();
-		foreach( $node->getChildren() as $childNode )
-		{
+		foreach( $node->getChildren() as $childNode ) {
 			$childObject	= new stdClass();
 			$nodeName		= $childNode->getNodeName();
 			$object->children->$nodeName	= $childObject;
 			self::convertToObjectRecursive( $childNode, $childObject );
 		}
-		if( $node->getAttributes() )
-		{
+		if( $node->getAttributes() ) {
 			foreach( $node->getAttributes() as $key => $value )
 				$object->attributes->$key	= $value;
 		}

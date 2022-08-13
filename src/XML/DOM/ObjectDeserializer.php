@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Deserializer for XML into a Data Object.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
 
 namespace CeusMedia\Common\XML\DOM;
@@ -38,7 +38,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  *	@todo			rewrite, use ObjectFactory
  */
 class ObjectDeserializer
@@ -48,8 +47,9 @@ class ObjectDeserializer
 	 *	@access		public
 	 *	@param		string		$xml			XML String of a serialized Object
 	 *	@return		mixed
+	 *	@throws		Exception
 	 */
-	public static function deserialize( $xml, $strict = TRUE )
+	public static function deserialize( string $xml )
 	{
 		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
@@ -66,29 +66,25 @@ class ObjectDeserializer
 	 *	@access		protected
 	 *	@param		array		$children		Array of Vars to add
 	 *	@param		mixed		$element		current Position in Object
-	 *	@return		string
+	 *	@return		void
 	 */
-	protected static function deserializeVarsRec( $children, &$element )
+	protected static function deserializeVarsRec( array $children, &$element )
 	{
-		foreach( $children as $child )
-		{
+		foreach( $children as $child ){
 			$name		= $child->getAttribute( 'name' );
-			$vartype	= $child->getNodeName();
-			if( is_object( $element ) )
-			{
+			$varType	= $child->getNodeName();
+			if( is_object( $element ) ){
 				if( !isset( $element->$name ) )
 					$element->$name	= NULL;
 				$pointer	=& $element->$name;
 			}
-			else
-			{
+			else{
 				if( !isset( $element->$name ) )
 					$element[$name]	= NULL;
 				$pointer	=& $element[$name];
 			}
 
-			switch( $vartype )
-			{
+			switch( $varType ){
 				case 'boolean':
 					$pointer	= (bool) $child->getContent();
 					break;

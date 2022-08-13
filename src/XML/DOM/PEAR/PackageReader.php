@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for PEAR Package Description Files in XML.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.10.2008
  */
 
 namespace CeusMedia\Common\XML\DOM\PEAR;
@@ -42,7 +42,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.10.2008
  */
 class PackageReader
 {
@@ -51,27 +50,26 @@ class PackageReader
 	 *	@access		public
 	 *	@param		string		$fileName		Name of Package XML File
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public function getPackageDataFromXmlFile( $fileName )
+	public function getPackageDataFromXmlFile( string $fileName ): array
 	{
-		$package	= array(
+		$package	= [
 			'name'			=> NULL,
 			'summary'		=> NULL,
 			'description'	=> NULL,
-			'maintainers'	=> array(),
-			'release'		=> array(),
-			'changes'		=> array(),
-		);
+			'maintainers'	=> [],
+			'release'		=> [],
+			'changes'		=> [],
+		];
 
 		$xml	= FileReader::load( $fileName );
 		$doc	= new DOMDocument();
 		$doc->preserveWhiteSpace	= FALSE;
-		$doc->validateOnParse		= !TRUE;
+		$doc->validateOnParse		= FALSE;
 		$doc->loadXml( $xml );
-		foreach( $doc->childNodes as $node )
-		{
-			if( $node->nodeType == 1 )
-			{
+		foreach( $doc->childNodes as $node ){
+			if( $node->nodeType == 1 ){
 				$root	= $node;
 				break;
 			}
@@ -82,8 +80,7 @@ class PackageReader
 		foreach( $root->childNodes as $node )
 		{
 			$nodeName	= strtolower( $node->nodeName );
-			switch( $nodeName )
-			{
+			switch( $nodeName ){
 				case 'maintainers':
 					foreach( $node->childNodes as $maintainer )
 						$package['maintainers'][]	= $this->readMaintainer( $maintainer );
@@ -109,7 +106,7 @@ class PackageReader
 	 *	@param		DOMNode		$domNode		DOM Node of Maintainer Block
 	 *	@return		array
 	 */
-	private function readMaintainer( $domNode )
+	private function readMaintainer( DOMNode $domNode ): array
 	{
 		$maintainer	= array();
 		foreach( $domNode->childNodes as $node )
@@ -123,14 +120,12 @@ class PackageReader
 	 *	@param		DOMNode		$domNode		DOM Node of Release Block
 	 *	@return		array
 	 */
-	private function readRelease( $domNode )
+	private function readRelease( DOMNode $domNode ): array
 	{
 		$release	= array();
-		foreach( $domNode->childNodes as $node )
-		{
+		foreach( $domNode->childNodes as $node ){
 			$nodeName	= $node->nodeName;
-			switch( $nodeName )
-			{
+			switch( $nodeName ){
 				case 'deps':
 					foreach( $node->childNodes as $dep )
 						$release['dependencies'][]	= $this->getNodeValue( $dep );
@@ -153,7 +148,7 @@ class PackageReader
 	 *	@param		DOMNode		$domNode		DOM Node with Attributes
 	 *	@return		array
 	 */
-	private function getNodeAttributes( $domNode )
+	private function getNodeAttributes( DOMNode $domNode ): array
 	{
 		$attributes	= array();
 		foreach( $domNode->attributes as $attribute )
@@ -165,9 +160,9 @@ class PackageReader
 	 *	Returns the Text Value of a DOM Node.
 	 *	@access		protected
 	 *	@param		DOMNode		$domNode		DOM Node with Attributes
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	private function getNodeValue( $domNode )
+	private function getNodeValue( DOMNode $domNode ): ?string
 	{
 		if( !( $domNode->nodeType == 1 && $domNode->childNodes->length > 0 ) )
 			return NULL;

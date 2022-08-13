@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Serializer for Data Object into XML.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
 
 namespace CeusMedia\Common\XML\DOM;
+
+use DOMException;
 
 /**
  *	Serializer for Data Object into XML.
@@ -36,7 +38,6 @@ namespace CeusMedia\Common\XML\DOM;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
 class ObjectSerializer
 {
@@ -47,32 +48,30 @@ class ObjectSerializer
 	 *	@param		mixed		$object		Object to serialize
 	 *	@param		string		$encoding	Encoding Type
 	 *	@return		string
+	 *	@throws		DOMException
 	 */
-	public static function serialize( $object, $encoding = "utf-8" )
+	public static function serialize( $object, string $encoding = "utf-8" ): string
 	{
 		$root	= new Node( "object" );
 		$root->setAttribute( 'class', addslashes( get_class( $object ) ) );
 		$vars	= get_object_vars( $object );
 		self::serializeVarsRec( $vars, $root );
 		$builder	= new Builder();
-		$serial		= $builder->build( $root, $encoding );
-		return $serial;
+		return $builder->build( $root, $encoding );
 	}
 
 	/**
-	 *	Adds XML Nodes to a XML Tree by their Type while supporting nested Arrays.
+	 *	Adds XML Nodes to an XML Tree by their Type while supporting nested Arrays.
 	 *	@access		protected
 	 *	@static
 	 *	@param		array		$array		Array of Vars to add
 	 *	@param		Node		$node		current XML Tree Node
-	 *	@return		string
+	 *	@return		void
 	 */
-	protected static function serializeVarsRec( $array, &$node )
+	protected static function serializeVarsRec( array $array, Node $node )
 	{
-		foreach( $array as $key => $value)
-		{
-			switch( gettype( $value ) )
-			{
+		foreach( $array as $key => $value ){
+			switch( gettype( $value ) ){
 				case 'NULL':
 					$child	= new Node( "null" );
 					$child->setAttribute( "name", $key );

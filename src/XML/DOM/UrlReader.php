@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Loads XML from an URL and parses to a Tree of XML_DOM_Nodes.
+ *	Loads XML from a URL and parses to a Tree of XML_DOM_Nodes.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -23,14 +24,13 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Net\Reader as NetReader;
 use CeusMedia\Common\Net\CURL as CURL;
-use CeusMedia\Common\XML\DOM\Node;
 use Exception;
 
 /**
@@ -41,12 +41,12 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 class UrlReader
 {
 	/**	@var		string		$url			URL of XML File */
 	protected $url;
+
 	/**	@var		array		$mimeTypes		List of acceptable Response MIME Type */
 	public static $mimeTypes	= array(
 		'application/xml',
@@ -54,6 +54,7 @@ class UrlReader
 		'application/rss+xml',
 		'text/xml',
 	);
+
 	public static $userAgent	= 'CeusMediaCommon:XML.DOM.UrlReader/0.9';
 
 	/**
@@ -62,20 +63,22 @@ class UrlReader
 	 *	@param		string		$url			URL of XML File
 	 *	@return		void
 	 */
-	public function __construct( $url )
+	public function __construct( string $url )
 	{
 		$this->url	= $url;
 	}
 
 	/**
-	 *	Loads a XML File statically and returns parsed Tree.
+	 *	Loads an XML File statically and returns parsed Tree.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$url			URL of XML File
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		Node
+	 *	@throws		IoException
+	 *	@throws		Exception
 	 */
-	public static function load( $url, $curlOptions = array() )
+	public static function load( string $url, array $curlOptions = [] ): Node
 	{
 		$reader	= new NetReader( $url );
 		$reader->setUserAgent( self::$userAgent );
@@ -87,16 +90,16 @@ class UrlReader
 			throw new Exception( 'URL "'.$url.'" is not an accepted XML File (MIME Type: '.$type.').' );
 
 		$parser	= new Parser();
-		$tree	= $parser->parse( $xml );
-		return $tree;
+		return $parser->parse( $xml );
 	}
 
 	/**
 	 *	Reads XML File and returns parsed Tree.
 	 *	@access		public
 	 *	@return		Node
+	 *	@throws		Exception
 	 */
-	public function read()
+	public function read(): Node
 	{
 		return self::load( $this->url );
 	}
