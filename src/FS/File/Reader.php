@@ -347,7 +347,7 @@ class Reader
 		return TRUE;
 	}
 
-	protected function checkIsOwner(): bool
+	protected function checkIsOwner( ?string $user = NULL ): bool
 	{
 		$user	= $user ?? get_current_user();
 		if( !function_exists( 'posix_getpwuid' ) )

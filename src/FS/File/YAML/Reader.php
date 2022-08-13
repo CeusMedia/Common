@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	YAML Reader based on Spyc.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
 
 namespace CeusMedia\Common\FS\File\YAML;
@@ -38,17 +38,18 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
 class Reader
 {
+	protected $fileName;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of YAML File.
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -60,7 +61,7 @@ class Reader
 	 *	@param		string		$fileName		File Name of YAML File.
 	 *	@return		array
 	 */
-	public static function load( $fileName )
+	public static function load( string $fileName ): array
 	{
 		$yaml	= FileReader::load( $fileName );
 		$array	= Spyc::YAMLLoad( $yaml );
@@ -72,7 +73,7 @@ class Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function read()
+	public function read(): array
 	{
 		return self::load( $this->fileName );
 	}

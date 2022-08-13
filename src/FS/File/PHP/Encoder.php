@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.10.2006
  */
 
 namespace CeusMedia\Common\FS\File\PHP;
@@ -41,7 +40,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.10.2006
  */
 class Encoder
 {
@@ -83,7 +81,7 @@ class Encoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	public function decode( $php )
+	public function decode( string $php ): string
 	{
 		$code	= substr( $php, strlen( $this->outcodePrefix) , -strlen( $this->outcodeSuffix ) );
 		$php 	= $this->decodeHash( $code );
@@ -93,14 +91,14 @@ class Encoder
 	/**
 	 *	Decodes an encoded PHP File.
 	 *	@access		public
-	 * 	@return		void
+	 *	@param		string		$fileName		...
+	 *	@param		boolean		$overwrite		...
+	 * 	@return		boolean
 	 */
-	public function decodeFile( $fileName, $overwrite = FALSE )
+	public function decodeFile( string $fileName, bool $overwrite = FALSE ): bool
 	{
-		if( file_exists( $fileName ) )
-		{
-			if( $this->isEncoded( $fileName ) )
-			{
+		if( file_exists( $fileName ) ){
+			if( $this->isEncoded( $fileName ) ){
 				$file	= new FileEditor( $fileName );
 				$php	= $file->readString();
 				$code	= $this->encode( $php );
@@ -119,14 +117,14 @@ class Encoder
 	/**
 	 *	Returns Hash decoded PHP Content.
 	 *	@access		protected
-	 *	@param		string		$php		Encoded PHP Content
+	 *	@param		string		$code		Encoded PHP Content
 	 * 	@return		string
 	 */
-	protected function decodeHash( $code )
+	protected function decodeHash( string $code ): string
 	{
 		$php	= gzinflate( base64_decode( $code ) );
 		$php	= substr( $php, strlen( $this->incodePrefix) , -strlen( $this->incodeSuffix ) );
-		return 	$php;
+		return $php;
 	}
 
 	/**
@@ -135,7 +133,7 @@ class Encoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	public function encode( $php )
+	public function encode( string $php ): string
 	{
 		$code	= $this->encodeHash( $php );
 		$php	= $this->outcodePrefix.$code.$this->outcodeSuffix;
@@ -145,9 +143,11 @@ class Encoder
 	/**
 	 *	Encodes a PHP File.
 	 *	@access		public
-	 * 	@return		void
+	 *	@param		string		$fileName		...
+	 *	@param		boolean		$overwrite		...
+	 * 	@return		bool
 	 */
-	public function encodeFile( $fileName, $overwrite = FALSE )
+	public function encodeFile( string $fileName, bool $overwrite = FALSE ): bool
 	{
 		if( !file_exists( $fileName ) )
 			return FALSE;
@@ -170,7 +170,7 @@ class Encoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	protected function encodeHash( $php )
+	protected function encodeHash( string $php ): string
 	{
 		return base64_encode( gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix ) );
 	}
@@ -181,10 +181,9 @@ class Encoder
 	 *	@param		string		$fileName		File Name of PHP File to be checked
 	 * 	@return		bool
 	 */
-	public function isEncoded( $fileName )
+	public function isEncoded( string $fileName ): bool
 	{
-		if( file_exists( $fileName ) )
-		{
+		if( file_exists( $fileName ) ){
 			$fp	= fopen( $fileName, "r" );
 			$code	= fgets( $fp, strlen( $this->outcodePrefix ) );
 			if( $code == $this->outcodePrefix )

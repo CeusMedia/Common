@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
 
 namespace CeusMedia\Common\FS\File\PHP\Check;
@@ -40,12 +39,13 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
 class MethodVisibility
 {
 	protected $fileName		= "";
+
 	protected $methods		= array();
+
 	protected $checked		= FALSE;
 
 	/**
@@ -54,7 +54,7 @@ class MethodVisibility
 	 *	@param		string		$fileName		URL of PHP File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
@@ -67,7 +67,7 @@ class MethodVisibility
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function check()
+	public function check(): bool
 	{
 		$this->checked	= TRUE;
 		$this->methods	= array();
@@ -85,7 +85,7 @@ class MethodVisibility
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getMethods()
+	public function getMethods(): array
 	{
 		if( !$this->checked )
 			throw new Exception( 'Not checked yet' );

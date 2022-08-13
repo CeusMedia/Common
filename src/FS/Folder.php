@@ -3,7 +3,7 @@ namespace CeusMedia\Common\FS;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\Exception\IO as IOException;
-#use CeusMedia\Common\FS;
+use CeusMedia\Common\FS;
 use DirectoryIterator;
 
 class Folder extends AbstractNode

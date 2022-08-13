@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader and Parser for Tracker Log File.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.09.2006
  */
 
 namespace CeusMedia\Common\FS\File\Log\Tracker;
@@ -38,7 +38,6 @@ use CeusMedia\Common\FS\File\Log\Reader as LogReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.09.2006
  */
 class Reader extends LogReader
 {
@@ -49,7 +48,7 @@ class Reader extends LogReader
 	protected $skip;
 
 	/*	@var		array		$data			Array of Data from parsed Lines */
-	protected $data	= array();
+	protected $data	= [];
 
 	/**
 	 *	Constructor.
@@ -59,7 +58,7 @@ class Reader extends LogReader
 	 *	@param		bool		$auto_parse		Flag: parse LogFile automaticly
 	 *	@return		void
 	 */
-	public function __construct( $logFile, $skip, $autoParse = false )
+	public function __construct( string $logFile, string $skip, bool $autoParse = FALSE )
 	{
 		parent::__construct( $logFile );
 		$this->patterns	= "@^([0-9]+) \[([0-9:. -]+)\] ([a-z0-9:.-]+) (.*) (.*) \"(.*)\"$@si";
@@ -73,7 +72,7 @@ class Reader extends LogReader
 	 *	@access		protected
 	 *	@return		string
 	 */
-	protected function callback( $matches )
+	protected function callback( array $matches )
 	{
 //		print_m( $matches );
 		$data	= array(
@@ -92,18 +91,14 @@ class Reader extends LogReader
 	 *	@access		public
 	 *	@return 	array
 	 */
-	public function getBrowsers()
+	public function getBrowsers(): array
 	{
-		$remote_addrs	= array();
-		$browsers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip && $entry['useragent'] )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-					{
+		$remote_addrs	= [];
+		$browsers		= [];
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip && $entry['useragent'] ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 ){
 						if( isset( $browsers[$entry['useragent']] ) )
 							$browsers[$entry['useragent']] ++;
 						else
@@ -111,8 +106,7 @@ class Reader extends LogReader
 					}
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
-				else
-				{
+				else{
 					if( isset( $browsers[$entry['useragent']] ) )
 						$browsers[$entry['useragent']] ++;
 					else
@@ -125,8 +119,7 @@ class Reader extends LogReader
 		foreach( $browsers as $browser => $count )
 			$lines[]	= "<tr><td>".$browser."</td><td>".$count."</td></tr>";
 		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		return "<table>".$lines."</table>";
 	}
 
 	/**
@@ -134,7 +127,7 @@ class Reader extends LogReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getData()
+	public function getData(): array
 	{
 		return $this->data;
 	}
@@ -144,26 +137,21 @@ class Reader extends LogReader
 	 *	@access		public
 	 *	@return 	float
 	 */
-	public function getPagesPerVisitor()
+	public function getPagesPerVisitor(): float
 	{
-		$remote_addrs	= array();
-		$visitors		= array();
+		$remote_addrs	= [];
+		$visitors		= [];
 		$visitor		= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-					{
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 ){
 						$visitor++;
 						$visitors[$visitor]	= 0;
 					}
 					$visitors[$visitor] ++;
 				}
-				else
-				{
+				else{
 					$visitor++;
 					$visitors[$visitor]	= 1;
 					$remote_addrs[$entry['remote_addr']] = $entry['timestamp'];
@@ -173,8 +161,7 @@ class Reader extends LogReader
 		$total	= 0;
 		foreach( $visitors as $visitor => $pages )
 			$total	+= $pages;
-		$pages	= round( $total / count( $visitors ), 1 );
-		return $pages;
+		return round( $total / count( $visitors ), 1 );
 	}
 
 	/**
@@ -182,15 +169,14 @@ class Reader extends LogReader
 	 *	@access		public
 	 *	@return 	array
 	 */
-	public function getReferers( $skip )
+	public function getReferers( ?string $skip ): array
 	{
 		$referers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( $entry['referer_uri'] && !preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
-				{
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( $entry['referer_uri'] ){
+					if( $skip && preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
+						continue;
 					if( isset( $referers[$entry['referer_uri']] ) )
 						$referers[$entry['referer_uri']] ++;
 					else
@@ -212,14 +198,13 @@ class Reader extends LogReader
 	 *	@param		int			$max		List Entries (0-all)
 	 *	@return 	array
 	 */
-	public function getTable( $max = 0)
+	public function getTable( int $max = 0): array
 	{
 		$data	= $this->data;
 		if( $max )
 			$data	= array_reverse( $data );
 		foreach( $data as $entry )
-			if( $entry['remote_addr'] != $this->skip )
-			{
+			if( $entry['remote_addr'] != $this->skip ){
 				$lines[]	= "<tr><td>".$entry['datetime']."</td><td>".$entry['remote_addr']."</td><td>".$entry['request_uri']."</td><!--<td>".$entry['referer_uri']."</td>--><td>".$entry['useragent']."</td></tr>";
 				if( $max && count( $lines ) >= $max )
 					break;
@@ -236,22 +221,18 @@ class Reader extends LogReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getVisitors()
+	public function getVisitors(): int
 	{
 		$remote_addrs	= array();
 		$counter	= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
 					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
 						$counter ++;
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
-				else
-				{
+				else{
 					$counter ++;
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
@@ -265,7 +246,7 @@ class Reader extends LogReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getVisits()
+	public function getVisits(): int
 	{
 		return count( $this->data );
 	}
@@ -277,7 +258,6 @@ class Reader extends LogReader
 	 */
 	public function parse()
 	{
-		$i=0;
 		$lines	= $this->read();
 		foreach( $lines as $line )
 			$this->data[]	= $this->parseLine( $line );
@@ -288,7 +268,7 @@ class Reader extends LogReader
 	 *	@access		protected
 	 *	@return		array
 	 */
-	protected function parseLine( $line )
+	protected function parseLine( string $line ): array
 	{
 		$data	= preg_replace_callback( $this->patterns, array( $this, 'callback' ), $line );
 		return unserialize( $data );
@@ -298,10 +278,11 @@ class Reader extends LogReader
 	 *	Set already parsed Log Data (i.E. from serialized Cache File).
 	 *	@access		public
 	 *	@param		array		data			Parsed Log Data
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setData( $data )
+	public function setData( array $data ): self
 	{
 		$this->data	= $data;
+		return $this;
 	}
 }
