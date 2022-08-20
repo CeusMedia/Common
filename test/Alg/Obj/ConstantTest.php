@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Constant.
  *	@package		Tests.Alg.Obj
@@ -9,7 +12,9 @@ declare( strict_types = 1 );
 namespace CeusMedia\Common\Test\Alg\Obj;
 
 use CeusMedia\Common\Alg\Obj\Constant;
+use CeusMedia\Common\Exception\Data\Ambiguous as AmbiguousDataException;
 use CeusMedia\Common\Test\BaseCase;
+
 
 /**
  *	TestUnit of Constant.
@@ -18,6 +23,8 @@ use CeusMedia\Common\Test\BaseCase;
  */
 final class ConstantTest extends BaseCase
 {
+	protected $object;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -102,7 +109,7 @@ final class ConstantTest extends BaseCase
 
 	public function testGetKeyByValueException2()
 	{
-		$this->expectException( 'RangeException' );
+		$this->expectException( AmbiguousDataException::class );
 		$this->object->getKeyByValue( 1 );
 	}
 

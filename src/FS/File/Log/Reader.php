@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Log File.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			28.11.2007
  */
 
 namespace CeusMedia\Common\FS\File\Log;
@@ -38,7 +38,6 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			28.11.2007
  */
 class Reader
 {
@@ -51,7 +50,7 @@ class Reader
 	 *	@param		string		$fileName		URI of File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName = $fileName;
 	}
@@ -60,19 +59,19 @@ class Reader
 	 *	Reads a Log File and returns Lines.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$uri		URI of Log File
+	 *	@param		string		$fileName	Name of Log File
 	 *	@param		int			$offset		Offset from Start or End
 	 *	@param		int			$limit		Amount of Entries to return
 	 *	@return		array
 	 */
-	public static function load( $fileName, $offset = NULL, $limit = NULL )
+	public static function load( string $fileName, int $offset = 0, int $limit = 0 ): array
 	{
 		$file	= new FileReader( $fileName );
 		$lines	= $file->readArray();
-		if( $offset !== NULL && $limit !== NULL && (int) $limit !==  0 )
-			$lines	= array_slice( $lines, abs( (int) $offset ), (int) $limit );
-		else if( $offset !== NULL && (int) $offset !== 0 )
-			$lines	= array_slice( $lines, (int) $offset );
+		if( $offset !== 0 && $limit !==  0 )
+			$lines	= array_slice( $lines, abs( $offset ), $limit );
+		else if( $offset !== 0 )
+			$lines	= array_slice( $lines, abs( $offset ) );
 		return $lines;
 	}
 
@@ -83,7 +82,7 @@ class Reader
 	 *	@param		int			$limit		Amount of Entries to return
 	 *	@return		array
 	 */
-	public function read( $offset = NULL, $limit = NULL )
+	public function read( int $offset = 0, int $limit = 0 ): array
 	{
 		return $this->load( $this->fileName, $offset, $limit );
 	}

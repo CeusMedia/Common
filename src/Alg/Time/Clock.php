@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Clock implementation with Lap Support.
  *
@@ -38,14 +39,14 @@ namespace CeusMedia\Common\Alg\Time;
  */
 class Clock
 {
-	/**	@var	string		$microtimeStart		Microtime at the Start */
-	protected $microtimeStart;
+	/**	@var	string		$microTimeStart		Microtime at the Start */
+	protected $microTimeStart;
 
-	/**	@var	string		$microtimeLap		Time in micro at the end of the last since start */
-	protected $microtimeLap;
+	/**	@var	string		$microTimeLap		Time in micro at the end of the last since start */
+	protected $microTimeLap;
 
-	/**	@var	string		$microtimeStop		Microtime at the End */
-	protected $microtimeStop;
+	/**	@var	string		$microTimeStop		Microtime at the End */
+	protected $microTimeStop;
 
 	/**	@var	array		$laps				Array of Lap Times */
 	protected $laps			= array();
@@ -60,13 +61,12 @@ class Clock
 		$this->start();
 	}
 
-	protected static function calculateTimeSpan( $microtimeStart, $microtimeStop )
+	protected static function calculateTimeSpan( float $microTimeStart, float $microTimeStop ): float
 	{
-		$time	= (float) $sec + $msec;
-		return $time;
+		return $microTimeStop - $microTimeStart;
 	}
 
-	public function getLaps()
+	public function getLaps(): array
 	{
 		return $this->laps;
 	}
@@ -76,14 +76,13 @@ class Clock
 	 *	@access		public
 	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
 	 *	@param		int		$round		Numbers after dot
-	 *	@return		string
+	 *	@return		float
 	 */
-	public function getTime( $base = 3, $round = 3 )
+	public function getTime( int $base = 3, int $round = 3 ): float
 	{
-		$time	= $this->microtimeStop - $this->microtimeStart;
+		$time	= $this->microTimeStop - $this->microTimeStart;
 		$time	= $time * pow( 10, $base );
-		$time	= round( $time, $round );
-		return $time;
+		return round( $time, $round );
 	}
 
 	public function sleep( $seconds )
@@ -103,7 +102,7 @@ class Clock
 	 */
 	public function start()
 	{
-		$this->microtimeStart = microtime( TRUE );
+		$this->microTimeStart = microtime( TRUE );
 	}
 
 	/**
@@ -111,21 +110,21 @@ class Clock
 	 *	@access		public
 	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
 	 *	@param		int		$round		Numbers after dot
-	 *	@return		string
+	 *	@return		float
 	 */
-	public function stop( $base = 3, $round = 3 )
+	public function stop( int $base = 3, int $round = 3 ): float
 	{
-		$this->microtimeStop 	= microtime( TRUE );
+		$this->microTimeStop 	= microtime( TRUE );
 		return $this->getTime( $base, $round );
 	}
 
-	public function stopLap( $base = 3, $round = 3, $label = NULL, $description = NULL )
+	public function stopLap( int $base = 3, int $round = 3, ?string $label = NULL, ?string $description = NULL ): float
 	{
-		$microtimeLast	= $this->microtimeLap ? $this->microtimeLap : $this->microtimeStart;
-		$microtimeNow	= microtime( TRUE );
+		$microTimeLast	= $this->microTimeLap ?: $this->microTimeStart;
+		$microTimeNow	= microtime( TRUE );
 
-		$totalMicro		= round( ( $microtimeNow - $this->microtimeStart ) * 1000000 );
-		$timeMicro		= round( ( $microtimeNow - $microtimeLast ) * 1000000 );
+		$totalMicro		= round( ( $microTimeNow - $this->microTimeStart ) * 1000000 );
+		$timeMicro		= round( ( $microTimeNow - $microTimeLast ) * 1000000 );
 
 		$total			= round( $totalMicro * pow( 10, $base - 6 ), $round );
 		$time			= round( $timeMicro * pow( 10, $base - 6 ), $round );
@@ -138,19 +137,19 @@ class Clock
 			'label'			=> $label,
 			'description'	=> $description,
 		);
-		$this->microtimeLap	= $microtimeNow;
+		$this->microTimeLap	= $microTimeNow;
 		return $time;
 	}
 
-	public function usleep( $microseconds )
+	public function usleep( int $microseconds )
 	{
 		$seconds	= $microseconds / 1000000;
-		if( ( microtime( TRUE ) - $this->microtimeStart ) >= $seconds )
-			$this->microtimeStart	+= $seconds;
+		if( ( microtime( TRUE ) - $this->microTimeStart ) >= $seconds )
+			$this->microTimeStart	+= $seconds;
 	}
 
-	public function uspeed( $microseconds )
+	public function uspeed( int $microseconds )
 	{
-		$this->microtimeStart	-= $microseconds / 1000000;
+		$this->microTimeStart	-= $microseconds / 1000000;
 	}
 }

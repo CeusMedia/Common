@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.05.2008
  */
 
 namespace CeusMedia\Common\Alg\Parcel;
@@ -38,21 +38,23 @@ use OutOfRangeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.05.2008
  */
 class Packer
 {
 	/**	@var		object		$factory			Packet Factory */
-	protected $factory		= array();
+	protected $factory		= [];
 
 	/**	@var		array		$articles			Array if possible Articles */
-	protected $articles		= array();
+	protected $articles		= [];
 
 	/**	@var		array		$packets			Array of Packet Types and their Prices */
-	protected $packets		= array();
+	protected $packets		= [];
 
 	/**	@var		array		$packetList			Array of Packets need to pack Articles */
-	protected $packetList	= array();
+	protected $packetList	= [];
+
+	/**	@var		array		$volumes		Array of Packets and the Volumes the Articles would need */
+	protected $volumes;
 
 	/**
 	 *	Constructor.
@@ -62,7 +64,7 @@ class Packer
 	 *	@param		array		$volumes			Volumes of all Articles in all Packages
 	 *	@return		void
 	 */
-	public function __construct( $packets, $articles, $volumes )
+	public function __construct( array $packets = [], array $articles = [], array $volumes = [] )
 	{
 		asort( $packets );
 		$this->packets		= $packets;
@@ -77,7 +79,7 @@ class Packer
 	 *	@param		array		$articleList		Array of Articles and their Quantities.
 	 *	@return		array
 	 */
-	public function calculatePackage( $articleList )
+	public function calculatePackage( array $articleList ): array
 	{
 		//  reset Packet List
 		$this->packetList	= array();
@@ -89,14 +91,12 @@ class Packer
 				//  without Quantity
 				unset( $articleList[$name] );
 		//  iterate Article List
-		while( $articleList )
-		{
+		while( $articleList ){
 			//  --  ADD FIRST PACKET  --  //
 			//  get Largest Article in List
 			$largestArticle	= $this->getLargestArticle( $articleList );
 			//  no Packets yet in Packet List
-			if( !count( $this->packetList ) )
-			{
+			if( !count( $this->packetList ) ){
 				//  get smallest Packet Type for Article
 				$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );
 				//  put Article in new Packet
@@ -112,8 +112,7 @@ class Packer
 			//  --  FILL PACKET  --  //
 			$found = false;																				//
 			//  iterate Packets in Packet List
-			for( $i=0; $i<count( $this->packetList ); $i++ )
-			{
+			for( $i=0; $i<count( $this->packetList ); $i++ ){
 				//  get current Packet
 				$packet	= $this->getPacket( $i );
 				//  get Article Volume in this Packet
@@ -136,13 +135,11 @@ class Packer
 
 			//  --  RESIZE PACKET  --  //
 			//  iterate Packets in Packet List
-			for( $i=0; $i<count( $this->packetList ); $i++ )
-			{
+			for( $i=0; $i<count( $this->packetList ); $i++ ){
 				//  get current Packet
 				$packet	= $this->getPacket( $i );
 				//  there is a larger Packet Type
-				while( $this->hasLargerPacket( $packet->getName() ) )
-				{
+				while( $this->hasLargerPacket( $packet->getName() ) ){
 					$largerPacketName	= $this->getNameOfLargerPacket( $packet->getName() );
 					//  get larger Packet
 					$articles			= $packet->getArticles();
@@ -150,8 +147,7 @@ class Packer
 					$largerPacket		= $this->factory->produce( $largerPacketName, $articles );
 					//  get Volume of current Article in this Packet
 					$articleVolume		= $this->volumes[$largerPacketName][$largestArticle];
-					if( $largerPacket->hasVolumeLeft( $articleVolume ) )
-					{
+					if( $largerPacket->hasVolumeLeft( $articleVolume ) ){
 						//  add Article to Packet
 						$largerPacket->addArticle( $largestArticle, $articleVolume );
 						//  replace old Packet with new Packet
@@ -192,20 +188,19 @@ class Packer
 	 *	@param		array		$articleList		Array of Articles and their Quantities.
 	 *	@return		float
 	 */
-	public function calculatePrice( $articleList )
+	public function calculatePrice( array $articleList ): float
 	{
 		$packetList	= $this->calculatePackage( $articleList );
-		$price		= $this->calculatePriceFromPackage( $packetList );
-		return $price;
+		return $this->calculatePriceFromPackage( $packetList );
 	}
 
 	/**
 	 *	Calculates Price of Packets for Articles and returns total Price.
 	 *	@access		public
-	 *	@param		array		$articleList		Array of Articles and their Quantities.
+	 *	@param		array		$packetList		Array of Articles and their Quantities.
 	 *	@return		float
 	 */
-	public function calculatePriceFromPackage( $packetList )
+	public function calculatePriceFromPackage( array $packetList ): float
 	{
 		$price	= 0;
 		foreach( $packetList as $packet )
@@ -217,65 +212,64 @@ class Packer
 	 *	Returns the largest Article from an Article List by Article Volume.
 	 *	@access		protected
 	 *	@param		array		$articleList		Array of Articles and their Quantities.
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	protected function getLargestArticle( $articleList )
+	protected function getLargestArticle( array $articleList ): ?string
 	{
 		$largestPacketName	= $this->getNameOfLargestPacket();
 		$articleVolumes		= $this->volumes[$largestPacketName];
 		asort( $articleVolumes );
 		$articleKeys	= array_keys( $articleVolumes );
-		do
-		{
+		do{
 			$articleName	= array_pop( $articleKeys );
 			if( array_key_exists( $articleName, $articleList ) )
 				return $articleName;
 		}
 		while( $articleKeys );
+		return NULL;
 	}
 
 	/**
 	 *	Returns Name of next larger Packet.
 	 *	@access		protected
 	 *	@param		string		$packetName			Packet Name to get next larger Packet for
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	protected function getNameOfLargerPacket( $packetName )
+	protected function getNameOfLargerPacket( string $packetName ): ?string
 	{
 		$keys	= array_keys( $this->packets );
 		$index	= array_search( $packetName, $keys );
 		$sliced	= array_slice( $keys, $index + 1, 1 );
-		$next	= array_pop( $sliced );
-		return $next;
+		return array_pop( $sliced );
 	}
 
 	/**
-	 *	Returns Name of largest Packet from Packet Definition.
+	 *	Returns Name of the largest Packet from Packet Definition.
 	 *	@access		protected
 	 *	@return		string
 	 */
-	protected function getNameOfLargestPacket()
+	protected function getNameOfLargestPacket(): string
 	{
 		$packets	= $this->packets;
 		asort( $packets );
-		$packetName	= key( array_slice( $packets, -1 ) );
-		return $packetName;
+		return key( array_slice( $packets, -1 ) );
 	}
 
 	/**
-	 *	Returns Name of smallest Packet for an Article.
+	 *	Returns Name of the smallest Packet for an Article.
 	 *	@access		protected
-	 *	@param		string		$articleName		Name of Article to get smallest Article for
-	 *	@return		string
+	 *	@param		string		$articleName		Name of Article to get the smallest Article for
+	 *	@return		string|NULL
 	 */
-	protected function getNameOfSmallestPacketForArticle( $articleName )
+	protected function getNameOfSmallestPacketForArticle( string $articleName ): ?string
 	{
 		foreach( array_keys( $this->packets ) as $packetName )
 			if( $this->volumes[$packetName][$articleName] <= 1 )
 				return $packetName;
+		return NULL;
 	}
 
-	public function getPacket( $index )
+	public function getPacket( int $index ): Packet
 	{
 		if( !isset( $this->packetList[$index] ) )
 			throw new OutOfRangeException( 'Invalid Packet Index.' );
@@ -286,12 +280,12 @@ class Packer
 	 *	Indicates whether a larger Packet would be available.
 	 *	@access		protected
 	 *	@param		string		$packetName			Name of Packet to find a larger Packet for
-	 *	@param		bool
+	 *	@return		bool
 	 */
-	protected function hasLargerPacket( $packetName )
+	protected function hasLargerPacket( string $packetName ): bool
 	{
 		$last	= key( array_slice( $this->packets, -1 ) );
-		return $packetName != $last;
+		return $packetName !== $last;
 	}
 
 	/**
@@ -301,10 +295,9 @@ class Packer
 	 *	@param		string		$articleName		Name of Article to remove from Article List
 	 *	@return		bool
 	 */
-	protected function removeArticleFromList( &$articleList, $articleName )
+	protected function removeArticleFromList( array &$articleList, string $articleName ): bool
 	{
-		if( $articleList[$articleName] > 0 )
-		{
+		if( $articleList[$articleName] > 0 ){
 			if( $articleList[$articleName] == 1 )
 				unset( $articleList[$articleName] );
 			else
@@ -319,12 +312,13 @@ class Packer
 	 *	@access		public
 	 *	@param		int					$index		Index of Packet to replace
 	 *	@param		Packet	$packet		Packet to set for another Packet
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function replacePacket( $index, $packet )
+	public function replacePacket( int $index, Packet $packet ): self
 	{
 		if( !isset( $this->packetList[$index] ) )
 			throw new OutOfRangeException( 'Invalid Packet Index.' );
 		$this->packetList[$index]	= $packet;
+		return $this;
 	}
 }

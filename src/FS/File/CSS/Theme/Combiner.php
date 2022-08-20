@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
  *
@@ -47,26 +48,25 @@ class Combiner extends CssCombiner
 	protected $protocol;
 
 	/**
-	 *	Callback Method for additional Modifikations before Combination.
+	 *	Callback Method for additional Modifications before Combination.
 	 *	@access		protected
 	 *	@param		string		$content		Content of Style File
 	 *	@return		string		Revised Content of Style File
 	 */
-	protected function reviseStyle( $content )
+	protected function reviseStyle( string $content ): string
 	{
-		if( $this->protocol == self::PROTOCOL_HTTP )
-		{
+		if( $this->protocol == self::PROTOCOL_HTTP ){
 			$content	= str_ireplace( "https://", "http://", $content );
 		}
-		else if( $this->protocol == self::PROTOCOL_HTTPS )
-		{
+		else if( $this->protocol == self::PROTOCOL_HTTPS ){
 			$content	= str_ireplace( "http://", "https://", $content );
 		}
 		return $content;
 	}
 
-	public function setProtocol( $integer )
+	public function setProtocol( int $integer ): self
 	{
 		$this->protocol	= $integer;
+		return $this;
 	}
 }

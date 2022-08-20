@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 namespace CeusMedia\Common\CLI\Fork\Worker;
 
@@ -38,11 +38,11 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 abstract class Abstraction
 {
 	protected $isWindows	= NULL;
+
 	/**
 	 *	Constructor, checks Server Operation System.
 	 *	@access		public
@@ -88,7 +88,7 @@ abstract class Abstraction
 	 *	@param		int			$signalNumber
 	 *	@return		void
 	 */
-	protected function handleSignal( $signalNumber )
+	protected function handleSignal( int $signalNumber )
 	{
 		switch( $signalNumber ){
 			case SIGHUP:
@@ -131,17 +131,17 @@ abstract class Abstraction
 	 *	Please implement this method and return an Error Code, Error Message or 0 or an empty String.
 	 *	@access		protected
 	 *	@param		int			$pid			Parent PID
-	 *	@param		int			$numberWorker	Worker Number, set by loop in Parent Worker
+	 *	@param		int			$workerNumber	Worker Number, set by loop in Parent Worker
 	 *	@return		int|string	Error Code or Error Message
 	 */
-	abstract protected function workChild( $pid, $workerNumber );
+	abstract protected function workChild( int $pid, int $workerNumber );
 
 	/**
 	 *	This method is executed by the Parent Process only.
-	 *	You need to implement this method but it can by empty.
+	 *	You need to implement this method, but it can be empty.
 	 *	@access		protected
 	 *	@param		int			$pid			Parent PID
 	 *	@return		int|string	Error Code or Error Message
 	 */
-	abstract protected function workParent( $pid );
+	abstract protected function workParent( int $pid );
 }

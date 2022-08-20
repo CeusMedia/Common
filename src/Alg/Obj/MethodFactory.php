@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Calls Object or Class Methods using Reflection.
  *
@@ -23,14 +24,14 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\Alg\Obj;
 
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
-use CeusMedia\Common\Deprecation;
 use BadMethodCallException;
+use InvalidArgumentException;
+use ReflectionException;
 use ReflectionObject;
 use RuntimeException;
 
@@ -42,7 +43,6 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class MethodFactory
 {
@@ -53,11 +53,11 @@ class MethodFactory
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		object		$object			Object to call method on
-	 *	@param		string		$method			Name of method to call
-	 *	@param		array		$arguments		List of method arguments
+	 *	@param		object|NULL		$object			Object to call method on
+	 *	@param		string|NULL		$method			Name of method to call
+	 *	@param		array			$arguments		List of method arguments
 	 */
-	public function __construct( $object = NULL, $method = NULL, array $arguments = array() )
+	public function __construct( ?object $object = NULL, ?string $method = NULL, array $arguments = [] )
 	{
 		if( NULL !== $object )
 			$this->setObject( $object );
@@ -71,6 +71,7 @@ class MethodFactory
 	 *	@param		boolean			$checkMethod		Flag: check if methods exists by default, disable for classes using __call
 	 *	@param		boolean			$allowProtected		Flag: allow invoking protected and private methods (PHP 5.3.2+), default: no
 	 *	@return		mixed			Result of called method
+	 *	@throws		ReflectionException
 	 */
 	public function call( bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
@@ -85,10 +86,11 @@ class MethodFactory
 	 *	@param		string			$name				Name of method to call on object
 	 *	@param		array			$arguments			List of method arguments
 	 *	@return		mixed			Result of called Method
-	 *	@throws		RuntimeException					if an neither object not class is set
+	 *	@throws		RuntimeException					if neither object not class is set
 	 *	@throws		BadMethodCallException				if an invalid Method is called
+	 *	@throws		ReflectionException
 	 */
-	public function callMethod( string $name, array $arguments = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public function callMethod( string $name, array $arguments = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( NULL === $this->object )
 			throw new RuntimeException( 'Neither object nor class set' );
@@ -97,13 +99,14 @@ class MethodFactory
 
 
 	/**
-	 *	Set class and invokation arguments of object to call method on.
+	 *	Set class and invocation arguments of object to call method on.
 	 *	@access		public
 	 *	@param		string		$name			Name of class to set
-	 *	@param		array		$arguments		Class arguments for invokation
+	 *	@param		array		$arguments		Class arguments for invocation
 	 *	@return		self
+	 *	@throws		ReflectionException
 	 */
-	public function setClass( string $name, array $arguments = array() ): self
+	public function setClass( string $name, array $arguments = [] ): self
 	{
 		if( !class_exists( $name ) )
 			throw new RuntimeException( 'Class "'.$name.'" has not been loaded' );
@@ -113,11 +116,11 @@ class MethodFactory
 	/**
 	 *	Set method to call and its arguments.
 	 *	@access		public
-	 *	@param		string		$name			Name of method to call
+	 *	@param		string		$method			Name of method to call
 	 *	@param		array		$arguments		List of arguments on method call
 	 *	@return		self
 	 */
-	public function setMethod( string $method, array $arguments = array() ): self
+	public function setMethod( string $method, array $arguments = [] ): self
 	{
 		$this->method		= $method;
 		$this->arguments	= $arguments;
@@ -130,7 +133,7 @@ class MethodFactory
 	 *	@param		object		$object			Object to call method on
 	 *	@return		self
 	 */
-	public function setObject( $object ): self
+	public function setObject( object $object ): self
 	{
 		$this->object	= $object;
 		return $this;
@@ -150,7 +153,7 @@ class MethodFactory
 	 *	@param		boolean			$allowProtected		Flag: allow invoking protected and private methods (PHP 5.3.2+), default: no
 	 *	@return		mixed			Result of called Method
 	 */
-/*	public static function staticCall( $mixed, string $methodName, array $methodParameters = array(), array $classParameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+/*	public static function staticCall( $mixed, string $methodName, array $methodParameters = [], array $classParameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( is_object( $mixed ) )
 			return self::staticCallObjectMethod( $mixed, $methodName, $methodParameters, $checkMethod, $allowProtected );
@@ -168,8 +171,10 @@ class MethodFactory
 	 *	@param		boolean			$checkMethod		Flag: check if methods exists by default, disable for classes using __call
 	 *	@param		boolean			$allowProtected		Flag: allow invoking protected and private methods (PHP 5.3.2+), default: no
 	 *	@return		mixed			Result of called Method
+	 *	@throws		ReflectionException
+	 *	@throws		RuntimeException
 	 */
-	public static function staticCallClassMethod( string $className, string $methodName, array $classParameters = array(), array $methodParameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public static function staticCallClassMethod( string $className, string $methodName, array $classParameters = [], array $methodParameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( !class_exists( $className ) )
 			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );
@@ -189,8 +194,9 @@ class MethodFactory
 	 *	@return		mixed			Result of called Method
 	 *	@throws		InvalidArgumentException			if no object is given
 	 *	@throws		BadMethodCallException				if an invalid Method is called
+	 *	@throws		ReflectionException
 	 */
-	public static function staticCallObjectMethod( $object, string $methodName, array $parameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public static function staticCallObjectMethod( object $object, string $methodName, array $parameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( !is_object( $object ) )
 			throw new InvalidArgumentException( 'Invalid object' );
@@ -198,16 +204,14 @@ class MethodFactory
 		//  get Object Reflection
 		$reflection	= new ReflectionObject( $object );
 		//  called Method is not existing
-		if( $checkMethod && !$reflection->hasMethod( $methodName ) )
-		{
+		if( $checkMethod && !$reflection->hasMethod( $methodName ) ){
 			//  prepare Exception Message
 			$message	= 'Method '.$reflection->getName().'::'.$methodName.' is not existing';
 			//  throw Exception
 			throw new BadMethodCallException( $message );
 		}
 
-		if( $reflection->hasMethod( $methodName ) )
-		{
+		if( $reflection->hasMethod( $methodName ) ){
 			$method		= $reflection->getMethod( $methodName );
 		}
 		else{

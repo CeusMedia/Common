@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.04.2014
  */
 
 namespace CeusMedia\Common\Alg;
@@ -40,7 +40,6 @@ use InvalidArgumentException;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.04.2014
  *	@todo			code doc
  */
 class UnitParser
@@ -63,7 +62,7 @@ class UnitParser
 		'/^([0-9.,]+)GiB$/i'	=> 1000000000,
 	);
 
-	static public function parse( $string, $exceptedUnit = NULL )
+	public static function parse( string $string, ?string $exceptedUnit = NULL ): float
 	{
 		if( !strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'String cannot be empty' );

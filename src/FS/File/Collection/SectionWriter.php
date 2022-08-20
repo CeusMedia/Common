@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for Section List.
  *
@@ -49,7 +50,7 @@ class SectionWriter
 	 *	@param		string		$fileName		File Name of Section List
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName = $fileName;
 	}
@@ -60,13 +61,12 @@ class SectionWriter
 	 *	@static
 	 *	@param		string		$fileName		File Name of Section List
 	 *	@param		array		$list			Section List to write
-	 *	@return		void
+	 *	@return		int			Number of written bytes
 	 */
-	public static function save( $fileName, $list )
+	public static function save( string $fileName, array $list ): int
 	{
-		$lines = array();
-		foreach( $list as $section => $data )
-		{
+		$lines = [];
+		foreach( $list as $section => $data ){
 			if( count( $lines ) )
 				$lines[] = "";
 			$lines[] = "[".$section."]";
@@ -81,9 +81,9 @@ class SectionWriter
 	 *	Writes Section List.
 	 *	@access		public
 	 *	@param		array		$list			Section List to write
-	 *	@return		void
+	 *	@return		int			Number of written bytes
 	 */
-	public function write( $list )
+	public function write( array $list ): int
 	{
 		return self::save( $this->fileName, $list );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	YAML Writer based on Spyc.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
 
 namespace CeusMedia\Common\FS\File\YAML;
@@ -38,7 +38,6 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
 class Writer
 {
@@ -51,7 +50,7 @@ class Writer
 	 *	@param		string		$fileName		File Name of YAML File.
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -62,20 +61,20 @@ class Writer
 	 *	@static
 	 *	@param		string		$fileName		File Name of YAML File.
 	 *	@param		array		$data			Array to write into YAML File
-	 *	@return		bool
+	 *	@return		int
 	 */
-	public static function save( $fileName, $data )
+	public static function save( string $fileName, array $data ): int
 	{
-		$yaml	= Spyc::YAMLDump( $data );
-		return FileWriter::save( $fileName, $yaml );
+		return FileWriter::save( $fileName, Spyc::YAMLDump( $data ) );
 	}
 
 	/**
 	 *	Writes Data into YAML File.
 	 *	@access		public
-	 *	@return		bool
+	 *	@param		array		$data			Array to write into YAML File
+	 *	@return		int
 	 */
-	public function write( $data )
+	public function write( array $data ): int
 	{
 		return self::save( $this->fileName, $data );
 	}

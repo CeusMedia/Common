@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	A Class for reading Section List Files.
  *
@@ -41,17 +42,19 @@ use Exception;
  */
 class SectionReader
 {
-	protected $list	= array();
 	public static $commentPattern	= '/^[#|-|*|:|;]/';
 	public static $sectionPattern	= '/^\[([a-z0-9_=.,:;# ])+\]$/i';
+
+	protected $list	= [];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of sectioned List
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->list	= self::load( $fileName );
 	}
@@ -62,8 +65,9 @@ class SectionReader
 	 *	@static
 	 *	@param		string		$fileName		File Name of sectioned List
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function load( $fileName )
+	public static function load( string $fileName ): array
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
@@ -71,17 +75,16 @@ class SectionReader
 		$reader	= new FileReader( $fileName );
 		$lines	= $reader->readArray();
 
-		$list	= array();
-		foreach( $lines as $line )
-		{
+		$section	= NULL;
+		$list		= [];
+		foreach( $lines as $line ){
 			$line = trim( $line );
 			if( !$line )
 				continue;
 			if( preg_match( self::$commentPattern, $line ) )
 				continue;
 
-			if( preg_match( self::$sectionPattern, $line ) )
-			{
+			if( preg_match( self::$sectionPattern, $line ) ){
 				$section = substr( $line, 1, -1 );
 				if( !isset( $list[$section] ) )
 					$list[$section]	= array();

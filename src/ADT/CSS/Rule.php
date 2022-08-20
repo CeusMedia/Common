@@ -45,9 +45,9 @@ class Rule
 {
 	public $selector	= '';
 
-	public $properties	= array();
+	public $properties	= [];
 
-	public function __construct( string $selector, array $properties = array() )
+	public function __construct( string $selector, array $properties = [] )
 	{
 		$this->setSelector( $selector );
 		foreach( $properties as $property )
@@ -99,8 +99,7 @@ class Rule
 
 	public function removePropertyByKey( string $key ): bool
 	{
-		foreach( $this->properties as $nr => $property )
-		{
+		foreach( $this->properties as $nr => $property ){
 			if( $key == $property->getKey() ){
 				unset( $this->properties[$nr] );
 				return TRUE;
@@ -111,7 +110,7 @@ class Rule
 
 	public function setProperty( Property $property ): bool
 	{
-		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );				//
+		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );
 	}
 
 	public function setPropertyByKey( string $key, $value = NULL ): bool

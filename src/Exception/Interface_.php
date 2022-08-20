@@ -38,6 +38,8 @@ namespace CeusMedia\Common\Exception;
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  *	@todo			test and write unit tests, remove see-link later
+ *	@deprecated		not needed anymore since base Exception implements Throwable interface
+ *	@todo			remove in 0.9
  */
 interface Interface_
 {

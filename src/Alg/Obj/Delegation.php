@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Container to compose Objects and delegate Calls to their Methods.
  *
@@ -23,13 +24,13 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\Alg\Obj;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use ReflectionException;
 use ReflectionObject;
 use RuntimeException;
 
@@ -41,12 +42,11 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class Delegation
 {
-	protected $delegableObjects	= array();
-	protected $delegableMethods	= array();
+	protected $delegableObjects	= [];
+	protected $delegableMethods	= [];
 
 	/**
 	 *	Composes an Object by its Class Name and Construction Parameters.
@@ -54,11 +54,14 @@ class Delegation
 	 *	@param		string		$className		Name of Class
 	 *	@param		array		$parameters		List of Construction Parameters
 	 *	@return		int							Number of all added Objects
+	 *	@throws		ReflectionException
+	 *	@throws		RuntimeException
 	 */
-	public function addClass( $className, $parameters = array() )
+	public function addClass( string $className, array $parameters = [] ): int
 	{
 		$object	= Factory::createObject( $className, $parameters );
 		$this->addObject( $object );
+		return count( $this->delegableObjects );
 	}
 
 	/**
@@ -68,19 +71,21 @@ class Delegation
 	 *	@return		int							Number of all added Objects
 	 *	@throws		InvalidArgumentException	if no object given
 	 */
-	public function addObject( $object )
+	public function addObject( object $object ): int
 	{
 		if( !is_object( $object ) )
 			throw new InvalidArgumentException( 'Not an object given' );
 		$reflection	= new ReflectionObject( $object );
 		$methods	= $reflection->getMethods();
-		foreach( $methods as $method )
-		{
+		foreach( $methods as $method ){
+			if( $method->isConstructor() )
+				continue;
 			if( in_array( $method->name, $this->delegableMethods ) )
 				throw new RuntimeException( 'Method "'.$method->name.'" is already set' );
 			$this->delegableMethods[]	= $method->name;
 		}
 		$this->delegableObjects[]	= $object;
+		return count( $this->delegableObjects );
 	}
 
 	/**
@@ -90,19 +95,18 @@ class Delegation
 	 *	@param		array		$arguments		List of Parameters for Method Call
 	 *	@return		mixed						Result of delegated Method Call
 	 *	@throws		BadMethodCallException		if no such Method is delegable
+	 *	@throws		ReflectionException
 	 */
-	public function __call( $methodName, $arguments = array() )
+	public function __call( string $methodName, array $arguments = [] )
 	{
-		foreach( $this->delegableObjects as $object )
-		{
+		foreach( $this->delegableObjects as $object ){
 			$reflection	= new ReflectionObject( $object );
 			if( !$reflection->hasMethod( $methodName ) )
 				continue;
 			$method	= $reflection->getMethod( $methodName );
 			if( !$method->isPublic() )
 				continue;
-			$factory	= new MethodFactory;
-			return $factory->call( $object, $methodName, $arguments );
+			return MethodFactory::staticCallObjectMethod( $object, $methodName, $arguments );
 		}
 		throw new BadMethodCallException( 'Method "'.$methodName.'" is not existing in added objects' );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base ZIP File implementation.
  *
@@ -40,7 +41,7 @@ use ZipArchive;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			ATTENTION!!! This is a hydrid of existing gzip class and ZIP injection.
- *	@todo			kriss: TEST!!!
+ *	@todo			TEST!!!
  *	@todo			code doc
  */
 class Zip
@@ -72,55 +73,71 @@ class Zip
 		23	=> 'Entry has been deleted',
 	);
 
-	protected $fileName	= NULL;
+	protected $fileName;
 
-	public function __construct( $fileName ){
+	protected $archive;
+
+	public function __construct( string $fileName )
+	{
 		$this->checkSupport();
 		$this->archive	= new ZipArchive();
 		$this->setFileName( $fileName );
 	}
 
-	public function addFile( $fileName, $localFileName = NULL ){
+	public function addFile( string $fileName, ?string $localFileName = NULL ): bool
+	{
 		$this->checkFileOpened();
 		return $this->archive->addFile( $fileName, $localFileName );
 	}
 
-	protected function checkFileOpened(){
+	protected function checkFileOpened()
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No archive file opened' );
 	}
 
-	protected function checkSupport( $throwException = TRUE ){
+	protected function checkSupport( bool $throwException = TRUE ): bool
+	{
 		$hasZipSupport	= self::hasSupport();
 		if( $throwException && !$hasZipSupport )
 			throw new RuntimeException( 'PHP extension for ZIP support is not loaded' );
 		return $hasZipSupport;
 	}
 
-	public function getFileName(){
+	public function getFileName(): string
+	{
 		return $this->fileName;
 	}
 
-	static public function hasSupport(){
+	static public function hasSupport(): bool
+	{
 		return class_exists( 'ZipArchive' );
 	}
 
-	public function save( $fileName = NULL ){
+	public function save( ?string $fileName = NULL ): bool
+	{
 		$instance	= $this;
 		if( !is_null( $fileName ) ){
 			$instance	= clone $this;
 			$instance->setFileName( $fileName );
 		}
-		$instance->archive->close();
+		return $instance->archive->close();
 	}
 
-	public function setFileName( $fileName ){
+	public function setFileName( string $fileName )
+	{
 		$this->fileName	= $fileName;
+		$this->archive->open( $fileName, ZipArchive::CREATE );
 	}
 
-	public function index(){
-		if( $this->checkFileOpened( FALSE ) )
-
-		return $this->index();
+	public function index(): array
+	{
+		$this->checkFileOpened();
+		$list	= [];
+		for( $i = 0; $i < $this->archive->numFiles; $i++ ){
+			$stat = $this->archive->statIndex( $i );
+			$list[]	= $stat;
+		}
+		return $list;
 	}
 }

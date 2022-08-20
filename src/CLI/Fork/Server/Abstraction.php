@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,9 +24,12 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 namespace CeusMedia\Common\CLI\Fork\Server;
+
+use CeusMedia\Common\CLI\Fork\Server\Exception as ForkServerException;
+use CeusMedia\Common\CLI\Fork\Server\SocketException as ForkServerSocketException;
+use Exception;
 
 /**
  *	...
@@ -36,7 +40,6 @@ namespace CeusMedia\Common\CLI\Fork\Server;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 abstract class Abstraction
 {
@@ -59,7 +62,7 @@ abstract class Abstraction
 	protected $timeStarted		= NULL;
 	protected $filePid			= "pid";
 
-	public function __construct( $port = NULL, bool $force = FALSE )
+	public function __construct( ?int $port = NULL, bool $force = FALSE )
 	{
 		if( !is_null( $port ) )
 			$this->setPort( $port );
@@ -69,28 +72,27 @@ abstract class Abstraction
 		set_time_limit( 0 );
 		try
 		{
-			$this->setUp( $force );
-			$this->run();
+			$this->setUp( $force )->run();
 		}
-		catch( SocketException $e )
+		catch( ForkServerSocketException $e )
 		{
-			$this->handleSocketException( $e );
+			$this->handleServerSocketException( $e );
 		}
-		catch( Exception $e )
+		catch( ForkServerException $e )
 		{
 			$this->handleServerException( $e );
 		}
-		catch( \Exception $e )
+		catch( Exception $e )
 		{
 			die( "!!! Not handled: ".$e->getMessage()."\n" );
 		}
 	}
 
-	public function getPid()
+	public function getPid(): int
 	{
 		if( !$this->isRunning() )
-			throw new Exception( 'Server is not running' );
-		return trim( file_get_contents( $this->filePid ) );
+			throw new ForkServerException( 'Server is not running' );
+		return intval( trim( file_get_contents( $this->filePid ) ) );
 	}
 
 	abstract protected function handleRequest( $request );
@@ -116,7 +118,7 @@ abstract class Abstraction
 		}
 	}
 
-	protected function handleSocketException( SocketException $e )
+	protected function handleServerSocketException( ForkServerSocketException $e )
 	{
 		$key		= md5( time() );
 		$dump		= serialize( $e );
@@ -128,7 +130,7 @@ abstract class Abstraction
 		echo $message;
 	}
 
-	public function isRunning()
+	public function isRunning(): bool
 	{
 		if( !file_exists( $this->filePid ) )
 			return FALSE;
@@ -148,14 +150,14 @@ abstract class Abstraction
 		$pid = pcntl_fork();
 		//	Not good.
 		if( $pid == -1 )
-			throw new Exception( 'Could not fork' );
+			throw new ForkServerException( 'Could not fork' );
 
 		else if( $pid ){
 			file_put_contents( $this->filePid, $pid );
 			exit();
 		}
 
-//  kriss: not used
+//  not used
 #		$parentpid = posix_getpid();
 
 		//	And we're off!
@@ -164,15 +166,16 @@ abstract class Abstraction
 			if( ( $sock = socket_create_listen( $this->socketPort, SOMAXCONN ) ) === FALSE ){
 				$this->signalHangup = TRUE;
 				$errNo	= socket_last_error();
-				throw new SocketException( self::E_LISTEN_FAILED, $errNo );
+				throw new ForkServerSocketException( self::E_LISTEN_FAILED, $errNo );
 			}
 			//	Whoop-tee-loop!
 			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
+			/** @noinspection PhpConditionAlreadyCheckedInspection */
 			while( !$this->signalHangup && !$this->signalTerm ){
 				while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 ){
 					usleep( 5000 );
 				}
-				while( list( $key, $val ) = each( $this->childrenMap ) ){
+				foreach( $this->childrenMap as $key => $val ){
 					if( !posix_kill( $val, 0 ) ){
 						unset( $this->childrenMap[$key] );
 						$this->childrenOpen = $this->childrenOpen - 1;
@@ -185,7 +188,9 @@ abstract class Abstraction
 				}
 
 				//	Wait for somebody to talk to.
-				if( socket_select( $rarray = array( $sock ), $this->listenWrite, $this->listenExcept, 0, 0 ) <= 0 ){
+				$readArray = array( $sock );
+				/** @noinspection PhpRedundantOptionalArgumentInspection */
+				if( socket_select( $readArray, $this->listenWrite, $this->listenExcept, 0, 0 ) <= 0 ){
 					usleep( 5000 );
 					continue;
 				}
@@ -193,8 +198,7 @@ abstract class Abstraction
 				if( ( $conn = socket_accept( $sock ) ) === FALSE ){
 					$this->signalHangup = TRUE;
 					$errNo	= socket_last_error();
-					throw new SocketException( self::E_ACCEPT_FAILED, $errNo );
-					continue;
+					throw new ForkServerSocketException( self::E_ACCEPT_FAILED, $errNo );
 				}
 
 				//	Fork a child.
@@ -208,7 +212,7 @@ abstract class Abstraction
 				$pid = pcntl_fork();
 				//	Not good.
 				if( $pid == -1 ){
-					throw new Exception( 'Could not fork' );
+					throw new ForkServerException( 'Could not fork' );
 				}
 				//	This is the parent. It doesn't do much.
 				else if( $pid ){
@@ -221,19 +225,19 @@ abstract class Abstraction
 					socket_close( $sock );
 					while( TRUE ){
 						//	Happy buffer reading!
+						/** @noinspection PhpRedundantOptionalArgumentInspection */
 						$tbuf = socket_read( $conn, $this->sizeBuffer, PHP_BINARY_READ );
 						if( $tbuf === FALSE ){
 							$errNo	= socket_last_error();
-							throw new SocketException( self::E_READ_FAILED, $errNo );
-							break;
+							throw new ForkServerSocketException( self::E_READ_FAILED, $errNo );
 						}
 						$rbuf = $tbuf;
 						while( strlen( $tbuf ) == $this->sizeBuffer ){
+							/** @noinspection PhpRedundantOptionalArgumentInspection */
 							$tbuf = socket_read( $conn, $this->sizeBuffer, PHP_BINARY_READ );
 							if( $tbuf === FALSE ){
 								$errNo	= socket_last_error();
-								throw new SocketException( self::E_READ_FAILED, $errNo );
-								break;
+								throw new ForkServerSocketException( self::E_READ_FAILED, $errNo );
 							}
 							$rbuf .= $tbuf;
 						}
@@ -244,8 +248,7 @@ abstract class Abstraction
 						//	Going postal!
 						if( socket_write( $conn, $wbuf ) === FALSE ){
 							$errNo	= socket_last_error();
-							throw new SocketException( self::E_WRITE_FAILED, $errNo );
-							break;
+							throw new ForkServerSocketException( self::E_WRITE_FAILED, $errNo );
 						}
 						break;
 					}
@@ -270,21 +273,21 @@ abstract class Abstraction
 		exit();
 	}
 
-	public function setPort( $port )
+	public function setPort( int $port ): self
 	{
-		if( !is_int( $port ) )
-			throw new \InvalidArgumentException( 'Port must be of integer' );
 		$this->socketPort	= $port;
+		return $this;
 	}
 
-	protected function setUp( $force = FALSE ){
+	protected function setUp( bool $force = FALSE ): self
+	{
 		if( $this->isRunning() ){
 			if( $force ){
 				if( posix_kill( $this->getPid(), 9 ) )
 					unlink( $this->filePid );
 			}
 			else
-				throw new Exception( 'Server is already running' );
+				throw new ForkServerException( 'Server is already running' );
 		}
 
 		//	Set up the basic
@@ -293,5 +296,6 @@ abstract class Abstraction
 
 		pcntl_signal( SIGTERM, array( &$this, "handleSignal" ) );
 		pcntl_signal( SIGHUP, array( &$this, "handleSignal" ) );
+		return $this;
 	}
 }

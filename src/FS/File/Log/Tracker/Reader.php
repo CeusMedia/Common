@@ -53,9 +53,9 @@ class Reader extends LogReader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$logfile		File Name of LogFile to parse
+	 *	@param		string		$logFile		File Name of LogFile to parse
 	 *	@param		string		$skip			Remote Address to skip (own Requests)
-	 *	@param		bool		$auto_parse		Flag: parse LogFile automaticly
+	 *	@param		bool		$autoParse		Flag: parse LogFile automatically
 	 *	@return		void
 	 */
 	public function __construct( string $logFile, string $skip, bool $autoParse = FALSE )
@@ -70,9 +70,10 @@ class Reader extends LogReader
 	/**
 	 *	Callback for Line Parser.
 	 *	@access		protected
+	 *	@param		array		$matches		...
 	 *	@return		string
 	 */
-	protected function callback( array $matches )
+	protected function callback( array $matches ): string
 	{
 //		print_m( $matches );
 		$data	= array(
@@ -90,6 +91,7 @@ class Reader extends LogReader
 	 *	Returns used Browsers of unique Visitors.
 	 *	@access		public
 	 *	@return 	array
+	 *	@noinspection	PhpUnused
 	 */
 	public function getBrowsers(): array
 	{
@@ -116,10 +118,7 @@ class Reader extends LogReader
 			}
 		}
 		arsort( $browsers );
-		foreach( $browsers as $browser => $count )
-			$lines[]	= "<tr><td>".$browser."</td><td>".$count."</td></tr>";
-		$lines	= implode( "\n\t", $lines );
-		return "<table>".$lines."</table>";
+		return $browsers;
 	}
 
 	/**
@@ -136,6 +135,7 @@ class Reader extends LogReader
 	 *	Calculates Page View Average of unique Visitors.
 	 *	@access		public
 	 *	@return 	float
+	 *	@noinspection	PhpUnused
 	 */
 	public function getPagesPerVisitor(): float
 	{
@@ -158,48 +158,45 @@ class Reader extends LogReader
 				}
 			}
 		}
-		$total	= 0;
-		foreach( $visitors as $visitor => $pages )
-			$total	+= $pages;
-		return round( $total / count( $visitors ), 1 );
+		return round( array_sum( $visitors ) / count( $visitors ), 1 );
 	}
 
 	/**
-	 *	Returns Referers of unique Visitors.
+	 *	Returns Referrers of unique Visitors.
 	 *	@access		public
+	 *	@param		string|NULL		$skip			Remote Address to skip (own Requests)
 	 *	@return 	array
+	 *	@noinspection	PhpUnused
 	 */
-	public function getReferers( ?string $skip ): array
+	public function getReferrers( ?string $skip ): array
 	{
-		$referers		= array();
+		$referrers		= array();
 		foreach( $this->data as $entry ){
 			if( $entry['remote_addr'] != $this->skip ){
 				if( $entry['referer_uri'] ){
 					if( $skip && preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
 						continue;
-					if( isset( $referers[$entry['referer_uri']] ) )
-						$referers[$entry['referer_uri']] ++;
+					if( isset( $referrers[$entry['referer_uri']] ) )
+						$referrers[$entry['referer_uri']] ++;
 					else
-						$referers[$entry['referer_uri']]	= 1;
+						$referrers[$entry['referer_uri']]	= 1;
 				}
 			}
 		}
-		arsort( $referers );
-		foreach( $referers as $referer => $count )
-			$lines[]	= "<tr><td>".$referer."</td><td>".$count."</td></tr>";
-		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		arsort( $referrers );
+		return $referrers;
 	}
 
 	/**
 	 *	Returns HTML of all tracked Requests.
 	 *	@access		public
 	 *	@param		int			$max		List Entries (0-all)
-	 *	@return 	array
+	 *	@return 	string
+	 *	@noinspection	PhpUnused
 	 */
-	public function getTable( int $max = 0): array
+	public function getTable( int $max = 0): string
 	{
+		$lines	= [];
 		$data	= $this->data;
 		if( $max )
 			$data	= array_reverse( $data );
@@ -212,14 +209,14 @@ class Reader extends LogReader
 		if( $max )
 			$lines	= array_reverse( $lines );
 		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		return "<table>".$lines."</table>";
 	}
 
 	/**
 	 *	Counts tracked unique Visitors.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
 	public function getVisitors(): int
 	{
@@ -245,6 +242,7 @@ class Reader extends LogReader
 	 *	Counts tracked Visits.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
 	public function getVisits(): int
 	{
@@ -266,6 +264,7 @@ class Reader extends LogReader
 	/**
 	 *	Parses Log File.
 	 *	@access		protected
+	 *	@param		string		$line			Line to parse
 	 *	@return		array
 	 */
 	protected function parseLine( string $line ): array
@@ -277,7 +276,7 @@ class Reader extends LogReader
 	/**
 	 *	Set already parsed Log Data (i.E. from serialized Cache File).
 	 *	@access		public
-	 *	@param		array		data			Parsed Log Data
+	 *	@param		array		$data			Parsed Log Data
 	 *	@return		self
 	 */
 	public function setData( array $data ): self

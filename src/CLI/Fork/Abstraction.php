@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Abstract forking application supporting to clone the current process.
  *	Create an application by extending by child and parent code.
@@ -24,9 +25,10 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 namespace CeusMedia\Common\CLI\Fork;
+
+use RuntimeException;
 
 /**
  *	Abstract forking application supporting to clone the current process.
@@ -39,7 +41,6 @@ namespace CeusMedia\Common\CLI\Fork;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  *	@todo			Code doc
  */
 abstract class Abstraction
@@ -70,7 +71,7 @@ abstract class Abstraction
 		$arguments	= func_get_args();
 		$pid		= pcntl_fork();
 		if( $pid == -1 )
-			throw new \RuntimeException('Could not fork');
+			throw new RuntimeException('Could not fork');
 
 		// parent process runs what is here
 		if( $pid ){
@@ -83,7 +84,8 @@ abstract class Abstraction
 		}
 		// child process runs what is here
 		else {
-			return $this->runInChild( $arguments );
+			$this->runInChild( $arguments );
+			return;
 		}
 		if( !$this->isBlocking )
 			$this->cleanUpForks();

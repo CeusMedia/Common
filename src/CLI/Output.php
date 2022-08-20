@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Console Output.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 namespace CeusMedia\Common\CLI;
 
@@ -39,11 +39,11 @@ use CeusMedia\Common\CLI;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 class Output
 {
 	protected $lastLine			= '';
+
 	protected $maxLineLength	= 0;
 
 	/**
@@ -53,7 +53,7 @@ class Output
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		self
 	 */
-	public function append( string $string = "", $sleep = 0 )
+	public function append( string $string = "", int $sleep = 0 ): self
 	{
 		return $this->sameLine( trim( $this->lastLine ) . $string, $sleep );
 	}
@@ -65,7 +65,7 @@ class Output
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		self
 	 */
-	public function newLine( string $string = '', $sleep = 0 )
+	public function newLine( string $string = '', int $sleep = 0 ): self
 	{
 		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
@@ -74,6 +74,8 @@ class Output
 			$this->lastLine	= $string;
 			print( "\n" . $string );
 		}
+		if( $sleep )
+			sleep( $sleep );
 		return $this;
 	}
 
@@ -84,7 +86,7 @@ class Output
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		self
 	 */
-	public function sameLine( string $string = '', $sleep = 0 ): self
+	public function sameLine( string $string = '', int $sleep = 0 ): self
 	{
 		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )

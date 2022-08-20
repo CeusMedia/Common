@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parses SGML based Tags (also HTML, XHTML and XML).
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.08.2008
  */
 
 namespace CeusMedia\Common\Alg;
@@ -36,10 +36,10 @@ namespace CeusMedia\Common\Alg;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.08.2008
  */
 class SgmlTagReader
 {
+	const TRANSFORM_NO			= 0;
 	const TRANSFORM_LOWERCASE	= 1;
 	const TRANSFORM_UPPERCASE	= 2;
 
@@ -48,9 +48,10 @@ class SgmlTagReader
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
+	 *	@param		int			$transformKeys	Flag: transform Attribute Keys
 	 *	@return		array
 	 */
-	public static function getAttributes( $string, $transformKeys = 0 )
+	public static function getAttributes( string $string, int $transformKeys = self::TRANSFORM_NO ): array
 	{
 		$data	= self::getTagData( $string, $transformKeys );
 		return $data['attributes'];
@@ -63,7 +64,7 @@ class SgmlTagReader
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
 	 *	@return		string
 	 */
-	public static function getContent( $string )
+	public static function getContent( string $string ): string
 	{
 		$data	= self::getTagData( $string );
 		return $data['content'];
@@ -74,16 +75,19 @@ class SgmlTagReader
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
+	 *	@param		int			$transform		Flag: transform Attribute Keys
 	 *	@return		string
 	 */
-	public static function getNodeName( $string, $transform = 0 )
+	public static function getNodeName( string $string, int $transform = self::TRANSFORM_NO ): string
 	{
 		$data	= self::getTagData( $string );
-		switch( $transform )
-		{
-			case self::TRANSFORM_LOWERCASE:	return strtolower( $data['nodename'] );
-			case self::TRANSFORM_UPPERCASE:	return strtoupper( $data['nodename'] );
-			default:					return $data['nodename'];
+		switch( $transform ){
+			case self::TRANSFORM_LOWERCASE:
+				return strtolower( $data['nodename'] );
+			case self::TRANSFORM_UPPERCASE:
+				return strtoupper( $data['nodename'] );
+			default:
+				return $data['nodename'];
 		}
 	}
 
@@ -92,24 +96,23 @@ class SgmlTagReader
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
+	 *	@param		int			$transformKeys	Flag: transform Attribute Keys
 	 *	@return		array
 	 */
-	public static function getTagData( $string, $transformKeys = 0 )
+	public static function getTagData( string $string, int $transformKeys = self::TRANSFORM_NO ): array
 	{
 		$string		= trim( $string );
-		$attributes	= array();
-		$content	= "";
-		$nodename	= "";
+		$attributes	= [];
+		$content	= '';
+		$nodename	= '';
 
 		if( preg_match( "@^<([a-z]+)@", $string, $results ) )
 			$nodename	= $results[1];
 		if( preg_match( "@>([^<]*)<@", $string, $results ) )
 			$content	= $results[1];
-		if( preg_match_all( '@ (\S+)="([^"]+)"@', $string, $results ) )
-		{
+		if( preg_match_all( '@ (\S+)="([^"]+)"@', $string, $results ) ){
 			$array	= array_combine( $results[1], $results[2] );
-			foreach( $array as $key => $value )
-			{
+			foreach( $array as $key => $value ){
 				if( $transformKeys == self::TRANSFORM_LOWERCASE )
 					$key	= strtolower( $key );
 				else if( $transformKeys == self::TRANSFORM_UPPERCASE )
@@ -117,11 +120,9 @@ class SgmlTagReader
 				$attributes[$key]	= $value;
 			}
 		}
-		if( preg_match_all( "@ (\S+)='([^']+)'@", $string, $results ) )
-		{
+		if( preg_match_all( "@ (\S+)='([^']+)'@", $string, $results ) ){
 			$array	= array_combine( $results[1], $results[2] );
-			foreach( $array as $key => $value )
-			{
+			foreach( $array as $key => $value ){
 				if( $transformKeys == self::TRANSFORM_LOWERCASE )
 					$key	= strtolower( $key );
 				else if( $transformKeys == self::TRANSFORM_UPPERCASE )

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Packet can contain different Articles and has a defined Volume.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.05.2008
  */
 
 namespace CeusMedia\Common\Alg\Parcel;
@@ -38,7 +38,6 @@ use OutOfRangeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.05.2008
  */
 class Packet
 {
@@ -46,7 +45,7 @@ class Packet
 	protected $name;
 
 	/**	@var		array		$articles	Array of Articles and their Quantities */
-	protected $articles			= array();
+	protected $articles			= [];
 
 	/**	@var		float		$volume		Filled Volume as floating Number between 0 and 1 */
 	protected $volume			= 0;
@@ -57,7 +56,7 @@ class Packet
 	 *	@param		string		$name		Packet Name, must be a defined Packet Size
 	 *	@return		void
 	 */
-	public function __construct( $name )
+	public function __construct( string $name )
 	{
 		$this->name		= $name;
 	}
@@ -67,13 +66,13 @@ class Packet
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->articles as $name => $quantity )
 			$list[]	= $name.":".$quantity;
 		$articles	= implode( ", ", $list );
-		$volume		= round( $this->volume * 100, 0 );
+		$volume		= round( $this->volume * 100 );
 		return "[".$this->name."] {".$articles."} (".$volume."%)";
 	}
 
@@ -81,10 +80,10 @@ class Packet
 	 *	Adds an Article to Packet.
 	 *	@access		public
 	 *	@param		string		$name		Article Name
-	 *	@param		string		$volume		Article Volume for this Packet Size
+	 *	@param		float		$volume		Article Volume for this Packet Size
 	 *	@return		void
 	 */
-	public function addArticle( $name, $volume )
+	public function addArticle( string $name, float $volume )
 	{
 		if( !$this->hasVolumeLeft( $volume ) )
 			throw new OutOfRangeException( 'Article "'.$name.'" does not fit in this Packet "'.$this->name.'".' );
@@ -99,7 +98,7 @@ class Packet
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getArticles()
+	public function getArticles(): array
 	{
 		return $this->articles;
 	}
@@ -109,7 +108,7 @@ class Packet
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -119,7 +118,7 @@ class Packet
 	 *	@access		public
 	 *	@return		float
 	 */
-	public function getVolume()
+	public function getVolume(): float
 	{
 		return $this->volume;
 	}
@@ -127,10 +126,10 @@ class Packet
 	/**
 	 *	Checks whether an Article Volume is left in Packet.
 	 *	@access		public
-	 *	@param		double		$volume		Article Volume for this Packet Size.
+	 *	@param		float		$volume		Article Volume for this Packet Size.
 	 *	@return		bool
 	 */
-	public function hasVolumeLeft( $volume )
+	public function hasVolumeLeft( float $volume ): bool
 	{
 		$newVolume	= $this->volume + $volume;
 		return  $newVolume <= 1;

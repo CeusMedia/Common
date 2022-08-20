@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Files with Text Block Contents, named by Section.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.12.2006
  */
 
 namespace CeusMedia\Common\FS\File\Block;
@@ -38,11 +38,10 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.12.2006
  */
 class Reader
 {
-	protected $blocks			= array();
+	protected $blocks			= [];
 	protected $fileName;
 	protected $patternSection;
 
@@ -52,7 +51,7 @@ class Reader
 	 *	@param		string		$fileName		File Name of Block File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->patternSection	= "@^\[([a-z][^\]]*)\]$@i";
 		$this->fileName	= $fileName;
@@ -66,10 +65,11 @@ class Reader
 	 *	@param		string		$section		Name of Block
 	 *	@return		array
 	 */
-	public function getBlock( $section )
+	public function getBlock( string $section ): array
 	{
 		if( $this->hasBlock( $section ) )
 			return $this->blocks[$section];
+		return [];
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getBlockNames()
+	public function getBlockNames(): array
 	{
 		return array_keys( $this->blocks );
 	}
@@ -85,10 +85,9 @@ class Reader
 	/**
 	 *	Returns Array of all Blocks.
 	 *	@access		public
-	 *	@param		string		$section		Name of Block
-	 *	@return		bool
+	 *	@return		array
 	 */
-	public function getBlocks()
+	public function getBlocks(): array
 	{
 		return $this->blocks;
 	}
@@ -99,12 +98,11 @@ class Reader
 	 *	@param		string		$section		Name of Block
 	 *	@return		bool
 	 */
-	public function hasBlock( $section )
+	public function hasBlock( string $section ): bool
 	{
 		$names	= array_keys( $this->blocks );
 		$result	= array_search( $section, $names );
-		$return	= is_int( $result );
-		return $return;
+		return is_int( $result );
 	}
 
 	/**
@@ -114,23 +112,20 @@ class Reader
 	 */
 	protected function readBlocks()
 	{
-		$open	= false;
-		$file	= new FileReader( $this->fileName );
-		$lines	= $file->readArray();
-		foreach( $lines as $line )
-		{
+		$open		= FALSE;
+		$section	= NULL;
+		$file		= new FileReader( $this->fileName );
+		$lines		= $file->readArray();
+		foreach( $lines as $line ){
 			$line	= trim( $line );
-			if( $line )
-			{
-				if( preg_match( $this->patternSection, $line ) )
-				{
+			if( $line ){
+				if( preg_match( $this->patternSection, $line ) ){
 					$section 	= preg_replace( $this->patternSection, "\\1", $line );
 					if( !isset( $this->blocks[$section] ) )
-						$this->blocks[$section]	= array();
-					$open = true;
+						$this->blocks[$section]	= [];
+					$open = TRUE;
 				}
-				else if( $open )
-				{
+				else if( $open && $section ){
 					$this->blocks[$section][]	= $line;
 				}
 			}

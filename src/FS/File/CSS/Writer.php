@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for CSS files.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
 
 namespace CeusMedia\Common\FS\File\CSS;
@@ -41,7 +41,6 @@ use RuntimeException;
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
 class Writer
 {
@@ -50,10 +49,10 @@ class Writer
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		Relative or absolute file URI
+	 *	@param		string|NULL		$fileName		Relative or absolute file URI
 	 *	@return		void
 	 */
-	public function __construct( $fileName = NULL )
+	public function __construct( ?string $fileName = NULL )
 	{
 		if( $fileName )
 			$this->setFileName( $fileName );
@@ -64,7 +63,7 @@ class Writer
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFileName()
+	public function getFileName(): string
 	{
 		return $this->fileName;
 	}
@@ -75,33 +74,33 @@ class Writer
 	 *	@static
 	 *	@param		string			$fileName	Relative or absolute file URI
 	 *	@param		CssSheet		$sheet		Sheet structure
-	 *	@return		void
+	 *	@return		int				Number of written bytes
 	 */
-	static public function save( $fileName, CssSheet $sheet )
+	static public function save( string $fileName, CssSheet $sheet ): int
 	{
-		$css	= Converter::convertSheetToString( $sheet );								//
-		return FileWriter::save( $fileName, $css );												//
+		return FileWriter::save( $fileName, Converter::convertSheetToString( $sheet ) );
 	}
 
 	/**
 	 *	Set name of CSS file.
 	 *	@access		public
 	 *	@param		string		$fileName		Relative or absolute file URI
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setFileName( $fileName )
+	public function setFileName( string $fileName ): self
 	{
 		$this->fileName	= $fileName;
+		return $this;
 	}
 
 	/**
 	 *	Writes a sheet structure to the current CSS file.
 	 *	@access		public
 	 *	@param		CssSheet	$sheet		Sheet structure
-	 *	@return		void
-	 *	@throws		RuntimeException	if no CSS file is set, yet.
+	 *	@return		int						Number of written bytes
+	 *	@throws		RuntimeException		if no CSS file is set, yet.
 	 */
-	public function write( CssSheet $sheet )
+	public function write( CssSheet $sheet ): int
 	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );

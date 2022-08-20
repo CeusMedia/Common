@@ -58,7 +58,8 @@ class Element extends SimpleXMLElement
 	 *	@throws		RuntimeException		if attribute is already set
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
-	public function addAttribute( string $qualifiedName, string $value, $namespace = NULL, ?string $nsURI = NULL ): void
+//	public function addAttribute( string $qualifiedName, string $value, $namespace = NULL, ?string $nsURI = NULL ): void
+	public function addAttribute( $qualifiedName, $value = NULL, $namespace = NULL, $nsURI = NULL )
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();
@@ -101,7 +102,8 @@ class Element extends SimpleXMLElement
 	 *	@return		self
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
-	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
+//	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
+	public function addChild( $qualifiedName, $value = NULL, $namespace = NULL, $nsURI = NULL ): self
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();

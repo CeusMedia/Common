@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -47,33 +48,35 @@ class DurationPhraser
 	protected $patternData	= '@::[0-9]+$@';
 	protected $ranges		= NULL;
 
-	public function __construct( $ranges = array() )
+	public function __construct( DurationPhraseRanges $ranges )
 	{
-		if( !( $ranges instanceof DurationPhraseRanges ) )
-			$ranges	= new DurationPhraseRanges( $ranges );
 		$this->ranges	= $ranges;
 	}
 
-	public function getPhraseFromSeconds( $seconds )
+	public static function fromArray( array $ranges = [] ): self
+	{
+		$ranges	= new DurationPhraseRanges( $ranges );
+		return new self( $ranges );
+	}
+
+	public function getPhraseFromSeconds( int $seconds ): string
 	{
 		if( !count( $this->ranges ) )
 			throw new Exception( 'No ranges defined' );
 		$callback	= array( $this, 'insertDates' );
 		$ranges		= $this->ranges->getRanges();
 		krsort( $ranges );
-		foreach( $ranges as $from => $label )
-		{
+		foreach( $ranges as $from => $label ){
 			if( $from > $seconds )
 				continue;
 			$value	= $label."::".$seconds;
 			$label	= preg_replace_callback( $this->patternLabel, $callback, $value );
-			$label	= preg_replace( $this->patternData, "", $label );
-			return $label;
+			return preg_replace( $this->patternData, "", $label );
 		}
 		throw new OutOfBoundsException( 'No range defined for '.$seconds.' seconds' );
 	}
 
-	public function getPhraseFromTimestamp( $timestamp )
+	public function getPhraseFromTimestamp( int $timestamp ): string
 	{
 		$seconds	= time() - $timestamp;
 		if( $seconds < 0 )
@@ -81,7 +84,7 @@ class DurationPhraser
 		return $this->getPhraseFromSeconds( $seconds );
 	}
 
-	protected static function insertDates( $matches )
+	protected static function insertDates( array $matches ): string
 	{
 		$value	= $matches[4];
 		$format	= $matches[2];
@@ -100,7 +103,6 @@ class DurationPhraser
 		else if( $format !== "s" )
 			throw new Exception( 'Unknown date format "'.$format.'"' );
 
-		$value	= $matches[1].(int) $value.$matches[3];
-		return $value;
+		return $matches[1].(int) $value.$matches[3];
 	}
 }

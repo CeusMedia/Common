@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Template Class.
  *
@@ -24,13 +25,15 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.03.2007
+ *	@deprecated		use CeusMedia::TemplateEngine instead
+ *	@todo			to be removed in 0.9.1
  */
 
 namespace CeusMedia\Common\UI;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\Alg\Obj\MethodFactory as ObjectMethodFactory;
+use CeusMedia\Common\Deprecation;
 use CeusMedia\Common\Exception\Template as TemplateException;
 use ArrayObject;
 use InvalidArgumentException;
@@ -45,12 +48,11 @@ use ReflectionObject;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.03.2007
  *
  *	<b>Syntax of a template file</b>
  *	- comment <%--comment--%>				 | will be removed on render
- *	- optional tag <%?tagname%>              | will be replaced, even with empty string
- *	- non optional tag <%tagname%>           | will be replaced but must be defined and have content
+ *	- optional tag <%?tagName%>              | will be replaced, even with empty string
+ *	- non optional tag <%tagName%>           | will be replaced but must be defined and have content
  *	- optional content <%?--optional--%>     | content will be shown or removed depending on ::$removeOptional
  *  - load(file.html)                        | load another template relatively to this one an insert here
  *
@@ -58,7 +60,7 @@ use ReflectionObject;
  *	<code>
  *	<html>
  *		<head>
- *			<title><%?pagetitle%></title>
+ *			<title><%?pageTitle%></title>
  *			<%load(meta.html)%>
  *		</head>
  *		<body>
@@ -73,53 +75,65 @@ use ReflectionObject;
  */
 class Template
 {
-	/**	@var		string		$className		Name of template class */
-	protected $className;
-	/**	@var		array		the first dimension holds all added labels, the second dimension holds elements for each label */
-	protected $elements;
-	/**	@var		string		content of a specified templatefile */
-	protected $fileName;
-	/**	@var		string		content of a specified templatefile */
-	protected $template;
-
 	public static $removeComments	= FALSE;
+
 	public static $removeOptional	= FALSE;
 
+	/**	@var		string		$className		Name of template class */
+	protected $className;
+
+	/**	@var		array		the first dimension holds all added labels, the second dimension holds elements for each label */
+	protected $elements;
+
+	/**	@var		string		content of a specified template file */
+	protected $fileName;
+
+	/**	@var		string		content of a specified template file */
+	protected $template;
+
 	/**	@var		array		$plugins		List of Template Plugin Instances */
-	protected $plugins			= array();
+	protected $plugins			= [];
 
 	/**
 	 *	Constructor
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Template File
-	 *	@param		array		$elements		List of Elements {@link add()}
+	 *	@param		string|NULL		$fileName		File Name of Template File
+	 *	@param		array			$elements		List of Elements {@link add()}
 	 *	@return		void
+	 *	@throws		InvalidArgumentException
+	 *	@throws		TemplateException				if given template file is not existing
 	 */
-	public function __construct( $fileName = NULL, $elements = NULL )
+	public function __construct( ?string $fileName = NULL, array $elements = [] )
 	{
-		$this->elements		= array();
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()
+			->setErrorVersion( '0.9' )
+			->setExceptionVersion( '0.9.1' )
+			->message( 'Please use CeusMedia::TemplateEngine instead' );
+
+		$this->elements		= [];
 		$this->className	= get_class( $this );
-		$this->fileName		= $fileName;
-		$this->setTemplate( $fileName );
+		if( !is_null( $fileName ) ){
+			$this->fileName		= $fileName;
+			$this->setTemplate( $fileName );
+		}
 		$this->add( $elements );
 	}
 
 	/**
 	 *	Adds an associative array with labels and elements to the template and returns number of added elements.
-	 *	@param		array 		Array where the <b>key</b> can be a string, integer or
-	 *							float and is the <b>label</b>. The <b>value</b> can be a
-	 *							string, integer, float or a template object and represents
-	 *							the element to add.
-	 *	@param		boolean		if TRUE an a tag is already used, it will overwrite it
+	 *	@param		array 		$elements		Array where the <b>key</b> can be a string, integer or
+	 *											float and is the <b>label</b>. The <b>value</b> can be a
+	 *											string, integer, float or a template object and represents
+	 *											the element to add.
+	 *	@param		boolean		$overwrite		if TRUE and a tag is already used, it will overwrite it
 	 *	@return		integer
+	 *	@throws 	InvalidArgumentException
 	 */
-	public function add( $elements, $overwrite = FALSE )
+	public function add( array $elements, bool $overwrite = FALSE ): int
 	{
-		if( !is_array( $elements ) )
-			return 0;
 		$number	= 0;
-		foreach( $elements as $key => $value )
-		{
+		foreach( $elements as $key => $value ){
 			if( !( is_string( $key ) || is_int( $key ) || is_float( $key ) ) )
 				throw new InvalidArgumentException( 'Invalid key type "'.gettype( $key ).'"' );
 			if( !strlen( trim( $key ) ) )
@@ -131,17 +145,16 @@ class Template
 			if( is_null( $value ) )
 				continue;
 			else if( is_array( $value ) || $isListObject )
-				$number	+= $this->addArrayRecursive( $key, $value, array(), $overwrite );
-			else if( $isPrimitive || $isTemplate )
-			{
+				$number	+= $this->addArrayRecursive( $key, $value, [], $overwrite );
+			else if( $isPrimitive || $isTemplate ){
 //				if( $overwrite == TRUE )
-//					$this->elements[$key] = array();
+//					$this->elements[$key] = [];
 //				$this->elements[$key][] = $value;
 				$this->elements[$key] = $value;
 				$number	++;
 			}
 			else if( is_object( $value ) )
-				$this->addObject( $key, $value, array(), $overwrite );
+				$this->addObject( $key, $value, [], $overwrite );
 			else
 				throw new InvalidArgumentException( 'Unsupported type '.gettype( $value ).' for "'.$key.'"' );
 		}
@@ -151,27 +164,24 @@ class Template
 	/**
 	 *	Adds an array recursive and returns number of added elements.
 	 *	@access		public
-	 *	@param		string		$name			Key of array
-	 *	@param		mixed		$data			Values of array
-	 *	@param		array		$steps			Steps within recursion
-	 *	@param		bool		$overwrite		Flag: overwrite existing tag
+	 *	@param		string			$name			Key of array
+	 *	@param		array|object		$data			Values of array
+	 *	@param		array			$steps			Steps within recursion
+	 *	@param		bool			$overwrite		Flag: overwrite existing tag
 	 *	@return		int
 	 */
-	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = FALSE )
+	public function addArrayRecursive( string $name, $data, array $steps = [], bool $overwrite = FALSE ): int
 	{
 		$number		= 0;
 		$steps[]	= $name;
-		foreach( $data as $key => $value )
-		{
+		foreach( $data as $key => $value ){
 			$isListObject	= $value instanceof ArrayObject || $value instanceof Dictionary;
-			if( is_array( $value ) || $isListObject  )
-			{
-				$number	+= $this->addArrayRecursive( $key, $value, $steps );
+			if( is_array( $value ) || $isListObject  ){
+				$number	+= $this->addArrayRecursive( $key, $value, $steps, $overwrite );
 			}
-			else
-			{
+			else{
 				$key	= implode( ".", $steps ).".".$key;
-				$this->addElement( $key, $value );
+				$this->addElement( $key, $value, $overwrite );
 				$number ++;
 			}
 		}
@@ -180,23 +190,30 @@ class Template
 
 	/**
 	 *	Adds one Element.
-	 *	@param		string		$tag		Tag name
-	 *	@param		string|integer|float|Template
-	 *	@param		boolean		if set to TRUE, it will overwrite an existing element with the same label
+	 *	@param		string		$tag			Tag name
+	 *	@param		mixed		$element
+	 *	@param		bool		$overwrite		Flag: overwrite existing tag
 	 *	@return		void
 	 */
-	public function addElement( $tag, $element, $overwrite = FALSE )
+	public function addElement( string $tag, $element, bool $overwrite = FALSE )
 	{
-		$this->add( array( $tag => $element ), $overwrite );
+		$this->add( [$tag => $element], $overwrite );
 	}
 
-	public function addObject( $name, $object, $steps = array(), $overwrite = FALSE )
+	/**
+	 *	Adds a data object with get methods.
+	 *	@param		string		$name			Key of array
+	 *	@param		mixed		$object
+	 *	@param		array		$steps			Steps within recursion
+	 *	@param		bool		$overwrite		Flag: overwrite existing tag
+	 *	@return		void
+	 */
+	public function addObject( string $name, $object, array $steps = [], bool $overwrite = FALSE ): int
 	{
 		$number		= 0;
 		$steps[]	= $name;
 		$reflection	= new ReflectionObject( $object );
-		foreach( $reflection->getProperties() as $property )
-		{
+		foreach( $reflection->getProperties() as $property ){
 			$key		= $property->getName();
 			$methodName	= 'get'.ucfirst( $key );
 			if( $property->isPublic() )
@@ -214,24 +231,24 @@ class Template
 
 	/**
 	 *	Adds another Template.
-	 *	@param		string		tagname
-	 *	@param		string		template file
-	 *	@param		array		array containing elements {@link add()}
-	 *	@param		boolean		if set to TRUE, it will overwrite an existing element with the same label
+	 *	@param		string		$tag			Tag name
+	 *	@param		string		$fileName		Template file path
+	 *	@param		array		$elements		array containing elements {@link add()}
+	 *	@param		boolean		$overwrite		if set to TRUE, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
-	public function addTemplate( $tag, $fileName, $element = NULL, $overwrite = FALSE )
+	public function addTemplate( string $tag, string $fileName, array $elements = [], bool $overwrite = FALSE )
 	{
-		$this->addElement( $tag, new self( $fileName, $element ), $overwrite );
+		$this->addElement( $tag, new self( $fileName, $elements ), $overwrite );
 	}
 
 	/**
-	 *	Creates an output string from the templatefile where all labels will be replaced with apropriate elements.
-	 *	If a non optional label wasn't specified, the method will throw a Template Exception
+	 *	Creates an output string from the template file where all labels will be replaced with appropriate elements.
+	 *	If a non-optional label wasn't specified, the method will throw a Template Exception
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function create()
+	public function create(): string
 	{
 		//  local copy of set template
 		$out	= $this->template;
@@ -258,13 +275,11 @@ class Template
 			$out	= preg_replace( '/<%\?--(.+)--%>/sU', '\\1', $out );
 
 		//  iterate over all registered element containers
-		foreach( $this->elements as $label => $element )
-		{
+		foreach( $this->elements as $label => $element ){
 			$tmp = '';																				//
 			//  element is an object
-			if( is_object( $element ) )
-			{
-				//  object is not an template of this template engine
+			if( is_object( $element ) ){
+				//  object is not a template of this template engine
 				if( !( $element instanceof $this->className ) )
 					//  skip this one
 					continue;
@@ -277,15 +292,15 @@ class Template
  		}
 		//  remove left over optional placeholders
 		$out = preg_replace( '/<%\?.*%>/U', '', $out );
-//  remove double line breaks
-#        $out = preg_replace( '/\n\s+\n/', "\n", $out );
+//		remove double line breaks
+#		$out = preg_replace( '/\n\s+\n/', "\n", $out );
 
 		foreach( $this->plugins as $plugin )
 			if( $plugin->type == 'post' )
 				$out	= $plugin->work( $out );
 
 		//  create container for left over placeholders
-		$tags = array();
+		$tags = [];
 		//  no more placeholders left over
 		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )
 		    //  return final result
@@ -304,7 +319,7 @@ class Template
 	 *	@access		public
 	 *	@return		array		all set elements
 	 */
-	public function getElements()
+	public function getElements(): array
 	{
 		return $this->elements;
 	}
@@ -315,22 +330,18 @@ class Template
 	 *	@param		boolean		$unique			Flag: unique Keys only
 	 *	@return		array						containing Elements or empty
 	 */
-	public function getElementsFromComment( $comment, $unique = TRUE )
+	public function getElementsFromComment( string $comment, bool $unique = TRUE ): array
 	{
-		$content = $this->getTaggedComment( $comment );
-		if( NULL === $content )
-			return NULL;
-
-		$list	= array();
-		$content = explode( "\n", $content );
-		foreach( $content as $row )
-		{
-			if( preg_match( '/\s*@(\S+)?\s+(.*)/', $row, $out ) )
-			{
-				if( $unique )
-					$list[$out[1]] = $out[2];
-				else
-					$list[$out[1]][] = $out[2];
+		$list		= [];
+		$content	= $this->getTaggedComment( $comment );
+		if( NULL !== $content ){
+			foreach( explode( "\n", $content ) as $row ){
+				if( preg_match( '/\s*@(\S+)?\s+(.*)/', $row, $out ) ){
+					if( $unique )
+						$list[$out[1]]		= $out[2];
+					else
+						$list[$out[1]][]	= $out[2];
+				}
 			}
 		}
 		return $list;
@@ -342,11 +353,10 @@ class Template
 	 *	@param		boolean		$xml		Flag: with or without delimiter
 	 *	@return		array					Array of Labels
 	 */
-	public function getLabels( $type = 0, $xml = TRUE )
+	public function getLabels( int $type = 0, bool $xml = TRUE ): array
 	{
  		$content = preg_replace( '/<%\??--.*--%>/sU', '', $this->template );
-		switch( $type )
-		{
+		switch( $type ){
 			case 2:
 				preg_match_all( '/<%(\?.*)%>/U', $content, $tags );
 				break;
@@ -366,7 +376,7 @@ class Template
 	 *	@return		string|NULL				Comment or NULL
 	 *	@todo		quote specialchars in tagname
 	 */
-	public function getTaggedComment( $tag, $xml = TRUE )
+	public function getTaggedComment( string $tag, bool $xml = TRUE ): ?string
 	{
 		if( preg_match( '/<%--'.$tag.'(.*)--%>/sU', $this->template, $tag ) )
 			return $xml ? $tag[0] : $tag[1];
@@ -377,7 +387,7 @@ class Template
 	 *	Returns loaded Template.
 	 *	@return		string		template content
 	 */
-	public function getTemplate()
+	public function getTemplate(): string
 	{
 		return $this->template;
 	}
@@ -390,14 +400,13 @@ class Template
 	 *	@return		string		Template string with loaded nested templates.
 	 *	@todo		kriss: handle security issues
 	 */
-	protected function loadNestedTemplates( $template )
+	protected function loadNestedTemplates( string $template ): string
 	{
-		$matches	= array();
+		$matches	= [];
 		preg_match_all( '/<(\?)?%load\((.+)\)%>/U', $template, $matches );
 		if( !$matches[0] )
 			return $template;
-		for( $i=0; $i<count( $matches[0] ); $i++ )
-		{
+		for( $i=0; $i<count( $matches[0] ); $i++ ){
 			$nested		= Template::render( $matches[2][$i], $this->elements );
 			$template	= str_replace( $matches[0][$i], $nested, $template );
 		}
@@ -412,7 +421,7 @@ class Template
 	 *	@param		array		$elements		List of Elements {@link add()}
 	 *	@return		string
 	 */
-	public static function render( $fileName, $elements = array() )
+	public static function render( string $fileName, array $elements = [] ): string
 	{
 		$template	= new self( $fileName, $elements );
 		return $template->create();
@@ -426,7 +435,7 @@ class Template
 	 *	@param		array		$elements		Map of Elements for Template String
 	 *	@return		string
 	 */
-	public static function renderString( $string, $elements = array() )
+	public static function renderString( string $string, array $elements = [] ): string
 	{
 		$template	= new self();
 		$template->template	= $string;
@@ -435,11 +444,12 @@ class Template
 	}
 
 	/**
-	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
+	 *	Loads a new template file if it exists. Otherwise, it will throw an Exception.
 	 *	@param		string		$fileName 	File Name of Template
 	 *	@return		boolean
+	 *	@throws		TemplateException		if given template file is not existing
 	 */
-	public function setTemplate( $fileName )
+	public function setTemplate( string $fileName ): bool
 	{
 		if( 0 === strlen( trim( $fileName ) ) )
 			return FALSE;

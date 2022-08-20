@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Finds not used variables within PHP methods or functions.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.01.2008
  */
 
 namespace CeusMedia\Common\Alg;
@@ -39,22 +39,21 @@ use InvalidArgumentException;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.01.2008
  */
 class UnusedVariableFinder
 {
 	/** @var		array		$methods 		Array of collect Method Parameters and Code Lines */
-	protected $methods	= array();
+	protected $methods	= [];
+
 	/** @var		array		$vars 			Array of collect Method Variables */
-	protected $vars		= array();
+	protected $vars		= [];
 
 	/**
 	 *	Returns an Array of Methods and their Variables.
 	 *	@access		public
-	 *	@param		string		$method			Optional: Method to get Variables for.
-	 *	@return		array
+	 *	@return		int
 	 */
-	public function countUnusedVariables()
+	public function countUnusedVariables(): int
 	{
 		$unused	= 0;
 		foreach( $this->methods as $method => $data )
@@ -66,10 +65,9 @@ class UnusedVariableFinder
 	/**
 	 *	Returns an Array of Methods and their Variables.
 	 *	@access		public
-	 *	@param		string		$method			Optional: Method to get Variables for.
-	 *	@return		array
+	 *	@return		int
 	 */
-	public function countVariables()
+	public function countVariables(): int
 	{
 		$total	= 0;
 		foreach( $this->methods as $method => $data )
@@ -84,11 +82,10 @@ class UnusedVariableFinder
 	 *	@param		string		$method			Optional: Method to get unused Variables for.
 	 *	@return		array
 	 */
-	public function getUnusedVars( $method = NULL )
+	public function getUnusedVars( ?string $method = NULL ): array
 	{
-		$list	= array();
-		if( !strlen( $method = trim( $method ) ) )
-		{
+		$list	= [];
+		if( !strlen( $method = trim( $method ) ) ){
 			foreach( $this->methods as $method => $data )
 				if( ( $vars = $this->getUnusedVars( $method ) ) )
 					$list[$method]	= $vars;
@@ -107,7 +104,7 @@ class UnusedVariableFinder
 	 *	@param		string		$method			Optional: Method to get Variables for.
 	 *	@return		array
 	 */
-	public function getVariables( $method )
+	public function getVariables( string $method ): array
 	{
 		if( !strlen( $method = trim( $method ) ) )
 			return $this->methods;
@@ -122,27 +119,27 @@ class UnusedVariableFinder
 	 *	@param		bool		$countCalls		Flag: count Number Variable uses
 	 *	@return		void
 	 */
-	private function inspectParsedMethods( $countCalls = FALSE )
+	private function inspectParsedMethods( bool $countCalls = FALSE )
 	{
 		//  iterate before parsed methods
-		foreach( $this->methods as $method => $data )
-		{
+		foreach( $this->methods as $method => $data ){
 			//  iterate method/function lines
-			foreach( $data['lines'] as $nr => $line )
-			{
+			foreach( $data['lines'] as $nr => $line ){
 				//  prepare regular expression for variable assignment
 				$pattern	= "@^ *\t*[$]([a-z0-9_]+)(\t| )+=[^>].*@i";
 				//  line contains variable assignment
-				if( preg_match( $pattern, $line ) )
+				if( preg_match( $pattern, $line ) ){
 					//  extract variable name from line
-					if( $var = trim( preg_replace( $pattern, "\\1", $line ) ) )
+					if( $var = trim( preg_replace( $pattern, "\\1", $line ) ) ){
 						//  variable is not noted, yet
-						if( !array_key_exists( $var, $this->methods[$method]['variables'] ) )
+						if( !array_key_exists( $var, $this->methods[$method]['variables'] ) ){
 							//  note newly found variable
 							$this->methods[$method]['variables'][$var]	= 0;
+						}
+					}
+				}
 				//  iterate known method/function variables
-				foreach( $this->methods[$method]['variables'] as $name => $count )
-				{
+				foreach( $this->methods[$method]['variables'] as $name => $count ){
 					//  variable is used and count mode is off
 					if( !$countCalls && $count )
 						//  skip to next line
@@ -167,10 +164,8 @@ class UnusedVariableFinder
 	 *	@param		string		$content		PHP code string
 	 *	@return		void
 	 */
-	private function parseCodeForMethods( $content )
+	private function parseCodeForMethods( string $content )
 	{
-		//  reset list of found methods
-		$this->methods	= array();
 		//  initial: no method found, yet
 		$open		= FALSE;
 		//  remove all slash-star-comments
@@ -188,22 +183,19 @@ class UnusedVariableFinder
 		//  remove comment lines
 		$content	= preg_replace( "@//\s*[\w|\s]*\n@U", "\n", $content );
 		//  prepare empty matches array
-		$matches	= array();
+		$matches	= [];
 		//  initial: open bracket counter
 		$count		= 0;
 		//  iterate code lines
-		foreach( explode( "\n", $content ) as $nr => $line )
-		{
+		foreach( explode( "\n", $content ) as $nr => $line ){
 			//  remove leading and trailing white space
 			$line	= trim( $line );
 			//  if no method found, yet
-			if( !$open )
-			{
+			if( !$open ){
 				//  prepare regular expression for method/function signature
-				$regExp	= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@s';
+				$regExp	= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function (\w+)\((.*)\)(\s*{\s*)?;?\s*$@s';
 				//  line is method/function signature
-				if( preg_match( $regExp, $line ) )
-				{
+				if( preg_match( $regExp, $line ) ){
 					//  prepare regular expression for method/function name and parameters
 					$regExp	= "@^.*function ([^(]+) ?\((.*)\).*$@i";
 					//  find method/function name and parameters
@@ -213,19 +205,17 @@ class UnusedVariableFinder
 					//  note found method/function
 					$open	= trim( $parts[0] );
 					//  prepare empty method/function parameter list
-					$matches[$open]['variables']	= array();
+					$matches[$open]['variables']	= [];
 					//  prepare empty method/function line list
-					$matches[$open]['lines']		= array();
+					$matches[$open]['lines']		= [];
 					//  remove all strings
 					$parts[1]	= preg_replace( '@\(.*\)@U', "", $parts[1] );
 					//  parameters are defined
-					if( isset( $parts[1] ) && trim( $parts[1] ) )
-					{
+					if( isset( $parts[1] ) && trim( $parts[1] ) ){
 						//  split parameters
 						$params	= explode( ",", $parts[1] );
 						//  iterate parameters
-						foreach( $params as $param )
-						{
+						foreach( $params as $param ){
 							//  prepare regular expression for parameter name
 							$regExp		= '@^(\S+ )?&?\$(.+)(\s?=\s?.*)?$@Ui';
 							//  get clean parameter name
@@ -241,8 +231,7 @@ class UnusedVariableFinder
 				}
 			}
 			//  inside method code lines
-			else
-			{
+			else{
 				//  note method code line for inspection
 				$matches[$open]['lines'][$nr]	= $line;
 				//  line contains opening bracket
@@ -265,23 +254,25 @@ class UnusedVariableFinder
 	 *	Reads a Class Code and finds unused Variables in Methods.
 	 *	@access		public
 	 *	@param		string		$code			Code of Class
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function readCode( $code )
+	public function readCode( string $code ): self
 	{
 		$this->parseCodeForMethods( $code );
 		$this->inspectParsedMethods();
+		return $this;
 	}
 
 	/**
 	 *	Reads a Class File and finds unused Variables in Methods.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Class
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function readFile( $fileName )
+	public function readFile( string $fileName ): self
 	{
 		$code	= FileReader::load( $fileName );
 		$this->readCode( $code );
+		return $this;
 	}
 }

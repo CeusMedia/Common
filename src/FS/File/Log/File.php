@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for Log File.
  *
@@ -49,7 +50,7 @@ class File
 	 *	@param		string		$uri		URI of Log File
 	 *	@return		void
 	 */
-	public function __construct( $uri )
+	public function __construct( string $uri )
 	{
 		$this->uri = $uri;
 	}
@@ -61,18 +62,17 @@ class File
 	 *	@param		string		$line		Entry to add to Log File
 	 *	@return		bool
 	 */
-	public function addEntry( $line )
+	public function addEntry( string $line ): bool
 	{
 		$tc = new TimeConverter();
 		$entry = time()." [".$tc->convertToHuman( time(), "datetime" )."] ".$line."\n";
 
 		$fp = @fopen( $this->uri, "ab" );
-		if( $fp )
-		{
+		if( $fp ) {
 			@fwrite( $fp, $entry );
 			@fclose( $fp );
-			return true;
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 }

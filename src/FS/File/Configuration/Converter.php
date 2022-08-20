@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML  will be supported if Spyc is improved.
@@ -24,14 +25,13 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			06.05.2008
  */
 
 namespace CeusMedia\Common\FS\File\Configuration;
 
 use CeusMedia\Common\ADT\JSON\Builder as JsonBuilder;
 use CeusMedia\Common\ADT\JSON\Converter as JsonConverter;
-use CeusMedia\Common\ADT\JSON\Formater as JsonFormater;
+use CeusMedia\Common\ADT\JSON\Formater as JsonFormatter;
 use CeusMedia\Common\FS\File\INI\Creator as IniFileCreator;
 use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
 use CeusMedia\Common\FS\File\Reader as FileReader;
@@ -39,6 +39,9 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 use CeusMedia\Common\XML\DOM\FileWriter as XmlFileWriter;
 use CeusMedia\Common\XML\DOM\Node;
 use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use CeusMedia\Common\XML\Element as XmlElement;
+use DOMException;
+use Exception;
 
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
@@ -49,7 +52,6 @@ use CeusMedia\Common\XML\ElementReader as XmlElementReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			06.05.2008
  */
 class Converter
 {
@@ -64,7 +66,7 @@ class Converter
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
 	 */
-	public static function convertIniToJson( $sourceFile, $targetFile )
+	public static function convertIniToJson( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadIni( $sourceFile );
 		return self::saveJson( $targetFile, $data );
@@ -77,8 +79,9 @@ class Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	public static function convertIniToXml( $sourceFile, $targetFile )
+	public static function convertIniToXml( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadIni( $sourceFile );
 		return self::saveXml( $targetFile, $data );
@@ -92,7 +95,7 @@ class Converter
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
 	 */
-	public static function convertJsonToIni( $sourceFile, $targetFile )
+	public static function convertJsonToIni( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadJson( $sourceFile );
 		return self::saveIni( $targetFile, $data );
@@ -105,8 +108,9 @@ class Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	public static function convertJsonToXml( $sourceFile, $targetFile )
+	public static function convertJsonToXml( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadJson( $sourceFile );
 		return self::saveXml( $targetFile, $data );
@@ -119,8 +123,9 @@ class Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public static function convertXmlToIni( $sourceFile, $targetFile )
+	public static function convertXmlToIni( string $sourceFile, string $targetFile ): int
 	{
 		$data		= self::loadXml( $sourceFile );
 		return self::saveIni( $targetFile, $data );
@@ -133,8 +138,9 @@ class Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public static function convertXmlToJson( $sourceFile, $targetFile )
+	public static function convertXmlToJson( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadXml( $sourceFile );
 		return self::saveJson( $targetFile, $data );
@@ -147,21 +153,19 @@ class Converter
 	 *	@param		string		$fileName		File Name of INI File.
 	 *	@return		array
 	 */
-	protected static function loadIni( $fileName )
+	protected static function loadIni( string $fileName ): array
 	{
+		$data	= [];
 		$reader	= new IniFileReader( $fileName, TRUE );
 		$ini	= $reader->getCommentedProperties();
-		foreach( $ini as $sectionName => $sectionData )
-		{
-			foreach( $sectionData as $pair )
-			{
+		foreach( $ini as $sectionName => $sectionData ){
+			foreach( $sectionData as $pair ){
 				$item	= array(
 					'key'		=> $pair['key'],
 					'value'		=> $pair['value'],
 					'type'		=> "string",
 				);
-				if( isset( $pair['comment'] ) )
-				{
+				if( isset( $pair['comment'] ) ){
 					$matches	= array();
 					if( preg_match_all( self::$iniTypePattern, $pair['comment'], $matches ) )
 					{
@@ -186,14 +190,13 @@ class Converter
 	 *	@param		string		$fileName		File Name of JSON File.
 	 *	@return		array
 	 */
-	protected static function loadJson( $fileName )
+	protected static function loadJson( string $fileName ): array
 	{
+		$data	= [];
 		$json	= FileReader::load( $fileName );
 		$json	= JsonConverter::convertToArray( $json );
-		foreach( $json as $sectionName => $sectionData )
-		{
-			foreach( $sectionData as $pairKey => $pairData )
-			{
+		foreach( $json as $sectionName => $sectionData ){
+			foreach( $sectionData as $pairKey => $pairData ){
 				$pairData	= array_merge( array( 'key' => $pairKey ), $pairData );
 				$data[$sectionName][]	= $pairData;
 			}
@@ -207,15 +210,16 @@ class Converter
 	 *	@static
 	 *	@param		string		$fileName		File Name of XML File.
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	protected static function loadXml( $fileName )
+	protected static function loadXml( string $fileName ): array
 	{
+		$data	= [];
 		$xml	= XmlElementReader::readFile( $fileName );
-		foreach( $xml as $sectionNode )
-		{
+		/** @var XmlElement $sectionNode */
+		foreach( $xml as $sectionNode ){
 			$sectionName	= $sectionNode->getAttribute( 'name' );
-			foreach( $sectionNode as $valueNode )
-			{
+			foreach( $sectionNode as $valueNode ){
 				$item	= array(
 					'key'		=> $valueNode->getAttribute( 'name' ),
 					'value'		=> (string) $valueNode,
@@ -239,16 +243,13 @@ class Converter
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
 	 */
-	protected static function saveIni( $fileName, $data )
+	protected static function saveIni( string $fileName, array $data ): int
 	{
 		$creator	= new IniFileCreator( TRUE );
-		foreach( $data as $sectionName => $sectionData )
-		{
+		foreach( $data as $sectionName => $sectionData ){
 			$creator->addSection( $sectionName );
-			foreach( $sectionData as $pair )
-			{
-				switch( $pair['type'] )
-				{
+			foreach( $sectionData as $pair ){
+				switch( $pair['type'] ){
 					case 'string':
 						$pair['value']	= '"'.addslashes( $pair['value'] ).'"';
 						break;
@@ -272,19 +273,17 @@ class Converter
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
 	 */
-	protected static function saveJson( $fileName, $data )
+	protected static function saveJson( string $fileName, array $data ): int
 	{
-		$json	= array();
-		foreach( $data as $sectionName => $sectionData )
-		{
-			foreach( $sectionData as $pair )
-			{
+		$json	= [];
+		foreach( $data as $sectionName => $sectionData ){
+			foreach( $sectionData as $pair ){
 				$key	= $pair['key'];
 				unset( $pair['key'] );
 				$json[$sectionName][$key]	= $pair;
 			}
 		}
-		$json	= JsonFormater::format( JsonBuilder::encode( $json ), TRUE );
+		$json	= JsonFormatter::format( JsonBuilder::encode( $json ), TRUE );
 		return FileWriter::save( $fileName, $json );
 	}
 
@@ -295,17 +294,16 @@ class Converter
 	 *	@param		string		$fileName		File Name of XML File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	protected static function saveXml( $fileName, $data )
+	protected static function saveXml( string $fileName, array $data ): int
 	{
 		$root	= new Node( "configuration" );
-		foreach( $data as $sectionName => $sectionData )
-		{
+		foreach( $data as $sectionName => $sectionData ){
 			$sectionNode	= new Node( "section" );
 			$sectionNode->setAttribute( 'name', $sectionName );
-			foreach( $sectionData as $pair )
-			{
-				$comment	= isset( $pair['comment'] ) ? $pair['comment'] : NULL;
+			foreach( $sectionData as $pair ){
+				$comment	= $pair['comment'] ?? NULL;
 				$valueNode	= new Node( "value", $pair['value'] );
 				$valueNode->setAttribute( 'type', $pair['type'] );
 				$valueNode->setAttribute( 'name', $pair['key'] );

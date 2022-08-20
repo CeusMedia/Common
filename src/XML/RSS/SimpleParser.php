@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Parser for RSS 2.0 Feeds usind SimpleXML.
+ *	Parser for RSS 2.0 Feeds using SimpleXML.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -23,22 +24,21 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 
 namespace CeusMedia\Common\XML\RSS;
 
+use Exception;
 use SimpleXMLElement;
 
 /**
- *	Parser for RSS 2.0 Feeds usind SimpleXML.
+ *	Parser for RSS 2.0 Feeds using SimpleXML.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 class SimpleParser
 {
@@ -48,42 +48,38 @@ class SimpleParser
 	 *	@static
 	 *	@param		string		$xml		XML String to read
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function parse( $xml )
+	public static function parse( string $xml ): array
 	{
-		$channelData	= array();
-		$itemList		= array();
+		$channelData	= [];
+		$itemList		= [];
 		$xml			= new SimpleXMLElement( $xml );
-		foreach( $xml->channel->children() as $nodeName => $nodeValue )
-		{
-			if( $nodeName == "image" && $nodeValue->children() )
-			{
+		foreach( $xml->channel->children() as $nodeName => $nodeValue ){
+			if( $nodeName == "image" && $nodeValue->children() ){
 				$channelData[$nodeName]	= self::readSubSet( $nodeValue );
 				continue;
 			}
-			if( $nodeName == "textInput" && $nodeValue->children() )
-			{
+			if( $nodeName == "textInput" && $nodeValue->children() ){
 				$channelData[$nodeName]	= self::readSubSet( $nodeValue );
 				continue;
 			}
-			if( $nodeName != "item" )
-			{
+			if( $nodeName != "item" ){
 				$channelData[$nodeName]	= (string) $nodeValue;
 				continue;
 			}
-			$item		= array();
+			$item		= [];
 			$itemNode	= $nodeValue;
-			foreach( $itemNode->children() as $nodeName => $nodeValue )
-				$item[$nodeName]	= (string) $nodeValue;
+			foreach( $itemNode->children() as $childName => $childValue )
+				$item[$childName]	= (string) $childValue;
 			$itemList[]	= $item;
 		}
 		$attributes	= $xml->attributes();
-		$data	= array(
+		return [
 			'encoding'		=> $attributes['encoding'],
 			'channelData'	=> $channelData,
 			'itemList'		=> $itemList,
-		);
-		return $data;
+		];
 	}
 
 	/**
@@ -93,9 +89,9 @@ class SimpleParser
 	 *	@param		SimpleXMLElement	$node		Subset Node
 	 *	@return		array
 	 */
-	protected static function readSubSet( $node )
+	protected static function readSubSet( SimpleXMLElement $node ): array
 	{
-		$item	= array();
+		$item	= [];
 		foreach( $node->children() as $nodeName => $nodeValue )
 			$item[$nodeName]	= (string) $nodeValue;
 		return $item;

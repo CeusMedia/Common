@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Common\CLI;
 
 class Color
@@ -49,48 +50,48 @@ class Color
 		return $string;
 	}
 
-	public function asError( $string ): string
+	public function asError( string $string ): string
 	{
 		return $this->applyClass( $string, 'error' );
 	}
 
-	public function asWarning( $string ): string
+	public function asWarning( string $string ): string
 	{
 		return $this->applyClass( $string, 'warning' );
 	}
 
-	public function asInfo( $string ): string
+	public function asInfo( string $string ): string
 	{
 		return $this->applyClass( $string, 'info' );
 	}
 
-	public function asSuccess( $string ): string
+	public function asSuccess( string $string ): string
 	{
 		return $this->applyClass( $string, 'success' );
 	}
 
-	public function bold( $string ): string
+	public function bold( string $string ): string
 	{
 		return "\033[1m".$string."\033[0m";
 	}
 
-	public function light( $string ): string
+	public function light( string  $string ): string
 	{
 		return "\033[2m".$string."\033[0m";
 	}
 
-	public function italic( $string ): string
+	public function italic( string  $string ): string
 	{
 		return "\033[3m".$string."\033[0m";
 	}
 
-	public function underscore( $string ): string
+	public function underscore( string  $string ): string
 	{
 		return "\033[4m".$string."\033[0m";
 	}
 
 	// Returns colored string
-	public function colorize( string $string, string $foregroundColor = NULL, string $backgroundColor = NULL ): string
+	public function colorize( string $string, ?string $foregroundColor = NULL, ?string $backgroundColor = NULL ): string
 	{
 		$reset			= "\033[0m";
 		$fgColor		= '';
@@ -114,7 +115,7 @@ class Color
 		return $fgColor.$bgColor.$string.$reset;
 	}
 
-	public function colorize256( string $string, string $foregroundColor = NULL, string $backgroundColor = NULL ): string
+	public function colorize256( string $string, ?string $foregroundColor = NULL, ?string $backgroundColor = NULL ): string
 	{
 		$reset			= "\033[0m";
 		$fgColor		= '';

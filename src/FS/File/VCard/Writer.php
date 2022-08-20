@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writes vCard String from vCard Data Object to a File.
  *
@@ -23,13 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.09.2008
  */
 
 namespace CeusMedia\Common\FS\File\VCard;
 
 use CeusMedia\Common\ADT\VCard;
-use CeusMedia\Common\Alg\Text\EncodingConverter;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 
 /**
@@ -40,7 +39,6 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.09.2008
  */
 class Writer
 {
@@ -53,7 +51,7 @@ class Writer
 	 *	@param		string		$fileName		File Name of VCard File.
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -62,26 +60,26 @@ class Writer
 	 *	Saves a vCard Object to a File statically and returns Number of written Bytes.
 	 *	@access		public
 	 *	@static
-	 *	@param		VCard	$card			vCard Object
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
+	 *	@param		string			$fileName		Path of file to save vCard Object to
+	 *	@param		VCard			$card			vCard Object
+	 *	@param		string|NULL		$charsetIn		Charset to convert from
+	 *	@param		string|NULL		$charsetOut		Charset to convert to
 	 *	@return		int
 	 */
-	public static function save( $fileName, $card, $charsetIn = NULL, $charsetOut = NULL )
+	public static function save( string $fileName, VCard $card, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): int
 	{
-		$string	= Builder::build( $card, $charsetIn, $charsetOut );
-		return FileWriter::save( $fileName, $string );
+		return FileWriter::save( $fileName, Builder::build( $card, $charsetIn, $charsetOut ) );
 	}
 
 	/**
 	 *	Writes a vCard Object to the set up File and returns Number of written Bytes.
 	 *	@access		public
-	 *	@param		VCard		$card			vCard Object
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
+	 *	@param		VCard			$card			vCard Object
+	 *	@param		string|NULL		$charsetIn		Charset to convert from
+	 *	@param		string|NULL		$charsetOut		Charset to convert to
 	 *	@return		int
 	 */
-	public function write( $card, $charsetIn = NULL, $charsetOut = NULL )
+	public function write( VCard $card, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): int
 	{
 		return $this->save( $this->fileName, $card, $charsetIn, $charsetOut );
 	}

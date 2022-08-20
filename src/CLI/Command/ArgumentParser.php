@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Argument Parser for Console Applications using an Automaton.
  *
@@ -27,6 +28,7 @@
 namespace CeusMedia\Common\CLI\Command;
 
 use InvalidArgumentException;
+use OutOfBoundsException;
 use RuntimeException;
 
 /**
@@ -144,7 +146,7 @@ class ArgumentParser
 	}
 
 	/**
-	 *	Sets mininum Number of Arguments.
+	 *	Sets minimum Number of Arguments.
 	 *	@access		public
 	 *	@param		int			$number			Minimum Number of Arguments
 	 *	@return		bool
@@ -173,11 +175,7 @@ class ArgumentParser
 	 */
 	public function setPossibleOptions( array $options ): bool
 	{
-		//  no Array given
-		if( !is_array( $options ) )
-			//  throw Exception
-			throw new InvalidArgumentException( 'No array given.' );
-		//  threse Options are already set
+		//  these Options are already set
 		if( $options === $this->possibleOptions )
 			//  do nothing
 			return FALSE;
@@ -188,19 +186,15 @@ class ArgumentParser
 	}
 
 	/**
-	 *	Sets Map between Shortcuts and afore set Options.
+	 *	Sets Map between Shortcuts and before set Options.
 	 *	@access		public
 	 *	@param		array		$shortcuts		Array of Shortcuts for Options
 	 *	@return		bool
 	 */
 	public function setShortcuts( array $shortcuts ): bool
 	{
-		//  no Array given
-		if( !is_array( $shortcuts ) )
-			//  throw Exception
-			throw new InvalidArgumentException( 'No array given.' );
 		//  iterate Shortcuts
-		foreach( $shortcuts as $short => $long )
+		foreach( $shortcuts as $long )
 			//  related Option is not set
 			if( !array_key_exists( $long, $this->possibleOptions ) )
 				//  throw Exception
@@ -218,7 +212,7 @@ class ArgumentParser
 	//  --  PROTECTED  --  //
 
 	/**
-	 *	Extends internal Option List with afore set Shortcut List.
+	 *	Extends internal Option List with before set Shortcut List.
 	 *	@access		protected
 	 *	@return		void
 	 */
@@ -226,7 +220,7 @@ class ArgumentParser
 	{
 		foreach( $this->shortcuts as $short	=> $long ){
 			if( !isset( $this->possibleOptions[$long] ) )
-				throw new \InvalidArgumentException( 'Invalid shortcut to not existing option "'.$long.'" .' );
+				throw new InvalidArgumentException( 'Invalid shortcut to not existing option "'.$long.'" .' );
 			$this->possibleOptions[$short]	= $this->possibleOptions[$long];
 		}
 	}
@@ -254,7 +248,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onEndOfLine( &$status, &$buffer, &$option )
+	protected function onEndOfLine( int &$status, string &$buffer, string &$option )
 	{
 		if( $status == self::STATUS_READ_ARGUMENT )
 			$this->foundArguments[]	= $buffer;
@@ -264,13 +258,13 @@ class ArgumentParser
 			$this->onReadOptionValue( ' ', $status, $buffer, $option );
 		else if( $status == self::STATUS_READ_OPTION_KEY ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
-				throw new \InvalidArgumentException( 'Invalid option: '.$option.'.' );
+				throw new InvalidArgumentException( 'Invalid option: '.$option.'.' );
 			if( $this->possibleOptions[$option] )
-				throw new \RuntimeException( 'Missing value of option "'.$option.'".' );
+				throw new RuntimeException( 'Missing value of option "'.$option.'".' );
 			$this->foundOptions[$option]	= TRUE;
 		}
 		if( count( $this->foundArguments ) < $this->numberArguments )
-			throw new \RuntimeException( 'Missing argument.' );
+			throw new RuntimeException( 'Missing argument.' );
 		$this->finishOptions();
 		$this->parsed	= TRUE;
 	}
@@ -281,10 +275,9 @@ class ArgumentParser
 	 *	@param		string		$sign		Sign to handle
 	 *	@param		int			$status		Status Reference
 	 *	@param		string		$buffer		Argument Buffer Reference
-	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadArgument( $sign, &$status, &$buffer )
+	protected function onReadArgument( string $sign, int &$status, string &$buffer )
 	{
 		if( $sign == " " ){
 			$this->foundArguments[]	= $buffer;
@@ -304,14 +297,14 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionKey( $sign, &$status, &$buffer, &$option )
+	protected function onReadOptionKey( string $sign, int &$status, string &$buffer, string &$option )
 	{
 		if( in_array( $sign, array( " ", ":", "=" ), TRUE ) ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
 				throw new InvalidArgumentException( 'Invalid option "'.$option.'"' );
 			if( !$this->possibleOptions[$option] ){
 				if( $sign !== " " )
-					throw new \InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
+					throw new InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
 				$this->foundOptions[$option]	= TRUE;
 				$status	= self::STATUS_START;
 			}
@@ -333,7 +326,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionValue( $sign, &$status, &$buffer, &$option )
+	protected function onReadOptionValue( string $sign, int &$status, string &$buffer, string &$option )
 	{
 		//  illegal Option following
 //		if( $sign === "-" )
@@ -344,7 +337,7 @@ class ArgumentParser
 			if( !$buffer ){
 				//  no value required/defined
 				if( !$this->possibleOptions[$option] )
-					//  assign true for existance
+					//  assign true for existence
 					$this->foundOptions[$option]	= TRUE;
 				return;																	//
 			}
@@ -371,7 +364,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReady( $sign, &$status, &$buffer, &$option )
+	protected function onReady( string $sign, int &$status, string &$buffer, string &$option )
 	{
 		if( $sign == "-" ){
 			$option	= "";

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Cron Parser.
  *
@@ -23,11 +24,10 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.01.2006
  */
 namespace CeusMedia\Common\CLI\Server\Cron;
 
-use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
 
 /**
  *	Cron Parser.
@@ -37,7 +37,6 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.01.2006
  */
 class Parser
 {
@@ -49,6 +48,7 @@ class Parser
 	 *	@access		public
 	 *	@param		string		$fileName		Message Log File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	public function __construct( string $fileName )
 	{
@@ -89,10 +89,11 @@ class Parser
 	/**
 	 *	Parses one numeric entry of Cron Job.
 	 *	@access		protected
-	 *	@param		string		$string		One numeric entry of Cron Job
+	 *	@param		string		$value		One numeric entry of Cron Job
+	 *	@param		integer		$fill		Length to fill to
 	 *	@return		array
 	 */
-	protected function getValues( string $value, $fill = 0 )
+	protected function getValues( string $value, int $fill = 0 ): array
 	{
 		$values	= array();
 		if( substr_count( $value, "-" ) )
@@ -118,15 +119,13 @@ class Parser
 	 *	@access		protected
 	 *	@param		string		$fileName		Cron Tab File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	protected function parse( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new \Exception( "Cron Tab File '".$fileName."' is not existing." );
-		$reader	= new FileReader( $fileName );
-		$lines	= $reader->readArray();
-		$lines	= file( $fileName );
-		foreach( $lines as $line )
+			throw new Exception( "Cron Tab File '".$fileName."' is not existing." );
+		foreach( file( $fileName ) as $line )
 			if( trim( $line ) && !preg_match( "@^#@", $line ) )
 				$this->parseJob( $line );
 	}

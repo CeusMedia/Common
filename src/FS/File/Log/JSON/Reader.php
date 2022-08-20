@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Log Files containing JSON Serials.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2008
  */
 
 namespace CeusMedia\Common\FS\File\Log\JSON;
@@ -38,7 +38,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2008
  */
 class Reader
 {
@@ -51,7 +50,7 @@ class Reader
 	 *	@param		string		$fileName		File Name of Log File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -62,8 +61,9 @@ class Reader
 	 *	@param		bool		$reverse		Flag: revert List
 	 *	@param		int			$limit			Optional: limit List
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public function getList( $reverse = FALSE, $limit = 0 )
+	public function getList( bool $reverse = FALSE, int $limit = 0 ): array
 	{
 		return $this->read( $this->fileName, $reverse, $limit );
 	}
@@ -76,15 +76,15 @@ class Reader
 	 *	@param		bool		$reverse		Flag: revert List
 	 *	@param		int			$limit			Optional: limit List
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function read( $fileName, $reverse = FALSE, $limit = 0 )
+	public static function read( string $fileName, bool $reverse = FALSE, int $limit = 0 ): array
 	{
-		$data	= array();
+		$data	= [];
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'Log File "'.$fileName.'" is not existing.' );
 		$lines		= file( $fileName );
-		foreach( $lines as $line )
-		{
+		foreach( $lines as $line ) {
 			$line	= trim( $line );
 			if( !$line )
 				continue;

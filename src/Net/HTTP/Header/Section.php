@@ -291,39 +291,8 @@ class Section
 		return $this;
 	}
 
-	/**
-	 *	@deprecated		use method "getFields" instead, which will provide field objects instead of rendered strings
-	 *	@todo			0.9: to be removed
-	 */
-	public function toArray()
-	{
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message(  'Use "getFields" instead, which will provide field objects instead of rendered strings' );
-		$list	= array();
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			foreach( $sectionPairs as $name => $fields )
-				if( $fields )
-					foreach( $fields as $field )
-						$list[]	= $field->toString();
-		return $list;
-	}
-
 	public function render(): string
 	{
 		return HeaderRenderer::render( $this );
-	}
-
-	/**
-	 *	@deprecated		use render method instead
-	 *	@todo			0.9: to be removed
-	 */
-	public function toString()
-	{
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message(  'Use render method instead' );
-		//  collect fields with line breaks inbetween
-		$list = implode( "\r\n", $this->toArray() );
-		//  return field list with line break or empty string
-		return $list ? $list."\r\n" : $list;
 	}
 }

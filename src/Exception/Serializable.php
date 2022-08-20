@@ -30,7 +30,7 @@
 namespace CeusMedia\Common\Exception;
 
 use Exception;
-use Serializable as BaseSerializable;
+use Serializable as SerializableInterface;
 
 /**
  *	Base Exception which can be serialized e.G. for NetServices.
@@ -42,7 +42,7 @@ use Serializable as BaseSerializable;
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.09.2011
  */
-class Serializable extends Exception implements BaseSerializable
+class Serializable extends Exception implements SerializableInterface
 {
 	/**
 	 *	Returns serial of exception.

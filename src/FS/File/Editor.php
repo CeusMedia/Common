@@ -51,7 +51,7 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@param		string		$fileName		File Name or URI of File
 	 *	@param		string		$creationMode	UNIX rights for chmod()
-	 *	@param		string|NULL	$creationUser	User Name for chown()
+	 *	@param		string|NULL	$creationUser	UserName for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
@@ -154,7 +154,7 @@ class Editor extends Reader
 	/**
 	 *	Sets Owner of current File.
 	 *	@access		public
-	 *	@param		string		$userName		OS User Name of new File Owner
+	 *	@param		string		$userName		OS UserName of new File Owner
 	 *	@return		void
 	 */
 	public function setOwner( string $userName ): void
@@ -165,7 +165,7 @@ class Editor extends Reader
 	/**
 	 *	Sets permissions of current File.
 	 *	@access		public
-	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
+	 *	@param		integer		$mode			OCTAL value of new rights (e.g. 0750)
 	 *	@return		bool
 	 */
 	public function setPermissions( int $mode ): bool

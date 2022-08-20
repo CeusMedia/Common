@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Combines and compresses Stylesheet Files of cmFramework Themes.
  *
@@ -43,24 +44,34 @@ class Minimizer
 {
 	/**	@var		CssCombiner					$combiner		Combiner instance */
 	protected $combiner;
+
 	/**	@var		CssCompressor				$compressor		Compressor instance */
 	protected $compressor;
+
 	/**	@var		string		$cssFolder		Name of CSS Folder within Theme Path (optional) */
 	protected $cssFolder		= "";
+
 	/**	@var		string		$cssFolder		Path Medium within CSS Path within Theme (optional) */
 	protected $mediumPath		= "";
+
 	/**	@var		string		$prefix			Prefix of combined File Name */
 	protected $combinerPrefix	= "";
+
 	/**	@var		string		$suffix			Suffix of combined File Name */
 	protected $combinerSuffix	= "";
+
 	/**	@var		string		$prefix			Prefix of compressed File Name */
 	protected $compressorPrefix	= "";
+
 	/**	@var		string		$suffix			Suffix of compressed File Name */
 	protected $compressorSuffix	= "";
+
 	/**	@var		array		$statistics		Statistical Data */
 	protected $statistics		= array();
+
 	/**	@var		string		$themesPath		Path to Themes */
 	protected $themesPath;
+
 	/**	@var		string		$themeName		Name of Theme */
 	protected $themeName		= "";
 
@@ -70,7 +81,7 @@ class Minimizer
 	 *	@param		string		$themesPath		Base Theme Path
 	 *	@return		void
 	 */
-	public function __construct( $themesPath )
+	public function __construct( string $themesPath )
 	{
 		//  set Themes Path
 		$this->setThemesPath( $themesPath );
@@ -81,10 +92,10 @@ class Minimizer
 
 	/**
 	 *	Returns full Path of Style File (with CSS Folder and Medium).
-	 *	@access		public
-	 *	@return		void
+	 *	@access		private
+	 *	@return		string
 	 */
-	private function getPath()
+	private function getPath(): string
 	{
 		//  Basic Themes Path
 		$themesPath = $this->themesPath;
@@ -108,7 +119,7 @@ class Minimizer
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getStatistics()
+	public function getStatistics(): array
 	{
 		return $this->statistics;
 	}
@@ -119,7 +130,7 @@ class Minimizer
 	 *	@param		string		$styleFile		File Name of main Theme Style File (iE. style.css,import.css,default.css)
 	 *	@param		bool		$compress		Flag: compress combined File
 	 */
-	public function minimize( $styleFile, $compress = FALSE )
+	public function minimize( string $styleFile, bool $compress = FALSE ): bool
 	{
 		//  get full Path to Style File
 		$pathName	= $this->getPath();
@@ -133,12 +144,11 @@ class Minimizer
 		//  --  LAUNCH COMBINER  --  //
 		//  combine CSS Files
 		$fileUri	= $this->combiner->combineFile( $pathName.$styleFile );
-		//  collect Statisticts
+		//  collect Statistics
 		$this->statistics	= $this->combiner->getStatistics();
 
 		//  Compression is enabled
-		if( $compress )
-		{
+		if( $compress ){
 			//  --  SET COMPRESSOR ENVIRONMENT  --  //
 			//  set Compressor Prefix
 			$this->compressor->setPrefix( $this->compressorPrefix );
@@ -148,9 +158,9 @@ class Minimizer
 			//  --  LAUNCH COMPRESSOR  --  //
 			//  compress CSS File
 			$targetFile	= $this->compressor->compressFile( $fileUri );
-			//  collect Statisticts
+			//  collect Statistics
 			$statistics	= $this->compressor->getStatistics();
-			//  merge Statisticts
+			//  merge Statistics
 			$this->statistics['sizeCompressed']	= $statistics['after'];
 			//  note compressed Target File Path
 			$this->statistics['fileCompressed']	= realpath( $targetFile );
@@ -166,110 +176,120 @@ class Minimizer
 	 *	Sets a combiner Object to use.
 	 *	@access		public
 	 *	@param		CssCombiner		$combiner		Combiner Object
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCombinerObject( CssCombiner $combiner )
+	public function setCombinerObject( CssCombiner $combiner ): self
 	{
 		$this->combiner	= $combiner;
+		return $this;
 	}
 
 	/**
 	 *	Sets Prefix of combined File Name.
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix of combined File Name
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCombinerPrefix( $prefix )
+	public function setCombinerPrefix( string $prefix ): self
 	{
 		$this->combinerPrefix	= $prefix;
+		return $this;
 	}
 
 	/**
 	 *	Sets Suffix of combined File Name.
 	 *	@access		public
 	 *	@param		string		$prefix			Suffix of combined File Name
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCombinerSuffix( $suffix )
+	public function setCombinerSuffix( string $suffix ): self
 	{
 		$this->combinerSuffix	= $suffix;
+		return $this;
 	}
 
 	/**
 	 *	Sets a Compressor Object to use.
 	 *	@access		public
 	 *	@param		CssCompressor	$compressor		Compressor Object
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCompressorObject( CssCompressor $compressor )
+	public function setCompressorObject( CssCompressor $compressor ): self
 	{
 		$this->compressor	= $compressor;
+		return $this;
 	}
 
 	/**
 	 *	Sets Prefix of compressed File Name.
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix of compressed File Name
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCompressorPrefix( $prefix )
+	public function setCompressorPrefix( string $prefix ): self
 	{
 		$this->compressorPrefix	= $prefix;
+		return $this;
 	}
 
 	/**
 	 *	Sets Suffix of compressed File Name.
 	 *	@access		public
-	 *	@param		string		$prefix			Suffix of compressed File Name
-	 *	@return		void
+	 *	@param		string		$suffix			Suffix of compressed File Name
+	 *	@return		self
 	 */
-	public function setCompressorSuffix( $suffix )
+	public function setCompressorSuffix( string $suffix ): self
 	{
 		$this->compressorSuffix	= $suffix;
+		return $this;
 	}
 
 	/**
 	 *	Sets CSS Folder (within Theme Path) within Themes Path.
 	 *	@access		public
 	 *	@param		string		$cssFolder		CSS Folder within (Theme) Path
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCssFolder( $cssFolder )
+	public function setCssFolder( string $cssFolder ): self
 	{
 		if( trim( $cssFolder ) )
 			$this->cssFolder	= preg_replace( "@(.+)/$@", "\\1", $cssFolder )."/";
+		return $this;
 	}
 
 	/**
 	 *	Sets Medium Name (within CSS Path (within Theme Path)) within Themes Path.
 	 *	@access		public
 	 *	@param		string		$prefix			Medium Name (within CSS Folder)
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setMedium( $medium )
+	public function setMedium( string $medium ): self
 	{
 		$this->mediumPath	= preg_replace( "@(.+)/$@", "\\1", $medium )."/";
+		return $this;
 	}
 
 	/**
 	 *	Sets Theme Name within Themes Path.
 	 *	@access		public
-	 *	@param		string		$prefix			Suffix of combined File Name
-	 *	@return		void
+	 *	@param		string		$themeName			Suffix of combined File Name
+	 *	@return		self
 	 */
-	public function setTheme( $themeName )
+	public function setTheme( string $themeName ): self
 	{
 		$this->themeName	= preg_replace( "@(.+)/$@", "\\1", $themeName )."/";
+		return $this;
 	}
 
 	/**
 	 *	Sets Path to Themes.
 	 *	@access		public
 	 *	@param		string		$themesPath		Path to Themes
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setThemesPath( $themesPath )
+	public function setThemesPath( string $themesPath ): self
 	{
 		$this->themesPath	= preg_replace( "@(.+)/$@", "\\1", $themesPath )."/";
+		return $this;
 	}
 }

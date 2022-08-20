@@ -63,9 +63,7 @@ class Reader
 	 */
 	public static function load( string $fileName ): array
 	{
-		$yaml	= FileReader::load( $fileName );
-		$array	= Spyc::YAMLLoad( $yaml );
-		return $array;
+		return Spyc::YAMLLoad( FileReader::load( $fileName ) );
 	}
 
 	/**

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for RSS 2.0 Feeds.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 
 namespace CeusMedia\Common\XML\RSS;
@@ -39,7 +39,6 @@ use CeusMedia\Common\Net\Reader as NetReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 class Reader
 {
@@ -50,10 +49,9 @@ class Reader
 	 *	@param		string		$fileName	File Name to XML RSS File
 	 *	@return		array
 	 */
-	public static function readFile( $fileName )
+	public static function readFile( string $fileName ): array
 	{
-		$xml	= FileReader::load( $fileName );
-		return Parser::parse( $xml );
+		return Parser::parse( FileReader::load( $fileName ) );
 	}
 
 	/**
@@ -63,10 +61,9 @@ class Reader
 	 *	@param		string		$url		URL to read RSS from
 	 *	@return		array
 	 */
-	public static function readUrl( $url )
+	public static function readUrl( string $url ): array
 	{
-		$xml	= NetReader::readUrl( $url );
-		return Parser::parse( $xml );
+		return Parser::parse( NetReader::readUrl( $url ) );
 	}
 
 	/**
@@ -76,7 +73,7 @@ class Reader
 	 *	@param		string		$xml		XML String to read
 	 *	@return		array
 	 */
-	public static function readXml( $xml )
+	public static function readXml( string $xml ): array
 	{
 		return Parser::parse( $xml );
 	}

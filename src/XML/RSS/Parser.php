@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for RSS 2 Feed using XPath.
  *
@@ -39,13 +40,12 @@ use CeusMedia\Common\XML\DOM\XPathQuery;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			30.01.2006
  *	@see			http://blogs.law.harvard.edu/tech/rss
  *	@todo			Code Doc
  */
 class Parser
 {
-	public static $channelKeys	= array(
+	public static $channelKeys	= [
 		"title",
 		"language",
 		"link",
@@ -73,8 +73,8 @@ class Parser
 		"textInput/link",
 		"skipHours/hour",
 		"skipDays/day",
-	);
-	public static $itemKeys	= array(
+	];
+	public static $itemKeys	= [
 		"title",
 		"link",
 		"description",
@@ -85,12 +85,12 @@ class Parser
 		"guid",
 		"pubDate",
 		"source",
-	);
+	];
 
-	public static function parse( $xml )
+	public static function parse( string $xml ): array
 	{
-		$channelData	= array();
-		$itemList		= array();
+		$channelData	= [];
+		$itemList		= [];
 		$xPath			= new XPathQuery();
 		$xPath->loadXml( $xml );
 
@@ -98,8 +98,7 @@ class Parser
 		$encoding	= $document->encoding;
 		$version	= $document->documentElement->getAttribute( 'version' );
 
-		foreach( self::$channelKeys as $channelKey )
-		{
+		foreach( self::$channelKeys as $channelKey ){
 			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" );
 			$parts	= explode( "/", $channelKey );
 			if( isset( $parts[1] ) )
@@ -109,11 +108,9 @@ class Parser
 		}
 
 		$nodeList	= $xPath->query( "//rss/channel/item" );
-		foreach( $nodeList as $item )
-		{
+		foreach( $nodeList as $item ){
 			$array	= array();
-			foreach( self::$itemKeys as $itemKey )
-			{
+			foreach( self::$itemKeys as $itemKey ){
 				$nodes	= $xPath->query( $itemKey."/text()", $item );
 				$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
 				if( $itemKey == "source" || $itemKey == "guid" )
@@ -130,12 +127,11 @@ class Parser
 			$itemList[]	= $array;
 		}
 
-		$data	= array(
+		return [
 			'encoding'		=> $encoding,
 			'version'		=> $version,
 			'channelData'	=> $channelData,
 			'itemList'		=> $itemList
-		);
-		return $data;
+		];
 	}
 }

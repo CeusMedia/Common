@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for Log Files containing JSON Serials.
  *
@@ -23,12 +24,9 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2008
  */
 
 namespace CeusMedia\Common\FS\File\Log\JSON;
-
-use Exception;
 
 /**
  *	Writer for Log Files containing JSON Serials.
@@ -38,7 +36,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2008
  */
 class Writer
 {
@@ -51,7 +48,7 @@ class Writer
 	 *	@param		string		$fileName		File Name of Log File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -62,7 +59,7 @@ class Writer
 	 *	@param		array		$data			Data Array to note
 	 *	@return		bool
 	 */
-	public function note( $data )
+	public function note( array $data ): bool
 	{
 		return self::noteData( $this->fileName, $data );
 	}
@@ -75,14 +72,9 @@ class Writer
 	 *	@param		array		$data			Data Array to note
 	 *	@return		bool
 	 */
-	public static function noteData( $fileName, $data )
+	public static function noteData( string $fileName, array $data ): bool
 	{
-		$data	= array_merge(
-			array(
-				'timestamp' => time()
-			),
-			$data
-		);
+		$data	= array_merge( ['timestamp' => time()], $data );
 		$serial	= json_encode( $data )."\n";
 		if( !file_exists( dirname( $fileName ) ) )
 			mkDir( dirname( $fileName ), 0700, TRUE );

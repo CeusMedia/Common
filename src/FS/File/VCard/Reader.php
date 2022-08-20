@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reads and parses vCard Strings from File or URL to vCard Data Object.
  *
@@ -23,11 +24,11 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\FS\File\VCard;
 
+use CeusMedia\Common\ADT\VCard;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 
 /**
@@ -38,7 +39,6 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@todo			Code Doc
  */
 class Reader
@@ -47,15 +47,14 @@ class Reader
 	 *	Reads and parses vCard File to vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$vcard			VCard String
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
-	 *	@return		string
+	 *	@param		string			$fileName		Path of file to read
+	 *	@param		string|NULL		$charsetIn		Charset to convert from
+	 *	@param		string|NULL		$charsetOut		Charset to convert to
+	 *	@return		VCard
 	 */
-	public function readFile( $fileName, $charsetIn = NULL, $charsetOut = NULL )
+	public function readFile( string $fileName, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): VCard
 	{
-		$text	= FileReader::load( $fileName );
 		$parser	= new Parser;
-		return $parser->parse( $text, $charsetIn, $charsetOut );
+		return $parser->parse( FileReader::load( $fileName ), $charsetIn, $charsetOut );
 	}
 }

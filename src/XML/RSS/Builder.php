@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for RSS Feeds.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.02005
  */
 
 namespace CeusMedia\Common\XML\RSS;
@@ -31,6 +31,7 @@ namespace CeusMedia\Common\XML\RSS;
 use CeusMedia\Common\XML\DOM\Builder as DomBuilder;
 use CeusMedia\Common\XML\DOM\Node;
 use DomainException;
+use DOMException;
 use Exception;
 
 /**
@@ -41,7 +42,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.02005
  */
 class Builder
 {
@@ -49,13 +49,13 @@ class Builder
 	protected $builder;
 
 	/**	@var	array			$channel			Array of Channel Data */
-	protected $channel			= array();
+	protected $channel			= [];
 
 	/**	@var	array			$items				Array of Items */
-	protected $items			= array();
+	protected $items			= [];
 
 	/**	@var	array			$channelElements	Array of Elements of Channel */
-	protected $channelElements	= array(
+	protected $channelElements	= [
 		"title"				=> TRUE,
 		"description"		=> TRUE,
 		"link"				=> TRUE,
@@ -71,11 +71,11 @@ class Builder
 		"cloud"				=> FALSE,
 		"ttl"				=> FALSE,
 		"rating"			=> FALSE,
-	);
+	];
 
 	/**	@var	array			$itemElements		Array of Elements of Items */
-	protected $itemElements	= array(
-		"title"				=> true,
+	protected $itemElements	= [
+		"title"				=> TRUE,
 		"description"		=> FALSE,
 		"link"				=> FALSE,
 		"author"			=> FALSE,
@@ -85,22 +85,23 @@ class Builder
 		"enclosure"			=> FALSE,
 		"guid"				=> FALSE,
 		"source"			=> FALSE,
-	);
+	];
 
 	/**	@var	array			$namespaces		Array or RSS Namespaces */
-	protected $namespaces	= array();
+	protected $namespaces	= [];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		array		$data			Array of Channel Information Pairs
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $data = array() )
+	public function __construct( array $data = [] )
 	{
 		$this->builder	= new DomBuilder();
 		$this->channel['timezone']	= '+0000';
-		$this->items	= array();
+		$this->items	= [];
 
 		if( !is_array( $data ) )
 			throw new Exception( 'Channel Data List must be an Array.' );
@@ -115,7 +116,7 @@ class Builder
 	 *	@return		void
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function addItem( $item )
+	public function addItem( array $item )
 	{
 		$this->items[] = $item;
 	}
@@ -126,9 +127,10 @@ class Builder
 	 *	@param		string		$encoding		Encoding Type
 	 *	@param		string		$version		RSS version, default: 2.0
 	 *	@return		string
+	 *	@throws		DOMException
 	 *	@todo		recheck RSS versions and perhaps set default to 0.92
 	 */
-	public function build( $encoding = "utf-8", $version = "2.0" )
+	public function build( string $encoding = "utf-8", string $version = "2.0" ): string
 	{
 		foreach( $this->channelElements as $element => $required )
 			if( $required && !isset( $this->channel[$element] ) )
@@ -148,8 +150,7 @@ class Builder
 		if( isset( $this->channel['date'] ) && !isset( $this->channel['pubDate'] ) )
 			$channel->addChild( new Node( 'pubDate', $this->getDate( $this->channel['date'] ) ) );
 
-		if( isset( $this->channel['imageUrl'] ) )
-		{
+		if( isset( $this->channel['imageUrl'] ) ){
 			$image	= new Node( 'image' );
 			$image->addChild( new Node( 'url', $this->channel['imageUrl'] ) );
 			if( isset( $this->channel['imageTitle'] ) )
@@ -165,8 +166,7 @@ class Builder
 				$image->addChild( new Node( 'description', $this->channel['imageDescription'] ) );
 			$channel->addChild( $image );
 		}
-		if( isset( $this->channel['textInputTitle'] ) )
-		{
+		if( isset( $this->channel['textInputTitle'] ) ){
 			$image	= new Node( 'textInput' );
 			$image->addChild( new Node( 'title', $this->channel['textInputTitle'] ) );
 			if( isset( $this->channel['textInputDescription'] ) )
@@ -179,14 +179,11 @@ class Builder
 		}
 
 		//  --  ITEMS  --  //
-		foreach( $this->items as $item )
-		{
+		foreach( $this->items as $item ){
 			$node	= new Node( 'item' );
-			foreach( $this->itemElements as $element => $required )
-			{
-				$value	= isset( $item[$element] ) ? $item[$element] : NULL;
-				if( $required || $value )
-				{
+			foreach( $this->itemElements as $element => $required ){
+				$value	= $item[$element] ?? NULL;
+				if( $required || $value ){
 					if( $element == "source" && $value ){
 						$node->addChild( new Node( $element, $this->channel['title'], array( 'url' => $value ) ) );
 						continue;
@@ -203,20 +200,20 @@ class Builder
 			$channel->addChild( $node );
 		}
 		$tree->addChild( $channel );
-		$this->items	= array();
+		$this->items	= [];
 		return $this->builder->build( $tree, $encoding, $this->namespaces );
 	}
 
 	/**
-	 *	Returns formated date.
+	 *	Returns formatted date.
 	 *	@access		protected
 	 *	@param		int			$time			Timestamp
 	 *	@return		string
 	 */
-	protected function getDate( $time )
+	protected function getDate( int $time ): string
 	{
 		if( preg_match( '@^[0-9]+$@', $time ) )
-			$time	= date( "r", (int) $time );
+			$time	= date( "r", $time );
 		return $time;
 	}
 
@@ -225,47 +222,48 @@ class Builder
 	 *	@access		public
 	 *	@param		string		$key		Key of Channel Information Pair
 	 *	@param		string		$value		Value of Channel Information Pair
-	 *	@return		void
+	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelPair( $key, $value )
+	public function setChannelPair( string $key, string $value ): self
 	{
 		$this->channel[$key]	= $value;
+		return $this;
 	}
 
 	/**
 	 *	Sets Information of Channel.
 	 *	@access		public
 	 *	@param		array		$pairs		Array of Channel Information Pairs
-	 *	@return		void
+	 *	@return		self
+	 *	@throws		Exception
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelData( $pairs )
+	public function setChannelData( array $pairs ): self
 	{
-		if( !is_array( $pairs ) )
-			throw new Exception( 'Channel Data List must be an Array.' );
 		foreach( $pairs as $key => $value )
 			$this->setChannelPair( $key, $value );
+		return $this;
 	}
 
 	/**
 	 *	Sets Item List.
 	 *	@access		public
 	 *	@param		array		$items		List of Item
-	 *	@return		void
+	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function setItemList( $items )
+	public function setItemList( array $items ): self
 	{
-		if( !is_array( $items ) )
-			throw new Exception( 'Item List must be an Array.' );
-		$this->items	= array();
+		$this->items	= [];
 		foreach( $items as $item )
 			$this->addItem( $item );
+		return $this;
 	}
 
-	public function registerNamespace( $prefix, $url )
+	public function registerNamespace( string $prefix, string $url ): self
 	{
 		$this->namespaces[$prefix]	= $url;
+		return $this;
 	}
 }

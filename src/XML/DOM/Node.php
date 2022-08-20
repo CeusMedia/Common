@@ -106,7 +106,7 @@ class Node
 	 *	@param		string		$key			Key of Attribute
 	 *	@return		string
 	 */
-	public function getAttribute( string $key )
+	public function getAttribute( string $key ): string
 	{
 		if( $this->hasAttribute( $key ) )
 			return $this->attributes[$key];
@@ -212,6 +212,7 @@ class Node
 	/**
 	 *	Indicates whether XML Node has an attributes by its name.
 	 *	@access		public
+	 *	@param		string|NULL		$nodeName		Name of Child Node
 	 *	@return		bool
 	 */
 	public function hasChild( string $nodeName ): bool
@@ -243,50 +244,47 @@ class Node
 	 *	Removes an attribute by its name.
 	 *	@access		public
 	 *	@param		string		$key			Key of attribute to be removed
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function removeAttribute( string $key ): bool
+	public function removeAttribute( string $key ): self
 	{
-		if( !$this->hasAttribute( $key ) )
-			return FALSE;
-		unset( $this->attributes[$key] );
-		return TRUE;
+		if( $this->hasAttribute( $key ) )
+			unset( $this->attributes[$key] );
+		return $this;
 	}
 
 	/**
 	 *	Remove first found Child Nodes with given name.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of Child Node to be removed
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function removeChild( string $nodeName ): bool
+	public function removeChild( string $nodeName ): self
 	{
 		$found		= false;
-		$children	= array();
+		$children	= [];
 		foreach( $this->children as $child ){
-			if( !$found && $child->getNodeName() == $nodeName ){
+			if( !$found && $child->getNodeName() === $nodeName ){
 				$found	= TRUE;
 				continue;
 			}
 			$children[] = $child;
 		}
-		if( $children == $this->children )
-			return FALSE;
-		$this->children = $children;
-		return TRUE;
+		if( $children !== $this->children )
+			$this->children = $children;
+		return $this;
 	}
 
 	/**
 	 *	Removes content of XML Node.
 	 *	@access		public
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function removeContent(): bool
+	public function removeContent(): self
 	{
-		if( !$this->hasContent() )
-			return FALSE;
-		$this->setContent( "" );
-		return TRUE;
+		if( $this->hasContent() )
+			$this->setContent( "" );
+		return $this;
 	}
 
 	/**
@@ -294,41 +292,38 @@ class Node
 	 *	@access		public
 	 *	@param		string		$key			Key of attribute
 	 *	@param		string		$value			Value of attribute
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function setAttribute( string $key, string $value ): bool
+	public function setAttribute( string $key, string $value ): self
 	{
-		if( $this->getAttribute( $key ) === $value )
-			return FALSE;
-		$this->attributes[$key] = (string) $value;
-		return TRUE;
+		if( $this->getAttribute( $key ) !== $value )
+			$this->attributes[$key] = $value;
+		return $this;
 	}
 
 	/**
 	 *	Sets content of XML Node.
 	 *	@access		public
 	 *	@param		string		$content		Content of XML Node
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function setContent( string $content ): bool
+	public function setContent( string $content ): self
 	{
-		if( $this->content === (string) $content )
-			return FALSE;
-		$this->content = (string) $content;
-		return TRUE;
+		if( $this->content !== $content )
+			$this->content = $content;
+		return $this;
 	}
 
 	/**
 	 *	Sets Name of XML Leaf Node.
 	 *	@access		public
 	 *	@param		string		$name			Name of XML Node
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function setNodeName( string $name ): bool
+	public function setNodeName( string $name ): self
 	{
-		if( $this->nodeName == (string) $name )
-			return FALSE;
-		$this->nodeName = (string) $name;
-		return TRUE;
+		if( $this->nodeName !== $name )
+			$this->nodeName = $name;
+		return $this;
 	}
 }

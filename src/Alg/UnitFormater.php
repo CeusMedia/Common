@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
@@ -23,9 +24,10 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.04.2008
  */
 namespace CeusMedia\Common\Alg;
+
+use CeusMedia\Common\Deprecation;
 
 define( 'SIZE_BYTE', pow( 1024, 0 ) );
 define( 'SIZE_KILOBYTE', pow( 1024, 1 ) );
@@ -40,7 +42,6 @@ define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.10.2007
  */
 class UnitFormater
 {
@@ -123,7 +124,7 @@ class UnitFormater
 		if( is_string( $indent ) )
 			//  append Unit
 			$float	= $float.$indent.self::$unitBytes[$unitKey];
-		//  return resultung Value
+		//  return resulting Value
 		return $float;
 	}
 
@@ -270,11 +271,12 @@ class UnitFormater
 	 *	@param		int			$unit			Number of Digits for dot to move to left
 	 *	@param		int			$precision		Number of Digits after dot
 	 *	@return		void
-	 *	@deprecated	uncomplete method, please remove
+	 *	@deprecated	incomplete method, please remove
 	 */
 	public static function formatNumber( $float, int $unit = 1, int $precision = 0 ): string
 	{
-		Deprecation::getInstance()->setExceptionVersion( '0.8' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message(  'Use one of the other methods instead' );
 		if( (int) $unit )
 		{

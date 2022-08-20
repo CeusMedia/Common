@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writes XML Files from Trees build with XML_Node.
  *
@@ -30,6 +31,7 @@ namespace CeusMedia\Common\XML\OPML;
 use CeusMedia\Common\FS\File\Writer as RawFileWriter;
 use CeusMedia\Common\XML\DOM\Builder;
 use CeusMedia\Common\XML\DOM\Node;
+use DOMException;
 
 /**
  *	Writes XML Files from Trees build with XML_Node.
@@ -51,7 +53,7 @@ class FileWriter
 	 *	@param		string		$fileName		URI of OPML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -61,11 +63,12 @@ class FileWriter
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		URI of OPML File
-	 *	@param		Node		tree			OPML Tree
-	 *	@param		string		encoding		Encoding Type
-	 *	@return		bool
+	 *	@param		Node		$tree			OPML Tree
+	 *	@param		string		$encoding		Encoding Type
+	 *	@return		int
+	 *	@throws		DOMException;
 	 */
-	public static function save( $fileName, $tree, $encoding = "utf-8" )
+	public static function save( string $fileName, Node $tree, string $encoding = "utf-8" ): int
 	{
 		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );
@@ -76,11 +79,12 @@ class FileWriter
 	/**
 	 *	Writes OPML Tree to OPML File.
 	 *	@access		public
-	 *	@param		Node		tree		OPML Tree
-	 *	@param		string		encoding	Encoding Type
-	 *	@return		bool
+	 *	@param		Node		$tree		OPML Tree
+	 *	@param		string		$encoding	Encoding Type
+	 *	@return		int
+	 *	@throws		DOMException;
 	 */
-	public function write( $tree, $encoding = "utf-8" )
+	public function write( Node $tree, string $encoding = "utf-8" ): int
 	{
 		return self::save( $this->fileName, $tree, $encoding );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds RSS for Google Base - Froogle.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.02.02008
  */
 
 namespace CeusMedia\Common\XML\RSS;
+
+use Exception;
 
 /**
  *	Builds RSS for Google Base - Froogle.
@@ -36,11 +38,10 @@ namespace CeusMedia\Common\XML\RSS;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.02.02008
  */
 class GoogleBaseBuilder extends Builder
 {
-	protected $itemElements	= array(
+	protected $itemElements	= [
 		'title'						=> FALSE,
 		'description'				=> FALSE,
 		'link'						=> TRUE,
@@ -59,7 +60,7 @@ class GoogleBaseBuilder extends Builder
 		'g:veröffentlichungs_datum'	=> FALSE,
 		'g:veröffentlichung_band'	=> FALSE,
 		'g:name_der_veröffentlichung'	=> TRUE,*/
-	);
+	];
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";
 
@@ -67,6 +68,7 @@ class GoogleBaseBuilder extends Builder
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	public function __construct()
 	{
@@ -74,7 +76,9 @@ class GoogleBaseBuilder extends Builder
 		$this->registerNamespace( 'g', self::$namespaceUri );
 	}
 
-	public function addItemElement( $name, $mandatory = NULL ){
-		$this->itemElements[$name]	= (boolean) $mandatory;
+	public function addItemElement( string $name, bool $mandatory = FALSE ): self
+	{
+		$this->itemElements[$name]	= $mandatory;
+		return $this;
 	}
 }

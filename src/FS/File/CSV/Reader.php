@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
@@ -7,7 +8,6 @@
 
 namespace CeusMedia\Common\FS\File\CSV;
 
-use CeusMedia\Common\Deprecation;
 use Countable;
 use RuntimeException;
 
@@ -26,14 +26,14 @@ class Reader implements Countable
 	 *	Constructor.
 	 *	It tries to open the csv file and throws an exception on failure.
 	 *	@access		public
-	 *	@param		string		$filePath		CSV file
-	 *	@param		boolean		$useHeaders		Flag: use first line to read row headers
-	 *	@param		string		$delimiter		Delimiter sign
-	 *	@param		string		$enclosure		Enclosure sign
+	 *	@param		string			$filePath		CSV file
+	 *	@param		boolean			$useHeaders		Flag: use first line to read row headers
+	 *	@param		string|NULL		$delimiter		Delimiter sign
+	 *	@param		string|NULL		$enclosure		Enclosure sign
 	 *	@return		void
 	 *	@throws		RuntimeException
 	 */
-	public function __construct( $filePath, $useHeaders = FALSE, $delimiter = NULL, $enclosure = NULL )
+	public function __construct( string $filePath, bool $useHeaders = FALSE, ?string $delimiter = NULL, ?string $enclosure = NULL )
 	{
 		Iterator::$maxRowSize = self::$maxRowSize;
 		$this->iterator	= new Iterator( $filePath, $useHeaders, $delimiter, $enclosure );
@@ -59,42 +59,10 @@ class Reader implements Countable
 	 *	Returns headers, if available. Empty array otherwise.
 	 *	@access		public
 	 *	@return		array
-	 *	@deprecated	Use FS_File_CSV_Reader::getHeaders()
-	 *	@todo		Remove in version 0.9.0
-	 */
-	public function getColumnHeaders(): array
-	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.5.8' )
-			->setExceptionVersion( '0.8.8.0' )
-			->message( 'Use FS_File_CSV_Reader::getHeaders() instead' );
-		return $this->iterator->getHeaders();
-	}
-
-	/**
-	 *	Returns headers, if available. Empty array otherwise.
-	 *	@access		public
-	 *	@return		array
 	 */
 	public function getHeaders(): array
 	{
 		return $this->iterator->getHeaders();
-	}
-
-    /**
-	 *  Returns the count of data rows.
-	 *  @access		public
-	 *  @return		int
-	 *	@deprecated	Use FS_File_CSV_Reader::count()
-	 *	@todo		Remove in version 0.9.0
-	 */
-	public function getRowCount()
-	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.5.8' )
-			->setExceptionVersion( '0.8.8.0' )
-			->message( 'Use FS_File_CSV_Reader::count() instead' );
-		return $this->count();
 	}
 
 	/**
@@ -123,21 +91,5 @@ class Reader implements Countable
 			$this->iterator->next();
 		}
 		return $list;
-	}
-
-	/**
-	 *	Returns parse data as array.
-	 *	Array key will be available header (if available) or incrementing integers starting with 0.
-	 *	@return		array
-	 *	@deprecated	Use FS_File_CSV_Reader::toArray()
-	 *	@todo		Remove in version 0.9.0
-	 */
-	public function toAssocArray(): array
-	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.5.8' )
-			->setExceptionVersion( '0.8.8.0' )
-			->message( 'Use FS_File_CSV_Reader::toArray() instead' );
-		return $this->toArray();
 	}
 }

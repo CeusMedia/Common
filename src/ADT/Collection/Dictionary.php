@@ -241,7 +241,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	/**
 	 *	Returns corresponding Key of a Value if Value is in Dictionary, otherwise NULL.
 	 *	@access		public
-	 *	@param		string		$value		Value to get Key of
+	 *	@param		mixed		$value		Value to get Key of
 	 *	@return		mixed|NULL				Key of value if found, otherwise NULL
 	 */
 	public function getKeyOf( $value )
@@ -369,7 +369,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
-	 *	@param		string		$value		Value of Key, NULL will remove pair from list
+	 *	@param		mixed		$value		Value of Key, NULL will remove pair from list
 	 *	@return		boolean
 	 */
 	public function set( string $key, $value ): bool

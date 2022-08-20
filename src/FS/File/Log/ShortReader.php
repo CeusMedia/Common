@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for short Log Files.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.12.2006
  */
 
 namespace CeusMedia\Common\FS\File\Log;
+
+use RuntimeException;
 
 /**
  *	Reader for short Log Files.
@@ -36,19 +38,18 @@ namespace CeusMedia\Common\FS\File\Log;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.12.2006
  *	@todo			Prove File for Existence
  */
 class ShortReader
 {
 	/*	@var		array		$data		Array of Data in Lines */
-	protected $data	= FALSE;
+	protected $data		= [];
 
-	/*	@var		bool		$open		Status: Log File is read */
-	protected $open	= FALSE;
+	/*	@var		bool		$isOpen		Status: Log File is read */
+	protected $isOpen	= FALSE;
 
 	/*	@var		string		$patterns	Pattern Array filled with Logging Information */
-	protected $patterns	= array();
+	protected $patterns	= [];
 
 	/**	@var		string		$uri		URI of Log File */
 	protected $uri;
@@ -59,16 +60,16 @@ class ShortReader
 	 *	@param		string		$uri		URI of short Log File
 	 *	@return		void
 	 */
-	public function __construct( $uri )
+	public function __construct( string $uri )
 	{
 		$this->uri	= $uri;
-		$patterns	= array(
+		$patterns	= [
 			'timestamp',
 			'remote_addr',
 			'request_uri',
 			'http_referer',
 			'http_user_agent'
-		);
+		];
 		$this->setPatterns( $patterns );
 	}
 
@@ -77,22 +78,22 @@ class ShortReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getData()
+	public function getData(): array
 	{
-		if( $this->open )
-			return $this->data;
-		trigger_error( "Log File not read", E_USER_ERROR );
-		return array();
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
+		return $this->data;
 	}
 
 	/**
 	 *	Indicated whether Log File is already opened and read.
 	 *	@access		protected
 	 *	@return		bool
+	 *	@noinspection	PhpUnused
 	 */
-	protected function isOpen()
+	public function isOpen(): bool
 	{
-		return $this->open;
+		return $this->isOpen;
 	}
 
 	/**
@@ -100,17 +101,16 @@ class ShortReader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function read()
+	public function read(): bool
 	{
-		if( $fcont = @file( $this->uri ) )
-		{
-			$this->data = array();
-			foreach( $fcont as $line )
+		if( $lines = @file( $this->uri ) ) {
+			$this->data = [];
+			foreach( $lines as $line )
 				$this->data[] = explode( "|", trim( $line ) );
-			$this->open	= true;
-			return true;
+			$this->isOpen	= TRUE;
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -118,11 +118,11 @@ class ShortReader
 	 *
 	 *	@access		public
 	 *	@param		array		$array		Array of Patterns.
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setPatterns( $array )
+	public function setPatterns( array $array ): self
 	{
-		if( is_array( $array ) )
-			$this->patterns	= $array;
+		$this->patterns	= $array;
+		return $this;
 	}
 }

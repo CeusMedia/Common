@@ -18,7 +18,7 @@ use Exception;
  *	Example:
  *		Deprecation::getInstance()
  *			->setErrorVersion( '0.9' )
- *			->ExceptionVersion( '0.9' )
+ *			->setExceptionVersion( '0.9.1' )
  *			->message(  'Use method ... instead' );
  *
  *	@category		Library
@@ -57,8 +57,9 @@ class Deprecation
 	public function message( string $message )
 	{
 		$trace	= debug_backtrace();
-		$caller = next( $trace );
-		$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
+		$caller	= next( $trace );
+		if( isset( $caller['file'] ) )
+			$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
 		if( $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
 				throw new Exception( 'Deprecated: '.$message );

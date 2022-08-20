@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Handles Callbacks on Object or Class Methods for triggered Events.
  *
@@ -23,12 +24,13 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\Alg\Obj;
 
 use InvalidArgumentException;
+use ReflectionException;
+use RuntimeException;
 
 /**
  *	Handles Callbacks on Object or Class Methods for triggered Events.
@@ -38,12 +40,12 @@ use InvalidArgumentException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class EventHandler
 {
 	/**	@var		array			$callbacks			Map of registered Callback Methods on Events */
-	protected $callbacks			= array();
+	protected $callbacks			= [];
+
 	/**	@var		int				$counter			Number of handled Event Callback Method Calls */
 	protected $counter				= 0;
 
@@ -55,31 +57,35 @@ class EventHandler
 	 *	@param		string			$methodName			Name of Object Method to call on Event
 	 *	@param		array			$methodParameters	List of Parameters for Method Call
 	 *	@param		array			$classParameters	List of Parameters for Object Construction (if a Class Name is given)
-	 *	@return		void
+	 *	@return		self
+	 *	@throws		ReflectionException
 	 */
-	public function addCallback( $eventName, $mixed, $methodName, $methodParameters = array(), $classParameters = array() )
+	public function addCallback( string $eventName, $mixed, string $methodName, array $methodParameters = [], array $classParameters = [] ): self
 	{
 		if( is_object( $mixed ) )
 			$this->addObjectCallback( $eventName, $mixed, $methodName, $methodParameters );
 		else
 			$this->addClassCallback( $eventName, $mixed, $methodName, $methodParameters, $classParameters );
+		return $this;
 	}
 
 	/**
 	 *	Registers a Method to call on an Event.
 	 *	@access		public
 	 *	@param		string			$eventName			Name of the Event
-	 *	@param		string			$class				Name of Class with Method to call
+	 *	@param		string			$className			Name of Class with Method to call
 	 *	@param		string			$methodName			Name of Object Method to call on Event
 	 *	@param		array			$methodParameters	List of Parameters for Method Call
-	 *	@return		void
+	 *	@param		array			$classParameters	List of Parameters for Object Construction (if a Class Name is given)
+	 *	@return		self
+	 *	@throws		ReflectionException
+	 *	@throws		RuntimeException
 	 */
-	public function addClassCallback( $eventName, $class, $methodName, $methodParameters = array(), $classParameters = array() )
+	public function addClassCallback( string $eventName, string $className, string $methodName, array $methodParameters = [], array $classParameters = [] ): self
 	{
-		if( !is_string( $class ) )
-			throw new InvalidArgumentException( 'Not a class name given' );
-		$object	= Factory::createObject( $class, $classParameters );
+		$object	= Factory::createObject( $className, $classParameters );
 		$this->addObjectCallback(  $eventName, $object, $methodName, $methodParameters );
+		return $this;
 	}
 
 	/**
@@ -89,17 +95,18 @@ class EventHandler
 	 *	@param		object			$object				Object with Method to call
 	 *	@param		string			$methodName			Name of Object Method to call on Event
 	 *	@param		array			$methodParameters	List of Parameters for Method Call
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addObjectCallback( $eventName, $object, $methodName, $methodParameters = array() )
+	public function addObjectCallback( string $eventName, object $object, string $methodName, array $methodParameters = [] ): self
 	{
 		if( !is_object( $object ) )
 			throw new InvalidArgumentException( 'Not an object given' );
-		$this->callbacks[$eventName][]	= array(
+		$this->callbacks[$eventName][]	= (object) array(
 			'object'			=> $object,
 			'methodName'		=> $methodName,
 			'methodParameters'	=> $methodParameters
 		);
+		return $this;
 	}
 
 	/**
@@ -107,7 +114,7 @@ class EventHandler
 	 *	@access		public
 	 *	@return		int			Number of handled Event Callback Method Calls
 	 */
-	public function getCounter()
+	public function getCounter(): int
 	{
 		return $this->counter;
 	}
@@ -117,18 +124,17 @@ class EventHandler
 	 *	@access		public
 	 *	@public		string		$eventName		Name of Event to trigger
 	 *	@return		int			Number of handled Callbacks
+	 *	@throws		ReflectionException
 	 */
-	public function handleEvent( $eventName )
+	public function handleEvent( string $eventName ): int
 	{
 		$counter	= 0;
 		if( !array_key_exists( $eventName, $this->callbacks ) )
 			return $counter;
-		foreach( $this->callbacks[$eventName] as $callback )
-		{
-			extract( $callback );
+		foreach( $this->callbacks[$eventName] as $callback ) {
 			//  build a new Method Factory
-			$factory	= new MethodFactory;
-			$factory->callObjectMethod( $object, $methodName, $methodParameters );
+			$factory	= new MethodFactory( $callback->object );
+			$factory->setMethod( $callback->methodName, $callback->methodParameters )->call();
 			//  increase Callback Counter
 			$counter++;
 			//  increase total Callback Counter

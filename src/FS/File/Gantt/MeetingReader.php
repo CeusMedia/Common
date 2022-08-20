@@ -42,6 +42,8 @@ use Exception;
  */
 class MeetingReader
 {
+	protected $xpath;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -72,6 +74,7 @@ class MeetingReader
 	 *	Returns extracted Project and Meeting Dates.
 	 *	@access		public
 	 *	@return		array
+	 *	@throws		Exception
 	 */
 	public function getProjectData(): array
 	{
@@ -108,12 +111,13 @@ class MeetingReader
 	 *	Returns extracted Project Dates.
 	 *	@access		protected
 	 *	@return		array
+	 *	@throws		Exception
 	 */
 	protected function readProjectDates(): array
 	{
 		$node	= $this->xpath->evaluate( "//project/tasks/task" );
 
-		if( $node->length == 0 )
+		if( $node->length === 0 )
 			throw new Exception( 'Task Node not found. No Task defined in Project.' );
 
 		$name		= $node->item(0)->getAttribute( 'name' );

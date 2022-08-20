@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 namespace CeusMedia\Common\CLI\Fork\Server\Client;
 
@@ -36,11 +36,10 @@ namespace CeusMedia\Common\CLI\Fork\Server\Client;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class WebProxy extends Abstraction
 {
-	public function getRequest()
+	public function getRequest(): string
 	{
 		return http_build_query( $_REQUEST, "", "&" );
 	}

@@ -1,4 +1,8 @@
-<?php
+<?php /** @noinspection */
+/** @noinspection PhpMissingParamTypeInspection */
+/** @noinspection PhpMissingReturnTypeInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Spyc -- A Simple PHP YAML Class
  *	@version		0.6.2
@@ -53,14 +57,14 @@ class Spyc
   public $setting_dump_force_quotes = false;
 
   /**
-   * Setting this to true will forse YAMLLoad to use syck_load function when
+   * Setting this to true will force YAMLLoad to use syck_load function when
    * possible. False by default.
    * @var bool
    */
   public $setting_use_syck_is_possible = false;
 
   /**
-   * Setting this to true will forse YAMLLoad to use syck_load function when
+   * Setting this to true will force YAMLLoad to use syck_load function when
    * possible. False by default.
    * @var bool
    */

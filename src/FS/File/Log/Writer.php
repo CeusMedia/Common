@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for Log File.
  *
@@ -49,19 +50,20 @@ class Writer
 	 *	@param		string		$uri		URI of Log File
 	 *	@return		void
 	 */
-	public function __construct( $uri )
+	public function __construct( string $uri )
 	{
 		$this->uri = $uri;
 	}
 
 	/**
-	 *	Adds an Note to Log File.
+	 *	Adds a Note to Log File.
 	 *
 	 *	@access		public
-	 *	@param		string		$line		Entry to add to Log File
+	 *	@param		string			$line		Entry to add to Log File
+	 *	@param		string|NULL		$format		...
 	 *	@return		bool
 	 */
-	public function note( $line, $format = "datetime" )
+	public function note( string $line, ?string $format = "datetime" ): bool
 	{
 		$converter 	= new TimeConverter();
 		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";

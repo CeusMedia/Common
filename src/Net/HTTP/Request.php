@@ -356,7 +356,7 @@ class Request extends Dictionary
 
 	/**
 	 *	Indicate whether a specific request method is used.
-	 *	Method parameter is not case sensitive.
+	 *	Method parameter is not case-sensitive.
 	 *	@access		public
 	 *	@param		string		$method		Request method to check against
 	 *	@return		boolean
@@ -364,9 +364,8 @@ class Request extends Dictionary
 	 */
 	public function isMethod( string $method ): bool
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->is( $method ) instead' );
 		return $this->method->is( $method );
 	}
@@ -379,9 +378,8 @@ class Request extends Dictionary
 	 */
 	public function isGet(): bool
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->isGet() instead' );
 		return $this->method()->isGet();
 	}
@@ -394,9 +392,8 @@ class Request extends Dictionary
 	 */
 	public function isDelete(): bool
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->isDelete() instead' );
 		return $this->method->isDelete();
 	}
@@ -409,9 +406,8 @@ class Request extends Dictionary
 	 */
 	public function isHead(): bool
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->isHead() instead' );
 		return $this->method->isHead();
 	}
@@ -424,9 +420,8 @@ class Request extends Dictionary
 	 */
 	public function isOptions(): bool
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->isOptions() instead' );
 		return $this->method->isOptions();
 	}
@@ -439,9 +434,8 @@ class Request extends Dictionary
 	 */
 	public function isPost(): bool
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->isPost() instead' );
 		return $this->method->isPost();
 	}
@@ -454,9 +448,8 @@ class Request extends Dictionary
 	 */
 	public function isPut(): bool
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->isPut() instead' );
 		return $this->method->isPut();
 	}
@@ -496,9 +489,8 @@ class Request extends Dictionary
 	 */
 	public function setMethod( string $method ): self
 	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.4.7' )
-			->setExceptionVersion( '0.9' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message( 'Please use $request->getMethod()->set() instead' );
 		$this->method->set( $method );
 		return $this;

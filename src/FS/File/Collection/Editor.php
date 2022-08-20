@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for List Files.
  *
@@ -30,7 +31,6 @@ namespace CeusMedia\Common\FS\File\Collection;
 
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 use DomainException;
-use RuntimeException;
 
 /**
  *	Editor for List Files.
@@ -52,7 +52,7 @@ class Editor extends Reader
 	 *	@param		string		$fileName		File Name of List, absolute or relative URI
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		parent::__construct( $fileName );
 		$this->fileName	= $fileName;
@@ -63,9 +63,9 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@param		string		$item			Item to add
 	 *	@param		bool		$force			Flag: force overwriting
-	 *	@return		void
+	 *	@return		int			Number of written bytes
 	 */
-	public function add( $item, $force = FALSE )
+	public function add( string $item, bool $force = FALSE ): int
 	{
 		if( in_array( $item, $this->list ) && !$force )
 			throw new DomainException( 'List Item "'.$item.'" is already existing. See Option "force".' );
@@ -78,9 +78,9 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@param		int			$oldItem		Item to replace
 	 *	@param		int			$newItem		Item to set instead
-	 *	@return		bool
+	 *	@return		int			Number of written bytes
 	 */
-	public function edit( $oldItem, $newItem )
+	public function edit( int $oldItem, int $newItem ): int
 	{
 		$index	= $this->getIndex( $oldItem );
 		$this->list[$index]	= $newItem;
@@ -90,10 +90,10 @@ class Editor extends Reader
 	/**
 	 *	Removes an Item from current List.
 	 *	@access		public
-	 *	@param		int			$item			Item to remove
-	 *	@return		bool
+	 *	@param		string		$item			Item to remove
+	 *	@return		int			Number of written bytes
 	 */
-	public function remove( $item )
+	public function remove( string $item ): int
 	{
 		$index	= $this->getIndex( $item );
 		unset( $this->list[$index] );
@@ -104,9 +104,9 @@ class Editor extends Reader
 	 *	Removes an Item from current List by its Index.
 	 *	@access		public
 	 *	@param		int			$index			Index of Item
-	 *	@return		bool
+	 *	@return		int			Number of written bytes
 	 */
-	public function removeIndex( $index )
+	public function removeIndex( int $index ): int
 	{
 		if( !isset( $this->list[$index] ) )
 			throw new DomainException( 'List Item with Index '.$index.' is not existing.' );
@@ -117,14 +117,14 @@ class Editor extends Reader
 	/**
 	 *	Saves current List to File.
 	 *	@access		protected
-	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string		$user			User Name for chown()
-	 *	@param		string		$group			Group Name for chgrp()
-	 *	@return		bool
+	 *	@param		string			$mode			UNIX rights for chmod()
+	 *	@param		string|NULL		$user			User Name for chown()
+	 *	@param		string|NULL		$group			Group Name for chgrp()
+	 *	@return		int				Number of written bytes
 	 */
-	protected function write( $mode = 0755, $user = NULL, $group = NULL )
+	protected function write( $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		$file	= new FileWriter( $this->fileName, $mode, $user, $group );
-		return $file->writeArray( $this->list ) !== FALSE;
+		return $file->writeArray( $this->list );
 	}
 }

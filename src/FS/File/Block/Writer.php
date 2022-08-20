@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.12.2006
  */
 
 namespace CeusMedia\Common\FS\File\Block;
@@ -38,11 +38,11 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.12.2006
  */
 class Writer
 {
 	protected $fileName;
+
 	protected $patternSection;
 
 	/**
@@ -51,7 +51,7 @@ class Writer
 	 *	@param		string		$fileName		File Name of Block File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->patternSection	= "[{#name#}]";
 		$this->fileName			= $fileName;
@@ -63,10 +63,10 @@ class Writer
 	 *	@param		array		$blocks			Associative Array with Block Names and Contents
 	 *	@return		int
 	 */
-	public function writeBlocks( $blocks )
+	public function writeBlocks( array $blocks ): int
 	{
-		foreach( $blocks as $name => $content )
-		{
+		$list	= [];
+		foreach( $blocks as $name => $content ){
 			$list[]	= str_replace( "{#name#}", $name, $this->patternSection );
 			$list[]	= $content;
 			$list[]	= "";

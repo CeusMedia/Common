@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace CeusMedia\Common\Alg\Time;
 
@@ -10,17 +10,17 @@ class Duration
 	{
 	}
 
-	public function convertDurationToSeconds( $duration )
+	public function convertDurationToSeconds( $duration ): int
 	{
 		return self::parse( $duration );
 	}
 
-	public function convertSecondsToDuration( $seconds, $space )
+	public function convertSecondsToDuration( int $seconds, string $space ): string
 	{
 		return self::render( $seconds, $space, $this->shortMode );
 	}
 
-	static public function parse( $duration )
+	public static function parse( string $duration ): int
 	{
 		$regexWeeks	= '@([0-9]+)w\s*@';
 		$regexDays	= '@([0-9]+)d\s*@';
@@ -52,7 +52,7 @@ class Duration
 		return $seconds;
 	}
 
-	static public function render( $seconds, $space = ' ', $shorten = FALSE )
+	static public function render( int $seconds, string $space = ' ', bool $shorten = FALSE ): string
 	{
 		$remaining	= abs( $seconds );
 		$secs	 	= $remaining % 60;
@@ -85,14 +85,14 @@ class Duration
 		return ltrim( $duration, $space );
 	}
 
-	public function sanitize( $duration, $space = ' ' )
+	public function sanitize( string $duration, string $space = ' ' ): string
 	{
 		return self::render( self::parse( $duration ), ' ' );
 	}
 
-	public function setShortMode( $enableShortMode = TRUE )
+	public function setShortMode( bool $enableShortMode = TRUE ): self
 	{
 		$this->shortMode	= (bool) $enableShortMode;
-
+		return $this;
 	}
 }

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Finds Web Application Themes in cmFrameworks.
  *
@@ -40,6 +41,10 @@ use DirectoryIterator;
  */
 class Finder
 {
+	protected $themePath;
+
+	protected $cssPath;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -47,7 +52,7 @@ class Finder
 	 *	@param		string			$cssPath			Path to Stylesheets within Themes
 	 *	@return		void
 	 */
-	public function __construct( $themePath, $cssPath = "css/screen/" )
+	public function __construct( string $themePath, string $cssPath = "css/screen/" )
 	{
 		$this->themePath	= $themePath;
 		$this->cssPath		= $cssPath;
@@ -59,23 +64,20 @@ class Finder
 	 *	@param		bool			$withBrowsers		Flag: Stylesheets with Browser Folders
 	 *	@return		array
 	 */
-	public function getThemes( $withBrowsers = FALSE )
+	public function getThemes( bool $withBrowsers = FALSE ): array
 	{
-		$list	= array();
+		$list	= [];
 		$dir	= new DirectoryIterator( $this->themePath );
-		foreach( $dir as $entry )
-		{
+		foreach( $dir as $entry ){
 			if( !$entry->isDir() )
 				continue;
 			if( substr( $entry->getFilename(), 0, 1 ) == "." )
 				continue;
 			$themeName		= $entry->getFilename();
-			if( $withBrowsers )
-			{
+			if( $withBrowsers ){
 				$cssPath	= $this->themePath.$entry->getFilename()."/".$this->cssPath;
 				$subdir	= new DirectoryIterator( $cssPath );
-				foreach( $subdir as $browser )
-				{
+				foreach( $subdir as $browser ){
 					if( !$browser->isDir() )
 						continue;
 					if( substr( $browser->getFilename(), 0, 1 ) == "." )

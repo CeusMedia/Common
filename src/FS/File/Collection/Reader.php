@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	A Class for reading List Files.
  *
@@ -28,6 +29,7 @@
 namespace CeusMedia\Common\FS\File\Collection;
 
 use CeusMedia\Common\FS\File\Reader as FileReader;
+use Countable;
 use DomainException;
 use RuntimeException;
 
@@ -40,7 +42,7 @@ use RuntimeException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Reader
+class Reader implements Countable
 {
 	/**	@var		array		$list			List */
 	protected $list						= array();
@@ -54,7 +56,7 @@ class Reader
 	 *	@param		string		$fileName		File Name of List, absolute or relative URI
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->list	= $this->read( $fileName );
 	}
@@ -64,7 +66,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return "{".implode( ", ", $this->list )."}";
 	}
@@ -75,7 +77,7 @@ class Reader
 	 *	@param		string		$item			Item to get Index for
 	 *	@return		int
 	 */
-	public function getIndex( $item )
+	public function getIndex( string $item ): int
 	{
 		$index	= array_search( $item, $this->list );
 		if( $index === FALSE )
@@ -86,9 +88,9 @@ class Reader
 	/**
 	 *	Returns current List.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		array
 	 */
-	public function getList()
+	public function getList(): array
 	{
 		return $this->list;
 	}
@@ -96,9 +98,9 @@ class Reader
 	/**
 	 *	Returns the Size of current List.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		int
 	 */
-	public function getSize()
+	public function count(): int
 	{
 		return count( $this->list );
 	}
@@ -109,7 +111,7 @@ class Reader
 	 *	@param		string		$item			Item to check
 	 *	@return		bool
 	 */
-	public function hasItem( $item )
+	public function hasItem( string $item ): bool
 	{
 		return in_array( $item, $this->list );
 	}
@@ -118,10 +120,10 @@ class Reader
 	 *	Reads List File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string	fileName		URI of list
-	 *	@return		void
+	 *	@param		string		$fileName		URI of list
+	 *	@return		array
 	 */
-	public static function read( $fileName )
+	public static function read( string $fileName ): array
 	{
 		$list	= array();
 		if( !file_exists( $fileName ) )

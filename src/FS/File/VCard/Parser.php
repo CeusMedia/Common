@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parses vCard String to vCard Data Object.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
 
@@ -41,7 +41,6 @@ use InvalidArgumentException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
@@ -52,22 +51,21 @@ class Parser
 	 *	Parses vCard String to new vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$string			VCard String
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
-	 *	@return		string
+	 *	@param		string			$string			VCard String
+	 *	@param		string|NULL		$charsetIn		Charset to convert from
+	 *	@param		string|NULL		$charsetOut		Charset to convert to
+	 *	@return		VCard
 	 */
-	public static function parse( $string, $charsetIn = NULL, $charsetOut = NULL )
+	public static function parse( string $string, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): VCard
 	{
 		$vcard	= new VCard;
 		return self::parseInto( $string, $vcard, $charsetIn, $charsetOut );
 	}
 
-	protected static function parseAttributes( $string )
+	protected static function parseAttributes( string $string ): array
 	{
-		$parts	= explode( ";", $string );
-		foreach( $parts as $part )
-		{
+		$list	= [];
+		foreach( explode( ";", $string ) as $part ){
 			$parts1	= explode( "=", $part );
 			$key	= array_shift( $parts1 );
 			$values	= explode( ",", array_shift( $parts1 ) );
@@ -81,18 +79,17 @@ class Parser
 	 *	Parses vCard String to an given vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$string			VCard String
-	 *	@param		VCard		$vcard			VCard Data Object
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
-	 *	@return		string
+	 *	@param		string			$string			VCard String
+	 *	@param		VCard			$vcard			VCard Data Object
+	 *	@param		string|NULL		$charsetIn		Charset to convert from
+	 *	@param		string|NULL		$charsetOut		Charset to convert to
+	 *	@return		VCard
 	 */
-	public static function parseInto( $string, VCard $vcard, $charsetIn = NULL, $charsetOut = NULL )
+	public static function parseInto( string $string, VCard $vcard, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): VCard
 	{
 		if( !$string )
 			throw new InvalidArgumentException( 'String is empty ' );
-		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
-		{
+		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) ){
 			$string	= EncodingConverter::convert( $string, $charsetIn, $charsetOut );
 		}
 
@@ -102,7 +99,7 @@ class Parser
 		return $vcard;
 	}
 
-	protected static function parseLine( $vcard, $line )
+	protected static function parseLine( VCard $vcard, string $line )
 	{
 		$partsLine	= explode( ":", $line );
 		$keyFull	= array_shift( $partsLine );
@@ -128,8 +125,7 @@ class Parser
 		$values	= $list;
 
 		//  --  FILL VCARD OBJECT  --  //
-		switch( strtolower( $key ) )
-		{
+		switch( strtolower( $key ) ){
 			case 'n':
 				$vcard->setName(
 					$values[0],
@@ -178,7 +174,6 @@ class Parser
 					$attributes
 				);
 				break;
-
 		}
 	}
 }

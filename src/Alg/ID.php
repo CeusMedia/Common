@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	ID generator.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2014-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\Alg;
@@ -37,7 +37,6 @@ namespace CeusMedia\Common\Alg;
  *	@copyright		2014-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  *
  *	@todo			implement versions
  *	@see			comment at linked page
@@ -45,8 +44,7 @@ namespace CeusMedia\Common\Alg;
  */
 class ID
 {
-	static public function uuid(): string
-	{
+	public static function uuid(): string{
 		if( function_exists( 'com_create_guid' ) === TRUE )
 			return trim( com_create_guid(), '{}' );
 		return sprintf(

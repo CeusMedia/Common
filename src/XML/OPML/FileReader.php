@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -28,7 +29,6 @@
 namespace CeusMedia\Common\XML\OPML;
 
 use CeusMedia\Common\FS\File\Reader as RawFileReader;
-use CeusMedia\Common\XML\DOM\Node;
 use Exception;
 
 /**
@@ -50,34 +50,37 @@ class FileReader
 	 *	@param		string		$fileName		URI of OPML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
 
 	/**
-	 *	Loads a OPML File statically.
+	 *	Loads an OPML File statically.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		URI of OPML File
-	 *	@return		bool
+	 *	@return		Parser
+	 *	@throws		Exception
 	 */
-	public static function load( $fileName )
+	public static function load( string $fileName ): Parser
 	{
 		$file	= new RawFileReader( $fileName );
 		if( !$file->exists() )
 			throw new Exception( "File '".$fileName."' is not existing." );
 		$xml	= $file->readString();
 		$parser	= new Parser();
-		return $parser->parse( $xml );
+		$parser->parse( $xml );
+		return $parser;
 	}
 
 	/**
 	 *	Reads OPML File and returns Outline Array.
 	 *	@access		public
-	 *	@return		Node
+	 *	@return		Parser
+	 *	@throws		Exception
 	 */
-	public function read()
+	public function read(): Parser
 	{
 		return self::load( $this->fileName );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Progress bar for console output.
  *
@@ -29,6 +30,10 @@ namespace CeusMedia\Common\CLI\Output;
 use CeusMedia\Common\CLI;
 use CeusMedia\Common\CLI\Dimensions;
 use CeusMedia\Common\CLI\Output;
+
+use InvalidArgumentException;
+use RangeException;
+use RuntimeException;
 
 /**
  *	Console Output.
@@ -115,7 +120,7 @@ class Progress
 	 *	@param		string		$barTemplate	Bar template of placeholders
 	 *	@return		self
 	 */
-	public function setBarTemplate( $barTemplate ): self
+	public function setBarTemplate( string $barTemplate ): self
 	{
 		$this->barTemplate	= $barTemplate;
 		return $this;
@@ -184,8 +189,7 @@ class Progress
 			return 0;
 
 		$ratio		= $this->total / $count;
-		$timeLeft	= ceil( $timeDiff * $ratio - $timeDiff );
-		return $timeLeft;
+		return ceil( $timeDiff * $ratio - $timeDiff );
 	}
 
 	protected function formatTime( int $seconds, int $nrParts = 2 ): string
@@ -258,12 +262,11 @@ class Progress
 			$barPart2	= str_repeat( $this->barBlocks[0], $barWidth - $length1 - 1 );
 			$bar		= $barPart1.$block.$barPart2;
 		}
-		$line	= vsprintf( $this->barTemplate, array(
+		return vsprintf( $this->barTemplate, array(
 			$bar,
 			$numbers,
 			$ratio,
 			$timeLeft
 		) );
-		return $line;
 	}
 }

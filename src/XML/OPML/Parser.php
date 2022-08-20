@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for OPML Files.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 
 namespace CeusMedia\Common\XML\OPML;
@@ -32,6 +32,7 @@ use CeusMedia\Common\ADT\OptionObject;
 use CeusMedia\Common\XML\DOM\Node;
 use CeusMedia\Common\XML\DOM\Parser as DomParser;
 use Exception;
+use RuntimeException;
 
 /**
  *	Parser for OPML Files.
@@ -41,15 +42,14 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 class Parser
 {
 	/**	@var	OptionObject		$headers			Object containing Headers of OPML Document */
-	var $headers;
+	protected $headers;
 
 	/**	@var	array				$optionKeys			Array of supported Headers */
-	var $optionKeys	= array(
+	protected $optionKeys	= [
 		"title",
 		"dateCreated",
 		"dateModified",
@@ -61,19 +61,19 @@ class Parser
 		"windowLeft",
 		"windowBottom",
 		"windowRight",
-		);
+	];
 
 	/**	@var	array				$outlines			Array of Outlines */
-	var $outlines = array();
+	protected $outlines = [];
 
 	/**	@var	Node				$tree				Loaded XML Tree from OPML Document */
-	var $tree;
+	protected $tree;
 
 	/**	@var	DomParser			$parser				Instance of DOM parser */
-	var $parser;
+	protected $parser;
 
 	/**	@var	bool				$parsed				Flag: OPML has been parsed */
-	var $parsed;
+	protected $parsed;
 
 	/**
 	 *	Constructor.
@@ -83,7 +83,7 @@ class Parser
 	public function __construct()
 	{
 		$this->headers	= new OptionObject();
-		$this->outlines	= array();
+		$this->outlines	= [];
 		$this->parser	= new DomParser();
 		$this->parsed	= false;
 	}
@@ -91,32 +91,30 @@ class Parser
 	/**
 	 *	Returns timestamp from GNU Date.
 	 *	@access		protected
-	 *	@param		string
+	 *	@param		string		$date
 	 *	@return		string
 	 */
-	protected function getDate( $date )
+	protected function getDate( string $date ): string
 	{
 		$timestamp	= strtotime( $date );
 		if( $timestamp > 0 )
 			return $timestamp;
-		return false;
+		return FALSE;
 	}
 
 	/**
 	 *	Return the value of an options of OPML Document.
 	 *	@access		public
-	 *	@return		array
+	 *	@param		string		$key
+	 *	@return		string|NULL
 	 */
-	public function getOption( $key)
+	public function getOption( string $key ): ?string
 	{
-		if( $this->parsed )
-		{
-			if( NULL !== $this->headers->getOption( $key ) )
-				return $this->headers->getOption( $key );
-			return false;
-		}
-		else
-			trigger_error( "XML_OPML_Parser[getOption]: OPML Document has not been parsed yet.", E_USER_WARNING );
+		if( !$this->parsed )
+			throw new RuntimeException( "XML_OPML_Parser[getOption]: OPML Document has not been parsed yet." );
+		if( $this->headers->hasOption( $key ) )
+			return $this->headers->getOption( $key );
+		return NULL;
 	}
 
 	/**
@@ -124,12 +122,11 @@ class Parser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
-		if( $this->parsed )
-			return $this->headers->getOptions();
-		else
-			trigger_error( "XML_OPML_Parser[getOptions]: OPML Document has not been parsed yet.", E_USER_WARNING );
+		if( !$this->parsed )
+			throw new RuntimeException( "XML_OPML_Parser[getOptions]: OPML Document has not been parsed yet." );
+		return $this->headers->getOptions();
 	}
 
 	/**
@@ -137,17 +134,26 @@ class Parser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getOutlines()
+	public function getOutlines(): array
 	{
 		return $this->outlines;
 	}
 
-	public function getOutlineTree()
+	/**
+	 *	...
+	 *	@access		public
+	 *	@return		Node|null
+	 *	@noinspection	PhpUnused
+	 */
+	public function getOutlineTree(): ?Node
 	{
+		if( !$this->parsed )
+			throw new RuntimeException( "XML_OPML_Parser[getOutlineTree]: OPML Document has not been parsed yet." );
 		$areas	= $this->tree->getChildren();
 		foreach( $areas as $area )
 			if( $area->getNodeName() == "body" )
 				return $area;
+		return NULL;
 	}
 
 	/**
@@ -155,8 +161,9 @@ class Parser
 	 *	@access		public
 	 *	@param		string		$xml		OPML String parse
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function parse( $xml )
+	public function parse( string $xml ): void
 	{
 		$this->tree		= $this->parser->parse( $xml );
 		$this->outlines	= array();
@@ -167,22 +174,16 @@ class Parser
 		if( $version = $this->tree->getAttribute( "version" ) )
 			$this->headers->setOption( "opml_version", $version );
 
-		foreach( $this->tree->getChildren() as $area )
-		{
+		foreach( $this->tree->getChildren() as $area ){
 			$areaName	= $area->getNodeName();
-			switch( $areaName )
-			{
+			switch( $areaName ){
 				case "head":
 					$children = $area->getChildren();
-					foreach( $children as $nr => $child )
-					{
+					foreach( $children as $child ) {
 						$childName	= $child->getNodeName();
 						$content	= $child->getContent();
-						switch( $childName )
-						{
+						switch( $childName ){
 							case 'dateCreated':
-								$content	= $this->getDate( $content );
-								break;
 							case 'dateModified':
 								$content	= $this->getDate( $content );
 								break;
@@ -205,13 +206,14 @@ class Parser
 	/**
 	 *	Parses Outlines recursive.
 	 *	@access		protected
+	 *	@param		Node		$node
+	 *	@param		array		$array
 	 *	@return		void
 	 */
-	protected function parseOutlines( $node, &$array )
+	protected function parseOutlines( Node $node, array &$array ): void
 	{
 		$outlines = $node->getChildren();
-		foreach( $outlines as $outline )
-		{
+		foreach( $outlines as $outline ) {
 			$data	= array();
 			foreach( $outline->getAttributes() as $key => $value )
 				$data[$key]	= $value;

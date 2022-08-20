@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Tar Bzip File allows creation and manipulation of bzipped tar archives.
  *
@@ -27,6 +28,7 @@
 
 namespace CeusMedia\Common\FS\File\Arc;
 
+use Exception;
 use RuntimeException;
 
 /**
@@ -41,30 +43,20 @@ use RuntimeException;
 class TarBzip extends Tar
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$fileName 		Name of Tar Bzip Archive to open
-	 *	@return		void
-	 */
-	public function __construct( $fileName = false )
-	{
-		if( $fileName )
-			$this->open( $fileName );
-	}
-
-	/**
 	 *	Opens an existing Tar Bzip File and loads contents.
 	 *	@access		public
 	 *	@param		string		$fileName 		Name of Tar Bzip Archive to open
 	 *	@return		bool
+	 *	@throws		Exception
+	 *	@throws		RuntimeException
 	 */
-	public function open( $fileName )
+	public function open( string $fileName ): bool
 	{
 		// If the tar file doesn't exist...
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'TBZ file "'.$fileName.'" is not existing.' );
 		$this->fileName = $fileName;
-		$this->readBzipTar( $fileName );
+		return $this->readBzipTar( $fileName );
 	}
 
 	/**
@@ -72,26 +64,27 @@ class TarBzip extends Tar
 	 *	@access		private
 	 *	@param		string		$fileName 		Name of Tar Bzip Archive to read
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	private function readBzipTar( $fileName )
+	private function readBzipTar( string $fileName ): bool
 	{
 		$f = new Bzip( $fileName );
 		$this->content = $f->readString();
 		// Parse the TAR file
-		$this->parseTar();
-		return true;
+		return $this->parseTar();
 	}
 
 	/**
 	 *	Write down the currently loaded Tar Bzip Archive.
 	 *	@access		public
-	 *	@param		string		$fileName 		Name of Tar Bzip Archive to save
-	 *	@return		bool
+	 *	@param		string|NULL		$fileName 		Name of Tar Bzip Archive to save
+	 *	@return		int				Number of written bytes
+	 *	@throws		Exception
+	 *	@throws		RuntimeException
 	 */
-	public function save( $fileName = false )
+	public function save( ?string $fileName = NULL ): int
 	{
-		if( !$fileName )
-		{
+		if( !$fileName ){
 			if( !$this->fileName )
 				throw new RuntimeException( 'No TBZ file name for saving given.' );
 			$fileName = $this->fileName;
@@ -99,7 +92,6 @@ class TarBzip extends Tar
 		// Encode processed files into TAR file format
 		$this->generateTar();
 		$f = new Bzip( $fileName );
-		$f->writeString( $this->content );
-		return true;
+		return $f->writeString( $this->content );
 	}
 }

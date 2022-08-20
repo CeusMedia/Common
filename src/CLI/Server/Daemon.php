@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base Implementation of a Unix Demon.
  *
@@ -23,11 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.01.2006
  */
 namespace CeusMedia\Common\CLI\Server;
 
 use CeusMedia\Common\CLI\Application;
+use CeusMedia\Common\CLI;
 
 /**
  *	Base Implementation of a Unix Demon.
@@ -37,7 +38,6 @@ use CeusMedia\Common\CLI\Application;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.01.2006
  */
 class Daemon extends Application
 {
@@ -47,7 +47,7 @@ class Daemon extends Application
 	 *	@param		int		$timeLimit		Run Time Limitation in Seconds (for Development), default=10s, set 0 for unlimited Run Time
 	 *	@return		void
 	 */
-	public function __construct( $timeLimit = 10)
+	public function __construct( int $timeLimit = 10)
 	{
 		set_time_limit( $timeLimit );
 		ob_implicit_flush( 1 );
@@ -61,8 +61,7 @@ class Daemon extends Application
 	 */
 	public function main()
 	{
-		while( 1 )
-		{
+		while( 1 ){
 			$this->serve();
 			ob_flush();
 			$this->sleep();
@@ -101,9 +100,10 @@ class Daemon extends Application
 	/**
 	 *	Default 'Usage' Method, to be overwritten.
 	 *	@access		protected
+	 *	@param		string|NULL		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL )
+	protected function showUsage( ?string $message = NULL )
 	{
 		CLI::out();
 		CLI::out( 'Daemon v0.1' );

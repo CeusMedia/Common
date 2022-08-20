@@ -29,6 +29,7 @@
 namespace CeusMedia\Common\FS\File\Gantt;
 
 use DirectoryIterator;
+use Exception;
 
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
@@ -49,6 +50,7 @@ class MeetingCollector
 	 *	@access		public
 	 *	@param		string		$path			Path to Gantt Project XML Files
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	public function __construct( string $path )
 	{
@@ -128,6 +130,7 @@ class MeetingCollector
 	 *	@static
 	 *	@param		array		$fileList		List of Gantt Project XML Files
 	 *	@return		array
+	 *	@throws		Exception
 	 */
 	protected static function readProjectFiles( array $fileList ): array
 	{

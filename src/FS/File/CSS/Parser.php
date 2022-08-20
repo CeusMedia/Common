@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parses a CSS string or file and creates a structure of ADT_CSS_* objects.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
 
 namespace CeusMedia\Common\FS\File\CSS;
@@ -32,6 +32,7 @@ use CeusMedia\Common\ADT\CSS\Property as CssProperty;
 use CeusMedia\Common\ADT\CSS\Rule as CssRule;
 use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
 use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
 
 /**
  *	Parses a CSS string or file and creates a structure of ADT_CSS_* objects.
@@ -42,7 +43,6 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
 class Parser
 {
@@ -51,11 +51,11 @@ class Parser
 	 *	@access		public
 	 *	@param		string			$fileName	Relative or absolute file URI
 	 *	@return		CssSheet
+	 *	@throws		Exception
 	 */
-	static public function parseFile( $fileName )
+	public static function parseFile( string $fileName ): CssSheet
 	{
-		$content	= FileReader::load( $fileName );
-		return self::parseString( $content );
+		return self::parseString( FileReader::load( $fileName ) );
 	}
 
 	/**
@@ -64,9 +64,9 @@ class Parser
 	 *	@param		string			$string		String of CSS rule properties
 	 *	@return		array			List of property objects
 	 */
-	static protected function parseProperties( $string )
+	protected static function parseProperties( string $string ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( explode( ';', trim( $string ) ) as $line ){
 			if( !trim( $line ) )
 				continue;
@@ -83,11 +83,12 @@ class Parser
 	 *	@access		public
 	 *	@param		string			$string		CSS string
 	 *	@return		CssSheet
+	 *	@throws		Exception
 	 */
-	static public function parseString( $string )
+	public static function parseString( string $string ): CssSheet
 	{
-		if( substr_count( $string, "{" ) !== substr_count( $string, "}" ) )							//
-			throw Exception( 'Invalid paranthesis' );
+		if( substr_count( $string, "{" ) !== substr_count( $string, "}" ) )
+			throw new Exception( 'Invalid parenthesis' );
 		$string	= preg_replace( '/\/\*.+\*\//sU', '', $string );
 		$string	= preg_replace( '/(\t|\r|\n)/s', '', $string );
 		$state	= (int) ( $buffer = $key = '' );

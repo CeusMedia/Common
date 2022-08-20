@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for OPML Files.
  *
@@ -23,14 +24,15 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 
 namespace CeusMedia\Common\XML\OPML;
 
 use CeusMedia\Common\XML\DOM\Builder as DomBuilder;
 use CeusMedia\Common\XML\DOM\Node;
+use DOMException;
 use InvalidArgumentException;
+
 
 /**
  *	Builder for OPML Files.
@@ -40,15 +42,18 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 class Builder extends Node
 {
 	/**	@var	Node	$tree			Outline Document Tree */
 	protected $tree;
 
+	protected $head;
+
+	protected $body;
+
 	/**	@var	array			$headers		Array of supported Headers */
-	protected $headers	= array(
+	protected $headers	= [
 		"title",
 		"dateCreated",
 		"dateModified",
@@ -60,7 +65,7 @@ class Builder extends Node
 		"windowLeft",
 		"windowBottom",
 		"windowRight",
-		);
+		];
 
 	/**
 	 *	Constructor.
@@ -68,25 +73,26 @@ class Builder extends Node
 	 *	@param		string		$version		Version of OPML Document
 	 *	@return		void
 	 */
-	public function __construct( $version = "1.0" )
+	public function __construct( string $version = "1.0" )
 	{
+		parent::__construct( 'opml' );
+		$this->head = new Node( "head" );
+		$this->body = new Node( "body" );
 		$this->tree	= new Node( "opml" );
-		$this->tree->setAttribute( "version", $version );
-		$this->tree->addChild( new Node( "head" ) );
-		$this->tree->addChild( new Node( "body" ) );
+		$this->setAttribute( "version", $version );
+		$this->addChild( $this->head );
+		$this->addChild( $this->body );
 	}
 
 	/**
 	 *	Adds Outline to OPML Document.
 	 *	@access		public
-	 *	@param		Outline		outline		Outline Node to add
+	 *	@param		Outline		$outline		Outline Node to add
 	 *	@return		void
 	 */
-	public function addOutline( $outline )
+	public function addOutline( Outline $outline )
 	{
-		$children	=& $this->getChildren();
-		$body		=& $children[1];
-		$body->addChild( $outline );
+		$this->body->addChild( $outline );
 	}
 
 	/**
@@ -96,14 +102,12 @@ class Builder extends Node
 	 *	@param		string		$value			Value of Header
 	 *	@return		void
 	 */
-	public function setHeader( $key, $value )
+	public function setHeader( string $key, string $value )
 	{
 		if( !in_array( $key, $this->headers, TRUE ) )
 			throw new InvalidArgumentException( "Unsupported Header '".$key."'" );
-		$children	=& $this->tree->getChildren();
-		$head		=& $children[0];
 		$node		= new Node( $key, $value );
-		$head->addChild( $node );
+		$this->head->addChild( $node );
 	}
 
 	/**
@@ -111,11 +115,11 @@ class Builder extends Node
 	 *	@access		public
 	 *	@param		string		$encoding		Encoding of OPML Document
 	 *	@return		string
+	 *	@throws		DOMException
 	 */
-	public function build( $encoding = "utf-8" )
+	public function build( string $encoding = "utf-8" ): string
 	{
 		$builder	= new DomBuilder;
-		$xml		= $builder->build( $this->tree, $encoding );
-		return $xml;
+		return $builder->build( $this, $encoding );
 	}
 }

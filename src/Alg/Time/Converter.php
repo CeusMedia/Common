@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converting Unix Timestamps to Human Time in different formats and backwards.
  *
@@ -51,7 +52,7 @@ class Converter
 	 *	@param		int			$mode		Complement Mode (0:Month Start, 1:Month End)
 	 *	@return		string
 	 */
-	public static function complementMonthDate( $string, $mode = 0 )
+	public static function complementMonthDate( string $string, int $mode = 0 ): string
 	{
 		$string	= trim( $string );
 		if( preg_match( "@^[0-9]{1,2}\.([0-9]{2}){1,2}$@", $string ) ){
@@ -67,7 +68,7 @@ class Converter
 		else
 			return $string;
 		$time	= strtotime( $string );
-		if( $time == false )
+		if( $time === false )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been complemented.' );
 
 		$string		= date( "c", $time );
@@ -79,7 +80,7 @@ class Converter
 		return $string;
 	}
 
-	public static function convertTimeToHuman( $seconds )
+	public static function convertTimeToHuman( int $seconds ): string
 	{
 		$_min	= 60;
 		$_hour	= 60 * $_min;
@@ -95,8 +96,7 @@ class Converter
 		$mins	= floor( $seconds / $_min );
 		$seconds	= $seconds - $mins * $_min;
 
-		$string	= $years."a ".$days."d ".$hours."h ".$mins."m ".$seconds."s";
-		return $string;
+		return $years."a ".$days."d ".$hours."h ".$mins."m ".$seconds."s";
 	}
 
 	/**
@@ -105,9 +105,9 @@ class Converter
 	 *	@static
 	 *	@param		string	$timestamp		Unix Timestamp
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime|duration|custom format)
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public static function convertToHuman( $timestamp, $format )
+	public static function convertToHuman( $timestamp, string $format ): ?string
 	{
 		$human = "";
 		if( $format == "date" )
@@ -128,8 +128,9 @@ class Converter
 		}
 		else if( $format )
 			$human = date( $format, (int)$timestamp );
-		if( $human )
+		if( $human !== FALSE )
 			return $human;
+		return NULL;
 	}
 
 	/**
@@ -141,7 +142,7 @@ class Converter
 	 *	@return		int
 	 *	@todo		finish Implementation
 	 */
-	public static function convertToTimestamp ($string, $format )
+	public static function convertToTimestamp( string $string, string $format )
 	{
 		$timestamp	= 0;
 		if( $string ){
@@ -197,15 +198,16 @@ class Converter
 					"G"	=> "hour",
 					"i"	=> "minute",
 					"s"	=> "second"
-					);
+				);
+				$parts	= [];
 				foreach( $components as $key => $name ){
 					$$name	= 0;
 					if( array_search( $key, $matches1 ) )
 						if( isset( $matches2[array_search( $key, $matches1 )] ) )
-							$$name = $matches2[array_search( $key, $matches1 )];
+							$parts[$name] = $matches2[array_search( $key, $matches1 )];
 				}
 
-				$timestamp = mktime( $hour, $minute, $second, $month, $day, $year );
+				$timestamp = mktime( $parts['hour'], $parts['minute'], $parts['second'], $parts['month'], $parts['day'], $parts['year'] );
 				print_m( get_defined_vars() );
 				die;
 			}

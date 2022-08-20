@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *
@@ -41,30 +42,19 @@ use Exception;
 class TarGzip extends Tar
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$fileName 		Name of Tar Gzip Archive to open
-	 *	@return		void
-	 */
-	public function __construct( $fileName = false )
-	{
-		if( $fileName )
-			$this->open( $fileName );
-	}
-
-	/**
 	 *	Opens an existing Tar Gzip File and loads contents.
 	 *	@access		public
 	 *	@param		string		$fileName 		Name of Tar Gzip Archive to open
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public function open( $fileName )
+	public function open( string $fileName ): bool
 	{
 		// If the tar file doesn't exist...
 		if( !file_exists( $fileName ) )
 			throw new Exception( "TGZ file '".$fileName."' is not existing." );
 		$this->fileName = $fileName;
-		$this->readGzipTar( $fileName );
+		return $this->readGzipTar( $fileName );
 	}
 
 	/**
@@ -72,26 +62,27 @@ class TarGzip extends Tar
 	 *	@access		private
 	 *	@param		string		$fileName 		Name of Tar Gzip Archive to read
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	private function readGzipTar( $fileName )
+	private function readGzipTar( string $fileName ): bool
 	{
 		$f = new Gzip( $fileName );
 		$this->content = $f->readString();
 		// Parse the TAR file
 		$this->parseTar();
-		return true;
+		return TRUE;
 	}
 
 	/**
 	 *	Write down the currently loaded Tar Gzip Archive.
 	 *	@access		public
-	 *	@param		string		$fileName 		Name of Tar Gzip Archive to save
-	 *	@return		bool
+	 *	@param		string|NULL		$fileName 		Name of Tar Gzip Archive to save
+	 *	@return		int				Number of written bytes
+	 *	@throws		Exception
 	 */
-	public function save( $fileName = false )
+	public function save( ?string $fileName = NULL ): int
 	{
-		if( !$fileName )
-		{
+		if( !$fileName ){
 			if( !$this->fileName )
 				throw new Exception( "No TGZ file name for saving given." );
 			$fileName = $this->fileName;
@@ -99,7 +90,6 @@ class TarGzip extends Tar
 		// Encode processed files into TAR file format
 		$this->generateTar();
 		$f = new Gzip( $fileName );
-		$f->writeString( $this->content);
-		return true;
+		return $f->writeString( $this->content);
 	}
 }

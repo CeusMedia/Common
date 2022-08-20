@@ -1,5 +1,12 @@
 namespace <%namespace%>
 {
+
+	use CeusMedia\Common\Test\MockException;
+	use CeusMedia\Common\Test\MockBadMethodCallException;
+	use CeusMedia\Common\Test\MockBadVarCallException;
+	use CeusMedia\Common\Test\MockBadStaticMethodCallException;
+	use CeusMedia\Common\Test\MockBadStaticVarCallException;
+
 	class <%mockClassName%> extends <%originalClassName%>
 	{
 		public function executeProtectedMethod( $method, $content, $comment = NULL )

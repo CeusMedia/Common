@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Generic Console Application.
  *
@@ -23,12 +24,10 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.01.2006
  */
 namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\CLI;
-use CeusMedia\Common\CLI\ArgumentParser;
 
 /**
  *	Generic Console Application.
@@ -38,17 +37,19 @@ use CeusMedia\Common\CLI\ArgumentParser;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.01.2006
  */
 class Application
 {
+	/** @var	ArgumentParser		$arguments  */
+	protected $arguments;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		array		$shortcuts		Array of Shortcuts to be set
 	 *	@return		void
 	 */
-	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE, $handleNoneCLI = TRUE )
+	public function __construct( array $shortcuts = array(), bool $fallBackOnEmptyPair = FALSE, bool $handleNoneCLI = TRUE )
 	{
 		CLI::checkIsCLi( $handleNoneCLI );
 		$this->arguments	= new ArgumentParser();
@@ -77,7 +78,7 @@ class Application
 	 *	@param		string		$message		Error Message to print to Console
 	 *	@return		void
 	 */
-	protected function showError( $message, $abort = TRUE )
+	protected function showError( string $message, bool $abort = TRUE )
 	{
 		CLI::error( $message );
 		if( $abort )
@@ -87,10 +88,10 @@ class Application
 	/**
 	 *	Prints Usage Message to Console and exits Script, to be overridden.
 	 *	@access		protected
-	 *	@param		string		$message		Message to show below usage lines
+	 *	@param		string|NULL		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL )
+	protected function showUsage( ?string $message = NULL )
 	{
 		CLI::out();
 		CLI::out( 'Console Application' );

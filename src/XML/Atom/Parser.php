@@ -148,7 +148,7 @@ class Parser
 	 *	Creates a Data Structure with Attributes with a Template for a Node.
 	 *	@access		protected
 	 *	@param		XmlElement	$node				Node to build Data Structure for
-	 *	@param		array							Template Data Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
+	 *	@param		array		$template			Template Data Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
 	 *	@return		array
 	 */
 	protected function createAttributeNode( XmlElement $node, array $template = [] ): array

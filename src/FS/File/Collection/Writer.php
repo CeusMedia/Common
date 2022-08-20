@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	A Class for reading and writing List Files.
  *
@@ -42,7 +43,7 @@ use DomainException;
 class Writer
 {
 	/**	@var		array		$list			List **/
-	protected $list				= array();
+	protected $list				= [];
 
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI **/
 	protected $fileName;
@@ -53,7 +54,7 @@ class Writer
 	 *	@param		string		$fileName		File Name of List, absolute or relative URI
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -63,9 +64,9 @@ class Writer
 	 *	@access		public
 	 *	@param		string		$item			Item to add
 	 *	@param		bool		$force			Flag: force overwriting
-	 *	@return		void
+	 *	@return		int			Number of written bytes
 	 */
-	public function add( $item, $force = FALSE )
+	public function add( string $item, bool $force = FALSE ): int
 	{
 		if( in_array( $item, $this->list ) && !$force )
 			throw new DomainException( 'Item "'.$item.'" is already existing. See Option "force".' );
@@ -76,10 +77,10 @@ class Writer
 	/**
 	 *	Removes an Item from current List.
 	 *	@access		public
-	 *	@param		int			$item			Item to remove
-	 *	@return		bool
+	 *	@param		string		$item			Item to remove
+	 *	@return		int			Number of written bytes
 	 */
-	public function remove( $item )
+	public function remove( string $item ): int
 	{
 		if( !in_array( $item, $this->list ) )
 			throw new DomainException( 'Item "'.$item.'" is not existing.' );
@@ -92,9 +93,9 @@ class Writer
 	 *	Removes an Item from current List by its Index.
 	 *	@access		public
 	 *	@param		int			$index			Index of Item
-	 *	@return		bool
+	 *	@return		int			Number of written bytes
 	 */
-	public function removeIndex( $index )
+	public function removeIndex( int $index ): int
 	{
 		if( !isset( $this->list[$index] ) )
 			throw new DomainException( 'Item with Index '.$index.' is not existing.' );
@@ -106,17 +107,17 @@ class Writer
 	 *	Saves a List to File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of List, absolute or relative URI
-	 *	@param		array		$list			List to save
-	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string		$user			User Name for chown()
-	 *	@param		string		$group			Group Name for chgrp()
-	 *	@return		bool
+	 *	@param		string			$fileName		File Name of List, absolute or relative URI
+	 *	@param		array			$list			List to save
+	 *	@param		string			$mode			UNIX rights for chmod()
+	 *	@param		string|NULL		$user			User Name for chown()
+	 *	@param		string|NULL		$group			Group Name for chgrp()
+	 *	@return		int				Number of written bytes
 	 */
-	public static function save( $fileName, $list, $mode = 0755, $user = NULL, $group = NULL )
+	public static function save( string $fileName, array $list, $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		$file	= new FileWriter( $fileName, $mode, $user, $group );
-		return $file->writeArray( $list ) !== FALSE;
+		return $file->writeArray( $list );
 	}
 
 	/**

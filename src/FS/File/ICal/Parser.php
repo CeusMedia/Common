@@ -117,9 +117,9 @@ class Parser
 	 *	@param		string		$type			String to unfold
 	 *	@param		Node		$root			Parent XML Node
 	 *	@param		array		$lines			Array of iCal Lines
-	 *	@return 	void
+	 *	@return 	array
 	 */
-	protected static function parseRecursive( string $type, Node &$root, array &$lines )
+	protected static function parseRecursive( string $type, Node $root, array &$lines ): array
 	{
 		$node = new Node( strtolower( $type ) );
 		$root->addChild( $node );
@@ -139,6 +139,7 @@ class Parser
 				$node->addChild( $child );
 			}
 		}
+		return [];
 	}
 
 	/**

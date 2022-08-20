@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converts CSS between:
  *	- a string representation, typically content from a CSS file
- *	- a list of rules meaning an array represenation containering rules and their properties
+ *	- a list of rules meaning an array representation containing rules and their properties
  *	- a structure out of ADT_CSS_Sheet, ADT_CSS_Rule and ADT_CSS_Property objects
  *	- a file for input and output
  *
@@ -35,6 +36,7 @@ namespace CeusMedia\Common\FS\File\CSS;
 use CeusMedia\Common\ADT\CSS\Rule as CssRule;
 use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
+use Exception;
 
 /**
  *	Converts CSS between.
@@ -45,7 +47,6 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
 class Converter
 {
@@ -54,10 +55,10 @@ class Converter
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		CssSheet		$sheet		Sheet structure
+	 *	@param		CssSheet|NULL	$sheet		Sheet structure
 	 *	@return		void
 	 */
-	public function __construct( CssSheet $sheet = NULL )
+	public function __construct( ?CssSheet $sheet = NULL )
 	{
 		if( $sheet )
 			$this->fromSheet( $sheet );
@@ -70,7 +71,7 @@ class Converter
 	 *	@param		array			$rules		List of CSS rules
 	 *	@return		CssSheet
 	 */
-	static public function convertArrayToSheet( $rules )
+	public static function convertArrayToSheet( array $rules ): CssSheet
 	{
 		$sheet	= new CssSheet;
 		foreach( $rules as $selector => $properties )
@@ -85,10 +86,9 @@ class Converter
 	 *	@param		array			$rules		List of CSS rules
 	 *	@return		string
 	 */
-	static public function convertArrayToString( $rules )
+	public static function convertArrayToString( array $rules ): string
 	{
-		$sheet	= self::convertArrayToSheet( $rules );
-		return self::convertSheetToString( $sheet );
+		return self::convertSheetToString( self::convertArrayToSheet( $rules ) );
 	}
 
 	/**
@@ -98,11 +98,11 @@ class Converter
 	 *	@param		CssSheet		$sheet		CSS structure
 	 *	@return		array
 	 */
-	static public function convertSheetToArray( CssSheet $sheet )
+	public static function convertSheetToArray( CssSheet $sheet ): array
 	{
-		$level0	= array();
+		$level0	= [];
 		foreach( $sheet->getRules() as $rule ){
-			$level1	= array();
+			$level1	= [];
 			foreach( $rule->getProperties() as $property )
 				$level1[$property->getKey()]	= $property->getValue();
 			$level0[$rule->getSelector()]	= $level1;
@@ -117,41 +117,41 @@ class Converter
 	 *	@param		CssSheet		$sheet		CSS structure
 	 *	@return		string
 	 */
-	static public function convertSheetToString( CssSheet $sheet )
+	public static function convertSheetToString( CssSheet $sheet ): string
 	{
-		$lines	= array();
+		$lines	= [];
 		foreach( $sheet->getRules() as $rule ){
-			array_push( $lines, $rule->getSelector().' {' );
+			$lines[]	= $rule->getSelector() . ' {';
 			foreach( $rule->getProperties() as $property )
-				array_push( $lines, "\t".$property->getKey().': '.$property->getValue().';' );		//
+				$lines[]	= "\t".$property->getKey().': '.$property->getValue().';';
 			$lines[]	= "\t".'}';
 		}
-		array_push( $lines, '' );
-		$css	= implode( "\n", $lines );
-		return $css;
+		$lines[]	= '';
+		return implode( "\n", $lines );
 	}
 
 	/**
 	 *
 	 *	@access		public
 	 *	@static
-	 *	@param		string			$string		CSS string
+	 *	@param		string			$css		CSS string
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	static public function convertStringToArray( $css )
+	public static function convertStringToArray( string $css ): array
 	{
-		$sheet	= Parser::parseString( $css );
-		return self::convertSheetToArray( $sheet );
+		return self::convertSheetToArray( Parser::parseString( $css ) );
 	}
 
 	/**
 	 *
 	 *	@access		public
 	 *	@static
-	 *	@param		string			$string		CSS structure
+	 *	@param		string			$css		CSS structure
 	 *	@return		CssSheet
+	 *	@throws		Exception
 	 */
-	static public function convertStringToSheet( $css )
+	public static function convertStringToSheet( string $css ): CssSheet
 	{
 		return Parser::parseString( $css );
 	}
@@ -160,44 +160,50 @@ class Converter
 	 *	Reads sheet from array.
 	 *	@access		public
 	 *	@param		array			$rules		List of CSS rules
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function fromArray( $rules )
+	public function fromArray( array $rules ): self
 	{
 		$this->sheet	= self::convertArrayToSheet( $rules );
+		return $this;
 	}
 
 	/**
 	 *	Reads sheet from file.
 	 *	@access		public
-	 *	@param		string			$fileName	Realtive or absolute file URI
-	 *	@return		void
+	 *	@param		string			$fileName	Relative or absolute file URI
+	 *	@return		self
+	 *	@throws		Exception
 	 */
-	public function fromFile( $fileName )
+	public function fromFile( string $fileName ): self
 	{
 		$this->sheet	= Parser::parseFile( $fileName );
+		return $this;
 	}
 
 	/**
 	 *	Reads sheet.
 	 *	@access		public
 	 *	@param		CssSheet		$sheet		CSS structure
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function fromSheet( CssSheet $sheet )
+	public function fromSheet( CssSheet $sheet ): self
 	{
 		$this->sheet	= $sheet;
+		return $this;
 	}
 
 	/**
 	 *	Reads sheet from string.
 	 *	@access		public
 	 *	@param		string			$string		CSS structure
-	 *	@return		void
+	 *	@return		self
+	 *	@throws		Exception
 	 */
-	public function fromString( $string )
+	public function fromString( string $string ): self
 	{
 		$this->sheet	= Parser::parseString( $string );
+		return $this;
 	}
 
 	/**
@@ -205,7 +211,7 @@ class Converter
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		return Converter::convertSheetToArray( $this->sheet );
 	}
@@ -213,13 +219,12 @@ class Converter
 	/**
 	 *	Writes sheet into file and returns number of written bytes.
 	 *	@access		public
-	 *	@param		string			$fileName	Realtive or absolute file URI
+	 *	@param		string			$fileName	Relative or absolute file URI
 	 *	@return		integer			Number of bytes written.
 	 */
-	public function toFile( $fileName )
+	public function toFile( string $fileName ): int
 	{
-		$css	= Converter::convertSheetToString( $this->sheet );
-		return FileWriter::save( $fileName, $css );
+		return FileWriter::save( $fileName, Converter::convertSheetToString( $this->sheet ) );
 	}
 
 	/**
@@ -227,7 +232,7 @@ class Converter
 	 *	@access		public
 	 *	@return		CssSheet
 	 */
-	public function toSheet()
+	public function toSheet(): CssSheet
 	{
 		return $this->sheet;
 	}
@@ -237,7 +242,7 @@ class Converter
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toString()
+	public function toString(): string
 	{
 		return Converter::convertSheetToString( $this->sheet );
 	}

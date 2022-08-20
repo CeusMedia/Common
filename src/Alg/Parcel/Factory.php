@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.05.2008
  */
 
 namespace CeusMedia\Common\Alg\Parcel;
@@ -39,7 +39,6 @@ use OutOfRangeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.05.2008
  *	@todo			Code Doc
  */
 class Factory
@@ -61,7 +60,7 @@ class Factory
 	 *	@param		array		$volumes		Array of Packets and the Volumes the Articles would need
 	 *	@return		void
 	 */
-	public function __construct( $packets, $articles, $volumes )
+	public function __construct( array $packets = [], array $articles = [], array $volumes = [] )
 	{
 		$this->packets	= $packets;
 		$this->articles	= $articles;
@@ -75,28 +74,24 @@ class Factory
 	 *	@param		array		$articles		Articles to put into Packet
 	 *	@return		Packet
 	 */
-	public function produce( $packetName, $articles )
+	public function produce( string $packetName, array $articles ): Packet
 	{
 		if( !in_array( $packetName, $this->packets ) )
 			throw new InvalidArgumentException( 'Packet "'.$packetName.'" is not a valid Packet.' );
-		try
-		{
+		try{
 			$packet	= new Packet( $packetName );
-			foreach( $articles as $articleName => $articleQuantity )
-			{
+			foreach( $articles as $articleName => $articleQuantity ){
 				if( !in_array( $articleName, $this->articles ) )
 					throw new InvalidArgumentException( 'Article "'.$articleName.'" is not a valid Article.' );
-				for( $i=0; $i<$articleQuantity; $i++ )
-				{
+				for( $i=0; $i<$articleQuantity; $i++ ){
 					$volume	= $this->volumes[$packetName][$articleName];
 					$packet->addArticle( $articleName, $volume );
 				}
 			}
 			return $packet;
 		}
-		catch( OutOfRangeException $e )
-		{
-			throw new OutOfRangeException( 'To much Articles for Packet.' );
+		catch( OutOfRangeException $e ){
+			throw new OutOfRangeException( 'Too much Articles for Packet.' );
 		}
 	}
 }

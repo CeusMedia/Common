@@ -29,7 +29,6 @@
 namespace CeusMedia\Common\FS\File\INI;
 
 use CeusMedia\Common\FS\File\Reader as FileReader;
-use ArrayObject;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -367,8 +366,6 @@ class Reader extends FileReader
 		$this->lines		= [];
 		$this->properties	= [];
 		$this->sections		= [];
-		$this->lines		= [];
-		$this->comments		= [];
 		$commentOpen		= 0;
 		$lines				= $this->readArray();
 		foreach( $lines as $line ){
@@ -399,7 +396,7 @@ class Reader extends FileReader
 
 				if( preg_match( $this->patternDisabled, $key ) ){
 					$key = preg_replace( $this->patternDisabled, "", $key );
-					if( $this->usesSections() )
+					if( $this->usesSections() && isset( $currentSection ) )
 						$this->disabled[$currentSection][] = $key;
 					$this->disabled[] = $key;
 				}
@@ -409,7 +406,7 @@ class Reader extends FileReader
 					$newValue		= preg_split( $this->patternLineComment, $value, 2 );
 					$value			= trim( $newValue[0] );
 					$inlineComment	= trim( $newValue[1] );
-					if( $this->usesSections() )
+					if( $this->usesSections() && isset( $currentSection ) )
 						$this->comments[$currentSection][$key] = $inlineComment;
 					else
 						$this->comments[$key] = $inlineComment;
@@ -426,7 +423,7 @@ class Reader extends FileReader
 				}
 				if( preg_match( '@^".*"$@', $value ) )
 					$value	= substr( stripslashes( $value ), 1, -1 );
-				if( $this->usesSections() )
+				if( $this->usesSections() && isset( $currentSection ) )
 					$this->properties[$currentSection][$key] = $value;
 				else
 					$this->properties[$key] = $value;

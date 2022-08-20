@@ -14,7 +14,7 @@ class BaseCase extends FrameworkTestCase
 	protected static $_pathLib;
 
 	/**
-	 *	Constructor, sets interal library path and loads library config file.
+	 *	Constructor, sets internal library path and loads library config file.
 	 *	@return		void
 	 */
 	public function __construct()

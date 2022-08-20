@@ -1,7 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\CLI;
+use RangeException;
 
 class Question
 {
@@ -110,7 +112,7 @@ class Question
 		return $this;
 	}
 
-	protected function evaluateInput( & $input )
+	protected function evaluateInput( string & $input ): bool
 	{
 		if( $this->default && !strlen( $input ) )
 			$input	= $this->default;
@@ -153,7 +155,7 @@ class Question
 		return TRUE;
 	}
 
-	protected function renderLabel()
+	protected function renderLabel(): string
 	{
 		$message		= $this->message;
 		$options		= $this->options;
@@ -161,7 +163,7 @@ class Question
 			if( $this->strictOptions )
 				if( !is_null( $this->default ) )
 					if( !array_key_exists( $this->default, $this->options ) )
-						throw new \RangeException( 'Default value is not within options' );
+						throw new RangeException( 'Default value is not within options' );
 			$options	= array();
 			foreach( $this->options as $key => $value )
 				$options[]	= $key.':'.$value;
@@ -170,7 +172,7 @@ class Question
 			if( $this->rangeFrom || $this->rangeTo ){
 				if( !is_null( $this->default ) )
 					if( $this->default < $this->rangeFrom || $this->default > $this->rangeTo )
-						throw new \RangeException( 'Default value is not within set range' );
+						throw new RangeException( 'Default value is not within set range' );
 				$options	= array( $this->rangeFrom.'-'.$this->rangeTo );
 			}
 		}

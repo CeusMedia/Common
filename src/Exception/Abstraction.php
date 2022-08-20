@@ -41,6 +41,8 @@ use Exception;
  *	@see			http://www.php.net/manual/de/language.exceptions.php#91159
  *	@since			0.7.0
  *	@todo			test and write unit tests, remove see-link later
+ *	@deprecated		not needed anymore since base Exception implements Throwable interface
+ *	@todo			remove in 0.9
  */
 abstract class Abstraction extends Exception implements Interface_
 {

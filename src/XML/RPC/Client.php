@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Generates URL for Gravatar API.
  *
@@ -24,13 +25,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
- *	@since			0.7.7
  */
 
 namespace CeusMedia\Common\XML\RPC;
 
 use CeusMedia\Common\Net\HTTP\Post as HttpPost;
 use CeusMedia\Common\XML\ElementReader;
+use CeusMedia\Common\XML\Element;
+use Exception;
+use InvalidArgumentException;
 
 /**
  *	Generates URL for Gravatar API.
@@ -42,7 +45,6 @@ use CeusMedia\Common\XML\ElementReader;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
- *	@since			0.7.7
  */
 class Client
 {
@@ -55,7 +57,8 @@ class Client
 	 *	@param		string		$url			Base URL of XML-RPC
 	 *	@return		void
 	 */
-	public function __construct( $url ){
+	public function __construct( string $url )
+	{
 		$this->url	= $url;
 	}
 
@@ -64,10 +67,12 @@ class Client
 	 *	@access		public
 	 *	@param		string		$method			Method XML-RPC
 	 *	@param		array		$parameters		List of method parameters
-	 *	@return		mixed
+	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public function call( $method, $parameters ){
-		$params	= array();
+	public function call( string $method, array $parameters ): array
+	{
+		$params	= [];
 		foreach( $parameters as $parameter )
 			$params[]	= '<param>'.self::encodeXmlParameter( $parameter ).'</param>';
 		$method	= '<methodName>'.$method.'</methodName>';
@@ -79,14 +84,15 @@ class Client
 	/**
 	 *	...
 	 *	@access		protected
-	 *	@param		string		$method			Method XML-RPC
-	 *	@param		array		$parameters		List of method parameters
-	 *	@return		mixed
+	 *	@param		Element		$node				...
+	 *	@param		bool		$preserveObjects	Flag: ...
+	 *	@return		array|bool|float|int|object|string|void
 	 */
-	static protected function decodeXmlParameter( $node, $preserveObjects = FALSE ){
+	protected static function decodeXmlParameter( Element $node, bool $preserveObjects = FALSE )
+	{
 		switch( $node->getName() ){
 			case 'struct':
-				$data	= array();
+				$data	= [];
 				foreach( $node->member as $member )
 					foreach( $member->value->children() as $value )
 						$data[(string) $member->name]	= self::decodeXmlParameter( $value );
@@ -94,7 +100,7 @@ class Client
 					$data	= (object) $data;
 				return $data;
 			case 'array':
-				$data	= array();
+				$data	= [];
 				foreach( $node->data->children() as $values )
 					foreach( $values as $value )
 						$data[]	= self::decodeXmlParameter( $value );
@@ -114,13 +120,14 @@ class Client
 	/**
 	 *	...
 	 *	@access		protected
-	 *	@param		string		$method			Method XML-RPC
-	 *	@param		array		$parameters		List of method parameters
+	 *	@param		mixed		$parameter			...
 	 *	@return		string
 	 */
-	static protected function encodeXmlParameter( $parameter ){
+	protected static function encodeXmlParameter( $parameter ): string
+	{
 		$data	= [];
-		switch( gettype( $parameter ) ){
+		$type	= gettype( $parameter );
+		switch( $type ){
 			case 'object':
 				foreach( get_object_vars( $parameter ) as $key => $value ){
 					$value	= self::encodeXmlParameter( $value );
@@ -128,7 +135,6 @@ class Client
 				}
 				return '<struct>'.join( $data ).'</struct>';
 			case 'array':
-				$data	= array();
 				foreach( $parameter as $value )
 					$data[]	= self::encodeXmlParameter( $value );
 				return '<array><data>'.join( $data ).'</data></array>';
@@ -143,18 +149,21 @@ class Client
 				return '<value><double>'.$parameter.'</double></value>';
 			case 'string':
 				return '<value><string>'.$parameter.'</string></value>';
+			default:
+				throw new InvalidArgumentException( 'Unsupported type: '.$type );
 		}
 	}
 
 	/**
 	 *	...
 	 *	@access		protected
-	 *	@param		string		$method			Method XML-RPC
-	 *	@param		array		$parameters		List of method parameters
-	 *	@return		mixed
+	 *	@param		string		$xml			Method XML-RPC
+	 *	@return		array
+	 *	@throws		Exception
 	 */
-	static protected function parseResponse( $xml ){
-		$list		= array();
+	static protected function parseResponse( string $xml ): array
+	{
+		$list		= [];
 		$response	= ElementReader::read( $xml );
 		foreach( $response->params as $params )
 			foreach( $params as $param )

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	XML Node for OPML Outlines.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 
 namespace CeusMedia\Common\XML\OPML;
@@ -38,7 +38,6 @@ use CeusMedia\Common\XML\DOM\Node;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
 class Outline extends Node
 {
@@ -49,17 +48,18 @@ class Outline extends Node
 	 */
 	public function __construct()
 	{
-		parent::__construct( "outline" );
+		parent::__construct( 'outline' );
 	}
 
 	/**
 	 *	Adds an Outline Node to this Outline Node.
 	 *	@access		public
 	 *	@param		Outline		$outline		Outline Node
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addOutline( $outline )
+	public function addOutline( Outline $outline ): self
 	{
 		$this->addChild( $outline );
+		return $this;
 	}
 }

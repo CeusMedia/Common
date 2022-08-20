@@ -64,7 +64,7 @@ class RecursiveRegexFilter extends RegexIterator
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$path				Path to seach in
+	 *	@param		string		$path				Path to search in
 	 *	@param		string		$pattern			Regular Expression to match with File Name
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
@@ -101,22 +101,24 @@ class RecursiveRegexFilter extends RegexIterator
 	 */
 	public function accept(): bool
 	{
-		if( $this->isDot() )
+		/** @var RecursiveDirectoryIterator $innerIterator */
+		$innerIterator	= $this->getInnerIterator();
+
+		if( $innerIterator->isDot() )
 			return FALSE;
 
-		$isDir	= $this->isDir();
+		$isDir	= $innerIterator->isDir();
 		if( !$this->showFiles && !$isDir )
 			return FALSE;
 
-		if( $this->stripDotEntries )
-		{
-			if( preg_match( "@^\.\w@", $this->getFilename() ) )
+		if( $this->stripDotEntries ){
+			if( preg_match( "@^\.\w@", $innerIterator->getFilename() ) )
 				return FALSE;
-			$pathName	= str_replace( "\\", "/", "/".$this->getPath() );
+			$pathName	= str_replace( "\\", "/", "/".$innerIterator->getPath() );
 			if( preg_match( "@/\.\w@", $pathName ) )
 				return FALSE;
 		}
 
-		return preg_match( $this->pattern, $this->getFilename() );
+		return preg_match( $this->pattern, $innerIterator->getFilename() );
 	}
 }

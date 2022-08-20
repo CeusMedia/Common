@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Common\CLI\Output;
 
 class Table
@@ -33,58 +34,31 @@ class Table
 
 	protected $sizeMode			= 0;
 
-	protected static $bordersDouble	= [
-		'otl'	=> '╔',
-		'ot'	=> '═',
-		'otj'	=> '╦',
-		'otr'	=> '╗',
-		'ol'	=> '║',
-		'olj'	=> '╠',
-		'or'	=> '║',
-		'orj'	=> '╣',
-		'obl'	=> '╚',
-		'ob'	=> '═',
-		'obj'	=> '╩',
-		'obr'	=> '╝',
-		'ij'	=> '╬',
-		'ih'	=> '═',
-		'iv'	=> '║',
-	];
-
-	protected static $bordersMixed	= [
-		'otl'	=> '╔',
-		'ot'	=> '═',
-		'otj'	=> '╤',
-		'otr'	=> '╗',
-		'ol'	=> '║',
-		'olj'	=> '╟',
-		'or'	=> '║',
-		'orj'	=> '╢',
-		'obl'	=> '╚',
-		'ob'	=> '═',
-		'obj'	=> '╧',
-		'obr'	=> '╝',
-		'ij'	=> '┼',
-		'ih'	=> '─',
-		'iv'	=> '│',
-	];
-
-	protected static $bordersSingle	= [
-		'otl'	=> '┌',
-		'ot'	=> '─',
-		'otj'	=> '┬',
-		'otr'	=> '┐',
-		'ol'	=> '│',
-		'olj'	=> '├',
-		'or'	=> '│',
-		'orj'	=> '┤',
-		'obl'	=> '└',
-		'ob'	=> '─',
-		'obj'	=> '┴',
-		'obr'	=> '┘',
-		'ij'	=> '┼',
-		'ih'	=> '─',
-		'iv'	=> '│',
+	protected static $borderStyles	= [
+		self::BORDER_STYLE_NONE	=> [
+			'otl'	=> '', 'ot'	=> '', 'otj'	=> '', 'otr'	=> '',
+			'ol'	=> '', 'olj'	=> '', 'or'	=> '', 'orj'	=> '',
+			'obl'	=> '', 'ob'	=> '', 'obj'	=> '', 'obr'	=> '',
+			'ij'	=> '', 'ih'	=> '', 'iv'	=> ' ',
+		],
+		self::BORDER_STYLE_SINGLE	=> [
+			'otl'	=> '┌', 'ot'	=> '─', 'otj'	=> '┬', 'otr'	=> '┐',
+			'ol'	=> '│', 'olj'	=> '├', 'or'	=> '│', 'orj'	=> '┤',
+			'obl'	=> '└', 'ob'	=> '─', 'obj'	=> '┴', 'obr'	=> '┘',
+			'ij'	=> '┼', 'ih'	=> '─', 'iv'	=> '│',
+		],
+		self::BORDER_STYLE_DOUBLE	=> [
+			'otl'	=> '╔', 'ot'	=> '═', 'otj'	=> '╦', 'otr'	=> '╗',
+			'ol'	=> '║', 'olj'	=> '╠', 'or'	=> '║', 'orj'	=> '╣',
+			'obl'	=> '╚', 'ob'	=> '═', 'obj'	=> '╩', 'obr'	=> '╝',
+			'ij'	=> '╬', 'ih'	=> '═', 'iv'	=> '║',
+		],
+		self::BORDER_STYLE_MIXED	=> [
+			'otl'	=> '╔', 'ot'	=> '═', 'otj'	=> '╤', 'otr'	=> '╗',
+			'ol'	=> '║', 'olj'	=> '╟', 'or'	=> '║', 'orj'	=> '╢',
+			'obl'	=> '╚', 'ob'	=> '═', 'obj'	=> '╧', 'obr'	=> '╝',
+			'ij'	=> '┼', 'ih'	=> '─', 'iv'	=> '│',
+		],
 	];
 
 	protected $borderStyle;
@@ -96,107 +70,35 @@ class Table
 		$this->setBorderStyle( self::BORDER_STYLE_SINGLE );
 	}
 
-	public function render()
+	public function render(): string
 	{
-		$rows		= [];
-		if( count( $this->data ) ){
-			$this->collectColumns();
-			$headline	= $this->renderHeadline();
+		if( count( $this->data ) === 0 )
+			return '';
 
-			$size		= count( $this->columns ) + 1;
-			foreach( $this->columns as $column )
-				$size	+= $column['size'];
-
-			$padding	= '';
-			if( $size < ( 75 - count( $this->columns ) ) ){
-				$padding	= ' ';
-				$size	+= count( $this->columns ) * 2;
-			}
-
-			$rows	= array();
-			$columnKeys	= array_keys( $this->columns );
-			$line		= array();
-			foreach( $columnKeys as $columnKey ){
-				$dir = $this->columns[$columnKey]['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
-				$line[]	= $padding.str_pad( $columnKey, $this->columns[$columnKey]['size'], ' ', $dir ).$padding;
-			}
-			$rows[]	= $this->borders['ol'].join( $this->borders['iv'], $line ).$this->borders['or'].PHP_EOL;
-
-			foreach( $this->data as $rowNr => $row ){
-				$line	= array();
-				foreach( $columnKeys as $columnKey ){
-					$value	= isset( $row[$columnKey] ) ? $row[$columnKey] : '';
-					$dir = $this->columns[$columnKey]['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
-					$line[]	= $padding.str_pad( $value, $this->columns[$columnKey]['size'], ' ', $dir ).$padding;
-				}
-				$rows[]	= $this->renderRowSeparator();
-				$rows[]	= $this->borders['ol'].join( $this->borders['iv'], $line ).$this->borders['or'].PHP_EOL;
-			}
-//			array_pop( $rows );
-		}
-		$result	= join( [
+		$this->collectColumns();
+		return join( [
 			$this->renderTopBorder(),
-			join( $rows ),
+			$this->renderHeadline(),
+			$this->renderRows(),
 			$this->renderBottomBorder(),
 		] );
-		return $result;
 	}
 
-	protected function renderRowSeparator(): string
+	protected function renderDataLine( array $data, string $padding ): string
 	{
-		$list	= array();
-		// $this->borders['olj'].' ' );
+		$line	= array();
+		$border	= $this->getBorderStyleObject();
 		foreach( $this->columns as $columnKey => $column ){
-			$list[]	= str_repeat( $this->borders['ih'], $column['size'] + 2 );
+			$value	= $data[$columnKey] ?? '';
+			$dir = $column['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
+			$line[]	= $padding.str_pad( $value, $column['size'], ' ', $dir ).$padding;
 		}
-		return join( array(
-			$this->borders['olj'],
-			join( $this->borders['ij'], $list ),
-			$this->borders['orj'],
-		) ).PHP_EOL;
-	}
-
-	protected function renderBottomBorder(): string
-	{
-		$list	= array();
-		foreach( $this->columns as $columnKey => $column ){
-			$list[]	= str_repeat( $this->borders['ob'], $column['size'] + 2 );
-		}
-		return join( array(
-			$this->borders['obl'],
-			join( $this->borders['obj'], $list ),
-			$this->borders['obr'],
-		) ).PHP_EOL;
-	}
-
-	protected function renderTopBorder(): string
-	{
-		$list	= array();
-		foreach( $this->columns as $columnKey => $column ){
-			$list[]	= str_repeat( $this->borders['ot'], $column['size'] + 2 );
-		}
-		return join( array(
-			$this->borders['otl'],
-			join( $this->borders['otj'], $list ),
-			$this->borders['otr'],
-		) ).PHP_EOL;
+		return $border->ol.join( $border->iv, $line ).$border->or.PHP_EOL;
 	}
 
 	public function setBorderStyle( int $borderStyle ): self
 	{
 		$this->borderStyle	= $borderStyle;
-		switch( $this->borderStyle ){
-			case self::BORDER_STYLE_MIXED:
-				$this->borders	= self::$bordersMixed;
-				break;
-			case self::BORDER_STYLE_DOUBLE:
-				$this->borders	= self::$bordersDouble;
-				break;
-			case self::BORDER_STYLE_SINGLE:
-			default:
-				$this->borders	= self::$bordersSingle;
-				break;
-		}
 		return $this;
 	}
 
@@ -212,11 +114,25 @@ class Table
 		return $this;
 	}
 
-	protected function collectColumns(): self
+	//  --  PROTECTED  --  //
+
+	protected function calculatePadding(): string
+	{
+		$padding	= '';
+		$size		= count( $this->columns ) + 1;
+		foreach( $this->columns as $column )
+			$size	+= $column['size'];
+
+		if( $size < ( 75 - count( $this->columns ) ) )
+			$padding	= ' ';
+		return $padding;
+	}
+
+	protected function collectColumns()
 	{
 		$this->columns	= array();
 		if( !count( $this->data ) )
-			return $this->columns;
+			return;
 		$first	= current( $this->data );
 		foreach( $first as $key => $value ){
 			$this->columns[$key]	= array(
@@ -225,7 +141,7 @@ class Table
 				'label'	=> is_string( $key ) ? $key : NULL,
 			);
 		}
-		foreach( $this->data as $rowNr => $row ){
+		foreach( $this->data as $row ){
 			foreach( $row as $key => $value ){
 				$this->columns[$key]['size']	= max( $this->columns[$key]['size'], strlen( $value ) );
 			}
@@ -240,19 +156,83 @@ class Table
 				$this->columns[$columnKey]['size']	= floor( $ratio * $spaceLeft );
 			}
 		}
-		return $this;
+	}
+
+	protected function getBorderStyleObject(): object
+	{
+		return (object) self::$borderStyles[$this->borderStyle];
 	}
 
 	protected function renderHeadline(): string
 	{
 		$padding	= ' ';
-		$rows		= array();
-		$columnKeys	= array_keys( $this->columns );
+		$border		= $this->getBorderStyleObject();
 		$line		= array();
 		foreach( $this->columns as $columnKey => $column ){
-			$dir = $this->columns[$columnKey]['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
-			$line[]	= $padding.str_pad( $columnKey, $this->columns[$columnKey]['size'], ' ', $dir ).$padding;
+			$dir = $column['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
+			$line[]	= $padding.str_pad( $columnKey, $column['size'], ' ', $dir ).$padding;
 		}
-		return $this->borders['ol'].join( $this->borders['iv'], $line ).$this->borders['or'].PHP_EOL;
+		return $border->ol.join( $border->iv, $line ).$border->or.PHP_EOL;
+	}
+	protected function renderRowSeparator(): string
+	{
+		$list	= array();
+		$border	= $this->getBorderStyleObject();
+		if( $border->olj.$border->ij.$border->orj === '' )
+			return '';
+
+		foreach( $this->columns as $column ){
+			$list[]	= str_repeat( $border->ih, $column['size'] + 2 );
+		}
+		return join( array(
+				$border->olj,
+				join( $border->ij, $list ),
+				$border->orj,
+			) ).PHP_EOL;
+	}
+
+	protected function renderBottomBorder(): string
+	{
+		$list	= array();
+		$border	= $this->getBorderStyleObject();
+		if( $border->obl.$border->obj.$border->obr === '' )
+			return '';
+
+		foreach( $this->columns as $column ){
+			$list[]	= str_repeat( $border->ob, $column['size'] + 2 );
+		}
+		return join( array(
+				$border->obl,
+				join( $border->obj, $list ),
+				$border->obr,
+			) ).PHP_EOL;
+	}
+
+	protected function renderRows(): string
+	{
+		$padding	= $this->calculatePadding();
+		$rows		= array();
+		foreach( $this->data as $row ){
+			$rows[]	= $this->renderRowSeparator();
+			$rows[]	= $this->renderDataLine( $row, $padding );
+		}
+		return join( $rows );
+	}
+
+	protected function renderTopBorder(): string
+	{
+		$list	= array();
+		$border	= $this->getBorderStyleObject();
+		if( $border->otl.$border->otj.$border->otr === '' )
+			return '';
+
+		foreach( $this->columns as $column ){
+			$list[]	= str_repeat( $border->ot, $column['size'] + 2 );
+		}
+		return join( array(
+				$border->otl,
+				join( $border->otj, $list ),
+				$border->otr,
+			) ).PHP_EOL;
 	}
 }

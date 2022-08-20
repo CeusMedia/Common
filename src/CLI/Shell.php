@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *
@@ -23,8 +24,8 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.08.2005
  */
+
 namespace CeusMedia\Common\CLI;
 
 /**
@@ -35,7 +36,6 @@ namespace CeusMedia\Common\CLI;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.08.2005
  */
 class Shell
 {
@@ -81,7 +81,7 @@ class Shell
 	{
 		if( getenv( 'HTTP_HOST' ) )
 			die( "usage in console only." );
-		ob_implicit_flush( true );
+		ob_implicit_flush();
 		ini_set( "html_errors", 0 );
 		error_reporting( 7 );
 		set_time_limit( 0 );
@@ -89,8 +89,12 @@ class Shell
 			define( 'STDIN',	fopen( "php://stdin","r" ) );
 			define( 'STDOUT',	fopen( "php://stdout","w" ) );
 			define( 'STDERR',	fopen( "php://stderr","w" ) );
-			register_shutdown_function(
-				create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
+			register_shutdown_function( function(){
+				fclose(STDIN);
+				fclose(STDOUT);
+				fclose(STDERR);
+				return TRUE;
+			});
 		}
 		$this->run();
 	}
@@ -101,7 +105,7 @@ class Shell
 	 *	@param		string		$line		...
 	 *	@return 	bool
 	 */
-	protected function isImmediate( $line )
+	protected function isImmediate( string $line ): bool
 	{
 		$code = '';
 		$sq = $dq = FALSE;

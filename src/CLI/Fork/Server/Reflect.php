@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 namespace CeusMedia\Common\CLI\Fork\Server;
 
@@ -36,11 +36,10 @@ namespace CeusMedia\Common\CLI\Fork\Server;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class Reflect extends Abstraction
 {
-	protected function handleRequest( $request )
+	protected function handleRequest( $request ): string
 	{
 		$buffer		= array( "\n" );
 		$buffer[]	= "Total requests: ".$this->statSeenTotal;
@@ -50,7 +49,6 @@ class Reflect extends Abstraction
 		$buffer[]	= "Server time: " . date( "D, d M Y H:i:s T", time() );
 		$buffer[]	= "";
 		$buffer[]	= "Your request: ".$request;
-		$buffer		= implode( "\n", $buffer );
-		return $buffer;
+		return implode( "\n", $buffer );
 	}
 }

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Argument Parser for Console Applications.
  *
@@ -27,7 +28,6 @@
 namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
-use CeusMedia\Common\CLI\RequestReceiver;
 
 /**
  *	Argument Parser for Console Applications.
@@ -68,7 +68,6 @@ class ArgumentParser extends Dictionary
 	public function parseArguments( bool $fallBackOnEmptyPair = FALSE )
 	{
 		$request	= new RequestReceiver( $fallBackOnEmptyPair );
-		$arguments	= $request->getAll();
 		$commands	= array();
 		$parameters	= array();
 		foreach( $request->getAll() as $key => $value ){
@@ -78,10 +77,9 @@ class ArgumentParser extends Dictionary
 				$parameters[$key]	= $value;
 		}
 		$script		= array_shift( $commands );
-		$list	= array();
+		$list		= array();
 		foreach( $parameters as $key => $value ){
-			$reverse	= array_flip( $this->shortcuts );
-			if( in_array( $key, array_keys( $this->shortcuts ), TRUE ) )
+			if( array_key_exists( $key, $this->shortcuts ) )
 				$key	= $this->shortcuts[$key];
 			$list[$key]	= $value;
 		}

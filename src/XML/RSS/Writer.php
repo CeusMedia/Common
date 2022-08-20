@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for RSS 2.0 Feeds.
  *
@@ -23,12 +24,12 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 
 namespace CeusMedia\Common\XML\RSS;
 
 use CeusMedia\Common\FS\File\Writer as FileWriter;
+use Exception;
 
 /**
  *	Writer for RSS 2.0 Feeds.
@@ -38,38 +39,39 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 class Writer
 {
 	/**	@var	array			$channelData		Array of Channel Data */
-	protected $channelData		= array();
+	protected $channelData		= [];
 
 	/**	@var	array			$itemList			Array of Items */
-	protected $itemList			= array();
+	protected $itemList			= [];
 
 	/**
 	 *	Adds an item to RSS Feed.
 	 *	@access		public
 	 *	@param		array		$item			Item information to add
-	 *	@return		void
+	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function addItem( $item )
+	public function addItem( array $item ): self
 	{
 		$this->itemList[] = $item;
+		return $this;
 	}
 
 	/**
 	 *	Sets Information of Channel.
 	 *	@access		public
 	 *	@param		array		$array		Array of Channel Information Pairs
-	 *	@return		void
+	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelData( $array )
+	public function setChannelData( array $array ): self
 	{
 		$this->channelData	= $array;
+		return $this;
 	}
 
 	/**
@@ -77,42 +79,45 @@ class Writer
 	 *	@access		public
 	 *	@param		string		$key		Key of Channel Information Pair
 	 *	@param		string		$value		Value of Channel Information Pair
-	 *	@return		void
+	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelPair( $key, $value )
+	public function setChannelPair( string $key, string $value ): self
 	{
 		$this->channelData[$key]	= $value;
+		return $this;
 	}
 
 	/**
 	 *	Sets Item List.
 	 *	@access		public
-	 *	@param		array		$array		List of Item
-	 *	@return		void
+	 *	@param		array		$itemList		List of Item
+	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function setItemList( $itemList )
+	public function setItemList( array $itemList ): self
 	{
 		$this->itemList	= $itemList;
+		return $this;
 	}
 
 	/**
 	 *	Writes RSS to a File statically and returns Number of written Bytes.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName	File Name of XML RSS File
-	 *	@param		array		$array		Array of Channel Information Pairs
-	 *	@param		array		$array		List of Item
-	 *	@param		string		$encoding	Encoding Type
+	 *	@param		string		$fileName		File Name of XML RSS File
+	 *	@param		array		$channelData	Array of Channel Information Pairs
+	 *	@param		array		$itemList		List of Item
+	 *	@param		string		$encoding		Encoding Type
 	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public static function save( $fileName, $channelData, $itemList, $encoding = "utf-8" )
+	public static function save( string $fileName, array $channelData, array $itemList, string $encoding = "utf-8" ): int
 	{
 		$builder	= new Builder();
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
-		$xml	= $builder->build( $encoding = "utf-8" );
+		$xml	= $builder->build( $encoding );
 		return FileWriter::save( $fileName, $xml );
 	}
 
@@ -122,8 +127,9 @@ class Writer
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		string		$encoding	Encoding Type
 	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public function write( $fileName, $encoding = "utf-8" )
+	public function write( string $fileName, string $encoding = "utf-8" ): int
 	{
 		return self::save( $fileName, $this->channelData, $this->itemList, $encoding );
 	}

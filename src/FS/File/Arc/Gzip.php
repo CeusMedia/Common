@@ -47,6 +47,7 @@ class Gzip extends FileEditor
 	 *	@access		public
 	 *	@param		string		$fileName		URI of File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	public function __construct( string $fileName )
 	{
@@ -62,8 +63,7 @@ class Gzip extends FileEditor
 	 */
  	public function readString(): string
 	{
-		$content	= parent::readString();
-		return gzuncompress( $content );
+		return gzuncompress( parent::readString() );
 	}
 
 	/**
@@ -74,7 +74,6 @@ class Gzip extends FileEditor
 	 */
 	public function writeString( string $string ): int
 	{
-		$content	= gzcompress( $string );
-		return parent::writeString( $content );
+		return parent::writeString( gzcompress( $string ) );
 	}
 }

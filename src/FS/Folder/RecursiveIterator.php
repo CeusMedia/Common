@@ -77,7 +77,7 @@ class RecursiveIterator extends FilterIterator
 		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
 		$this->realPathLength	= strlen( $this->realPath );
 		$this->showFiles		= $showFiles;
-		$this->showFiles		= $showFiles;
+		$this->showFolders		= $showFolders;
 		$this->stripDotEntries	= $stripDotEntries;
 		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : RecursiveIteratorIterator::LEAVES_ONLY;
 		parent::__construct(
@@ -98,27 +98,29 @@ class RecursiveIterator extends FilterIterator
 	 */
 	public function accept(): bool
 	{
-		if( $this->getInnerIterator()->isDot() )
+		/** @var RecursiveDirectoryIterator $innerIterator */
+		$innerIterator	= $this->getInnerIterator();
+
+		if( $innerIterator->isDot() )
 			return FALSE;
 
-		$isDir	= $this->getInnerIterator()->isDir();
+		$isDir	= $innerIterator->isDir();
 		if( !$this->showFiles && !$isDir )
 			return FALSE;
 
 		//  skip all folders and files starting with a dot
-		if( $this->stripDotEntries )
-		{
+		if( $this->stripDotEntries ){
 			//  found file or folder is hidden
-			if( substr( $this->getFilename(), 0, 1 ) === "." )
+			if( substr( $innerIterator->getFilename(), 0, 1 ) === "." )
 				return FALSE;
 
 			//  inner path is hidden
-			if( substr( $this->getSubPathname(), 0, 1 ) === "." )
+			if( substr( $innerIterator->getSubPathname(), 0, 1 ) === "." )
 				return FALSE;
 
 			//  be nice to Windows
-			$subPath	= str_replace( "\\", "/", $this->getSubPathname() );
-			//  atleast 1 folder in inner path is hidden
+			$subPath	= str_replace( "\\", "/", $innerIterator->getSubPathname() );
+			//  at least 1 folder in inner path is hidden
 			if( preg_match( '/\/\.\w/', $subPath ) )
 				return FALSE;
 		}

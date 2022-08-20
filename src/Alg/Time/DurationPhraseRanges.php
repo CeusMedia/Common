@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Collector of Ranges for Duration Phrase.
  *
@@ -23,11 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.10.2008
  */
 
 namespace CeusMedia\Common\Alg\Time;
 
+use Countable;
 use Exception;
 
 /**
@@ -38,11 +39,10 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.10.2008
  */
-class DurationPhraseRanges implements \Countable
+class DurationPhraseRanges implements Countable
 {
-	protected $ranges	= array();
+	protected $ranges	= [];
 	protected $regExp	= '@^([0-9]+)(s|m|h|D|W|M|Y)$@';
 
 	/**
@@ -51,7 +51,7 @@ class DurationPhraseRanges implements \Countable
 	 *	@param		array		$ranges		Ranges to import from associative Array with Keys 'from', 'to' and 'label'.
 	 *	@return		void
 	 */
-	public function __construct( $ranges = array() )
+	public function __construct( array $ranges = [] )
 	{
 		foreach( $ranges as $from => $label )
 			$this->addRange( $from, $label );
@@ -60,11 +60,11 @@ class DurationPhraseRanges implements \Countable
 	/**
 	 *	Adds a Range.
 	 *	@access		public
-	 *	@param		string		$from		Start of Range, eg. 0
+	 *	@param		int			$from		Start of Range, eg. 0
 	 *	@param		string		$label		Range Label, eg. "{s} seconds"
 	 *	@return		void
 	 */
-	public function addRange( $from, $label )
+	public function addRange( int $from, string $label )
 	{
 		$from	= preg_replace_callback( $this->regExp, array( $this, 'calculateSeconds' ), $from );
 		$this->ranges[(int) $from]	= $label;
@@ -72,17 +72,27 @@ class DurationPhraseRanges implements \Countable
 	}
 
 	/**
+	 *	Returns number of collected Ranges.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function count(): int
+	{
+		return count( $this->ranges );
+	}
+
+	/**
 	 *	Callback to replace Time Units by factorized Value.
 	 *	@access		protected
 	 *	@param		array		$matches		Array of Matches of regular Expression in 'addRange'.
-	 *	@return		mixed
+	 *	@return		int
+	 *	@throws		Exception
 	 */
-	protected function calculateSeconds( $matches )
+	protected function calculateSeconds( array $matches ): int
 	{
-		$value	= $matches[1];
+		$value	= (int) $matches[1];
 		$format	= $matches[2];
-		switch( $format )
-		{
+		switch( $format ){
 			case 's': 	return $value;
 			case 'm': 	return $value * 60;
 			case 'h': 	return $value * 60 * 60;
@@ -95,21 +105,11 @@ class DurationPhraseRanges implements \Countable
 	}
 
 	/**
-	 *	Returns number of collected Ranges.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function count()
-	{
-		return count( $this->ranges );
-	}
-
-	/**
 	 *	Returns Array of collected Ranges.
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getRanges()
+	public function getRanges(): array
 	{
 		return $this->ranges;
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for RSS 2.0 Feeds.
  *
@@ -23,14 +24,13 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 
 namespace CeusMedia\Common\XML\RSS;
 
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\Net\Reader as NetReader;
-
+use Exception;
 
 /**
  *	Reader for RSS 2.0 Feeds.
@@ -40,7 +40,6 @@ use CeusMedia\Common\Net\Reader as NetReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 class SimpleReader
 {
@@ -50,11 +49,11 @@ class SimpleReader
 	 *	@static
 	 *	@param		string		$fileName	File Name to XML RSS File
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function readFile( $fileName )
+	public static function readFile( string $fileName ): array
 	{
-		$xml	= FileReader::load( $fileName );
-		return SimpleParser::parse( $xml );
+		return SimpleParser::parse( FileReader::load( $fileName ) );
 	}
 
 	/**
@@ -63,11 +62,11 @@ class SimpleReader
 	 *	@static
 	 *	@param		string		$url		URL to read RSS from
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function readUrl( $url )
+	public static function readUrl( string $url ): array
 	{
-		$xml	= NetReader::readUrl( $url );
-		return SimpleParser::parse( $xml );
+		return SimpleParser::parse( NetReader::readUrl( $url ) );
 	}
 
 	/**
@@ -76,8 +75,9 @@ class SimpleReader
 	 *	@static
 	 *	@param		string		$xml		XML String to read
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function readXml( $xml )
+	public static function readXml( string $xml ): array
 	{
 		return SimpleParser::parse( $xml );
 	}

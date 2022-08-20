@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *
@@ -26,6 +27,8 @@
  */
 namespace CeusMedia\Common\CLI\Command;
 
+use Exception;
+
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *	@category		Library
@@ -50,14 +53,14 @@ abstract class Program
 	/**	@var	array		$arguments		Map of given Options */
 	protected $options		= NULL;
 
-	/**	@var	array		$exitCode		Exit Code of Main Application */
+	/**	@var	int			$exitCode		Exit Code of Main Application */
 	protected $exitCode		= NULL;
 
 	protected $parser;
 
 	/**
 	 *	Constructor, parses Console Call String against given Options and calls Main Method.
-	 *	If this class is going to be extended, the constructor must be extend too and the parents constructor must be called
+	 *	If this class is going to be extended, the constructor must be extended too and the parents constructor must be called
 	 *
 	 *	<code>
 	 *  public function __construct()
@@ -81,7 +84,7 @@ abstract class Program
 	 *	@param		int			$numberArguments	Number of mandatory Arguments
 	 *	@return		void
 	 */
-	public function __construct( $options, $shortcuts, $numberArguments = 0 )
+	public function __construct( array $options, array $shortcuts, int $numberArguments = 0 )
 	{
 		//  load Argument Parser
 		$this->parser	= new ArgumentParser();
@@ -98,23 +101,22 @@ abstract class Program
 	 *	@access		protected
 	 *	@return		string
 	 */
-	protected function getArgumentString()
+	protected function getArgumentString(): string
 	{
 		//  get Console Arguments from PHP
 		$arguments	= $_SERVER['argv'];
 		//  remove Programm Call itself
 		array_shift( $arguments );
 		//  build Argument String
-		$string		= implode( " ", $arguments );
-		return $string;
+		return implode( " ", $arguments );
 	}
 
-	public function getLastExitCode()
+	public function getLastExitCode(): int
 	{
 		return $this->exitCode;
 	}
 
-	protected function handleParserException( Exception $e, $exitCode = self::EXIT_PARSE )
+	protected function handleParserException( Exception $e, int $exitCode = self::EXIT_PARSE )
 	{
 		//  show exception message and exit if set so
 		$this->showError( $e->getMessage(), $exitCode );
@@ -128,7 +130,7 @@ abstract class Program
 	 */
 	abstract protected function main();
 
-	public function run( $argumentString = NULL )
+	public function run( ?string $argumentString = NULL )
 	{
 		if( is_null( $argumentString ) )
 			//  get Argument String
@@ -144,10 +146,11 @@ abstract class Program
 			$this->exitCode		= $this->main();
 			return $this->exitCode;
 		}
-		//  handle uncatched Exceptions
-		catch( \Exception $e ){
+		//  handle uncaught Exceptions
+		catch( Exception $e ){
 			$this->handleParserException( $e );
 		}
+		return self::EXIT_OK;
 	}
 
 	/**
@@ -157,7 +160,7 @@ abstract class Program
 	 *	@param		integer			$exitCode		Quit program afterwards, if >= 0 (EXIT_OK|EXIT_INIT|EXIT_PARSE|EXIT_RUN), default: -1 (EXIT_NO)
 	 *	@return		void
 	 */
-	protected function showError( $message, $exitCode = self::EXIT_NO )
+	protected function showError( $message, int $exitCode = self::EXIT_NO )
 	{
 		if( is_array( $message ) )
 			$message	= join( PHP_EOL, $message );

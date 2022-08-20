@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader and Parser for Tracker Log File.
  *
@@ -23,12 +24,12 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.12.2006
  */
 
 namespace CeusMedia\Common\FS\File\Log\Tracker;
 
 use CeusMedia\Common\FS\File\Log\ShortReader as LogShortReader;
+use RuntimeException;
 
 /**
  *	Reader and Parser for Tracker Log File.
@@ -38,18 +39,17 @@ use CeusMedia\Common\FS\File\Log\ShortReader as LogShortReader;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.12.2006
  */
 class ShortReader extends LogShortReader
 {
 	/*	@var		array		$data			Array of Data from parsed Lines */
-	protected $data	= array();
+	protected $data		= [];
 
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
 	protected $skip;
 
-	/*	@var		boolean		$_open			Internal status */
-	protected $_open = FALSE;
+	/*	@var		boolean		$isOpen			Internal status */
+	protected $isOpen = FALSE;
 
 	/**
 	 *	Constructor.
@@ -58,7 +58,7 @@ class ShortReader extends LogShortReader
 	 *	@param		string		$skip			Remote Address to skip (own Requests)
 	 *	@return		void
 	 */
-	public function __construct( $uri, $skip = "" )
+	public function __construct( string $uri, string $skip = "" )
 	{
 		parent::__construct( $uri );
 		$this->skip	= $skip;
@@ -68,24 +68,18 @@ class ShortReader extends LogShortReader
 	 *	Returns used Browsers of unique Visitors.
 	 *	@access		public
 	 *	@return 	array
+	 *	@noinspection	PhpUnused
 	 */
-	public function getBrowsers()
+	public function getBrowsers(): array
 	{
-		if( !$this->_open )
-		{
-			trigger_error( "Log File not read", E_USER_ERROR );
-			return array();
-		}
-		$remote_addrs	= array();
-		$browsers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip && $entry['http_user_agent'] )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-					{
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
+		$remote_addrs	= [];
+		$browsers		= [];
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip && $entry['http_user_agent'] ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 ){
 						if( isset( $browsers[$entry['http_user_agent']] ) )
 							$browsers[$entry['http_user_agent']] ++;
 						else
@@ -93,8 +87,7 @@ class ShortReader extends LogShortReader
 					}
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
-				else
-				{
+				else{
 					if( isset( $browsers[$entry['http_user_agent']] ) )
 						$browsers[$entry['http_user_agent']] ++;
 					else
@@ -104,12 +97,7 @@ class ShortReader extends LogShortReader
 			}
 		}
 		arsort( $browsers );
-		$lines	= array();
-		foreach( $browsers as $browser => $count )
-			$lines[]	= "<tr><td>".$browser."</td><td>".$count."</td></tr>";
-		$lines		= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		return $browsers;
 	}
 
 	/**
@@ -117,115 +105,93 @@ class ShortReader extends LogShortReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getData()
+	public function getData(): array
 	{
-		if( $this->_open )
-			return $this->data;
-//		print_m( debug_backtrace() );
-		trigger_error( "Log File not read", E_USER_ERROR );
-		return array();
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
+		return $this->data;
 	}
 
 	/**
 	 *	Calculates Page View Average of unique Visitors.
 	 *	@access		public
 	 *	@return 	float
+	 *	@noinspection	PhpUnused
 	 */
-	public function getPagesPerVisitor()
+	public function getPagesPerVisitor(): float
 	{
-		if( !$this->_open )
-		{
-			trigger_error( "Log File not read", E_USER_ERROR );
-			return 0;
-		}
-		$remote_addrs	= array();
-		$visitors			= array();
-		$visitor	= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-					{
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
+		$remote_addrs	= [];
+		$visitors		= [];
+		$visitor		= 0;
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 ){
 						$visitor++;
 						$visitors[$visitor]	= 0;
 					}
 					$visitors[$visitor] ++;
 				}
-				else
-				{
+				else{
 					$visitor++;
 					$visitors[$visitor]	= 1;
 					$remote_addrs[$entry['remote_addr']] = $entry['timestamp'];
 				}
 			}
 		}
-		$total	= 0;
-		foreach( $visitors as $visitor => $pages )
-			$total	+= $pages;
-		$pages	= round( $total / count( $visitors ), 1 );
-		return $pages;
+		return round( array_sum( $visitors ) / count( $visitors ), 1 );
 	}
 
 	/**
-	 *	Returns Referers of unique Visitors.
+	 *	Returns Referrers of unique Visitors.
 	 *	@access		public
+	 *	@param		string|NULL		$skip
 	 *	@return 	array
+	 *	@noinspection	PhpUnused
 	 */
-	public function getReferers( $skip )
+	public function getReferrers( ?string $skip = NULL ): array
 	{
-		if( !$this->_open )
-		{
-			trigger_error( "Log File not read", E_USER_ERROR );
-			return array();
-		}
-		$referers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( $entry['http_referer'] && !preg_match( "#.*".$skip.".*#si", $entry['http_referer'] ) )
-				{
-					if( isset( $referers[$entry['http_referer']] ) )
-						$referers[$entry['http_referer']] ++;
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
+		$referrers		= [];
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( $entry['http_referer'] ){
+					if( $skip && preg_match( "#.*".$skip.".*#si", $entry['http_referer'] ) )
+						continue;
+					if( isset( $referrers[$entry['http_referer']] ) )
+						$referrers[$entry['http_referer']] ++;
 					else
-						$referers[$entry['http_referer']]	= 1;
+						$referrers[$entry['http_referer']]	= 1;
 				}
 			}
 		}
-		arsort( $referers );
-		$lines	= array();
-		foreach( $referers as $referer => $count )
-			$lines[]	= "<tr><td>".$referer."</td><td>".$count."</td></tr>";
-		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		arsort( $referrers );
+		return $referrers;
 	}
 
 	/**
 	 *	Returns HTML of all tracked Requests.
 	 *	@access		public
 	 *	@param		int			$max		List Entries (0-all)
+	 *	@param		int			$offset		...
 	 *	@return 	string
+	 *	@noinspection	PhpUnused
 	 */
-	public function getTable( $max = 0, $offset = 0 )
+	public function getTable( int $max = 0, int $offset = 0 ): string
 	{
-		if( !$this->_open )
-		{
-			trigger_error( "Log File not read", E_USER_ERROR );
-			return array();
-		}
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
 		$data	= $this->data;
 		if( $max )
 			$data	= array_reverse( $data );
 
+		$lines	= [];
 		foreach( $data as $entry )
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( $offset )
-				{
+			if( $entry['remote_addr'] != $this->skip ) {
+				if( $offset ) {
 					$offset--;
 					continue;
 				}
@@ -236,36 +202,29 @@ class ShortReader extends LogShortReader
 		if( $max )
 			$lines	= array_reverse( $lines );
 		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		return "<table>".$lines."</table>";
 	}
 
 	/**
 	 *	Counts tracked unique Visitors.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
-	public function getVisitors()
+	public function getVisitors(): int
 	{
-		if( !$this->_open )
-		{
-			trigger_error( "Log File not read", E_USER_ERROR );
-			return 0;
-		}
-		$remote_addrs	= array();
-		$counter	= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
+		$remote_addrs	= [];
+		$counter		= 0;
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
 					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
 						$counter ++;
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
-				else
-				{
+				else{
 					$counter ++;
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
@@ -278,13 +237,13 @@ class ShortReader extends LogShortReader
 	 *	Counts tracked Visits.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
-	public function getVisits()
+	public function getVisits(): int
 	{
-		if( $this->_open )
-			return count( $this->data );
-		trigger_error( "Log File not read", E_USER_ERROR );
-		return array();
+		if( !$this->isOpen )
+			throw new RuntimeException( "Log File not read" );
+		return count( $this->data );
 	}
 
 	/**
@@ -294,21 +253,21 @@ class ShortReader extends LogShortReader
 	 */
 	public function parse()
 	{
-		$i=0;
-		$lines	= $this->read();
-		foreach( $lines as $line )
-			$this->data[]	= array_combine( $this->_pattern, $line );
+		$this->read();
+		foreach( $this->data as $nr => $line )
+			$this->data[$nr]	= array_combine( $this->patterns, $line );
 	}
 
 	/**
 	 *	Set already parsed Log Data (i.E. from serialized Cache File).
 	 *	@access		public
 	 *	@param		array		$data			Parsed Log Data
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setData( $data )
+	public function setData( array $data ): self
 	{
 		$this->data	= $data;
-		$this->_open	= TRUE;
+		$this->isOpen	= TRUE;
+		return $this;
 	}
 }

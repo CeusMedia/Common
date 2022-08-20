@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Creates instances of Classes using Reflection.
  *
@@ -23,13 +24,12 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\Alg\Obj;
 
-use InvalidArgumentException;
 use ReflectionClass;
+use ReflectionException;
 use RuntimeException;
 
 /**
@@ -40,29 +40,34 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class Factory
 {
-	protected $arguments		= array();
+	protected $arguments		= [];
 
-	public function __construct( $arguments = array() )
+	public function __construct( array $arguments = [] )
 	{
-		if( is_array( $arguments ) )
-			$this->setArguments( $arguments );
+		$this->setArguments( $arguments );
 	}
 
-	public function addArgument( $argument )
+	public function addArgument( $argument ): self
 	{
 		$this->arguments[]	= $argument;
+		return $this;
 	}
 
-	public function create( $className, $arguments = NULL )
+	/**
+	 *	@param		string		$className		Name of Class
+	 *	@param		array		$arguments		List of Arguments for construction
+	 *	@return		object
+	 *	@throws		ReflectionException
+	 * @todo		what? why clone? why keep current instance and append arguments?
+	 */
+	public function create( string $className, array $arguments = [] ): object
 	{
 		$factory	= clone $this;
-		if( $arguments )
-			foreach( $arguments as $argument )
-				$factory->addArgument( $argument );
+		foreach( $arguments as $argument )
+			$factory->addArgument( $argument );
 		$arguments	= $factory->getArguments();
 		return Factory::createObject( $className, $arguments );
 	}
@@ -72,30 +77,27 @@ class Factory
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$className		Name of Class
-	 *	@param		array		$arguments		List of Arguments for Contruction
+	 *	@param		array		$arguments		List of Arguments for construction
 	 *	@return		object
+	 *	@throws		ReflectionException
+	 *	@throws		RuntimeException
 	 */
-	public static function createObject( $className, $arguments = array() )
+	public static function createObject( string $className, array $arguments = [] ): object
 	{
 		if( !class_exists( $className ) )
 			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );
-		$class	= new ReflectionClass( $className );
-		if( $arguments )
-			$object	= $class->newInstanceArgs( $arguments );
-		else
-			$object	= $class->newInstance();
-		return $object;
+		$reflectedClass	= new ReflectionClass( $className );
+		return $reflectedClass->newInstanceArgs( $arguments );
 	}
 
-	public function getArguments()
+	public function getArguments(): array
 	{
 		return $this->arguments;
 	}
 
-	public function setArguments( $arguments = array() )
+	public function setArguments( array $arguments = [] ): self
 	{
-		if( !is_array( $arguments ) )
-			throw new InvalidArgumentException( 'Arguments must be an array' );
 		$this->arguments	= array_values( $arguments );
+		return $this;
 	}
 }

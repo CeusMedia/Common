@@ -47,6 +47,8 @@ class Bzip extends FileEditor
 	 *	@access		public
 	 *	@param		string		$fileName		URI of File
 	 *	@return		void
+	 *	@throw		Exception
+	 *	@throw		RuntimeException
 	 */
 	public function __construct( string $fileName )
 	{

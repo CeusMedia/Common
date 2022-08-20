@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace CeusMedia\Common\CLI\Exception;
 
@@ -22,7 +22,7 @@ class View
 
 	public function render(): string
 	{
-		if( !$this->exception || !$this->exception instanceof Exception )
+		if( !$this->exception instanceof Exception )
 			throw new InvalidArgumentException( 'No exception set' );
 		$e	= $this->exception;
 		$lines	= [

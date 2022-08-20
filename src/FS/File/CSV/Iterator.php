@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
@@ -39,13 +40,13 @@ class Iterator implements BaseIterator
 	 *	Constructor.
 	 *	Sets all parameters but does not open the file. This will be done on the first interaction.
 	 *	@access		public
-	 *	@param		string		$filePath		CSV file
-	 *	@param		boolean		$useHeaders		Flag: use first line to read row headers
-	 *	@param		string		$delimiter		Delimiter sign
-	 *	@param		string		$enclosure		Enclosure sign
+	 *	@param		string			$filePath		CSV file
+	 *	@param		boolean			$useHeaders		Flag: use first line to read row headers
+	 *	@param		string|NULL		$delimiter		Delimiter sign
+	 *	@param		string|NULL		$enclosure		Enclosure sign
 	 *	@return		void
 	 */
-	public function __construct( string $filePath, bool $useHeaders = FALSE, string $delimiter = NULL, string $enclosure = NULL )
+	public function __construct( string $filePath, bool $useHeaders = FALSE, ?string $delimiter = NULL, ?string $enclosure = NULL )
 	{
 		$this->filePath			= $filePath;
 		$this->useHeaders		= $useHeaders;
@@ -59,9 +60,9 @@ class Iterator implements BaseIterator
 	 *	Returns the first or latest read CSV line as array.
 	 *	Opens file, if not done yet.
 	 *	@access		public
-	 *	@return		array|FALSE		First or latest read CSV line as array
+	 *	@return		array|NULL		First or latest read CSV line as array
 	 */
-	public function current()
+	public function current(): ?array
 	{
 		if( $this->status !== self::STATUS_OPEN )
 			$this->open();
@@ -109,11 +110,11 @@ class Iterator implements BaseIterator
 	 *	@access		public
 	 *	@return		integer		Current line number (starting with 1)
 	 */
-	public function key()
+	public function key(): int
 	{
 		if( $this->status !== self::STATUS_OPEN )
 			$this->open();
-		return (string) $this->currentNr;
+		return $this->currentNr;
 	}
 
 	/**
@@ -174,7 +175,7 @@ class Iterator implements BaseIterator
 	/**
 	 *	Set enclosure sign to wrap around values containing special signs, like the delimiter itself.
 	 *	@access		public
-	 *	@param		string		$enclosurer		Sign to wrap around values containing special signs
+	 *	@param		string		$enclosure		Sign to wrap around values containing special signs
 	 *	@return		self
 	 */
 	public function setEnclosure( string $enclosure ): self
@@ -203,7 +204,7 @@ class Iterator implements BaseIterator
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function valid()
+	public function valid(): bool
 	{
 		$this->verbose && remark( ' - #'.$this->key().': valid' );
 		if( $this->status !== self::STATUS_OPEN )
@@ -236,7 +237,7 @@ class Iterator implements BaseIterator
 		$this->status = self::STATUS_OPEN;
 	}
 
-	protected function readCurrentLine()
+	protected function readCurrentLine(): ?array
 	{
 		$this->verbose && remark( ' - #'.$this->key().': readCurrentLine' );
 		if( !is_resource( $this->filePointer ) )
@@ -253,14 +254,12 @@ class Iterator implements BaseIterator
 		if( $this->currentNr === 0 )
 			$line	= $this->removeBOM( $line );
 		$data	= str_getcsv( $line, $this->delimiter, $this->enclosure );
-		if( !is_array( $data ) )
-			return NULL;
 
-		$map	= array();
+		$map	= [];
 		foreach( $data as $key => $value ){
 			$value	= trim( $value );
 			$mapKey	= $key;
-			if( $this->useHeaders && $this->headers )
+			if( $this->useHeaders && $this->headers && array_key_exists( $key, $this->headers ) )
 				$mapKey	= $this->headers[$key];
 			$map[$mapKey]	= $value;
 		}

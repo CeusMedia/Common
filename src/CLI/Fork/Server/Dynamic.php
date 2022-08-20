@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -52,8 +53,9 @@ class Dynamic extends Abstraction
 		return require_once( $this->scriptFile );
 	}
 
-	public function setScriptFile( $scriptFile )
+	public function setScriptFile( string $scriptFile ): self
 	{
 		$this->scriptFile	= $scriptFile;
+		return $this;
 	}
 }
