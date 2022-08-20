@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Sender for HTTP POST requests.
  *
@@ -47,8 +48,10 @@ class Post
 	const TRANSPORT_FOPEN		= 1;
 	const TRANSPORT_CURL		= 2;
 
-	protected $transport		= FALSE;
+	protected $transport		= self::TRANSPORT_NONE;
+
 	protected $dataMaxLength	= 0;
+
 	//  default user agent to report to server, can be overridden by constructor or given CURL options on get or post
 	static protected $userAgent	= "CeusMediaCommon:Net.HTTP.Post/0.9";
 
@@ -61,7 +64,7 @@ class Post
 			$this->transport	= self::TRANSPORT_FOPEN;
 	}
 
-	public function send( $url, $data = array(), $curlOptions = array() )
+	public function send( string $url, array $data = array(), array $curlOptions = array() ): string
 	{
 		if( is_array( $data ) )
 			$data	= http_build_query( $data, NULL, '&' );
@@ -103,15 +106,16 @@ class Post
 		}
 	}
 
-	static public function sendData( $url, $data = array(), $curlOptions = array() )
+	public static function sendData( string $url, array $data = array(), array $curlOptions = array() ): string
 	{
 		$post	= new self();
 		return $post->send( $url, $data, $curlOptions );
 	}
 
-	public function setDataMaxLength( $integer )
+	public function setDataMaxLength( int $integer ): self
 	{
-		if( (int) $integer === 0 || (int) $integer > 1 )
-			$this->dataMaxLength	= (int) $integer;
+		if( $integer === 0 || $integer > 1 )
+			$this->dataMaxLength	= $integer;
+		return $this;
 	}
 }

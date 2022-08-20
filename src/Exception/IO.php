@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Exception for Input/Output Errors.
  *	Stores an additional resource and is serializable.
@@ -24,10 +25,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.03.2007
  */
 
 namespace CeusMedia\Common\Exception;
+
+use Throwable;
 
 /**
  *	Exception for Input/Output Errors.
@@ -38,7 +40,6 @@ namespace CeusMedia\Common\Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.03.2007
  */
 class IO extends Runtime
 {
@@ -48,12 +49,13 @@ class IO extends Runtime
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$message		Error Message
-	 *	@param		integer		$code			Error Code
-	 *	@param		string		$sourceUri		Name or Value of unavailable Resource
+	 *	@param		string			$message		Error Message
+	 *	@param		integer			$code			Error Code
+	 *	@param		string			$resource		Name or Value of unavailable Resource
+	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */
-	public function __construct( $message = null, $code = 0, $resource = "", ?Throwable $previous = null )
+	public function __construct( string $message, int $code = 0, string $resource = '', ?Throwable $previous = NULL )
 	{
 		parent::__construct( $message, $code, $previous );
 		$this->resource	= $resource;
@@ -64,7 +66,7 @@ class IO extends Runtime
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getResource()
+	public function getResource(): string
 	{
 		return $this->resource;
 	}
@@ -74,7 +76,7 @@ class IO extends Runtime
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function serialize()
+	public function serialize(): string
 	{
 		return serialize( array( $this->message, $this->code, $this->file, $this->line, $this->resource ) );
 	}
@@ -82,11 +84,11 @@ class IO extends Runtime
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$serial			Serial string of an serialized exception
+	 *	@param		string		$data			Serial string of a serialized exception
 	 *	@return		void
 	 */
-	public function unserialize( $serial )
+	public function unserialize( $data )
 	{
-		list( $this->message, $this->code, $this->file, $this->line, $this->resource ) = unserialize( $serial );
+		list( $this->message, $this->code, $this->file, $this->line, $this->resource ) = unserialize( $data );
 	}
 }

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Exception for SQL Errors. Stores SQLSTATE if PDO is used.
  *
@@ -23,12 +24,12 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.03.2007
  */
 
 namespace CeusMedia\Common\Exception;
 
 use RuntimeException;
+use Throwable;
 
 /**
  *	Exception for SQL Errors. Stores SQLSTATE if PDO is used.
@@ -38,7 +39,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.03.2007
  */
 class SQL extends RuntimeException
 {
@@ -54,9 +54,10 @@ class SQL extends RuntimeException
 	 *	@param		int			$sqlCode		SQL Error Code
 	 *	@param		string		$sqlMessage		SQL Error Message
 	 *	@param		int			$SQLSTATE 		SQLSTATE Code
+	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */
-	public function __construct( $message, $code, $SQLSTATE  = NULL, ?Throwable $previous = null )
+	public function __construct( string $message, int $code = 0, ?string $SQLSTATE  = NULL, ?Throwable $previous = null )
 	{
 		if( !$message )
 			$message	= self::$default;

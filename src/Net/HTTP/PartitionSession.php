@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Management for session data with partitions.
  *	Helpful and more secure if several applications are storing data with same session.
@@ -24,7 +25,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.07.2005
  */
 
 namespace CeusMedia\Common\Net\HTTP;
@@ -40,7 +40,6 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.07.2005
  */
 class PartitionSession extends Dictionary
 {
@@ -50,13 +49,14 @@ class PartitionSession extends Dictionary
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$partitionName		Partition of Session Data
-	 *	@param		string		$sessionName		Name of Session ID
-	 *	@param		string		$domain				Domain to set cookie for
+	 *	@param		string			$partitionName		Partition of Session Data
+	 *	@param		string			$sessionName		Name of Session ID
+	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
-	public function __construct( $partitionName, $sessionName = "sid", $domain = NULL )
+	public function __construct( string $partitionName, string $sessionName = "sid", ?string $domain = NULL )
 	{
+		parent::__construct();
 		//  set session cookie name
 		@session_name( $sessionName );
 		//  a domain has been specified
@@ -74,8 +74,7 @@ class PartitionSession extends Dictionary
 			//  store IP in session
 			$this->session['ip'] = $ip;
 		//  Session hijacking attempt
-		else if( $this->session['ip'] != $ip )
-		{
+		else if( $this->session['ip'] != $ip ){
 			//  generate new session ID
 			session_regenerate_id();
 			//  copy new session data resource
@@ -125,7 +124,7 @@ class PartitionSession extends Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionID()
+	public function getSessionID(): string
 	{
 		return session_id();
 	}
@@ -135,7 +134,7 @@ class PartitionSession extends Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionName()
+	public function getSessionName(): string
 	{
 		return session_name();
 	}

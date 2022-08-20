@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Partitioned Cookie Management.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.08.2005
  */
 
 namespace CeusMedia\Common\Net\HTTP;
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\Net\HTTP;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.08.2005
  */
 class PartitionCookie extends Cookie
 {
@@ -46,20 +45,21 @@ class PartitionCookie extends Cookie
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$path			Default path of cookie
-	 *	@param		string		$domain			Domain of cookie
-	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
-	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
+	 *	@param		string			$partition		...
+	 *	@param		string			$path			Default path of cookie
+	 *	@param		string|NULL		$domain			Domain of cookie
+	 *	@param		boolean			$secure			Flag: only with secured HTTPS connection
+	 *	@param		boolean			$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		void
 	 */
-	public function __construct ( $partition, $path = "/", $domain = NULL, $secure = FALSE, $httpOnly = FALSE )
+	public function __construct ( string $partition, string $path = "/", ?string $domain = NULL, bool $secure = FALSE, bool $httpOnly = FALSE )
 	{
+		parent::__construct();
 		$this->partition	= $partition;
 		$this->setPath( $path );
 		$this->setDomain( $domain );
 		$this->setSecure( $secure );
 		$this->setHttpOnly( $httpOnly );
-		$pairs	= array();
 		if( isset( $_COOKIE[$partition] ) )
 			$this->data	= json_decode( $_COOKIE[$partition], TRUE );
 	}
@@ -70,7 +70,7 @@ class PartitionCookie extends Cookie
 	 *	@param		string		$key			Key of Cookie
 	 *	@return		mixed
 	 */
-	public function get( $key )
+	public function get( string $key )
 	{
 		$key	= str_replace( ".", "_", $key );
 		if( isset( $this->data[$key] ) )
@@ -81,39 +81,39 @@ class PartitionCookie extends Cookie
 	/**
 	 *	Removes a cookie part.
 	 *	@access		public
-	 *	@param		string		$key			Key of cookie part
-	 *	@param		string		$path			Default path of cookie
-	 *	@param		string		$domain			Domain of cookie
-	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
-	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
-	 *	@return		void
+	 *	@param		string			$key			Key of cookie part
+	 *	@param		string|NULL		$path			Default path of cookie
+	 *	@param		string|NULL		$domain			Domain of cookie
+	 *	@param		boolean|NULL	$secure			Flag: only with secured HTTPS connection
+	 *	@param		boolean|NULL	$httpOnly		Flag: allow access via HTTP protocol only
+	 *	@return		bool
 	 */
-	public function remove( $key, $path = NULL, $domain = NULL, $secure = NULL, $httpOnly = NULL )
+	public function remove( string $key, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
 		$key	= str_replace( ".", "_", $key );
 		if( !isset( $this->data[$key] ) )
-			return;
+			return FALSE;
 		unset( $this->data[$key] );
-		$this->save( $path, $domain, $secure, $httpOnly );
+		return $this->save( $path, $domain, $secure, $httpOnly );
 	}
 
 	/**
 	 *	Sets a Cookie to this PartitionCookie.
 	 *	@access		public
-	 *	@param		string		$key			Key of Cookie
-	 *	@param		string		$value			Value of Cookie
-	 *	@param		integer		$expires		EOL as UNIX timestamp
-	 *	@param		string		$path			Path of cookie
-	 *	@param		string		$domain			Domain of cookie
-	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
-	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
-	 *	@return		void
+	 *	@param		string			$key			Key of Cookie
+	 *	@param		mixed			$value			Value of Cookie
+	 *	@param		integer			$expires		EOL as UNIX timestamp
+	 *	@param		string|NULL		$path			Path of cookie
+	 *	@param		string|NULL		$domain			Domain of cookie
+	 *	@param		boolean|NULL	$secure			Flag: only with secured HTTPS connection
+	 *	@param		boolean|NULL	$httpOnly		Flag: allow access via HTTP protocol only
+	 *	@return		bool
 	 */
-	public function set( $key, $value, $expires = 0, $path = NULL, $domain = NULL, $secure = NULL, $httpOnly = NULL )
+	public function set( string $key, $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
 		$key	= str_replace( ".", "_", $key );
 		$this->data[$key] = $value;
-		$this->save( $expires, $path, $domain, $secure, $httpOnly );
+		return $this->save( $expires, $path, $domain, $secure, $httpOnly );
 	}
 
 	//  --  PROTECTED  --  //
@@ -121,22 +121,23 @@ class PartitionCookie extends Cookie
 	/**
 	 *	Saves PartitionCookie by sending to Browser.
 	 *	@access		protected
-	 *	@param		integer		$expires		EOL as UNIX timestamp
-	 *	@param		string		$path			Default path of cookie
-	 *	@param		string		$domain			Domain of cookie
-	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
-	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
+	 *	@param		integer			$expires		EOL as UNIX timestamp
+	 *	@param		string|NULL		$path			Default path of cookie
+	 *	@param		string|NULL		$domain			Domain of cookie
+	 *	@param		boolean|NULL	$secure			Flag: only with secured HTTPS connection
+	 *	@param		boolean|NULL	$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		boolean
-	 *	@return		void
 	 */
-	protected function save( $expires = 0, $path = NULL, $domain = NULL, $secure = NULL, $httpOnly = NULL )
+	protected function save( int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		$value		= json_encode( $this->data );
-		$expires	= $expires ? time() + $expires : $expires;
-		$path		= $path !== NULL ? $path : $this->path;
-		$domain		= $domain !== NULL ? $domain : $this->domain;
-		$secure		= $secure !== NULL ? $secure : $this->secure;
-		$httpOnly	= $httpOnly !== NULL ? $httpOnly : $this->httpOnly;
-		setCookie( $this->partition, $value, $expires, $path, $domain, $secure, $httpOnly );
+		return setCookie(
+			$this->partition,
+			json_encode( $this->data ),
+			$expires ? time() + $expires : $expires,
+			$path ?? $this->path,
+			$domain ?? $this->domain,
+			$secure ?? $this->secure,
+			$httpOnly ?? $this->httpOnly
+		);
 	}
 }

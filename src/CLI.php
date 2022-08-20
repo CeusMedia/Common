@@ -138,8 +138,10 @@ class CLI
 
 	public function log( $message )
 	{
-		if( is_object( $this->log ) )
-			return $this->logger->log( $message );
+		if( is_object( $this->log ) ){
+			$this->logger->log( $message );
+			return;
+		}
 		$logFile	= $this->log ?? 'cli.log';
 		error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, $logFile );
 	}
@@ -172,7 +174,7 @@ class CLI
 				$heading	= '%1$d Folders and %2$d Files or Links:';
 			else if( $folders->count() )
 				$heading	= '%1$d Folders:';
-			else if( $files->count() )
+			else
 				$heading	= '%2$d Files or Links:';
 			$heading	= sprintf( $heading, $folders->count(), $files->count() );
 			$heading	= Text::padRight( $heading, $freeSize );
@@ -180,7 +182,7 @@ class CLI
 			CLI::out( Text::line( Text::char( 'x2550' ) ) );
 		}
 
-		if( $folders ){
+		if( $folders->count() !== 0 ){
 			foreach( $folders as $item ){
 				$name	= $item->getName();
 				$sfo	= $item->count( FS::TYPE_FOLDER, TRUE );
@@ -196,7 +198,7 @@ class CLI
 				) ) );
 			}
 		}
-		if( $files ){
+		if( $files->count() !== 0 ){
 			if( $folders->count() )
 				CLI::out( Text::line( Text::char( 'x2500' ) ) );
 			foreach( $files as $item ){

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
  *
@@ -23,16 +24,13 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
  */
 
 namespace CeusMedia\Common\Net\HTTP;
 
-use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
-use InvalidArgumentException;
 
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
@@ -42,7 +40,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
  */
 class Response
 {
@@ -56,11 +53,11 @@ class Response
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$protocol		Response protocol
-	 *	@param		string		$version		Response protocol version
+	 *	@param		string|NULL		$protocol		Response protocol
+	 *	@param		string|NULL		$version		Response protocol version
 	 *	@return		void
 	 */
-	public function __construct( $protocol = NULL, $version = NULL )
+	public function __construct( ?string $protocol = NULL, ?string $version = NULL )
 	{
 		$this->headers	= new HeaderSection();
 		if( !empty( $protocol ) )
@@ -77,7 +74,7 @@ class Response
 	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeader( HeaderField $field, $emptyBefore = FALSE )
+	public function addHeader( HeaderField $field, bool $emptyBefore = FALSE )
 	{
 		$this->headers->setField( $field, $emptyBefore );
 	}
@@ -90,7 +87,7 @@ class Response
 	 *	@param		boolean		$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeaderPair( $name, $value, $emptyBefore = FALSE )
+	public function addHeaderPair( string $name, string $value, bool $emptyBefore = FALSE )
 	{
 		$this->headers->setField( new HeaderField( $name, $value ), $emptyBefore );
 	}
@@ -100,7 +97,7 @@ class Response
 	 *	@access		public
 	 *	@return		string		Response message body
 	 */
-	public function getBody()
+	public function getBody(): string
 	{
 		return $this->body;
 	}
@@ -108,11 +105,11 @@ class Response
 	/**
 	 *	Returns response headers.
 	 *	@access		public
-	 *	@param		string		$string			Header name
+	 *	@param		string		$key			Header name
 	 *	@param		bool		$first			Flag: return first header only
 	 *	@return		array|HeaderField		List of header fields or only one header field if requested so
 	 */
-	public function getHeader( $key, $first = NULL )
+	public function getHeader( string $key, bool $first = NULL )
 	{
 		//  get all header fields with this header name
 		$fields	= $this->headers->getFieldsByName( $key );
@@ -120,7 +117,7 @@ class Response
 		if( !$first )
 			//  return all header fields
 			return $fields;
-		//  otherwise: header fields (atleat one) are set
+		//  otherwise: header fields (at least one) are set
 		if( $fields )
 			//  return first header field
 			return $fields[0];
@@ -133,7 +130,7 @@ class Response
 	 *	@access		public
 	 *	@return		array		List of response HTTP header fields
 	 */
-	public function getHeaders()
+	public function getHeaders(): array
 	{
 		return $this->headers->getFields();
 	}
@@ -143,7 +140,7 @@ class Response
 	 *	@access		public
 	 *	@return		integer		Byte length of current response
 	 */
-	public function getLength()
+	public function getLength(): int
 	{
 		return strlen( $this->toString() );
 	}
@@ -153,7 +150,7 @@ class Response
 	 *	@access		public
 	 *	@return		string		Response protocol
 	 */
-	public function getProtocol()
+	public function getProtocol(): string
 	{
 		return $this->protocol;
 	}
@@ -163,7 +160,7 @@ class Response
 	 *	@access		public
 	 *	@return		string		Response HTTP status code
 	 */
-	public function getStatus()
+	public function getStatus(): string
 	{
 		return $this->status;
 	}
@@ -173,7 +170,7 @@ class Response
 	 *	@access		public
 	 *	@return		string		Response protocol version
 	 */
-	public function getVersion()
+	public function getVersion(): string
 	{
 		return $this->version;
 	}
@@ -184,50 +181,54 @@ class Response
 	 *	@param		string		$key			Header name
 	 *	@return		bool
 	 */
-	public function hasHeader( $key )
+	public function hasHeader( string $key ): bool
 	{
 		return $this->headers->hasField( $key );
 	}
 
-	public function send( $compression = NULL, $sendLengthHeader = TRUE, $exit = TRUE ){
+	public function send( bool $compression = NULL, bool $sendLengthHeader = TRUE, bool $exit = TRUE ): int
+	{
 		$sender	= new ResponseSender( $this );
-		return $sender->send( $compression, $sendLengthHeader, $exit );
+		$sender->setCompression( $compression );
+		return $sender->send( $sendLengthHeader, $exit );
 	}
 
 	/**
 	 *	Sets response message body.
 	 *	@access		public
 	 *	@param		string		$body			Response message body
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setBody( $body )
+	public function setBody( string $body ): self
 	{
-		if( !is_string( $body ) )
-			throw new InvalidArgumentException( 'Body must be string' );
 		$this->body		= trim( $body );
-		$this->headers->setFieldPair( "Content-Length", strlen( $this->body ), TRUE );
+		$this->headers->setFieldPair( "Content-Length", strlen( $this->body ) );
+		return $this;
 	}
 
 	/**
 	 *	Sets response HTTP header, overriding before set values.
 	 *	@access		public
-	 *	@param		string		$name		HTTP header name
+	 *	@param		string		$key		HTTP header name
 	 *	@param		string		$value		HTTP header value
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setHeader( $key, $value ){
+	public function setHeader( string $key, string $value ): self
+	{
 		$this->addHeaderPair( $key, $value, TRUE );
+		return $this;
 	}
 
 	/**
 	 *	Sets response protocol. Set initially to HTTP.
 	 *	@access		public
 	 *	@param		string		$protocol		Response protocol
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setProtocol( $protocol )
+	public function setProtocol( string $protocol ): self
 	{
 		$this->protocol	= $protocol;
+		return $this;
 	}
 
 	/**
@@ -237,11 +238,11 @@ class Response
 	 *	@access		public
 	 *	@param		int|string		$status			Response status code (as integer) or status code with message (e.G. 404 Not Found)
 	 *	@param		boolean			$strict			Flag: ignore given status message and resolve using Net_HTTP_Status
-	 *	@return		void
+	 *	@return		self
 	 *	@see		http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	 *	@see		http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 	 */
-	public function setStatus( $status, $strict = FALSE )
+	public function setStatus( $status, bool $strict = FALSE ): self
 	{
 		//  strict mode: always resolve status message
 		$status	= $strict ? (int) $status : $status;
@@ -251,17 +252,19 @@ class Response
 			$status	= ( (int) $status ).' '.Status::getText( (int) $status );
 		//  store status code and message
 		$this->status	= $status;
+		return $this;
 	}
 
 	/**
 	 *	Sets response protocol version.
 	 *	@access		public
 	 *	@param		string		$version		Response protocol version
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setVersion( $version )
+	public function setVersion( string $version ): self
 	{
 		$this->version	= $version;
+		return $this;
 	}
 
 	/**
@@ -269,7 +272,7 @@ class Response
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toString()
+	public function toString(): string
 	{
 		$lines	= array();
 		//  add main protocol header

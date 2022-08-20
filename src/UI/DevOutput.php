@@ -277,16 +277,17 @@ class DevOutput
 	/**
 	 *	Prints out a variable by getting Type and using a suitable Method.
 	 *	@access		public
-	 *	@param		mixed		$mixed		variable of every kind to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string|NULL	$key		Element Key Name
-	 *	@param		string|NULL	$sign		Space Sign
-	 *	@param		int|NULL	$factor		Space Factor
-	 *	@param		boolean		$return		Flag: Return output instead of printing it
+	 *	@param		mixed			$mixed		variable of every kind to print out
+	 *	@param		int|NULL		$offset		Intent Offset Level
+	 *	@param		string|NULL		$key		Element Key Name
+	 *	@param		string|NULL		$sign		Space Sign
+	 *	@param		int|NULL		$factor		Space Factor
+	 *	@param		boolean			$return		Flag: Return output instead of printing it
 	 *	@return		string|NULL
 	 */
-	public function printMixed( $mixed, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
+	public function printMixed( $mixed, ?int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
 	{
+		$offset	= $offset ?? 0;
 		if( $return )
 			ob_start();
 		if( is_object( $mixed ) || gettype( $mixed ) == "object" )

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Exception for Logic Errors, which can be serialized e.G. for NetServices.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.02.2007
  */
 
 namespace CeusMedia\Common\Exception;
+
+use Throwable;
 
 /**
  *	Exception for Logic Errors, which can be serialized e.G. for NetServices.
@@ -36,7 +38,6 @@ namespace CeusMedia\Common\Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.02.2007
  */
 class Logic extends Runtime
 {
@@ -46,14 +47,15 @@ class Logic extends Runtime
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$message		Exception message
-	 *	@param		string		$subject		Subject on which this logic exception happened
-	 *	@param		integer		$code			Exception code
+	 *	@param		string			$message		Exception message
+	 *	@param		string			$subject		Subject on which this logic exception happened
+	 *	@param		integer			$code			Exception code
+	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */
-	public function __construct( $message, $subject = "", $code = 0, ?Throwable $previous = null )
+	public function __construct( string $message, string $subject = '', int $code = 0, ?Throwable $previous = NULL )
 	{
-		parent::__construct( $message, $code );
+		parent::__construct( $message, $code, $previous );
 		$this->subject	= $subject;
 	}
 
@@ -62,7 +64,7 @@ class Logic extends Runtime
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSubject()
+	public function getSubject(): string
 	{
 		return $this->subject;
 	}

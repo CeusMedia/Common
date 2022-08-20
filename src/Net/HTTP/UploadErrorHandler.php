@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Handes Upload Error Codes by throwing Exceptions.
+ *	Handles Upload Error Codes by throwing Exceptions.
  *
  *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
@@ -23,22 +24,21 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\Net\HTTP;
 
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
- *	Handes Upload Error Codes by throwing Exceptions.
+ *	Handles Upload Error Codes by throwing Exceptions.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@todo			code doc
  */
 class UploadErrorHandler
@@ -53,18 +53,18 @@ class UploadErrorHandler
 		UPLOAD_ERR_EXTENSION	=> 'File upload stopped by extension',
 	);
 
-	public function getErrorMessage( $code )
+	public function getErrorMessage( int $code )
 	{
-		if( !isset( $this->messages[(string)$code] ) )
+		if( !isset( $this->messages[$code] ) )
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		return $this->messages[$code];
 	}
 
-	public function handleErrorCode( $code )
+	public function handleErrorCode( int $code )
 	{
-		if( (int)$code === 0 )
+		if( $code === 0 )
 			return;
-		if( !isset( $this->messages[(string)$code] ) )
+		if( !isset( $this->messages[$code] ) )
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		$msg	= $this->messages[$code];
 		switch( $code )
@@ -81,21 +81,21 @@ class UploadErrorHandler
 		}
 	}
 
-	public function handleErrorFromUpload( $upload )
+	public function handleErrorFromUpload( array $upload )
 	{
 		$code	= $upload['error'];
-		return $this->handleErrorCode( $code );
+		$this->handleErrorCode( $code );
 	}
 
 	/**
 	 *	Sets Error Messages.
 	 *	@access		public
-	 *	@param		array		Map of Error Messages assigned to official PHP Upload Error Codes Constants
-	 *	@return		string
+	 *	@param		array		$messages		Map of Error Messages assigned to official PHP Upload Error Codes Constants
+	 *	@return		self
 	 */
-	public function setMessages( $messages )
+	public function setMessages( array $messages ): self
 	{
-		foreach( $messages as $code => $label )
-			$this->messages[$code]	= $label;
+		$this->messages	= array_merge( $this->messages, $messages );
+		return $this;
 	}
 }

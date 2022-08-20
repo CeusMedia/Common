@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	HTTP status code handling.
  *
@@ -40,7 +41,7 @@ use InvalidArgumentException;
  */
 class Status
 {
-	static protected $codes	= array(
+	protected static $codes	= array(
 		100 => "Continue",
 		101 => "Switching Protocols",
 		102 => "Processing",
@@ -122,21 +123,21 @@ class Status
 	 *	@return		string
 	 *	@throws		InvalidArgumentException	if code could not be resolved
 	 */
-	static public function getText( $code )
+	public static function getText( int $code ): string
 	{
-		if( !array_key_exists( (int) $code, self::$codes ) )
+		if( !array_key_exists( $code, self::$codes ) )
 			throw new InvalidArgumentException( 'Unknown HTTP status code: '.$code );
-		return self::$codes[(int) $code];
+		return self::$codes[$code];
 	}
 
 	/**
 	 *	Returns HTTP status text for status code.
 	 *	@access		public
-	 *	@param		integer		$text			HTTP status text to resolve
+	 *	@param		string		$text			HTTP status text to resolve
 	 *	@return		integer
 	 *	@throws		InvalidArgumentException	if text could not be resolved
 	 */
-	static public function getCode( $text )
+	public static function getCode( string $text ): int
 	{
 		if( $code = array_search( $text, self::$codes ) )
 			return $code;
@@ -147,8 +148,9 @@ class Status
 		throw new InvalidArgumentException( 'No HTTP status code found for status text "'.$text.'"' );
 	}
 
-	static public function isCode( $code ){
-		return array_key_exists( (int) $code, self::$codes );
+	public static function isCode( int $code ): bool
+	{
+		return array_key_exists( $code, self::$codes );
 	}
 
 
@@ -159,7 +161,7 @@ class Status
 	 *	@param		string		$protocol		HTTP protocol, default: HTTP/1.0
 	 *	@return		void
 	 */
-	static public function sendHeader( $code, $protocol = "HTTP/1.0" )
+	public static function sendHeader( int $code, string $protocol = "HTTP/1.0" )
 	{
 		$text = self::getText( $code );
 		header( $protocol.' '.$code.' '.$text );

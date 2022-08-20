@@ -17,14 +17,23 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.3",
+    "php": ">=7.4",
     "ext-memcache": "*",
     "ext-json": "*",
     "ext-fileinfo": "*",
     "ext-dom": "*",
     "ext-bz2": "*",
     "ext-zlib": "*",
-    "ext-imagick": "*"
+    "ext-imagick": "*",
+    "ext-xsl": "*",
+    "ext-simplexml": "*",
+    "ext-curl": "*",
+    "ext-xml": "*",
+    "ext-iconv": "*",
+    "ext-zip": "*",
+    "ext-pcntl": "*",
+    "ext-posix": "*",
+    "ext-sockets": "*"
   },
   "require-dev": {
     "ceus-media/doc-creator": "^0.9.6 | dev-master",
@@ -38,9 +47,15 @@
   "autoload": {
     "psr-4": {
       "CeusMedia\\Common\\": "src/",
-      "CeusMedia\\Common\\Test\\": "test/"
+      "CeusMedia\\CommonTest\\": "test/"
     },
-    "files": ["src/compat8.php", "src/global.php"]
+    "files": ["src/global.php"]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CeusMedia\\Common\\": "src",
+      "CeusMedia\\Common\\Test\\": "test"
+    }
   },
   "scripts": {
     "install-dev": "composer install --dev --quiet",
@@ -48,6 +63,10 @@
     "dev-create-docs": [
         "@install-dev",
         "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"
+    ],
+    "dev-phpstan": [
+      "@install-dev",
+      "vendor/bin/phpstan  --config=tool/config/rector-php73.php --dry-run"
     ],
     "dev-rector-7.3-check": [
       "@install-dev",

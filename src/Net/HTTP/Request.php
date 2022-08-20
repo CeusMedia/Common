@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Handler for HTTP Requests.
  *
@@ -23,14 +24,12 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
  */
 
 namespace CeusMedia\Common\Net\HTTP;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\ADT\URL;
-use CeusMedia\Common\Deprecation;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use Exception;
@@ -45,8 +44,7 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
- *	@todo			Finish implementation: this is bastard of request and reponse
+ *	@todo			Finish implementation: this is bastard of request and response
  */
 class Request extends Dictionary
 {
@@ -72,8 +70,11 @@ class Request extends Dictionary
 
 	protected $path			= '/';
 
-	public function __construct( $protocol = NULL, $version = NULL )
+	protected $sources;
+
+	public function __construct( ?string $protocol = NULL, ?string $version = NULL )
 	{
+		parent::__construct();
 		$this->method	= new Method();
 		$this->headers	= new HeaderSection();
 		if( !empty( $protocol ) )
@@ -85,7 +86,7 @@ class Request extends Dictionary
 	/**
 	 *	Adds an HTTP header object.
 	 *	@access		public
-	 *	@param		HeaderField		$header		HTTP header field object
+	 *	@param		HeaderField		$field		HTTP header field object
 	 *	@return		self
 	 */
 	public function addHeader( HeaderField $field ): self
@@ -131,7 +132,7 @@ class Request extends Dictionary
 			$this->path = substr( $this->path, 0, strpos( $this->path, '?' ) );
 
 		/*  --  APPLY ALL SOURCES TO ONE COLLECTION OF REQUEST ARGUMENT PAIRS  --  */
-		foreach( $this->sources as $key => $values )
+		foreach( $this->sources as $values )
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
@@ -147,10 +148,11 @@ class Request extends Dictionary
 		return $this;
 	}
 
-	public function fromString( $request ): self
+	public function fromString( string $request ): self
 	{
+		/** @noinspection PhpUnhandledExceptionInspection */
 		throw new Exception( 'Not implemented' );
-		return $this;
+//		return $this;
 	}
 
 	/**
@@ -159,8 +161,8 @@ class Request extends Dictionary
 	 *	@param		string		$source			Source key (not case sensitive) (get,post,files[,session,cookie])
 	 *	@param		boolean		$asDictionary	Flag: return map as dictionary
 	 *	@param		boolean		$strict			Flag: throw exception for invalid source, otherwise return NULL
-	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
-	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
+	 *	@return		Dictionary|array			Pairs in source (or empty array if not set on strict is off)
+	 *	@throws		InvalidArgumentException	if key is not set in source and strict is on
 	 */
 	public function getAllFromSource( string $source, bool $asDictionary = FALSE, bool $strict = TRUE )
 	{
@@ -237,29 +239,29 @@ class Request extends Dictionary
 
 	/**
 	 *	Return HTTP header field by a specified header name.
-	 *	Returns latest field if more than one.
+	 *	Returns the latest field if more than one.
 	 *	Alias for getHeadersByName with TRUE as seconds parameter.
 	 *	But throws an exception if nothing found and strict mode enabled (enabled by default).
 	 *	@access		public
 	 *	@param		string		$name		Key name of header
 	 *	@param		boolean		$strict		Flag: throw exception if nothing found
-	 *	@return		HeaderField|null
+	 *	@return		HeaderField|NULL
 	 *	@throws		RuntimeException		if nothing found and strict mode enabled
 	 */
-	public function getHeader( string $name, bool $strict = TRUE )
+	public function getHeader( string $name, bool $strict = TRUE ): ?HeaderField
 	{
-		$header	= $this->getHeadersByName( $name, TRUE );
+		$header	= $this->getHeader( $name );
 		if( $header )
 			return $header;
-		if( !$strict )
-			return NULL;
-		throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
+		if( $strict )
+			throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
+		return NULL;
 	}
 
 	/**
 	 *	Returns collection of all HTTP headers received.
 	 *	@access		public
-	 *	@return		HeaderSection			Collection of of HTTP header field instances
+	 *	@return		HeaderSection			Collection of HTTP header field instances
 	 */
 	public function getHeaders(): HeaderSection
 	{
@@ -274,7 +276,7 @@ class Request extends Dictionary
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
 	 *	@return		array|null	List of HTTP header fields with given header name
 	 */
-	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): ?array
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
@@ -337,7 +339,7 @@ class Request extends Dictionary
 	}
 
 	/**
-	 *	Indicates wheter a pair is existing in a request source by its key.
+	 *	Indicates whether a pair is existing in a request source by its key.
 	 *	@access		public
 	 *	@param		string		$key		...
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
@@ -354,122 +356,6 @@ class Request extends Dictionary
 		return $this->headers->hasField( 'X-Requested-With' );
 	}
 
-	/**
-	 *	Indicate whether a specific request method is used.
-	 *	Method parameter is not case-sensitive.
-	 *	@access		public
-	 *	@param		string		$method		Request method to check against
-	 *	@return		boolean
-	 *	@deprecated	use request->getMethod()->is( $method ) instead
-	 */
-	public function isMethod( string $method ): bool
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->is( $method ) instead' );
-		return $this->method->is( $method );
-	}
-
-	/**
-	 *	Indicates whether request method is GET.
-	 *	@access		public
-	 *	@return		boolean
-	 * 	@deprecated use $request->getMethod()->isGet() instead
-	 */
-	public function isGet(): bool
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->isGet() instead' );
-		return $this->method()->isGet();
-	}
-
-	/**
-	 *	Indicates whether request method is DELETE.
-	 *	@access		public
-	 *	@return		boolean
-	 * 	@deprecated use $request->getMethod()->isDelete() instead
-	 */
-	public function isDelete(): bool
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->isDelete() instead' );
-		return $this->method->isDelete();
-	}
-
-	/**
-	 *	Indicates whether request method is HEAD.
-	 *	@access		public
-	 *	@return		boolean
-	 * 	@deprecated use $request->getMethod()->isHead() instead
-	 */
-	public function isHead(): bool
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->isHead() instead' );
-		return $this->method->isHead();
-	}
-
-	/**
-	 *	Indicates whether request method is OPTIONS.
-	 *	@access		public
-	 *	@return		boolean
-	 * 	@deprecated use $request->getMethod()->isOptions() instead
-	 */
-	public function isOptions(): bool
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->isOptions() instead' );
-		return $this->method->isOptions();
-	}
-
-	/**
-	 *	Indicates whether request method is POST.
-	 *	@access		public
-	 *	@return		boolean
-	 * 	@deprecated use $request->getMethod()->isPost() instead
-	 */
-	public function isPost(): bool
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->isPost() instead' );
-		return $this->method->isPost();
-	}
-
-	/**
-	 *	Indicates whether request method is PUT.
-	 *	@access		public
-	 *	@return		boolean
-	 * 	@deprecated use $request->getMethod()->isPut() instead
-	 */
-	public function isPut(): bool
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->isPut() instead' );
-		return $this->method->isPut();
-	}
-
-	public function remove( string $key ): bool
-	{
-		return parent::remove( $key );
-//		if( $this->method === "POST" )
-//			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
-//		return $this;
-	}
-
-	public function set( string $key, $value ): bool
-	{
-		return parent::set( $key, $value );
-//		if( $this->method === "POST" )
-//			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
-//		return $this;
-	}
-
 	public function setAjax( bool $isAjax = TRUE ): self
 	{
 		$field	= new HeaderField( 'X-Requested-With', 'XMLHttpRequest' );
@@ -481,18 +367,24 @@ class Request extends Dictionary
 	}
 
 	/**
-	 *	Set request method.
-	 *	@access		public
-	 *	@param		string		$method		Request method to set
+	 *	...
+	 *	@param		string		$protocol
 	 *	@return		self
-	 * 	@deprecated use $request->getMethod()->set() instead
 	 */
-	public function setMethod( string $method ): self
+	public function setProtocol( string $protocol ): self
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message( 'Please use $request->getMethod()->set() instead' );
-		$this->method->set( $method );
+		$this->protocol	= $protocol;
+		return $this;
+	}
+
+	/**
+	 *	...
+	 *	@param		string		$version
+	 *	@return		self
+	 */
+	public function setVersion( string $version ): self
+	{
+		$this->version	= $version;
 		return $this;
 	}
 }

@@ -1,16 +1,17 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
  *	@category		Library
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common;
 
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
@@ -18,7 +19,6 @@ use InvalidArgumentException;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 class Loader
@@ -39,12 +39,12 @@ class Loader
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		array|string	$extensions			List of possible File Extensions
-	 *	@param		string			$prefix				Allowed Class Name Prefix
-	 *	@param		string			$path				Path to load Files from, empty to remove set Path
-	 *	@param		string			$logFile			Path Name of Log File
+	 *	@param		string|NULL		$prefix				Allowed Class Name Prefix
+	 *	@param		string|NULL		$path				Path to load Files from, empty to remove set Path
+	 *	@param		string|NULL		$logFile			Path Name of Log File
 	 *	@return		void
 	 */
-	public function __construct( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL )
+	public function __construct( $extensions = NULL, ?string $prefix = NULL, ?string $path = NULL, ?string $logFile = NULL )
 	{
 		if( !empty( $extensions ) )
 			$this->setExtensions( $extensions );
@@ -57,26 +57,25 @@ class Loader
 		$this->lineBreak		= "<br/>";
 		if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) )
 			$this->lineBreak		= "\n";
-		return spl_autoload_register( array( $this, 'loadClass' ) );
+		$this->registerAutoloader();
 	}
 
 	/**
 	 *	Register new Autoloader statically.
 	 *	@static
 	 *	@access		public
-	 *	@param		mixed		$extensions		String or List of supported Class File Extensions
-	 *	@param		string		$prefix			Prefix of Classes
-	 *	@param		string		$path			Path to Classes
-	 *	@param		string		$logFile		Path to autoload log file
-	 *	@param		boolean		$verbose		Verbosity: 0 - quiet | 1 - show load | 2 - show scan (default: 0 - quiet)
+	 *	@param		mixed			$extensions		String or List of supported Class File Extensions
+	 *	@param		string|NULL		$prefix			Prefix of Classes
+	 *	@param		string|NULL		$path			Path to Classes
+	 *	@param		string|NULL		$logFile		Path to autoload log file
+	 *	@param		integer			$verbose		Verbosity: 0 - quiet | 1 - show load | 2 - show scan (default: 0 - quiet)
 	 *	@return		Loader
 	 *	@deprecated	not working in PHP 5.2
 	 */
-	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL, $verbose = 0 )
+	public static function registerNew( $extensions = NULL, ?string $prefix = NULL, ?string $path = NULL, ?string $logFile = NULL, int $verbose = 0 ): self
 	{
 		$loader	= new Loader( $extensions, $prefix, $path, $logFile );
-		$loader->setVerbose( (int) $verbose );
-		$loader->registerAutoloader();
+		$loader->setVerbose( $verbose );
 		return $loader;
 	}
 
@@ -86,7 +85,7 @@ class Loader
 	 *	@param		string			$className			Class Name with encoded Path
 	 *	@return		bool
 	 */
-	public function loadClass( $className )
+	public function loadClass( string $className ): bool
 	{
 		if( $this->prefix ){
 			$prefix	= strtolower( substr( $className, 0, strlen( $this->prefix ) ) );
@@ -94,7 +93,7 @@ class Loader
 				return FALSE;
 			$className	= str_ireplace( $this->prefix, '', $className );
 		}
-		$basePath		= $this->path ? $this->path : "";
+		$basePath		= $this->path ?: '';
 		if( $this->lowerPath ){
 			$matches	= array();
 			preg_match_all( '/^(.*)([a-z0-9]+)$/iU', $className, $matches );
@@ -127,7 +126,7 @@ class Loader
 	 *	@param		bool		$once					Flag: Load once only
 	 *	@return		void
 	 */
-	public function loadFile( $fileName, $once = FALSE )
+	public function loadFile( string $fileName, bool $once = FALSE )
 	{
 		$this->logLoadedFile( $fileName );
 		if( $once )
@@ -144,7 +143,7 @@ class Loader
 	 *	@param		string		$fileName				Name of loaded File
 	 *	@return		void
 	 */
-	public function logLoadedFile( $fileName )
+	public function logLoadedFile( string $fileName )
 	{
 		if( $this->logFile )
 			error_log( $fileName."\n", 3, $this->logFile );
@@ -155,77 +154,83 @@ class Loader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function registerAutoloader()
+	public function registerAutoloader(): bool
 	{
-	#	return spl_autoload_register( array( $this, 'loadClass' ) );
+		return spl_autoload_register( array( $this, 'loadClass' ) );
 	}
 
 	/**
 	 *	Sets possible File Extensions, default: php,inc.
 	 *	@access		public
 	 *	@param		array|string	$extensions			List of possible File Extensions
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		InvalidArgumentException if given List is not an Array
 	 *	@throws		InvalidArgumentException if given List is empty
 	 */
-	public function setExtensions( $extensions )
+	public function setExtensions( $extensions ): self
 	{
 		if( is_string( $extensions ) )
 			$extensions	= explode( ',', $extensions );
 		if( !is_array( $extensions ) )
 			throw new InvalidArgumentException( 'Must be an array or string' );
 		if( empty( $extensions ) )
-			throw new InvalidArgumentException( 'Atleast one extension must be given' );
+			throw new InvalidArgumentException( 'At least one extension must be given' );
 		$this->extensions	= array();
 		foreach( $extensions as $extension )
 			$this->extensions[]	= trim( $extension );
+		return $this;
 	}
 
-	public function setLowerPath( $bool )
+	public function setLowerPath( $bool ): self
 	{
 		$this->lowerPath	= (bool) $bool;
+		return $this;
 	}
 
-	public function setVerbose( $verbosity )
+	public function setVerbose( $verbosity ): self
 	{
 		$this->verbose	= (int) $verbosity;
+		return $this;
 	}
 
 	/**
 	 *	Sets Log File Name.
 	 *	@access		public
 	 *	@param		string			$pathName			Path Name of Log File
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setLogFile( $pathName )
+	public function setLogFile( string $pathName ): self
 	{
 		$this->logFile	= $pathName;
+		return $this;
 	}
 
 	/**
 	 *	Sets Path to load Files from to force absolute File Names.
 	 *	@access		public
 	 *	@param		string			$path				Path to load Files from, empty to remove set Path
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		RuntimeException if Path is not existing
 	 */
-	public function setPath( $path )
+	public function setPath( string $path ): self
 	{
 #		if( $path && !file_exists( $path ) )
 #			throw new RuntimeException( 'Invalid path' );
 		$path	= str_replace( DIRECTORY_SEPARATOR, "/", $path );
 		$path	= preg_replace( "@(.+)/$@", "\\1", $path )."/";
 		$this->path	= $path;
+		return $this;
 	}
 
 	/**
 	 *	@access		public
 	 *	@param		string			$prefix				Allowed Class Name Prefix
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setPrefix( $prefix )
+	public function setPrefix( string $prefix ): self
 	{
 		$this->prefix	= strtolower( $prefix );
+		return $this;
 	}
 
 	/**
@@ -233,7 +238,7 @@ class Loader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function unregisterAutoloader()
+	public function unregisterAutoloader(): bool
 	{
 		return spl_autoload_unregister( array( $this, 'loadClass' ) );
 	}

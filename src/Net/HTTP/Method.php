@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	HTTP method data type.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.4.7
  */
 
 namespace CeusMedia\Common\Net\HTTP;
@@ -39,7 +39,6 @@ use BadMethodCallException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
- *	@since			0.8.4.7
  */
 class Method
 {
@@ -91,7 +90,7 @@ class Method
 
 	/**
 	 *	Indicate whether a specific request method is used.
-	 *	Method parameter is not case sensitive.
+	 *	Method parameter is not case-sensitive.
 	 *	@access		public
 	 *	@param		string		$method		Request method to check against
 	 *	@return		boolean

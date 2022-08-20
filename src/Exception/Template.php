@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Exception for Templates.
  *
@@ -23,12 +24,12 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.03.2007
  */
 
 namespace CeusMedia\Common\Exception;
 
 use RuntimeException;
+use Throwable;
 
 /**
  *	Exception for Templates.
@@ -38,7 +39,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.03.2007
  */
 class Template extends RuntimeException
 {
@@ -53,8 +53,9 @@ class Template extends RuntimeException
 		self::LABELS_MISSING		=> 'Template is missing %1$s',
 	);
 
-	/**	@var		array		$labels			Holds all not used and non optional labels */
+	/**	@var		array		$labels			Holds all not used and non-optional labels */
 	protected $labels			= array();
+
 	/**	@var		string		$filePath		File Path of Template, set only if not found */
 	protected $filePath			= NULL;
 
@@ -66,7 +67,7 @@ class Template extends RuntimeException
 	 *	@param		mixed		$data			Some additional data
 	 *	@return		void
 	 */
-	public function __construct( $code, $fileName, $data = array(), ?Throwable $previous = null )
+	public function __construct( int $code, string $fileName, array $data = array(), ?Throwable $previous = null )
 	{
 		$tagList	= '"'.implode( '", "', $data ).'"';
 		switch( $code )
@@ -95,9 +96,9 @@ class Template extends RuntimeException
 	/**
 	 *	Returns File Path of Template if not found.
 	 *	@access	  public
-	 *	@return	  array		{@link $filePath}
+	 *	@return	  string		{@link $filePath}
 	 */
-	public function getFilePath()
+	public function getFilePath(): string
 	{
 		return $this->filePath;
 	}
@@ -107,7 +108,7 @@ class Template extends RuntimeException
 	 *	@access	  public
 	 *	@return	  array		{@link $labels}
 	 */
-	public function getNotUsedLabels()
+	public function getNotUsedLabels(): array
 	{
 		return $this->labels;
 	}

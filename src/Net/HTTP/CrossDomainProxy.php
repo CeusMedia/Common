@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.06.2008
  */
 
 namespace CeusMedia\Common\Net\HTTP;
@@ -38,7 +38,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.06.2008
  *	@todo			use Net_Reader or Net_CURL
  *	@todo			implement time out and http status code check
  *	@todo			think about forwarding header "X-Requested-With"
@@ -57,12 +56,12 @@ class CrossDomainProxy
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$url				URL of Service Request
-	 *	@param		string		$username			Username of HTTP Basic Authentication
-	 *	@param		string		$password			Password of HTTP Basic Authentication
+	 *	@param		string			$url				URL of Service Request
+	 *	@param		string|NULL		$username			Username of HTTP Basic Authentication
+	 *	@param		string|NULL		$password			Password of HTTP Basic Authentication
 	 *	@return		void
 	 */
-	public function __construct( $url, $username = NULL , $password = NULL )
+	public function __construct( string $url, ?string $username = NULL , ?string $password = NULL )
 	{
 		$this->url		= $url;
 		$this->username	= $username;
@@ -73,9 +72,10 @@ class CrossDomainProxy
 	 *	Forwards GET or POST Request and returns Response Data.
 	 *	@access		public
 	 *	@param		bool		$throwException		Check Service Response for Exception and throw a found Exception further
-	 *	@return		string
+	 *	@return		string|bool
+	 *	@throws		Exception
 	 */
-	public function forward( $throwException = FALSE )
+	public function forward( bool $throwException = FALSE )
 	{
 		//  get GET Query String
 		$query	= getEnv( 'QUERY_STRING' );
@@ -84,7 +84,17 @@ class CrossDomainProxy
 		return self::requestUrl( $url, $this->username, $this->password, $throwException );
 	}
 
-	public static function requestUrl( $url, $username = NULL, $password = NULL, $throwException = FALSE )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		string			$url				URL of Service Request
+	 *	@param		string|NULL		$username			Username of HTTP Basic Authentication
+	 *	@param		string|NULL		$password			Password of HTTP Basic Authentication
+	 *	@param		bool			$throwException		Check Service Response for Exception and throw a found Exception further
+	 *	@return		string|bool
+	 *	@throws		Exception
+	 */
+	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE )
 	{
 		//  open cURL Handler
 		$curl	= curl_init();
@@ -131,7 +141,7 @@ class CrossDomainProxy
 			//  Response is an Object
 			if( $object = @unserialize( $response ) )
 				//  Response is an Exception
-				if( is_object( $object ) && is_a( $object, "Exception" ) )
+				if( $object instanceof Exception )
 					//  throw this Exception
 					throw $object;
 

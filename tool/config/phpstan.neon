@@ -2,17 +2,37 @@ includes:
 #	- vendor/phpstan/phpstan-strict-rules/rules.neon
 #	- phpstan-baseline.neon
 
+#reachedLevels:
+#	ADT: 1
+#	Alg: 1
+#	CLI: 1
+#	Exception: 1
+#	FS: 1
+#	Net: 0
+#	UI: 0
+#	XML: 1
+
 parameters:
 	phpVersion: 70300
 	level: 1
 	paths:
-#		- ../../src/ADT
-#		- ../../src/Alg
-#		- ../../src/CLI
-		- ../../src/FS
-#		- ../../src/Net
-#		- ../../src/UI
-#		- ../../src/XML
+		- ../../src
+	excludePaths:
+		analyse:
+			- ../../src/FS/File/YAML/Spyc.php
+			- ../../src/ADT
+			- ../../src/Alg
+			- ../../src/CLI
+			- ../../src/Exception
+			- ../../src/FS
+#			- ../../src/Net
+			- ../../src/UI
+			- ../../src/XML
+		analyseAndScan:
+			- ../../src/compat8.php
+			- ../../src/compat9.php
+			- ../../src/Exception/Abstraction.php
+			- ../../src/Exception/Interface_.php
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
 	reportMaybesInPropertyPhpDocTypes: false

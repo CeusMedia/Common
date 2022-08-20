@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base Exception which can be serialized e.G. for NetServices.
  *
@@ -49,7 +50,7 @@ class Serializable extends Exception implements SerializableInterface
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function serialize()
+	public function serialize(): string
 	{
 		return serialize( array( $this->message, $this->code, $this->file, $this->line ) );
 	}
@@ -57,11 +58,11 @@ class Serializable extends Exception implements SerializableInterface
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$serial			Serial string of an serialized exception
+	 *	@param		string		$data			Serial string of a serialized exception
 	 *	@return		void
 	 */
-	public function unserialize( $serial )
+	public function unserialize( $data )
 	{
-		list( $this->message, $this->code, $this->file, $this->line ) = unserialize( $serial );
+		list( $this->message, $this->code, $this->file, $this->line ) = unserialize( $data );
 	}
 }

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Download Provider for Files and Strings.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.02.2006
  */
 
 namespace CeusMedia\Common\Net\HTTP;
@@ -41,7 +41,6 @@ use RuntimeException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
- *	@since			03.02.2006
  *	@todo			integrate MIME type detection
  *	@todo  			support download range
  *	@todo  			support x-sendfile, @see https://tn123.org/mod_xsendfile/
@@ -55,7 +54,7 @@ class Download
 	 *	@access		protected
 	 *	@return		void
 	 */
-	static protected function applyDefaultHeaders( $size = NULL, $timestamp = NULL )
+	protected static function applyDefaultHeaders( ?int $size = NULL, ?int $timestamp = NULL )
 	{
 		header( "Pragma: public" );
 		header( "Expires: -1" );
@@ -73,7 +72,7 @@ class Download
 	 *	@access		protected
 	 *	@return		void
 	 */
-	static protected function disableCompression()
+	protected static function disableCompression()
 	{
 		if( function_exists( 'apache_setenv' ) )
 			@apache_setenv( 'no-gzip', 1 );
@@ -84,12 +83,12 @@ class Download
 	 *	Sends String for Download.
 	 *	@static
 	 *	@access		public
-	 *	@param		string		$url			File to send
-	 *	@param		string		$filename       Filename of Download
-	 *	@param		boolean		$andExit		Flag: quit execution afterwards, default: yes
+	 *	@param		string			$url			File to send
+	 *	@param		string|NULL		$filename		Filename of Download
+	 *	@param		boolean			$andExit		Flag: quit execution afterwards, default: yes
 	 *	@return		void
 	 */
-	static public function sendFile( $url, $filename = NULL, $andExit = TRUE )
+	public static function sendFile( string $url, ?string $filename = NULL, bool $andExit = TRUE )
 	{
 		$filename	= strlen( $filename ) ? $filename : basename( $url );
 		//  avoid messing with path
@@ -113,12 +112,12 @@ class Download
 	 *	Sends String for Download.
 	 *	@static
 	 *	@access		public
-	 *	@param		string		$string			String to send
-	 *	@param		string		$filename		Filename of Download
-	 *	@param		boolean		$andExit		Flag: quit execution afterwards, default: yes
+	 *	@param		string			$string			String to send
+	 *	@param		string|NULL		$filename		Filename of Download
+	 *	@param		boolean			$andExit		Flag: quit execution afterwards, default: yes
 	 *	@return		void
 	 */
-	static public function sendString( $string, $filename, $andExit = TRUE )
+	public static function sendString( string $string, string $filename, bool $andExit = TRUE )
 	{
 		self::clearOutputBuffers();
 		self::setMimeType();
@@ -136,7 +135,7 @@ class Download
 	 *	@access		private
 	 *	@return		void
 	 */
-	static private function setMimeType()
+	private static function setMimeType()
 	{
 		$UserBrowser = '';
 		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
@@ -153,7 +152,7 @@ class Download
 	 *	@access		private
 	 *	@return		void
 	 */
-	static private function clearOutputBuffers()
+	private static function clearOutputBuffers()
 	{
 		while( ob_get_level() )
 			ob_end_clean();

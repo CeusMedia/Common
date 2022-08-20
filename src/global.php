@@ -33,9 +33,9 @@ function dev( string $content, bool $force = FALSE, string $flagKey = 'CM_SHOW_D
  *	@access		public
  *	@param		mixed		$variable	Variable to print dump of
  *	@param		boolean		$return		Flag: Return output instead of printing it
- *	@return		void
+ *	@return		string|NULL
  */
-function print_rx( $variable, bool $return = FALSE )
+function print_rx( $variable, bool $return = FALSE ): ?string
 {
 	ob_start();
 	print_r( $variable );
@@ -44,6 +44,7 @@ function print_rx( $variable, bool $return = FALSE )
 	xmp( ob_get_clean() );
 	if( $return )
 		return ob_get_clean();
+	return NULL;
 }
 
 /**
@@ -77,6 +78,7 @@ function print_j( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $retur
 		return $o->printJson( $mixed, $sign, $factor, TRUE );
 	echo $break;
 	$o->printJson( $mixed, 0, $sign, $factor );
+	return NULL;
 }
 
 /**

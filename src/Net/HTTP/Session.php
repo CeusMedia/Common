@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Session Management.
  *
@@ -43,12 +44,13 @@ class Session extends Dictionary
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$sessionName		Name of Session ID
-	 *	@param		string		$domain				Domain to set cookie for
+	 *	@param		string			$sessionName		Name of Session ID
+	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
-	public function __construct( $sessionName = "sid", $domain = NULL )
+	public function __construct( string $sessionName = "sid", ?string $domain = NULL )
 	{
+		parent::__construct();
 		//  set session cookie name
 		session_name( $sessionName );
 		//  a domain has been specified
@@ -87,7 +89,7 @@ class Session extends Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionID()
+	public function getSessionID(): string
 	{
 		return session_id();
 	}
@@ -97,7 +99,7 @@ class Session extends Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionName()
+	public function getSessionName(): string
 	{
 		return session_name();
 	}

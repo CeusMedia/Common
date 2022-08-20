@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for HTTP Resources.
  *
@@ -23,12 +24,12 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 
 namespace CeusMedia\Common\Net\HTTP;
 
 use CeusMedia\Common\Net\CURL;
+use CeusMedia\Common\Net\HTTP\Header\Renderer;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Response\Decompressor as ResponseDecompressor;
 use CeusMedia\Common\Net\HTTP\Response\Parser as ResponseParser;
@@ -43,22 +44,23 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 class Reader
 {
 	protected $curl;
+
 	protected $curlInfo		= array();
+
 	//  default user agent to report to server, can be overridden by constructor or given CURL options on get or post
 	protected $userAgent	= "CeusMediaCommon:Net.HTTP.Reader/0.9";
 
 	/**
 	 *	Constructor, sets up cURL.
 	 *	@access		public
-	 *	@param		string		$httpVersion		HTTP Version, 1.0 by default
-	 *	@param		string		$userAgent			User Agent to report to server
+	 *	@param		string|NULL		$httpVersion		HTTP Version, 1.0 by default
+	 *	@param		string|NULL		$userAgent			User Agent to report to server
 	 */
-	public function __construct( $httpVersion = NULL, $userAgent = NULL )
+	public function __construct( ?string $httpVersion = NULL, ?string $userAgent = NULL )
 	{
 		$this->curl		= new CURL;
 		$this->curl->setOption( CURLOPT_ENCODING, '' );
@@ -75,12 +77,10 @@ class Reader
 	 *	@param		array		$options			Map of cURL Options
 	 *	@return		void
 	 */
-	protected function applyCurlOptions( CURL $curl, $options = array() )
+	protected function applyCurlOptions( CURL $curl, array $options = array() )
 	{
-		foreach( $options as $key => $value )
-		{
-			if( is_string( $key ) )
-			{
+		foreach( $options as $key => $value ){
+			if( is_string( $key ) ){
 				if( !( preg_match( "@^CURLOPT_@", $key ) && defined( $key ) ) )
 					throw new InvalidArgumentException( 'Invalid option constant key "'.$key.'"' );
 				$key	= constant( $key );
@@ -99,14 +99,13 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function get( $url, $headers = array(), $curlOptions = array() )
+	public function get( string $url, $headers = array(), array $curlOptions = array() ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
-		if( $headers )
-		{
+		if( $headers ){
 			if( $headers instanceof HeaderSection )
-				$headers	= $headers->toArray();
+				$headers	= Renderer::render( $headers );
 			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
@@ -127,10 +126,10 @@ class Reader
 	/**
 	 *	Returns Info Array or single Information from last cURL Request.
 	 *	@access		public
-	 *	@param		string		$key		Information Key
+	 *	@param		string|NULL		$key		Information Key
 	 *	@return		mixed
 	 */
-	public function getCurlInfo( $key = NULL )
+	public function getCurlInfo( ?string $key = NULL )
 	{
 		if( !$this->curlInfo )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -150,35 +149,30 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function post( $url, $data, $headers = array(), $curlOptions = array() )
+	public function post( string $url, array $data, $headers = array(), array $curlOptions = array() ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
-		if( $headers )
-		{
+		if( $headers ){
 			if( $headers instanceof HeaderSection )
-				$headers	= $headers->toArray();
+				$headers	= Renderer::render( $headers );
 			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 
-		if( is_array( $data ) )
-		{
-			//  cURL hack (file upload identifier)
-			foreach( $data as $key => $value )
-				//  leading @ in field values
-				if( is_string( $value ) && substr( $value, 0, 1 ) == "@" )
-					//  need to be escaped
-					$data[$key]	= "\\".$value;
-			$data	= http_build_query( $data, NULL, "&" );
-		}
+		//  cURL hack (file upload identifier)
+		foreach( $data as $key => $value )
+			//  leading @ in field values
+			if( is_string( $value ) && substr( $value, 0, 1 ) == "@" )
+				//  need to be escaped
+				$data[$key]	= "\\".$value;
+
 		$curl->setOption( CURLOPT_POST, TRUE );
-		$curl->setOption( CURLOPT_POSTFIELDS, (string) $data );
+		$curl->setOption( CURLOPT_POSTFIELDS, http_build_query( $data, NULL, "&" ) );
 
 		$response		= $curl->exec( TRUE, FALSE );
 		$this->curlInfo	= $curl->getInfo();
-		$response		= ResponseParser::fromString( $response );
-		return $response;
+		return ResponseParser::fromString( $response );
 	}
 
 	/**
@@ -186,12 +180,13 @@ class Reader
 	 *	@access		public
 	 *	@param		string		$username	Basic Auth Username
 	 *	@param		string		$password	Basic Auth Password
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setBasicAuth( $username, $password )
+	public function setBasicAuth( string $username, string $password ): self
 	{
 		$this->curl->setOption( CURLOPT_HTTPAUTH, CURLAUTH_BASIC );
 		$this->curl->setOption( CURLOPT_USERPWD, $username.":".$password );
+		return $this;
 	}
 
 	/**
@@ -202,67 +197,71 @@ class Reader
 	 *	@return		void
 	 *	@link		http://www.php.net/manual/en/function.curl-setopt.php
 	 */
-	public function setCurlOption( $key, $value )
+	public function setCurlOption( int $key, $value ): self
 	{
 		$this->curl->setOption( $key, $value );
+		return $this;
 	}
 
 	/**
 	 *	Sets Type of HTTP Compression (Encoding).
 	 *	@access		public
-	 *	@return		void
 	 *	@param		string		$method		Compression Type (gzip|deflate)
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setEncoding( $method )
+	public function setEncoding( string $method ): self
 	{
 		$this->curl->setOption( CURLOPT_ENCODING, $method );
+		return $this;
 	}
 
 	/**
 	 *	Sets proxy domain or IP.
 	 *	@access		public
-	 *	@param		string		$address	Domain or IP (and Port) of proxy server
-	 *	@param		integer		$type		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5 )
-	 *	@param		string		$auth		Username and password for proxy authentification
-	 *	@return		void
+	 *	@param		string			$address	Domain or IP (and Port) of proxy server
+	 *	@param		integer			$type		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5 )
+	 *	@param		string|NULL		$auth		Username and password for proxy authentication
+	 *	@return		self
 	 */
-	public function setProxy( $address, $type = CURLPROXY_HTTP, $auth = NULL )
+	public function setProxy( string $address, int $type = CURLPROXY_HTTP, ?string $auth = NULL ): self
 	{
 		$this->curl->setOption( CURLOPT_HTTPPROXYTUNNEL, TRUE );
 		$this->curl->setOption( CURLOPT_PROXY, $address );
 		$this->curl->setOption( CURLOPT_PROXYTYPE, $type );
 		if( $auth )
 			$this->curl->setOption( CURLOPT_PROXYUSERPWD, $auth );
+		return $this;
 	}
 
 	/**
 	 *	Sets User Agent.
 	 *	@access		public
 	 *	@param		string		$string		User Agent to set
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setUserAgent( $string )
+	public function setUserAgent( string $string ): self
 	{
 		if( empty( $string ) )
 			throw new InvalidArgumentException( 'Must be set' );
 		$this->curl->setOption( CURLOPT_USERAGENT, $string );
+		return $this;
 	}
 
 	/**
 	 *	Sets up SSL Verification.
 	 *	@access		public
-	 *	@param		boolean		$host		Flag: verify Host
-	 *	@param		integer		$peer		Flag: verify Peer
-	 *	@param		string		$caPath		Path to certificates
-	 *	@param		string		$caInfo		Certificate File Name
+	 *	@param		boolean			$host		Flag: verify Host
+	 *	@param		integer			$peer		Flag: verify Peer
+	 *	@param		string|NULL		$caPath		Path to certificates
+	 *	@param		string|NULL		$caInfo		Certificate File Name
 	 *	@return		void
 	 */
-	public function setVerify( $host = FALSE, $peer = 0, $caPath = NULL, $caInfo = NULL )
+	public function setVerify( bool $host = FALSE, int $peer = 0, ?string $caPath = NULL, ?string $caInfo = NULL ): self
 	{
 		$this->curl->setOption( CURLOPT_SSL_VERIFYHOST, $host );
 		$this->curl->setOption( CURLOPT_SSL_VERIFYPEER, $peer );
 		$this->curl->setOption( CURLOPT_CAPATH, $caPath );
 		$this->curl->setOption( CURLOPT_CAINFO, $caInfo );
+		return $this;
 	}
 }

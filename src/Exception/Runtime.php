@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.09.2011
  */
 
 namespace CeusMedia\Common\Exception;
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\Exception;
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.09.2011
  */
 class Runtime extends Serializable
 {
