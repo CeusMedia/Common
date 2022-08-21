@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** * @noinspection PhpDocMissingThrowsInspection */
+
 /**
  *	...
  *
@@ -55,7 +57,7 @@ class URL
 	 *
 	 *	@access		public
 	 *	@param		string			$url		URL string to represent
-	 *	@param		URL|string		$defaultUrl Underlaying base URL
+	 *	@param		URL|string		$defaultUrl Underlying base URL
 	 */
 	public function __construct( string $url, $defaultUrl = NULL )
 	{
@@ -119,7 +121,7 @@ class URL
 	}
 
 	/**
-	 *	Returns set URL as relative URL-
+	 *	Returns set URL as relative URL.
 	 *	Alias for get( FALSE ).
 	 *	@access		public
 	 *	@return		string		Relative URL
@@ -159,14 +161,17 @@ class URL
 	/**
 	 *	... (to be implemented)
 	 *	@access		public
-	 *	@todo		implement
 	 *	@param		URL|string	$referenceUrl		Reference URL to apply to absolute URL
-	 *	@return		string		... (to be implemented)
+	 *	@return		URL		... (to be implemented)
+	 * @todo        implement
+	 * @noinspection PhpUnusedParameterInspection
 	 */
-	public function getRelativeTo( $referenceUrl )
+	public function getRelativeTo( URL $referenceUrl ): URL
 	{
+		/** @noinspection PhpUnhandledExceptionInspection */
 		throw new Exception( 'No implemented, yet' );
-		return '';
+		/** @noinspection PhpUnreachableStatementInspection */
+		return $referenceUrl;
 	}
 
 	public function getFragment(): string
@@ -300,7 +305,13 @@ class URL
 		return $this;
 	}
 
-	public function setQuery( string $query ): self
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		array|string		$query
+	 *	@return		self
+	 */
+	public function setQuery( $query ): self
 	{
 		if( is_array( $query ) )
 			$query	= http_build_query( $query, '&' );

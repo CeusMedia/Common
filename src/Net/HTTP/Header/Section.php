@@ -202,7 +202,7 @@ class Section
 		foreach( $this->fields as $sectionName => $sectionPairs )
 			if( array_key_exists( $name, $sectionPairs ) )
 				return $this->fields[$sectionName][$name];
-		return NULL;
+		return [];
 	}
 
 	public function getFields(): array
@@ -231,8 +231,9 @@ class Section
 		return array();
 	}
 
-	public static function instantiate(){
-		return new static;
+	public static function instantiate(): self
+	{
+		return new self();
 	}
 
 	public function hasField( string $name ): bool

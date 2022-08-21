@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Data Object for vCard.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
 namespace CeusMedia\Common\ADT;
@@ -31,6 +31,7 @@ namespace CeusMedia\Common\ADT;
 use CeusMedia\Common\FS\File\VCard\Builder as VCardFileBuilder;
 use CeusMedia\Common\FS\File\VCard\Parser as VCardFileParser;
 use InvalidArgumentException;
+use Serializable;
 
 /**
  *	Data Object for vCard.
@@ -40,14 +41,13 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  */
-class VCard implements \Serializable
+class VCard implements Serializable
 {
 	/**	@var		array		$types					Array of VCard Types (Entities) */
-	private $types	= array();
+	private $types;
 
 	/**
 	 *	Constructor.
@@ -89,14 +89,12 @@ class VCard implements \Serializable
 	 *	@param		string		$region					Region or State
 	 *	@param		string		$postCode				Post Code
 	 *	@param		string		$countryName			Country
-	 *	@param		string		$postOfficeBox			Post Office Box ID
+	 *	@param		string|NULL	$postOfficeBox			Post Office Box ID
 	 *	@param		array		$types					List of Address Types
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addAddress( $streetAddress, $extendedAddress, $locality, $region, $postCode, $countryName, $postOfficeBox = NULL, $types = NULL )
+	public function addAddress( string $streetAddress, string $extendedAddress, string $locality, string $region, string $postCode, string $countryName, ?string $postOfficeBox = NULL, array $types = [] ): self
 	{
-		if( is_string( $types ) )
-			$types	= explode( ",", $types );
 		$this->types['adr'][]	= array(
 			'postOfficeBox'		=> $postOfficeBox,
 			'extendedAddress'	=> $extendedAddress,
@@ -107,6 +105,7 @@ class VCard implements \Serializable
 			'countryName'		=> $countryName,
 			'types'				=> $types,
 		);
+		return $this;
 	}
 
 	/**
@@ -114,13 +113,14 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@param		string		$address				Email Address
 	 *	@param		array		$types					List of Address Types
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addEmail( $address, $types = NULL )
+	public function addEmail( string $address, array $types = [] ): self
 	{
 		if( is_string( $types ) )
 			$types	= explode( ",", $types );
 		$this->types['email'][$address]	= $types;
+		return $this;
 	}
 
 	/**
@@ -129,9 +129,9 @@ class VCard implements \Serializable
 	 *	@param		string		$latitude				Latitude
 	 *	@param		string		$longitude				Longitude
 	 *	@param		array		$types					List of Address Types
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addGeoTag( $latitude, $longitude, $types = NULL )
+	public function addGeoTag( string $latitude, string $longitude, array $types = [] ): self
 	{
 		if( is_string( $types ) )
 			$types	= explode( ",", $types );
@@ -140,17 +140,19 @@ class VCard implements \Serializable
 			'longitude'	=> $longitude,
 			'types'		=> $types,
 		);
+		return $this;
 	}
 
 	/**
 	 *	Adds a Nickname.
 	 *	@access		public
 	 *	@param		string		$name					Nickname
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addNickname( $name )
+	public function addNickname( string $name ): self
 	{
 		$this->types['nickname'][]	= $name;
+		return $this;
 	}
 
 	/**
@@ -158,27 +160,25 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@param		string		$number					Phone Number
 	 *	@param		array		$types					List of Address Types
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addPhone( $number, $types = NULL )
+	public function addPhone( string $number, array $types = [] ): self
 	{
-		if( is_string( $types ) )
-			$types	= explode( ",", $types );
 		$this->types['tel'][$number]	= $types;
+		return $this;
 	}
 
 	/**
-	 *	Adds an URL of a Website.
+	 *	Adds a URL of a Website.
 	 *	@access		public
 	 *	@param		string		$url					Website URL
 	 *	@param		array		$types					List of Address Types
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addUrl( $url, $types = NULL )
+	public function addUrl( string $url, array $types = [] ): self
 	{
-		if( is_string( $types ) )
-			$types	= explode( ",", $types );
 		$this->types['url'][$url]	= $types;
+		return $this;
 	}
 
 	/**
@@ -188,7 +188,7 @@ class VCard implements \Serializable
 	 *	@param		string		$string					Serialized VCard String
 	 *	@return		VCard
 	 */
-	public static function createFromString( $string )
+	public static function createFromString( string $string ): self
 	{
 		return VCardFileParser::parse( $string );
 	}
@@ -199,9 +199,9 @@ class VCard implements \Serializable
 	 *	@param		string		$json					JSON String
 	 *	@return		void
 	 */
-	public function fromJson( $json )
+	public function fromJson( string $json )
 	{
-		$this->__construct();
+		self::__construct();
 		$data	= json_decode( $json, TRUE );
 		foreach( $this->types as $key => $value )
 			if( isset( $data[$key] ) )
@@ -214,9 +214,9 @@ class VCard implements \Serializable
 	 *	@param		string		$string			Serialized VCard String
 	 *	@return		void
 	 */
-	public function fromString( $string )
+	public function fromString( string $string )
 	{
-		$this->__construct();
+		self::__construct();
 		VCardFileParser::parseInto( $string, $this );
 	}
 
@@ -225,7 +225,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getAddresses()
+	public function getAddresses(): array
 	{
 		return $this->types['adr'];
 	}
@@ -235,17 +235,17 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getEmails()
+	public function getEmails(): array
 	{
 		return $this->types['email'];
 	}
 
 	/**
-	 *	Returns stored formated Name Fields as Array.
+	 *	Returns stored formatted Name Fields as Array.
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getFormatedName()
+	public function getFormattedName(): array
 	{
 		return $this->types['fn'];
 	}
@@ -255,7 +255,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getGeoTags()
+	public function getGeoTags(): array
 	{
 		return $this->types['geo'];
 	}
@@ -266,7 +266,7 @@ class VCard implements \Serializable
 	 *	@param		string		$key					Field Key
 	 *	@return		string
 	 */
-	public function getNameField( $key )
+	public function getNameField( string $key ):string
 	{
 		if( !array_key_exists( $key, $this->types['n'] ) )
 			throw new InvalidArgumentException( 'Name Key "'.$key.'" is invalid.' );
@@ -274,11 +274,11 @@ class VCard implements \Serializable
 	}
 
 	/**
-	 *	Returns stored formated Name Fields as Array.
+	 *	Returns stored formatted Name Fields as Array.
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getNameFields()
+	public function getNameFields(): array
 	{
 		return $this->types['n'];
 	}
@@ -288,7 +288,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getNicknames()
+	public function getNicknames(): array
 	{
 		return $this->types['nickname'];
 	}
@@ -299,7 +299,7 @@ class VCard implements \Serializable
 	 *	@param		string		$key					Field Key
 	 *	@return		string
 	 */
-	public function getOrganisationField( $key )
+	public function getOrganisationField( string $key ): string
 	{
 		if( !array_key_exists( $key, $this->types['org'] ) )
 			throw new InvalidArgumentException( 'Organisation Key "'.$key.'" is invalid.' );
@@ -311,7 +311,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getOrganisationFields()
+	public function getOrganisationFields(): array
 	{
 		return $this->types['org'];
 	}
@@ -321,7 +321,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getPhones()
+	public function getPhones(): array
 	{
 		return $this->types['tel'];
 	}
@@ -331,7 +331,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getRole()
+	public function getRole(): string
 	{
 		return $this->types['role'];
 	}
@@ -341,7 +341,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getTitle()
+	public function getTitle(): string
 	{
 		return $this->types['title'];
 	}
@@ -351,7 +351,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getUrls()
+	public function getUrls(): array
 	{
 		return $this->types['url'];
 	}
@@ -362,33 +362,34 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function serialize()
+	public function serialize(): string
 	{
 		return $this->toString();
 	}
 
 	/**
-	 *	Sets Name a one formated String.
+	 *	Sets Name a one formatted String.
 	 *	@access		public
-	 *	@param		string		$formatedName			Name String
-	 *	@return		void
+	 *	@param		string		$formattedName			Name String
+	 *	@return		self
 	 */
-	public function setFormatedName( $formatedName )
+	public function setFormattedName( string $formattedName ): self
 	{
-		$this->types['fn']	= $formatedName;
+		$this->types['fn']	= $formattedName;
+		return $this;
 	}
 
 	/**
 	 *	Sets Name with several Fields.
 	 *	@access		public
-	 *	@param		string		$familyName				Family Name
-	 *	@param		string		$givenName				Given first Name
-	 *	@param		string		$additionalNames		Further given Names
-	 *	@param		string		$honorificPrefixes		Prefixes like Prof. Dr.
-	 *	@param		string		$honorificSuffixes		Suffixes
-	 *	@return		void
+	 *	@param		string			$familyName				Family Name
+	 *	@param		string			$givenName				Given first Name
+	 *	@param		string|NULL		$additionalNames		Further given Names
+	 *	@param		string|NULL		$honorificPrefixes		Prefixes like Prof. Dr.
+	 *	@param		string|NULL		$honorificSuffixes		Suffixes
+	 *	@return		self
 	 */
-	public function setName( $familyName, $givenName, $additionalNames = NULL, $honorificPrefixes = NULL, $honorificSuffixes = NULL )
+	public function setName( string $familyName, string $givenName, ?string $additionalNames = NULL, ?string $honorificPrefixes = NULL, ?string $honorificSuffixes = NULL ): self
 	{
 		$this->types['n']	= array(
 			'familyName'		=> $familyName,
@@ -397,56 +398,60 @@ class VCard implements \Serializable
 			'honorificPrefixes'	=> $honorificPrefixes,
 			'honorificSuffixes'	=> $honorificSuffixes,
 		);
+		return $this;
 	}
 
 	/**
 	 *	Sets Organisation Name and Unit.
 	 *	@access		public
-	 *	@param		string		$name					Organisation Name
-	 *	@param		string		$unit					Organisation Unit
-	 *	@return		void
+	 *	@param		string|NULL		$name					Organisation Name
+	 *	@param		string|NULL		$unit					Organisation Unit
+	 *	@return		self
 	 */
-	public function setOrganisation( $name, $unit = NULL )
+	public function setOrganisation( string $name, ?string $unit = NULL ): self
 	{
 		$this->types['org']	= array(
 			'name'		=> $name,
 			'unit'		=> $unit,
 		);
+		return $this;
 	}
 
 	/**
 	 *	Sets a Person's Role.
 	 *	@access		public
 	 *	@param		string		$role					Person's Role within Organisation
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setRole( $role )
+	public function setRole( string $role ): self
 	{
 		$this->types['role']	= $role;
+		return $this;
 	}
 
 	/**
 	 *	Sets a Person's Title.
 	 *	@access		public
 	 *	@param		string		$title					Person's Title
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ): self
 	{
 		$this->types['title']	= $title;
+		return $this;
 	}
 
 	/**
 	 *	Exports VCard to an Array.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		return array(
 			'address'		=> $this->types['adr'],
 			'email'			=> $this->types['email'],
-			'formatedName'	=> $this->types['fn'],
+			'formattedName'	=> $this->types['fn'],
 			'geo'			=> $this->types['geo'],
 			'name'			=> $this->types['n'],
 			'nickname'		=> $this->types['nickname'],
@@ -463,7 +468,7 @@ class VCard implements \Serializable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toJson()
+	public function toJson(): string
 	{
 		return json_encode( $this->types );
 	}
@@ -471,11 +476,11 @@ class VCard implements \Serializable
 	/**
 	 *	Exports VCard to a String.
 	 *	@access		public
-	 *	@param		string		$charsetIn				Charset to convert from
-	 *	@param		string		$charsetOut				Charset to convert to
+	 *	@param		string|NULL		$charsetIn				Charset to convert from
+	 *	@param		string|NULL		$charsetOut				Charset to convert to
 	 *	@return		string
 	 */
-	public function toString( $charsetIn = NULL, $charsetOut = NULL )
+	public function toString( ?string $charsetIn = NULL, ?string $charsetOut = NULL ): string
 	{
 		return VCardFileBuilder::build( $this, $charsetIn, $charsetOut );
 	}
@@ -484,11 +489,11 @@ class VCard implements \Serializable
 	 *	Imports VCard from Serial String.
 	 *	Alias for fromString().
 	 *	@access		public
-	 *	@param		string		$string					Serialized VCard String
+	 *	@param		string		$data					Serialized VCard String
 	 *	@return		void
 	 */
-	public function unserialize( $string )
+	public function unserialize( $data )
 	{
-		$this->fromString( $string );
+		$this->fromString( $data );
 	}
 }

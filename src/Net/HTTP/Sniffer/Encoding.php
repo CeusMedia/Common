@@ -43,7 +43,7 @@ use InvalidArgumentException;
 class Encoding
 {
 	/**
-	 *	Returns prefered allowed and accepted Encoding Method.
+	 *	Returns preferred allowed and accepted Encoding Method.
 	 *	@access		public
 	 *	@static
 	 *	@param		array	$allowed		Array of Encoding Methods supported and allowed by the Application

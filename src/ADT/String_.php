@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	String Class wrapping most of the PHP functions in a usable way.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.7
  */
 namespace CeusMedia\Common\ADT;
 
@@ -39,7 +39,6 @@ use OutOfBoundsException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.7
  */
 class String_
 {
@@ -51,7 +50,7 @@ class String_
 	 *	@param		string		$string			Initial string
 	 *	@return		void
 	 */
-	public function __construct( $string = '' )
+	public function __construct( string $string = '' )
 	{
 		$this->string	= $string;
 	}
@@ -59,16 +58,16 @@ class String_
 	public function __toString(): string
 	{
 #		return $this->render();
-		return (string) $this->string;
+		return $this->string;
 	}
 
 	/**
 	 *	Changes first letter or every delimited word to upper case and returns TRUE of there were changes.
 	 *	@access		public
-	 *	@param		string		$delimiter		Capitalize every word separated by delimiter
+	 *	@param		string|NULL		$delimiter		Capitalize every word separated by delimiter
 	 *	@return		bool		At least 1 character has been changed
 	 */
-	public function capitalize( $delimiter = NULL ): bool
+	public function capitalize( ?string $delimiter = NULL ): bool
 	{
 		$oldString		= $this->string;
 		if( $delimiter === NULL ){
@@ -83,15 +82,14 @@ class String_
 	/**
 	 *	Changes first letter of every word to upper case and returns TRUE of there were changes.
 	 *	@access		public
-	 *	@param		string		$delimiter		Capitalize every word separated by delimiter
+	 *	@param		string|NULL		$delimiter		Capitalize every word separated by delimiter
 	 *	@return		bool		At least 1 character has been changed
 	 */
-	public function capitalizeWords( $delimiter = NULL ): bool
+	public function capitalizeWords( ?string $delimiter = NULL ): bool
 	{
 		$oldString		= $this->string;
 		if( NULL === $delimiter || preg_match( "/ +/", $delimiter ) ){
 			$this->string	= ucwords( $oldString );
-			return $this->string !== $oldString;
 		}
 		else{
 			$token			= md5( (string) microtime( TRUE ) );
@@ -100,8 +98,8 @@ class String_
 			$work			= ucwords( $work );
 			$work			= str_replace( " ", $delimiter, $work );
 			$this->string	= str_replace( "{".$token."}", " ", $work );
-			return $this->string !== $oldString;
 		}
+		return $this->string !== $oldString;
 	}
 
 	/**
@@ -109,12 +107,12 @@ class String_
 	 *	Returns negative value is this string is less, positive of this string is greater and 0 if both are equal.
 	 *	@access		public
 	 *	@param		string		$string			String to compare to
-	 *	@param		bool		$caseSense		Flag: be case sensitive
+	 *	@param		bool		$caseSense		Flag: be case-sensitive
 	 *	@return		int			Indicator for which string is less, 0 if equal
 	 *	@see		http://www.php.net/manual/en/function.strcmp.php
 	 *	@see		http://www.php.net/manual/en/function.strcasecmp.php
 	 */
-	public function compareTo( $string, $caseSense = TRUE ): int
+	public function compareTo( string $string, bool $caseSense = TRUE ): int
 	{
 		$method	= $caseSense ? "strcmp" : "strcasecmp";
 		return call_user_func( $method, $this->string, $string );
@@ -122,14 +120,14 @@ class String_
 
 	/**
 	 *	Counts all occurrences of a string within this string, bounded by offset and limit.
-	 *	Note: Offset and limit must by less than the lenth of this string.
+	 *	Note: Offset and limit must be less than the length of this string.
 	 *	@access		public
-	 *	@param		string		$string			String to count
-	 *	@param		int			$offset			Offset to start at
-	 *	@param		int			$limit			Number of characters after offset
-	 *	@return		int			Number of occurrences of string with borders
+	 *	@param		String_|string	$string			String to count
+	 *	@param		int				$offset			Offset to start at
+	 *	@param		int				$limit			Number of characters after offset
+	 *	@return		int				Number of occurrences of string with borders
 	 */
-	public function countSubstring( $string, $offset = 0, $limit = NULL )
+	public function countSubstring( $string, int $offset = 0, int $limit = 0 ): int
 	{
 		if( !is_string( $string ) && !( $string instanceof String_ ) )
 			throw new InvalidArgumentException( 'No string given' );
@@ -137,11 +135,8 @@ class String_
 			throw new InvalidArgumentException( 'Offset must be integer' );
 		if( abs( $offset ) > $this->getLength() )
 			throw new OutOfBoundsException( 'Offset excesses string length' );
-		if( !is_null( $limit ) )
-		{
-			if( !is_int( $limit ) )
-				throw new InvalidArgumentException( 'Limit must be integer' );
-			if( NULL !== $limit && $offset + $limit > $this->getLength() )
+		if( abs( $limit ) > 0 ){
+			if( $offset + $limit > $this->getLength() )
 				throw new OutOfBoundsException( 'Offset and limit excess string length' );
 			return substr_count( $this->string, $string, $offset, $limit );
 		}
@@ -153,7 +148,7 @@ class String_
 	 *	@access		public
 	 *	@return		int			Number of added slashes
 	 */
-	public function escape()
+	public function escape(): int
 	{
 		$length			= $this->getLength();
 		$this->string	= addslashes( $this->string );
@@ -168,11 +163,10 @@ class String_
 	 *	@param		string		$string			String to extend with
 	 *	@param		bool		$left			Extend left side
 	 *	@param		bool		$right			Extend right side
+	 *	@return		int
 	 */
-	public function extend( $length, $string = " ", $left = FALSE, $right = TRUE )
+	public function extend( int $length, string $string = " ", bool $left = FALSE, bool $right = TRUE ): int
 	{
-		if( !is_int( $length ) )
-			throw new InvalidArgumentException( 'Length must be integer' );
 		if( $length < $this->getLength() )
 			throw new InvalidArgumentException( 'Length cannot be lower than string length' );
 		if( !is_string( $string ) && !( $string instanceof String_ ) )
@@ -197,7 +191,7 @@ class String_
 	 *	@access		public
 	 *	@return		int			Number of characters
 	 */
-	public function getLength()
+	public function getLength(): int
 	{
 		return strlen( $this->string );
 	}
@@ -211,36 +205,26 @@ class String_
 	 *	@return		string		Substring
 	 *	@see		http://www.php.net/manual/en/function.substr.php
 	 */
-	public function getSubstring( $start = 0, $length = NULL )
+	public function getSubstring( int $start = 0, int $length = 0 ): string
 	{
-		if( !is_int( $start ) )
-			throw new InvalidArgumentException( 'Start must be integer' );
 		if( abs( $start ) > $this->getLength() )
 			throw new OutOfBoundsException( 'Start excesses string length' );
 		//  a length is given
-		if( !is_null( $length ) )
-		{
-			if( !is_int( $length ) )
-				throw new InvalidArgumentException( 'Length must be integer' );
-			//  start is postive, starting from left
-			if( $start >= 0 )
-			{
-				//  length from start is to long
-				if( $length >= 0 && $start + $length > $this->getLength() )
+		if( $length > 0  ){
+			//  start is positive, starting from left
+			if( $start >= 0 ){
+				//  length from start is too long
+				if( $start + $length > $this->getLength() )
 					throw new OutOfBoundsException( 'Start and length excess string length from start (from left)' );
-				//  length from right is to long
-				if( $length < 0 && abs( $length ) > $this->getLength() - $start )
+				//  length from right is too long
+				if( $length > $this->getLength() - $start )
 					throw new OutOfBoundsException( 'Length (from right) excesses start (form left)' );
 			}
 			//  start is negative
-			else
-			{
-				//  length from start is to long
-				if( $length >= 0 && abs( $start ) < $length )
+			else{
+				//  length from start is too long
+				if( abs( $start ) < $length )
 					throw new OutOfBoundsException( 'Length (from start) excesses string length from start (from right)' );
-				//  length from right is to long
-				if( $length < 0 && abs( $start ) < abs( $length ) )
-					throw new OutOfBoundsException( 'Length (from right) excesses start (from right)' );
 			}
 			return new String_( substr( $this->string, $start, $length ) );
 		}
@@ -255,9 +239,9 @@ class String_
 	 *	@param		int			$limit			Number of characters after offset
 	 *	@return		bool		Found or not
 	 */
-	public function hasSubstring( $string, $offset = 0, $limit = NULL )
+	public function hasSubstring( string $string, int $offset = 0, int $limit = 0 ): bool
 	{
-		return (bool) $this->countSubstring( $string, $offset, $limit );
+		return $this->countSubstring( $string, $offset, $limit ) !== 0;
 	}
 
 	/**
@@ -267,7 +251,7 @@ class String_
 	 *	@param		string		$hyphen			Hyphen character to replace given characters with
 	 *	@return		bool		string
 	 */
-	public function hyphenate( $characters = array( ' ' ), $hyphen = '-' )
+	public function hyphenate( array $characters = array( ' ' ), string $hyphen = '-' ): bool
 	{
 		$string	= $this->string;
 		foreach( $characters as $character ){
@@ -278,17 +262,16 @@ class String_
 	}
 
 	/**
-	 *	Detects wheter string is right-to-left or not.
+	 *	Detects whether string is right-to-left or not.
 	 *	Needs file './StringRandALCat.txt' to do so.
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isRTL()
+	public function isRTL(): bool
 	{
 		$RandALCat	= file( __DIR__.'/StringRandALCat.txt', FILE_IGNORE_NEW_LINES );
 		$codePoints	= unpack( 'V*', iconv( 'UTF-8', 'UTF-32LE', $this->string ) );
-		foreach( $codePoints as $codePoint )
-		{
+		foreach( $codePoints as $codePoint ){
 			$hexCode	= strtoupper( str_pad( dechex( $codePoint ), 6, '0', STR_PAD_LEFT ) );
 			if( array_search( $hexCode, $RandALCat, TRUE ) )
 				return true;
@@ -296,10 +279,9 @@ class String_
 		return false;
 	}
 
-	public function render()
+	public function render( array $variables = []): string
 	{
-		$arguments	= func_get_args();
-		return call_user_func( "sprintf", $this->string, $arguments );
+		return vsprintf( $this->string, $variables );
 	}
 
 	/**
@@ -311,12 +293,10 @@ class String_
 	 *	@param		int			$multiplier
 	 *	@return		int			Number of added characters
 	 */
-	public function repeat( $multiplier )
+	public function repeat( int $multiplier ): int
 	{
-		if( !is_int( $multiplier ) )
-			throw new InvalidArgumentException( 'Multiplier must be integer' );
 		if( $multiplier < 0 )
-			throw new InvalidArgumentException( 'Multiplier must be atleast 0' );
+			throw new InvalidArgumentException( 'Multiplier must be at least 0' );
 		$length			= $this->getLength();
 		$this->string	= str_repeat( $this->string, $multiplier + 1 );
 		return $this->getLength() - $length;
@@ -326,16 +306,16 @@ class String_
 	 *	Replaces all occurrences of a search string by a replacement string.
 	 *	The number of replaced occurrences is returned.
 	 *	Note: This method is not suitable for regular expressions.
-	 *	Note: This method is case sensitive by default
+	 *	Note: This method is case-sensitive by default
 	 *	@access		public
-	 *	@param		string		$search			String to be replace
+	 *	@param		string		$search			String to be replaced
 	 *	@param		string		$replace		String to be set in
-	 *	@param		bool		$caseSense		Flag: be case sensitive
+	 *	@param		bool		$caseSense		Flag: be case-sensitive
 	 *	@return		int			Number of replaced occurrences
 	 */
-	public function replace( $search, $replace, $caseSense = TRUE )
+	public function replace( string $search, string $replace, bool $caseSense = TRUE ): int
 	{
-		$count			= 0;
+		$count	= 0;
 		if( $caseSense )
 			$this->string	= str_replace( $search, $replace, $this->string, $count );
 		else
@@ -348,7 +328,7 @@ class String_
 	 *	@access		public
 	 *	@return		bool		At least 1 character has been changed
 	 */
-	public function reverse()
+	public function reverse(): bool
 	{
 		$oldString		= $this->string;
 		$this->string	= strrev( $this->string );
@@ -356,14 +336,14 @@ class String_
 	}
 
 	/**
-	 *	Splits this string into an array either by a delimiter string or an number of characters.
+	 *	Splits this string into an array either by a delimiter string or a number of characters.
 	 *	@access		public
-	 *	@param		mixed		$delimiter		Delimiter String or number of characters
+	 *	@param		int|string		$delimiter		Delimiter String or number of characters
 	 *	@return		ArrayObject
 	 *	@see		http://www.php.net/manual/en/function.explode.php
 	 *	@see		http://www.php.net/manual/en/function.str-split.php
 	 */
-	public function split( $delimiter )
+	public function split( $delimiter ): ArrayObject
 	{
 		$list	= array( $this->string );
 		if( is_int( $delimiter ) )
@@ -376,11 +356,11 @@ class String_
 	/**
 	 *	Converts string to camel case (removes spaces and capitalizes all words).
 	 *	Use the first parameter to get a string beginning with a low letter.
-	 *	@param		bool		$startUpperCase		Start with a upper case letter
+	 *	@param		bool		$startUpperCase		Start with an upper case letter
 	 *	@return		bool		At least 1 character has been changed
 	 *	@see		http://en.wikipedia.org/wiki/CamelCase
 	 */
-	public function toCamelCase( $startUpperCase = TRUE )
+	public function toCamelCase( bool $startUpperCase = TRUE ): bool
 	{
 		$oldString		= $this->string;
 		$this->capitalizeWords();
@@ -400,8 +380,7 @@ class String_
 	public function toLowerCase( bool $firstOnly = FALSE ): bool
 	{
 		$oldString		= $this->string;
-		if( $firstOnly && !function_exists( 'lcfirst' ) )
-		{
+		if( $firstOnly && !function_exists( 'lcfirst' ) ){
 			$this->string	= strtolower( substr( $this->string, 0, 1 ) ).substr( $this->string, 1 );
 			return $this->string !== $oldString;
 		}
@@ -464,10 +443,10 @@ class String_
 	 *	@param		string		$right			String to add right
 	 *	@return		int			Number of added characters
 	 */
-	public function wrap( string $left = NULL, string $right = NULL ): int
+	public function wrap( string $left = '', string $right = '' ): int
 	{
 		$length			= $this->getLength();
-		$this->string	= (string) $left . $this->string . (string) $right;
+		$this->string	= $left . $this->string . $right;
 		return $this->getLength() - $length;
 	}
 }

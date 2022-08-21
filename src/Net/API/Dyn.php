@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Access to Dyn (dyn.com) API.
  *
@@ -24,11 +25,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://dyn.com/support/developers/api/
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\Net\API;
 
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 use CeusMedia\Common\Net\Reader as NetReader;
@@ -43,7 +44,6 @@ use CeusMedia\Common\Net\Reader as NetReader;
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *  @link           https://github.com/CeusMedia/Common
  *  @see            http://dyn.com/support/developers/api/
- *  @since          0.7.6
  */
 class Dyn
 {
@@ -55,10 +55,10 @@ class Dyn
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$cacheFile		Name of cache file
+	 *	@param		string|NULL		$cacheFile		Name of cache file
 	 *	@return		void
 	 */
-	public function __construct( $cacheFile = NULL )
+	public function __construct( ?string $cacheFile = NULL )
 	{
 		if( is_string( $cacheFile ) ){
 			$this->cacheFile	= $cacheFile;
@@ -76,12 +76,13 @@ class Dyn
 	 *	Returns external IP of this server identified by Dyn service.
 	 *	@access		public
 	 *	@return		string		IP address to be identified
+	 *	@throws		IoException
 	 */
-	public function getIp()
+	public function getIp(): string
 	{
 		if( (int) $this->lastCheck > 0 && time() - $this->lastCheck < 10 * 60 )
 			return $this->lastIp;
-		$this->reader->setUrl( 'http://checkip.dyndns.org' );
+		$this->reader->setUrl( 'https://checkip.dyndns.org' );
 		$html	= $this->reader->read();
 		$parts	= explode( ": ", strip_tags( $html ) );
 		$ip		= trim( array_pop( $parts ) );
@@ -95,10 +96,10 @@ class Dyn
 	 *	@param		array		$data			Map of IP and timestamp
 	 *	@return		integer		Number of bytes written to cache file
 	 */
-	protected function save( $data )
+	protected function save( array $data ): int
 	{
 		if( !$this->cacheFile )
-			return;
+			return 0;
 		$last	= array(
 			'ip'		=> $this->lastIp,
 			'timestamp'	=> $this->lastCheck
@@ -115,12 +116,13 @@ class Dyn
 	 *	@param		string		$host			Dyn registered host
 	 *	@param		string		$ip				Ip address to set for host
 	 *	@return		string		Update code string returned by Dyn service
+	 *	@throws		IoException
 	 */
-	public function update( $username, $password, $host, $ip )
+	public function update( string $username, string $password, string $host, string $ip ): string
 	{
 		if( (int) $this->lastCheck > 0 && time() - $this->lastCheck < 10 * 60 )
 			return "noop";
-		$url	= "http://%s:%s@members.dyndns.org/nic/update?hostname=%s&myip=%s&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";
+		$url	= "https://%s:%s@members.dyndns.org/nic/update?hostname=%s&myip=%s&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";
 		$url	= sprintf( $url, $username, $password, $host, $ip );
 		$this->reader->setUrl( $url );
 		$parts	= explode( " ", $this->reader->read() );

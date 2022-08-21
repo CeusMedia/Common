@@ -48,9 +48,10 @@ class Registry
 	/**
 	 *	Constructor.
 	 *	@access		protected
+	 *	@param		string		$poolKey
 	 *	@return		void
 	 */
-	protected function __construct( $poolKey )
+	protected function __construct( string $poolKey )
 	{
 		$this->poolKey = $poolKey;
 		if( !( isset( $GLOBALS[$this->poolKey] ) && is_array( $GLOBALS[$this->poolKey] ) ) )
@@ -67,7 +68,7 @@ class Registry
 	}
 
 	/**
-	 *	Cleares registered Object.
+	 *	Clears registered Object.
 	 *	@access		public
 	 *	@return		void
 	 */

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Client for FTP Connections.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
 
 namespace CeusMedia\Common\Net\FTP;
@@ -40,7 +40,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
 class Client
 {
@@ -56,17 +55,17 @@ class Client
 	/**
 	 *	Constructor, opens FTP Connection.
 	 *	@access		public
-	 *	@param		string		$host			Host Name
-	 *	@param		integer		$port			Service Port
-	 *	@param		string		$username		Username
-	 *	@param		string		$password		Password
+	 *	@param		string			$host			Host Name
+	 *	@param		integer|NULL	$port			Service Port
+	 *	@param		string|NULL		$path			...
+	 *	@param		string|NULL		$username		Username
+	 *	@param		string|NULL		$password		Password
 	 *	@return		void
 	 */
-	public function __construct( $host, $port = 21, $path = NULL, $username = NULL, $password = NULL )
+	public function __construct( string $host, ?int $port = 21, ?string $path = NULL, ?string $username = NULL, ?string $password = NULL )
 	{
-		try
-		{
-			$port	= $port ? $port : 21;
+		try{
+			$port	= $port ?? 21;
 			$this->connection	= new Connection( $host, $port );
 			$this->connection->checkConnection( TRUE, FALSE );
 			if( $username && $password )
@@ -78,8 +77,7 @@ class Client
 			$this->reader		= new Reader( $this->connection );
 			$this->writer		= new Writer( $this->connection );
 		}
-		catch( Exception $e )
-		{
+		catch( Exception $e ){
 			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
 				//  throw exception and transport inner exception
 				throw new RuntimeException( 'FTP connection failed ', 0, $e );
@@ -102,10 +100,10 @@ class Client
 	 *	Changes Rights of File or Folders on FTP Server.
 	 *	@access		public
 	 *	@param		string		$fileName		Name of File to change Rights for
-	 *	@param		int			$mode			Mode of Rights (i.e. 755)
+	 *	@param		int			$mode			Mode of Rights (i.e. 0755)
 	 *	@return		bool
 	 */
-	public function changeRights( $fileName, $mode )
+	public function changeRights( string $fileName, int $mode ): bool
 	{
 		return $this->writer->changeRights( $fileName, $mode );
 	}
@@ -117,7 +115,7 @@ class Client
 	 *	@param		string		$to				Path of target file
 	 *	@return		bool
 	 */
-	public function copyFile( $from, $to )
+	public function copyFile( string $from, string $to ): bool
 	{
 		return $this->writer->copyFile( $from, $to );
 	}
@@ -129,7 +127,7 @@ class Client
 	 *	@param		string		$to				Path of target file
 	 *	@return		bool
 	 */
-	public function copyFolder( $from, $to )
+	public function copyFolder( string $from, string $to ): bool
 	{
 		return $this->writer->copyFolder( $from, $to );
 	}
@@ -140,21 +138,21 @@ class Client
 	 *	@param		string		$folderName		Path of folder to be created
 	 *	@return		bool
 	 */
-	public function createFolder( $folderName )
+	public function createFolder( string $folderName ): bool
 	{
 		return $this->writer->createFolder( $folderName );
 	}
 
 	/**
-	 *	Transferes a File from FTP Server.
+	 *	Transfers a File from FTP Server.
 	 *	@access		public
-	 *	@param		string		$globalFile		Path of remote file
-	 *	@param		string		$localFile		Path of local target file
+	 *	@param		string			$globalFile		Path of remote file
+	 *	@param		string|NULL		$localFile		Path of local target file
 	 *	@return		bool
 	 */
-	public function getFile( $globalFile, $localFile = "" )
+	public function getFile( string $globalFile, ?string $localFile = NULL ): bool
 	{
-		return $this->reader->getFile( $globalFile, $localFile );
+		return $this->reader->getFile( $globalFile, $localFile ?? '' );
 	}
 
 	/**
@@ -164,7 +162,7 @@ class Client
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getFileList( $path = "", $recursive = FALSE )
+	public function getFileList( string $path = '', bool $recursive = FALSE ): array
 	{
 		return $this->reader->getFileList( $path, $recursive );
 	}
@@ -176,19 +174,19 @@ class Client
 	 *	@param		bool		$recursive		Scan Folders recursive (default: false)
 	 *	@return		array
 	 */
-	public function getFolderList( $path = "", $recursive = FALSE )
+	public function getFolderList( string $path = '', bool $recursive = FALSE ): array
 	{
 		return $this->reader->getFolderList( $path, $recursive );
 	}
 
 	/**
-	 *	Returns a List of all Folders an Files of a Path on FTP Server.
+	 *	Returns a List of all Folders and Files of a Path on FTP Server.
 	 *	@access		public
 	 *	@param		string		$path			Path
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getList( $path = "", $recursive = FALSE )
+	public function getList( string $path = '', bool $recursive = FALSE ): array
 	{
 		return $this->reader->getList( $path, $recursive );
 	}
@@ -198,23 +196,26 @@ class Client
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->connection->getPath();
 	}
 
-	public function getPermissionsAsOctal( $permissions )
+	public function getPermissionsAsOctal( $permissions ): string
 	{
 		return $this->reader->getPermissionsAsOctal( $permissions );
 	}
 
-	public function getResource(){
+	public function getResource()
+	{
 		return $this->connection->getResource();
 	}
 
-	public function isConnected(){
-		return $this->connection->checkConnection( TRUE );
+	public function isConnected(): bool
+	{
+		return $this->connection->checkConnection( TRUE, TRUE, FALSE );
 	}
+
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
@@ -222,7 +223,7 @@ class Client
 	 *	@param		string		$to				Name of Target File
 	 *	@return		bool
 	 */
-	public function moveFile( $from, $to )
+	public function moveFile( string $from, string $to ): bool
 	{
 		return $this->writer->moveFile( $from, $to );
 	}
@@ -234,19 +235,19 @@ class Client
 	 *	@param		string		$to				Name of Target File
 	 *	@return		bool
 	 */
-	public function moveFolder( $from, $to )
+	public function moveFolder( string $from, string $to ): bool
 	{
 		return $this->writer->moveFolder( $from, $to );
 	}
 
 	/**
-	 *	Transferes a File onto FTP Server.
+	 *	Transfers a File onto FTP Server.
 	 *	@access		public
 	 *	@param		string		$localFile		Name of Local File
 	 *	@param		string		$globalFile		Name of Target File
 	 *	@return		bool
 	 */
-	public function putFile( $localFile, $globalFile )
+	public function putFile( string $localFile, string $globalFile ): bool
 	{
 		return $this->writer->putFile( $localFile, $globalFile );
 	}
@@ -257,7 +258,7 @@ class Client
 	 *	@param		string		$fileName		Name of File to be removed
 	 *	@return		bool
 	 */
-	public function removeFile( $fileName )
+	public function removeFile( string $fileName ): bool
 	{
 		return $this->writer->removeFile( $fileName );
 	}
@@ -268,7 +269,7 @@ class Client
 	 *	@param		string		$folderName		Name of Folder to be removed
 	 *	@return		bool
 	 */
-	public function removeFolder( $folderName )
+	public function removeFolder( string $folderName ): bool
 	{
 		return $this->writer->removeFolder( $folderName );
 	}
@@ -280,7 +281,7 @@ class Client
 	 *	@param		string		$to				Name of Target File
 	 *	@return		bool
 	 */
-	public function renameFile( $from, $to )
+	public function renameFile( string $from, string $to ): bool
 	{
 		return $this->writer->renameFile( $from, $to );
 	}
@@ -293,7 +294,7 @@ class Client
 	 *	@param		bool		$regular			Search with regular Expression (default: FALSE)
 	 *	@return		array
 	 */
-	public function searchFile( $fileName = "", $recursive = FALSE, $regular = FALSE )
+	public function searchFile( string $fileName, bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		return $this->reader->searchFile( $fileName, $recursive, $regular );
 	}
@@ -306,7 +307,7 @@ class Client
 	 *	@param		bool		$regular			Search with regular Expression (default: FALSE)
 	 *	@return		array
 	 */
-	public function searchFolder( $folderName = "", $recursive = FALSE, $regular = FALSE )
+	public function searchFolder( string $folderName, bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		return $this->reader->searchFolder( $folderName, $recursive, $regular );
 	}
@@ -317,7 +318,7 @@ class Client
 	 *	@param		string		$path		Path to go to
 	 *	@return		bool
 	 */
-	public function setPath( $path )
+	public function setPath( string $path ): bool
 	{
 		return $this->connection->setPath( $path );
 	}

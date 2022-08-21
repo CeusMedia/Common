@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Premailer API PHP class.
  *
@@ -26,7 +27,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://premailer.dialect.ca/api
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.5
  */
 
 namespace CeusMedia\Common\Net\API;
@@ -34,6 +34,7 @@ namespace CeusMedia\Common\Net\API;
 use CeusMedia\Common\Net\HTTP\Post;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
+use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
 use RuntimeException;
 
 /**
@@ -54,17 +55,16 @@ use RuntimeException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://premailer.dialect.ca/api
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.5
  */
 class Premailer
 {
-	const ENDPOINT = 'http://premailer.dialect.ca/api/0.1/documents';
+	const ENDPOINT = 'https://premailer.dialect.ca/api/0.1/documents';
 
 	protected $cache;
 
 	protected $response;
 
-	static public $options = array(
+	public static $options = array(
 		//  string  - Which document handler to use (hpricot (default) or nokigiri)
 		'adaptor'			=> 'hpricot',
 		//  string  - Base URL for converting relative links
@@ -83,13 +83,19 @@ class Premailer
 		'remove_comments'	=> false
 	);
 
-	public function __construct( $cache = NULL )
+	public function __construct( ?SimpleCacheInterface $cache = NULL )
 	{
 		if( $cache )
 			$this->setCache( $cache );
 	}
 
-	protected function convert( $params )
+	/**
+	 *	...
+	 *	@param		array		$params
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	protected function convert( array $params )
 	{
 		if( !$params['base_url'] )
 			unset( $params['base_url'] );
@@ -136,8 +142,9 @@ class Premailer
 	 *	@param		string		$url		URL to HTML resource to be converted
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
+	 *	@throws		Exception
 	 */
-	public function convertFromUrl( $url, $params = array() )
+	public function convertFromUrl( string $url, array $params = array() ): object
 	{
 		$params = array_merge( self::$options, $params );
 		$params['url']	= $url;
@@ -152,8 +159,9 @@ class Premailer
 	 *	@param		string		$html		HTML content to be converted
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
+	 *	@throws		Exception
 	 */
-	public function convertFromHtml( $html, $params = array() )
+	public function convertFromHtml( string $html, array $params = array() ): object
 	{
 		$params = array_merge( self::$options, $params );
 		$params['html']	= $html;
@@ -166,7 +174,7 @@ class Premailer
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 */
-	public function getHtml()
+	public function getHtml(): string
 	{
 		if( !$this->response )
 			throw new RuntimeException( 'No conversion started' );
@@ -183,7 +191,7 @@ class Premailer
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 */
-	public function getPlainText()
+	public function getPlainText(): string
 	{
 		if( !$this->response )
 			throw new RuntimeException( 'No conversion startet' );
@@ -195,7 +203,7 @@ class Premailer
 		return $text;
 	}
 
-	public function setCache( $cache )
+	public function setCache( SimpleCacheInterface $cache )
 	{
 		$this->cache	= $cache;
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for HTTP Response containing Headers and Body.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\Net\HTTP\Response;
@@ -41,7 +41,6 @@ use CeusMedia\Common\Net\HTTP\Header\Field\Parser as HeaderFieldParser;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Parser
 {
@@ -50,8 +49,9 @@ class Parser
 	 *	@access		public
 	 *	@param		Request			$request	Request Object
 	 *	@return		Response		Response Object
+	 *	@todo		fix this: broken - request has no send method anymore
 	 */
-	public static function fromRequest( Request $request )
+	public static function fromRequest( Request $request ): Response
 	{
 		$response	= $request->send();
 		return self::fromString( $response );
@@ -60,30 +60,27 @@ class Parser
 	/**
 	 *	Parses Response String and returns resulting Response Object.
 	 *	@access		public
-	 *	@param		string			$request	Request String
+	 *	@param		string			$string	Request String
 	 *	@return		Response		Response Object
 	 */
-	public static function fromString( $string )
+	public static function fromString( string $string ): Response
 	{
 #		$string		= trim( $string );
 		$parts		= explode( "\r\n\r\n", $string );
-		$response	= new Response;
-		while( $part = array_shift( $parts ) )
-		{
+		$response	= new Response();
+		while( $part = array_shift( $parts ) ){
 			$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
-			if( !preg_match( $pattern, $part ) )
-			{
+			if( !preg_match( $pattern, $part ) ){
 				array_unshift( $parts, $part );
 				break;
 			}
 			if( !$response->headers->getFields() )
 				$response	= self::parseHeadersFromString( $part );
-		};
+		}
 		$body	= implode( "\r\n\r\n", $parts );
 
 /*		$encodings	= $response->headers->getField( 'content-encoding' );
-		while( $encoding = array_pop( $encodings ) )
-		{
+		while( $encoding = array_pop( $encodings ) ){
 			$method	= $encoding->getValue();
 			$body	= ResponseDecompressor::decompressString( $body, $method );
 		}*/
@@ -91,27 +88,19 @@ class Parser
 		return $response;
 	}
 
-	public static function parseHeadersFromString( $string )
+	public static function parseHeadersFromString( string $string ): Response
 	{
 		$lines	= explode( "\r\n", $string );
-		$state	= 0;
-		foreach( $lines as $line )
-		{
-			if( !$state )
-			{
-				$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
-				$matches	= array();
-				preg_match_all( $pattern, $line, $matches );
-				$response	= new Response( $matches[1][0], $matches[2][0] );
-				$response->setStatus( $matches[3][0] );
-				$state	= 1;
-			}
-			else if( $state == 1 )
-			{
-				if( !strlen( trim( $line ) ) )
-					continue;
+		$firstLine	= array_shift( $lines );
+		$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
+		$matches	= array();
+		preg_match_all( $pattern, $firstLine, $matches );
+		$response	= new Response( $matches[1][0], $matches[2][0] );
+		$response->setStatus( $matches[3][0] );
+
+		foreach( $lines as $line ){
+			if( strlen( trim( $line ) ) !== 0 )
 				$response->headers->addField( HeaderFieldParser::parse( $line ) );
-			}
 		}
 		return $response;
 	}

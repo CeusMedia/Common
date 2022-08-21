@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Reader for Contents from the Net.
+ *	...
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -31,7 +32,7 @@ use InvalidArgumentException;
 use RangeException;
 
 /**
- *	Reader for Contents from the Net.
+ *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net
@@ -49,8 +50,13 @@ class Connectivity
 	const METHOD_SOCKET		= 0;
 	const METHOD_PING		= 1;
 
-	protected $status		= 0;
-	protected $method		= 0;
+	const METHODS			= [
+		self::METHOD_SOCKET,
+		self::METHOD_PING,
+	];
+
+	protected $status		= self::STATUS_UNKNOWN;
+	protected $method		= self::METHOD_SOCKET;
 	protected $target		= 'google.com';
 	protected $callbackOnChange;
 
@@ -59,24 +65,21 @@ class Connectivity
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct(){
+	public function __construct()
+	{
 	}
 
 	/**
 	 *	...
  	 *	Executes callback function by if set and status has changed.
 	 *	@access		public
-	 *	@param		integer		$method		Method to use for checking
 	 *	@return		void
 	 *	@throws		RangeException			if given method is unsupported
 	 */
-	public function check( $method = NULL )
+	public function check()
 	{
-		$method			= $this->method;
-		if( $method && $this->validateMethod( $method ) )
-			$method		= $method;
 		$currentStatus	= $this->status;
-		switch( $method ){
+		switch( $this->method ){
 			case self::METHOD_SOCKET:
 				$this->checkUsingSocket();
 				break;
@@ -101,7 +104,7 @@ class Connectivity
 	{
 		$conn	= @fsockopen( 'google.com', 443);
 		$this->status = $conn ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
-        fclose( $conn );
+		fclose( $conn );
 	}
 
 	/**
@@ -114,20 +117,16 @@ class Connectivity
 	{
 		$response = NULL;
 		@exec( "ping -c 1 google.com 2>&1 1> /dev/null", $response, $code );
-//		@system( "ping -c 1 1111google.com &2>1 &1>/dev/null", $code );
-		if( $code == 0 )
-			$this->status = self::STATUS_ONLINE;
-		else
-			$this->status = self::STATUS_OFFLINE;
+		$this->status = $code === 0 ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
 	}
 
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		integer		$force		Flag: evaluate connectivity instead if returning latest status
+	 *	@param		bool		$force		Flag: evaluate connectivity instead if returning latest status
 	 *	@return		boolean
 	 */
-	public function isOnline( $force = FALSE )
+	public function isOnline( bool $force = FALSE ): bool
 	{
 		if( $this->status === self::STATUS_UNKNOWN || $force )
 			$this->check();
@@ -137,23 +136,22 @@ class Connectivity
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		integer		$force		Flag: evaluate connectivity instead if returning latest status
+	 *	@param		bool		$force		Flag: evaluate connectivity instead if returning latest status
 	 *	@return		boolean
 	 */
-	public function isOffline( $force = FALSE )
+	public function isOffline( bool $force = FALSE ): bool
 	{
-		if( $this->status === self::STATUS_UNKNOWN || $force )
-			$this->check();
-		return $this->status === self::STATUS_OFFLINE;
+		return !$this->isOnline( $force );
 	}
 
 	/**
 	 *	Register callback function to be executed after status has changed.
 	 *	@access		public
-	 * 	@param		callback	$callback	Function to be executed after statush has changed
-	 *	@return 	self					for chainability
+	 * 	@param		callback	$callback	Function to be executed after status has changed
+	 *	@return 	self					for method chaining
+	 * @noinspection PhpMissingParamTypeInspection
 	 */
-	public function setCallbackOnChange( $callback )
+	public function setCallbackOnChange( $callback ): self
 	{
 		$this->callbackOnChange = $callback;
 		return $this;
@@ -164,15 +162,16 @@ class Connectivity
 	 *	@access 	public
 	 *	@param		integer		$method			Method to use for checking
 	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
-	 *	@return 	self						for chainability
+	 *	@return 	self						for method chaining
 	 */
-	public function setMethod( $method, $resetStatus = TRUE )
+	public function setMethod( int $method, bool $resetStatus = TRUE ): self
 	{
-		$this->validateMethod( $method );
+		if( !in_array( $method, self::METHODS ) )
+			throw new RangeException( 'Invalid method' );
+
 		if( $this->method !== $method ){
 			$this->method	= $method;
-			if( $resetStatus )
-				$this->status	= self::STATUS_UNKNOWN;
+			$this->status	= $resetStatus ? self::STATUS_UNKNOWN : $this->status;
 		}
 		return $this;
 	}
@@ -180,32 +179,16 @@ class Connectivity
 	/**
 	 *	Set target (domain or IP) to check connectivity against.
 	 *	@access 	public
-	 *	@param		integer		$method			Method to use for checking
+	 *	@param		string		$domainOrIp		Method to use for checking
 	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
-	 *	@return 	self						for chainability
+	 *	@return 	self						for method
 	 */
-	public function setTarget( $domainOrIp, $resetStatus = TRUE )
+	public function setTarget( string $domainOrIp, bool $resetStatus = TRUE ): self
 	{
 		if( $this->target !== $domainOrIp ){
 			$this->target	= $domainOrIp;
-			if( $resetStatus )
-				$this->status	= self::STATUS_UNKNOWN;
+			$this->status	= $resetStatus ? self::STATUS_UNKNOWN : $this->status;
 		}
 		return $this;
-	}
-
-	/**
-	 *	Validate given method.
-	 *	@acess		protected
-	 *	@param		integer		Method to validate
-	 *	@return		integer		Method after validation
-	 */
-	protected function validateMethod( $method )
-	{
-		if( !is_int( $method ) )
-			throw new InvalidArgumentException( 'Method must be integer' );
-		if( !in_array( $method, array( self::METHOD_SOCKET, self::METHOD_PING ) ) )
-			throw new RangeException( 'Invalid method' );
-		return $method;
 	}
 }

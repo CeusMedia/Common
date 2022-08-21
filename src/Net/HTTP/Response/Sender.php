@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for HTTP Response containing Headers and Body.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\Net\HTTP\Response;
@@ -40,7 +40,6 @@ use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Sender
 {
@@ -51,14 +50,14 @@ class Sender
 	protected $response;
 
 	/**
-	 *	Constructur.
+	 *	Constructor.
 	 *	@access		public
-	 *	@param		Response			$response	Response Object
+	 *	@param		Response|NULL		$response	Response Object
 	 *	@return		void
 	 */
-	public function  __construct( Response $response = NULL )
+	public function  __construct( ?Response $response = NULL )
 	{
-		if( $response )
+		if( $response !== NULL )
 			$this->setResponse( $response );
 	}
 
@@ -70,7 +69,7 @@ class Sender
 	 *	@return		integer		Number of sent Bytes or exits if wished so
 	 *	@todo		remove compression parameter
 	 */
-	public function send( $sendLengthHeader = TRUE, $andExit = FALSE )
+	public function send( bool $sendLengthHeader = TRUE, bool $andExit = FALSE ): int
 	{
 		$response	= clone( $this->response );
 		$body		= $response->getBody();
@@ -113,27 +112,25 @@ class Sender
 	 *	Send Response statically.
 	 *	@access		public
 	 *	@param		Response		$response			Response Object
-	 *	@param		string			$compression		Type of compression (gzip|deflate)
+	 *	@param		string|NULL		$compression		Type of compression (gzip|deflate)
 	 *	@param		boolean			$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
 	 *	@param		boolean			$exit				Flag: after afterwards (default: no)
 	 *	@return		integer			Number of sent Bytes
-	 *	@todo		realize changed parameters of send method
 	 */
-	public static function sendResponse( Response $response, $compression = NULL, $sendLengthHeader = TRUE, $exit = FALSE )
+	public static function sendResponse( Response $response, ?string $compression = NULL, bool $sendLengthHeader = TRUE, bool $exit = FALSE ): int
 	{
 		$sender	= new ResponseSender( $response );
 		$sender->setCompression( $compression );
-//		return $sender->send( $sendLengthHeader, $exit );
-		return $sender->send( $compression, $sendLengthHeader, $exit );
+		return $sender->send( $sendLengthHeader, $exit );
 	}
 
 	/**
 	 *	Set compression to use.
 	 *	@access		public
-	 *	@param		string|NULL		Compression to use: gzip, deflate
+	 *	@param		string|NULL		$compression		Compression to use: gzip, deflate
 	 *	@return		self
 	 */
-	public function setCompression( $compression )
+	public function setCompression( ?string $compression ): self
 	{
 		$this->compression	= $compression;
 		return $this;
@@ -143,9 +140,9 @@ class Sender
 	 *	Set response to send
 	 *	@access		public
 	 *	@param		Response		$response	Response Object
-	 *	@return		self;
+	 *	@return		self
 	 */
-	public function setResponse( Response $response )
+	public function setResponse( Response $response ): self
 	{
 		$this->response	= $response;
 		return $this;

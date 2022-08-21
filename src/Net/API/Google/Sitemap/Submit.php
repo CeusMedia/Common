@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Submits sitemap URL to Google webmaster tools.
  *
@@ -24,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\Net\API\Google\Sitemap;
@@ -44,13 +44,12 @@ use InvalidArgumentException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
 class Submit
 {
 
 	/**	@var		string		$baseUrl		Base URL to Google webmaster tools */
-	static public $baseUrl		= "http://www.google.com/webmasters/tools/ping?sitemap=";
+	static public $baseUrl		= "https://www.google.com/webmasters/tools/ping?sitemap=";
 
 	/**	@var		string		$lastError		Last error message if request went wrong */
 	static protected $lastError	= NULL;
@@ -61,7 +60,7 @@ class Submit
 	 *	@access		public
 	 *	@return		string|NULL	Latest error message or NULL if none stored
 	 */
-	static public function getLastError()
+	static public function getLastError(): ?string
 	{
 		return self::$lastError;
 	}
@@ -71,15 +70,15 @@ class Submit
 	 *	Stores error message if request went wrong.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$url			URL of sitemap to submit
+	 *	@param		URL|string		$url			URL of sitemap to submit
 	 *	@return		boolean		Result of request
 	 */
-	static public function submit( $url )
+	static public function submit( $url ): bool
 	{
 		if( $url instanceof URL )
 			$url	= (string) $url;
 		if( !is_string( $url ) )
-			throw new InvalidArgumentException( 'URL must be string or instance of ADT_URL' );
+			throw new InvalidArgumentException( 'URL must be string or instance of ADT\\URL' );
 		try{
 			NetReader::readUrl( self::$baseUrl.urlencode( $url ) );
 		}

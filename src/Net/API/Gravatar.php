@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Generates URL for Gravatar API.
  *
@@ -25,13 +26,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://gravatar.com/site/implement/images/php/
  *	@see			http://gravatar.com/site/implement/xmlrpc/
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\Net\API;
 
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use CeusMedia\Common\XML\RPC\Client as RpcClient;
+use Exception;
 use InvalidArgumentException;
 use OutOfBoundsException;
 use RuntimeException;
@@ -47,7 +48,6 @@ use RuntimeException;
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://gravatar.com/site/implement/images/php/
  *	@see			http://gravatar.com/site/implement/xmlrpc/
- *	@since			0.7.6
  *	@todo			test implementations
  *	@todo			code doc
  */
@@ -63,12 +63,13 @@ class Gravatar
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		integer		$size		Size of image (within 1 and 512) in pixels
-	 *	@param		string		$rate		Rate to allow atleast (g | pg | r | x)
-	 *	@param		string		$default	Default set to use if no Gravatar is available (404 | mm | identicon | monsterid | wavatar)
+	 *	@param		integer|NULL	$size		Size of image (within 1 and 512) in pixels
+	 *	@param		string|NULL		$rate		Rate to allow at least (g | pg | r | x)
+	 *	@param		string|NULL		$default	Default set to use if no Gravatar is available (404 | mm | identicon | monsterid | wavatar)
 	 *	@return		void
 	 */
-	public function __construct( $size = NULL, $rate = NULL, $default = NULL ){
+	public function __construct( ?int $size = NULL, ?string $rate = NULL, ?string $default = NULL )
+	{
 		if( !is_null( $size ) )
 			$this->setSize( $size );
 		if( !is_null( $rate ) )
@@ -77,9 +78,15 @@ class Gravatar
 			$this->setDefault( $default );
 	}
 
-	protected function callXmlRpc( $email, $method, $arguments ){
-		if( !is_array( $arguments ) )
-			throw new InvalidArgumentException( 'arguments must be an array' );
+	/**
+	 *	@param		string		$email
+	 *	@param		string		$method
+	 *	@param		array		$arguments
+	 *	@return		array
+	 *	@throws		Exception
+	 */
+	protected function callXmlRpc( string $email, string $method, array $arguments ): array
+	{
 		if( !array_key_exists( 'password', $arguments ) )
 			throw new InvalidArgumentException( 'argument "password" is missing' );
 		$hash		= md5( strtolower( trim( $email ) ) );
@@ -87,7 +94,8 @@ class Gravatar
 		return $client->call( 'grav.'.$method, array( (object) $arguments ), TRUE );
 	}
 
-	public function exists( $email, $password ){
+	public function exists( string $email, string $password ): bool
+	{
 		$hash		= md5( strtolower( trim( $email ) ) );
 		$data		= array( 'password' => $password, 'hashes' => array( $hash ) );
 		$response	= $this->callXmlRpc( $email, 'exists', $data );
@@ -100,7 +108,8 @@ class Gravatar
 	 *	@param		string		$email			Email address to get Gravatar image for
 	 *	@return		string		Gravatar URL
 	 */
-	public function getUrl( $email ){
+	public function getUrl( string $email ): string
+	{
 		$hash	= md5( strtolower( trim( $email ) ) );
 		$query	= array(
 			's'	=> $this->size,
@@ -110,7 +119,8 @@ class Gravatar
 		return $this->url.$hash.'?'.http_build_query( $query, NULL, '&amp;' );
 	}
 
-	public function listAddresses( $email, $password ){
+	public function listAddresses( string $email, string $password ): array
+	{
 		$response	= $this->callXmlRpc( $email, 'addresses', array( 'password' => $password ) );
 		$ratings	= array( 0 => 'g', 1 => 'pg', 2 => 'r', 3 => 'x' );
 		foreach( $response[0] as $address => $data )
@@ -118,7 +128,8 @@ class Gravatar
 		return $response[0];
 	}
 
-	public function listImages( $email, $password ){
+	public function listImages( string $email, string $password )
+	{
 		$response	= $this->callXmlRpc( $email, 'userimages', array( 'password' => $password ) );
 		$list		= array();
 		$ratings	= array( 0 => 'g', 1 => 'pg', 2 => 'r', 3 => 'x' );
@@ -134,7 +145,8 @@ class Gravatar
 	 *	@param		array		$attributes		Additional HTML tag attributes
 	 *	@return		string		Image HTML code
 	 */
-	public function renderImage( $email, $attributes = array() ){
+	public function renderImage( string $email, array $attributes = array() ): string
+	{
 		$attributes['src']		= $this->getUrl( $email );
 		$attributes['width']	= $this->size;
 		$attributes['height']	= $this->size;
@@ -144,13 +156,15 @@ class Gravatar
 	/**
 	 *	Sets maximum (inclusive) rate.
 	 *	@access		public
-	 *	@param		string		$rate		Rate to allow atleast (g | pg | r | x)
-	 *	@return		void
+	 *	@param		string		$rate		Rate to allow at least (g | pg | r | x)
+	 *	@return		self
 	 */
-	public function setRate( $rate ){
+	public function setRate( string $rate ): self
+	{
 		if( !in_array( $rate, array( 'g', 'pg', 'r', 'x' ) ) )
 			throw new InvalidArgumentException( 'Rate must of one of [g,pg,r,x]' );
 		$this->rate	= $rate;
+		return $this;
 	}
 
 	/**
@@ -159,36 +173,40 @@ class Gravatar
 	 *	@param		string		$default	Default set to use if no Gravatar is available (404 | mm | identicon | monsterid | wavatar)
 	 *	@return		void
 	 */
-	public function setDefault( $default ){
+	public function setDefault( string $default ): self
+	{
 		if( !in_array( $default, $this->defaults ) )
 			throw new InvalidArgumentException( 'Default set must of one of [404,mm,identicon,monsterid,wavatar]' );
 		$this->default	= $default;
+		return $this;
 	}
 
 	/**
 	 *	Sets size of image to get from Gravatar.
 	 *	@access		public
 	 *	@param		integer		$size		Size of image (within 1 and 512) in pixels
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setSize( $size ){
-		if( !is_integer( $size ) )
-			throw new InvalidArgumentException( 'Size must be an integer' );
+	public function setSize( int $size ): self
+	{
 		if( $size < 1 )
-			throw new OutOfBoundsException( 'Size must be atleast 1 pixel' );
+			throw new OutOfBoundsException( 'Size must be at least 1 pixel' );
 		if( $size > 512 )
-			throw new OutOfBoundsException( 'Size must be atmost 512 pixels' );
+			throw new OutOfBoundsException( 'Size must be at most 512 pixels' );
 		$this->size	= $size;
+		return $this;
 	}
 
 	/**
 	 *	...
 	 *	Implements XML RPC method 'grav.deleteUserImage'.
 	 *	@todo		test, code doc
+	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function removeImage( $email, $password, $imageId, $rating = 0 ){
+	public function removeImage( string $email, string $password, string $imageId, $rating = 0 )
+	{
 		throw new RuntimeException( 'Not tested yet' );
-		$data		= array( 'password' => $password, 'userimage' => $imageId );
+		$data		= array( 'password' => $password, 'userimage' => $imageId, 'rating'	=> $rating );
 		$response	= $this->callXmlRpc( $email, 'deleteUserImage', $data );
 		return $response[0];
 	}
@@ -197,8 +215,10 @@ class Gravatar
 	 *	...
 	 *	Implements XML RPC method 'grav.saveData'.
 	 *	@todo		test, code doc
+	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function saveImage( $email, $password, $imageDataBase64, $rating = 0 ){
+	public function saveImage( string $email, string $password, string $imageDataBase64, $rating = 0 )
+	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'saveData', array(
 			'password'	=> $password,
@@ -212,8 +232,10 @@ class Gravatar
 	 *	...
 	 *	Implements XML RPC method 'grav.saveUrl'.
 	 *	@todo		test, code doc
+	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function saveImageFromUrl( $email, $password, $imageUrl, $rating = 0 ){
+	public function saveImageFromUrl( string $email, string $password, string $imageUrl, $rating = 0 )
+	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'saveUrl', array(
 			'password'	=> $password,
@@ -227,8 +249,10 @@ class Gravatar
 	 *	...
 	 *	Implements XML RPC method 'grav.useUserimage'.
 	 *	@todo		test, code doc
+	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function setAddressImage( $email, $password, $address, $imageId ){
+	public function setAddressImage( string $email, string $password, string $address, $imageId )
+	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'useUserimage', array(
 			'password'	=> $password,
@@ -242,8 +266,10 @@ class Gravatar
 	 *	...
 	 *	Implements XML RPC method 'grav.removeImage'.
 	 *	@todo		test, code doc
+	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function unsetAddressImage( $email, $password, $address ){
+	public function unsetAddressImage( string $email, string $password, $address )
+	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'removeImage', array(
 			'password'	=> $password,

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Minify Javascript using Google's Closure Compiler API.
  *
@@ -24,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\Net\API\Google;
@@ -40,11 +40,12 @@ use RuntimeException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
 class ClosureCompiler
 {
-	const URL = 'http://closure-compiler.appspot.com/compile';
+	const URL = 'https://closure-compiler.appspot.com/compile';
+
+	protected $options;
 
 	/**
 	 *
@@ -52,12 +53,12 @@ class ClosureCompiler
 	 *
 	 * fallbackFunc : default array($this, 'fallback');
 	 */
-	public function __construct( $options = array() )
+	public function __construct( array $options = array() )
 	{
 		$this->options	= $options;
 	}
 
-	protected function compile( $js, $returnErrors = FALSE )
+	protected function compile( string $js, bool $returnErrors = FALSE ): string
 	{
 		$data	= array(
 			'js_code'			=> $js,
@@ -68,7 +69,7 @@ class ClosureCompiler
 		return Post::sendData( self::URL, $data );
 	}
 
-	public function min( $js )
+	public function min( string $js ): string
 	{
 		$response	= $this->compile( $js );
 		if( preg_match( '/^Error\(\d\d?\):/', $response ) )
@@ -85,7 +86,7 @@ class ClosureCompiler
 	 *	@param		array		$options	unused at this point
 	 *	@return		string
 	 */
-	static public function minify( $js, $options = array() )
+	static public function minify( string $js, array $options = array() ): string
 	{
 		$obj = new self( $options );
 		return $obj->min( $js );

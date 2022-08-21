@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Decompressor for HTTP Request Body Strings.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 
 namespace CeusMedia\Common\Net\HTTP\Response;
@@ -40,7 +40,6 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 class Decompressor
 {
@@ -52,34 +51,34 @@ class Decompressor
 	 */
 	public static function decompressResponse( Response $response )
 	{
-		$type	= array_pop( $response->getHeader( 'Content-Encoding' ) );
-		if( $type )
-			$body	= self::decompressString( $response->getBody(), $type );
-		$response->setBody( $body );
+		$encodings	= $response->getHeader( 'Content-Encoding' );
+		if( count( $encodings ) !== 0 ){
+			$body	= $response->getBody();
+			foreach( array_reverse( $encodings ) as $encoding )
+				$body	= self::decompressString( $body, $encoding );
+			$response->setBody( $body );
+		}
 	}
 
 	/**
 	 *	Decompresses compressed Response Content.
 	 *	@access		public
-	 *	@param		string		$content			Response Content, compressed
-	 *	@param		string		$type				Compression Type used (gzip|deflate)
+	 *	@param		string			$content			Response Content, compressed
+	 *	@param		string|NULL		$type				Compression Type used (gzip|deflate)
 	 *	@return		string
 	 */
-	public static function decompressString( $content, $type = NULL )
+	public static function decompressString( string $content, ?string $type = NULL ): string
 	{
-		if( !$type )
+		if( $type === NULL )
 			return $content;
-		//  open a output buffer
+		//  open an output buffer
 		ob_start();
-		switch( strtolower( $type ) )
-		{
+		switch( strtolower( $type ) ){
 			case 'deflate':
 				$content	= self::inflate( $content );
 				break;
 			case 'gzip':
-				xmp( $content );
 				$content	= self::ungzip( $content );
-				xmp( $content );
 				break;
 			default:
 				ob_end_clean();
@@ -88,7 +87,7 @@ class Decompressor
 		//  close buffer for PHP error messages
 		$output		= ob_get_clean();
 		//  could not decompress
-		if( $content === FALSE && $output )
+		if( $output )
 			//  throw exception and carry error message
 			throw new RuntimeException( $output );
 		//  return decompressed response Content
@@ -101,15 +100,14 @@ class Decompressor
 	 *	@param		string		$content		Data String to be decompressed
 	 *	@return		string
 	 */
-	public static function ungzip( $content )
+	public static function ungzip( string $content ): string
 	{
 		//  if PHP method has been released
 		if( function_exists( 'gzdecode' ) )
 			//  use it to decompress the data
 			$content	= @gzdecode( $content );
 		//  otherwise: own implementation
-		else
-		{
+		else{
 			//  create temporary file
 			$tmp	= tempnam( '/tmp', 'CMC' );
 			//  store gzipped data
@@ -127,7 +125,7 @@ class Decompressor
 			//  return decompressed data
 			return $content;
 		//  throw exception
-		throw new RuntimeException( 'Data not decompressable with gzdecode' );
+		throw new RuntimeException( 'Data not inflatable with gzdecode' );
 	}
 
 	/**
@@ -136,11 +134,11 @@ class Decompressor
 	 *	@param		string		$content		Data String to be inflated
 	 *	@return		string
 	 */
-	public static function inflate( $content )
+	public static function inflate( string $content ): string
 	{
 		$content	= @gzuncompress( $content );
 		if( FALSE !== $content )
 			return $content;
-		throw new RuntimeException( "Data not decompressable with gzuncompress." );
+		throw new RuntimeException( "Data not inflatable with gzuncompress." );
 	}
 }

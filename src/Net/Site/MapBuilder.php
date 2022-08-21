@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Google Sitemap XML Builder.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
 
 namespace CeusMedia\Common\Net\Site;
@@ -39,7 +39,6 @@ use CeusMedia\Common\XML\DOM\Node;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
 class MapBuilder
 {
@@ -50,12 +49,11 @@ class MapBuilder
 	 *	@param		array		$urls			List of URLs
 	 *	@return		string
 	 */
-	public static function build( $urls )
+	public static function build( array $urls ): string
 	{
 		$set	= new Node( "urlset" );
-		$set->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
-		foreach( $urls as $url )
-		{
+		$set->setAttribute( 'xmlns', "https://www.google.com/schemas/sitemap/0.84" );
+		foreach( $urls as $url ){
 			$node	= new Node( "url" );
 			$child	= new Node( "loc", $url );
 			$node->addChild( $child );

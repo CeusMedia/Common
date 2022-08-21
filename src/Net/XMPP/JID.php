@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser and generator for XMPP JIDs.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.06.2014
  */
 
 namespace CeusMedia\Common\Net\XMPP;
@@ -38,7 +38,6 @@ use InvalidArgumentException;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.06.2014
  */
 class JID
 {
@@ -51,12 +50,12 @@ class JID
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$domain		Domain name of XMPP server
-	 *	@param		string		$node		Name of node on XMPP server
-	 *	@param		string		$resource	Name of client resource
+	 *	@param		string			$domain		Domain name of XMPP server
+	 *	@param		string|NULL		$node		Name of node on XMPP server
+	 *	@param		string|NULL		$resource	Name of client resource
 	 *	@return		void
 	 */
-	public function __construct( $domain, $node = NULL, $resource = NULL )
+	public function __construct( string $domain, ?string $node = NULL, ?string $resource = NULL )
 	{
 		if( preg_match( "/@/", $domain ) )
 			extract( self::disassemble( $domain ) );
@@ -64,12 +63,14 @@ class JID
 	}
 
 	/**
-	 *	Spilts JID into parts.
+	 *	Splits JID into parts.
 	 *	@static
 	 *	@access		public
+	 *	@param		string		$jid				Jabber ID to split into parts
 	 *	@return		array
+	 *	@throws		InvalidArgumentException		if given JID is invalid
 	 */
-	static public function disassemble( $jid )
+	static public function disassemble( string $jid ): array
 	{
 		if( !self::isValid( $jid ) )
 			throw new InvalidArgumentException( 'Given JID is not valid.' );
@@ -87,7 +88,7 @@ class JID
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function get()
+	public function get(): string
 	{
 		return self::getJid( $this->domain, $this->node, $this->resource );
 	}
@@ -97,7 +98,7 @@ class JID
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getDomain()
+	public function getDomain(): string
 	{
 		return $this->domain;
 	}
@@ -106,27 +107,27 @@ class JID
 	 *	Builds and returns JID from parts.
 	 *	@static
 	 *	@access		public
-	 *	@param		string		$domain		Domain name of XMPP server
-	 *	@param		string		$node		Name of node on XMPP server
-	 *	@param		string		$resource	Name of client resource
+	 *	@param		string			$domain		Domain name of XMPP server
+	 *	@param		string|NULL		$node		Name of node on XMPP server
+	 *	@param		string|NULL		$resource	Name of client resource
 	 *	@return		string
 	 */
-	static public function getJid( $domain, $node = NULL, $resource = NULL )
+	static public function getJid( string $domain, ?string $node = NULL, ?string $resource = NULL ): string
 	{
 		$jid	= $domain;
-		if( strlen( trim( $node ) ) )
+		if( $node !== NULL && strlen( trim( $node ) ) !== 0 )
 			$jid	= $node.'@'.$domain;
-		if( strlen( trim( $resource ) ) )
-			$jid	.= "/".$resource;
+		if( $resource !== NULL && strlen( trim( $resource ) ) !== 0 )
+			$jid	.= '/'.$resource;
 		return $jid;
 	}
 
 	/**
 	 *	Returns JID node part.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getNode()
+	public function getNode(): ?string
 	{
 		return $this->node;
 	}
@@ -134,9 +135,9 @@ class JID
 	/**
 	 *	Returns JID resource part.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getResource()
+	public function getResource(): ?string
 	{
 		return $this->resource;
 	}
@@ -147,7 +148,7 @@ class JID
 	 *	@param		string		$jid		JID
 	 *	@return		boolean
 	 */
-	static public function isValid( $jid )
+	static public function isValid( string $jid ): bool
 	{
 		return preg_match( self::$regexJid, $jid );
 	}
@@ -155,29 +156,31 @@ class JID
 	/**
 	 *	Sets JID by parts.
 	 *	@access		public
-	 *	@param		string		$domain		Domain name of XMPP server
-	 *	@param		string		$node		Name of node on XMPP server
-	 *	@param		string		$resource	Name of client resource
-	 *	@return		void
+	 *	@param		string			$domain		Domain name of XMPP server
+	 *	@param		string|NULL		$node		Name of node on XMPP server
+	 *	@param		string|NULL		$resource	Name of client resource
+	 *	@return		self
 	 */
-	public function set( $domain, $node = NULL, $resource = NULL )
+	public function set( string $domain, ?string $node = NULL, ?string $resource = NULL ): self
 	{
-		if( !strlen( trim( $domain ) ) )
+		if( strlen( trim( $domain ) ) === 0 )
 			throw new InvalidArgumentException( 'Domain is missing' );
 		$this->domain	= $domain;
 		$this->node		= $node;
 		$this->resource	= $resource;
+		return $this;
 	}
 
 	/**
 	 *	Sets JID.
 	 *	@access		public
 	 *	@param		string		$jid		JID: domain + optional node and resource
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setJid( $jid )
+	public function setJid( string $jid ): self
 	{
-		extract( self::disassemble( $jid ) );
-		$this->set( $domain, $node, $resource );
+		$parts	= (object) self::disassemble( $jid );
+		$this->set( $parts->domain, $parts->node, $parts->resource );
+		return $this;
 	}
 }

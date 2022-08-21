@@ -44,7 +44,7 @@ class Charset
 	protected static $pattern	= '/^([0-9a-z-]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 
 	/**
-	 *	Returns prefered allowed and accepted Character Set from HTTP_ACCEPT_CHARSET.
+	 *	Returns preferred allowed and accepted Character Set from HTTP_ACCEPT_CHARSET.
 	 *	@access		public
 	 *	@static
 	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
@@ -58,7 +58,7 @@ class Charset
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Character Set from String.
+	 *	Returns preferred allowed and accepted Character Set from String.
 	 *	@access		public
 	 *	@static
 	 *	@param		string	$string			String to process

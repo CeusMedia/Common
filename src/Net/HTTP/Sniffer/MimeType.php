@@ -41,7 +41,7 @@ namespace CeusMedia\Common\Net\HTTP\Sniffer;
 class MimeType
 {
 	/**
-	 *	Returns prefered allowed and accepted Mime Types.
+	 *	Returns preferred allowed and accepted Mime Types.
 	 *	@access		public
 	 *	@static
 	 *	@param		array	$allowed		Array of Mime Types supported and allowed by the Application

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	cURL Wrapper
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.06.2005
  */
 
 namespace CeusMedia\Common\Net;
@@ -39,7 +39,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.06.2005
  */
 class CURL
 {
@@ -94,6 +93,13 @@ class CURL
 	private $options;
 
 	/**
+	 *	...
+	 *	@access private
+	 *	@var array
+	 */
+	private $info;
+
+	/**
 	 *	Latest Request Status information.
 	 *	@link http://www.php.net/curl_getinfo
 	 *	@link http://www.php.net/curl_errno
@@ -113,11 +119,11 @@ class CURL
 	/**
 	 *	cURL class constructor
 	 *	@access		public
-	 *	@param		string		$url 		URL to be accessed.
+	 *	@param		string|NULL		$url 		URL to be accessed.
 	 *	@return		void
 	 *	@link		http://www.php.net/curl_init
 	 */
-	public function __construct( $url = NULL )
+	public function __construct( ?string $url = NULL )
 	{
 		if( !extension_loaded( 'curl' ) )
 			throw new RuntimeException( "Support for cURL is missing" );
@@ -153,14 +159,14 @@ class CURL
 	/**
 	 *	Execute the cURL request and return the result.
 	 *	@access		public
-	 *	@param		bool		$breakOnError		Flag: throw an Exception if a Error has occured
+	 *	@param		bool		$breakOnError		Flag: throw an Exception if an Error has occurred
 	 *	@return		string
 	 *	@link		http://www.php.net/curl_exec
 	 *	@link		http://www.php.net/curl_getinfo
 	 *	@link		http://www.php.net/curl_errno
 	 *	@link		http://www.php.net/curl_error
 	 */
-	public function exec( $breakOnError = FALSE, $parseHeaders = TRUE )
+	public function exec( bool $breakOnError = FALSE, bool $parseHeaders = TRUE )
 	{
 		$url	= $this->getOption( CURLOPT_URL );
 		if( empty( $url ) )
@@ -168,7 +174,7 @@ class CURL
 		if( !preg_match( "@[a-z]+://[a-z0-9]+.+@i", $url ) )
 			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid protocol' );
 
-		$result = curl_exec( $this->handle );
+		$result 	= curl_exec( $this->handle );
 		$this->info = curl_getinfo( $this->handle );
 		$this->info['errno']	= curl_errno( $this->handle );
 		$this->info['error']	= curl_error( $this->handle );
@@ -190,24 +196,22 @@ class CURL
 	/**
 	 *	Returns the parsed HTTP header.
 	 *	@access		public
-	 *	@param		string		$key		Key name of Header Information
+	 *	@param		string|NULL		$key		Key name of Header Information
 	 *	@return	 	mixed
 	 */
-	public function getHeader( $key = NULL )
+	public function getHeader( ?string $key = NULL )
 	{
 		if( empty( $key ) )
 			return $this->header;
-		else
-		{
-			$key = strtoupper( $key );
-			if( isset( $this->caseless[$key] ) )
-				return $this->header[$this->caseless[$key]];
-			else
-				return NULL;
-		}
+
+		$key = strtoupper( $key );
+		if( isset( $this->caseless[$key] ) )
+			return $this->header[$this->caseless[$key]];
+		return NULL;
 	}
 
-	public function getHeaders(){
+	public function getHeaders(): array
+	{
 		return $this->header;
 	}
 
@@ -217,7 +221,7 @@ class CURL
 	 *	@param		int			$option		Key name of cURL Option
 	 *	@return 	mixed
 	 */
-	public function getOption( $option )
+	public function getOption( int $option )
 	{
 		if( !isset( $this->options[$option] ) )
 			return NULL;
@@ -227,19 +231,16 @@ class CURL
 	/**
 	 *	Return the information of the last cURL request.
 	 *	@access		public
-	 *	@param		string		$key		Key name of Information
+	 *	@param		string|NULL		$key		Key name of Information
 	 *	@return		mixed
 	 */
-	public function getInfo( $key = NULL )
+	public function getInfo( ?string $key = NULL )
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
 		if( empty( $key ) )
 			return $this->info;
-		else if( isset( $this->info[$key] ) )
-			return $this->info[$key];
-		else
-			return NULL;
+		return $this->info[$key] ?? NULL;
 	}
 
 	/**
@@ -251,11 +252,11 @@ class CURL
 	{
 		if( isset( $this->info['error'] ) )
 			return ( empty( $this->info['error'] ) ? NULL : $this->info['error'] );
-		else
-			return NULL;
+		return NULL;
 	}
 
-	static public function isSupported(){
+	public static function isSupported(): bool
+	{
 		return defined( 'CURLOPT_POST' );
 	}
 
@@ -266,7 +267,7 @@ class CURL
 	 *	header instance variable.  The header is stored as
 	 *	an associative array and the case of the headers
 	 *	as provided by the server is preserved and all
-	 *	repeated headers (pragma, set-cookie, etc) are grouped
+	 *	repeated headers (pragma, set-cookie, etc.) are grouped
 	 *	with the first spelling for that header
 	 *	that is seen.
 	 *
@@ -277,13 +278,12 @@ class CURL
 	 *	@param		string		$section		Section of HTTP headers
 	 *	@return		void
 	 */
-	protected function parseHeaderSection( $section )
+	protected function parseHeaderSection( string $section )
 	{
 		$this->header	= NULL;
 		$this->caseless = array();
 		$headers	= preg_split( "/(\r\n)+/", $section );
-		foreach( $headers as $header )
-		{
+		foreach( $headers as $header ){
 			if( !( trim( $header ) && !preg_match( '/^HTTP/', $header ) ) )
 				continue;
 			$pair	= preg_split( "/\s*:\s*/", $header, 2 );
@@ -306,12 +306,10 @@ class CURL
 	 */
 	public function setOption( $option, $value )
 	{
-		if( is_string( $option ) && $option )
-		{
-			if( defined( $option ) )
-				$option	= constant( $option );
-			else
+		if( is_string( $option ) && $option ){
+			if( !defined( $option ) )
 				throw new InvalidArgumentException( 'Invalid CURL option constant "'.$option.'"' );
+			$option	= constant( $option );
 		}
 //		if( !curl_setopt( $this->handle, $option, $value ) )
 //			throw new InvalidArgumentException( "Option could not been set." );
@@ -319,7 +317,7 @@ class CURL
 		$this->options[$option]	= $value;
 	}
 
-	public function setUrl( $url )
+	public function setUrl( string $url ): self
 	{
 		if( parse_url( $url, PHP_URL_PORT ) ){
 			$parts	= (object) parse_url( $url );
@@ -327,6 +325,7 @@ class CURL
 			$this->setOption( CURLOPT_PORT, $parts->port );
 		}
 		$this->setOption( CURLOPT_URL, $url );
+		return $this;
 	}
 
 	/**
@@ -336,8 +335,8 @@ class CURL
 	 *	@param		int			$seconds	Seconds until Time Out
 	 *	@return		void
 	 */
-	public static function setTimeOut( $seconds )
+	public static function setTimeOut( int $seconds ): void
 	{
-		self::$timeOut	= (int) $seconds;
+		self::$timeOut	= $seconds;
 	}
 }

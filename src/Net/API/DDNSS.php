@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Access to DDNSS (ddnss.de) API.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.7
  */
 
 namespace CeusMedia\Common\Net\API;
@@ -40,23 +40,23 @@ use Exception;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.7
  */
 class DDNSS
 {
 	/**	@var		string		Base URL for update */
-	public static $urlUpdate	= "http://ddnss.de/upd.php?key=%s&host=%s";
+	public static $urlUpdate	= "https://ddnss.de/upd.php?key=%s&host=%s";
 
 	/**
 	 *	Updated host or hosts.
 	 *	@static
-	 *	@param		string		$key		Auth key from DDNSS
+	 *	@param		string			$key		Auth key from DDNSS
 	 *	@param		string|array	$hosts		Host or list of hosts
-	 *	@return		integer		Number of updated hosts
+	 *	@return		integer			Number of updated hosts
 	 *	@todo		parse response header DDNSS-Response
 	 *	@todo		and handle update errors
 	 */
-	static public function update( $key, $hosts ){
+	public static function update( string $key, $hosts ): int
+	{
 		if( is_array( $hosts ) )
 			$hosts	= implode( ",", $hosts );
 		$url	= sprintf( self::$urlUpdate, $key, $hosts );

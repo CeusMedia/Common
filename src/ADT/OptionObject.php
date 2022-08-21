@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base Object with options.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
 namespace CeusMedia\Common\ADT;
 
+use ArrayAccess;
+use Countable;
 use InvalidArgumentException;
 use OutOfRangeException;
 
@@ -38,9 +40,8 @@ use OutOfRangeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
-class OptionObject implements \ArrayAccess, \Countable
+class OptionObject implements ArrayAccess, Countable
 {
 	/**	@var		array		$options		Associative Array of options */
 	protected $options	= array();
@@ -51,7 +52,7 @@ class OptionObject implements \ArrayAccess, \Countable
 	 *	@param		array		$defaults		Associative Array of options
 	 *	@param		array		$settings		...
 	 *	@throws		InvalidArgumentException	if given map is not an array
-	 *	@throws		InvalidArgumentException	if map key is an integer since associative arrays are prefered
+	 *	@throws		InvalidArgumentException	if map key is an integer since associative arrays are preferred
 	 *	@todo		allow integer map keys for eg. options defined by constants (which point to integer values, of course)
 	 *	@return		void
 	 */
@@ -135,59 +136,59 @@ class OptionObject implements \ArrayAccess, \Countable
 	}
 
 	/**
-	 *	Indicated whether a option is set or not.
+	 *	Indicated whether an option is set or not.
 	 *	@access		public
 	 *	@param		string		$key			Option Key
 	 *	@return		bool
 	 */
 	public function hasOption( string $key ): bool
 	{
-		return array_key_exists( (string) $key, $this->options );
+		return array_key_exists( $key, $this->options );
 	}
 
 	/**
 	 *	Indicates whether a Key is existing.
 	 *	@access		public
-	 *	@param		string		$key			Option Key
+	 *	@param		string		$offset			Option Key
 	 *	@return		bool
 	 */
-	public function offsetExists( $key )
+	public function offsetExists( $offset ): bool
 	{
-		return $this->hasOption( $key );
+		return $this->hasOption( $offset );
 	}
 
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Option key
+	 *	@param		string		$offset			Option key
 	 *	@return		mixed
 	 */
-	public function offsetGet( $key )
+	public function offsetGet( $offset )
 	{
-		return $this->getOption( $key );
+		return $this->getOption( $offset );
 	}
 
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
-	 *	@param		string		$key			Option Key
+	 *	@param		string		$offset			Option Key
 	 *	@param		string		$value			Option Value
 	 *	@return		void
 	 */
-	public function offsetSet( $key, $value )
+	public function offsetSet( $offset, $value )
 	{
-		return $this->setOption( $key, $value );
+		$this->setOption( $offset, $value );
 	}
 
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Option Key
-	 *	@return		void
+	 *	@param		string		$offset			Option Key
+	 *	@return		bool
 	 */
-	public function offsetUnset( $key )
+	public function offsetUnset( $offset ): bool
 	{
-		return $this->removeOption( $key );
+		return $this->removeOption( $offset );
 	}
 
 	/**

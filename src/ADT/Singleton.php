@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Registry Pattern Implementation to store Objects.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\ADT;
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\ADT;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 abstract class Singleton
 {
@@ -49,24 +48,28 @@ abstract class Singleton
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function __construct(){}
+	protected function __construct()
+	{
+	}
 
 	/**
 	 *	Cloning this object is not allowed.
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function __clone(){}
+	private function __clone()
+	{
+	}
 
 	/**
 	 *	Returns a single instance of this Singleton class.
-	 *	This method is abtract and must be defined in inheriting clases.
+	 *	This method is abstract and must be defined in inheriting classes.
 	 *	@abstract
 	 *	@static
 	 *	@access		public
-	 *	@return		Singleton	Single instance of this Singleton class
+	 *	@return		self		Single instance of this Singleton class
 	 */
-	abstract public static function getInstance();
+	abstract public static function getInstance(): self;
 
 	/**
 	 *	Builds a single instance of this or inheriting classes.
@@ -74,9 +77,9 @@ abstract class Singleton
 	 *	Use this method in the 'getInstance()' implementation.
 	 *	@access		public
 	 *	@param		string			$className		Name of Singleton class
-	 *	@return		object
+	 *	@return		self
 	 */
-	protected static function buildInstance( $className )
+	protected static function buildInstance( string $className ): self
 	{
 		//  no instance built, yet
 		if( NULL === self::$instance )

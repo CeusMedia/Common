@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for FTP Connections.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
 
 namespace CeusMedia\Common\Net\FTP;
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\Net\FTP;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
 class Reader
 {
@@ -62,16 +61,16 @@ class Reader
 	}
 
 	/**
-	 *	Transferes a File from FTP Server.
+	 *	Transfers a File from FTP Server.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of Remove File
-	 *	@param		string		$target			Name of Target File
+	 *	@param		string			$fileName		Name of Remove File
+	 *	@param		string|NULL		$target			Name of Target File
 	 *	@return		bool
 	 */
-	public function getFile( $fileName, $target = "" )
+	public function getFile( string $fileName, ?string $target ): bool
 	{
 		$this->connection->checkConnection();
-		if( !$target )
+		if( $target === NULL || strlen( trim( $target ) ) === 0 )
 			$target	= $fileName;
 		return @ftp_get( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
@@ -83,7 +82,7 @@ class Reader
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getFileList( $path = "", $recursive = FALSE )
+	public function getFileList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
 		$results	= array();
@@ -102,7 +101,7 @@ class Reader
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getFolderList( $path = "", $recursive = FALSE )
+	public function getFolderList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
 		$results	= array();
@@ -115,32 +114,27 @@ class Reader
 	}
 
 	/**
-	 *	Returns a List of all Folders an Files of a Path on FTP Server.
+	 *	Returns a List of all Folders and Files of a Path on FTP Server.
 	 *	@access		public
 	 *	@param		string		$path			Path
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getList( $path = "", $recursive = FALSE )
+	public function getList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
 		$parsed	= array();
 		if( !$path )
 			$path	= $this->getPath();
 		$list	= ftp_rawlist( $this->connection->getResource(), $path );
-		if( is_array( $list ) )
-		{
-			foreach( $list as $current )
-			{
+		if( is_array( $list ) ){
+			foreach( $list as $current ){
 				$data	= $this->parseListEntry( $current );
-				if( count( $data ) )
-				{
+				if( count( $data ) ){
 					$parsed[]	= $data;
-					if( $recursive && $data['isdir'] && $data['name'] != "." && $data['name'] != ".." )
-					{
+					if( $recursive && $data['isdir'] && $data['name'] != "." && $data['name'] != ".." ){
 						$nested	= $this->getList( $path."/".$data['name'], TRUE );
-						foreach( $nested as $entry )
-						{
+						foreach( $nested as $entry ){
 							$entry['name']	= $data['name']."/".$entry['name'];
 							$parsed[]	= $entry;
 						}
@@ -156,12 +150,12 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->connection->getPath();
 	}
 
-	public function getPermissionsAsOctal( $permissions )
+	public function getPermissionsAsOctal( $permissions ): string
 	{
 		$mode	= 0;
 		if( $permissions[1] == 'r' ) $mode += 0400;
@@ -190,10 +184,10 @@ class Reader
 	 *	@param		string		$entry		Entry of List
 	 *	@return		array
 	 */
-	protected function parseListEntry( $entry )
+	protected function parseListEntry( string $entry ): array
 	{
 		$data	= array();
-		$parts	= preg_split("/[\s]+/", $entry, 9 );
+		$parts	= preg_split("/\s+/", $entry, 9 );
 		if( $parts[0] == "total" )
 			return array();
 		$data['isdir']			= $parts[0][0] === "d";
@@ -210,8 +204,7 @@ class Reader
 		$data['name']			= $parts[8];
 		if( preg_match( "/:/", $data['time'] ) )
 			$data['year']		= date( "Y" );
-		else
-		{
+		else{
 			$data['year']		= $data['time'];
 			$data['time']		= "00:00";
 		}
@@ -232,17 +225,14 @@ class Reader
 	 *	@param		bool		$regular			Search with regular Expression (default: false)
 	 *	@return		array
 	 */
-	public function searchFile( $fileName = "", $recursive = FALSE, $regular = FALSE )
+	public function searchFile( string $fileName = "", bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		$this->connection->checkConnection();
 		$results	= array();
 		$list		= $this->getFileList( $this->getPath(), $recursive );
-		foreach( $list as $entry )
-		{
-			if( !$entry['isdir'] )
-			{
-				if( $regular )
-				{
+		foreach( $list as $entry ){
+			if( !$entry['isdir'] ){
+				if( $regular ){
 					if( preg_match( $fileName, $entry['name'] ) )
 						$results[]	= $entry;
 				}
@@ -261,17 +251,14 @@ class Reader
 	 *	@param		bool		$regular			Search with regular Expression (default: FALSE)
 	 *	@return		array
 	 */
-	public function searchFolder( $folderName = "", $recursive = FALSE, $regular = FALSE )
+	public function searchFolder( string $folderName = "", bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		$this->connection->checkConnection();
 		$results	= array();
 		$list		= $this->getFolderList( $this->getPath(), $recursive );
-		foreach( $list as $entry )
-		{
-			if( $entry['isdir'] )
-			{
-				if( $regular )
-				{
+		foreach( $list as $entry ){
+			if( $entry['isdir'] ){
+				if( $regular ){
 					if( preg_match( $folderName, $entry['name'] ) )
 						$results[]	= $entry;
 				}
@@ -288,7 +275,7 @@ class Reader
 	 *	@param		string		$path		Path to go to
 	 *	@return		bool
 	 */
-	public function setPath( $path )
+	public function setPath( string $path ): bool
 	{
 		return $this->connection->setPath( $path );
 	}

@@ -1,6 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Resolves an address to geo codes using Google Maps API.
+ *	Resolves an address to geocodes using Google Maps API.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -23,7 +24,6 @@
  *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.5
  */
 
 namespace CeusMedia\Common\Net\API\Google\Maps;
@@ -31,23 +31,23 @@ namespace CeusMedia\Common\Net\API\Google\Maps;
 use CeusMedia\Common\Net\API\Google\Request as GoogleRequest;
 use CeusMedia\Common\FS\File\Editor as FileEditor;
 use CeusMedia\Common\XML\Element as XmlElement;
+use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
 /**
- *	Resolves an address to geo codes using Google Maps API.
+ *	Resolves an address to geocodes using Google Maps API.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google_Maps
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.5
  */
 class Geocoder extends GoogleRequest
 {
 	/** @var		string		$apiUrl			Google Maps API URL */
-	public $apiUrl				= "http://maps.googleapis.com/maps/api/geocode/xml";
+	public $apiUrl				= "https://maps.googleapis.com/maps/api/geocode/xml";
 
 	/**
 	 *	Returns KML data for an address.
@@ -57,13 +57,14 @@ class Geocoder extends GoogleRequest
 	 *	@return		string
 	 *	@throws		RuntimeException			if query limit is reached
 	 *	@throws		InvalidArgumentException	if address could not been resolved
+	 *	@throws		Exception
 	 */
-	public function getGeoCode( $address, $force = FALSE )
+	public function getGeoCode( string $address, bool $force = FALSE ): string
 	{
 		$address	= urlencode( $address );
 		$query		= "?address=".$address."&sensor=false";
-		if( $this->pathCache )
-		{
+		$cacheFile	= NULL;
+		if( $this->pathCache ){
 			$cacheFile	= $this->pathCache.$address.".xml.cache";
 			if( file_exists( $cacheFile ) && !$force )
 				return FileEditor::load( $cacheFile );
@@ -87,22 +88,31 @@ class Geocoder extends GoogleRequest
 	 *	@return		array
 	 *	@throws		RuntimeException			if query limit is reached
 	 *	@throws		InvalidArgumentException	if address could not been resolved
+	 *	@throws		Exception
 	 */
-	public function getGeoTags( $address, $force = FALSE )
+	public function getGeoTags( string $address, bool $force = FALSE ): array
 	{
 		$xml	= $this->getGeoCode( $address, $force );
 		$xml	= new XmlElement( $xml );
-		$coordinates	= (string) $xml->result->geometry->location;
-		$parts			= explode( ",", $coordinates );
-		$data			= array(
+//		$coordinates	= (string) $xml->result->geometry->location;
+//		$parts			= explode( ",", $coordinates );
+		return array(
 			'longitude'	=> (string) $xml->result->geometry->location->lng,
 			'latitude'	=> (string) $xml->result->geometry->location->lat,
 			'accuracy'	=> NULL,
 		);
-		return $data;
 	}
 
-	public function getAddress( $address, $force = FALSE ){
+	/**
+	 *	...
+	 *	@param		string		$address
+	 *	@param		bool		$force
+	 *	@return		string
+	 *	@throws		RuntimeException
+	 *	@throws		Exception
+	 */
+	public function getAddress( string $address, bool $force = FALSE ): string
+	{
 		$xml	= $this->getGeoCode( $address, $force );
 		$xml	= new XmlElement( $xml );
 		if( (string) $xml->status !== "OK" )

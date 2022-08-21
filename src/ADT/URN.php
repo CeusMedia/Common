@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -42,9 +43,10 @@ use InvalidArgumentException;
 class URN
 {
 	public $nid;
+
 	public $nss;
 
-	public function __construct( $nid, $nss = NULL )
+	public function __construct( string $nid, ?string $nss = NULL )
 	{
 		$nid	= preg_replace( "/^urn:/i", "", $nid );
 		if( $nss === NULL && preg_match( "/^\S+:\S+$/", $nid ) )
@@ -57,17 +59,17 @@ class URN
 		$this->setSpecificString( $nss );
 	}
 
-	public function getIdentifier()
+	public function getIdentifier(): string
 	{
 		return $this->nid;
 	}
 
-	public function getSpecificString()
+	public function getSpecificString(): string
 	{
 		return $this->nss;
 	}
 
-	public function getUrn( $withoutPrefix = FALSE )
+	public function getUrn( bool $withoutPrefix = FALSE ): string
 	{
 		$urn	= (string) $this;
 		if( $withoutPrefix )

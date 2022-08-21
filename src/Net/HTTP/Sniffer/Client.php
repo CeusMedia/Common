@@ -43,8 +43,8 @@ class Client
 	/**	@var		object		$browser		Instance of Net_HTTP_Sniffer_Browser */
 	protected $browser;
 
-	/**	@var		object		$charset		Instance of Net_HTTP_Sniffer_Charset */
-	protected $charset;
+	/**	@var		object		$charSet		Instance of Net_HTTP_Sniffer_Charset */
+	protected $charSet;
 
 	/**	@var		object		$encoding		Instance of Net_HTTP_Sniffer_Encoding */
 	protected $encoding;
@@ -55,8 +55,8 @@ class Client
 	/**	@var		object		$mimeType		Instance of Net_HTTP_Sniffer_MimeType */
 	protected $mimeType;
 
-	/**	@var		object		$osSniffer		Instance of Net_HTTP_Sniffer_OperatingSystem */
-	protected $osSniffer;
+	/**	@var		object		$system			Instance of Net_HTTP_Sniffer_OS */
+	protected $system;
 
 	/**
 	 *	Constructor.
@@ -74,7 +74,7 @@ class Client
 	}
 
 	/**
-	 *	Returns IP addresse of Request.
+	 *	Returns IP address of Request.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -84,7 +84,7 @@ class Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Language of a HTTP Request.
+	 *	Returns preferred allowed and accepted Language of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
@@ -95,18 +95,18 @@ class Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Character Set of a HTTP Request.
+	 *	Returns preferred allowed and accepted Character Set of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
 	 */
 	public function getCharset( $allowed )
 	{
-		return $this->charSet->getCharset( $allowed  );
+		return $this->charSet->getCharset( $allowed );
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Mime Type of a HTTP Request.
+	 *	Returns preferred allowed and accepted Mime Type of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Mime Types supported and allowed by the Application
 	 *	@return		string
@@ -117,7 +117,7 @@ class Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Encoding Methods of a HTTP Request.
+	 *	Returns preferred allowed and accepted Encoding Methods of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Encoding Methods supported and allowed by the Application
 	 *	@return		string
@@ -138,7 +138,7 @@ class Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Character Set of a HTTP Request.
+	 *	Returns preferred allowed and accepted Character Set of an HTTP Request.
 	 *	@access		public
 	 *	@return		string
 	 */

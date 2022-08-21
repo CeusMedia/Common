@@ -44,7 +44,7 @@ class Language
 	protected static $pattern	= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 
 	/**
-	 *	Returns prefered allowed and accepted Language from HTTP_ACCEPT_LANGUAGE.
+	 *	Returns preferred allowed and accepted Language from HTTP_ACCEPT_LANGUAGE.
 	 *	@access		public
 	 *	@static
 	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application
@@ -58,7 +58,7 @@ class Language
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Language from String.
+	 *	Returns preferred allowed and accepted Language from String.
 	 *	@access		public
 	 *	@static
 	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	JAVA like StringBuffer Implementation.
  *
@@ -27,6 +28,8 @@
 
 namespace CeusMedia\Common\ADT;
 
+use Countable;
+use Iterator;
 use RangeException;
 
 /**
@@ -38,7 +41,7 @@ use RangeException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class StringBuffer implements \Countable, \Iterator
+class StringBuffer implements Countable, Iterator
 {
 	/**	@var		string		$buffer			internal String */
 	private $buffer;
@@ -52,7 +55,7 @@ class StringBuffer implements \Countable, \Iterator
 	 *	@param		string		$buffer			initial String in StringBuffer
 	 *	@return		void
 	 */
-	public function __construct( $buffer = '' )
+	public function __construct( string $buffer = '' )
 	{
 		$this->buffer = $buffer;
 	}
@@ -60,6 +63,7 @@ class StringBuffer implements \Countable, \Iterator
 	/**
 	 *	Returns the Size of the String.
 	 *	@access		public
+	 *	@param		string		$string		String to append
 	 *	@return		StringBuffer
 	 */
 	public function append( string $string ): self

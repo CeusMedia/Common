@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Google Sitemap XML Writer.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
 
 namespace CeusMedia\Common\Net\Site;
@@ -38,7 +38,6 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
 class MapWriter
 {
@@ -51,7 +50,7 @@ class MapWriter
 	 *	@param		string		$fileName			File Name of Sitemap XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -63,7 +62,7 @@ class MapWriter
 	 *	@param		int			$mode				Right Mode
 	 *	@return		int
 	 */
-	public function write( $urls, $mode = 0755 )
+	public function write( array $urls, int $mode = 0755 ): int
 	{
 		return $this->save( $this->fileName, $urls, $mode );
 	}
@@ -77,7 +76,7 @@ class MapWriter
 	 *	@param		int			$mode				Right Mode
 	 *	@return		int
 	 */
-	public static function save( $fileName, $urls, $mode = 0777 )
+	public static function save( string $fileName, array $urls, int $mode = 0777 ): int
 	{
 		$builder	= new MapBuilder();
 		$file		= new FileWriter( $fileName, $mode );

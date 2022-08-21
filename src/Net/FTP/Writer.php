@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for FTP Connections.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
 
 namespace CeusMedia\Common\Net\FTP;
@@ -39,7 +39,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
 class Writer
 {
@@ -65,10 +64,8 @@ class Writer
 	 *	@return		integer		Set permissions as integer
 	 *	@throws		RuntimeException if impossible to change rights
 	 */
-	public function changeRights( $fileName, $mode )
+	public function changeRights( string $fileName, int $mode ): int
 	{
-		if( !is_int( $mode ) )
-			throw new InvalidArgumentException( 'Mode must be an integer, recommended to be given as octal value' );
 		$this->connection->checkConnection();
 		$result = @ftp_chmod( $this->connection->getResource(), $mode, $fileName );
 		if( FALSE === $result )
@@ -83,7 +80,7 @@ class Writer
 	 *	@param		string		$to				Name of target file
 	 *	@return		boolean
 	 */
-	public function copyFile( $from, $to )
+	public function copyFile( string $from, string $to ): bool
 	{
 		$this->connection->checkConnection();
 		$temp	= uniqid( time() ).".temp";
@@ -107,14 +104,13 @@ class Writer
 	 *	@param		string		$to				Name of target file
 	 *	@return		boolean
 	 */
-	public function copyFolder( $from, $to )
+	public function copyFolder( string $from, string $to ): bool
 	{
 		$this->connection->checkConnection();
 		$this->createFolder( $to );
 		$reader	= new Reader( $this->connection );
 		$list	= $reader->getList( $from, TRUE );
-		foreach( $list as $entry )
-		{
+		foreach( $list as $entry ){
 			if( $entry['isdir'] )
 				$this->createFolder( $to."/".$entry['name'] );
 			else
@@ -129,7 +125,7 @@ class Writer
 	 *	@param		string		$folderName		Name of folder to be created
 	 *	@return		boolean
 	 */
-	public function createFolder( $folderName )
+	public function createFolder( string $folderName ): bool
 	{
 		$this->connection->checkConnection();
 		return (bool) ftp_mkdir( $this->connection->getResource(), $folderName );
@@ -140,7 +136,7 @@ class Writer
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->connection->getPath();
 	}
@@ -152,7 +148,7 @@ class Writer
 	 *	@param		string		$to				Name of target file
 	 *	@return		boolean
 	 */
-	public function moveFile( $from, $to )
+	public function moveFile( string $from, string $to ): bool
 	{
 		$this->connection->checkConnection();
 		return @ftp_rename( $this->connection->getResource(), $from, $to );
@@ -165,7 +161,7 @@ class Writer
 	 *	@param		string		$to				Name of target folder
 	 *	@return		boolean
 	 */
-	public function moveFolder( $from, $to )
+	public function moveFolder( string $from, string $to ): bool
 	{
 		$this->connection->checkConnection();
 		if( ftp_size( $this->connection->getResource(), $from ) != -1 )
@@ -174,13 +170,13 @@ class Writer
 	}
 
 	/**
-	 *	Transferes a File onto FTP Server.
+	 *	Transfers a File onto FTP Server.
 	 *	@access		public
 	 *	@param		string		$fileName		Name of local file
 	 *	@param		string		$target			Name of target file
 	 *	@return		boolean
 	 */
-	public function putFile( $fileName, $target )
+	public function putFile( string $fileName, string $target ): bool
 	{
 		$this->connection->checkConnection();
 		return ftp_put( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
@@ -192,7 +188,7 @@ class Writer
 	 *	@param		string		$fileName		Name of file to be removed
 	 *	@return		boolean
 	 */
-	public function removeFile( $fileName )
+	public function removeFile( string $fileName ): bool
 	{
 		$this->connection->checkConnection();
 		return @ftp_delete( $this->connection->getResource(), $fileName );
@@ -204,17 +200,15 @@ class Writer
 	 *	@param		string		$folderName		Name of folder to be removed
 	 *	@return		boolean
 	 */
-	public function removeFolder( $folderName )
+	public function removeFolder( string $folderName ): bool
 	{
 		$this->connection->checkConnection();
 		$reader	= new Reader( $this->connection );
 		$list	= $reader->getList( $folderName );
-		foreach( $list as $entry )
-		{
-			if( $entry['name'] != "." && $entry['name'] != ".." )
-			{
+		foreach( $list as $entry ){
+			if( $entry['name'] != "." && $entry['name'] != ".." ){
 				if( $entry['isdir'] )
-					$this->removeFolder( $folderName."/".$entry['name'], TRUE );
+					$this->removeFolder( $folderName."/".$entry['name'] );
 				else
 					$this->removeFile( $folderName."/".$entry['name'] );
 			}
@@ -229,7 +223,7 @@ class Writer
 	 *	@param		string		$to				Name of target file
 	 *	@return		boolean
 	 */
-	public function renameFile( $from, $to )
+	public function renameFile( string $from, string $to ): bool
 	{
 		$this->connection->checkConnection();
 		return @ftp_rename( $this->connection->getResource(), $from, $to );
@@ -241,7 +235,7 @@ class Writer
 	 *	@param		string		$path			Path to go to
 	 *	@return		boolean
 	 */
-	public function setPath( $path )
+	public function setPath( string $path ): bool
 	{
 		return $this->connection->setPath( $path );
 	}

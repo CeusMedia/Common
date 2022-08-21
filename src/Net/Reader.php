@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Contents from the Net.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 
 namespace CeusMedia\Common\Net;
@@ -42,7 +42,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
 class Reader
 {
@@ -76,7 +75,7 @@ class Reader
 	/**	@var		string		$proxyAddress	Domain or IP (and port) of proxy server */
 	protected $proxyAddress		= NULL;
 
-	/**	@var		string		$proxyAuth		Username and password for proxy server authentification */
+	/**	@var		string		$proxyAuth		Username and password for proxy server authentication */
 	protected $proxyAuth		= 80;
 
 	/**	@var		integer		$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
@@ -85,16 +84,16 @@ class Reader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$url			URL to read
+	 *	@param		string|NULL		$url			URL to read
 	 *	@return		void
 	 */
-	public function __construct( $url = NULL )
+	public function __construct( ?string $url = NULL )
 	{
 		if( $url )
 			$this->setUrl( $url );
 	}
 
-	public function getBody()
+	public function getBody(): string
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -104,10 +103,10 @@ class Reader
 	/**
 	 *	Returns Headers Array or a specified header from last request.
 	 *	@access		public
-	 *	@param		string		$key		Header key
+	 *	@param		string|NULL		$key		Header key
 	 *	@return		mixed
 	 */
-	public function getHeader( $key = NULL )
+	public function getHeader( ?string $key = NULL )
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -118,17 +117,18 @@ class Reader
 		return $this->headers[$key];
 	}
 
-	public function getHeaders(){
+	public function getHeaders(): array
+	{
 		return $this->headers;
 	}
 
 	/**
 	 *	Returns information map or single information from last request.
 	 *	@access		public
-	 *	@param		string		$key		Information key
+	 *	@param		string|NULL		$key		Information key
 	 *	@return		mixed
 	 */
-	public function getInfo( $key = NULL )
+	public function getInfo( ?string $key = NULL )
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -144,7 +144,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
  		 */
-	public function getUrl()
+	public function getUrl(): string
 	{
 		return $this->url;
 	}
@@ -154,7 +154,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getUserAgent()
+	public function getUserAgent(): string
 	{
 		return self::$userAgent;
 	}
@@ -162,10 +162,13 @@ class Reader
 	/**
 	 *	Requests set URL and returns response.
 	 *	@access		public
-	 *	@return		string		$curlOptions		Map of cURL options
+	 *	@param		array		$curlOptions		Map of cURL options
+	 *	@return		string
+	 *	@throws		InvalidArgumentException
+	 *	@throws		IoException
 	 *	@todo		Auth
 	 */
-	public function read( $curlOptions = array() )
+	public function read( array $curlOptions = array() ): string
 	{
 		$curl		= new CURL( $this->url );
 
@@ -185,10 +188,8 @@ class Reader
 				$curl->setOption( CURLOPT_PROXYUSERPWD, $this->proxyAuth );
 		}
 
-		foreach( $curlOptions as $key => $value )
-		{
-			if( is_string( $key ) )
-			{
+		foreach( $curlOptions as $key => $value ){
+			if( is_string( $key ) ){
 				if( !( preg_match( "@^CURLOPT_@", $key ) && defined( $key ) ) )
 					throw new InvalidArgumentException( 'Invalid option constant key "'.$key.'"' );
 				$key	= constant( $key );
@@ -217,12 +218,13 @@ class Reader
 	 *	Requests URL and returns Response statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$url		URL to request
+	 *	@param		string		$url			URL to request
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		string
+	 *	@throws		IoException
 	 *	@todo		Auth
 	 */
-	public static function readUrl( $url, $curlOptions = array() )
+	public static function readUrl( string $url, array $curlOptions = array() ): string
 	{
 		$reader	= new Reader( $url );
 		return $reader->read( $curlOptions );
@@ -233,72 +235,78 @@ class Reader
 	 *	@access		public
 	 *	@param		string		$username	Basic Auth Username
 	 *	@param		string		$password	Basic Auth Password
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setBasicAuth( $username, $password )
+	public function setBasicAuth( string $username, string $password ): self
 	{
 		$this->username	= $username;
 		$this->password	= $password;
+		return $this;
 	}
 
 	/**
 	 *	Sets proxy domain or IP.
 	 *	@access		public
-	 *	@param		string		$address	Domain or IP (and Port) of proxy server
-	 *	@param		integer		$type		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5 )
-	 *	@param		string		$auth		Username and password for proxy authentification
-	 *	@return		void
+	 *	@param		string			$address	Domain or IP (and Port) of proxy server
+	 *	@param		integer			$type		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5 )
+	 *	@param		string|NULL		$auth		Username and password for proxy authentication
+	 *	@return		self
 	 */
-	public function setProxy( $address, $type = CURLPROXY_HTTP, $auth = NULL )
+	public function setProxy( string $address, int $type = CURLPROXY_HTTP, ?string $auth = NULL ): self
 	{
 		$this->proxyAddress	= $address;
 		$this->proxyType	= $type;
 		$this->proxyAuth	= $auth;
+		return $this;
 	}
 
 	/**
 	 *	Set URL to request.
 	 *	@access		public
 	 *	@param		string		$url		URL to request
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setUrl( $url )
+	public function setUrl( string $url ): self
 	{
-		if( !( is_string( $url ) && $url ) )
+		if( strlen( trim( $url ) ) === 0 )
 			throw new InvalidArgumentException( "No URL given." );
 		$this->url	= $url;
+		return $this;
 	}
 
 	/**
 	 *	Sets User Agent.
 	 *	@access		public
 	 *	@param		string		$title		User Agent to set
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setUserAgent( $title )
+	public function setUserAgent( string $title ): self
 	{
 		self::$userAgent	= $title;
+		return $this;
 	}
 
 	/**
 	 *	Sets Option CURLOPT_SSL_VERIFYHOST.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Host
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setVerifyHost( $verify )
+	public function setVerifyHost( bool $verify ): self
 	{
-		$this->verifyHost	= (bool) $verify;
+		$this->verifyHost	= $verify;
+		return $this;
 	}
 
 	/**
 	 *	Sets Option CURLOPT_SSL_VERIFYPEER.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Peer
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setVerifyPeer( $verify )
+	public function setVerifyPeer( bool $verify ): self
 	{
-		$this->verifyPeer	= (bool) $verify;
+		$this->verifyPeer	= $verify;
+		return $this;
 	}
 }
