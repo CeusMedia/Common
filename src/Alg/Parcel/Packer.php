@@ -82,7 +82,7 @@ class Packer
 	public function calculatePackage( array $articleList ): array
 	{
 		//  reset Packet List
-		$this->packetList	= array();
+		$this->packetList	= [];
 
 		//  iterate Article List
 		foreach( $articleList as $name => $quantity )

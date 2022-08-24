@@ -93,7 +93,7 @@ class Parser
 		$lines	= explode( "\r\n", $string );
 		$firstLine	= array_shift( $lines );
 		$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
-		$matches	= array();
+		$matches	= [];
 		preg_match_all( $pattern, $firstLine, $matches );
 		$response	= new Response( $matches[1][0], $matches[2][0] );
 		$response->setStatus( $matches[3][0] );

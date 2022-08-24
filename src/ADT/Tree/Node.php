@@ -42,7 +42,7 @@ use InvalidArgumentException;
 class Node
 {
 	/**	@var	array		$children		Array of Children */
-	protected $children		= array();
+	protected $children		= [];
 
 	/**
 	 *	Adds a child to Tree.
@@ -66,7 +66,7 @@ class Node
 	 */
 	public function clearChildren()
 	{
-		$this->children = array();
+		$this->children = [];
 	}
 
 	/**

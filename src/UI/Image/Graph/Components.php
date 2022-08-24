@@ -79,7 +79,7 @@ class Components
 	 */
 	public static function getSubConfig( $config, $prefix )
 	{
-		$data	= array();
+		$data	= [];
 		$length	= strlen( $prefix );
 		foreach( $config as $key => $value )
 			if( substr( $key, 0, $length ) == $prefix )

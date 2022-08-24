@@ -50,7 +50,7 @@ class Tabs
 	protected static $counter	= 0;
 
 	/**	@var		array		$pairs		List of Content Divs */
-	protected $divs	= array();
+	protected $divs	= [];
 
 	/**	@var		array		$options	Array of Options for the jQuery Plugin Call */
 	protected $options	= array(
@@ -58,7 +58,7 @@ class Tabs
 	);
 
 	/**	@var		array		$tabs		List of Tab Labels */
-	protected $tabs	= array();
+	protected $tabs	= [];
 
 	public static $version	= 2;
 
@@ -172,8 +172,8 @@ class Tabs
 
 		$belowV3	= version_compare( 3, self::$version );
 		$urlPrefix	= ( $belowV3 && getEnv( 'REDIRECT_URL' ) ) ? getEnv( 'REDIRECT_URL' ) : '';
-		$tabs		= array();
-		$divs		= array();
+		$tabs		= [];
+		$divs		= [];
 		$labels		= $labels;
 		$contents	= $contents;
 		foreach( $labels as $index => $label )

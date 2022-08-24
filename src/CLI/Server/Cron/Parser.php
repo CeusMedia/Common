@@ -41,7 +41,7 @@ use Exception;
 class Parser
 {
 	/**	@var		array		$jobs			Array of parse Cron Jobs */
-	protected $jobs				= array();
+	protected $jobs				= [];
 
 	/**
 	 *	Constructor.
@@ -95,7 +95,7 @@ class Parser
 	 */
 	protected function getValues( string $value, int $fill = 0 ): array
 	{
-		$values	= array();
+		$values	= [];
 		if( substr_count( $value, "-" ) )
 		{
 			$parts	= explode( "-", $value );

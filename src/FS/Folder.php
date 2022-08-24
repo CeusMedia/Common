@@ -107,7 +107,7 @@ class Folder extends AbstractNode
 		if( !$this->exists( $strict ) )
  			return new Dictionary();
 		$index	= new DirectoryIterator( $this->pathName );
-		$list	= array();
+		$list	= [];
 		foreach( $index as $entry ){
 			if( $entry->isDot() )
 				continue;

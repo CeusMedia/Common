@@ -43,7 +43,7 @@ use Exception;
 class NodeSet implements Countable
 {
 	/**	@var		array			$nodes			array of all Nodes */
- 	protected $nodes = array();
+ 	protected $nodes = [];
 
 	/**
 	 *	Adds a new Node and returns reference of this Node.

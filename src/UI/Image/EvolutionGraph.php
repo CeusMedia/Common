@@ -83,7 +83,7 @@ class EvolutionGraph extends OptionObject
 	);
 
 	/**	@var	array		graphs		Array of Values of one or more Graphs */
-	protected $graphs	= array();
+	protected $graphs	= [];
 
 	/**
 	 *	Constructor, sets default Options.

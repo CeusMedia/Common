@@ -60,7 +60,7 @@ class BarAcross
 		$y = isset( $options["y"] ) ? $options["y"] : 80;
 		$data = $this->chart->data;
 
-		$filters	= array();
+		$filters	= [];
 		$pointLight	= HtmlTag::create( "fePointLight", "", array( 'x' => -5000, 'y' => -5000, 'z' => 5000 ) );
 		$filters[]	= HtmlTag::create( "feGaussianBlur", "", array( 'in' => "SourceAlpha", 'stdDeviation' => "0.5", 'result' => "blur" ) );
 		$filters[]	= HtmlTag::create( "feSpecularLighting", $pointLight, array( 'in' => "blur", 'surfaceScale' => "5", 'specularConstant' => "0.5", 'specularExponent' => "10", 'result' => "specOut", 'style' => "lighting-color: #FFF" ) );
@@ -72,7 +72,7 @@ class BarAcross
 		$count	= 0;
 		$barx	= $x + 100;
 		$descx	= $x + 200;
-		$tags	= array();
+		$tags	= [];
 		foreach( $data as $obj )
 		{
 			$color = $this->chart->getColor($count);

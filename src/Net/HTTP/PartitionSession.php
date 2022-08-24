@@ -91,7 +91,7 @@ class PartitionSession extends Dictionary
 		//  partition is not opened yet
 		if( !isset( $_SESSION['partitions'][$partitionName] ) )
 			//  create new partition in session
-			$_SESSION['partitions'][$partitionName]	= array();
+			$_SESSION['partitions'][$partitionName]	= [];
 		//  copy session partition reference
 		$this->pairs =& $_SESSION['partitions'][$partitionName];
 	}
@@ -113,7 +113,7 @@ class PartitionSession extends Dictionary
 	 */
 	public function clear()
 	{
-		$this->pairs	= array();
+		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
 #			$this->remove( $key );
 		$this->session['ip'] = getEnv( 'REMOTE_ADDR' );

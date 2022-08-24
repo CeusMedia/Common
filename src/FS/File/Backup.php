@@ -117,7 +117,7 @@ class Backup
 	 */
 	public function move( string $targetPath ): void
 	{
-		$files		= array();
+		$files		= [];
 		$version	= $this->getVersion();
 		for( $i=0; $i<=$version; $i++ )
 			$files[]	= $this->getVersionFilename( $i );

@@ -91,7 +91,7 @@ class MeetingReader
 	 */
 	protected function readMeetingDates(): array
 	{
-		$meetings	= array();
+		$meetings	= [];
 		$nodeList	= $this->xpath->evaluate( "//task[@meeting='true']" );
 		foreach( $nodeList as $node ){
 			$name		= $node->getAttribute( 'name' );

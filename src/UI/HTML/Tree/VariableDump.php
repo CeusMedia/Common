@@ -66,7 +66,7 @@ class VariableDump
 		if( $level === 0 )
 			self::$count	= 0;
 		$type		= gettype( $mixed );
-		$children	= array();
+		$children	= [];
 		$keyLabel	= ( $key !== NULL ) ? htmlentities( $key, ENT_QUOTES, 'UTF-8' )." -> " : "";
 		$event		= NULL;
 		self::$count++;

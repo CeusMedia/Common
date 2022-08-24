@@ -43,7 +43,7 @@ class RequestReceiver extends Dictionary
 {
 	public static $delimiterAssign	= "=";
 
-	protected $pairs				= array();
+	protected $pairs				= [];
 
 	/**
 	 *	Constructor, receives Console Arguments.

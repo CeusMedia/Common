@@ -45,7 +45,7 @@ class SyntaxValidator
 	protected $document	= NULL;
 
 	/**	@var	array			$errors		Parsing Errors if Syntax is invalid */
-	protected $errors	= array();
+	protected $errors	= [];
 
 	/**
 	 *	Returns DOM Document Object of XML Document if Syntax is valid.

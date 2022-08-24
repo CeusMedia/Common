@@ -45,7 +45,7 @@ class Stack implements Countable
 	public $delimiter	= '|';
 
 	/**	@var		array		$stack			Array to hold Stack Items */
-	protected $stack = array();
+	protected $stack			= [];
 
 	/**
 	 *	Constructor.

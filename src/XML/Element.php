@@ -45,7 +45,7 @@ use SimpleXMLElement;
  */
 class Element extends SimpleXMLElement
 {
-	protected $attributes	= array();
+	protected $attributes	= [];
 
 	/**
 	 *	Adds an attributes.

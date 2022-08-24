@@ -43,7 +43,7 @@ use Exception;
 class GoogleSitemapWriter
 {
 	/**	@var	array		$list		List of URLs */
-	protected $list	= array();
+	protected $list	= [];
 
 	/**
 	 *	Adds another Link to Sitemap.

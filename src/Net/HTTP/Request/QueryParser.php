@@ -53,7 +53,7 @@ class QueryParser
 	 */
 	public static function toArray( $query, $separatorPairs = "&", $separatorPair = "=" )
 	{
-		$list	= array();
+		$list	= [];
 		//  cut query into pairs
 		$pairs	= explode( $separatorPairs, $query );
 		//  iterate all pairs
@@ -73,7 +73,7 @@ class QueryParser
 			//  separator sign found -> value attached
 			if( preg_match( $pattern, $pair ) ){
 				//  prepare matches array
-				$matches	= array();
+				$matches	= [];
 				//  find all parts
 				preg_match_all( $pattern, $pair, $matches );
 				//  key is first part
@@ -93,7 +93,7 @@ class QueryParser
 				//  array for key is not yet set in list
 				if( !isset( $list[$key] ) )
 					//  set up array for key in list
-					$list[$key]	= array();
+					$list[$key]	= [];
 				//  add value for key in array in list
 				$list[$key][]	= $value;
 			}

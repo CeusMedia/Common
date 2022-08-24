@@ -52,7 +52,7 @@ class SectionEditor extends SectionReader
 	{
 		if( $this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is already existing.' );
-		$this->data[$section] = array();
+		$this->data[$section] = [];
 		return is_int( $this->write() );
 	}
 
@@ -123,7 +123,7 @@ class SectionEditor extends SectionReader
 	 */
 	public function write(): int
 	{
-		$lines		= array();
+		$lines		= [];
 		$sections	= $this->getSections();
 		foreach( $sections as $section ){
 			$lines[]	= "[".$section."]";

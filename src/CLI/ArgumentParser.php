@@ -41,7 +41,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
 class ArgumentParser extends Dictionary
 {
 	/**	@var	array		shortcuts		Associative Array of Shortcuts */
-	private $shortcuts	= array();
+	private $shortcuts	= [];
 
 	//  --  PUBLIC METHODS  --  //
 
@@ -68,8 +68,8 @@ class ArgumentParser extends Dictionary
 	public function parseArguments( bool $fallBackOnEmptyPair = FALSE )
 	{
 		$request	= new RequestReceiver( $fallBackOnEmptyPair );
-		$commands	= array();
-		$parameters	= array();
+		$commands	= [];
+		$parameters	= [];
 		foreach( $request->getAll() as $key => $value ){
 			if( is_numeric( $key ) )
 				$commands[]	= $value;
@@ -77,7 +77,7 @@ class ArgumentParser extends Dictionary
 				$parameters[$key]	= $value;
 		}
 		$script		= array_shift( $commands );
-		$list		= array();
+		$list		= [];
 		foreach( $parameters as $key => $value ){
 			if( array_key_exists( $key, $this->shortcuts ) )
 				$key	= $this->shortcuts[$key];

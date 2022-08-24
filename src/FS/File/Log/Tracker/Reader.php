@@ -170,7 +170,7 @@ class Reader extends LogReader
 	 */
 	public function getReferrers( ?string $skip ): array
 	{
-		$referrers		= array();
+		$referrers		= [];
 		foreach( $this->data as $entry ){
 			if( $entry['remote_addr'] != $this->skip ){
 				if( $entry['referer_uri'] ){
@@ -220,7 +220,7 @@ class Reader extends LogReader
 	 */
 	public function getVisitors(): int
 	{
-		$remote_addrs	= array();
+		$remote_addrs	= [];
 		$counter	= 0;
 		foreach( $this->data as $entry ){
 			if( $entry['remote_addr'] != $this->skip ){

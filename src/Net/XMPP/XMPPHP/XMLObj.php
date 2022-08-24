@@ -59,14 +59,14 @@ class XMLObj
 	 *
 	 * @var array
 	 */
-	public $attrs = array();
+	public $attrs = [];
 
 	/**
 	 * Subs?
 	 *
 	 * @var array
 	 */
-	public $subs = array();
+	public $subs = [];
 
 	/**
 	 * Node data

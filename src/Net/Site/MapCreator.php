@@ -46,7 +46,7 @@ class MapCreator
 	protected $crawler;
 
 	/**	@var		array			$errors		List of Errors */
-	protected $errors				= array();
+	protected $errors				= [];
 
 	protected $depth;
 
@@ -79,7 +79,7 @@ class MapCreator
 		$crawler->crawl( $url, FALSE, $verbose );
 		$this->errors	= $crawler->getErrors();
 		$this->links	= $crawler->getLinks();
-		$list	= array();
+		$list	= [];
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
 		$writtenBytes	= MapWriter::save( $sitemapUri, $list );
@@ -133,7 +133,7 @@ class MapCreator
 	 */
 	public function saveUrls( string $uri ): int
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
 		$writer	= new FileWriter( $uri );

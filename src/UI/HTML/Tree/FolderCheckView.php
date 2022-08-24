@@ -53,8 +53,8 @@ class FolderCheckView
 	protected $path				= NULL;
 	protected $showFolders		= TRUE;
 	protected $showFiles		= TRUE;
-	protected $selected			= array();
-	protected $ignorePatterns	= array();
+	protected $selected			= [];
+	protected $ignorePatterns	= [];
 	protected $inputName		= "items";
 
 	/**
@@ -93,7 +93,7 @@ class FolderCheckView
 		if( !$pathRoot )
 			$pathRoot	= $path;
 		//  empty Array for current Level Items
-		$list	= array();
+		$list	= [];
 		//  create Lister for Folder Contents
 		$lister	= new FolderLister( $path );
 		//  switch Folders Visibility
@@ -155,7 +155,7 @@ class FolderCheckView
 			//  no Plugin Call
 			return "";
 		//  Options of 'cmCheckTree' by default
-		$default	= array();
+		$default	= [];
 		//  iterate custom Options
 		foreach( $options as $key => $value )
 		{
@@ -223,7 +223,7 @@ class FolderCheckView
 	 */
 	public function setIgnorePatterns( $list )
 	{
-		$this->ignorePatterns	= array();
+		$this->ignorePatterns	= [];
 		foreach( array_value( $list ) as $pattern)
 			$this->addIgnorePattern( $pattern );
 	}

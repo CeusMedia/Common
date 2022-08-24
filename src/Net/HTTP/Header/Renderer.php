@@ -47,7 +47,7 @@ class Renderer
 		$fields	= $section->getFields();
 		if( !$fields )
 			return;
-		$list	= array();
+		$list	= [];
 		foreach( $fields as $field ){
 			$list[]	= $field->toString();
 		}

@@ -46,10 +46,10 @@ use RuntimeException;
 class Tag implements Renderable
 {
 	/**	@var		array		$attributes		Attributes of tag */
-	protected $attributes		= array();
+	protected $attributes		= [];
 
 	/**	@var		array		$data			Data attributes of tag */
-	protected $data				= array();
+	protected $data				= [];
 
 	/**	@var		string		$name			Node name of tag */
 	protected $name;
@@ -345,7 +345,7 @@ class Tag implements Renderable
 	}
 
 	protected static function renderData( $data = array() ){
-		$list	= array();
+		$list	= [];
 		foreach( $data as $key => $value ){
 			$key	= 'data-'.CamelCase::decode( $key, '-' );
 			$list[$key]	= (string) $value;
@@ -357,7 +357,7 @@ class Tag implements Renderable
 	{
 		if( !is_array( $attributes ) )
 			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
-		$list	= array();
+		$list	= [];
 		foreach( $attributes as $key => $value )
 		{
 			//  no valid attribute key defined

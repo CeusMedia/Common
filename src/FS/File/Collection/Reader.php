@@ -45,7 +45,7 @@ use RuntimeException;
 class Reader implements Countable
 {
 	/**	@var		array		$list			List */
-	protected $list						= array();
+	protected $list						= [];
 
 	/**	@var		string		$commentPattern	RegEx Pattern of Comments */
 	protected static $commentPattern	= '/^[#:;\/*-]/';
@@ -125,7 +125,7 @@ class Reader implements Countable
 	 */
 	public static function read( string $fileName ): array
 	{
-		$list	= array();
+		$list	= [];
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
 		$reader	= new FileReader( $fileName );

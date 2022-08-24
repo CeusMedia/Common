@@ -80,7 +80,7 @@ class ArrayView
 	 */
 	public static function buildJavaScript( $selector, $cookieId = NULL, $animated = "fast", $unique = FALSE, $collapsed = FALSE )
 	{
-		$options	= array();
+		$options	= [];
 		if( $cookieId )
 		{
 			$options['persist']		= "cookie";
@@ -112,7 +112,7 @@ class ArrayView
 	public function constructTree( ArrayObject $nodes, $currentId = NULL, $attributes = array(), $level = 0, $path = "" )
 	{
 		$target	= $this->target ? $this->target : NULL;
-		$list	= array();
+		$list	= [];
 		foreach( $nodes as $node )
 		{
 			if( !isset( $node['label'] ) )

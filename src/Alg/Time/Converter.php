@@ -177,8 +177,8 @@ class Converter
 			else if( $format ){
 				$pattern1	= "@^([a-z])(.)([a-z])(.)([a-z])(.)?([a-z])?(.)?([a-z])?(.)?([a-z])?$@iu";
 				$pattern2	= "@^([0-9]+)(.)([0-9]+)(.)([0-9]+)(.)?([0-9]+)?(.)?([0-9]+)?$@";
-				$matches1 = array();
-				$matches2 = array();
+				$matches1 = [];
+				$matches2 = [];
 				preg_match_all( $pattern1, $format, $matches1 );
 				preg_match_all( $pattern2, $string, $matches2 );
 				foreach( $matches1 as $match_key => $match_array )

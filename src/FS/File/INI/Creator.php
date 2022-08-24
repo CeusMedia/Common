@@ -43,7 +43,7 @@ use InvalidArgumentException;
 class Creator
 {
 	/**	@var	array			$data			Data of Ini File */
-	protected $data				= array();
+	protected $data				= [];
 
 	/**	@var	string			$currentSection	Current working Section */
 	protected $currentSection	= NULL;
@@ -108,7 +108,7 @@ class Creator
 	public function addSection( string $section )
 	{
 		if ( !( isset( $this->data[$section] ) && is_array( $this->data[$section] ) ) )
-			$this->data[$section]	= array();
+			$this->data[$section]	= [];
 		$this->currentSection	= $section;
 	}
 
@@ -142,7 +142,7 @@ class Creator
 	 */
 	public function write( string $fileName ): int
 	{
-		$lines	= array();
+		$lines	= [];
 		if( $this->useSections ){
 			foreach( $this->data as $section => $sectionPairs ){
 				$lines[]	= "[".$section."]";

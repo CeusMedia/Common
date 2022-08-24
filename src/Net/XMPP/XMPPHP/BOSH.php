@@ -45,7 +45,7 @@ class BOSH
 	protected $rid;
 	protected $sid;
 	protected $http_server;
-	protected $http_buffer = array();
+	protected $http_buffer = [];
 	protected $session = false;
 
 	public function connect($server, $wait='1', $session=false)
@@ -166,7 +166,7 @@ class BOSH
 	{
 		$this->xml_depth = 0;
 		unset($this->xmlobj);
-		$this->xmlobj = array();
+		$this->xmlobj = [];
 		$this->setupParser();
 		#$this->send($this->stream_start);
 		$body = $this->__buildBody();

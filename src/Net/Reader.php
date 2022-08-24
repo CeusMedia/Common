@@ -49,10 +49,10 @@ class Reader
 	protected $body				= NULL;
 
 	/**	@var		array		$headers		Map of response headers */
-	protected $headers			= array();
+	protected $headers			= [];
 
 	/**	@var		array		$info			Map of information of last request */
-	protected $info				= array();
+	protected $info				= [];
 
 	/**	@var		string		$url			URL to read */
 	protected $url;

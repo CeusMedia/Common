@@ -43,12 +43,12 @@ use CeusMedia\Common\FS\File\Editor as FileEditor;
  */
 class TermExtractor
 {
-	public static $blacklist					= array();
+	public static $blacklist					= [];
 	public static $backlistCaseSensitive		= FALSE;
 
-	public static function getTerms( $text )
+	public static function getTerms( string $text ): array
 	{
-		$list	= array();
+		$list	= [];
 		$lines	= explode( "\n", $text );
 		$blacklist	= self::$blacklist;
 		if( !self::$backlistCaseSensitive )
@@ -78,7 +78,7 @@ class TermExtractor
 				}
 			}
 		}
-#		ksort( $list );
+//		ksort( $list );
 		arsort( $list );
 		return $list;
 	}

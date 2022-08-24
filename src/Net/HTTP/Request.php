@@ -182,7 +182,7 @@ class Request extends Dictionary
 		if( function_exists( 'getallheaders' ) )
 			return getallheaders();
 
-		$headers		= array();
+		$headers		= [];
 		$copyDirectly	= array(
 			'CONTENT_TYPE'   => 'Content-Type',
 			'CONTENT_LENGTH' => 'Content-Length',

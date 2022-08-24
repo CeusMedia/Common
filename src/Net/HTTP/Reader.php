@@ -49,7 +49,7 @@ class Reader
 {
 	protected $curl;
 
-	protected $curlInfo		= array();
+	protected $curlInfo		= [];
 
 	//  default user agent to report to server, can be overridden by constructor or given CURL options on get or post
 	protected $userAgent	= "CeusMediaCommon:Net.HTTP.Reader/0.9";

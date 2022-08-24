@@ -126,7 +126,7 @@ class FileEditor
 		$xmlNode	=& $this->xmlTree;
 		while( $pathNodes ){
 			$pathNode	= trim( array_shift( $pathNodes ) );
-			$matches	= array();
+			$matches	= [];
 			if( preg_match_all( "@^(.*)\[(\d+)\]$@", $pathNode, $matches ) ){
 				$pathNode	= $matches[1][0];
 				$itemNumber	= $matches[2][0];

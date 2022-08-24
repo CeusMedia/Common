@@ -113,7 +113,7 @@ class Chart
 		if( !$this->data )
 			throw new Exception( "No \$data set!" );
 		if( !$options )
-			$options = array();
+			$options = [];
 
 		$chart->options = $options;
 		$content = $chart->build( $options );

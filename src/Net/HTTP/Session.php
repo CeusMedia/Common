@@ -79,7 +79,7 @@ class Session extends Dictionary
 	 */
 	public function clear()
 	{
-		$this->pairs	= array();
+		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
 #			unset( $this->pairs[$key] );
 	}

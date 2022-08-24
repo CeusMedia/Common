@@ -88,7 +88,7 @@ class OrderedList extends Abstraction
 	 */
 	public function render()
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->listItems as $item )
 			$list[]	= $this->renderInner( $item );
 		return Tag::create( "ol", join( $list ), $this->getAttributes() );

@@ -117,7 +117,7 @@ class Parser
 		$values		= explode( ";", $values );
 
 		//  --  BUILD ARRAY(10) FOR VALUE FIELDS  --  //
-		$list	= array();
+		$list	= [];
 		for( $i=0; $i<10; $i++ )
 			$list[$i]	= NULL;
 		for( $i=0; $i<count( $values); $i++ )

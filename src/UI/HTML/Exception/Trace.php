@@ -71,7 +71,7 @@ class Trace
 			return '';
 		$i	= 0;
 		$j	= 0;
-		$list	= array();
+		$list	= [];
 		foreach( $trace as $key => $trace )
 		{
 			$step	= self::renderTraceStep( $trace, $i++, $j );
@@ -133,7 +133,7 @@ class Trace
 	 */
 	protected static function renderArgumentArray( $array )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $array as $key => $value )
 		{
 			$type	= self::renderArgumentType( $value );
@@ -202,7 +202,7 @@ class Trace
 			$block	= NULL;
 			if( array_key_exists( "args", $trace ) && count( $trace['args'] ) )
 			{
-				$argList	= array();
+				$argList	= [];
 				foreach( $trace["args"] as $argument )
 				{
 					$type	= self::renderArgumentType( $argument );

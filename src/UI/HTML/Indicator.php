@@ -195,7 +195,7 @@ class Indicator extends OptionObject
 	 */
 	protected function renderBar( $ratio, $length = 100 )
 	{
-		$css			= array();
+		$css			= [];
 //		$width			= floor( $ratio * $length );
 		$width			= max( 0, min( 100, $ratio * 100 ) );
 		$css['width']	= $width.'%';
@@ -212,7 +212,7 @@ class Indicator extends OptionObject
 		$bar		= Tag::create( 'div', "", $attributes );
 
 		$attributes	= array( 'class' => $this->getOption( 'classOuter' ) );
-		$css		= array();
+		$css		= [];
 		if( $length !== 100 )
 			$css['width']	= preg_match( "/%$/", $length ) ? $length : $length.'px';
 		if( $this->getOption( 'useColor' ) && $this->getOption( 'useColorAtBorder' ) )

@@ -73,16 +73,16 @@ class BackupCleaner
 
 	public function getDateTree(): array
 	{
-		$dates	= array();
+		$dates	= [];
 		foreach( $this->index() as $date ){
 			$time	= strtotime( $date );
 			$year	= (int) date( "Y", $time );
 			$month	= (int)	date( "m", $time );
 			$day	= (int) date( "d", $time );
 			if( !isset( $dates[$year] ) )
-				$dates[$year]	= array();
+				$dates[$year]	= [];
 			if( !isset( $dates[$year][$month] ) )
-				$dates[$year][$month]	= array();
+				$dates[$year][$month]	= [];
 			$dates[$year][$month][$day]	= $date;
 			ksort( $dates[$year][$month] );
 			ksort( $dates[$year] );
@@ -93,7 +93,7 @@ class BackupCleaner
 
 	public function index(): array
 	{
-		$dates	= array();
+		$dates	= [];
 		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
 		$index	= new RegexFilter( $this->path, $regExp );
 		foreach( $index as $entry ){

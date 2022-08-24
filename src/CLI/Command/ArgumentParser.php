@@ -56,12 +56,12 @@ class ArgumentParser
 
 	protected $parsed				= FALSE;
 
-	protected $foundArguments		= array();
-	protected $foundOptions			= array();
+	protected $foundArguments		= [];
+	protected $foundOptions			= [];
 
 	protected $numberArguments		= 0;
-	protected $possibleOptions		= array();
-	protected $shortcuts			= array();
+	protected $possibleOptions		= [];
+	protected $shortcuts			= [];
 
 	/**
 	 *	Returns List of parsed Arguments.
@@ -95,8 +95,8 @@ class ArgumentParser
 	 */
 	public function parse( string $string )
 	{
-		$this->foundArguments	= array();
-		$this->foundOptions		= array();
+		$this->foundArguments	= [];
+		$this->foundOptions		= [];
 
 		//  realize Shortcuts
 		$this->extendPossibleOptionsWithShortcuts();

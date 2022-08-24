@@ -166,7 +166,7 @@ class Converter
 					'type'		=> "string",
 				);
 				if( isset( $pair['comment'] ) ){
-					$matches	= array();
+					$matches	= [];
 					if( preg_match_all( self::$iniTypePattern, $pair['comment'], $matches ) )
 					{
 						$item['type']		= $matches[1][0];

@@ -45,10 +45,10 @@ class Multiplexer
 	protected $type;
 
 	/**	@var		array		$controls		Controls */
-	protected $controls			= array();
+	protected $controls			= [];
 
 	/**	@var		int			$inputs			Inputs */
-	protected $inputs			= array();
+	protected $inputs			= [];
 
 	/**
 	 *	Constructor.
@@ -139,7 +139,7 @@ class Multiplexer
 	 */
 	public function setControls()
 	{
-		$this->controls	= array();
+		$this->controls	= [];
 		$args	= func_get_args();
 		for( $i = 0; $i < $this->type; $i ++ )
 			if( isset( $args[$i] ) )
@@ -153,7 +153,7 @@ class Multiplexer
 	 */
 	public function setInputs()
 	{
-		$this->inputs	= array();
+		$this->inputs	= [];
 		$len	= pow( 2, $this->type );
 		$args	= func_get_args();
 		for( $i = 0; $i < $len; $i ++ )

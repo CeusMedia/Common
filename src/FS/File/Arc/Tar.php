@@ -49,8 +49,8 @@ class Tar
 	protected $content		= "";
 
 	// Processed Archive Information
-	protected $files		= array();
-	protected $folders		= array();
+	protected $files		= [];
+	protected $folders		= [];
 	protected $numFiles		= 0;
 	protected $numFolders	= 0;
 

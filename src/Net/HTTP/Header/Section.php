@@ -207,7 +207,7 @@ class Section
 
 	public function getFields(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->fields as $sectionName => $sectionPairs )
 			foreach( $sectionPairs as $name => $fieldList )
 				if( count( $fieldList ) )
@@ -265,7 +265,7 @@ class Section
 			unset( $this->fields['others'][$name] );
 		foreach( $this->fields as $sectionName => $sectionPairs )
 			if( array_key_exists( $name, $sectionPairs ) )
-				$this->fields[$sectionName][$name]		= array();
+				$this->fields[$sectionName][$name]		= [];
 		return $this;
 	}
 
@@ -275,13 +275,13 @@ class Section
 		foreach( $this->fields as $sectionName => $sectionPairs ){
 			if( array_key_exists( $name, $sectionPairs ) ){
 				if( $emptyBefore )
-					$this->fields[$sectionName][$name]	= array();
+					$this->fields[$sectionName][$name]	= [];
 				$this->fields[$sectionName][$name][]	= $field;
 				return $this;
 			}
 		}
 		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
-			$this->fields['others'][$name]	= array();
+			$this->fields['others'][$name]	= [];
 		$this->fields['others'][$name][]	= $field;
 		return $this;
 	}

@@ -46,10 +46,10 @@ use InvalidArgumentException;
 class Graph
 {
 	protected $type				= "digraph";
-	protected $edges			= array();
-	protected $nodes			= array();
-	protected $nodeOptions		= array();
-	protected $edgeOptions		= array();
+	protected $edges			= [];
+	protected $nodes			= [];
+	protected $nodeOptions		= [];
+	protected $edgeOptions		= [];
 
 	public function __construct( $id = NULL, $options = array() ){
 		if( $id )
@@ -69,7 +69,7 @@ class Graph
 		if( !array_key_exists( $nodeTargetId, $this->nodes ) )
 			throw new DomainException( 'Target node "'.$nodeTarget.'" (ID: '.$nodeTargetId.') is not existing' );
 		if( !isset( $this->edges[$nodeSourceId] ) )
-			$this->edges[$nodeSourceId]	= array();
+			$this->edges[$nodeSourceId]	= [];
 		$this->edges[$nodeSourceId][$nodeTargetId]	= $options;
 	}
 
@@ -127,8 +127,8 @@ class Graph
 	}
 
 	public function render( $options = array() ){
-		$edges	= array();
-		$nodes	= array();
+		$edges	= [];
+		$nodes	= [];
 		foreach( $this->nodes as $name => $nodeOptions )
 			$nodes[]	= $name.' ['.$this->renderOptions( $this->nodeOptions, $nodeOptions ).'];';
 		foreach( $this->edges as $source => $targets )
@@ -147,7 +147,7 @@ class Graph
 			return "";
 		if( is_array( $overrideOptions ) )
 			$options	= array_merge( $options, $overrideOptions );
-		$list	= array();
+		$list	= [];
 		foreach( $options as $key => $value )
 			$list[]	= $key.'="'.addslashes( $value ).'"';
 		return join( $delimiter, $list );

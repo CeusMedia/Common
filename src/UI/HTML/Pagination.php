@@ -99,7 +99,7 @@ class Pagination extends OptionObject
 	 */
 	public function build( $amount, $limit, $offset = 0 )
 	{
-		$pages	= array();
+		$pages	= [];
 		if( $limit && $amount > $limit )
 		{
 			$cover		= $this->getOption( 'coverage' );
@@ -220,7 +220,7 @@ class Pagination extends OptionObject
 		$label	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
 		if( empty( $label ) )
 			throw new InvalidArgumentException( 'Button Label cannot be empty' );
-		$classes	= array();
+		$classes	= [];
 		foreach( explode( " ", $class ) as $class )
 			$classes[]	= ( $class && $this->hasOption( $class ) ) ? $this->getOption( $class ) : $class;
 		$class	= implode( " ", $classes );
@@ -247,7 +247,7 @@ class Pagination extends OptionObject
 	 */
 	protected function buildItem( $text, $class = NULL )
 	{
-		$list	= array();
+		$list	= [];
 		if( $class )
 			$list[]	= $class;
 		$item	= Elements::ListItem( $text, 0, array( 'class' => $class ) );
@@ -264,7 +264,7 @@ class Pagination extends OptionObject
 	{
 		$param	= $this->getOption( 'param' );
 		$param[$this->getOption( 'keyOffset' )] = $offset;
-		$list	= array();
+		$list	= [];
 		foreach( $param as $key => $value )
 			$list[]	= $key.$this->getOption( 'keyAssign' ).$value;
 		$param	= implode( $this->getOption( 'keyParam' ), $list );

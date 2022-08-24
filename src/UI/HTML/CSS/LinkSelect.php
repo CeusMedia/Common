@@ -82,9 +82,9 @@ class LinkSelect
 			//  no attributes given
 			if( !( isset( $link['attributes'] ) && is_array( $link['attributes'] ) ) )
 				//  set empty array
-				$link['attributes']	= array();
+				$link['attributes']	= [];
 
-			$attributes	= array();
+			$attributes	= [];
 			if( isset( $link['class'] ) )
 				$attributes['class']	= $link['class'];
 			else if( isset( $link['disabled'] ) )

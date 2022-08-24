@@ -41,7 +41,7 @@ namespace CeusMedia\Common\UI\HTML;
 class EventMonthCalendar extends MonthCalendar
 {
 	/**	@var	array		$events			Array of Days with Events */
-	protected $events	= array();
+	protected $events	= [];
 
 	/**
 	 *	Constructor.
@@ -64,7 +64,7 @@ class EventMonthCalendar extends MonthCalendar
 	 */
 	protected function modifyDay( $day )
 	{
-		$classes	= array();
+		$classes	= [];
 		if( (int)$this->getOption( 'show_day' ) == $day )
 			$classes[]	= 'shown';
 		if( in_array( $day, $this->events ) )

@@ -44,7 +44,7 @@ use CeusMedia\Common\UI\HTML\Tag;
 class Link extends Abstraction
 {
 	public static $defaultClass	= 'neutral';
-	protected $parameters	= array();
+	protected $parameters	= [];
 
 	/**
 	 *	Constructor.

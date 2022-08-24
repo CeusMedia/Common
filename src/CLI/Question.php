@@ -24,7 +24,7 @@ class Question
 	protected $message;
 	protected $type				= 0;
 	protected $default			= NULL;
-	protected $options			= array();
+	protected $options			= [];
 	protected $break			= TRUE;
 	protected $rangeFrom		= 0;
 	protected $rangeTo			= 0;
@@ -164,7 +164,7 @@ class Question
 				if( !is_null( $this->default ) )
 					if( !array_key_exists( $this->default, $this->options ) )
 						throw new RangeException( 'Default value is not within options' );
-			$options	= array();
+			$options	= [];
 			foreach( $this->options as $key => $value )
 				$options[]	= $key.':'.$value;
 		}

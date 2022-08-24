@@ -109,7 +109,7 @@ class Parser
 
 		$nodeList	= $xPath->query( "//rss/channel/item" );
 		foreach( $nodeList as $item ){
-			$array	= array();
+			$array	= [];
 			foreach( self::$itemKeys as $itemKey ){
 				$nodes	= $xPath->query( $itemKey."/text()", $item );
 				$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;

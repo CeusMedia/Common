@@ -131,7 +131,7 @@ class Gravatar
 	public function listImages( string $email, string $password )
 	{
 		$response	= $this->callXmlRpc( $email, 'userimages', array( 'password' => $password ) );
-		$list		= array();
+		$list		= [];
 		$ratings	= array( 0 => 'g', 1 => 'pg', 2 => 'r', 3 => 'x' );
 		foreach( $response[0] as $hash => $data )
 			$list[$hash]	= array( 'rating' => $ratings[$data[0]], 'url' => $data[1] );

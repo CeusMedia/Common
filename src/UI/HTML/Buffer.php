@@ -40,7 +40,7 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Buffer extends Abstraction
 {
-	protected $list	= array();
+	protected $list	= [];
 
 	/**
 	 *	Constructor.

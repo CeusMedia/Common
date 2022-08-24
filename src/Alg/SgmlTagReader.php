@@ -139,7 +139,7 @@ class SgmlTagReader
 
 /*	public static function transformAttributeValues( $attributes, $transform, $keys = array() )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $attributes as $key => $value )
 		{
 			if( !in_array( $key, $keys ) )

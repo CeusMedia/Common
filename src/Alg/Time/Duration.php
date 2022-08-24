@@ -28,7 +28,7 @@ class Duration
 		$regexMins	= '@([0-9]+)m\s*@';
 		$regexSecs	= '@([0-9]+)s\s*@';
 		$seconds	= 0;
-		$matches	= array();
+		$matches	= [];
 		if( preg_match( $regexWeeks, $duration, $matches ) ){
 			$duration	= preg_replace( $regexWeeks, '', $duration );
 			$seconds	+= (int) $matches[1] * 7 * 24 * 60 * 60;

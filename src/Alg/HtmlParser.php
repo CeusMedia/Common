@@ -70,7 +70,7 @@ class HtmlParser
 	 */
 	public function getAttributesFromElement( DOMElement $element ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $element->attributes as $key => $value )
 			$list[$key]	= $value->textContent;
 		return $list;

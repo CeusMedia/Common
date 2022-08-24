@@ -42,7 +42,7 @@ use Throwable;
 class Validation extends Runtime
 {
 	/**	@var		array		$errors			List of Validation Errors */
-	protected $errors	= array();
+	protected $errors	= [];
 
 	/**	@var		string		$form			Name Form in Validation File */
 	protected $form		= "";

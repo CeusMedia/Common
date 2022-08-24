@@ -109,7 +109,7 @@ class FolderView
 	 */
 	protected function readRecursive( $path, $currentId, &$nodes, $linkNodes, $classNode = "folder", $classLeaf = "file" )
 	{
-		$files	= array();
+		$files	= [];
 		$index	= new DirectoryIterator( $path );
 		foreach( $index as $file )
 		{
@@ -119,7 +119,7 @@ class FolderView
 				continue;
 			if( $file->isDir() )
 			{
-				$children	= array();
+				$children	= [];
 				$this->readRecursive( $file->getPathname(), $currentId, $children, $linkNodes, $classNode, $classLeaf );
 				$dir	= array(
 					'label'		=> basename( $file->getPathname() ),
@@ -132,7 +132,7 @@ class FolderView
 			}
 			else
 			{
-				$classes	= array();
+				$classes	= [];
 				$info		= pathinfo( $file->getFilename() );
 				if( $classLeaf )
 					$classes[]	= $classLeaf;

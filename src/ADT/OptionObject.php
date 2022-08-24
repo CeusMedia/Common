@@ -44,7 +44,7 @@ use OutOfRangeException;
 class OptionObject implements ArrayAccess, Countable
 {
 	/**	@var		array		$options		Associative Array of options */
-	protected $options	= array();
+	protected $options	= [];
 
 	/**
 	 *	Constructor.
@@ -77,7 +77,7 @@ class OptionObject implements ArrayAccess, Countable
 	{
 		if( !count( $this->options ) )
 			return FALSE;
-		$this->options	= array();
+		$this->options	= [];
 		return TRUE;
 	}
 

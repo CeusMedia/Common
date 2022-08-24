@@ -93,12 +93,12 @@ class XMLStream
 	/**
 	 * @var array
 	 */
-	protected $ns_map = array();
+	protected $ns_map = [];
 
 	/**
 	 * @var array
 	 */
-	protected $current_ns = array();
+	protected $current_ns = [];
 
 	/**
 	 * @var array
@@ -108,22 +108,22 @@ class XMLStream
 	/**
 	 * @var array
 	 */
-	protected $nshandlers = array();
+	protected $nshandlers = [];
 
 	/**
 	 * @var array
 	 */
-	protected $xpathhandlers = array();
+	protected $xpathhandlers = [];
 
 	/**
 	 * @var array
 	 */
-	protected $idhandlers = array();
+	protected $idhandlers = [];
 
 	/**
 	 * @var array
 	 */
-	protected $eventhandlers = array();
+	protected $eventhandlers = [];
 
 	/**
 	 * @var integer
@@ -153,7 +153,7 @@ class XMLStream
 	/**
 	 * @var array
 	 */
-	protected $until_payload = array();
+	protected $until_payload = [];
 
 	/**
 	 * @var Log
@@ -418,8 +418,8 @@ class XMLStream
 		do {
 			$starttime = (microtime(true) * 1000000);
 			$read = array($this->socket);
-			$write = array();
-			$except = array();
+			$write = [];
+			$except = [];
 			if (is_null($maximum)) {
 				$secs = NULL;
 				$usecs = NULL;
@@ -517,7 +517,7 @@ class XMLStream
 			unset($this->until_count[$event_key]);
 			unset($this->until[$event_key]);
 		} else {
-			$payload = array();
+			$payload = [];
 		}
 		return $payload;
 	}
@@ -739,9 +739,9 @@ class XMLStream
 			$secs = floor(($maximum - $usecs) / 1000000);
 		}
 
-		$read = array();
+		$read = [];
 		$write = array($this->socket);
-		$except = array();
+		$except = [];
 
 		$select = @stream_select($read, $write, $except, $secs, $usecs);
 
@@ -780,7 +780,7 @@ class XMLStream
 	{
 		$this->xml_depth = 0;
 		unset($this->xmlobj);
-		$this->xmlobj = array();
+		$this->xmlobj = [];
 		$this->setupParser();
 		if(!$this->is_server) {
 			$this->send($this->stream_start);
@@ -804,8 +804,8 @@ class XMLStream
 	public function readyToProcess()
 	{
 		$read = array($this->socket);
-		$write = array();
-		$except = array();
+		$write = [];
+		$except = [];
 		$updated = @stream_select($read, $write, $except, 0);
 		return (($updated !== false) && ($updated > 0));
 	}

@@ -70,7 +70,7 @@ class Panel
 	protected $abstract			= NULL;
 
 	/** @var		array		$attributes			Map of Attributes of Panel DIV */
-	protected $attributes		= array();
+	protected $attributes		= [];
 
 	/** @var		string		$content			Content of Panel */
 	protected $content			= NULL;

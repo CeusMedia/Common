@@ -321,7 +321,7 @@ class FormElements
 	 */
 	public static function Options( $options, $selected = NULL )
 	{
-		$list		= array();
+		$list		= [];
 		foreach( $options as $key => $value)
 		{
 			if( (string) $key != "_selected" && is_array( $value ) )
@@ -413,7 +413,7 @@ class FormElements
 	 */
 	public static function RadioGroup( $name, $options, $class = NULL, $readOnly = NULL )
 	{
-		$radios	= array();
+		$radios	= [];
 		foreach( $options as $value => $label )
 		{
 			if( (string) $value == '_selected' )

@@ -65,9 +65,9 @@ class CodeLineCounter
 		$numberCodes	= 0;
 		$numberDocs		= 0;
 		$numberStrips	= 0;
-		$linesCodes		= array();
-		$linesDocs		= array();
-		$linesStrips	= array();
+		$linesCodes		= [];
+		$linesDocs		= [];
+		$linesStrips	= [];
 
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line ){

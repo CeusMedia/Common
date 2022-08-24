@@ -98,7 +98,7 @@ class ObjectDeserializer
 					$pointer	= (double) $child->getContent();
 					break;
 				case 'array':
-					$pointer	= array();
+					$pointer	= [];
 					self::deserializeVarsRec( $child->getChildren(), $pointer );
 					break;
 				case 'object':

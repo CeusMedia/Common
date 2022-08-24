@@ -74,7 +74,7 @@ class JID
 	{
 		if( !self::isValid( $jid ) )
 			throw new InvalidArgumentException( 'Given JID is not valid.' );
-		$matches	= array();
+		$matches	= [];
 		preg_match_all( self::$regexJid, $jid, $matches );
 		return array(
 			'domain'	=> $matches[2][0],

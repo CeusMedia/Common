@@ -98,7 +98,7 @@ class URL
 			throw new RuntimeException( 'HTTP scheme not set' );
 		if( 0 === strlen( trim( $this->parts->host ) ) )
 			throw new RuntimeException( 'HTTP host not set' );
-		$buffer	= array();
+		$buffer	= [];
 		if( $this->parts->scheme )
 			$buffer[]	= $this->parts->scheme.'://';
 		if( $this->parts->user ){
@@ -128,7 +128,7 @@ class URL
 	 */
 	public function getRelative(): string
 	{
-		$buffer	= array();
+		$buffer	= [];
 		if( $this->parts->path )
 			$buffer[]	= ltrim( $this->parts->path, '/' );
 		if( $this->parts->query )

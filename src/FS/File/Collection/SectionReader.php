@@ -87,7 +87,7 @@ class SectionReader
 			if( preg_match( self::$sectionPattern, $line ) ){
 				$section = substr( $line, 1, -1 );
 				if( !isset( $list[$section] ) )
-					$list[$section]	= array();
+					$list[$section]	= [];
 			}
 			else if( $section )
 				$list[$section][]	= $line;

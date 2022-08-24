@@ -71,7 +71,7 @@ class MapList
 		//  remove Order from Order Map
 		$orders		= array_slice( $orders, 1 );
 		//  prepare Index List
-		$list		= array();
+		$list		= [];
 		//  iterate Data Array
 		foreach( $data as $entry )
 			//  index by Column Key
@@ -86,7 +86,7 @@ class MapList
 			//  reverse sort Index List
 			krsort( $list );
 		//  prepare new Data Array
-		$array	= array();
+		$array	= [];
 		//  iterate Index List
 		foreach( $list as $entries )
 		{

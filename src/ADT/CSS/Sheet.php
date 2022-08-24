@@ -121,7 +121,7 @@ class Sheet
 	 */
 	public function getSelectors(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->rules as $rule )
 			$list[]	= $rule->getSelector();
 		return $list;

@@ -121,7 +121,7 @@ class XPathQuery extends OptionObject
 	 */
 	public function loadUrl( string $url ): bool
 	{
-		$options	= array();
+		$options	= [];
 		foreach( $this->getOptions() as $key => $value )
 			$options["CURLOPT_".strtoupper( $key )]	= $value;
 		$xml	= NetReader::readUrl( $url, $options );

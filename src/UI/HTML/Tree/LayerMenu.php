@@ -71,7 +71,7 @@ class LayerMenu
 		$backlinks	= "";
 		if( count( $steps ) > 1 )
 		{
-			$backlinks	= array();
+			$backlinks	= [];
 			for( $i=1; $i<count( $steps ); $i++ )
 			{
 				$step			= $steps[$i-1];
@@ -86,7 +86,7 @@ class LayerMenu
 			$backlinks	= Tag::create( "ol", $backlinks, array( 'class' => "back" ) );
 		}
 
-		$list		= array();
+		$list		= [];
 		foreach( $tree->getChildren() as $id => $item )
 		{
 			if( $item->hasChildren() )

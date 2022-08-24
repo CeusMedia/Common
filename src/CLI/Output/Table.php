@@ -28,9 +28,9 @@ class Table
 
 	protected $sizeMin			= 5;
 
-	protected $columns			= array();
+	protected $columns			= [];
 
-	protected $data				= array();
+	protected $data				= [];
 
 	protected $sizeMode			= 0;
 
@@ -86,7 +86,7 @@ class Table
 
 	protected function renderDataLine( array $data, string $padding ): string
 	{
-		$line	= array();
+		$line	= [];
 		$border	= $this->getBorderStyleObject();
 		foreach( $this->columns as $columnKey => $column ){
 			$value	= $data[$columnKey] ?? '';
@@ -130,7 +130,7 @@ class Table
 
 	protected function collectColumns()
 	{
-		$this->columns	= array();
+		$this->columns	= [];
 		if( !count( $this->data ) )
 			return;
 		$first	= current( $this->data );
@@ -167,7 +167,7 @@ class Table
 	{
 		$padding	= ' ';
 		$border		= $this->getBorderStyleObject();
-		$line		= array();
+		$line		= [];
 		foreach( $this->columns as $columnKey => $column ){
 			$dir = $column['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
 			$line[]	= $padding.str_pad( $columnKey, $column['size'], ' ', $dir ).$padding;
@@ -176,7 +176,7 @@ class Table
 	}
 	protected function renderRowSeparator(): string
 	{
-		$list	= array();
+		$list	= [];
 		$border	= $this->getBorderStyleObject();
 		if( $border->olj.$border->ij.$border->orj === '' )
 			return '';
@@ -193,7 +193,7 @@ class Table
 
 	protected function renderBottomBorder(): string
 	{
-		$list	= array();
+		$list	= [];
 		$border	= $this->getBorderStyleObject();
 		if( $border->obl.$border->obj.$border->obr === '' )
 			return '';
@@ -211,7 +211,7 @@ class Table
 	protected function renderRows(): string
 	{
 		$padding	= $this->calculatePadding();
-		$rows		= array();
+		$rows		= [];
 		foreach( $this->data as $row ){
 			$rows[]	= $this->renderRowSeparator();
 			$rows[]	= $this->renderDataLine( $row, $padding );
@@ -221,7 +221,7 @@ class Table
 
 	protected function renderTopBorder(): string
 	{
-		$list	= array();
+		$list	= [];
 		$border	= $this->getBorderStyleObject();
 		if( $border->otl.$border->otj.$border->otr === '' )
 			return '';

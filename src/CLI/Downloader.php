@@ -85,7 +85,7 @@ class Downloader
 	protected $loadSize				= 0;
 
 	/**	@var		array			$headers			Collected Response Headers, already split */
-	protected $headers				= array();
+	protected $headers				= [];
 
 	protected $fileUri;
 

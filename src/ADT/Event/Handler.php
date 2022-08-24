@@ -44,10 +44,10 @@ class Handler
 {
 
 	/**	@var	array		$stopped		List of bound events */
-	protected $events	= array();
+	protected $events		= [];
 
 	/**	@var	array		$stopped		List of currently running events not to propagate anymore */
-	protected $stopped	= array();
+	protected $stopped		= [];
 
 	/**
 	 *	Constructor.
@@ -73,7 +73,7 @@ class Handler
 		if( !( $callback instanceof Callback ) )
 			throw new InvalidArgumentException( 'Callback must be function or instance of '.Callback::class );
 		if( !is_array( $list = $this->events->get( $key ) ) )
-			$list	= array();
+			$list	= [];
 		$list[]	= array( $key, $callback );
 		$this->events->set( $key, $list );
 	}
@@ -87,7 +87,7 @@ class Handler
 	 */
 	public function getBoundEvents( string $key, bool $nested = FALSE ): array
 	{
-		$events	= array();
+		$events	= [];
 		if( $this->events->get( $key ) )
 			foreach( $this->events->get( $key) as $event )
 				$events[]	= $event;

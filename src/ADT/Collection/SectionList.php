@@ -42,10 +42,10 @@ use InvalidArgumentException;
 class SectionList
 {
 	/**	@var		array	$sections	List of Sections */
-	protected $sections = array();
+	protected $sections = [];
 
 	/**	@var		array	$list		List of sectioned  Items */
-	protected $list = array();
+	protected $list = [];
 
 	/**
 	 *	Adds an Entry to a Section of the List.
@@ -71,7 +71,7 @@ class SectionList
 	public function addSection( string $section )
 	{
 		if( !isset( $this->list[$section] ) )
-			$this->list[$section] = array();
+			$this->list[$section] = [];
 	}
 
 	/**
@@ -81,7 +81,7 @@ class SectionList
 	 */
 	public function clear()
 	{
-		$this->list = array();
+		$this->list = [];
 	}
 
 	/**

@@ -67,7 +67,7 @@ class Builder
 	 */
 	public function build( Node $tree ): string
 	{
-		$lines	= array();
+		$lines	= [];
 		$children	= $tree->getChildren();
 		foreach( $children as $child )
 			foreach( self::buildRecursive( $child ) as $line )
@@ -86,7 +86,7 @@ class Builder
 	 */
 	protected static function buildLine( string $name, array $param, string $content ): string
 	{
-		$params	= array();
+		$params	= [];
 		foreach( $param as $key => $value )
 			$params[]	= strtoupper( trim( $key ) )."=".$value;
 		$param	= implode( ",", $params );
@@ -125,7 +125,7 @@ class Builder
 	 */
 	protected static function buildRecursive( Node $node  ): array
 	{
-		$lines	= array();
+		$lines	= [];
 		$name	= $node->getNodeName();
 		$value	= $node->getContent();
 		$param	= $node->getAttributes();

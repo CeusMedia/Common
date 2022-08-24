@@ -49,7 +49,7 @@ class Clock
 	protected $microTimeStop;
 
 	/**	@var	array		$laps				Array of Lap Times */
-	protected $laps			= array();
+	protected $laps			= [];
 
 	/**
 	 *	Constructor.

@@ -67,7 +67,7 @@ class Minimizer
 	protected $compressorSuffix	= "";
 
 	/**	@var		array		$statistics		Statistical Data */
-	protected $statistics		= array();
+	protected $statistics		= [];
 
 	/**	@var		string		$themesPath		Path to Themes */
 	protected $themesPath;

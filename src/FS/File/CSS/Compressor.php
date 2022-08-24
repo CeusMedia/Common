@@ -58,7 +58,7 @@ class Compressor
 
 	public function compress( string $string, bool $oneLine = FALSE ): string
 	{
-		$this->statistics	= array();
+		$this->statistics	= [];
 		$this->statistics['before']	= strlen( $string );
 		$string	= self::compressString( $string, $oneLine );
 		$this->statistics['after']	= strlen( $string );

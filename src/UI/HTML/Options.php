@@ -43,9 +43,9 @@ class Options
 	protected $async	= TRUE;
 	protected $cache	= TRUE;
 	protected $class	= 'cmOptions';
-	protected $data		= array();
+	protected $data		= [];
 	protected $name		= NULL;
-	protected $options	= array();
+	protected $options	= [];
 	protected $selected	= '';
 	protected $url		= NULL;
 

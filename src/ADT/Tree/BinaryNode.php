@@ -193,7 +193,7 @@ class BinaryNode
 	 */
 	public function toList( string $dir = NULL ): array
 	{
-		$array	= array();
+		$array	= [];
 		if( !$dir || $dir == "lwr" ){
 			if( $this->left )
 				$array = array_merge( $array, $this->left->toList( $dir ) );

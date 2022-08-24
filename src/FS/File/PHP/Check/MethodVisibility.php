@@ -44,7 +44,7 @@ class MethodVisibility
 {
 	protected $fileName		= "";
 
-	protected $methods		= array();
+	protected $methods		= [];
 
 	protected $checked		= FALSE;
 
@@ -70,8 +70,8 @@ class MethodVisibility
 	public function check(): bool
 	{
 		$this->checked	= TRUE;
-		$this->methods	= array();
-		$matches		= array();
+		$this->methods	= [];
+		$matches		= [];
 		$content		= FileReader::load( $this->fileName );
 		if( preg_match( "@class @i", $content ) )
 			if( preg_match_all( "@\tfunction (& *)?([a-z][a-z0-9]+)@i", $content, $matches ) )

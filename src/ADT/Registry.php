@@ -55,7 +55,7 @@ class Registry
 	{
 		$this->poolKey = $poolKey;
 		if( !( isset( $GLOBALS[$this->poolKey] ) && is_array( $GLOBALS[$this->poolKey] ) ) )
-			$GLOBALS[$this->poolKey]	= array();
+			$GLOBALS[$this->poolKey]	= [];
 	}
 
 	/**

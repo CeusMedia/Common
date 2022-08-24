@@ -259,7 +259,7 @@ class Elements extends FormElements
 	public static function ColumnGroup()
 	{
 		$code	= "";
-		$cols	= array();
+		$cols	= [];
 		$args	= func_get_args( );
 		if( is_array( $args[0] ) )
 			$args	= $args[0];
@@ -349,7 +349,7 @@ class Elements extends FormElements
 			if( $icons )
 				$icons = array( $icons );
 			else
-				$icons = array();
+				$icons = [];
 		}
 		if( sizeof( $icons ) && $label_name )
 		{
@@ -551,7 +551,7 @@ class Elements extends FormElements
 	 */
 	public static function TableHeads( $heads, $class = '', $colspan = 0 )
 	{
-		$cols		= array();
+		$cols		= [];
 		$class		= $class ? " class=\"".$class."\"" : "";
 		$colspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
 		foreach( $heads as $head )

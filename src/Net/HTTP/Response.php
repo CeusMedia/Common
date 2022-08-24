@@ -274,7 +274,7 @@ class Response
 	 */
 	public function toString(): string
 	{
-		$lines	= array();
+		$lines	= [];
 		//  add main protocol header
 		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;
 		//  add header fields and line break

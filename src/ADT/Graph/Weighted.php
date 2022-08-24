@@ -250,7 +250,7 @@ class Weighted
 			return $this->getEdgeValue( $source, $target );
 		$nodes = $this->getTargetNodes( $source );
 		if( !$hadNodes )
-			$hadNodes = array();
+			$hadNodes = [];
 		$hadNodes[] = $source->getNodeName();
 		foreach( $nodes as $node ){
 			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) ){
@@ -567,7 +567,7 @@ class Weighted
 
 		for( $i=0; $i<$this->getNodeSize(); $i++ ){
 			$source = $nodes[$i];
-			$line = array();
+			$line = [];
 			for( $j=0; $j<$this->getNodeSize(); $j++ ){
 				$target = $nodes[$j];
 				$value = $this->getEdgeValue( $source, $target );
@@ -644,9 +644,10 @@ class Weighted
 	public function traverseDepth( Node $source, Queue $queue, array $hadNodes = [] ): Queue
 	{
 		$nextNodeSet = [];
-		if( !$hadNodes) $hadNodes = array();
+		if( !$hadNodes)
+			$hadNodes = [];
 		$hadNodes[] = $source->getNodeName();
-		array_push($queue, $source );
+		$queue->push( $source );
 		foreach( $this->getSourceNodes( $source) as $node ){
 			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) ){
 				$hadNodes[] = $node->getNodeName();

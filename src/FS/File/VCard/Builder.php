@@ -132,7 +132,7 @@ class Builder
 		$name	= strtoupper( $name );
 		if( is_array( $values ) ){
 			if( $escape ){
-				$list	= array();
+				$list	= [];
 				foreach( $values as $key => $value )
 					if( $key !== "types" )
 						$list[]	= self::escape( $value );

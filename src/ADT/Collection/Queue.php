@@ -42,7 +42,7 @@ use RuntimeException;
 class Queue implements Countable
 {
 	/**	@var		array		$queue			Array of all elements in queue */
- 	protected $queue			= array();
+ 	protected $queue			= [];
 
 	/**
 	 *	Constructor.

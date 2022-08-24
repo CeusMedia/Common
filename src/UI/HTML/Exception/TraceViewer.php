@@ -153,7 +153,7 @@ class TraceViewer
 			{
 				if( count( $trace['args'] ) )
 				{
-					$argList	= array();
+					$argList	= [];
 					foreach( $trace["args"] as $argument )
 					{
 						$type	= ucFirst( gettype( $argument ) );
@@ -213,7 +213,7 @@ class TraceViewer
 	 */
 	protected static function convertArrayToString( $array, $breakMode, $level = 1 )
 	{
-		$list = array();
+		$list = [];
 		foreach( $array as $key => $value )
 		{
 			$string	= self::convertArgumentToString( $value, $breakMode, $level+1 );

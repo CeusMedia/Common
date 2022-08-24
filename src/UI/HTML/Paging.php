@@ -86,7 +86,7 @@ class Paging extends OptionObject
 	 */
 	public function build( $amount, $limit, $offset )
 	{
-		$pages	= array();
+		$pages	= [];
 		if( $limit && $amount > $limit )
 		{
 			$cover		= $this->getOption( 'coverage' );
@@ -205,7 +205,7 @@ class Paging extends OptionObject
 	{
 		$param	= $this->getOption( 'param' );
 		$param[$this->getOption( 'key_offset' )] = $offset;
-		$list	= array();
+		$list	= [];
 		foreach( $param as $key => $value )
 			$list[]	= $key.$this->getOption( 'key_assign' ).$value;
 		$param	= implode( $this->getOption( 'key_param' ), $list );

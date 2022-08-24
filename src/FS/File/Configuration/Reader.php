@@ -96,7 +96,7 @@ class Reader extends Dictionary
 			//  prepare Prefix Key to search for
 			$key		.= ".";
 			//  define empty Map
-			$list		= array();
+			$list		= [];
 			//  get Length of Prefix Key outside the Loop
 			$length		= strlen( $key );
 			//  iterate all stores Pairs
@@ -193,7 +193,7 @@ class Reader extends Dictionary
 			foreach( $reader->getProperties() as $sectionName => $sectionData ){
 				foreach( $sectionData as $key => $value ){
 					if( isset( $comments[$sectionName][$key] ) ){
-						$matches	= array();
+						$matches	= [];
 						if( preg_match_all( $pattern, $comments[$sectionName][$key], $matches ) ){
 							$type		= $matches[1][0];
 							settype( $value, $type );
@@ -231,7 +231,7 @@ class Reader extends Dictionary
 	{
 		//  get root element of XML file
 		$root	= XmlElementReader::readFile( $fileName );
-		$this->pairs	= array();
+		$this->pairs	= [];
 		//  iterate sections
 		/** @var XmlElement $sectionNode */
 		foreach( $root as $sectionNode ){

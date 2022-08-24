@@ -103,7 +103,7 @@ class Constant
 	public static function getKeyByValue( ?string $prefix, $value )
 	{
 		$constants	= static::getAll( $prefix );
-		$list		= array();
+		$list		= [];
 		foreach( $constants as $constantKey => $constantValue )
 			if( $constantValue === $value )
 				$list[]	= $constantKey;

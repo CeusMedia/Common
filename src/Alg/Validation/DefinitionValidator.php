@@ -73,7 +73,7 @@ class DefinitionValidator
 	{
 		if( !is_array( $definition ) )
 			throw new InvalidArgumentException( 'Definition must be an array, '.gettype( $definition ).' given' );
-		$errors		= array();
+		$errors		= [];
 		if( !empty( $definition['syntax'] ) )
 		{
 			$syntax		= new ArrayObject( $definition['syntax'] );

@@ -132,7 +132,7 @@ abstract class Abstraction implements Renderable
 	 */
 	public function setClasses( $classes )
 	{
-		$this->attributes['class']	= array();
+		$this->attributes['class']	= [];
 		if( is_string( $classes ) )
 			$classes	= explode( " ", $classes );
 		if( !is_array( $classes ) && !( $classes instanceof ArrayIterator ) )

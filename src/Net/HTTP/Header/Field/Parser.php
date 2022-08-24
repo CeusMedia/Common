@@ -56,14 +56,14 @@ class Parser
 	{
 		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/iU';
 		$parts		= preg_split( '/,\s*/', $qualifiedValues );
-		$codes		= array();
+		$codes		= [];
 		foreach( $parts as $part )
 			if( preg_match ( $pattern, $part, $matches ) )
 				$codes[$matches[1]]	= isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-		$map	= array();
+		$map	= [];
 		foreach( $codes as $code => $quality ){
 			if( !isset( $map[(string)$quality] ) )
-				$map[(string)$quality]	= array();
+				$map[(string)$quality]	= [];
 			$map[(string)$quality][strlen( $code)]	= $code;
 			if( $sortByLength )
 				//  sort inner list by code length
@@ -71,7 +71,7 @@ class Parser
 		}
 		//  sort outer list by quality
 		krsort( $map );
-		$list	= array();
+		$list	= [];
 		//  reduce map to list
 		foreach( $map as $quality => $codes )
 			foreach( $codes as $code )

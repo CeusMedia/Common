@@ -48,7 +48,7 @@ class ThumbnailCreator
 	private $quality;
 
 	/**	@var	array		$size			Sizes of Source Image */
-	private $size	= array();
+	private $size	= [];
 
 	/**	@var	string		$source			Source File Name of Source Image */
 	private $source;

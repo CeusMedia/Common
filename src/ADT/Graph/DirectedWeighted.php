@@ -60,7 +60,7 @@ class DirectedWeighted extends Weighted
 
 	public function bf( Node $startNode ): array
 	{
-		$distance = array();
+		$distance = [];
 		foreach( $this->nodeSet->getNodes() as $node ){
 			$distance[$node->getNodeName()] = 65535;
 		}
@@ -225,11 +225,11 @@ class DirectedWeighted extends Weighted
 	 */
 	public function toArray(): array
 	{
-		$a = array();
+		$a	= [];
 		$nodes = $this->getNodes();
 		for( $i=0; $i<$this->getNodeSize(); $i++ ){
 			$source = $nodes[$i];
-			$line = array();
+			$line = [];
 			for( $j=0; $j<$this->getNodeSize(); $j++ ){
 				$target = $nodes[$j];
 				$value = $this->getEdgeValue( $source, $target );

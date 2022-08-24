@@ -43,15 +43,15 @@ use RecursiveIteratorIterator;
  */
 class Lister extends FilterIterator
 {
-	public $extensions			= array();
+	public $extensions			= [];
 
-	public $ignoreFolders		= array();
+	public $ignoreFolders		= [];
 
-	public $ignoreFiles			= array();
+	public $ignoreFiles			= [];
 
-	public $skippedFiles		= array();
+	public $skippedFiles		= [];
 
-	public $skippedFolders		= array();
+	public $skippedFolders		= [];
 
 	protected $path;
 

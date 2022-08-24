@@ -44,9 +44,9 @@ class Node
 	/**	@var		string		$nodeName		Name of XML Node */
 	protected $nodeName;
 	/**	@var		array		$attributes		Map of XML Node Attributes */
-	protected $attributes		= array();
+	protected $attributes		= [];
 	/**	@var		array		$children		List of Child Nodes  */
-	protected $children			= array();
+	protected $children			= [];
 	/**	@var		string		$content		Content of XML Node */
 	protected $content			= NULL;
 

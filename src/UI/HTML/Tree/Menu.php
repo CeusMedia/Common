@@ -109,7 +109,7 @@ class Menu
 	 */
 	protected function buildMenuRecursive( MenuCollection $tree, $level = 1 )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $tree->getChildren() as $child )
 		{
 			$class		= $child->getAttributes()->get( 'class' );

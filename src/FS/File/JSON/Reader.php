@@ -45,7 +45,7 @@ class Reader
 {
 	protected static $defaultFilters	= array( 'comments' );
 	protected $filePath;
-	protected $filters					= array();
+	protected $filters					= [];
 	protected $data;
 	protected $parser;
 

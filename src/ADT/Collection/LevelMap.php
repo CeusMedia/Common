@@ -77,7 +77,7 @@ class LevelMap extends Dictionary
 		//  prepare Prefix Key to search for
 		$key		.= $this->divider;
 		//  define empty Map
-		$list		= array();
+		$list		= [];
 		//  get Length of Prefix Key outside the Loop
 		$length		= strlen( $key );
 		//  iterate all stores Pairs
@@ -107,7 +107,7 @@ class LevelMap extends Dictionary
 	{
 		$keys		= array_keys( $this->getAll( $prefix ) );
 		natcasesort( $keys );
-		$sections		= array();
+		$sections		= [];
 		$lastSection	= NULL;
 		foreach( $keys as $key ){
 			if( !substr_count( $key, $this->divider ) )

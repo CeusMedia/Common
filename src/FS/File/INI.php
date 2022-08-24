@@ -131,7 +131,7 @@ class INI
 
 	protected function write(): int
 	{
-		$list	= array();
+		$list	= [];
 		if( !is_null( $this->sections ) ){
 			foreach( $this->sections as $section => $items ){
 				$list[]	= '['.$section.']';

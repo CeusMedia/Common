@@ -52,8 +52,8 @@ class Crawler
 	protected $baseUrl;
 	protected $crawled		= FALSE;
 	protected $depth		= 10;
-	protected $errors		= array();
-	protected $links		= array();
+	protected $errors		= [];
+	protected $links		= [];
 
 	protected $host;
 	protected $pass;
@@ -80,7 +80,7 @@ class Crawler
 		'bmp',
 	);
 
-	public $deniedUrlParts	= array();
+	public $deniedUrlParts	= [];
 
 	/**	@var	NetReader		$reader */
 	protected $reader;
@@ -141,8 +141,8 @@ class Crawler
 			ini_set( 'xdebug.profiler_enable', "0" );
 
 		$this->crawled	= FALSE;
-		$this->errors	= array();
-		$this->links	= array();
+		$this->errors	= [];
+		$this->links	= [];
 		$parts			= parse_url( $url );
 		$this->scheme	= $parts['scheme'] ?? "";
 		$this->host		= $parts['host'] ?? "";
@@ -299,7 +299,7 @@ class Crawler
 	protected function getLinksFromDocument( DOMDocument $document, bool $onlyWithLabel = FALSE ): array
 	{
 		$baseUrl	= $this->getBaseUrl( $document );
-		$links		= array();
+		$links		= [];
 		$nodes		= $document->getElementsByTagName( "a" );
 		foreach( $nodes as $node ){
 			$ref	= $node->getAttribute( 'href' );

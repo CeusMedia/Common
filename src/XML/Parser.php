@@ -158,7 +158,7 @@ class Parser
 	 */
 	public function toArray( string $xml ): array
 	{
-		$this->data	= array();
+		$this->data	= [];
 		$this->xml	= xml_parser_create();
 		xml_set_object( $this->xml, $this );
 		xml_set_element_handler( $this->xml, 'handleTagOpenForArray', 'handleTagCloseForArray' );

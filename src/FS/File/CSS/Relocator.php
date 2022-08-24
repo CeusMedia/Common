@@ -99,7 +99,7 @@ class Relocator
 			$docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']
 		);
 		self::$_currentDir = self::_realpath($currentDir);
-		self::$_symlinks = array();
+		self::$_symlinks = [];
 
 		// normalize symlinks
 		foreach ($symlinks as $link => $target) {

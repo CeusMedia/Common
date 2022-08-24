@@ -43,8 +43,8 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Index
 {
-	public $headings	= array();
-	public $tree		= array();
+	public $headings	= [];
+	public $tree		= [];
 
 	/**
 	 *	Parses HTML for headings.
@@ -53,7 +53,7 @@ class Index
 	 *	@return		void
 	 */
 	public function importFromHtml( &$content, $level = 1 ){
-		$this->headings	= array();																	//
+		$this->headings	= [];																	//
 		$this->tree		= $this->importFromHtmlRecursive( $content, $level );						//
 		$this->setHeadingIds( $content, $level );													//
 	}
@@ -64,9 +64,9 @@ class Index
 			//  return empty list
 			return array();
 		//  prepare empty tree
-		$tree		= array();
+		$tree		= [];
 		//  prepare empty heading list
-		$headings	= array();
+		$headings	= [];
 		//  collect headings of this level
 		preg_match_all( "/<h".$level.">(.+)<\/h".$level.">/U", $content, $headings );
 		//  split HTML into blocks
@@ -100,7 +100,7 @@ class Index
 	 *	@return		string		HTML of list containing heading structure.
 	 */
 	public function renderList( $itemClassPrefix = "level-" ){
-		$list	= array();																			//
+		$list	= [];																			//
 		foreach( $this->headings as $item ){														//
 			$link	= Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//
 			$attributes		= array( 'class' => $itemClassPrefix.$item->level );							//
@@ -116,7 +116,7 @@ class Index
 	 *	@return		string		HTML of nested lists containing heading structure.
 	 */
 	public function renderTree( $tree = NULL ){														//
-		$list	= array();																			//
+		$list	= [];																			//
 		if( is_null( $tree ) )																		//
 			$tree	= $this->tree;																	//
 		foreach( $tree as $item ){

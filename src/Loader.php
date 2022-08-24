@@ -95,7 +95,7 @@ class Loader
 		}
 		$basePath		= $this->path ?: '';
 		if( $this->lowerPath ){
-			$matches	= array();
+			$matches	= [];
 			preg_match_all( '/^(.*)([a-z0-9]+)$/iU', $className, $matches );
 			$fileName	= $matches[2][0];
 			$pathName	= str_replace( "_","/", strtolower( $matches[1][0] ) );
@@ -175,7 +175,7 @@ class Loader
 			throw new InvalidArgumentException( 'Must be an array or string' );
 		if( empty( $extensions ) )
 			throw new InvalidArgumentException( 'At least one extension must be given' );
-		$this->extensions	= array();
+		$this->extensions	= [];
 		foreach( $extensions as $extension )
 			$this->extensions[]	= trim( $extension );
 		return $this;

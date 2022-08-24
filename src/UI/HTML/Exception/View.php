@@ -88,7 +88,7 @@ class View
 
 	public static function render( Exception $e, $showTrace = TRUE, $showPrevious = TRUE )
 	{
-		$list	= array();
+		$list	= [];
 
 		$msg	= htmlentities( $e->getMessage(), ENT_COMPAT, 'UTF-8' );
 		$list[]	= Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );

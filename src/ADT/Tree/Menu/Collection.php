@@ -48,7 +48,7 @@ class Collection
 	public $attributes				= NULL;
 
 	/**	@var		array			$children		List of nested Tree Menu Items */
-	public $children				= array();
+	public $children				= [];
 
 	public $defaultAttributes		= array(
 		'class'		=> "option",
@@ -179,7 +179,7 @@ class Collection
 	 */
 	public function toArray(): array
 	{
-		$children	= array();
+		$children	= [];
 		foreach( $this->children as $child )
 			$children[]	= $child->toArray();
 		return $children;

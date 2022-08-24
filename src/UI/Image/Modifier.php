@@ -48,7 +48,7 @@ abstract class Modifier
 	protected $quality;
 
 	/*	@var		array		$size			Sizes of Source Image */
-	protected $sourceInfo		= array();
+	protected $sourceInfo		= [];
 
 	/*	@var		string		$source			Source image */
 	protected $source;

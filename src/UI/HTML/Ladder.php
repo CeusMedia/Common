@@ -42,7 +42,7 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Ladder
 {
-	protected $steps	= array();
+	protected $steps	= [];
 	protected $id		= NULL;
 
 	/**
@@ -78,8 +78,8 @@ class Ladder
 	 */
 	public function buildHtml()
 	{
-		$list	= array();
-		$divs	= array();
+		$list	= [];
+		$divs	= [];
 		foreach( $this->steps as $nr => $step )
 		{
 			$id		= $this->id."_link".$nr;

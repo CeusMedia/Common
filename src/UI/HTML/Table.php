@@ -41,11 +41,11 @@ use InvalidArgumentException;
  */
 class Table
 {
-	protected $bodyRows	= array();
-	protected $footRows	= array();
-	protected $headRows	= array();
+	protected $bodyRows	= [];
+	protected $footRows	= [];
+	protected $headRows	= [];
 	protected $summary	= NULL;
-	protected $columns	= array();
+	protected $columns	= [];
 	protected $caption	= NULL;
 	protected $class	= NULL;
 	protected $id		= NULL;
@@ -89,7 +89,7 @@ class Table
 	public function addCell( $label, $attributes = array() )
 	{
 		if( !$this->bodyRows )
-			$this->bodyRows[]	= array();
+			$this->bodyRows[]	= [];
 		$current	= count( $this->bodyRows ) - 1;
 		if( empty( $label ) )
 			$label	= "&#160;";
@@ -99,14 +99,14 @@ class Table
 	public function addColumn( $column )
 	{
 		if( !$this->columns )
-			$this->columns[]	= array();
+			$this->columns[]	= [];
 		$current	= count( $this->columns ) - 1;
 		$this->columns[$current][]	= $column;
 	}
 
 	public function addColumns( $columns = array() )
 	{
-		$this->columns[]	= array();
+		$this->columns[]	= [];
 		if( is_string( $columns ) )
 			$columns	= explode( ",", $columns );
 		foreach( $columns as $value )
@@ -116,14 +116,14 @@ class Table
 	public function addFoot( $label, $attributes = array() )
 	{
 		if( !$this->footRows )
-			$this->footRows[]	= array();
+			$this->footRows[]	= [];
 		$current	= count( $this->footRows ) - 1;
 		$this->footRows[$current][]	= Tag::create( "td", $label, $attributes );
 	}
 
 	public function addFoots( $foots )
 	{
-		$this->footRows[]	= array();
+		$this->footRows[]	= [];
 		foreach( $foots as $key => $value )
 		{
 			if( is_int( $key ) && is_string( $value ) )
@@ -138,7 +138,7 @@ class Table
 	public function addHead( $label, $attributes = array() )
 	{
 		if( !$this->headRows )
-			$this->headRows[]	= array();
+			$this->headRows[]	= [];
 		$current				= count( $this->headRows ) - 1;
 		$attributes['scope']	= isset( $attributes['scope'] ) ? $attributes['scope'] : 'col';
 		$tag					= Tag::create( "th", $label, $attributes );
@@ -147,7 +147,7 @@ class Table
 
 	public function addHeads( $heads )
 	{
-		$this->headRows[]	= array();
+		$this->headRows[]	= [];
 		foreach( $heads as $key => $value )
 		{
 			if( is_int( $key ) && is_array( $value ) )
@@ -163,7 +163,7 @@ class Table
 
 	public function addRow( $cells = array() )
 	{
-		$this->bodyRows[]	= array();
+		$this->bodyRows[]	= [];
 		foreach( $cells as $key => $value )
 		{
 			if( is_int( $key ) && is_string( $value ) )
@@ -181,25 +181,25 @@ class Table
 		$end	= $comment ? "\n<!--  << TABLE: ".$comment."  -->\n" : "";
 
 		//  --  TABLE HEAD  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->headRows as $headCells )
 			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $headCells )."\n    " );
 		$tableHead		= "\n  ".Tag::create( "thead", "\n    ".implode( "\n    ", $list )."\n  " );
 
 		//  --  TABLE FOOT  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->footRows as $footCells )
 			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $footCells )."\n    " );
 		$tableFoot		= "\n  ".Tag::create( "tfoot", "\n    ".implode( "\n    ", $list )."\n  " );
 
 		//  --  TABLE BODY  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->bodyRows as $bodyCells )
 			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $bodyCells )."\n    " );
 		$tableBody		= "\n  ".Tag::create( "tbody", "\n    ".implode( "\n    ", $list )."\n  " )."\n";
 
 		//  --  COLUMN GROUP  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->columns as $columns )
 		{
 			foreach( $columns as $nr => $width )

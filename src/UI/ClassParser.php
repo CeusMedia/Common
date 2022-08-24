@@ -46,13 +46,13 @@ class ClassParser
 	protected $fileName;
 
 	/**	@var		array		$funcs			List of Functions */
-	protected $methods		= array();
+	protected $methods		= [];
 
 	/**	@var		array		$vars			List of Variables */
-	protected $vars				= array();
+	protected $vars				= [];
 
 	/**	@var		array		$imports		List of imported Classes */
-	protected $imports			= array();
+	protected $imports			= [];
 
 	/**	@var		array		$classData		List of Class Properties */
 	protected $classData		= array(
@@ -73,7 +73,7 @@ class ClassParser
 		"subpackage"	=> array(),
 		);
 	/**	@var		array		$patterns		Patterns for regular expression */
-	protected $patterns	= array();
+	protected $patterns	= [];
 
 	/**
 	 *	Constructor.
@@ -231,7 +231,7 @@ class ClassParser
 	{
 		$inside = false;
 		$doc_open	= false;
-		$func_data	= array();
+		$func_data	= [];
 
 		$f = new FileReader( $this->fileName );
 		$lines = $f->readArray();
@@ -254,7 +254,7 @@ class ClassParser
 						$method = str_replace( "&", "", $method );
 						$method = trim( $method );
 						$this->methods[$method] = $func_data;
-						$func_data = array();
+						$func_data = [];
 					}
 				}
 				if( $doc_open )
@@ -388,7 +388,7 @@ class ClassParser
 		if( !$template )
 			$template = dirname( __FILE__ )."/ClassParserUML.tpl";
 		$data = $this->getClassData();
-		$vars = $methods = $props = array();
+		$vars = $methods = $props = [];
 
 		if( count( $data['class']['desc']))
 			$props['class']['desc']		= implode( "<br/>", $data['class']['desc'] );
@@ -416,7 +416,7 @@ class ClassParser
 		{
 			if( count( $methodData['param'] ) )
 			{
-				$params = array();
+				$params = [];
 				foreach( $methodData['param'] as $param => $p_data )
 					$params[] = $p_data['type']." ".( $p_data['desc'] ? "<acronym title='".$p_data['desc']."'>".$param."</acronym>" : $param);
 				$params =  implode( ", ", $params );

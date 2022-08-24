@@ -82,13 +82,13 @@ class Spyc
   private $path;
   private $result;
   private $LiteralPlaceHolder = '___YAML_Literal_Block___';
-  private $SavedGroups = array();
+  private $SavedGroups = [];
   private $indent;
   /**
    * Path modifier that should be applied after adding current element.
    * @var array
    */
-  private $delayedPath = array();
+  private $delayedPath = [];
 
   /**#@+
   * @access public
@@ -455,7 +455,7 @@ class Spyc
      * @access private
      */
   private static function getTranslations(array $words) {
-    $result = array();
+    $result = [];
     foreach ($words as $i) {
       $result = array_merge($result, array(ucfirst($i), strtoupper($i), strtolower($i)));
     }
@@ -481,8 +481,8 @@ class Spyc
       return is_array($array) ? $array : array();
     }
 
-    $this->path = array();
-    $this->result = array();
+    $this->path = [];
+    $this->result = [];
 
     $cnt = count($Source);
     for ($i = 0; $i < $cnt; $i++) {
@@ -527,7 +527,7 @@ class Spyc
       foreach ($this->delayedPath as $indent => $delayedPath)
         $this->path[$indent] = $delayedPath;
 
-      $this->delayedPath = array();
+      $this->delayedPath = [];
 
     }
     return $this->result;
@@ -559,7 +559,7 @@ class Spyc
     $line = trim($line);
     if (!$line) return array();
 
-    $array = array();
+    $array = [];
 
     $group = $this->nodeContainsGroup($line);
     if ($group) {
@@ -625,7 +625,7 @@ class Spyc
       if ($innerValue === '') return array();
       $explode = $this->_inlineEscape($innerValue);
       // Propagate value array
-      $value  = array();
+      $value  = [];
       foreach ($explode as $v) {
         $value[] = $this->_toType($v);
       }
@@ -648,7 +648,7 @@ class Spyc
       // Take out strings sequences and mappings
       $explode = $this->_inlineEscape($innerValue);
       // Propagate value array
-      $array = array();
+      $array = [];
       foreach ($explode as $v) {
         $SubArr = $this->_toType($v);
         if (empty($SubArr)) continue;
@@ -699,10 +699,10 @@ class Spyc
     // pure mappings and mappings with sequences inside can't go very
     // deep.  This needs to be fixed.
 
-    $seqs = array();
-    $maps = array();
-    $saved_strings = array();
-    $saved_empties = array();
+    $seqs = [];
+    $maps = [];
+    $saved_strings = [];
+    $saved_empties = [];
 
     // Check for empty strings
     $regex = '/("")|(\'\')/';
@@ -875,7 +875,7 @@ class Spyc
 
 
 
-    $history = array();
+    $history = [];
     // Unfolding inner array tree.
     $history[] = $_arr = $this->result;
     foreach ($this->path as $k) {
@@ -993,7 +993,7 @@ class Spyc
   private function clearBiggerPathValues ($indent) {
 
 
-    if ($indent == 0) $this->path = array();
+    if ($indent == 0) $this->path = [];
     if (empty ($this->path)) return true;
 
     foreach ($this->path as $k => $_) {
@@ -1049,9 +1049,9 @@ class Spyc
   }
 
   private function returnMappedSequence ($line) {
-    $array = array();
+    $array = [];
     $key         = self::unquote(trim(substr($line,1,-1)));
-    $array[$key] = array();
+    $array[$key] = [];
     $this->delayedPath = array(strpos ($line, $key) + $this->indent => $key);
     return array($array);
   }
@@ -1066,7 +1066,7 @@ class Spyc
 
   private function returnMappedValue ($line) {
     $this->checkKeysInValue($line);
-    $array = array();
+    $array = [];
     $key         = self::unquote (trim(substr($line,0,-1)));
     $array[$key] = '';
     return $array;
@@ -1085,7 +1085,7 @@ class Spyc
   }
 
   private function returnKeyValuePair ($line) {
-    $array = array();
+    $array = [];
     $key = '';
     if (strpos ($line, ': ')) {
       // It's a key/value pair most likely
@@ -1116,7 +1116,7 @@ class Spyc
   private function returnArrayElement ($line) {
      // Weird %)
      if (strlen($line) <= 1) return array(array());
-     $array = array();
+     $array = [];
      $value   = trim(substr($line,1));
      $value   = $this->_toType($value);
      if ($this->isArrayElement($value)) {

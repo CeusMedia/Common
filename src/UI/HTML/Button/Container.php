@@ -23,7 +23,7 @@ use CeusMedia\Common\UI\HTML\Tag;
 class Container extends HtmlAbstraction
 {
 	protected $defaultClass	= "buttons button-bar";
-	protected $content	= array();
+	protected $content	= [];
 
 	public function __construct( HtmlBuffer $buffer )
 	{
@@ -38,7 +38,7 @@ class Container extends HtmlAbstraction
 
 	public function render()
 	{
-		$list	= array();
+		$list	= [];
 		if( !$this->content )
 			return '';
 		foreach( $this->content as $button )

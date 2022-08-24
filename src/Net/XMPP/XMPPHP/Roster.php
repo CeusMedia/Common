@@ -46,7 +46,7 @@ class Roster
 	 * Contains array with potentially two indexes 'contact' and 'presence'
 	 * @var array
 	 */
-	public $roster_array = array();
+	public $roster_array = [];
 	/**
 	 * Constructor
 	 *
@@ -56,7 +56,7 @@ class Roster
 		if ($this->verifyRoster($roster_array)) {
 			$this->roster_array = $roster_array; //Allow for prepopulation with existing roster
 		} else {
-			$this->roster_array = array();
+			$this->roster_array = [];
 		}
 	}
 

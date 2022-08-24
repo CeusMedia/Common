@@ -46,7 +46,7 @@ use RuntimeException;
 class Cache extends CacheStore implements Countable
 {
 	/**	@var		array		$data			Memory Cache */
-	protected $data				= array();
+	protected $data				= [];
 
 	/**	@var		string		$path			Path to Cache Files */
 	protected $path;
@@ -123,7 +123,7 @@ class Cache extends CacheStore implements Countable
 			if( substr( $entry->getFilename(), -7 ) == ".serial" )
 				$number	+= (int) @unlink( $entry->getPathname() );
 		}
-		$this->data	= array();
+		$this->data	= [];
 		return $number;
 	}
 

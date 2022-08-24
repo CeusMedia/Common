@@ -48,7 +48,7 @@ abstract class Abstraction
 	const E_READ_FAILED			= 'Misread';
 	const E_WRITE_FAILED		= 'Miswritten';
 
-	protected $childrenMap		= array();
+	protected $childrenMap		= [];
 	protected $childrenMax		= 30;
 	protected $childrenOpen		= 0;
 	protected $listenExcept		= NULL;

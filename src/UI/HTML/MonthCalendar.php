@@ -109,10 +109,10 @@ class MonthCalendar extends OptionObject
 		$days	= date( "t", $time );
 		$weeks	= ceil( ( $days + $offset ) / 7 );
 		$d	= 1;
-		$lines	= array();
+		$lines	= [];
 		for( $w=0; $w<$weeks; $w++ )
 		{
-			$cells	= array();
+			$cells	= [];
 			for( $i=0; $i<7; $i++ )
 			{
 				if( $offset )

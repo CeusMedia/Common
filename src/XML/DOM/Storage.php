@@ -44,7 +44,7 @@ class Storage extends OptionObject
 	/**	@var	string			$fileName		URI of XML File */
 	protected $fileName;
 	/**	@var	array			$storage		Array for Storage Operations */
-	protected $storage	= array();
+	protected $storage	= [];
 
 	/**
 	 *	Constructor.

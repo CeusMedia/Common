@@ -54,7 +54,7 @@ class Template extends RuntimeException
 	);
 
 	/**	@var		array		$labels			Holds all not used and non-optional labels */
-	protected $labels			= array();
+	protected $labels			= [];
 
 	/**	@var		string		$filePath		File Path of Template, set only if not found */
 	protected $filePath			= NULL;

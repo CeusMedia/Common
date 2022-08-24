@@ -45,7 +45,7 @@ use RuntimeException;
  */
 abstract class Abstraction
 {
-	protected $pids			= array();
+	protected $pids			= [];
 
 	protected $isBlocking;
 

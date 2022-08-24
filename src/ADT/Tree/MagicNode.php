@@ -40,7 +40,7 @@ namespace CeusMedia\Common\ADT\Tree;
 class MagicNode
 {
 	/**	@var	array		$data		Map of nested nodes */
-	public $data	= array();
+	public $data	= [];
 
 	/**	@var	mixed		$value		Node value */
 	public $value;
@@ -132,7 +132,7 @@ class MagicNode
 	 */
 	public function toArray(): array
 	{
-		$array	= array();
+		$array	= [];
 		foreach( $this->data as $key => $node ){
 			if( count( $node->data ) )
 				$array[$key]	= $node->toArray();

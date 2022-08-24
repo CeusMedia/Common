@@ -123,7 +123,7 @@ class ColorConverter
 	public static function hsv2rgb( array $hsv ): array
 	{
 		list( $h, $s, $v ) = $hsv;
-		$rgb = array();
+		$rgb = [];
 		$h	= $h / 60;
 		$s	= $s / 100;
 		$v	= $v / 100;
@@ -133,7 +133,7 @@ class ColorConverter
 			$rgb[2]	= $v * 255;
 		}
 		else{
-			$rgb_dec = array();
+			$rgb_dec = [];
 			$i	= floor( $h );
 			$p	= $v * ( 1 - $s );
 			$q	= $v * ( 1 - $s * ( $h - $i ) );

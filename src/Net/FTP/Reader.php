@@ -85,7 +85,7 @@ class Reader
 	public function getFileList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getList( $path, $recursive );
 		foreach( $list as $entry )
 			if( !preg_match( "@/?[.]{1,2}$@", $entry['name'] ) )
@@ -104,7 +104,7 @@ class Reader
 	public function getFolderList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getList( $path, $recursive );
 		foreach( $list as $entry )
 			if( !preg_match( "@/?[.]{1,2}$@", $entry['name'] ) )
@@ -123,7 +123,7 @@ class Reader
 	public function getList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$parsed	= array();
+		$parsed	= [];
 		if( !$path )
 			$path	= $this->getPath();
 		$list	= ftp_rawlist( $this->connection->getResource(), $path );
@@ -186,7 +186,7 @@ class Reader
 	 */
 	protected function parseListEntry( string $entry ): array
 	{
-		$data	= array();
+		$data	= [];
 		$parts	= preg_split("/\s+/", $entry, 9 );
 		if( $parts[0] == "total" )
 			return array();
@@ -228,7 +228,7 @@ class Reader
 	public function searchFile( string $fileName = "", bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getFileList( $this->getPath(), $recursive );
 		foreach( $list as $entry ){
 			if( !$entry['isdir'] ){
@@ -254,7 +254,7 @@ class Reader
 	public function searchFolder( string $folderName = "", bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getFolderList( $this->getPath(), $recursive );
 		foreach( $list as $entry ){
 			if( $entry['isdir'] ){

@@ -358,7 +358,7 @@ class XMPP extends XMLStream
 		$status = "result";
 		$xmlroster = $xml->sub('query');
 		foreach($xmlroster->subs as $item) {
-			$groups = array();
+			$groups = [];
 			if ($item->name == 'item') {
 				$jid = $item->attrs['jid']; //REQUIRED
 				$name = @$item->attrs['name']; //MAY
@@ -430,12 +430,12 @@ class XMPP extends XMLStream
 	*/
 	protected function vcard_get_handler($xml)
 	{
-		$vcard_array = array();
+		$vcard_array = [];
 		$vcard = $xml->sub('vcard');
 		// go through all of the sub elements and add them to the vcard array
 		foreach ($vcard->subs as $sub) {
 			if ($sub->subs) {
-				$vcard_array[$sub->name] = array();
+				$vcard_array[$sub->name] = [];
 				foreach ($sub->subs as $sub_child) {
 					$vcard_array[$sub->name][$sub_child->name] = $sub_child->data;
 				}

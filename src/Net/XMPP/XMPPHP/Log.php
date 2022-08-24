@@ -49,7 +49,7 @@ class Log
 	/**
 	 * @var array
 	 */
-	protected $data = array();
+	protected $data = [];
 
 	/**
 	 * @var array
@@ -112,7 +112,7 @@ class Log
 			}
 		}
 		if($clear) {
-			$this->data = array();
+			$this->data = [];
 		}
 	}
 

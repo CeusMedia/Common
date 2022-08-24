@@ -199,7 +199,7 @@ class Progress
 		$days		= 0;
 		$hours		= 0;
 		$minutes	= 0;
-		$parts		= array();
+		$parts		= [];
 		if( $seconds > 86400 ){
 			$days		= floor( $seconds / 86400 );
 			$seconds	-= $days * 86400;

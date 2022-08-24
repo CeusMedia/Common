@@ -60,16 +60,16 @@ class TodoLister
 	protected $extension		= "php5";
 
 	/**	@var		array		$extensions		Other File Extensions */
-	protected $extensions		= array();
+	protected $extensions		= [];
 
 	/**	@var		array		$list			List of numberFound Files */
-	protected $list				= array();
+	protected $list				= [];
 
 	/**	@var		string		$pattern		Default Pattern */
 	protected $pattern			= "@todo";
 
 	/**	@var		array		$patterns		Other Patterns */
-	protected $patterns			= array();
+	protected $patterns			= [];
 
 	/**
 	 *	Constructor.
@@ -87,7 +87,7 @@ class TodoLister
 	{
 		$list1	= array( $this->$member );
 		$list1	= array_merge( $list1, $this->{$member."s"} );
-		$list2	= array();
+		$list2	= [];
 		foreach( $list1 as $item )
 			$list2[]	= str_replace( ".", "\.", $item );
 		if( count( $list2 ) == 1 )
@@ -119,7 +119,7 @@ class TodoLister
 	{
 		if( $full )
 			return $this->list;
-		$list	= array();
+		$list	= [];
 		foreach( $this->list as $pathName => $fileData )
 			$list[$pathName]	= $fileData['fileName'];
 		return $list;
@@ -182,7 +182,7 @@ class TodoLister
 		$this->numberScanned	= 0;
 		$this->numberTodos		= 0;
 		$this->numberLines		= 0;
-		$this->list				= array();
+		$this->list				= [];
 		$extensions		= $this->getExtensionPattern();
 		$pattern		= $this->getExtendedPattern();
 		$iterator		= $this->getIndexIterator( $path, $extensions );
@@ -192,7 +192,7 @@ class TodoLister
 				$content	= file_get_contents( $entry->getPathname() );
 				$lines		= explode( "\n", $content );
 				$i			= 0;
-				$list		= array();
+				$list		= [];
 				foreach( $lines as $line ){
 					$this->numberLines++;
 					$i++;

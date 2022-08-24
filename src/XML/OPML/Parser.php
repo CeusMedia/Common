@@ -166,7 +166,7 @@ class Parser
 	public function parse( string $xml ): void
 	{
 		$this->tree		= $this->parser->parse( $xml );
-		$this->outlines	= array();
+		$this->outlines	= [];
 		$this->headers->clearOptions();
 
 		foreach( $this->parser->getOptions() as $key => $value )
@@ -214,13 +214,13 @@ class Parser
 	{
 		$outlines = $node->getChildren();
 		foreach( $outlines as $outline ) {
-			$data	= array();
+			$data	= [];
 			foreach( $outline->getAttributes() as $key => $value )
 				$data[$key]	= $value;
 			if( $outline->hasChildren() )
 				$this->parseOutlines( $outline, $data['outlines'] );
 			else
-				$data['outlines']	= array();
+				$data['outlines']	= [];
 			$array[]	= $data;
 		}
 	}

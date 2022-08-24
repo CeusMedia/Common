@@ -3,9 +3,9 @@ namespace CeusMedia\Common\UI\JS;
 
 class CodeMirror
 {
-	protected $addons	= array();
+	protected $addons	= [];
 
-	protected $theme	= array();
+	protected $theme	= [];
 
 	protected $options	= array(
 		'lineNumbers'				=> TRUE,

@@ -46,9 +46,9 @@ use UnexpectedValueException;
 class Dictionary implements ArrayAccess, Countable, Iterator
 {
 	/**	@var		array		$pairs			Associative Array of Pairs */
-	protected $pairs			= array();
+	protected $pairs			= [];
 
-	/**	@var		array		$position		Iterator Position */
+	/**	@var		int			$position		Iterator Position */
 	private $position			= 0;
 
 	/**	@var		boolean		$caseSensitive	Flag: be case-sensitive on pair keys */
@@ -153,7 +153,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		//  a prefix to filter keys has been given
 		if( strlen( $prefix ) ){
 			//  create empty list
-			$list	= array();
+			$list	= [];
 			//  get prefix length
 			$length	= strlen( $prefix );
 			//  iterate all pairs

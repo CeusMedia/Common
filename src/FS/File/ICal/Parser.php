@@ -95,7 +95,7 @@ class Parser
 		$name	= substr( $line, 0, $pos );
 		$value	= substr( $line, $pos+1 );
 
-		$params	= array();
+		$params	= [];
 		if( substr_count( $name, ";" ) ){
 			$pos	= strpos( $name, ";" );
 			$params	= substr( $name, $pos+1 );

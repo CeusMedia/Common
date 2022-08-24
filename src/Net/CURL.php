@@ -131,7 +131,7 @@ class CURL
 		$this->caseless	= NULL;
 		$this->header	= NULL;
 		$this->info		= NULL;
-		$this->options	= array();
+		$this->options	= [];
 		if( !empty( $url ) )
 			$this->setUrl( $url );
 //		$this->setOption( CURLOPT_FOLLOWLOCATION, !ini_get( 'safe_mode' ) && !ini_get( 'open_basedir' ) );
@@ -281,7 +281,7 @@ class CURL
 	protected function parseHeaderSection( string $section )
 	{
 		$this->header	= NULL;
-		$this->caseless = array();
+		$this->caseless = [];
 		$headers	= preg_split( "/(\r\n)+/", $section );
 		foreach( $headers as $header ){
 			if( !( trim( $header ) && !preg_match( '/^HTTP/', $header ) ) )

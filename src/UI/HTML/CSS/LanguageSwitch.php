@@ -47,7 +47,7 @@ use CeusMedia\Common\UI\HTML\Tree\Menu as HtmlTreeMenu;
  */
 class LanguageSwitch
 {
-	protected $languages	= array();
+	protected $languages	= [];
 
 	public function build( $currentLanguage )
 	{

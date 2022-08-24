@@ -108,7 +108,7 @@ class PackageReader
 	 */
 	private function readMaintainer( DOMNode $domNode ): array
 	{
-		$maintainer	= array();
+		$maintainer	= [];
 		foreach( $domNode->childNodes as $node )
 			$maintainer[$node->nodeName]	= $this->getNodeValue( $node );
 		return $maintainer;
@@ -122,7 +122,7 @@ class PackageReader
 	 */
 	private function readRelease( DOMNode $domNode ): array
 	{
-		$release	= array();
+		$release	= [];
 		foreach( $domNode->childNodes as $node ){
 			$nodeName	= $node->nodeName;
 			switch( $nodeName ){
@@ -150,7 +150,7 @@ class PackageReader
 	 */
 	private function getNodeAttributes( DOMNode $domNode ): array
 	{
-		$attributes	= array();
+		$attributes	= [];
 		foreach( $domNode->attributes as $attribute )
 			$attributes[$attribute->name]	= $attribute->value;
 		return $attributes;

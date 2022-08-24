@@ -102,7 +102,7 @@ class TreeMenu
 		$label			= self::buildLabelSpan( $node->label, $level, $node->class, $node->disabled, $node->url );
 		if( $node->hasChildren() )
 		{
-			$children	= array();
+			$children	= [];
 			foreach( $node->getChildren() as $child )
 				$children[]	= self::buildItemWithChildren( $child, $level + 1, $contentDrop );
 			$classList	= $node->getAttribute( 'classList' );
@@ -142,7 +142,7 @@ class TreeMenu
 		$label		= self::buildLabelSpan( $node['label'], $level, $class, $disabled, $node['url'] );
 		if( isset( $node['children'] ) && $node['children'] )
 		{
-			$children	= array();
+			$children	= [];
 			foreach( $node['children'] as $child )
 				$children[]	= self::buildItemWithChildrenFromArray( $child, $level + 1 );
 			$classList	= isset( $node['classList'] ) ? $node['classList'] : NULL;
@@ -192,7 +192,7 @@ class TreeMenu
 	 */
 	public static function buildMenu( MenuCollection $tree, $contentDrop = NULL, $attributes = array() )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $tree->getChildren() as $child )
 			$list[]	= self::buildItemWithChildren( $child, 1, $contentDrop );
 		return HtmlElements::unorderedList( $list, 1, $attributes );
@@ -208,7 +208,7 @@ class TreeMenu
 	 */
 	public static function buildMenuFromArray( $tree, $contentDrop = NULL )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $tree['children'] as $child )
 			$list[]	= self::buildItemWithChildrenFromArray( $child, 1, $contentDrop );
 		return HtmlElements::unorderedList( $list, 1 );

@@ -43,13 +43,13 @@ class PageFrame
 {
 	protected $title		= NULL;
 	protected $heading		= NULL;
-	protected $scripts		= array();
-	protected $metaTags		= array();
-	protected $links		= array();
+	protected $scripts		= [];
+	protected $metaTags		= [];
+	protected $links		= [];
 	protected $baseHref		= NULL;
-	protected $head			= array();
-	protected $body			= array();
-	protected $prefixes		= array();
+	protected $head			= [];
+	protected $body			= [];
+	protected $prefixes		= [];
 	protected $profile		= NULL;
 	public $indent			= "  ";
 	protected $charset		= NULL;
@@ -233,8 +233,8 @@ class PageFrame
 			throw new InvalidArgumentException( 'Parameter "bodyAttributes" need to be an array or empty' );
 		if( !is_array( $htmlAttributes ) )
 			throw new InvalidArgumentException( 'Parameter "htmlAttributes" need to be an array or empty' );
-		$tagsHead	= array();
-		$tagsBody	= array();
+		$tagsHead	= [];
+		$tagsBody	= [];
 
 		if( $this->baseHref )
 			$tagsHead[]	= Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
@@ -275,7 +275,7 @@ class PageFrame
 			$attributes	= array( 'xmlns' => "http://www.w3.org/1999/xhtml" ) + $attributes;
 		}
 		if( $this->prefixes ){
-			$list	= array();
+			$list	= [];
 			foreach( $this->prefixes as $prefix => $namespace )
 				$list[]	= $prefix.": ".$namespace;
 			$attributes['prefix']	= join( " ", $list );
