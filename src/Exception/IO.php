@@ -89,6 +89,6 @@ class IO extends Runtime
 	 */
 	public function unserialize( $data )
 	{
-		list( $this->message, $this->code, $this->file, $this->line, $this->resource ) = unserialize( $data );
+		[$this->message, $this->code, $this->file, $this->line, $this->resource]	= unserialize( $data );
 	}
 }

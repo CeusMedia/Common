@@ -63,6 +63,6 @@ class Serializable extends Exception implements SerializableInterface
 	 */
 	public function unserialize( $data )
 	{
-		list( $this->message, $this->code, $this->file, $this->line ) = unserialize( $data );
+		[$this->message, $this->code, $this->file, $this->line]	= unserialize( $data );
 	}
 }

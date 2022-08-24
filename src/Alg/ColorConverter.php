@@ -49,7 +49,7 @@ class ColorConverter
 	 */
 	public static function cmy2cmyk( array $cmy ): array
 	{
-		list( $c, $m, $y ) = $cmy;
+		[$c, $m, $y]	= $cmy;
 		$k	= min( $c, $m, $y );
 		$c	= ( $c - $k ) / ( 1 - $k );
 		$m	= ( $m - $k ) / ( 1 - $k );
@@ -66,7 +66,7 @@ class ColorConverter
 	 */
 	public static function cmy2rgb( array $cmy ): array
 	{
-		list( $c, $m, $y ) = $cmy;
+		[$c, $m, $y]	= $cmy;
 		$r	= 255 * ( 1 - $c );
 		$g	= 255 * ( 1 - $m );
 		$b	= 255 * ( 1 - $y );
@@ -82,7 +82,7 @@ class ColorConverter
 	 */
 	public static function cmyk2cmy( array $cmyk ): array
 	{
-		list( $c, $m, $y, $k ) = $cmyk;
+		[$c, $m, $y, $k]	= $cmyk;
 		$c	= min( 1, $c * ( 1 - $k ) + $k );
 		$m	= min( 1, $m * ( 1 - $k ) + $k );
 		$y	= min( 1, $y * ( 1 - $k ) + $k );
@@ -122,7 +122,7 @@ class ColorConverter
 	 */
 	public static function hsv2rgb( array $hsv ): array
 	{
-		list( $h, $s, $v ) = $hsv;
+		[$h, $s, $v]	= $hsv;
 		$rgb = [];
 		$h	= $h / 60;
 		$s	= $s / 100;
@@ -217,7 +217,7 @@ class ColorConverter
 	 */
 	public static function rgb2cmy( array $rgb ): array
 	{
-		list( $r, $g, $b ) = $rgb;
+		[$r, $g, $b]	= $rgb;
 		$c	= 1 - ( $r / 255 );
 		$m	= 1 - ( $g / 255 );
 		$y	= 1 - ( $b / 255 );
@@ -246,7 +246,7 @@ class ColorConverter
 	public static function rgb2hsv( array $rgb ): array
 	{
 #		return self::rgb2hsv_2( $rgb );
-		list( $r, $g, $b ) = $rgb;
+		[$r, $g, $b]	= $rgb;
 		$v	= max( $r, $g, $b );
 		$t	= min( $r, $g, $b );
 		$s	= ( $v == 0 ) ? 0 : ( $v - $t ) / $v;
@@ -266,7 +266,7 @@ class ColorConverter
 
 	private function rgb2hsv_2( array $rgb ): array
 	{
-		list( $r, $g, $b ) = $rgb;
+		[$r, $g, $b]	= $rgb;
 		$r		= $r / 255.0;
 		$g		= $g / 255.0;
 		$b		= $b / 255.0;
@@ -311,7 +311,7 @@ class ColorConverter
 	 */
 	public static function rgb2html( array $rgb ): string
 	{
-		list( $r, $g, $b ) = $rgb;
+		[$r, $g, $b]	= $rgb;
 		$html	= sprintf( "%2X%2X%2X", $r, $g, $b );
 		return str_replace( " ", "0", $html );
 	}
@@ -325,7 +325,7 @@ class ColorConverter
 	 */
 	public static function rgb2xyz( array $rgb ): array
 	{
-		list( $r, $g, $b ) = $rgb;
+		[$r, $g, $b]	= $rgb;
 		$r	= $r / 255;
 		$g	= $g / 255;
 		$b	= $b / 255;
@@ -344,7 +344,7 @@ class ColorConverter
 	 */
 	public static function xyz2rgb( array $xyz ): array
 	{
-		list( $x, $y, $z ) = $xyz;
+		[$x, $y, $z]	= $xyz;
 		$r	= 3.063219 * $x - 1.393326 * $y - 0.475801 * $z;
 		$g	= -0.969245 * $x + 1.875968 * $y + 0.041555 * $z;
 		$b	= 0.067872 * $x - 0.228833 * $y + 1.069251 * $z;

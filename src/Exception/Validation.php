@@ -100,6 +100,6 @@ class Validation extends Runtime
 	 */
 	public function unserialize( $data )
 	{
-		list( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) = unserialize( $data );
+		[$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form]	= unserialize( $data );
 	}
 }

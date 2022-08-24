@@ -227,7 +227,7 @@ class CLI
 			return $mimeType;
 		if( array_key_exists( $mimeType, self::$mimeTypeLabels ) )
 			return self::$mimeTypeLabels[$mimeType];
-		list( $topic, $type )	= explode( '/', $mimeType, 2 );
+		[$topic, $type]	= explode( '/', $mimeType, 2 );
 		$short	= NULL;
 		$type	= preg_replace( '/^x-/', '', $type );
 		if( $topic === 'text' )
