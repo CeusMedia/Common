@@ -58,7 +58,7 @@ class Reader implements Countable
 	 */
 	public function __construct( string $fileName )
 	{
-		$this->list	= $this->read( $fileName );
+		$this->list	= static::read($fileName);
 	}
 
 	/**

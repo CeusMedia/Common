@@ -64,7 +64,7 @@ class MapWriter
 	 */
 	public function write( array $urls, int $mode = 0755 ): int
 	{
-		return $this->save( $this->fileName, $urls, $mode );
+		return static::save($this->fileName, $urls, $mode);
 	}
 
 	/**

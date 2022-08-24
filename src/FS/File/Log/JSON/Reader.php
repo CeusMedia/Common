@@ -65,7 +65,7 @@ class Reader
 	 */
 	public function getList( bool $reverse = FALSE, int $limit = 0 ): array
 	{
-		return $this->read( $this->fileName, $reverse, $limit );
+		return static::read($this->fileName, $reverse, $limit);
 	}
 
 	/**

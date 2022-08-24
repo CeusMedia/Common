@@ -81,6 +81,6 @@ class Writer
 	 */
 	public function write( VCard $card, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): int
 	{
-		return $this->save( $this->fileName, $card, $charsetIn, $charsetOut );
+		return static::save($this->fileName, $card, $charsetIn, $charsetOut);
 	}
 }

@@ -294,7 +294,7 @@ class Editor extends Reader
 	 */
 	public function move( string $folderPath, bool $force = FALSE ): bool
 	{
-		if( !$this->moveFolder( $this->folderName, $folderPath, $force ) )
+		if( !static::moveFolder($this->folderName, $folderPath, $force) )
 			return FALSE;
 		$this->folderName	= $folderPath;
 		return TRUE;
@@ -308,7 +308,7 @@ class Editor extends Reader
 	 */
 	public function rename( string $folderName ): bool
 	{
-		if( !$this->renameFolder( $this->folderName, $folderName ) )
+		if( !static::renameFolder($this->folderName, $folderName) )
 			return FALSE;
 		$this->folderName	= dirname( $this->folderName )."/".basename( $folderName );
 		return TRUE;
@@ -351,7 +351,7 @@ class Editor extends Reader
 	 */
 	public function remove( bool $force = false ): int
 	{
-		return $this->removeFolder( $this->folderName, $force );
+		return static::removeFolder($this->folderName, $force);
 	}
 
 	/**

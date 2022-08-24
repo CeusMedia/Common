@@ -29,7 +29,7 @@ namespace CeusMedia\Common\CLI\Fork\Server;
 
 use CeusMedia\Common\CLI\Fork\Server\Exception as ForkServerException;
 use CeusMedia\Common\CLI\Fork\Server\SocketException as ForkServerSocketException;
-use Exception;
+use Throwable;
 
 /**
  *	...
@@ -82,7 +82,7 @@ abstract class Abstraction
 		{
 			$this->handleServerException( $e );
 		}
-		catch( Exception $e )
+		catch( Throwable $e )
 		{
 			die( "!!! Not handled: ".$e->getMessage()."\n" );
 		}
@@ -97,7 +97,7 @@ abstract class Abstraction
 
 	abstract protected function handleRequest( $request );
 
-	protected function handleServerException( Exception $e )
+	protected function handleServerException( Throwable $e )
 	{
 		die( $e->getMessage()."\n" );
 	}

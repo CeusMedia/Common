@@ -130,6 +130,6 @@ class Writer
 	 */
 	protected function write( int $mode = 0755, ?string $user = NULL, ?string $group = NULL ): bool
 	{
-		return $this->save( $this->fileName, $this->list, $mode, $user, $group );
+		return static::save($this->fileName, $this->list, $mode, $user, $group);
 	}
 }

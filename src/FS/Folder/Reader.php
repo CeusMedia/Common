@@ -77,7 +77,7 @@ class Reader
 	 */
 	public function exists(): bool
 	{
-		return $this->isFolder( $this->folderName );
+		return static::isFolder($this->folderName);
 	}
 
 	/**

@@ -164,6 +164,6 @@ class Permissions
 
 	public function setByString( string $permissions ): bool
 	{
-		return $this->setByOctal( $this->getOctalFromString( $permissions ) );
+		return $this->setByOctal( static::getOctalFromString($permissions) );
 	}
 }

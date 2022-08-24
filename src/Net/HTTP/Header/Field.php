@@ -94,7 +94,7 @@ class Field
 	public function getValue( $qualified = FALSE )
 	{
 		if( $qualified )
-			return $this->decodeQualifiedValues ( $this->value );
+			return static::decodeQualifiedValues($this->value);
 		return $this->value;
 	}
 

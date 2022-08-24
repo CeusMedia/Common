@@ -84,6 +84,6 @@ class Reader
 	 */
 	public function read( int $offset = 0, int $limit = 0 ): array
 	{
-		return $this->load( $this->fileName, $offset, $limit );
+		return static::load($this->fileName, $offset, $limit);
 	}
 }

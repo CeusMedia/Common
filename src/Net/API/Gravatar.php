@@ -91,7 +91,7 @@ class Gravatar
 			throw new InvalidArgumentException( 'argument "password" is missing' );
 		$hash		= md5( strtolower( trim( $email ) ) );
 		$client		= new RpcClient( $this->urlRpc.'?user='.$hash );
-		return $client->call( 'grav.'.$method, array( (object) $arguments ), TRUE );
+		return $client->call( 'grav.'.$method, array( (object) $arguments ) );
 	}
 
 	public function exists( string $email, string $password ): bool
