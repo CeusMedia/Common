@@ -42,12 +42,12 @@ use RuntimeException;
  */
 class ArgumentParser
 {
-	const STATUS_START				= 0;
-	const STATUS_READ_OPTION_KEY	= 1;
-	const STATUS_READ_OPTION_VALUE	= 2;
-	const STATUS_READ_ARGUMENT		= 3;
+	protected const STATUS_START				= 0;
+	protected const STATUS_READ_OPTION_KEY		= 1;
+	protected const STATUS_READ_OPTION_VALUE	= 2;
+	protected const STATUS_READ_ARGUMENT		= 3;
 
-	const STATUSES					= [
+	protected const STATUSES					= [
 		self::STATUS_START,
 		self::STATUS_READ_OPTION_KEY,
 		self::STATUS_READ_OPTION_VALUE,

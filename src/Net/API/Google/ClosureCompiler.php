@@ -43,7 +43,7 @@ use RuntimeException;
  */
 class ClosureCompiler
 {
-	const URL = 'https://closure-compiler.appspot.com/compile';
+	protected const URL = 'https://closure-compiler.appspot.com/compile';
 
 	protected $options;
 
@@ -86,7 +86,7 @@ class ClosureCompiler
 	 *	@param		array		$options	unused at this point
 	 *	@return		string
 	 */
-	static public function minify( string $js, array $options = [] ): string
+	public static function minify( string $js, array $options = [] ): string
 	{
 		$obj = new self( $options );
 		return $obj->min( $js );

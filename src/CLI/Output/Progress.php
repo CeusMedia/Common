@@ -47,12 +47,12 @@ use RuntimeException;
  */
 class Progress
 {
-	const STATUS_NONE		= 0;
-	const STATUS_READY		= 1;
-	const STATUS_STARTED	= 2;
-	const STATUS_FINISHED	= 3;
+	protected const STATUS_NONE		= 0;
+	protected const STATUS_READY	= 1;
+	protected const STATUS_STARTED	= 2;
+	protected const STATUS_FINISHED	= 3;
 
-	const STATUSES			= array(
+	protected const STATUSES			= array(
 		self::STATUS_NONE,
 		self::STATUS_READY,
 		self::STATUS_STARTED,

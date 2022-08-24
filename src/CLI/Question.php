@@ -7,13 +7,13 @@ use RangeException;
 
 class Question
 {
-	const TYPE_UNKNOWN			= 0;
-	const TYPE_BOOLEAN			= 1;
-	const TYPE_INTEGER			= 2;
-	const TYPE_NUMBER			= 3;
-	const TYPE_STRING			= 4;
+	public const TYPE_UNKNOWN			= 0;
+	public const TYPE_BOOLEAN			= 1;
+	public const TYPE_INTEGER			= 2;
+	public const TYPE_NUMBER			= 3;
+	public const TYPE_STRING			= 4;
 
-	const TYPES					= [
+	public const TYPES					= [
 		self::TYPE_UNKNOWN,
 		self::TYPE_BOOLEAN,
 		self::TYPE_INTEGER,

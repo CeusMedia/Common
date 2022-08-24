@@ -44,9 +44,9 @@ use RuntimeException;
  */
 class Post
 {
-	const TRANSPORT_NONE		= 0;
-	const TRANSPORT_FOPEN		= 1;
-	const TRANSPORT_CURL		= 2;
+	public const TRANSPORT_NONE		= 0;
+	public const TRANSPORT_FOPEN		= 1;
+	public const TRANSPORT_CURL		= 2;
 
 	protected $transport		= self::TRANSPORT_NONE;
 

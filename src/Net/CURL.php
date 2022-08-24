@@ -42,27 +42,27 @@ use RuntimeException;
  */
 class CURL
 {
-	const INFO_CONTENT_TYPE				= 'content_type';
-	const INFO_CONTENT_LENGTH_DOWNLOAD	= 'download_content_length';
-	const INFO_CONTENT_LENGTH_UPLOAD	= 'upload_content_length';
-	const INFO_ERRNO					= 'errno';
-	const INFO_ERROR					= 'error';
-	const INFO_HTTP_CODE				= 'http_code';
-	const INFO_HTTP_URL					= 'url';
-	const INFO_REDIRECT_COUNT			= 'redirect_count';
-	const INFO_REDIRECT_TIME			= 'redirect_time';
-	const INFO_SIZE_HEADER				= 'header_size';
-	const INFO_SIZE_DOWNLOAD			= 'size_download';
-	const INFO_SIZE_REQUEST				= 'request_size';
-	const INFO_SIZE_UPLOAD				= 'size_upload';
-	const INFO_SPEED_DOWNLOAD			= 'speed_download';
-	const INFO_SPEED_UPLOAD				= 'speed_upload';
-	const INFO_SSL_VERIFY_RESULT		= 'ssl_verify_result';
-	const INFO_TIME_CONNECT				= 'connect_time';
-	const INFO_TIME_NAMELOOKUP			= 'namelookup_time';
-	const INFO_TIME_PRETRANSFER			= 'pretransfer_time';
-	const INFO_TIME_STARTTRANSFER		= 'starttransfer_time';
-	const INFO_TIME_TOTAL				= 'total_time';
+	public const INFO_CONTENT_TYPE				= 'content_type';
+	public const INFO_CONTENT_LENGTH_DOWNLOAD	= 'download_content_length';
+	public const INFO_CONTENT_LENGTH_UPLOAD		= 'upload_content_length';
+	public const INFO_ERRNO						= 'errno';
+	public const INFO_ERROR						= 'error';
+	public const INFO_HTTP_CODE					= 'http_code';
+	public const INFO_HTTP_URL					= 'url';
+	public const INFO_REDIRECT_COUNT			= 'redirect_count';
+	public const INFO_REDIRECT_TIME				= 'redirect_time';
+	public const INFO_SIZE_HEADER				= 'header_size';
+	public const INFO_SIZE_DOWNLOAD				= 'size_download';
+	public const INFO_SIZE_REQUEST				= 'request_size';
+	public const INFO_SIZE_UPLOAD				= 'size_upload';
+	public const INFO_SPEED_DOWNLOAD			= 'speed_download';
+	public const INFO_SPEED_UPLOAD				= 'speed_upload';
+	public const INFO_SSL_VERIFY_RESULT			= 'ssl_verify_result';
+	public const INFO_TIME_CONNECT				= 'connect_time';
+	public const INFO_TIME_NAMELOOKUP			= 'namelookup_time';
+	public const INFO_TIME_PRETRANSFER			= 'pretransfer_time';
+	public const INFO_TIME_STARTTRANSFER		= 'starttransfer_time';
+	public const INFO_TIME_TOTAL				= 'total_time';
 
 	/**
 	 *	Array of caseless header names.

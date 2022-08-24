@@ -41,9 +41,9 @@ use CeusMedia\Common\FS\File\CSS\Combiner as CssCombiner;
  */
 class Combiner extends CssCombiner
 {
-	const PROTOCOL_NONE		= 0;
-	const PROTOCOL_HTTP		= 1;
-	const PROTOCOL_HTTPS	= 2;
+	public const PROTOCOL_NONE		= 0;
+	public const PROTOCOL_HTTP		= 1;
+	public const PROTOCOL_HTTPS		= 2;
 
 	protected $protocol;
 

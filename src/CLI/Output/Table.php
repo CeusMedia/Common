@@ -4,20 +4,20 @@ namespace CeusMedia\Common\CLI\Output;
 
 class Table
 {
-	const SIZE_MODE_MIN			= 0;
-	const SIZE_MODE_MAX			= 1;
+	public const SIZE_MODE_MIN			= 0;
+	public const SIZE_MODE_MAX			= 1;
 
-	const SIZE_MODES			= [
+	public const SIZE_MODES			= [
 		self::SIZE_MODE_MIN,
 		self::SIZE_MODE_MAX,
 	];
 
-	const BORDER_STYLE_NONE		= 0;
-	const BORDER_STYLE_SINGLE	= 1;
-	const BORDER_STYLE_DOUBLE	= 2;
-	const BORDER_STYLE_MIXED	= 3;
+	public const BORDER_STYLE_NONE		= 0;
+	public const BORDER_STYLE_SINGLE	= 1;
+	public const BORDER_STYLE_DOUBLE	= 2;
+	public const BORDER_STYLE_MIXED	= 3;
 
-	const BORDER_STYLES			= [
+	public const BORDER_STYLES			= [
 		self::BORDER_STYLE_NONE,
 		self::BORDER_STYLE_SINGLE,
 		self::BORDER_STYLE_DOUBLE,

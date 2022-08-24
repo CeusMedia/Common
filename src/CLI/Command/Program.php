@@ -41,11 +41,11 @@ use Exception;
  */
 abstract class Program
 {
-	const EXIT_NO			= -1;
-	const EXIT_OK			= 0;
-	const EXIT_INIT			= 1;
-	const EXIT_PARSE		= 2;
-	const EXIT_RUN			= 4;
+	public const EXIT_NO			= -1;
+	public const EXIT_OK			= 0;
+	public const EXIT_INIT			= 1;
+	public const EXIT_PARSE		= 2;
+	public const EXIT_RUN			= 4;
 
 	/**	@var	array		$arguments		Map of given Arguments */
 	protected $arguments	= NULL;

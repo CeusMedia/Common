@@ -42,9 +42,9 @@ use Throwable;
  */
 class Template extends RuntimeException
 {
-	const FILE_NOT_FOUND		= 0;
-	const FILE_LABELS_MISSING	= 1;
-	const LABELS_MISSING		= 2;
+	public const FILE_NOT_FOUND			= 0;
+	public const FILE_LABELS_MISSING	= 1;
+	public const LABELS_MISSING			= 2;
 
 	/**	@var		string		$messages		Map of Exception Messages, can be overwritten statically */
 	public static $messages	= array(

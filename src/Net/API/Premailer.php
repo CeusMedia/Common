@@ -58,7 +58,7 @@ use RuntimeException;
  */
 class Premailer
 {
-	const ENDPOINT = 'https://premailer.dialect.ca/api/0.1/documents';
+	protected const ENDPOINT = 'https://premailer.dialect.ca/api/0.1/documents';
 
 	protected $cache;
 

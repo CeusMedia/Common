@@ -39,9 +39,9 @@ namespace CeusMedia\Common\Alg;
  */
 class SgmlTagReader
 {
-	const TRANSFORM_NO			= 0;
-	const TRANSFORM_LOWERCASE	= 1;
-	const TRANSFORM_UPPERCASE	= 2;
+	public const TRANSFORM_NO			= 0;
+	public const TRANSFORM_LOWERCASE	= 1;
+	public const TRANSFORM_UPPERCASE	= 2;
 
 	/**
 	 *	Returns Attributes from a Tag.

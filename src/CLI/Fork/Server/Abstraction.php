@@ -43,10 +43,10 @@ use Throwable;
  */
 abstract class Abstraction
 {
-	const E_LISTEN_FAILED		= 'No sense in creating socket';
-	const E_ACCEPT_FAILED		= 'Miscommunicating';
-	const E_READ_FAILED			= 'Misread';
-	const E_WRITE_FAILED		= 'Miswritten';
+	public const E_LISTEN_FAILED		= 'No sense in creating socket';
+	public const E_ACCEPT_FAILED		= 'Miscommunicating';
+	public const E_READ_FAILED			= 'Misread';
+	public const E_WRITE_FAILED		= 'Miswritten';
 
 	protected $childrenMap		= [];
 	protected $childrenMax		= 30;

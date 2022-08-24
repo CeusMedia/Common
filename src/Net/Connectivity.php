@@ -43,14 +43,14 @@ use RangeException;
  */
 class Connectivity
 {
-	const STATUS_UNKNOWN	= 0;
-	const STATUS_OFFLINE	= 1;
-	const STATUS_ONLINE		= 2;
+	public const STATUS_UNKNOWN	= 0;
+	public const STATUS_OFFLINE	= 1;
+	public const STATUS_ONLINE		= 2;
 
-	const METHOD_SOCKET		= 0;
-	const METHOD_PING		= 1;
+	public const METHOD_SOCKET		= 0;
+	public const METHOD_PING		= 1;
 
-	const METHODS			= [
+	public const METHODS			= [
 		self::METHOD_SOCKET,
 		self::METHOD_PING,
 	];
