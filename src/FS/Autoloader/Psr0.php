@@ -43,9 +43,16 @@ namespace CeusMedia\Common\FS\Autoloader;
  */
 class Psr0
 {
+	/**	@var		string		$fileExtension */
 	private $fileExtension = '.php';
+
+	/**	@var		string		$namespace */
 	private $namespace;
+
+	/**	@var		string		$includePath */
 	private $includePath;
+
+	/**	@var		string		$namespaceSeparator */
 	private $namespaceSeparator = '\\';
 
 	/**

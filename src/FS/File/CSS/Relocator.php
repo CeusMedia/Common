@@ -172,7 +172,7 @@ class Relocator
 
 		// "unresolve" a symlink back to doc root
 		foreach ($symlinks as $link => $target) {
-			if (0 === strpos($path, $target)) {
+			if (0 === strpos($path, (string) $target)) {
 				// replace $target with $link
 				$path = $link . substr($path, strlen($target));
 

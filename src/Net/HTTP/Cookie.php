@@ -124,15 +124,13 @@ class Cookie
 		if( !isset( $this->data[$key] ) )
 			return FALSE;
 		unset( $this->data[$key] );
-		return setcookie(
-			$key,
-			"",
-			time() - 1,
-			$path ?? $this->path,
-			$domain ?? $this->domain,
-			$secure ?? $this->secure,
-			$httpOnly ?? $this->httpOnly
-		);
+		return setcookie( $key, '', [
+			'expires'		=> time() - 1,
+			'path'			=> $path ?? $this->path,
+			'domain'		=> $domain ?? $this->domain,
+			'secure'		=> $secure ?? $this->secure,
+			'httponly'		=> $httpOnly ?? $this->httpOnly
+		]);
 	}
 
 	/**
@@ -151,15 +149,13 @@ class Cookie
 	{
 		$key		= str_replace( ".", "_", $key );
 		$this->data[$key]	=& $value;
-		return setcookie(
-			$key,
-			$value,
-			$expires ? time() + $expires : $expires,
-			$path ?? $this->path,
-			$domain ?? $this->domain,
-			$secure ?? $this->secure,
-			$httpOnly ?? $this->httpOnly
-		);
+		return setcookie( $key, $value, [
+			'expires'		=> $expires ? time() + $expires : $expires,
+			'path'			=> $path ?? $this->path,
+			'domain'		=> $domain ?? $this->domain,
+			'secure'		=> $secure ?? $this->secure,
+			'httponly'		=> $httpOnly ?? $this->httpOnly
+		]);
 	}
 
 	/**

@@ -130,14 +130,12 @@ class PartitionCookie extends Cookie
 	 */
 	protected function save( int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		return setCookie(
-			$this->partition,
-			json_encode( $this->data ),
-			$expires ? time() + $expires : $expires,
-			$path ?? $this->path,
-			$domain ?? $this->domain,
-			$secure ?? $this->secure,
-			$httpOnly ?? $this->httpOnly
-		);
+		return setcookie( $this->partition, json_encode( $this->data ), [
+			'expires'		=> $expires ? time() + $expires : $expires,
+			'path'			=> $path ?? $this->path,
+			'domain'		=> $domain ?? $this->domain,
+			'secure'		=> $secure ?? $this->secure,
+			'httponly'		=> $httpOnly ?? $this->httpOnly
+		]);
 	}
 }
