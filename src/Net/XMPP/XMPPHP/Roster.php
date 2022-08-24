@@ -51,7 +51,7 @@ class Roster
 	 * Constructor
 	 *
 	 */
-	public function __construct($roster_array = array())
+	public function __construct($roster_array = [])
 	{
 		if ($this->verifyRoster($roster_array)) {
 			$this->roster_array = $roster_array; //Allow for prepopulation with existing roster

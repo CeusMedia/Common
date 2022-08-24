@@ -1,5 +1,5 @@
 includes:
-#	- vendor/phpstan/phpstan-strict-rules/rules.neon
+#	- ../../vendor/phpstan/phpstan-strict-rules/rules.neon
 #	- phpstan-baseline.neon
 
 #reachedLevels:
@@ -8,26 +8,27 @@ includes:
 #	CLI: 1
 #	Exception: 1
 #	FS: 1
-#	Net: 0
+#	Net: 1
 #	UI: 0
 #	XML: 1
 
 parameters:
 	phpVersion: 70300
-	level: 1
+	level: 2
 	paths:
 		- ../../src
 	excludePaths:
 		analyse:
 			- ../../src/FS/File/YAML/Spyc.php
-			- ../../src/ADT
-			- ../../src/Alg
-			- ../../src/CLI
-			- ../../src/Exception
-			- ../../src/FS
+			- ../../src/Net/XMPP/XMPPHP
+#			- ../../src/ADT
+#			- ../../src/Alg
+#			- ../../src/CLI
+#			- ../../src/Exception
+#			- ../../src/FS
 #			- ../../src/Net
 			- ../../src/UI
-			- ../../src/XML
+#			- ../../src/XML
 		analyseAndScan:
 			- ../../src/compat8.php
 			- ../../src/compat9.php

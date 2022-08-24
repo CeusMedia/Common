@@ -137,7 +137,7 @@ class SgmlTagReader
 		);
 	}
 
-/*	public static function transformAttributeValues( $attributes, $transform, $keys = array() )
+/*	public static function transformAttributeValues( $attributes, $transform, $keys = [] )
 	{
 		$list	= [];
 		foreach( $attributes as $key => $value )

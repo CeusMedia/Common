@@ -75,7 +75,7 @@ class Renderer
 		return array( "circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi" );
 	}
 
-	public function getMap( $type = "cmapx_np", $graphOptions = array() ){
+	public function getMap( $type = "cmapx_np", $graphOptions = [] ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 		if( !in_array( $type, array( "ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np" ) ) )
@@ -92,7 +92,7 @@ class Renderer
 		return $map;
 	}
 
-	public function printGraph( $type = "png", $graphOptions = array() ){
+	public function printGraph( $type = "png", $graphOptions = [] ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
@@ -109,7 +109,7 @@ class Renderer
 		exit;
 	}
 
-	public function saveAsImage( $fileName, $type = "png", $graphOptions = array() ){
+	public function saveAsImage( $fileName, $type = "png", $graphOptions = [] ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 #		if( !in_array( $type, array( "ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np" ) ) )

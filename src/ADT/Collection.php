@@ -7,7 +7,7 @@ class Collection implements \Countable
 {
 	public $list;
 
-	public function __construct( $list = array() )
+	public function __construct( $list = [] )
 	{
 		if( !( is_array( $list ) || is_null( $list ) ) )
 			throw new InvalidArgumentException( 'List must be an array' );

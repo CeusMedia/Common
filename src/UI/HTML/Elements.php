@@ -342,7 +342,7 @@ class Elements extends FormElements
 	 *	@param		string		$width			Weitenangabe
 	 *	@return		string
 	 */
-	public static function Label( $label_name, $label_text, $class = 'label', $icons = array() )
+	public static function Label( $label_name, $label_text, $class = 'label', $icons = [] )
 	{
 		if( !is_array( $icons ) )
 		{
@@ -416,7 +416,7 @@ class Elements extends FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function ListItem( $content, $level = 0, $attributes = array() )
+	public static function ListItem( $content, $level = 0, $attributes = [] )
 	{
 		$depth	= 2 * abs( (int) $level ) + 1;
 		$indent	= str_repeat( "  ", $depth );
@@ -434,7 +434,7 @@ class Elements extends FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function orderedList( $items, $level = 0, $attributes = array() )
+	public static function orderedList( $items, $level = 0, $attributes = [] )
 	{
 		$content	= "\n".implode( "\n", $items )."\n";
 		$indent		= str_repeat( "	", 2 * abs( (int) $level ) );
@@ -569,7 +569,7 @@ class Elements extends FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function unorderedList( $items, $level = 0, $attributes = array() )
+	public static function unorderedList( $items, $level = 0, $attributes = [] )
 	{
 		$depth1		= 2 * abs( (int) $level );
 		$depth2		= $level ? 2 * abs( (int) $level - 1 ) + 1 : 0;

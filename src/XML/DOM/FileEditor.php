@@ -75,7 +75,7 @@ class FileEditor
 	 *	@param		array		$attributes		Array of Attribute of new Content
 	 *	@return		bool
 	 */
-	public function addNode( string $nodePath, string $name, string $content = '', array $attributes = array() ): bool
+	public function addNode( string $nodePath, string $name, string $content = '', array $attributes = [] ): bool
 	{
 		$branch	= $this->getNode( $nodePath );
 		$node	= new Node( $name, $content, $attributes );

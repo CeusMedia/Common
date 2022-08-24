@@ -63,7 +63,7 @@ class Indicator extends OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $options = array() )
+	public function __construct( $options = [] )
 	{
 		parent::__construct( $this->defaultOptions, $options );
 	}
@@ -181,7 +181,7 @@ class Indicator extends OptionObject
 		return $this->getOption( 'classRatio' );
 	}
 
-	static public function render( $count, $found, $options = array() ){
+	static public function render( $count, $found, $options = [] ){
 		$indicator	= new Indicator( $options );
 		return $indicator->build( $count, $found );
 	}

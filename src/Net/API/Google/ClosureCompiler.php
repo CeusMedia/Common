@@ -53,7 +53,7 @@ class ClosureCompiler
 	 *
 	 * fallbackFunc : default array($this, 'fallback');
 	 */
-	public function __construct( array $options = array() )
+	public function __construct( array $options = [] )
 	{
 		$this->options	= $options;
 	}
@@ -86,7 +86,7 @@ class ClosureCompiler
 	 *	@param		array		$options	unused at this point
 	 *	@return		string
 	 */
-	static public function minify( string $js, array $options = array() ): string
+	static public function minify( string $js, array $options = [] ): string
 	{
 		$obj = new self( $options );
 		return $obj->min( $js );

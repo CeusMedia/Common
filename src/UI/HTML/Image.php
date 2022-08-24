@@ -53,7 +53,7 @@ class Image extends Abstraction
 	 *	@param		array		$attributes	Map of other Attributes
 	 *	@return		void
 	 */
-	public function __construct( $url = NULL, $title = NULL, $attributes = array() )
+	public function __construct( $url = NULL, $title = NULL, $attributes = [] )
 	{
 		if( !empty( $url ) )
 			$this->setUrl( $url );

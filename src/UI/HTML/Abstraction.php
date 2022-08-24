@@ -55,7 +55,7 @@ abstract class Abstraction implements Renderable
 	 *	@param		string		$attributes	Map of Element Attributes
 	 *	@return		void
 	 */
-	public function addAttributes( $attributes = array() )
+	public function addAttributes( $attributes = [] )
 	{
 		foreach( $attributes as $key => $value )
 		{
@@ -117,7 +117,7 @@ abstract class Abstraction implements Renderable
 	 *	@param		string		$attributes	Map of Element Attributes
 	 *	@return		void
 	 */
-	public function setAttributes( $attributes = array() )
+	public function setAttributes( $attributes = [] )
 	{
 		if( !empty( $attributes['class'] ) && is_string( $attributes['class'] ) )
 			$attributes['class']	= explode( ' ', $attributes['class'] );

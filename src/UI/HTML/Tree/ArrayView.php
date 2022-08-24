@@ -109,7 +109,7 @@ class ArrayView
 	 *	@return		string
 	 *	@link		http://docs.jquery.com/Plugins/Treeview/treeview#options
 	 */
-	public function constructTree( ArrayObject $nodes, $currentId = NULL, $attributes = array(), $level = 0, $path = "" )
+	public function constructTree( ArrayObject $nodes, $currentId = NULL, $attributes = [], $level = 0, $path = "" )
 	{
 		$target	= $this->target ? $this->target : NULL;
 		$list	= [];

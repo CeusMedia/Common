@@ -50,7 +50,7 @@ class Queue implements Countable
 	 *	@param		array		$initialArray	Array with initial Queue Items
 	 *	@return		void
 	 */
-	public function __construct( array $initialArray = array() )
+	public function __construct( array $initialArray = [] )
 	{
 		$this->queue = $initialArray;
 	}

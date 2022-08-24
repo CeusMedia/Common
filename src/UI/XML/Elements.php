@@ -63,7 +63,7 @@ class Elements
 		$parent->addChild( $node );
 	}
 
-	public function buildLink( $tag, $reference, $title, $target = false, $attributes = array() )
+	public function buildLink( $tag, $reference, $title, $target = false, $attributes = [] )
 	{
 		$node	= new Node( $tag );
 		$node->addChild( new Node( "reference", $reference ) );
@@ -76,7 +76,7 @@ class Elements
 		return $node;
 	}
 
-	public function buildList( $tag, $items, $attributes = array() )
+	public function buildList( $tag, $items, $attributes = [] )
 	{
 		$node	= new Node( $tag );
 		foreach( $items as $item )
@@ -90,7 +90,7 @@ class Elements
 		return $node;
 	}
 
-	public function buildNode( $tag, $text = false , $attributes = array() )
+	public function buildNode( $tag, $text = false , $attributes = [] )
 	{
 		$node	= new Node( $tag );
 		if( $text )
@@ -101,7 +101,7 @@ class Elements
 		return $node;
 	}
 
-	public function buildParent( $tag, $child, $attributes = array() )
+	public function buildParent( $tag, $child, $attributes = [] )
 	{
 		$node	= new Node( $tag );
 		$node->addChild( $child );
@@ -111,7 +111,7 @@ class Elements
 		return $node;
 	}
 
-	public function buildText( $tag, $text, $attributes = array() )
+	public function buildText( $tag, $text, $attributes = [] )
 	{
 		$node	= new Node( $tag, $text );
 		if( count( $attributes ) )

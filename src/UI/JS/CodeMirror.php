@@ -21,7 +21,7 @@ class CodeMirror
 		'matchBrackets'				=> TRUE,
 	);
 
-	public function build( $textareaSelector, $options = array() )
+	public function build( $textareaSelector, $options = [] )
 	{
 		$options	= array_merge( $this->options, $options );
 		ksort( $options );

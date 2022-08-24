@@ -50,7 +50,7 @@ class Item extends Collection
 	 *	@param		array		$attributes		Array of Item Attributes (classItem,classLink,classList)
 	 *	@return		void
 	 */
-	public function __construct( string $url, string $label, array $attributes = array() )
+	public function __construct( string $url, string $label, array $attributes = [] )
 	{
 		parent::__construct( $label, $attributes );
 		$this->url			= $url;

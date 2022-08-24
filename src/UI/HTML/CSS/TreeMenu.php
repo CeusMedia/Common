@@ -190,7 +190,7 @@ class TreeMenu
 	 *	@param		array				$attributes			Map of HTML Attributes of List Tag
 	 *	@return		string
 	 */
-	public static function buildMenu( MenuCollection $tree, $contentDrop = NULL, $attributes = array() )
+	public static function buildMenu( MenuCollection $tree, $contentDrop = NULL, $attributes = [] )
 	{
 		$list	= [];
 		foreach( $tree->getChildren() as $child )

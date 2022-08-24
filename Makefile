@@ -51,16 +51,16 @@ dev-phpstan-save-baseline:
 	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --generate-baseline tool/config/phpstan-baseline.neon || true
 
 dev-rector-rules-apply:
-	@vendor/bin/rector process --config=tool/config/rector-rules --no-diffs
+	@vendor/bin/rector process --config=tool/config/rector-rules.php --no-diffs
 
 dev-rector-php7.3-apply:
-	@vendor/bin/rector process --config=tool/config/rector-php73 --no-diffs
+	@vendor/bin/rector process --config=tool/config/rector-php73.php --no-diffs
 
 dev-rector-rules-dry:
 	@vendor/bin/rector process --config=tool/config/rector-rules.php --dry-run
 
 dev-rector-php7.3-dry:
-	@vendor/bin/rector process --config=tool/config/rector-php73 --dry-run
+	@vendor/bin/rector process --config=tool/config/rector-php73.php --dry-run
 
 # --  GIT  ----------------------------------------------------------------
 git-show-status:

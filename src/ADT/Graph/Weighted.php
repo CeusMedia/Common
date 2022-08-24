@@ -440,7 +440,7 @@ class Weighted
 	 *	@param		array		$hadNodes	Already visited Node.
 	 *	@return		bool
 	 */
-	public function isPath( Node $source, Node $target, array $hadNodes = array() ): bool
+	public function isPath( Node $source, Node $target, array $hadNodes = [] ): bool
 	{
 		if( $this->isEdge( $source, $target ) )
 			return TRUE;

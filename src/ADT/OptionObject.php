@@ -56,7 +56,7 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@todo		allow integer map keys for eg. options defined by constants (which point to integer values, of course)
 	 *	@return		void
 	 */
-	public function __construct( array $defaults = array(), array $settings = array() )
+	public function __construct( array $defaults = [], array $settings = [] )
 	{
 		foreach( $defaults as $key => $value )
 			if( is_int( $key ) )
@@ -97,7 +97,7 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		array		$optionKeys		List of Option Keys
 	 *	@return		void
 	 */
-	public function declareOptions( array $optionKeys = array() )
+	public function declareOptions( array $optionKeys = [] )
 	{
 		foreach( $optionKeys as $key ){
 			if( !is_string( $key ) )

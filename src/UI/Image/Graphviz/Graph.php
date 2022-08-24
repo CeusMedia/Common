@@ -51,7 +51,7 @@ class Graph
 	protected $nodeOptions		= [];
 	protected $edgeOptions		= [];
 
-	public function __construct( $id = NULL, $options = array() ){
+	public function __construct( $id = NULL, $options = [] ){
 		if( $id )
 			$this->setId( $id );
 		$this->setDefaultOptions( $options );
@@ -61,7 +61,7 @@ class Graph
 		return $this->render();
 	}
 
-	public function addEdge( $nodeSource, $nodeTarget, $options = array() ){
+	public function addEdge( $nodeSource, $nodeTarget, $options = [] ){
 		$nodeSourceId	= $this->sanitizeNodeName( $nodeSource );
 		$nodeTargetId	= $this->sanitizeNodeName( $nodeTarget );
 		if( !array_key_exists( $nodeSourceId, $this->nodes ) )
@@ -73,7 +73,7 @@ class Graph
 		$this->edges[$nodeSourceId][$nodeTargetId]	= $options;
 	}
 
-	public function addNode( $name, $options = array() ){
+	public function addNode( $name, $options = [] ){
 		$nodeId	= $this->sanitizeNodeName( $name );
 		if( array_key_exists( $nodeId, $this->nodes ) )
 			throw new DomainException( 'Node "'.$name.'" is already existing' );
@@ -126,7 +126,7 @@ class Graph
 		return isset( $this->nodes[$this->sanitizeNodeName( $name )] );
 	}
 
-	public function render( $options = array() ){
+	public function render( $options = [] ){
 		$edges	= [];
 		$nodes	= [];
 		foreach( $this->nodes as $name => $nodeOptions )
@@ -142,7 +142,7 @@ class Graph
 		return $this->type." ".$this->id." {\n\t".join( "\n\t", $rules )."\n}";
 	}
 
-	protected function renderOptions( $options = array(), $overrideOptions = array(), $delimiter =" " ){
+	protected function renderOptions( $options = [], $overrideOptions = [], $delimiter =" " ){
 		if( is_null( $options ) )
 			return "";
 		if( is_array( $overrideOptions ) )
@@ -158,7 +158,7 @@ class Graph
 		return preg_replace( "/[^\w_:]/", "", $name );
 	}
 
-	public function save( $fileName, $options = array() ){
+	public function save( $fileName, $options = [] ){
 		return FileWriter::save( $fileName, $this->render( $options ) );
 	}
 

@@ -105,7 +105,7 @@ class Panel
 	 *	@param		array		$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme= "default", $attributes = array() )
+	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme= "default", $attributes = [] )
 	{
 		$divContInner	= self::wrap( (string) $content, self::$classContentInner );
 		$divCont		= self::wrap( $divContInner, self::$classContent );
@@ -212,7 +212,7 @@ class Panel
 	 *	@param		array		$attributes			Array of Attributes
 	 *	@return		string
 	 */
-	protected static function wrap( $content, $class, $attributes = array() )
+	protected static function wrap( $content, $class, $attributes = [] )
 	{
 		$attributes	= array_merge( $attributes, array( 'class' => $class ) );
 		return Tag::create( "div", $content, $attributes );

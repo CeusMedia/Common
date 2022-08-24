@@ -68,7 +68,7 @@ class Tabs
 	 *	@param		array		$tabs		Array of Labels and Contents
 	 *	@return		void
 	 */
-	public function __construct( $tabs = array(), $class = NULL )
+	public function __construct( $tabs = [], $class = NULL )
 	{
 		if( $tabs )
 			$this->addTabs( $tabs );
@@ -105,7 +105,7 @@ class Tabs
 	 *	@param		array		$tabs		Array of Labels and Contents
 	 *	@return		void
 	 */
-	public function addTabs( $tabs = array() )
+	public function addTabs( $tabs = [] )
 	{
 		if( !is_array( $tabs ) )
 			throw new InvalidArgumentException( 'Tabs must be given as array of labels and contents.' );
@@ -121,7 +121,7 @@ class Tabs
 	 *	@return 	string
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public function buildScript( $selector, $options = array() )
+	public function buildScript( $selector, $options = [] )
 	{
 		$options	= array_merge( $this->options, $options );
 		return self::createScript( $selector, $options );
@@ -150,7 +150,7 @@ class Tabs
 	 *	@return 	string
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public static function createScript( $selector, $options = array() )
+	public static function createScript( $selector, $options = [] )
 	{
 		return JQuery::buildPluginCall( "tabs", $selector, $options );
 	}
@@ -165,7 +165,7 @@ class Tabs
 	 *	@param		string		$class		CSS Class of Tabs DIV (main container)
 	 *	@return		string
 	 */
-	public static function createTabs( $id, $labels = array(), $contents = array(), $class = NULL )
+	public static function createTabs( $id, $labels = [], $contents = [], $class = NULL )
 	{
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );

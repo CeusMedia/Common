@@ -54,7 +54,7 @@ class Link extends Abstraction
 	 *	@param		array		$attributes		Map of Attributes to set
 	 *	@return		void
 	 */
-	public function __construct( $parameters = array(), $content = NULL, $attributes = array() )
+	public function __construct( $parameters = [], $content = NULL, $attributes = [] )
 	{
 		parent::__construct( $content, $attributes );
 		$this->addClass( self::$defaultClass );

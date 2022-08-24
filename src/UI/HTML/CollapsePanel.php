@@ -55,7 +55,7 @@ class CollapsePanel extends Panel
 	 *	@param		array		$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme = "default", $attributes = array() )
+	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme = "default", $attributes = [] )
 	{
 		$classes	= $theme ? self::$classPanel." ".$theme : self::$classPanel;
 		return parent::create( $id, $content, $header, $abstract, $footer, $classes, $attributes );
@@ -70,7 +70,7 @@ class CollapsePanel extends Panel
 	 *	@return		string
 	 *	@todo		change selector to id
 	 */
-	public static function createScript( $selector, $options = array() )
+	public static function createScript( $selector, $options = [] )
 	{
 		return JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );
 	}

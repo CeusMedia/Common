@@ -48,7 +48,7 @@ class LevelMap extends Dictionary
 {
 	protected $divider		= ".";
 
-	public function __construct( array $array = array(), string $divider = "." )
+	public function __construct( array $array = [], string $divider = "." )
 	{
 		parent::__construct( $array );
 		$this->divider	= $divider;

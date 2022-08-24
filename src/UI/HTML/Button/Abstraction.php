@@ -52,7 +52,7 @@ abstract class Abstraction extends HtmlAbstraction
 	 *	@param		array		$attributes		Map of Attributes to set
 	 *	@return		void
 	 */
-	public function __construct( $content, $attributes = array() )
+	public function __construct( $content, $attributes = [] )
 	{
 		$this->attributes['type']	= 'button';
 		$this->addClass( self::$defaultClass );

@@ -76,7 +76,7 @@ abstract class Generator
 	 *	@param		array		$request		Request Parameters to extend Labels
 	 *	@return		void
 	 */
-	protected function extendConfigByLabels( $labels, $request = array() )
+	protected function extendConfigByLabels( $labels, $request = [] )
 	{
 		foreach( $request as $key => $value )
 		{
@@ -111,7 +111,7 @@ abstract class Generator
 	 *	@param		array		$type			List of Plot Types (e.g. 'line' for 'graph_lineplot.php')
 	 *	@return		void
 	 */
-	protected function loadJpGraph( $types = array() )
+	protected function loadJpGraph( $types = [] )
 	{
 		if( $this->pathJpGraph === NULL )
 			throw new RuntimeException( 'Path to JpGraph has not been set.' );

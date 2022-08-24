@@ -73,7 +73,7 @@ class Tag implements Renderable
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
 	 */
-	public function __construct( string $name, $content = NULL, array $attributes = array(), array $data = array() )
+	public function __construct( string $name, $content = NULL, array $attributes = [], array $data = [] )
 	{
 		$this->name		= $name;
 		$this->setContent( $content );
@@ -113,7 +113,7 @@ class Tag implements Renderable
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		string
 	 */
-	public static function create( string $name, $content = NULL, array $attributes = array(), array $data = array() ): string
+	public static function create( string $name, $content = NULL, array $attributes = [], array $data = [] ): string
 	{
 		if( !strlen( $name	= trim( $name ) ) )
 			throw new InvalidArgumentException( 'Missing tag name' );
@@ -344,7 +344,7 @@ class Tag implements Renderable
 		return join( $delimiter, $array );
 	}
 
-	protected static function renderData( $data = array() ){
+	protected static function renderData( $data = [] ){
 		$list	= [];
 		foreach( $data as $key => $value ){
 			$key	= 'data-'.CamelCase::decode( $key, '-' );
@@ -353,7 +353,7 @@ class Tag implements Renderable
 		return self::renderAttributes( $list, TRUE );
 	}
 
-	protected static function renderAttributes( $attributes = array(), $allowOverride = FALSE ): string
+	protected static function renderAttributes( $attributes = [], $allowOverride = FALSE ): string
 	{
 		if( !is_array( $attributes ) )
 			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );

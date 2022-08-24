@@ -59,7 +59,7 @@ class Inference extends URL
 	 *	@param		string		$fragment		Fragment ID
 	 *	@return		string		New URL.
 	 */
-	public function build( $mapSet = array(), $listRemove = array(), $fragment = NULL )
+	public function build( $mapSet = [], $listRemove = [], $fragment = NULL )
 	{
 		$parameters	= $this->buildQueryString( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
@@ -76,7 +76,7 @@ class Inference extends URL
 	 *	@param		array		$reset			List of Parameters to remove from URL
 	 *	@return		string		New URL.
 	 */
-	public function buildQueryString( $mapSet = array(), $listRemove = array() )
+	public function buildQueryString( $mapSet = [], $listRemove = [] )
 	{
 		$mapRequest	= $_GET;
 
@@ -101,7 +101,7 @@ class Inference extends URL
 	 *	@param		array		$reset			List of Parameters to remove from URL
 	 *	@return		string		New URL.
 	 */
-	public static function buildQueryStringStatic( $mapSet = array(), $listRemove = array() )
+	public static function buildQueryStringStatic( $mapSet = [], $listRemove = [] )
 	{
 		$mapRequest	= $_GET;
 
@@ -127,7 +127,7 @@ class Inference extends URL
 	 *	@param		string		$fragment		Fragment ID
 	 *	@return		string		New URL.
 	 */
-	public function buildStatic( $mapSet = array(), $listRemove = array(), $fragment = NULL )
+	public function buildStatic( $mapSet = [], $listRemove = [], $fragment = NULL )
 	{
 		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";

@@ -145,7 +145,7 @@ class Gravatar
 	 *	@param		array		$attributes		Additional HTML tag attributes
 	 *	@return		string		Image HTML code
 	 */
-	public function renderImage( string $email, array $attributes = array() ): string
+	public function renderImage( string $email, array $attributes = [] ): string
 	{
 		$attributes['src']		= $this->getUrl( $email );
 		$attributes['width']	= $this->size;

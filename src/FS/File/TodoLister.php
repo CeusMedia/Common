@@ -77,7 +77,7 @@ class TodoLister
 	 *	@param		array		$additionalExtensions	Other File Extensions than 'php5'
 	 *	@param		array		$additionalPatterns		Other Patterns than '@todo'
 	 */
-	public function __construct( array $additionalExtensions = array(), array $additionalPatterns = array() )
+	public function __construct( array $additionalExtensions = [], array $additionalPatterns = [] )
 	{
 		$this->extensions	= $additionalExtensions;
 		$this->patterns		= $additionalPatterns;

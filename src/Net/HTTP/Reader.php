@@ -77,7 +77,7 @@ class Reader
 	 *	@param		array		$options			Map of cURL Options
 	 *	@return		void
 	 */
-	protected function applyCurlOptions( CURL $curl, array $options = array() )
+	protected function applyCurlOptions( CURL $curl, array $options = [] )
 	{
 		foreach( $options as $key => $value ){
 			if( is_string( $key ) ){
@@ -99,7 +99,7 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function get( string $url, $headers = array(), array $curlOptions = array() ): Response
+	public function get( string $url, $headers = [], array $curlOptions = [] ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
@@ -149,7 +149,7 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function post( string $url, array $data, $headers = array(), array $curlOptions = array() ): Response
+	public function post( string $url, array $data, $headers = [], array $curlOptions = [] ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );

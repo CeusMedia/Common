@@ -58,7 +58,7 @@ class Node
 	 *	@param		array			$attributes		Array of Node Attributes
 	 *	@return		void
 	 */
-	public function __construct( string $nodeName, ?string $content = NULL, array $attributes = array() )
+	public function __construct( string $nodeName, ?string $content = NULL, array $attributes = [] )
 	{
 		$this->setNodeName( $nodeName );
 		if( $content !== NULL )

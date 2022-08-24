@@ -67,7 +67,7 @@ class Template extends RuntimeException
 	 *	@param		mixed		$data			Some additional data
 	 *	@return		void
 	 */
-	public function __construct( int $code, string $fileName, array $data = array(), ?Throwable $previous = null )
+	public function __construct( int $code, string $fileName, array $data = [], ?Throwable $previous = null )
 	{
 		$tagList	= '"'.implode( '", "', $data ).'"';
 		switch( $code )

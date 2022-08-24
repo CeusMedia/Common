@@ -90,7 +90,7 @@ class EvolutionGraph extends OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $options = array() )
+	public function __construct( $options = [] )
 	{
 		parent::__construct();
 		$this->setDefaults();

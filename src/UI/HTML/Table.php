@@ -50,7 +50,7 @@ class Table
 	protected $class	= NULL;
 	protected $id		= NULL;
 
-	public function __construct( $attributes = array() )
+	public function __construct( $attributes = [] )
 	{
 		foreach( $attributes as $key => $value )
 		{
@@ -86,7 +86,7 @@ class Table
 
 	}
 
-	public function addCell( $label, $attributes = array() )
+	public function addCell( $label, $attributes = [] )
 	{
 		if( !$this->bodyRows )
 			$this->bodyRows[]	= [];
@@ -104,7 +104,7 @@ class Table
 		$this->columns[$current][]	= $column;
 	}
 
-	public function addColumns( $columns = array() )
+	public function addColumns( $columns = [] )
 	{
 		$this->columns[]	= [];
 		if( is_string( $columns ) )
@@ -113,7 +113,7 @@ class Table
 			$this->addColumn( $value );
 	}
 
-	public function addFoot( $label, $attributes = array() )
+	public function addFoot( $label, $attributes = [] )
 	{
 		if( !$this->footRows )
 			$this->footRows[]	= [];
@@ -135,7 +135,7 @@ class Table
 		}
 	}
 
-	public function addHead( $label, $attributes = array() )
+	public function addHead( $label, $attributes = [] )
 	{
 		if( !$this->headRows )
 			$this->headRows[]	= [];
@@ -161,7 +161,7 @@ class Table
 		}
 	}
 
-	public function addRow( $cells = array() )
+	public function addRow( $cells = [] )
 	{
 		$this->bodyRows[]	= [];
 		foreach( $cells as $key => $value )

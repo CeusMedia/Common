@@ -144,7 +144,7 @@ class Premailer
 	 *	@return		object		Response object
 	 *	@throws		Exception
 	 */
-	public function convertFromUrl( string $url, array $params = array() ): object
+	public function convertFromUrl( string $url, array $params = [] ): object
 	{
 		$params = array_merge( self::$options, $params );
 		$params['url']	= $url;
@@ -161,7 +161,7 @@ class Premailer
 	 *	@return		object		Response object
 	 *	@throws		Exception
 	 */
-	public function convertFromHtml( string $html, array $params = array() ): object
+	public function convertFromHtml( string $html, array $params = [] ): object
 	{
 		$params = array_merge( self::$options, $params );
 		$params['html']	= $html;

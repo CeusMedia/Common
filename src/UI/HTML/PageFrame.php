@@ -227,7 +227,7 @@ class PageFrame
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function build( $bodyAttributes = array(), $htmlAttributes = array() )
+	public function build( $bodyAttributes = [], $htmlAttributes = [] )
 	{
 		if( !is_array( $bodyAttributes ) )
 			throw new InvalidArgumentException( 'Parameter "bodyAttributes" need to be an array or empty' );

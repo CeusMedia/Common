@@ -320,7 +320,7 @@ class Spyc
       $value  = $this->_doFolding($value,$indent);
     }
 
-    if ($value === array()) $value = '[ ]';
+    if ($value === []) $value = '[ ]';
     if ($value === "") $value = '""';
     if (self::isTranslationWord($value)) {
       $value = $this->_doLiteralBlock($value, $indent);

@@ -74,7 +74,7 @@ class FolderView
 	 *	@param		string		$classLeaf			CSS Class of Leafes / Files
 	 *	@return		string
 	 */
-	public function getHtml( $currentId, $attributes = array(), $linkNodes = FALSE, $classNode = "folder", $classLeaf = "file" )
+	public function getHtml( $currentId, $attributes = [], $linkNodes = FALSE, $classNode = "folder", $classLeaf = "file" )
 	{
 		$nodes	= new ArrayObject();
 		$this->readRecursive( $this->path, $currentId, $nodes, $linkNodes, $classNode, $classLeaf );

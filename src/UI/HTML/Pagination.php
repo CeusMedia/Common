@@ -48,7 +48,7 @@ class Pagination extends OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $options = array() )
+	public function __construct( $options = [] )
 	{
 		if( !is_array( $options ) )
 			throw new InvalidArgumentException( 'Option map is not an array' );

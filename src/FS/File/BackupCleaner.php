@@ -112,7 +112,7 @@ class BackupCleaner
 	 *	@return		void
 	 *	@throws		Exception
 	 */
-	public function keepLastOfMonth( array $filters = array(), bool $verbose = FALSE, bool $testOnly = FALSE )
+	public function keepLastOfMonth( array $filters = [], bool $verbose = FALSE, bool $testOnly = FALSE )
 	{
 		$dates	= $this->filterDateTree( $this->getDateTree(), $filters );
 		foreach( $dates as $year => $months ){

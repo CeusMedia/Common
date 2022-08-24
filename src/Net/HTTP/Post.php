@@ -64,7 +64,7 @@ class Post
 			$this->transport	= self::TRANSPORT_FOPEN;
 	}
 
-	public function send( string $url, array $data = array(), array $curlOptions = array() ): string
+	public function send( string $url, array $data = [], array $curlOptions = [] ): string
 	{
 		if( is_array( $data ) )
 			$data	= http_build_query( $data, NULL, '&' );
@@ -106,7 +106,7 @@ class Post
 		}
 	}
 
-	public static function sendData( string $url, array $data = array(), array $curlOptions = array() ): string
+	public static function sendData( string $url, array $data = [], array $curlOptions = [] ): string
 	{
 		$post	= new self();
 		return $post->send( $url, $data, $curlOptions );

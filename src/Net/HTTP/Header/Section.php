@@ -182,14 +182,14 @@ class Section
 	 *	@param		array		$fieldPairs		Map of header field names and values
 	 *	@return		self
 	 */
-	public function addFieldPairs( array $fieldPairs = array() ): self
+	public function addFieldPairs( array $fieldPairs = [] ): self
 	{
 		foreach( $fieldPairs as $key => $value )
 			$this->addFieldPair( $key, $value );
 		return $this;
 	}
 
-	public function addFields( array $fields = array() ): self
+	public function addFields( array $fields = [] ): self
 	{
 		foreach( $fields as $field )
 			$this->addField( $field );

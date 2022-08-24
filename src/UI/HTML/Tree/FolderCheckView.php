@@ -148,7 +148,7 @@ class FolderCheckView
 	 *	@param		array		$treeviewOptions	Array of Options for JQuery Plugin 'treeview'
 	 *	@return		string							JavaScript if an ID is set
 	 */
-	public function buildScript( $options = array(), $treeviewOptions = NULL )
+	public function buildScript( $options = [], $treeviewOptions = NULL )
 	{
 		//  no ID bound to Tree HTML Code
 		if( !$this->id )

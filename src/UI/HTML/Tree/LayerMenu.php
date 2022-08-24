@@ -66,7 +66,7 @@ class LayerMenu
 	 *	@param		int					$level	Depth Level of Tree
 	 *	@return		string
 	 */
-	protected static function buildLayersRecursive( MenuCollection $tree, $parent, $steps = array(), $level = 0 )
+	protected static function buildLayersRecursive( MenuCollection $tree, $parent, $steps = [], $level = 0 )
 	{
 		$backlinks	= "";
 		if( count( $steps ) > 1 )

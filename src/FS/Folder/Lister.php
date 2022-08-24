@@ -164,7 +164,7 @@ class Lister
 	 *	@param		array		$extensions			List of allowed File Extensions.
 	 *	@return		self
 	 */
-	public function setExtensions( array $extensions = array() ): self
+	public function setExtensions( array $extensions = [] ): self
 	{
 		$pattern	= "";
 		if( count( $extensions ) !== 0 ){

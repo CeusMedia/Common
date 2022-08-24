@@ -49,7 +49,7 @@ class Application
 	 *	@param		array		$shortcuts		Array of Shortcuts to be set
 	 *	@return		void
 	 */
-	public function __construct( array $shortcuts = array(), bool $fallBackOnEmptyPair = FALSE, bool $handleNoneCLI = TRUE )
+	public function __construct( array $shortcuts = [], bool $fallBackOnEmptyPair = FALSE, bool $handleNoneCLI = TRUE )
 	{
 		CLI::checkIsCLi( $handleNoneCLI );
 		$this->arguments	= new ArgumentParser();

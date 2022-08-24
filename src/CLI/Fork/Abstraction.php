@@ -91,7 +91,7 @@ abstract class Abstraction
 			$this->cleanUpForks();
 	}
 
-	abstract protected function runInChild( array $arguments = array() );
+	abstract protected function runInChild( array $arguments = [] );
 
-	abstract protected function runInParent( array $arguments = array() );
+	abstract protected function runInParent( array $arguments = [] );
 }

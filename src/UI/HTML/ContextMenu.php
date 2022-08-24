@@ -50,7 +50,7 @@ class ContextMenu
 		return $html;
 	}
 
-	public static function buildScript( $selector, $options	= array() )
+	public static function buildScript( $selector, $options	= [] )
 	{
 		return JQuery::buildPluginCall( 'cmContextMenu', $selector, $options );
 	}

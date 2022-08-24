@@ -49,7 +49,7 @@ class Reset extends Abstraction
 	 *	@param		array		$attributes		Map of Attributes to set
 	 *	@return		void
 	 */
-	public function __construct( $content, $attributes = array() )
+	public function __construct( $content, $attributes = [] )
 	{
 		parent::__construct( $content, $attributes );
 		$this->attributes['type']	= 'reset';

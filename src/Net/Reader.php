@@ -168,7 +168,7 @@ class Reader
 	 *	@throws		IoException
 	 *	@todo		Auth
 	 */
-	public function read( array $curlOptions = array() ): string
+	public function read( array $curlOptions = [] ): string
 	{
 		$curl		= new CURL( $this->url );
 
@@ -224,7 +224,7 @@ class Reader
 	 *	@throws		IoException
 	 *	@todo		Auth
 	 */
-	public static function readUrl( string $url, array $curlOptions = array() ): string
+	public static function readUrl( string $url, array $curlOptions = [] ): string
 	{
 		$reader	= new Reader( $url );
 		return $reader->read( $curlOptions );

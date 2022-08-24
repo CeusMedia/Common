@@ -35,7 +35,7 @@ class Question
 		'n'		=> 'no',
 	);
 
-	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = array(), bool $break = TRUE )
+	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE )
 	{
 		$this->setMessage( $message );
 		$this->setType( $type );
@@ -55,7 +55,7 @@ class Question
 		return $input;
 	}
 
-	public static function askStatic( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = array(), bool $break = TRUE ): string
+	public static function askStatic( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE ): string
 	{
 		$input	= new self( $message, $type, $default, $options, $break );
 		return $input->ask();
@@ -84,7 +84,7 @@ class Question
 		return $this;
 	}
 
-	public function setOptions( array $options = array() ): self
+	public function setOptions( array $options = [] ): self
 	{
 		if( $options )
 			$this->options	= $options;

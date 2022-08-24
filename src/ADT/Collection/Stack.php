@@ -53,7 +53,7 @@ class Stack implements Countable
 	 *	@param		array		$initialArray	Array with initial Stack Items
 	 *	@return		void
 	 */
-	public function __construct( array $initialArray = array() )
+	public function __construct( array $initialArray = [] )
 	{
 		$this->stack = $initialArray;
 	}

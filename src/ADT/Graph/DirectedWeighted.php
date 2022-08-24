@@ -139,7 +139,7 @@ class DirectedWeighted extends Weighted
 	/**
 	 *	@param		array			$hadNodes	Array of already visited Nodes
 	 */
-	public function getPathValue( Node $source, Node $target, array $hadNodes = array() ): int
+	public function getPathValue( Node $source, Node $target, array $hadNodes = [] ): int
 	{
 		if( $this->isEdge( $source, $target ) ) {
 			return $this->getEdgeValue( $source, $target );

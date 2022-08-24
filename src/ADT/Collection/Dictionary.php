@@ -60,7 +60,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		array		$array		Map if initial pairs
 	 *	@return		void
 	 */
-	public function __construct( array $array = array(), bool $caseSensitive = TRUE )
+	public function __construct( array $array = [], bool $caseSensitive = TRUE )
 	{
 		$this->caseSensitive	= $caseSensitive;
 		foreach( $array as $key => $value )

@@ -53,7 +53,7 @@ class JQuery
 	 *	@param		int			$spaces			Number of indenting Whitespaces
 	 *	@return		string
 	 */
-	public static function buildPluginCall( $plugin, $selector, $options = array(), $spaces = 0 )
+	public static function buildPluginCall( $plugin, $selector, $options = [], $spaces = 0 )
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );

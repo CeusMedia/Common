@@ -17,7 +17,26 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.4"
+    "php": ">=7.4",
+    "ext-memcache": "*",
+    "ext-json": "*",
+    "ext-fileinfo": "*",
+    "ext-dom": "*",
+    "ext-bz2": "*",
+    "ext-zlib": "*",
+    "ext-imagick": "*",
+    "ext-xsl": "*",
+    "ext-simplexml": "*",
+    "ext-curl": "*",
+    "ext-xml": "*",
+    "ext-iconv": "*",
+    "ext-zip": "*",
+    "ext-pcntl": "*",
+    "ext-posix": "*",
+    "ext-sockets": "*",
+    "ext-ftp": "*",
+    "ext-svn": "*",
+    "psr/simple-cache": "^1.0"
   },
   "require-dev": {
     "ceus-media/doc-creator": "^0.9.6 | dev-master",
