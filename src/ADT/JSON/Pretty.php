@@ -45,7 +45,7 @@ use InvalidArgumentException;
  *	@todo			currently broken: missing quotes on keys and values
  *	@todo			support and implement 3 strategies: native, own, json5
  */
-class Formater
+class Pretty
 {
 	/**
 	 *	Formats JSON String.
@@ -56,7 +56,7 @@ class Formater
 	 *	@return		string
 	 *	@throws		InvalidArgumentException
 	 */
-	public static function format( string $json, bool $validateSource = FALSE ): string
+	public static function print( string $json, bool $validateSource = FALSE ): string
 	{
 		$tab			= "  ";
 		$content		= "";
