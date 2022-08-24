@@ -201,7 +201,7 @@ class Converter
 				);
 				$parts	= [];
 				foreach( $components as $key => $name ){
-					$$name	= 0;
+					${$name}	= 0;
 					if( array_search( $key, $matches1 ) )
 						if( isset( $matches2[array_search( $key, $matches1 )] ) )
 							$parts[$name] = $matches2[array_search( $key, $matches1 )];

@@ -57,8 +57,10 @@ class JID
 	 */
 	public function __construct( string $domain, ?string $node = NULL, ?string $resource = NULL )
 	{
-		if( preg_match( "/@/", $domain ) )
-			extract( self::disassemble( $domain ) );
+		if( preg_match( "/@/", $domain ) ){
+			$struct	= self::disassemble( $domain );
+			extract( $struct );
+		}
 		$this->set( $domain, $node, $resource );
 	}
 

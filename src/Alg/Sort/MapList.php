@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Sorts a List of Maps (=associative Arrays) by one Column or many Columns.
  *
@@ -37,8 +38,8 @@ namespace CeusMedia\Common\Alg\Sort;
  */
 class MapList
 {
-	const DIRECTION_ASC		= 0;
-	const DIRECTION_DESC	= 1;
+	public const DIRECTION_ASC		= 0;
+	public const DIRECTION_DESC		= 1;
 
 	/**
 	 *	Sorts a List of associative Arrays by a Column and Direction.
@@ -49,7 +50,7 @@ class MapList
 	 *	@param		int			$direction	Sort Direction (0 - ::DIRECTION_ASC | 1 - ::DIRECTION_DESC)
 	 *	@return		array
 	 */
-	public static function sort( $data, $key, $direction = self::DIRECTION_ASC )
+	public static function sort( array $data, string $key, int $direction = self::DIRECTION_ASC ): array
 	{
 		return self::sortByMultipleColumns( $data, array( $key => $direction ) );
 	}
@@ -59,13 +60,13 @@ class MapList
 	 *	@access		public
 	 *	@static
 	 *	@param		array		$data		List of associative Arrays
-	 *	@param		string		$order		Map of Columns and their Directions (0 - ::DIRECTION_ASC | 1 - ::DIRECTION_DESC)
+	 *	@param		array		$orders		Map of Columns and their Directions (0 - ::DIRECTION_ASC | 1 - ::DIRECTION_DESC)
 	 *	@return		array
 	 */
-	public static function sortByMultipleColumns( $data, $orders )
+	public static function sortByMultipleColumns( array $data, array $orders ): array
 	{
 		//  get first Column
-		$key		= array_shift( array_keys( $orders ) );
+		$key		= array_key_first( $orders );
 		//  get first Direction
 		$direction	= $orders[$key];
 		//  remove Order from Order Map
