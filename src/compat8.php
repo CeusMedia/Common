@@ -18,7 +18,7 @@ class ADT_Graph_NodeSet extends CeusMedia\Common\ADT\Graph\NodeSet{}
 class ADT_Graph_Weighted extends CeusMedia\Common\ADT\Graph\Weighted{}
 class ADT_JSON_Builder extends CeusMedia\Common\ADT\JSON\Builder{}
 class ADT_JSON_Converter extends CeusMedia\Common\ADT\JSON\Converter{}
-class ADT_JSON_Formater extends CeusMedia\Common\ADT\JSON\Formater{}
+class ADT_JSON_Formater extends CeusMedia\Common\ADT\JSON\Pretty{}
 class ADT_JSON_Parser extends CeusMedia\Common\ADT\JSON\Parser{}
 class ADT_List extends CeusMedia\Common\ADT\Collection{}
 class ADT_List_Dictionary extends CeusMedia\Common\ADT\Collection\Dictionary{}

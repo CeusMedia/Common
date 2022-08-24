@@ -48,7 +48,7 @@ namespace CeusMedia\Common\ADT\Graph{
 namespace CeusMedia\Common\ADT\JSON{
 	class Converter extends \ADT_JSON_Converter{}
 	class Builder extends \ADT_JSON_Builder{}
-	class Formater extends \ADT_JSON_Formater{}
+	class Pretty extends \ADT_JSON_Formater{}
 	class Parser extends \ADT_JSON_Parser{}}
 namespace CeusMedia\Common\ADT\Time{
 	class Delay extends \ADT_Time_Delay{}}
