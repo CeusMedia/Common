@@ -110,7 +110,7 @@ class MessageSender
 			$this->port,
 			$sender->getNode(),
 			$password,
-			$sender->getResource() ? $sender->getResource() : $this->resource,
+			$sender->getResource() ?: $this->resource,
 			$sender->getDomain(),
 			$this->printLog,
 			$this->logLevel

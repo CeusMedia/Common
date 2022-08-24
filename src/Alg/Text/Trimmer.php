@@ -46,7 +46,7 @@ class Trimmer
 	{
 		if( !function_exists( 'mb_strlen' ) )
 			return strlen( utf8_decode( $string ) );
-		$encoding	= $encoding ? $encoding : mb_internal_encoding();
+		$encoding	= $encoding ?: mb_internal_encoding();
 		return mb_strlen( $string, $encoding );
 	}
 
@@ -54,7 +54,7 @@ class Trimmer
 	{
 		if( !function_exists( 'mb_substr' ) )
 			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
-		$encoding	= $encoding ? $encoding : mb_internal_encoding();
+		$encoding	= $encoding ?: mb_internal_encoding();
 		return mb_substr( $string, $start, $length, $encoding );
 	}
 

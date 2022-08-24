@@ -159,7 +159,7 @@ class Crawler
 			$parts	= new Dictionary( parse_url( $url ) );
 
 			$parts['scheme']	= $this->scheme;
-			$parts['host']		= isset( $parts['host'] ) ? $parts['host'] : $this->host;
+			$parts['host']		= $parts['host'] ?? $this->host;
 			$parts['port']		= $this->port;
 			$parts['user']		= $this->user;
 			$parts['pass']		= $this->pass;

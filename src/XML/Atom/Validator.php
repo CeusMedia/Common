@@ -122,7 +122,7 @@ class Validator
 	{
 		$errors	= [];
 		foreach( $xmlElement->getDocNamespaces() as $prefix => $namespace ){
-			$prefix	= $prefix ? $prefix : "atom";
+			$prefix	= $prefix ?: "atom";
 			$xmlElement->registerXPathNamespace( $prefix, $namespace );
 		}
 		$key	= "//atom:feed/";

@@ -96,7 +96,7 @@ class Relocator
 	public static function rewrite(string $css, string $currentDir, ?string $docRoot = null, array $symlinks = [])
 	{
 		self::$_docRoot = self::_realpath(
-			$docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']
+			$docRoot ?: $_SERVER['DOCUMENT_ROOT']
 		);
 		self::$_currentDir = self::_realpath($currentDir);
 		self::$_symlinks = [];
