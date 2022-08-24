@@ -54,7 +54,7 @@ class Pagination extends OptionObject
 			throw new InvalidArgumentException( 'Option map is not an array' );
 		$defaultOptions	= array(
 			'uri'			=> "./",
-			'param'			=> array(),
+			'param'			=> [],
 			'coverage'		=> 10,
 			'showMore'		=> TRUE,
 			'showPrevNext'	=> TRUE,

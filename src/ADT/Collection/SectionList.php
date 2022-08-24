@@ -54,7 +54,7 @@ class SectionList
 	 *	@param		string		$section		Section to add in
 	 *	@return		void
 	 */
-	public function addEntry( string $entry, string $section )
+	public function addEntry( $entry, string $section )
 	{
 		if( isset( $this->list[$section] ) && is_array( $this->list[$section] ) )
 		 	if( in_array( $entry, $this->list[$section], TRUE ) )
@@ -123,7 +123,7 @@ class SectionList
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getEntry( int $index, string $section ): string
+	public function getEntry( int $index, string $section )
 	{
 		if( !isset( $this->list[$section][$index] ) )
 			throw new InvalidArgumentException( 'No Entry with Index '.$index.' in Section "'.$section.'" found.' );
@@ -133,11 +133,11 @@ class SectionList
 	/**
 	 *	Return the Index of a given String in the List.
 	 *	@access		public
-	 *	@param		string		$entry			Content String of Entry
+	 *	@param		mixed		$entry			Content String of Entry
 	 *	@param		string|NULL	$section		Section of Entry
 	 *	@return		int
 	 */
-	public function getIndex( string $entry, ?string $section = NULL ): int
+	public function getIndex( $entry, ?string $section = NULL ): int
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );
@@ -162,10 +162,10 @@ class SectionList
 	/**
 	 *	Return the Sections of an entry if available.
 	 *	@access		public
-	 *	@param		string		$entry			Entry to get Section for
+	 *	@param		mixed		$entry			Entry to get Section for
 	 *	@return		string
 	 */
-	public function getSectionOfEntry( string $entry ): string
+	public function getSectionOfEntry( $entry ): string
 	{
 		foreach( $this->getSections() as $section )
 			if( in_array( $entry, $this->list[$section], TRUE ) )
@@ -186,12 +186,12 @@ class SectionList
 	/**
 	 *	Removes an entry in a section in the List.
 	 *	@access		public
-	 *	@param		string		$entry			Entry to remove
+	 *	@param		mixed		$entry			Entry to remove
 	 *	@param		string|NULL	$section		Section of Entry
 	 *	@return		void
 	 *	@throws		InvalidArgumentException	if entry is not existing
 	 */
-	public function removeEntry( string $entry, ?string $section = NULL )
+	public function removeEntry( $entry, ?string $section = NULL )
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );

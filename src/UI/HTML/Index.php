@@ -62,7 +62,7 @@ class Index
 		//  no heading of this level found
 		if( !preg_match( "/<h".$level.">/", $content ) )
 			//  return empty list
-			return array();
+			return [];
 		//  prepare empty tree
 		$tree		= [];
 		//  prepare empty heading list

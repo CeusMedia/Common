@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Implementation of interpolation search algorithm for sorted lists of numbers.
  *
@@ -41,29 +42,28 @@ class Interpolation
 	/**
 	 *	Calculates next bound index.
 	 *	@access		protected
-	 *	@param		array		$ist			List to search in
+	 *	@param		array		$list			List to search in
 	 *	@param		mixed		$search			Element to search
 	 *	@param		int			$lowbound		Last lower bound
 	 *	@param		int			$highbound		Last higher bound
 	 *	@return 	int
 	 */
-	protected function calculateIndex( $list, $search, $lowbound, $highbound )
+	protected function calculateIndex( array $list, $search, int $lowbound, int $highbound ): int
 	{
 		$spanIndex	= $list[$highbound] - $list[$lowbound];
 		$spanValues	= $highbound - $lowbound;
 		$spanDiff	= $search - $list[$lowbound];
-		$index		= $lowbound + round( $spanValues * ( $spanDiff / $spanIndex ) );
-		return $index;
+		return $lowbound + round( $spanValues * ( $spanDiff / $spanIndex ) );
 	}
 
 	/**
 	 *	Searches in List and returns position if found, else -1.
 	 *	@access		public
-	 *	@param		array		$ist			List to search in
+	 *	@param		array		$list			List to search in
 	 *	@param		mixed		$search			Element to search
 	 *	@return 	int
 	 */
-	public function search( $list, $search )
+	public function search( array $list, $search ): int
 	{
 		// lowbound - untergrenze
 		$lowbound	= 0;

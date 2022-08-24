@@ -57,20 +57,20 @@ class ClassParser
 	/**	@var		array		$classData		List of Class Properties */
 	protected $classData		= array(
 		"package"		=> "",
-		"desc"			=> array(),
+		"desc"			=> [],
 		"extends"		=> "",
-		"implements"	=> array(),
-		"uses"			=> array(),
-		"todo"			=> array(),
-		"see"			=> array(),
-		"license"		=> array(),
-		"copyright"		=> array(),
-		"link"			=> array(),
-		"version"		=> array(),
-		"since"			=> array(),
-		"author"		=> array(),
-		"package"		=> array(),
-		"subpackage"	=> array(),
+		"implements"	=> [],
+		"uses"			=> [],
+		"todo"			=> [],
+		"see"			=> [],
+		"license"		=> [],
+		"copyright"		=> [],
+		"link"			=> [],
+		"version"		=> [],
+		"since"			=> [],
+		"author"		=> [],
+		"package"		=> [],
+		"subpackage"	=> [],
 		);
 	/**	@var		array		$patterns		Patterns for regular expression */
 	protected $patterns	= [];

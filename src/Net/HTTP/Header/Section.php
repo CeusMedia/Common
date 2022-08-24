@@ -107,59 +107,59 @@ class Section
 {
 	protected $fields	= array(
 		'general'	=> array(
-			'cache-control'			=> array(),
-			'connection'			=> array(),
-			'date'					=> array(),
-			'pragma'				=> array(),
-			'trailer'				=> array(),
-			'transfer-encoding'		=> array(),
-			'upgrade'				=> array(),
-			'via'					=> array(),
-			'warning'				=> array()
+			'cache-control'			=> [],
+			'connection'			=> [],
+			'date'					=> [],
+			'pragma'				=> [],
+			'trailer'				=> [],
+			'transfer-encoding'		=> [],
+			'upgrade'				=> [],
+			'via'					=> [],
+			'warning'				=> []
 		),
 		'request'	=> array(
-			'accept'				=> array(),
-			'accept-charset'		=> array(),
-			'accept-encoding'		=> array(),
-			'accept-language'		=> array(),
-			'authorization'			=> array(),
-			'expect'				=> array(),
-			'from'					=> array(),
-			'host'					=> array(),
-			'if-match'				=> array(),
-			'if-modified-since'		=> array(),
-			'if-none-match'			=> array(),
-			'if-range'				=> array(),
-			'if-unmodified-since'	=> array(),
-			'max-forwards'			=> array(),
-			'proxy-authorization'	=> array(),
-			'range'					=> array(),
-			'referer'				=> array(),
-			'te'					=> array(),
-			'user-agent'			=> array()
+			'accept'				=> [],
+			'accept-charset'		=> [],
+			'accept-encoding'		=> [],
+			'accept-language'		=> [],
+			'authorization'			=> [],
+			'expect'				=> [],
+			'from'					=> [],
+			'host'					=> [],
+			'if-match'				=> [],
+			'if-modified-since'		=> [],
+			'if-none-match'			=> [],
+			'if-range'				=> [],
+			'if-unmodified-since'	=> [],
+			'max-forwards'			=> [],
+			'proxy-authorization'	=> [],
+			'range'					=> [],
+			'referer'				=> [],
+			'te'					=> [],
+			'user-agent'			=> []
 		),
 		'response'	=> array(
-			'accept-ranges'			=> array(),
-			'age'					=> array(),
-			'etag'					=> array(),
-			'location'				=> array(),
-			'proxy-authenticate'	=> array(),
-			'retry-after'			=> array(),
-			'server'				=> array(),
-			'vary'					=> array(),
-			'www-authenticate'		=> array()
+			'accept-ranges'			=> [],
+			'age'					=> [],
+			'etag'					=> [],
+			'location'				=> [],
+			'proxy-authenticate'	=> [],
+			'retry-after'			=> [],
+			'server'				=> [],
+			'vary'					=> [],
+			'www-authenticate'		=> []
 		),
 		'entity'	=> array(
-			'allow'		=> array(),
-			'content-encoding'		=> array(),
-			'content-language'		=> array(),
-			'content-length'		=> array(),
-			'content-location'		=> array(),
-			'content-md5'			=> array(),
-			'content-range'			=> array(),
-			'content-type'			=> array(),
-			'expires'				=> array(),
-			'last-modified'			=> array()
+			'allow'		=> [],
+			'content-encoding'		=> [],
+			'content-language'		=> [],
+			'content-length'		=> [],
+			'content-location'		=> [],
+			'content-md5'			=> [],
+			'content-range'			=> [],
+			'content-type'			=> [],
+			'expires'				=> [],
+			'last-modified'			=> []
 		),
 		'others'	=> array(
 		)
@@ -228,7 +228,7 @@ class Section
 		}
 		if( $latestOnly )
 			return NULL;
-		return array();
+		return [];
 	}
 
 	public static function instantiate(): self

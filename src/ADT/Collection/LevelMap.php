@@ -160,7 +160,7 @@ class LevelMap extends Dictionary
 	 *	Removes a Value or Pair Map from Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
-	 *	@return		void
+	 *	@return		bool
 	 *	@throws		InvalidArgumentException	if key is empty
 	 */
 	public function remove( string $key ): bool
@@ -202,7 +202,7 @@ class LevelMap extends Dictionary
 	 *	@param		string		$key		Key in Dictionary
 	 *	@param		string		$value		Value of Key
 	 *	@param		bool		$sort		Flag: sort by Keys after Insertion
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function set(string $key, $value, bool $sort = TRUE ): bool
 	{

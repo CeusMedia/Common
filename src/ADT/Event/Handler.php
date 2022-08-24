@@ -62,8 +62,8 @@ class Handler
 	/**
 	 *	Bind event.
 	 *	@access		public
-	 *	@param		string				$key		Event key, eg. "start.my"
-	 *	@param		function|Callback	$callback	Callback function or object
+	 *	@param		string		$key		Event key, eg. "start.my"
+	 *	@param		mixed		$callback	Callback function or object
 	 *	@return		void
 	 */
 	public function bind( string $key, $callback )

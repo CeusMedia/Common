@@ -166,7 +166,7 @@ class URL
 	 * @todo        implement
 	 * @noinspection PhpUnusedParameterInspection
 	 */
-	public function getRelativeTo( URL $referenceUrl ): URL
+	public function getRelativeTo( $referenceUrl ): URL
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
 		throw new Exception( 'No implemented, yet' );

@@ -149,7 +149,7 @@ class ArrayView
 			if( $node['type'] == "node" )
 				$children	= new ArrayObject( $node['children'] );
 
-			$sublist	= "\n".$this->constructTree( $children, $currentId, array(), $level + 1, $way.$node['label'] );
+			$sublist	= "\n".$this->constructTree( $children, $currentId, [], $level + 1, $way.$node['label'] );
 			$label		.= $sublist;
 			$item		= Elements::ListItem( $label, $level, array( 'id' => $node['id'], 'class' => $node['class'] ) );
 			$list[]		= $item;

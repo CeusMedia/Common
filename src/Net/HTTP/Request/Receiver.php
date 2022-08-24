@@ -117,7 +117,7 @@ class Receiver extends Dictionary
 		if( isset( $this->sources[$source] ) )
 			return $this->sources[$source];
 		if( !$strict )
-			return array();
+			return [];
 		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
 	}
 

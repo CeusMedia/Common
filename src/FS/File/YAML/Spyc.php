@@ -263,7 +263,7 @@ class Spyc
     if(is_object($value)) $value = (array)$value;
     if (is_array($value)) {
       if (empty ($value))
-        return $this->_dumpNode($key, array(), $indent, $previous_key, $first_key, $source_array);
+        return $this->_dumpNode($key, [], $indent, $previous_key, $first_key, $source_array);
       // It has children.  What to do?
       // Make it the right kind of item
       $string = $this->_dumpNode($key, self::REMPTY, $indent, $previous_key, $first_key, $source_array);
@@ -475,10 +475,10 @@ class Spyc
   }
 
   private function loadWithSource($Source) {
-    if (empty ($Source)) return array();
+    if (empty ($Source)) return [];
     if ($this->setting_use_syck_is_possible && function_exists ('syck_load')) {
       $array = syck_load (implode ("\n", $Source));
-      return is_array($array) ? $array : array();
+      return is_array($array) ? $array : [];
     }
 
     $this->path = [];
@@ -555,9 +555,9 @@ class Spyc
      * @param string $line A line from the YAML file
      */
   private function _parseLine($line) {
-    if (!$line) return array();
+    if (!$line) return [];
     $line = trim($line);
-    if (!$line) return array();
+    if (!$line) return [];
 
     $array = [];
 
@@ -622,7 +622,7 @@ class Spyc
     if ($first_character == '[' && $last_character == ']') {
       // Take out strings sequences and mappings
       $innerValue = trim(substr ($value, 1, -1));
-      if ($innerValue === '') return array();
+      if ($innerValue === '') return [];
       $explode = $this->_inlineEscape($innerValue);
       // Propagate value array
       $value  = [];
@@ -643,7 +643,7 @@ class Spyc
 
     if ($first_character == '{' && $last_character == '}') {
       $innerValue = trim(substr ($value, 1, -1));
-      if ($innerValue === '') return array();
+      if ($innerValue === '') return [];
       // Inline Mapping
       // Take out strings sequences and mappings
       $explode = $this->_inlineEscape($innerValue);
@@ -980,7 +980,7 @@ class Spyc
   }
 
   private function getParentPathByIndent ($indent) {
-    if ($indent == 0) return array();
+    if ($indent == 0) return [];
     $linePath = $this->path;
     do {
       end($linePath); $lastIndentInParentPath = key($linePath);

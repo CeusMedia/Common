@@ -117,8 +117,8 @@ class Request extends Dictionary
 			"GET"		=> &$_GET,
 			"POST"		=> &$_POST,
 			"FILES"		=> &$_FILES,
-			"SESSION"	=> array(),
-			"COOKIE"	=> array(),
+			"SESSION"	=> [],
+			"COOKIE"	=> [],
 		);
 		if( $useSession )
 			$this->sources['session']	=& $_SESSION;
@@ -174,7 +174,7 @@ class Request extends Dictionary
 		}
 		if( $strict )
 			throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
-		return array();
+		return [];
 	}
 
 	static public function getAllEnvHeaders(): array

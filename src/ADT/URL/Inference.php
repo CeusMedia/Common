@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -29,8 +30,6 @@
 namespace CeusMedia\Common\ADT\URL;
 
 use CeusMedia\Common\ADT\URL;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
  *	...
@@ -44,7 +43,7 @@ use RuntimeException;
  */
 class Inference extends URL
 {
-	public $separator		= "&";
+	public $separator				= "&";
 	public static $staticAddress	= "./";
 	public static $staticScheme		= "";
 	public static $staticSeparator	= "&";
@@ -54,12 +53,12 @@ class Inference extends URL
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
 	 *
 	 *	@access		public
-	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
-	 *	@param		string		$fragment		Fragment ID
-	 *	@return		string		New URL.
+	 *	@param		array			$mapSet			Map of Parameters to append to URL
+	 *	@param		array			$listRemove		List of Parameters to remove from URL
+	 *	@param		string|NULL		$fragment		Fragment ID
+	 *	@return		string			New URL.
 	 */
-	public function build( $mapSet = [], $listRemove = [], $fragment = NULL )
+	public function build( array $mapSet = [], array $listRemove = [], ?string $fragment = NULL ): string
 	{
 		$parameters	= $this->buildQueryString( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
@@ -73,10 +72,10 @@ class Inference extends URL
 	 *
 	 *	@access		public
 	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
+	 *	@param		array		$listRemove		List of Parameters to remove from URL
 	 *	@return		string		New URL.
 	 */
-	public function buildQueryString( $mapSet = [], $listRemove = [] )
+	public function buildQueryString( array $mapSet = [], array $listRemove = [] ): string
 	{
 		$mapRequest	= $_GET;
 
@@ -98,10 +97,10 @@ class Inference extends URL
 	 *
 	 *	@access		public
 	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
+	 *	@param		array		$listRemove		List of Parameters to remove from URL
 	 *	@return		string		New URL.
 	 */
-	public static function buildQueryStringStatic( $mapSet = [], $listRemove = [] )
+	public static function buildQueryStringStatic( array $mapSet = [], array $listRemove = [] ): string
 	{
 		$mapRequest	= $_GET;
 
@@ -122,17 +121,17 @@ class Inference extends URL
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
 	 *
 	 *	@access		public
-	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
-	 *	@param		string		$fragment		Fragment ID
-	 *	@return		string		New URL.
+	 *	@param		array			$mapSet			Map of Parameters to append to URL
+	 *	@param		array			$listRemove		List of Parameters to remove from URL
+	 *	@param		string|NULL		$fragment		Fragment ID
+	 *	@return		string			New URL.
 	 */
-	public function buildStatic( $mapSet = [], $listRemove = [], $fragment = NULL )
+	public function buildStatic( array $mapSet = [], array $listRemove = [], ?string $fragment = NULL ): string
 	{
 		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
 		$url		= new URL( self::$staticScheme, self::$staticAddress );
-		return $url->getUrl().$parameters;
+		return $url->get( $this->isAbsolute() ).$parameters;
 	}
 }

@@ -189,7 +189,7 @@ class Reader
 		$data	= [];
 		$parts	= preg_split("/\s+/", $entry, 9 );
 		if( $parts[0] == "total" )
-			return array();
+			return [];
 		$data['isdir']			= $parts[0][0] === "d";
 		$data['islink']			= $parts[0][0] === "l";
 		$data['isfile']			= $parts[0][0] === "-";

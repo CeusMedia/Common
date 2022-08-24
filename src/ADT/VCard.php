@@ -57,10 +57,10 @@ class VCard implements Serializable
 	public function __construct()
 	{
 		$this->types	= array(
-			'adr'		=> array(),
-			'email'		=> array(),
+			'adr'		=> [],
+			'email'		=> [],
 			'fn'		=> NULL,
-			'geo'		=> array(),
+			'geo'		=> [],
 			'n'			=> array(
 				'familyName'		=> NULL,
 				'givenName'			=> NULL,
@@ -68,15 +68,15 @@ class VCard implements Serializable
 				'honorificPrefixes'	=> NULL,
 				'honorificSuffixes'	=> NULL,
 			),
-			'nickname'	=> array(),
+			'nickname'	=> [],
 			'org'		=> array(
 				'name'		=> NULL,
 				'unit'		=> NULL
 			),
 			'role'		=> NULL,
-			'tel'		=> array(),
+			'tel'		=> [],
 			'title'		=> NULL,
-			'url'		=> array(),
+			'url'		=> [],
 		);
 	}
 
@@ -404,7 +404,7 @@ class VCard implements Serializable
 	/**
 	 *	Sets Organisation Name and Unit.
 	 *	@access		public
-	 *	@param		string|NULL		$name					Organisation Name
+	 *	@param		string			$name					Organisation Name
 	 *	@param		string|NULL		$unit					Organisation Unit
 	 *	@return		self
 	 */

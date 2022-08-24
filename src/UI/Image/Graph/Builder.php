@@ -193,8 +193,8 @@ class Builder
 	{
 		//  --  CREATE PLOTS  --  //
 		$plots	= array(
-			'y2'	=> array(),
-			'y1'	=> array(),
+			'y2'	=> [],
+			'y1'	=> [],
 		);
 		$nr	= 1;
 		while( 1 )

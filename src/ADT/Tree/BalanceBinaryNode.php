@@ -39,14 +39,20 @@ namespace CeusMedia\Common\ADT\Tree;
  */
 class BalanceBinaryNode extends BinaryNode
 {
-	/**	@var		int			balance		Balance Tolerance */
+	/**	@var	int			balance		Balance Tolerance */
 	protected $balance;
+
+	/**	@var	self		$left		Left Child Tree */
+	protected $left			= NULL;
+
+	/**	@var	self		$right		Right Child Tree */
+	protected $right		= NULL;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int			balance		Balance Tolerance
-	 *	@param		mixed		value		Value of Node
+	 *	@param		int			$balance		Balance Tolerance
+	 *	@param		mixed		$value			Value of Node
 	 *	@return		void
 	 */
 	public function __construct( $balance, $value = FALSE )
@@ -118,9 +124,8 @@ class BalanceBinaryNode extends BinaryNode
 	}
 
 	/**
-	 *	Returns  current Balance.
+	 *	Returns current Balance.
 	 *	@access		public
-	 *	@param		mixed		$value		Value of new Node
 	 *	@return		int
 	 */
 	public function getBalance(): int
@@ -189,7 +194,7 @@ class BalanceBinaryNode extends BinaryNode
 		if( $this->left || $this->right ){
 			$code .= "<tr><td align=center valign=top>";
 			if( $this->left )
-				$code .= $this->left->toTable( $showBalanceFactor);
+				$code .= $this->left->toTable( $showBalanceFactor );
 			else
 				$code .= "&nbsp;";
 			$code .= "</td><td align=center valign=top>";

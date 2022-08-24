@@ -99,7 +99,7 @@ class Node
 	 *	Setting the Value of this Node.
 	 *	@access		public
 	 *	@param		mixed		$nodeValue		Value of this Node
-	 *	@return		void
+	 *	@return		self
 	 */
 	public function setNodeValue( $nodeValue ): self
 	{

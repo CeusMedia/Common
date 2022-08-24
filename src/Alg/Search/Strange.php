@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Strange Search Algorithm.
  *
@@ -44,13 +45,13 @@ class Strange
 	/**
 	 *	Searches in List and returns position if found.
 	 *	@access		public
-	 *	@param		array		$ist			List to search in
-	 *	@param		mixed		$search			Element to search
+	 *	@param		array		$array			List to search in
+	 *	@param		mixed		$key			Element to search
 	 *	@param		int			$left			Left bound
 	 *	@param		int			$right			Right bound
 	 *	@return 	int
 	 */
-	public function search( $array, $key, $left = FALSE, $right = FALSE )
+	public function search( array $array, $key, int $left = 0, int $right = 0 ): int
 	{
 		if( !$right )
 		{

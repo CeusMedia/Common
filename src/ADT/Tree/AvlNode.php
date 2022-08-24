@@ -42,7 +42,7 @@ class AvlNode extends BalanceBinaryNode
 	/**
 	 *	Constructor
 	 *	@access		public
-	 *	@param		mixed	value	Value of Root Element
+	 *	@param		mixed		$value		Value of Root Element
 	 *	@return		void
 	 */
 	public function __construct( $value = FALSE )

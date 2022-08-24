@@ -39,7 +39,7 @@ namespace CeusMedia\Common\ADT\Event;
  */
 class Callback
 {
-	/**	@var		callback	$callback	Anonymous function or callback to call when event is triggered */
+	/**	@var		mixed		$callback	Anonymous function or callback to call when event is triggered */
 	protected $callback;
 
 	/**	@var		mixed		$data		Data to bind to event */
@@ -48,7 +48,7 @@ class Callback
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		callback	$callback	Anonymous function or callback to call when event is triggered
+	 *	@param		mixed		$callback	Anonymous function or callback to call when event is triggered
 	 *	@param		mixed		$data		Data to bind to event
 	 *	@return		void
 	 */
@@ -61,7 +61,7 @@ class Callback
 	/**
 	 *	Returns bound callback.
 	 *	@access		public
-	 *	@return		callback
+	 *	@return		mixed
 	 */
 	public function getCallback()
 	{

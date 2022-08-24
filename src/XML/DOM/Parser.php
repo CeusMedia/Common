@@ -121,7 +121,7 @@ class Parser extends OptionObject
 	{
 		if( $child = $root->firstChild ){
 			while( $child ){
-				$attributes	= $child->hasAttributes()? $child->attributes : array();
+				$attributes	= $child->hasAttributes()? $child->attributes : [];
 				switch( $child->nodeType ){
 					case XML_ELEMENT_NODE:
 						$node = new Node( $child->nodeName );
