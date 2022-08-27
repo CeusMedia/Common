@@ -17,9 +17,28 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.4"
+    "php": ">=7.4",
+    "psr/simple-cache": "^1.0"
   },
   "require-dev": {
+    "ext-memcache": "*",
+    "ext-json": "*",
+    "ext-fileinfo": "*",
+    "ext-dom": "*",
+    "ext-bz2": "*",
+    "ext-zlib": "*",
+    "ext-imagick": "*",
+    "ext-xsl": "*",
+    "ext-simplexml": "*",
+    "ext-curl": "*",
+    "ext-xml": "*",
+    "ext-iconv": "*",
+    "ext-zip": "*",
+    "ext-pcntl": "*",
+    "ext-posix": "*",
+    "ext-sockets": "*",
+    "ext-ftp": "*",
+    "ext-svn": "*",
     "ceus-media/doc-creator": "^0.9.6 | dev-master",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
@@ -50,41 +69,34 @@
     ],
     "dev-phpstan": [
       "@install-dev",
-      "vendor/bin/phpstan  --config=tool/config/rector-php73.php --dry-run"
+      "vendor/bin/phpstan analyze --configuration=tool/config/phpstan.neon --memory-limit=4G --verbose"
     ],
-    "dev-rector-7.3-check": [
+    "dev-phpstan-clear": [
       "@install-dev",
-      "vendor/bin/rector process --config=tool/config/rector-php73.php --dry-run"
+      "vendor/bin/phpstan clear-cache --verbose"
     ],
-    "dev-rector-7.3-fix": [
+    "dev-phpstan-save": [
       "@install-dev",
-      "vendor/bin/rector process --config=tool/config/rector-php73.php"
+      "vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --generate-baseline tool/config/phpstan-baseline.neon --verbose"
     ],
-    "dev-rector-7.4-check": [
-      "@install-dev",
-      "vendor/bin/rector process --config=tool/config/rector-php74.php --dry-run"
-    ],
-    "dev-rector-7.4-fix": [
-      "@install-dev",
-      "vendor/bin/rector process --config=tool/config/rector-php74.php"
-    ],
-    "dev-rector-rules-check": [
+    "dev-rector": [
       "@install-dev",
       "vendor/bin/rector process --config=tool/config/rector-rules.php --dry-run"
     ],
-    "dev-rector-rules-fix": [
+    "dev-rector-fix": [
       "@install-dev",
       "vendor/bin/rector process --config=tool/config/rector-rules.php"
-    ],
-    "dev-stan": [
-      "@install-dev",
-      "vendor/bin/phpstan analyze --configuration=tool/config/phpstan.neon --memory-limit=4G --verbose"
     ],
     "dev-test-syntax": "php test/syntax.php"
   },
   "scripts-descriptions": {
-    "install-dev": "Installs the project dependencies for Development stage",
-    "dev-test-syntax": "Validate code base syntax using PHP linter",
-    "dev-rector-rules-show": "Shows suggestions of selected Rector rules"
+    "install-dev": "Installs project dependencies for Development stage",
+    "update-dev": "Updates project dependencies for Development stage",
+    "dev-phpstan": "Validate codebase with PHPStan",
+    "dev-phpstan-clear": "Clear PHPStan cache",
+    "dev-phpstan-save": "Store current results in ignore list",
+    "dev-rector": "Shows suggestions of configured Rector rules",
+    "dev-rector-fix": "Apply currently configured Rector rules to codebase",
+    "dev-test-syntax": "Validate code base syntax using PHP linter"
   }
 }
