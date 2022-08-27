@@ -154,7 +154,7 @@ class Multiplexer
 	public function setInputs()
 	{
 		$this->inputs	= [];
-		$len	= pow( 2, $this->type );
+		$len	= 2 ** $this->type;
 		$args	= func_get_args();
 		for( $i = 0; $i < $len; $i ++ )
 			if( isset( $args[$i] ) )

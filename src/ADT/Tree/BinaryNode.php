@@ -204,19 +204,19 @@ class BinaryNode
 		else if( $dir == "rwl" ){
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
-			$array = array_merge( $array, array ($this->value));
+			$array = array_merge( $array, [$this->value]);
 			if( $this->left)
 				$array = array_merge( $array, $this->left->toList( $dir ) );
 		}
 		else if( $dir == "wlr" ){
-			$array = array_merge( $array, array ($this->value));
+			$array = array_merge( $array, [$this->value]);
 			if( $this->left )
 				$array = array_merge( $array, $this->left->toList( $dir ) );
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
 		}
 		else if( $dir == "wrl" ){
-			$array = array_merge( $array, array ($this->value));
+			$array = array_merge( $array, [$this->value]);
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
 			if( $this->left )

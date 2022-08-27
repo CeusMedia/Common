@@ -81,7 +81,7 @@ class Clock
 	public function getTime( int $base = 3, int $round = 3 ): float
 	{
 		$time	= $this->microTimeStop - $this->microTimeStart;
-		$time	= $time * pow( 10, $base );
+		$time	= $time * 10 ** $base;
 		return round( $time, $round );
 	}
 
@@ -126,8 +126,8 @@ class Clock
 		$totalMicro		= round( ( $microTimeNow - $this->microTimeStart ) * 1000000 );
 		$timeMicro		= round( ( $microTimeNow - $microTimeLast ) * 1000000 );
 
-		$total			= round( $totalMicro * pow( 10, $base - 6 ), $round );
-		$time			= round( $timeMicro * pow( 10, $base - 6 ), $round );
+		$total			= round( $totalMicro * 10 ** ($base - 6), $round );
+		$time			= round( $timeMicro * 10 ** ($base - 6), $round );
 
 		$this->laps[]	= [
 			'time'			=> $time,
