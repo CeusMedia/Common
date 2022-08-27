@@ -87,7 +87,7 @@ class Converter
 		$parser		= new OpmlParser();
 		$parser->parse( $opml );
 		$lines		= $parser->getOutlines();
-		$list		= new Collection( $labelRoot, array( 'class' => $rootClass ) );
+		$list		= new Collection( $labelRoot, ['class' => $rootClass] );
 
 		self::buildMenuListFromOutlines( $lines, $list );
 		return $list;

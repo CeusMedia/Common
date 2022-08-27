@@ -137,12 +137,12 @@ class Reader extends FileReader
 				foreach( $this->properties[$section] as $key => $value ){
 					if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
 						continue;
-					$property = array(
+					$property = [
 						"key"		=> $key,
 						"value"		=> $value,
 						"comment"	=> $this->getComment( $key, $section ),
 						"active"	=> $this->isActiveProperty( $key, $section )
-						);
+					];
 					$list[$section][] = $property;
 				}
 			}
@@ -414,9 +414,9 @@ class Reader extends FileReader
 
 				//  --  CONVERT PROTECTED VALUES  --  //
 				if( $this->reservedWords ){
-					if( in_array( strtolower( $value ), array( 'yes', 'true' ) ) )
+					if( in_array( strtolower( $value ), ['yes', 'true'] ) )
 						$value	= TRUE;
-					else if( in_array( strtolower( $value ), array( 'no', 'false' ) ) )
+					else if( in_array( strtolower( $value ), ['no', 'false'] ) )
 						$value	= FALSE;
 					else if( strtolower( $value ) === "null" )
 						$value	= NULL;

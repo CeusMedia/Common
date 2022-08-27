@@ -76,14 +76,14 @@ class Reader extends LogReader
 	protected function callback( array $matches ): string
 	{
 //		print_m( $matches );
-		$data	= array(
+		$data	= [
 			'timestamp'		=> $matches[1],
 			'datetime'		=> $matches[2],
 			'remote_addr'	=> $matches[3],
 			'request_uri'	=> $matches[4],
 			'referer_uri'	=> $matches[5],
 			'useragent'		=> $matches[6],
-		);
+		];
 		return serialize( $data );
 	}
 
@@ -269,7 +269,7 @@ class Reader extends LogReader
 	 */
 	protected function parseLine( string $line ): array
 	{
-		$data	= preg_replace_callback( $this->patterns, array( $this, 'callback' ), $line );
+		$data	= preg_replace_callback( $this->patterns, [$this, 'callback'], $line );
 		return unserialize( $data );
 	}
 

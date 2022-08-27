@@ -44,7 +44,7 @@ use InvalidArgumentException;
  */
 class UnitParser
 {
-	static public $rules	= array(
+	public static $rules	= [
 		'/^([0-9.,]+)$/'		=> 1,
 		'/^([0-9.,]+)B$/'		=> 1,
 		'/^([0-9.,]+)k$/'		=> 1000,
@@ -60,7 +60,7 @@ class UnitParser
 		'/^([0-9.,]+)G$/'		=> 1073741824,
 		'/^([0-9.,]+)GB$/i'		=> 1073741824,
 		'/^([0-9.,]+)GiB$/i'	=> 1000000000,
-	);
+	];
 
 	public static function parse( string $string, ?string $exceptedUnit = NULL ): float
 	{

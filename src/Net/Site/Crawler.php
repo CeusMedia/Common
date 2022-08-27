@@ -62,7 +62,7 @@ class Crawler
 	protected $scheme;
 	protected $user;
 
-	public $denied			= array(
+	public $denied			= [
 		'pdf',
 		'doc',
 		'xls',
@@ -78,7 +78,7 @@ class Crawler
 		'gif',
 		'png',
 		'bmp',
-	);
+	];
 
 	public $deniedUrlParts	= [];
 
@@ -152,7 +152,7 @@ class Crawler
 		$this->path		= $parts['path'] ?? "";
 
 		$number		= 0;
-		$urlList	= array( $url );
+		$urlList	= [$url];
 		while( count( $urlList ) ){
 			$number++;
 			$url	= array_shift( $urlList );
@@ -263,11 +263,11 @@ class Crawler
 	{
 		$this->reader->setUrl( $url );
 		try{
-			$content	= $this->reader->read( array(
+			$content	= $this->reader->read( [
 				CURLOPT_FOLLOWLOCATION	=> TRUE,
-				CURLOPT_COOKIEJAR			=> 'cookies.txt',
+				CURLOPT_COOKIEJAR		=> 'cookies.txt',
 				CURLOPT_COOKIEFILE		=> 'cookies.txt'
-			) );
+			] );
 			$contentType	= $this->reader->getInfo( 'content_type' );
 			return $contentType === 'text/html' ? $content : '';
 		}
@@ -355,10 +355,10 @@ class Crawler
 	{
 		if( array_key_exists( $url, $this->links ) )
 			return $this->links[$url]['references']++;
-		$this->links[base64_encode( $url )] = array(
+		$this->links[base64_encode( $url )] = [
 			'url'			=> $url,
 			'references'	=> 1,
 			'content'		=> $content
-		);
+		];
 	}
 }

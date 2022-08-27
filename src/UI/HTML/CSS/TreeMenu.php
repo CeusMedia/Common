@@ -106,7 +106,7 @@ class TreeMenu
 			foreach( $node->getChildren() as $child )
 				$children[]	= self::buildItemWithChildren( $child, $level + 1, $contentDrop );
 			$classList	= $node->getAttribute( 'classList' );
-			$attributes	= array( 'class' => $classList );
+			$attributes	= ['class' => $classList];
 			$children	= "\n".HtmlElements::unorderedList( $children, $level + 1, $attributes );
 			$children	.= '<!--[if lte IE 6]></td></tr></table></a><![endif]-->';
 			$drop		= $level > 1 ? $contentDrop : "&nbsp;";
@@ -119,7 +119,7 @@ class TreeMenu
 			$labelLink	= HtmlElements::Link( $node->url, $label, $classLink );
 		if( $node->hasChildren() )
 			$labelLink	.= '<!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->';
-		$attributes	= array( 'class' => $classItem );
+		$attributes	= ['class' => $classItem];
 		if( $node->getAttribute( 'disabled' ) )
 			$attributes['class']	.= " disabled";
 		return HtmlElements::ListItem( $labelLink.$children, $level, $attributes );
@@ -146,7 +146,7 @@ class TreeMenu
 			foreach( $node['children'] as $child )
 				$children[]	= self::buildItemWithChildrenFromArray( $child, $level + 1 );
 			$classList	= isset( $node['classList'] ) ? $node['classList'] : NULL;
-			$attributes	= array( 'class' => $classList );
+			$attributes	= ['class' => $classList];
 			$children	= "\n".HtmlElements::unorderedList( $children, $level + 1, $attributes );
 			$children	.= '<!--[if lte IE 6]></td></tr></table></a><![endif]-->';
 			$drop		= $level > 1 ? $contentDrop : "&nbsp;";
@@ -157,7 +157,7 @@ class TreeMenu
 		$labelLink	= HtmlElements::Link( $node['url'], $label, $classLink );
 		if( isset( $node['children'] ) && $node['children'] )
 			$labelLink	.= '<!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->';
-		$attributes	= array( 'class' => $classItem );
+		$attributes	= ['class' => $classItem];
 		return HtmlElements::ListItem( $labelLink.$children, $level, $attributes );
 	}
 

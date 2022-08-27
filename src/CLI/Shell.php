@@ -40,7 +40,7 @@ namespace CeusMedia\Common\CLI;
 class Shell
 {
 	/**	@var	array	$skip	Commands to skip */
-	protected $skip	= array(
+	protected $skip	= [
 		"class",
 		"declare",
 		"die",
@@ -59,18 +59,18 @@ class Shell
 		"return",
 		"static",
 		"switch",
-		"while"
-	);
+		"while",
+	];
 
 	/**	@var	array	$okeq	Valide equation operators */
-	protected $okeq = array(
+	protected $okeq = [
 		"===",
 		"!==",
 		"==",
 		"!=",
 		"<=",
 		">="
-	);
+	];
 
 	/**
 	 *	Constructor.

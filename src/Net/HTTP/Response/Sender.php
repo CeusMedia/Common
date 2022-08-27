@@ -89,11 +89,11 @@ class Sender
 
 		/*  --  HTTP BASIC INFORMATION  --  */
 		$status	= $response->getStatus();
-		header( vsprintf( '%s/%s %s', array(
+		header( vsprintf( '%s/%s %s', [
 			$response->getProtocol(),
 			$response->getVersion(),
 			$status
-		) ) );
+		] ) );
 		header( 'Status: '.$status );
 
 		/*  --  HTTP HEADER FIELDS  --  */

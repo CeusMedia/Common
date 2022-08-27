@@ -60,12 +60,12 @@ class ClosureCompiler
 
 	protected function compile( string $js, bool $returnErrors = FALSE ): string
 	{
-		$data	= array(
+		$data	= [
 			'js_code'			=> $js,
 			'output_info'		=> $returnErrors ? 'errors' : 'compiled_code',
 			'output_format'		=> 'text',
 			'compilation_level'	=> 'SIMPLE_OPTIMIZATIONS'
-		);
+		];
 		return Post::sendData( self::URL, $data );
 	}
 

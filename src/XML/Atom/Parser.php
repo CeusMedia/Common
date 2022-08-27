@@ -110,11 +110,11 @@ class Parser
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Person Data Structure */
-	protected $emptyPerson	= array(
+	protected $emptyPerson	= [
 		'name'	=> '',
 		'uri'	=> '',
 		'email'	=> '',
-	);
+	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Text Data Structure */
 	protected $emptyText		= [

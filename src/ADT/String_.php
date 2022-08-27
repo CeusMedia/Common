@@ -251,7 +251,7 @@ class String_
 	 *	@param		string		$hyphen			Hyphen character to replace given characters with
 	 *	@return		bool		string
 	 */
-	public function hyphenate( array $characters = array( ' ' ), string $hyphen = '-' ): bool
+	public function hyphenate( array $characters = [' '], string $hyphen = '-' ): bool
 	{
 		$string	= $this->string;
 		foreach( $characters as $character ){
@@ -345,7 +345,7 @@ class String_
 	 */
 	public function split( $delimiter ): ArrayObject
 	{
-		$list	= array( $this->string );
+		$list	= [$this->string];
 		if( is_int( $delimiter ) )
 			$list	= str_split( $this->string, $delimiter );
 		else if( is_string( $delimiter ) )

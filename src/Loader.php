@@ -23,11 +23,11 @@ use RuntimeException;
 
 class Loader
 {
-	protected $extensions	= array(
+	protected $extensions	= [
 		'php',
 		'php5',
 		'inc'
-	);
+	];
 	protected $logFile		= NULL;
 	protected $path			= NULL;
 	protected $prefix		= NULL;
@@ -156,7 +156,7 @@ class Loader
 	 */
 	public function registerAutoloader(): bool
 	{
-		return spl_autoload_register( array( $this, 'loadClass' ) );
+		return spl_autoload_register( [$this, 'loadClass'] );
 	}
 
 	/**
@@ -240,6 +240,6 @@ class Loader
 	 */
 	public function unregisterAutoloader(): bool
 	{
-		return spl_autoload_unregister( array( $this, 'loadClass' ) );
+		return spl_autoload_unregister( [$this, 'loadClass'] );
 	}
 }

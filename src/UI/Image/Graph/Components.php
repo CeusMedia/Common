@@ -145,7 +145,7 @@ class Components
 	public static function setFrame( $object, $config )
 	{
 		$frameShow	= self::getConfigValue( $config, 'frame.show', FALSE );
-		$frameColor	= self::getConfigValue( $config, 'frame.color', array( 0, 0, 0 ) );
+		$frameColor	= self::getConfigValue( $config, 'frame.color', [0, 0, 0] );
 		$frameWidth	= self::getConfigValue( $config, 'frame.width', 1 );
 		$object->setFrame( $frameShow, $frameColor, $frameWidth );
 #$graph->SetFrameBevel(12,true,'black');
@@ -265,7 +265,7 @@ class Components
 	{
 		$shadowShow		= self::getConfigValue( $config, 'shadow.show', TRUE );
 		$shadowWidth	= self::getConfigValue( $config, 'shadow.width', 5 );
-		$shadowColor	= self::getConfigValue( $config, 'shadow.color', array(102,102,102) );
+		$shadowColor	= self::getConfigValue( $config, 'shadow.color', [102, 102, 102] );
 		$object->setShadow( $shadowShow, $shadowWidth, $shadowColor );
 	}
 

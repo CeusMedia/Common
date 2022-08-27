@@ -64,7 +64,7 @@ class Premailer
 
 	protected $response;
 
-	public static $options = array(
+	public static $options = [
 		//  string  - Which document handler to use (hpricot (default) or nokigiri)
 		'adaptor'			=> 'hpricot',
 		//  string  - Base URL for converting relative links
@@ -81,7 +81,7 @@ class Premailer
 		'remove_classes'	=> false,
 		//  boolean - Remove comments from the HTML document?
 		'remove_comments'	=> false
-	);
+	];
 
 	public function __construct( ?SimpleCacheInterface $cache = NULL )
 	{
@@ -113,12 +113,12 @@ class Premailer
 			return json_decode( $this->cache->get( $cacheKey ) );
 
 		$request	= new Post();
-		$response	= json_decode( $request->send( self::ENDPOINT, $params, array(
+		$response	= json_decode( $request->send( self::ENDPOINT, $params, [
 			CURLOPT_TIMEOUT			=> 15,
 			CURLOPT_USERAGENT		=> 'PHP Premailer',
 			CURLOPT_SSL_VERIFYHOST	=> 0,
 			CURLOPT_SSL_VERIFYPEER	=> 0,
-		) ) );
+		] ) );
 		if( $response->status != 201 ){
 			switch( $response->status){
 				case 400:

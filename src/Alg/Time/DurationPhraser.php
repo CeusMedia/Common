@@ -63,7 +63,7 @@ class DurationPhraser
 	{
 		if( !count( $this->ranges ) )
 			throw new Exception( 'No ranges defined' );
-		$callback	= array( $this, 'insertDates' );
+		$callback	= [$this, 'insertDates'];
 		$ranges		= $this->ranges->getRanges();
 		krsort( $ranges );
 		foreach( $ranges as $from => $label ){

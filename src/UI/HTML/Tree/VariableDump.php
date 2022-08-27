@@ -106,11 +106,11 @@ class VariableDump
 		}
 		$children	= $children ? "\n".Elements::unorderedList( $children, $level + 2 ) : "";
 		$pair		= $keyLabel.htmlentities( $mixed, ENT_QUOTES, 'UTF-8' );
-		$label		= Tag::create( 'span', $pair, array( 'onclick' => $event ) );
-		$classes	= array( $type );
+		$label		= Tag::create( 'span', $pair, ['onclick' => $event] );
+		$classes	= [$type];
 		if( $closed )
 			$classes[]	= "closed";
-		return Elements::ListItem( $label.$children, $level + 1, array( 'class' => implode( " ", $classes ) ) );
+		return Elements::ListItem( $label.$children, $level + 1, ['class' => implode( " ", $classes )] );
 	}
 
 	/**
@@ -123,7 +123,7 @@ class VariableDump
 	 */
 	public static function dumpVar( $mixed, $print = TRUE, $closed = FALSE ){
 		$tree	= self::buildTree( $mixed, NULL, $closed, 0 );
-		$list	= Elements::unorderedList( array( $tree ), 1 );
+		$list	= Elements::unorderedList( [$tree], 1 );
 		$code	= '<div class="varTree">'."\n".$list.'</div>';
 		if( !$print )
 			return $code;

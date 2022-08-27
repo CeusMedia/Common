@@ -8,7 +8,11 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\XML\Atom;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\Atom\Parser;
+use Exception;
 
 /**
  *	TestUnit of XML_Atom_Parser.
@@ -17,7 +21,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			14.05.2008
  *
  */
-class Test_XML_Atom_ParserTest extends BaseCase
+class ParserTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +48,7 @@ class Test_XML_Atom_ParserTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$parser	= new Test_XML_Atom_ParserInstance;
+		$parser	= new ParserInstance;
 
 		$entry		= $parser->getProtectedVar( 'emptyEntry' );
 		$assertion	= $parser->getProtectedVar( 'emptyText' );
@@ -78,7 +82,7 @@ class Test_XML_Atom_ParserTest extends BaseCase
 		$serial	= $path."golem.serial";
 
 		$xml	= file_get_contents( $atom );
-		$parser	= new XML_Atom_Parser();
+		$parser	= new Parser();
 		$parser->parse( $xml );
 		$data	= array(
 			'channel'	=> $parser->channelData,
@@ -92,7 +96,7 @@ class Test_XML_Atom_ParserTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_XML_Atom_ParserInstance extends XML_Atom_Parser
+class ParserInstance extends Parser
 {
 	public function getProtectedVar( $varName )
 	{

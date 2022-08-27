@@ -132,7 +132,7 @@ class Parser
 					$values[1],
 					$values[2],
 					$values[3],
-					$values[4]
+					$values[4],
 				);
 				break;
 			case 'fn':

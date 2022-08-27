@@ -91,31 +91,31 @@ class View
 		$list	= [];
 
 		$msg	= htmlentities( $e->getMessage(), ENT_COMPAT, 'UTF-8' );
-		$list[]	= Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );
-		$list[]	= Tag::create( 'dd', $msg, array( 'class' => 'exception-message' ) );
+		$list[]	= Tag::create( 'dt', 'Message', ['class' => 'exception-message'] );
+		$list[]	= Tag::create( 'dd', $msg, ['class' => 'exception-message'] );
 
 		if( (int) $e->getCode() !== 0 ){
 			$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
-			$list[]	= Tag::create( 'dt', 'Code', array( 'class' => 'exception-code' ) );
-			$list[]	= Tag::create( 'dd', $code, array( 'class' => 'exception-code' ) );
+			$list[]	= Tag::create( 'dt', 'Code', ['class' => 'exception-code'] );
+			$list[]	= Tag::create( 'dd', $code, ['class' => 'exception-code'] );
 		}
 
 		if( $e instanceof SqlException && $e->getSQLSTATE() ){
 			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
-			$list[]	= Tag::create( 'dt', 'SQLSTATE', array( 'class' => 'exception-code-sqlstate' ) );
-			$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, array( 'class' => 'exception-code-sqlstate' ) );
+			$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
+			$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
 		}
 		if( $e instanceof IoException  ){
-			$list[]	= Tag::create( 'dt', 'Resource', array( 'class' => 'exception-resource' ) );
-			$list[]	= Tag::create( 'dd', $e->getResource(), array( 'class' => 'exception-resource' ) );
+			$list[]	= Tag::create( 'dt', 'Resource', ['class' => 'exception-resource'] );
+			$list[]	= Tag::create( 'dd', $e->getResource(), ['class' => 'exception-resource'] );
 		}
 		if( $e instanceof LogicException ){
-			$list[]	= Tag::create( 'dt', 'Subject', array( 'class' => 'exception-subject' ) );
-			$list[]	= Tag::create( 'dd', $e->getSubject(), array( 'class' => 'exception-subject' ) );
+			$list[]	= Tag::create( 'dt', 'Subject', ['class' => 'exception-subject'] );
+			$list[]	= Tag::create( 'dd', $e->getSubject(), ['class' => 'exception-subject'] );
 		}
 
-		$list[]	= Tag::create( 'dt', 'Type', array( 'class' => 'exception-type' ) );
-		$list[]	= Tag::create( 'dd', get_class( $e ), array( 'class' => 'exception-type' ) );
+		$list[]	= Tag::create( 'dt', 'Type', ['class' => 'exception-type'] );
+		$list[]	= Tag::create( 'dd', get_class( $e ), ['class' => 'exception-type'] );
 
 		$pathName	= self::trimRootPath(  $e->getFile() );
 		$fileName	= '<span class="file">'.pathinfo( $pathName, PATHINFO_FILENAME ).'</span>';
@@ -124,11 +124,11 @@ class View
 		$path		= '<span class="path">'.dirname( $pathName ).'/</span>';
 		$file		= $path.$fileName.$extension;
 
-		$list[]	= Tag::create( 'dt', 'File', array( 'class' => 'exception-file' ) );
-		$list[]	= Tag::create( 'dd',$file, array( 'class' => 'exception-file' ) );
+		$list[]	= Tag::create( 'dt', 'File', ['class' => 'exception-file'] );
+		$list[]	= Tag::create( 'dd',$file, ['class' => 'exception-file'] );
 
-		$list[]	= Tag::create( 'dt', 'Line', array( 'class' => 'exception-line' ) );
-		$list[]	= Tag::create( 'dd', (string) $e->getLine(), array( 'class' => 'exception-line' ) );
+		$list[]	= Tag::create( 'dt', 'Line', ['class' => 'exception-line'] );
+		$list[]	= Tag::create( 'dd', (string) $e->getLine(), ['class' => 'exception-line'] );
 
 		if( $showTrace )
 		{
@@ -147,7 +147,7 @@ class View
 				$list[]	= Tag::create( 'dd', View::render( $e->getPrevious() ) );
 			}
 		}
-		return Tag::create( 'dl', join( $list ), array( 'class' => 'exception' ) );
+		return Tag::create( 'dl', join( $list ), ['class' => 'exception'] );
 	}
 
 

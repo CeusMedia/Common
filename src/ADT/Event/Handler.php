@@ -74,7 +74,7 @@ class Handler
 			throw new InvalidArgumentException( 'Callback must be function or instance of '.Callback::class );
 		if( !is_array( $list = $this->events->get( $key ) ) )
 			$list	= [];
-		$list[]	= array( $key, $callback );
+		$list[]	= [$key, $callback];
 		$this->events->set( $key, $list );
 	}
 

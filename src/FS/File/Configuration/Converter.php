@@ -160,11 +160,11 @@ class Converter
 		$ini	= $reader->getCommentedProperties();
 		foreach( $ini as $sectionName => $sectionData ){
 			foreach( $sectionData as $pair ){
-				$item	= array(
+				$item	= [
 					'key'		=> $pair['key'],
 					'value'		=> $pair['value'],
 					'type'		=> "string",
-				);
+				];
 				if( isset( $pair['comment'] ) ){
 					$matches	= [];
 					if( preg_match_all( self::$iniTypePattern, $pair['comment'], $matches ) )
@@ -197,7 +197,7 @@ class Converter
 		$json	= JsonConverter::convertToArray( $json );
 		foreach( $json as $sectionName => $sectionData ){
 			foreach( $sectionData as $pairKey => $pairData ){
-				$pairData	= array_merge( array( 'key' => $pairKey ), $pairData );
+				$pairData	= array_merge( ['key' => $pairKey], $pairData );
 				$data[$sectionName][]	= $pairData;
 			}
 		}
@@ -220,11 +220,11 @@ class Converter
 		foreach( $xml as $sectionNode ){
 			$sectionName	= $sectionNode->getAttribute( 'name' );
 			foreach( $sectionNode as $valueNode ){
-				$item	= array(
+				$item	= [
 					'key'		=> $valueNode->getAttribute( 'name' ),
 					'value'		=> (string) $valueNode,
 					'type'		=> $valueNode->getAttribute( 'type' ),
-				);
+				];
 
 				if( $valueNode->hasAttribute( 'comment' ) )
 					$item['comment']	= $valueNode->getAttribute( 'comment' );

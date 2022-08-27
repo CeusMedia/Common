@@ -80,7 +80,7 @@ class Trace
 			$list[]	= Tag::create( 'li', $step );
 			$j++;
 		}
-		return Tag::create( 'ol', implode( $list ), array( 'class' => 'trace' ) );
+		return Tag::create( 'ol', implode( $list ), ['class' => 'trace'] );
 	}
 
 	/**
@@ -162,7 +162,7 @@ class Trace
 		else if( $type == 'array' || $argument instanceof Countable )
 			$length	= '('.count( $argument ).')';
 		$type	= ucFirst( strtolower( gettype( $argument ) ) );
-		return Tag::create( 'span', $type.$length, array( 'class' => 'type' ) );
+		return Tag::create( 'span', $type.$length, ['class' => 'type'] );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Trace
 		if( $j == 0 )
 			if( isset( $trace['function'] ) )
 				//  Exception was thrown using throwException
-				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )
+				if( in_array( $trace['function'], ["eval", "throwException"] ) )
 					return "";
 
 		$content	= "";

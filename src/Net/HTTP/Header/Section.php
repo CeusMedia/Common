@@ -105,8 +105,8 @@ use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
  */
 class Section
 {
-	protected $fields	= array(
-		'general'	=> array(
+	protected $fields	= [
+		'general'	=> [
 			'cache-control'			=> [],
 			'connection'			=> [],
 			'date'					=> [],
@@ -115,9 +115,9 @@ class Section
 			'transfer-encoding'		=> [],
 			'upgrade'				=> [],
 			'via'					=> [],
-			'warning'				=> []
-		),
-		'request'	=> array(
+			'warning'				=> [],
+		],
+		'request'	=> [
 			'accept'				=> [],
 			'accept-charset'		=> [],
 			'accept-encoding'		=> [],
@@ -136,9 +136,9 @@ class Section
 			'range'					=> [],
 			'referer'				=> [],
 			'te'					=> [],
-			'user-agent'			=> []
-		),
-		'response'	=> array(
+			'user-agent'			=> [],
+		],
+		'response'	=> [
 			'accept-ranges'			=> [],
 			'age'					=> [],
 			'etag'					=> [],
@@ -147,9 +147,9 @@ class Section
 			'retry-after'			=> [],
 			'server'				=> [],
 			'vary'					=> [],
-			'www-authenticate'		=> []
-		),
-		'entity'	=> array(
+			'www-authenticate'		=> [],
+		],
+		'entity'	=> [
 			'allow'		=> [],
 			'content-encoding'		=> [],
 			'content-language'		=> [],
@@ -159,11 +159,10 @@ class Section
 			'content-range'			=> [],
 			'content-type'			=> [],
 			'expires'				=> [],
-			'last-modified'			=> []
-		),
-		'others'	=> array(
-		)
-	);
+			'last-modified'			=> [],
+		],
+		'others'	=> []
+	];
 
 	public function addField( HeaderField $field ): self
 	{

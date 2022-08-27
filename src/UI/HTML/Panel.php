@@ -130,7 +130,7 @@ class Panel
 		}
 
 		$classes		= $theme ? self::$classPanel." ".$theme : self::$classPanel;
-		$attributes		= array_merge( array( "id" => $id ), $attributes );
+		$attributes		= array_merge( ["id" => $id], $attributes );
 		$divPanel		= self::wrap( $divHead.$divAbstract.$divCont.$divFoot, $classes, $attributes );
 		return $divPanel;
 	}
@@ -214,7 +214,7 @@ class Panel
 	 */
 	protected static function wrap( $content, $class, $attributes = [] )
 	{
-		$attributes	= array_merge( $attributes, array( 'class' => $class ) );
+		$attributes	= array_merge( $attributes, ['class' => $class] );
 		return Tag::create( "div", $content, $attributes );
 	}
 }

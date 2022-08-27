@@ -8,7 +8,12 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\HTML;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\UI\Image\Watermark;
+use Exception;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of UI_Image_Watermark.
@@ -17,7 +22,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			21.07.2008
  *
  */
-class Test_UI_Image_WatermarkTest extends BaseCase
+class WatermarkTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -29,7 +34,7 @@ class Test_UI_Image_WatermarkTest extends BaseCase
 		$this->path	= dirname( __FILE__ )."/";
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
-		$this->mark	= new Test_UI_Image_WatermarkInstance( $this->path."mark.png" );
+		$this->mark	= new WatermarkInstance( $this->path."mark.png" );
 	}
 
 	/**
@@ -49,7 +54,7 @@ class Test_UI_Image_WatermarkTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$mark	= new Test_UI_Image_WatermarkInstance( $this->path."sourceWatermark.png", 99, 98 );
+		$mark	= new WatermarkInstance( $this->path."sourceWatermark.png", 99, 98 );
 
 		$assertion	= 99;
 		$creation	= $mark->getProtectedVar( 'alpha' );
@@ -187,7 +192,7 @@ class Test_UI_Image_WatermarkTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_UI_Image_WatermarkInstance extends UI_Image_Watermark
+class WatermarkInstance extends Watermark
 {
 	public function getProtectedVar( $varName )
 	{

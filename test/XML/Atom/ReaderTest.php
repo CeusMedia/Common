@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\XML\Atom;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\Atom\Reader;
 
 /**
  *	TestUnit of XML_Atom_Reader.
@@ -46,7 +49,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::__construct();
+		$creation	= Reader::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -59,7 +62,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::readXml();
+		$creation	= Reader::readXml();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -72,7 +75,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::readUrl();
+		$creation	= Reader::readUrl();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -85,7 +88,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::readFile();
+		$creation	= Reader::readFile();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -98,7 +101,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::checkEntryIndex();
+		$creation	= Reader::checkEntryIndex();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -111,7 +114,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		XML_Atom_Reader::checkEntryIndex();
+		Reader::checkEntryIndex();
 	}
 
 	/**
@@ -123,7 +126,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelAuthors();
+		$creation	= Reader::getChannelAuthors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -136,7 +139,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelCategories();
+		$creation	= Reader::getChannelCategories();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -149,7 +152,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelContributors();
+		$creation	= Reader::getChannelContributors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -162,7 +165,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelElementAndAttribute();
+		$creation	= Reader::getChannelElementAndAttribute();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -175,7 +178,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelGenerator();
+		$creation	= Reader::getChannelGenerator();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -188,7 +191,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelIcon();
+		$creation	= Reader::getChannelIcon();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -201,7 +204,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelId();
+		$creation	= Reader::getChannelId();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -214,7 +217,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelLinks();
+		$creation	= Reader::getChannelLinks();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -227,7 +230,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelLogo();
+		$creation	= Reader::getChannelLogo();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -240,7 +243,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelRights();
+		$creation	= Reader::getChannelRights();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -253,7 +256,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelSubtitle();
+		$creation	= Reader::getChannelSubtitle();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -266,7 +269,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelTitle();
+		$creation	= Reader::getChannelTitle();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -279,7 +282,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelUpdated();
+		$creation	= Reader::getChannelUpdated();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -292,7 +295,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getChannelData();
+		$creation	= Reader::getChannelData();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -305,7 +308,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntries();
+		$creation	= Reader::getEntries();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -318,7 +321,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntry();
+		$creation	= Reader::getEntry();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -331,7 +334,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryAuthors();
+		$creation	= Reader::getEntryAuthors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -344,7 +347,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryCategories();
+		$creation	= Reader::getEntryCategories();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -357,7 +360,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryContent();
+		$creation	= Reader::getEntryContent();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -370,7 +373,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryContributors();
+		$creation	= Reader::getEntryContributors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -383,7 +386,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryElementAndAttribute();
+		$creation	= Reader::getEntryElementAndAttribute();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -396,7 +399,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryId();
+		$creation	= Reader::getEntryId();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -409,7 +412,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryLinks();
+		$creation	= Reader::getEntryLinks();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -422,7 +425,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryPublished();
+		$creation	= Reader::getEntryPublished();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -435,7 +438,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryRights();
+		$creation	= Reader::getEntryRights();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -448,7 +451,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntrySource();
+		$creation	= Reader::getEntrySource();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -461,7 +464,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntrySummary();
+		$creation	= Reader::getEntrySummary();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -474,7 +477,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryTitle();
+		$creation	= Reader::getEntryTitle();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -487,7 +490,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getEntryUpdated();
+		$creation	= Reader::getEntryUpdated();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -500,7 +503,7 @@ class Test_XML_Atom_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Reader::getLanguage();
+		$creation	= Reader::getLanguage();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

@@ -75,15 +75,15 @@ class Post
 		switch( $this->transport ){
 			case self::TRANSPORT_CURL:
 				$curl		= new CURL( $url );
-				$options	= array(
+				$options	= [
 					CURLOPT_POST				=> TRUE,
 					CURLOPT_RETURNTRANSFER		=> TRUE,
-					CURLOPT_HTTPHEADER			=> array( $contentType ),
+					CURLOPT_HTTPHEADER			=> [$contentType],
 					CURLOPT_POSTFIELDS			=> $data,
 					CURLOPT_FOLLOWLOCATION		=> FALSE,
 					CURLOPT_USERAGENT			=> self::$userAgent,
 					CURLOPT_CONNECTTIMEOUT		=> 15,
-				);
+				];
 				foreach( $curlOptions as $key => $value )
 					$options[$key]	= $value;
 				foreach( $options as $key => $value )
@@ -91,14 +91,14 @@ class Post
 				return trim( $curl->exec( TRUE ) );
 
 			case self::TRANSPORT_FOPEN:
-				$stream	= array(
+				$stream	= [
 					'method'		=> 'POST',
 					'header'		=> $contentType,
 					'content'		=> $data,
 					'max_redirects'	=> 0,
 					'timeout'		=> 15,
-				);
-				$stream	= stream_context_create( array( 'http'	=> $stream ) );
+				];
+				$stream	= stream_context_create( ['http'	=> $stream] );
 				return trim( file_get_contents( $url, FALSE, $stream ) );
 
 			default:

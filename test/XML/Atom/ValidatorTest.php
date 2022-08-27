@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\XML\Atom;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\Atom\Validator;
 
 /**
  *	TestUnit of XML_Atom_Validator.
@@ -17,7 +20,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			14.05.2008
  *
  */
-class Test_XML_Atom_ValidatorTest extends BaseCase
+class ValidatorTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,7 +49,7 @@ class Test_XML_Atom_ValidatorTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Validator::getErrors();
+		$creation	= Validator::getErrors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -59,7 +62,7 @@ class Test_XML_Atom_ValidatorTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= XML_Atom_Validator::getFirstError();
+		$creation	= Validator::getFirstError();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

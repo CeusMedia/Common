@@ -184,12 +184,12 @@ class Chart
 		$width	= isset( $options["width"] ) ? $options["width"] : 100;
 		$height	= isset( $options["height"] ) ? $options["height"] : count( $this->data ) * 20 + 5;
 
-		$tags	= array( "" );
+		$tags	= [""];
 
 		# Frame
-		$attributes	= array( 'x' => $x + 4, 'y' => $y + 4, 'width' => $width, 'height' => $height, 'fill' => "#BBB" );
+		$attributes	= ['x' => $x + 4, 'y' => $y + 4, 'width' => $width, 'height' => $height, 'fill' => "#BBB"];
 		$tags[]	= HtmlTag::create( "rect", NULL, $attributes );
-		$attributes	= array( 'x' => $x, 'y' => $y, 'width' => $width, 'height' => $height, 'fill' => "white", 'stroke' => "#333" );
+		$attributes	= ['x' => $x, 'y' => $y, 'width' => $width, 'height' => $height, 'fill' => "white", 'stroke' => "#333"];
 		$tags[]	= HtmlTag::create( "rect", NULL, $attributes );
 
 		$y		= $y + 5;
@@ -202,8 +202,8 @@ class Chart
 			$texty	= $y + 15;
 			$textx	= $x + 20;
 			$color	= $colors[$count % count( $colors )];
-			$tags[]	= HtmlTag::create( "rect", NULL, array( 'x' => $x, 'y' => $y, 'width' => 15, 'height' => 15, 'fill' => $color ) );
-			$tags[]	= HtmlTag::create( "text", $obj->desc, array( 'x' => $textx, 'y' => $texty ) );
+			$tags[]	= HtmlTag::create( "rect", NULL, ['x' => $x, 'y' => $y, 'width' => 15, 'height' => 15, 'fill' => $color] );
+			$tags[]	= HtmlTag::create( "text", $obj->desc, ['x' => $textx, 'y' => $texty] );
 			$y		+= 20;
 			$count++;
 		}

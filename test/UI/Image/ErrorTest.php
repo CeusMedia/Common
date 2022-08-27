@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\Image;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\UI\Image\Error;
 
 /**
  *	TestUnit of Inverter.
@@ -17,7 +20,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			16.06.2008
  *
  */
-class Test_UI_Image_ErrorTest extends BaseCase
+class ErrorTest extends BaseCase
 {
 	public function setUp(): void
 	{
@@ -33,8 +36,8 @@ class Test_UI_Image_ErrorTest extends BaseCase
 		@unlink( $this->path."targetError.png" );
 
 		ob_start();
-		UI_Image_Error::$sendHeader = FALSE;
-		new UI_Image_Error( "Test Text" );
+		Error::$sendHeader = FALSE;
+		new Error( "Test Text" );
 		file_put_contents( $this->path."targetError.png", ob_get_clean() );
 
 

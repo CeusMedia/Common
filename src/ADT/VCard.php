@@ -56,28 +56,28 @@ class VCard implements Serializable
 	 */
 	public function __construct()
 	{
-		$this->types	= array(
+		$this->types	= [
 			'adr'		=> [],
 			'email'		=> [],
 			'fn'		=> NULL,
 			'geo'		=> [],
-			'n'			=> array(
+			'n'			=> [
 				'familyName'		=> NULL,
 				'givenName'			=> NULL,
 				'additionalNames'	=> NULL,
 				'honorificPrefixes'	=> NULL,
 				'honorificSuffixes'	=> NULL,
-			),
+			],
 			'nickname'	=> [],
-			'org'		=> array(
+			'org'		=> [
 				'name'		=> NULL,
 				'unit'		=> NULL
-			),
+			],
 			'role'		=> NULL,
 			'tel'		=> [],
 			'title'		=> NULL,
 			'url'		=> [],
-		);
+		];
 	}
 
 	/**
@@ -95,7 +95,7 @@ class VCard implements Serializable
 	 */
 	public function addAddress( string $streetAddress, string $extendedAddress, string $locality, string $region, string $postCode, string $countryName, ?string $postOfficeBox = NULL, array $types = [] ): self
 	{
-		$this->types['adr'][]	= array(
+		$this->types['adr'][]	= [
 			'postOfficeBox'		=> $postOfficeBox,
 			'extendedAddress'	=> $extendedAddress,
 			'streetAddress'		=> $streetAddress,
@@ -104,7 +104,7 @@ class VCard implements Serializable
 			'postCode'			=> $postCode,
 			'countryName'		=> $countryName,
 			'types'				=> $types,
-		);
+		];
 		return $this;
 	}
 
@@ -135,11 +135,11 @@ class VCard implements Serializable
 	{
 		if( is_string( $types ) )
 			$types	= explode( ",", $types );
-		$this->types['geo'][]	= array(
+		$this->types['geo'][]	= [
 			'latitude'	=> $latitude,
 			'longitude'	=> $longitude,
 			'types'		=> $types,
-		);
+		];
 		return $this;
 	}
 
@@ -391,13 +391,13 @@ class VCard implements Serializable
 	 */
 	public function setName( string $familyName, string $givenName, ?string $additionalNames = NULL, ?string $honorificPrefixes = NULL, ?string $honorificSuffixes = NULL ): self
 	{
-		$this->types['n']	= array(
+		$this->types['n']	= [
 			'familyName'		=> $familyName,
 			'givenName'			=> $givenName,
 			'additionalNames'	=> $additionalNames,
 			'honorificPrefixes'	=> $honorificPrefixes,
 			'honorificSuffixes'	=> $honorificSuffixes,
-		);
+		];
 		return $this;
 	}
 
@@ -410,10 +410,10 @@ class VCard implements Serializable
 	 */
 	public function setOrganisation( string $name, ?string $unit = NULL ): self
 	{
-		$this->types['org']	= array(
+		$this->types['org']	= [
 			'name'		=> $name,
 			'unit'		=> $unit,
-		);
+		];
 		return $this;
 	}
 
@@ -448,7 +448,7 @@ class VCard implements Serializable
 	 */
 	public function toArray(): array
 	{
-		return array(
+		return [
 			'address'		=> $this->types['adr'],
 			'email'			=> $this->types['email'],
 			'formattedName'	=> $this->types['fn'],
@@ -460,7 +460,7 @@ class VCard implements Serializable
 			'telephone'		=> $this->types['tel'],
 			'title'			=> $this->types['title'],
 			'url'			=> $this->types['url'],
-		);
+		];
 	}
 
 	/**

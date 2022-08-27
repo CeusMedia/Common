@@ -170,7 +170,7 @@ class Storage extends OptionObject
 	public function set( $path, $value, $write = false )
 	{
 		$type	= gettype( $value );
-		if( !in_array( $type, array( "double", "integer", "boolean", "string" ), TRUE ) )
+		if( !in_array( $type, ["double", "integer", "boolean", "string"], TRUE ) )
 			throw new InvalidArgumentException( "Value must be of type double, integer, boolean or string. ".ucfirst( $type )." given", E_USER_WARNING );
 		$result	=	$this->setRecursive( $path, $value, $this->storage );
 		if( $write && $result )

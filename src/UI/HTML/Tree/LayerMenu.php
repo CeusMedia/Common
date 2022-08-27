@@ -83,7 +83,7 @@ class LayerMenu
 				$backlinks[]	= Elements::ListItem( $label, $level, $attributes );
 			}
 			$backlinks	= implode( "\n", $backlinks );
-			$backlinks	= Tag::create( "ol", $backlinks, array( 'class' => "back" ) );
+			$backlinks	= Tag::create( "ol", $backlinks, ['class' => "back"] );
 		}
 
 		$list		= [];

@@ -92,10 +92,10 @@ class Json
 	{
 		$label		= $entry->getFilename();
 		$url		= $this->getFileUrl( $entry );
-		$attributes	= array(
+		$attributes	= [
 			'href' 		=> $url,
 			'target'	=> $this->fileTarget
-		);
+		];
 		$link		= Tag::create( "a", $label, $attributes );
 		return [
 			'text'		=> $link,

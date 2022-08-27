@@ -122,11 +122,11 @@ class Menu
 			$sublist	= "";
 			if( $child->hasChildren() )
 				$sublist	= "\n".$this->buildMenuRecursive( $child, $level+1 );
-			$classes	= array( 'level-'.$level );
+			$classes	= ['level-'.$level];
 			if( $child->hasChildren() )
 				$classes[]	= "parent";
 			$class		= implode( " ", $classes );
-			$list[]		= Elements::ListItem( $label.$sublist, $level, array( 'class' => $class ) );
+			$list[]		= Elements::ListItem( $label.$sublist, $level, ['class' => $class] );
 		}
 		$list	= Elements::unorderedList( $list, $level );
 		return $list;

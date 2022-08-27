@@ -52,7 +52,7 @@ class Pagination extends OptionObject
 	{
 		if( !is_array( $options ) )
 			throw new InvalidArgumentException( 'Option map is not an array' );
-		$defaultOptions	= array(
+		$defaultOptions	= [
 			'uri'			=> "./",
 			'param'			=> [],
 			'coverage'		=> 10,
@@ -76,7 +76,7 @@ class Pagination extends OptionObject
 			'textNext'		=> "&rsaquo;",
 			'textLast' 		=> "&raquo;",
 			'textMore'		=> "&minus;"
-		);
+		];
 
 //  --  LEFT JOIN  --  //
 #
@@ -203,7 +203,7 @@ class Pagination extends OptionObject
 					$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );
 			}
 		}
-		return Elements::unorderedList( $pages, 0, array( 'class' => $this->getOption( 'classList' ) ) );
+		return Elements::unorderedList( $pages, 0, ['class' => $this->getOption( 'classList' )] );
 	}
 
 	/**
@@ -232,7 +232,7 @@ class Pagination extends OptionObject
 			$label		= Elements::Link( $url, $label, $class );
 		}
 		else
-			$label	= Tag::create( "span", $label, array( 'class' => $class ) );
+			$label	= Tag::create( "span", $label, ['class' => $class] );
 #		if( $label == $text )
 #			$spanClass	.= " page";
 		return $this->buildItem( $label, NULL );
@@ -250,7 +250,7 @@ class Pagination extends OptionObject
 		$list	= [];
 		if( $class )
 			$list[]	= $class;
-		$item	= Elements::ListItem( $text, 0, array( 'class' => $class ) );
+		$item	= Elements::ListItem( $text, 0, ['class' => $class] );
 		return $item;
 	}
 

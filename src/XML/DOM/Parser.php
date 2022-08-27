@@ -48,14 +48,14 @@ class Parser extends OptionObject
 	protected $document			= NULL;
 
 	/**	@var	array			$attributes		List of DOM Document Options */
-	protected $attributes	= array(
+	protected $attributes	= [
 		"version",
 		"encoding",
 		"standalone",
 		"type",
 		"compression",
 		"charset"
-	);
+	];
 
 	/**
 	 *	Returns DOM Document.

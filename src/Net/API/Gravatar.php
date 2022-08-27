@@ -58,7 +58,7 @@ class Gravatar
 	protected $size		= 80;
 	protected $default	= 'mm';
 	protected $rate		= 'g';
-	protected $defaults	= array( '404', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro', 'blank' );
+	protected $defaults	= ['404', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro', 'blank'];
 
 	/**
 	 *	Constructor.
@@ -91,13 +91,13 @@ class Gravatar
 			throw new InvalidArgumentException( 'argument "password" is missing' );
 		$hash		= md5( strtolower( trim( $email ) ) );
 		$client		= new RpcClient( $this->urlRpc.'?user='.$hash );
-		return $client->call( 'grav.'.$method, array( (object) $arguments ) );
+		return $client->call( 'grav.'.$method, [(object) $arguments] );
 	}
 
 	public function exists( string $email, string $password ): bool
 	{
 		$hash		= md5( strtolower( trim( $email ) ) );
-		$data		= array( 'password' => $password, 'hashes' => array( $hash ) );
+		$data		= ['password' => $password, 'hashes' => [$hash]];
 		$response	= $this->callXmlRpc( $email, 'exists', $data );
 		return (bool) $response[0][$hash];
 	}
@@ -111,18 +111,18 @@ class Gravatar
 	public function getUrl( string $email ): string
 	{
 		$hash	= md5( strtolower( trim( $email ) ) );
-		$query	= array(
+		$query	= [
 			's'	=> $this->size,
 			'd'	=> $this->default,
 			'r'	=> $this->rate,
-		);
+		];
 		return $this->url.$hash.'?'.http_build_query( $query, NULL, '&amp;' );
 	}
 
 	public function listAddresses( string $email, string $password ): array
 	{
-		$response	= $this->callXmlRpc( $email, 'addresses', array( 'password' => $password ) );
-		$ratings	= array( 0 => 'g', 1 => 'pg', 2 => 'r', 3 => 'x' );
+		$response	= $this->callXmlRpc( $email, 'addresses', ['password' => $password] );
+		$ratings	= [0 => 'g', 1 => 'pg', 2 => 'r', 3 => 'x'];
 		foreach( $response[0] as $address => $data )
 			$response[0][$address]['rating']	= $ratings[$data['rating']];
 		return $response[0];
@@ -130,11 +130,11 @@ class Gravatar
 
 	public function listImages( string $email, string $password )
 	{
-		$response	= $this->callXmlRpc( $email, 'userimages', array( 'password' => $password ) );
+		$response	= $this->callXmlRpc( $email, 'userimages', ['password' => $password] );
 		$list		= [];
-		$ratings	= array( 0 => 'g', 1 => 'pg', 2 => 'r', 3 => 'x' );
+		$ratings	= [0 => 'g', 1 => 'pg', 2 => 'r', 3 => 'x'];
 		foreach( $response[0] as $hash => $data )
-			$list[$hash]	= array( 'rating' => $ratings[$data[0]], 'url' => $data[1] );
+			$list[$hash]	= ['rating' => $ratings[$data[0]], 'url' => $data[1]];
 		return $list;
 	}
 
@@ -161,7 +161,7 @@ class Gravatar
 	 */
 	public function setRate( string $rate ): self
 	{
-		if( !in_array( $rate, array( 'g', 'pg', 'r', 'x' ) ) )
+		if( !in_array( $rate, ['g', 'pg', 'r', 'x'] ) )
 			throw new InvalidArgumentException( 'Rate must of one of [g,pg,r,x]' );
 		$this->rate	= $rate;
 		return $this;
@@ -206,7 +206,7 @@ class Gravatar
 	public function removeImage( string $email, string $password, string $imageId, $rating = 0 )
 	{
 		throw new RuntimeException( 'Not tested yet' );
-		$data		= array( 'password' => $password, 'userimage' => $imageId, 'rating'	=> $rating );
+		$data		= ['password' => $password, 'userimage' => $imageId, 'rating'	=> $rating];
 		$response	= $this->callXmlRpc( $email, 'deleteUserImage', $data );
 		return $response[0];
 	}
@@ -220,11 +220,11 @@ class Gravatar
 	public function saveImage( string $email, string $password, string $imageDataBase64, $rating = 0 )
 	{
 		throw new RuntimeException( 'Not tested yet' );
-		$response	= $this->callXmlRpc( $email, 'saveData', array(
+		$response	= $this->callXmlRpc( $email, 'saveData', [
 			'password'	=> $password,
 			'data'		=> $imageDataBase64,
 			'rating'	=> $rating
-		) );
+		] );
 		return $response[0];
 	}
 
@@ -237,11 +237,11 @@ class Gravatar
 	public function saveImageFromUrl( string $email, string $password, string $imageUrl, $rating = 0 )
 	{
 		throw new RuntimeException( 'Not tested yet' );
-		$response	= $this->callXmlRpc( $email, 'saveUrl', array(
+		$response	= $this->callXmlRpc( $email, 'saveUrl', [
 			'password'	=> $password,
 			'url'		=> $imageUrl,
 			'rating'	=> $rating
-		) );
+		] );
 		return $response[0];
 	}
 
@@ -254,11 +254,11 @@ class Gravatar
 	public function setAddressImage( string $email, string $password, string $address, $imageId )
 	{
 		throw new RuntimeException( 'Not tested yet' );
-		$response	= $this->callXmlRpc( $email, 'useUserimage', array(
+		$response	= $this->callXmlRpc( $email, 'useUserimage', [
 			'password'	=> $password,
-			'addresses'	=> array( $address ),
+			'addresses'	=> [$address],
 			'userimage'	=> $imageId
-		) );
+		] );
 		return $response[0];
 	}
 
@@ -271,10 +271,10 @@ class Gravatar
 	public function unsetAddressImage( string $email, string $password, $address )
 	{
 		throw new RuntimeException( 'Not tested yet' );
-		$response	= $this->callXmlRpc( $email, 'removeImage', array(
+		$response	= $this->callXmlRpc( $email, 'removeImage', [
 			'password'	=> $password,
-			'addresses'	=> array( $address ),
-		) );
+			'addresses'	=> [$address],
+		] );
 		return $response[0];
 	}
 }

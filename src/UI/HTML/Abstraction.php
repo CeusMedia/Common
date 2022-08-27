@@ -45,7 +45,7 @@ use InvalidArgumentException;
 abstract class Abstraction implements Renderable
 {
 	protected $attributes	= array(
-		'class'	=> []
+		'class'	=> [],
 	);
 	protected $content		= NULL;
 

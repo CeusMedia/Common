@@ -53,7 +53,7 @@ class Relocator
 		$css = self::_trimUrls($css);
 
 		// append
-		$callback = array(self::$className, '_processUriCB');
+		$callback = [self::$className, '_processUriCB'];
 		$css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/', $callback, $css);
 		$css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/', $callback, $css);
 
@@ -95,9 +95,7 @@ class Relocator
 	 */
 	public static function rewrite(string $css, string $currentDir, ?string $docRoot = null, array $symlinks = [])
 	{
-		self::$_docRoot = self::_realpath(
-			$docRoot ?: $_SERVER['DOCUMENT_ROOT']
-		);
+		self::$_docRoot = self::_realpath($docRoot ?: $_SERVER['DOCUMENT_ROOT']);
 		self::$_currentDir = self::_realpath($currentDir);
 		self::$_symlinks = [];
 
@@ -120,7 +118,7 @@ class Relocator
 		$css = self::_trimUrls($css);
 
 		// rewrite
-		$callback = array(self::$className, '_processUriCB');
+		$callback = [self::$className, '_processUriCB'];
 		$css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/', $callback, $css);
 		return preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/', $callback, $css);
 	}

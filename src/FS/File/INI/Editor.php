@@ -100,12 +100,12 @@ class Editor extends Reader
 		if( $section && !in_array( $section, $this->sections ) )
 			$this->addSection( $section );
 		$key = ( $state ? "" : $this->signDisabled ).$key;
-		$this->added[] = array(
+		$this->added[] = [
 			"key"		=> $key,
 			"value"		=> $value,
 			"comment"	=> $comment ?? '',
 			"section"	=> $section,
-		);
+		];
 		return is_int( $this->write() );
 	}
 

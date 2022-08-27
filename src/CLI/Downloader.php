@@ -158,9 +158,9 @@ class Downloader
 		//  set URL in cURL Handle
 		curl_setopt( $ch, CURLOPT_URL, $url );
 		//  set Callback Method for Headers
-		curl_setopt( $ch, CURLOPT_HEADERFUNCTION, array( $this, 'readHeader' ) );
+		curl_setopt( $ch, CURLOPT_HEADERFUNCTION, [$this, 'readHeader'] );
 		//  set Callback Method for Body
-		curl_setopt( $ch, CURLOPT_WRITEFUNCTION, array( $this, 'readBody' ) );
+		curl_setopt( $ch, CURLOPT_WRITEFUNCTION, [$this, 'readBody'] );
 		//  execute cURL Request
 		curl_exec( $ch );
 

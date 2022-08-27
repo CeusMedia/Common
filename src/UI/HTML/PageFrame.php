@@ -55,7 +55,7 @@ class PageFrame
 	protected $charset		= NULL;
 	protected $language		= NULL;
 	protected $doctype		= 'XHTML_10_STRICT';
-	protected $doctypes		= array(
+	protected $doctypes		= [
 		'HTML_5'					=> '<!DOCTYPE html>',
 		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
 		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
@@ -64,7 +64,7 @@ class PageFrame
 		'HTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
 		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
 		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
-	);
+	];
 
 	/**
 	 *	Constructor.
@@ -82,7 +82,7 @@ class PageFrame
 		$this->setLanguage( $language );
 		$this->charset	= $charset;
 		if( $docType == "HTML_5" ){
-			$this->metaTags["charset"]	= array( 'charset' => $charset );
+			$this->metaTags["charset"]	= ['charset' => $charset];
 			$this->addMetaTag( "http-equiv", "Content-Type", "text/html" );
 		}
 		else{
@@ -118,11 +118,11 @@ class PageFrame
 			$type	= "image/png";
 		if( $ext === 'gif' )
 			$type	= "image/gif";
-		$this->links[]	= array(
+		$this->links[]	= [
 			'rel'		=> "icon",
 			'type'		=> $type,
 			'href'		=> $url,
-		);
+		];
 	}
 
 	/**
@@ -149,11 +149,11 @@ class PageFrame
 		$typeDefault	= 'text/javascript';
 		if( isset( $this->metaTags["http-equiv:content-script-type"] ) )
 			$typeDefault	= $this->metaTags["http-equiv:content-script-type"]['content'];
-		$scriptData	= array(
+		$scriptData	= [
 			'type'		=> $type ? $type : $typeDefault,
 			'charset'	=> $charset ? $charset : NULL,
 			'src'		=> $uri,
-		);
+		];
 		$this->scripts[]	= $scriptData;
 	}
 
@@ -166,11 +166,11 @@ class PageFrame
 	 *	@return		void
 	 */
 	public function addLink( $uri, $relation, $type = NULL ){
-		$this->links[]	= array(
+		$this->links[]	= [
 			'uri'		=> $uri,
 			'rel'		=> $relation,
 			'type'		=> $type
-		);
+		];
 	}
 
 	/**
@@ -183,10 +183,10 @@ class PageFrame
 	 */
 	public function addMetaTag( $type, $key, $value )
 	{
-		$metaData	= array(
+		$metaData	= [
 			$type		=> $key,
 			'content'	=> $value,
-		);
+		];
 		$this->metaTags[strtolower( $type.":".$key )]	= $metaData;
 	}
 
@@ -196,7 +196,7 @@ class PageFrame
 	}
 
 	public function addScript( $script, $type = "text/javascript" ){
-		$this->addHead( Tag::create( 'script', $script, array( 'type' => $type ) ) );
+		$this->addHead( Tag::create( 'script', $script, ['type' => $type] ) );
 	}
 
 	/**
@@ -213,12 +213,12 @@ class PageFrame
 		$typeDefault	= 'text/css';
 		if( isset( $this->metaTags["http-equiv:content-style-type"] ) )
 			$typeDefault	= $this->metaTags["http-equiv:content-style-type"]['content'];
-		$styleData	= array(
+		$styleData	= [
 			'rel'		=> "stylesheet",
 			'type'		=> $type ? $type : $typeDefault,
 			'media'		=> $media,
 			'href'		=> $uri,
-		);
+		];
 		$this->links[]	= $styleData;
 	}
 
@@ -237,7 +237,7 @@ class PageFrame
 		$tagsBody	= [];
 
 		if( $this->baseHref )
-			$tagsHead[]	= Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
+			$tagsHead[]	= Tag::create( 'base', NULL, ['href' => $this->baseHref] );
 		foreach( $this->metaTags as $attributes )
 			$tagsHead[]	= Tag::create( 'meta', NULL, $attributes );
 
@@ -253,9 +253,9 @@ class PageFrame
 		foreach( $this->scripts as $attributes )
 			$tagsHead[]	= Tag::create( "script", "", $attributes );
 
-		$headAttributes	= array(
+		$headAttributes	= [
 			'profile'	=> $this->profile
-		);
+		];
 
 		$tagsHead	= implode( "\n".$this->indent.$this->indent, $tagsHead );
 		$tagsHead	.= implode( "\n".$this->indent.$this->indent, $this->head );
@@ -269,10 +269,10 @@ class PageFrame
 		$body		= Tag::create( "body", $tagsBody, $bodyAttributes );
 
 		$doctype	= $this->doctypes[$this->doctype];
-		$attributes	= array( 'lang' => $this->language );
+		$attributes	= ['lang' => $this->language];
 		if( is_int( strpos( $doctype, 'xhtml' ) )/* || $this->doctype == 'HTML_5'*/ ){
-			$attributes	= array( 'xml:lang' => $this->language ) + $attributes;
-			$attributes	= array( 'xmlns' => "http://www.w3.org/1999/xhtml" ) + $attributes;
+			$attributes	= ['xml:lang' => $this->language] + $attributes;
+			$attributes	= ['xmlns' => "http://www.w3.org/1999/xhtml"] + $attributes;
 		}
 		if( $this->prefixes ){
 			$list	= [];
@@ -334,7 +334,7 @@ class PageFrame
 	 */
 	public function setBody( $string )
 	{
-		$this->body		= array( $string );
+		$this->body		= [$string];
 	}
 
 	/**
@@ -362,7 +362,7 @@ class PageFrame
 	public function setDocType( $doctype )
 	{
 		$doctypes	= array_keys( $this->doctypes );
-		$key		= str_replace( array( ' ', '-' ), '_', trim( $doctype ) );
+		$key		= str_replace( [' ', '-'], '_', trim( $doctype ) );
 		$key		= preg_replace( "/[^A-Z0-9_]/", '', strtoupper( $key ) );
 		if( !strlen( trim( $key ) ) )
 			throw new InvalidArgumentException( 'No doctype given' );

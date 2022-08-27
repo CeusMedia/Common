@@ -77,7 +77,7 @@ class EventMonthCalendar extends MonthCalendar
 			$classes[]	= 'event';
 		}
 		$class	= implode( ' ', $classes );
-		return $data	= array( 'day'	=> $day, 'class' => $class );
+		return $data	= ['day'	=> $day, 'class' => $class];
 	}
 
 	/**

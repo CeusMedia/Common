@@ -306,7 +306,7 @@ class FormElements
 	 */
 	public static function OptionGroup( $label, $options, $selected = NULL )
 	{
-		$attributes	= array( 'label' => $label );
+		$attributes	= ['label' => $label];
 		$options	= self::Options( $options, $selected );
 		return Tag::create( "optgroup", $options, $attributes );
 	}
@@ -420,10 +420,10 @@ class FormElements
 				continue;
 			$selected	= isset( $options['_selected'] ) ? (string) $value == (string) $options['_selected'] : NULL;
 			$radio		= self::Radio( $name, $value, $selected, $class, $readOnly );
-			$spanRadio	= Tag::create( "span", $radio, array( 'class' => 'radio' ) );
-			$label		= Tag::create( "label", $label, array( 'for' => $name."_".$value ) );
-			$spanLabel	= Tag::create( "span", $label, array( 'class' => 'label' ) );
-			$content	= Tag::create( "span", $spanRadio.$spanLabel, array( 'class' => 'radiolabel' ) );
+			$spanRadio	= Tag::create( "span", $radio, ['class' => 'radio'] );
+			$label		= Tag::create( "label", $label, ['for' => $name."_".$value] );
+			$spanLabel	= Tag::create( "span", $label, ['class' => 'label'] );
+			$content	= Tag::create( "span", $spanRadio.$spanLabel, ['class' => 'radiolabel'] );
 			$radios[]	= $content;
 		}
 		$group	= implode( "", $radios );

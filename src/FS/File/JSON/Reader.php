@@ -43,7 +43,7 @@ use RuntimeException;
  */
 class Reader
 {
-	protected static $defaultFilters	= array( 'comments' );
+	protected static $defaultFilters	= ['comments'];
 	protected $filePath;
 	protected $filters					= [];
 	protected $data;
@@ -84,12 +84,12 @@ class Reader
 	 */
 	public function getInfo(): object
 	{
-		return (object) array(
+		return (object) [
 			'filePath'		=> $this->filePath,
 			'filters'		=> $this->filters,
 			'status'		=> $this->parser->getInfo(),
 			'data'			=> $this->data,
-		);
+		];
 	}
 
 	/**

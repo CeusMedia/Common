@@ -234,7 +234,7 @@ class URL
 		$parts	= parse_url( trim( $url ) );
 		if( $parts === FALSE )
 			throw new InvalidArgumentException( 'No valid URL given' );
-		$defaults	= array(
+		$defaults	= [
 			'scheme'		=> $this->defaultUrl ? $this->defaultUrl->getScheme() : '',
 			'host'			=> $this->defaultUrl ? $this->defaultUrl->getHost() : '',
 			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : '',
@@ -242,7 +242,7 @@ class URL
 			'pass'			=> $this->defaultUrl ? $this->defaultUrl->getPassword() : '',
 			'query'			=> '',
 			'fragment'		=> '',
-		);
+		];
 		if( $this->defaultUrl && $this->defaultUrl->parts->path !== '/' ){
 			$regExp			= '@^'.preg_quote( $this->defaultUrl->parts->path ).'@';
 			$parts['path']	= preg_replace( $regExp, '/', $parts['path'] );

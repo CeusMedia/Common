@@ -52,7 +52,7 @@ class Serializable extends Exception implements SerializableInterface
 	 */
 	public function serialize(): string
 	{
-		return serialize( array( $this->message, $this->code, $this->file, $this->line ) );
+		return serialize( [$this->message, $this->code, $this->file, $this->line] );
 	}
 
 	/**

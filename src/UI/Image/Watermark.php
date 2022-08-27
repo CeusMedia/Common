@@ -183,11 +183,11 @@ class Watermark
 	 */
 	public function setPosition( $horizontal, $vertical )
 	{
-		if( in_array( $horizontal, array( 'left', 'center', 'right' ) ) )
+		if( in_array( $horizontal, ['left', 'center', 'right'] ) )
 			$this->positionH	= $horizontal;
 		else
 			throw new InvalidArgumentException( 'Horizontal Position "'.$horizontal.'" must be on of (left, center, right).' );
-		if( in_array( $vertical, array( 'top', 'middle', 'bottom' ) ) )
+		if( in_array( $vertical, ['top', 'middle', 'bottom'] ) )
 			$this->positionV	= $vertical;
 		else
 			throw new InvalidArgumentException( 'Vertical Position "'.$horizontal.'" must be on of (top, middle, bottom).' );

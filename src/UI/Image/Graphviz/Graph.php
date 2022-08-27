@@ -197,7 +197,7 @@ class Graph
 	}
 
 	public function setType( $type ){
-		if( !in_array( $type, array( "digraph", "graph" ) ) )
+		if( !in_array( $type, ["digraph", "graph"] ) )
 			throw new InvalidArgumentException( 'Invalid graph type "'.$type.'"' );
 		$this->type		= $type;
 	}

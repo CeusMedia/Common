@@ -22,13 +22,13 @@ class CLI
 
 	protected $log;
 
-	static protected $mimeTypeLabels	= array(
+	static protected $mimeTypeLabels	= [
 		'application/xml'		=> 'XML',
 		'text/plain'			=> 'Text',
 		'text/x-php'			=> 'PHP',
 		'text/x-makefile'		=> 'MAKE',
 		'text/x-shellscript'	=> 'Shell',
-	);
+	];
 
 	public function __construct()
 	{
@@ -79,12 +79,12 @@ class CLI
 	{
 		$isCli	= self::checkIsCLi( FALSE );
 		if( !is_array( $messages ) )
-			$messages	= array( $messages );
+			$messages	= [$messages];
 		foreach( $messages as $message ){
 			if( is_null( $message ) )
 				continue;
 			$type		= gettype( $message );
-			if( in_array( $type, array( 'string', 'integer' ) ) ){
+			if( in_array( $type, ['string', 'integer'] ) ){
 				if( strlen( trim( $message ) ) ){
 					$message	= trim( $message );
 					$isCli ? fwrite( STDERR, $message ) : print( $message );
@@ -102,12 +102,12 @@ class CLI
 	{
 		$isCli	= self::checkIsCLi( FALSE );
 		if( !is_array( $messages ) )
-			$messages	= array( $messages );
+			$messages	= [$messages];
 		foreach( $messages as $message ){
 			if( is_null( $message ) )
 				continue;
 			$type		= gettype( $message );
-			if( in_array( $type, array( 'string', 'integer' ) ) ){
+			if( in_array( $type, ['string', 'integer'] ) ){
 				if( strlen( trim( $message ) ) ){
 					$isCli ? fwrite( STDOUT, $message ) : print( $message );
 				}
@@ -189,13 +189,13 @@ class CLI
 				$sfi	= $item->count( FS::TYPE_FILE | FS::TYPE_LINK, TRUE );
 				$perm	= 'd'.FilePermissions::getStringFromFile( $item->getPathName() );
 				$date	= date( 'y-m-d H:i', $item->getTime() );
-				CLI::out( join( array(
+				CLI::out( join( [
 					Text::padRight( $name, $freeSize ),
 					$mimeType ? Text::padLeft( '[folder]', 20 ) : '',
 					Text::padLeft( $sfo.'/'.$sfi, 12 ),
 					Text::padLeft( $perm, 12 ),
 					Text::padLeft( $date, 16 )
-				) ) );
+				] ) );
 			}
 		}
 		if( $files->count() !== 0 ){
@@ -207,13 +207,13 @@ class CLI
 				$size	= Text::formatBytes( $item->getSize() );
 				$perm	= FilePermissions::getStringFromFile( $item->getPathName() );
 				$date	= date( 'y-m-d H:i', $item->getTime() );
-				CLI::out( join( array(
+				CLI::out( join( [
 					Text::padRight( $name, $freeSize ),
 					$mimeType ? Text::padLeft( $mime, 20 ) : '',
 					Text::padLeft( $size, 12 ),
 					Text::padLeft( $perm, 12 ),
 					Text::padLeft( $date, 16 )
-				) ) );
+				] ) );
 			}
 		}
 	}

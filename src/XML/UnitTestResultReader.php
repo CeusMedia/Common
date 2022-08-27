@@ -108,12 +108,12 @@ class UnitTestResultReader
 	private function getMessagesRecursive( Element $element, array &$list, string $type, string $testSuite = "" ): void
 	{
 		if( $element->getName() == "testcase" && $element->$type ){
-			$list[]	= array(
+			$list[]	= [
 				'suite'		=> $testSuite,
 				'case'		=> $element->getAttribute( 'name' ),
 				'error'		=> $element->$type,
 				'type'		=> $element->$type->getAttribute( 'type' ),
-			);
+			];
 			return;
 		}
 		foreach( $element->children() as $child )

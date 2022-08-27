@@ -78,7 +78,7 @@ class IO extends Runtime
 	 */
 	public function serialize(): string
 	{
-		return serialize( array( $this->message, $this->code, $this->file, $this->line, $this->resource ) );
+		return serialize( [$this->message, $this->code, $this->file, $this->line, $this->resource] );
 	}
 
 	/**

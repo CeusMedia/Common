@@ -55,7 +55,7 @@ class Method
 	/** @var		string					$method			HTTP request method */
 	protected $method		= self::METHOD_GET;
 
-	static public $methods	= array(
+	static public $methods	= [
 		self::METHOD_CONNECT,
 		self::METHOD_DELETE,
 		self::METHOD_GET,
@@ -65,7 +65,7 @@ class Method
 		self::METHOD_POST,
 		self::METHOD_PUT,
 		self::METHOD_TRACE,
-	);
+	];
 
 	public function __construct( $method = NULL )
 	{

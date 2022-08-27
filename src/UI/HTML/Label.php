@@ -53,7 +53,7 @@ class Label extends Abstraction
 		if( !is_null( $label ) )
 			$this->setContent( $label );
 		if( !is_null( $label ) )
-			$this->setAttributes( array( 'for', $relation ) );
+			$this->setAttributes( ['for', $relation] );
 		if( !is_null( $attributes ) )
 			$this->addAttributes( $attributes );
 	}

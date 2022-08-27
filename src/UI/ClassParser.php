@@ -55,7 +55,7 @@ class ClassParser
 	protected $imports			= [];
 
 	/**	@var		array		$classData		List of Class Properties */
-	protected $classData		= array(
+	protected $classData		= [
 		"package"		=> "",
 		"desc"			=> [],
 		"extends"		=> "",
@@ -71,7 +71,8 @@ class ClassParser
 		"author"		=> [],
 		"package"		=> [],
 		"subpackage"	=> [],
-		);
+	];
+
 	/**	@var		array		$patterns		Patterns for regular expression */
 	protected $patterns	= [];
 
@@ -84,7 +85,7 @@ class ClassParser
 	public function __construct( $fileName )
 	{
 		$this->fileName = $fileName;
-		$this->patterns = array(
+		$this->patterns = [
 			"import"		=> '~^import~i',
 			"class"			=> '~^(final |abstract )*(class) ~i',
 			"doc_start"		=> '~^/##~',
@@ -111,8 +112,8 @@ class ClassParser
 			"d_see"			=> '~@see~',
 			"d_link"		=> '~@link~',
 			"d_throws"		=> '~@throws~',
-			);
-		$this->classProperties = array(
+		];
+		$this->classProperties = [
 			"package"		=> "d_package",
 			"implements"	=> "d_implements",
 			"extends"		=> "d_extends",
@@ -125,9 +126,9 @@ class ClassParser
 			"version"		=> "d_version",
 			"since"			=> "d_since",
 			"see"			=> "d_see",
-			);
+		];
 
-		$this->methodProperties = array(
+		$this->methodProperties = [
 			"access"		=> "d_access",
 			"author"		=> "d_author",
 			"return"		=> "d_return",
@@ -135,7 +136,7 @@ class ClassParser
 			"since"			=> "d_since",
 			"see"			=> "d_see",
 			"throws"		=> "d_throws",
-			);
+		];
 
 		$this->parse();
 	}
@@ -147,12 +148,12 @@ class ClassParser
 	 */
 	public function getClassData()
 	{
-		$data = array(
+		$data = [
 			"class"			=> $this->classData,
 			"imports"		=> $this->imports,
 			"methods"		=> $this->methods,
 			"vars"			=> $this->vars,
-			);
+		];
 		return $data;
 	}
 
@@ -240,7 +241,7 @@ class ClassParser
 		foreach( $lines as $line )
 		{
 			$line = trim( $line );
-			$line = str_replace( array( "*", "\t\t", "\t\t" ), array( "#", "\t", "\t" ), $line );
+			$line = str_replace( ["*", "\t\t", "\t\t"], ["#", "\t", "\t"], $line );
 			if( $inside )
 			{
 				if( !$doc_open )
@@ -293,7 +294,7 @@ class ClassParser
 						$this->vars[$parts[1]]['type'] = $parts[0];
 						$access = ( substr($parts[1], 0, 1) == "_" ) ? "private" : "public";
 							$this->vars[$parts[1]]['access'] = $access;
-						$this->vars[$parts[1]]['desc'][] = str_replace( array( "#", "/" ), "", $parts[2] );
+						$this->vars[$parts[1]]['desc'][] = str_replace( ["#", "/"], "", $parts[2] );
 					}
 					if( preg_match( $this->patterns['doc_end'], $line ) )
 						$doc_open = false;
@@ -303,7 +304,7 @@ class ClassParser
 			{
 				if( preg_match( $this->patterns["import"], $line ) )
 				{
-					$import = str_replace( array( "import", " ", "(", ")", ";", "'", '"' ), "", $line );
+					$import = str_replace( ["import", " ", "(", ")", ";", "'", '"'], "", $line );
 					$parts = explode( ".", $import );
 					$this->imports[$parts[count( $parts )-1]] = implode( "/", $parts );
 				}
@@ -314,7 +315,7 @@ class ClassParser
 					$class = explode( " implements ", $parts[0] );
 					$class = $class[0];
 
-//					$class = str_replace( array( "class", " " ), "", $class );
+//					$class = str_replace( ["class", " "], "", $class );
 					$this->classData["class"] = $class;
 					if( isset( $parts[1] ) )
 						$this->classData["extends"] = $parts[1];

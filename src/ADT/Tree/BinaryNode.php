@@ -197,7 +197,7 @@ class BinaryNode
 		if( !$dir || $dir == "lwr" ){
 			if( $this->left )
 				$array = array_merge( $array, $this->left->toList( $dir ) );
-			$array = array_merge( $array, array( $this->value ) );
+			$array = array_merge( $array, [$this->value] );
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
 		}

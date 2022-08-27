@@ -41,9 +41,9 @@ class Elements extends FormElements
 	public static function CheckboxLabel( $name, $value, $checked, $text, $class = 'checklabel' )
 	{
 		$checkBox	= self::CheckBox( $name, $value, $checked );
-		$checkSpan	= Tag::create( "span", $checkBox, array( 'class' => "checkbox" ) );
-		$label		= Tag::create( "label", $text, array( 'for' => $name ) );
-		$span		= Tag::create( "span", $checkSpan.$label, array( 'class' => $class ) );
+		$checkSpan	= Tag::create( "span", $checkBox, ['class' => "checkbox"] );
+		$label		= Tag::create( "label", $text, ['for' => $name] );
+		$span		= Tag::create( "span", $checkSpan.$label, ['class' => $class] );
 		return $span;
 
 	}
@@ -303,7 +303,7 @@ class Elements extends FormElements
 
 	public static function Heading( $label, $level, $class = NULL )
 	{
-		return Tag::create( 'h'.$level, $label, array( 'class' => $class ) );
+		return Tag::create( 'h'.$level, $label, ['class' => $class] );
 	}
 
 	/**
@@ -347,7 +347,7 @@ class Elements extends FormElements
 		if( !is_array( $icons ) )
 		{
 			if( $icons )
-				$icons = array( $icons );
+				$icons = [$icons];
 			else
 				$icons = [];
 		}

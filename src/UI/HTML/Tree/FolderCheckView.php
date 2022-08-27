@@ -198,7 +198,7 @@ class FolderCheckView
 		//  an ID for Tree is set
 		if( $this->id )
 			//  wrap Tree in DIV with ID
-			$tree	= Tag::create( 'div', $tree, array( 'id' => $this->id ) );
+			$tree	= Tag::create( 'div', $tree, ['id' => $this->id] );
 		//  return finished HTML Tree
 		return $tree;
 	}

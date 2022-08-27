@@ -188,7 +188,7 @@ abstract class Abstraction
 				}
 
 				//	Wait for somebody to talk to.
-				$readArray = array( $sock );
+				$readArray = [$sock];
 				/** @noinspection PhpRedundantOptionalArgumentInspection */
 				if( socket_select( $readArray, $this->listenWrite, $this->listenExcept, 0, 0 ) <= 0 ){
 					usleep( 5000 );
@@ -294,8 +294,8 @@ abstract class Abstraction
 		declare( ticks = 1 );
 		$this->timeStarted	= time();
 
-		pcntl_signal( SIGTERM, array( &$this, "handleSignal" ) );
-		pcntl_signal( SIGHUP, array( &$this, "handleSignal" ) );
+		pcntl_signal( SIGTERM, [&$this, "handleSignal"] );
+		pcntl_signal( SIGHUP, [&$this, "handleSignal"] );
 		return $this;
 	}
 }

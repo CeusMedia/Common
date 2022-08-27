@@ -101,11 +101,11 @@ class EventHandler
 	{
 		if( !is_object( $object ) )
 			throw new InvalidArgumentException( 'Not an object given' );
-		$this->callbacks[$eventName][]	= (object) array(
+		$this->callbacks[$eventName][]	= (object) [
 			'object'			=> $object,
 			'methodName'		=> $methodName,
 			'methodParameters'	=> $methodParameters
-		);
+		];
 		return $this;
 	}
 

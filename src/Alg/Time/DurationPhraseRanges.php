@@ -66,7 +66,7 @@ class DurationPhraseRanges implements Countable
 	 */
 	public function addRange( int $from, string $label )
 	{
-		$from	= preg_replace_callback( $this->regExp, array( $this, 'calculateSeconds' ), $from );
+		$from	= preg_replace_callback( $this->regExp, [$this, 'calculateSeconds'], $from );
 		$this->ranges[(int) $from]	= $label;
 		ksort( $this->ranges );
 	}

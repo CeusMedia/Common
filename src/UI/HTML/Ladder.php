@@ -83,13 +83,13 @@ class Ladder
 		foreach( $this->steps as $nr => $step )
 		{
 			$id		= $this->id."_link".$nr;
-			$list[]	= Elements::ListItem( $step['label'], 0, array( 'id' => $id ) );
+			$list[]	= Elements::ListItem( $step['label'], 0, ['id' => $id] );
 			$id		= $this->id."_".$nr;
-			$divs[] = Tag::create( 'div', $step['content'], array( 'id' => $id ) );
+			$divs[] = Tag::create( 'div', $step['content'], ['id' => $id] );
 		}
 		$list	= Elements::unorderedList( $list );
 		$divs	= implode( "\n", $divs );
-		$div	= Tag::create( 'div', "\n".$list.$divs."\n", array( 'id' => $this->id ) );
+		$div	= Tag::create( 'div', "\n".$list.$divs."\n", ['id' => $this->id] );
 		return $div;
 	}
 

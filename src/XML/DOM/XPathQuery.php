@@ -49,10 +49,10 @@ use RuntimeException;
 class XPathQuery extends OptionObject
 {
 	/**	@var		DOMDocument	$document		DOM Document Object */
-	var $document	= NULL;
+	public $document	= NULL;
 
 	/**	@var		DOMXPath	$xPath			DOM XPath Object */
-	var $xPath		= NULL;
+	public $xPath		= NULL;
 
 	/**
 	 *	Returns identified Type of Feed.

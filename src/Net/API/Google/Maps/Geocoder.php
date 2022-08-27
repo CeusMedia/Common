@@ -96,11 +96,11 @@ class Geocoder extends GoogleRequest
 		$xml	= new XmlElement( $xml );
 //		$coordinates	= (string) $xml->result->geometry->location;
 //		$parts			= explode( ",", $coordinates );
-		return array(
+		return [
 			'longitude'	=> (string) $xml->result->geometry->location->lng,
 			'latitude'	=> (string) $xml->result->geometry->location->lat,
 			'accuracy'	=> NULL,
-		);
+		];
 	}
 
 	/**

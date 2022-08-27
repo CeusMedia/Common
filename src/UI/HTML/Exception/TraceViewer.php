@@ -64,7 +64,7 @@ class TraceViewer
 
 	protected static function blockquote( $content )
 	{
-		return Tag::create( 'blockquote', $content, array( 'style' => 'margin: 0px 30px' ) );
+		return Tag::create( 'blockquote', $content, ['style' => 'margin: 0px 30px'] );
 	}
 
 	/**
@@ -105,7 +105,7 @@ class TraceViewer
 			$block	= Tag::create( 'blockquote', $view );
 			$content	.= 'Previous: '.$block.'<br/>';
 		}
-		return Tag::create( 'p', $content, array( 'style' => "font-family: monospace" ) );
+		return Tag::create( 'p', $content, ['style' => "font-family: monospace"] );
 		 $content;
 	}
 
@@ -123,7 +123,7 @@ class TraceViewer
 		if( $j == 0 )
 			if( isset( $trace['function'] ) )
 				//  Exception was thrown using throwException
-				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )
+				if( in_array( $trace['function'], ["eval", "throwException"] ) )
 					return "";
 
 		$indent		= " ";

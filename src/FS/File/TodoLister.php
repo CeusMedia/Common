@@ -85,7 +85,7 @@ class TodoLister
 
 	private function getExtendedPattern( string $member = "pattern" ): string
 	{
-		$list1	= array( $this->$member );
+		$list1	= [$this->$member];
 		$list1	= array_merge( $list1, $this->{$member."s"} );
 		$list2	= [];
 		foreach( $list1 as $item )
@@ -204,10 +204,10 @@ class TodoLister
 				if( !$list )
 					continue;
 				$this->numberFound++;
-				$this->list[$entry->getPathname()]	= array(
+				$this->list[$entry->getPathname()]	= [
 					'fileName'	=> $entry->getFilename(),
 					'lines'		=> $list,
-				);
+				];
 			}
 		}
 		catch( UnexpectedValueException $e ){

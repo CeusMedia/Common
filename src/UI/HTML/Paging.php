@@ -223,7 +223,7 @@ class Paging extends OptionObject
 	protected function buildSpan( $text, $class = NULL )
 	{
 		$class 	= $class ? $this->getOption( 'class_span' )." ".$class : $this->getOption( 'class_span' );
-		$span	= Tag::create( "span", $text, array( 'class' => $class ) );
+		$span	= Tag::create( "span", $text, ['class' => $class] );
 		return $span;
 	}
 }

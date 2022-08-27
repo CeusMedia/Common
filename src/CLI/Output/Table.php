@@ -135,11 +135,11 @@ class Table
 			return;
 		$first	= current( $this->data );
 		foreach( $first as $key => $value ){
-			$this->columns[$key]	= array(
+			$this->columns[$key]	= [
 				'size'	=> 0,
 				'type'	=> gettype( $value ),
 				'label'	=> is_string( $key ) ? $key : NULL,
-			);
+			];
 		}
 		foreach( $this->data as $row ){
 			foreach( $row as $key => $value ){
@@ -184,11 +184,11 @@ class Table
 		foreach( $this->columns as $column ){
 			$list[]	= str_repeat( $border->ih, $column['size'] + 2 );
 		}
-		return join( array(
+		return join( [
 				$border->olj,
 				join( $border->ij, $list ),
 				$border->orj,
-			) ).PHP_EOL;
+			] ).PHP_EOL;
 	}
 
 	protected function renderBottomBorder(): string
@@ -201,11 +201,11 @@ class Table
 		foreach( $this->columns as $column ){
 			$list[]	= str_repeat( $border->ob, $column['size'] + 2 );
 		}
-		return join( array(
+		return join( [
 				$border->obl,
 				join( $border->obj, $list ),
 				$border->obr,
-			) ).PHP_EOL;
+			] ).PHP_EOL;
 	}
 
 	protected function renderRows(): string
@@ -229,10 +229,10 @@ class Table
 		foreach( $this->columns as $column ){
 			$list[]	= str_repeat( $border->ot, $column['size'] + 2 );
 		}
-		return join( array(
+		return join( [
 				$border->otl,
 				join( $border->otj, $list ),
 				$border->otr,
-			) ).PHP_EOL;
+			] ).PHP_EOL;
 	}
 }

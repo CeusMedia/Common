@@ -46,7 +46,7 @@ define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
 class UnitFormater
 {
 	/**	@var		array		$unitBytes		List of Byte Units */
-	public static $unitBytes	= array(
+	public static $unitBytes	= [
 		'B',
 		'KB',
 		'MB',
@@ -55,11 +55,11 @@ class UnitFormater
 		'PB',
 		'EB',
 		'ZB',
-		'YB'
-	);
+		'YB',
+	];
 
 	/**	@var		array		$unitPixels		List of Pixel Units */
-	public static $unitPixels	= array(
+	public static $unitPixels	= [
 		'P',
 		'KP',
 		'MP',
@@ -68,19 +68,19 @@ class UnitFormater
 		'PP',
 		'EP',
 		'ZP',
-		'YP'
-	);
+		'YP',
+	];
 
 	/**	@var		array		$unitBytes		List of Second Units */
-	public static $unitSeconds	= array(
+	public static $unitSeconds	= [
 		'µs',
 		'ms',
 		's',
 		'm',
 		'h',
 		'd',
-		'a'
-	);
+		'a',
+	];
 
 	/**
 	 *	Formats Number of Bytes by switching to next higher Unit if an set Edge is reached.

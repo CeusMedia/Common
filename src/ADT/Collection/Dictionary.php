@@ -89,7 +89,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		$valueType	= strtolower( gettype( $value ) );
 		$pairType	= strtolower( gettype( $this->get( $key ) ) );
 
-		$abstracts	= array( 'array', 'object' );
+		$abstracts	= ['array', 'object'];
 		if( in_array( $valueType, $abstracts, TRUE ) !== in_array( $pairType, $abstracts, TRUE ) )
 			throw new UnexpectedValueException( 'Cannot cast '.$valueType.' to '.$pairType );
 		settype( $value, $pairType );

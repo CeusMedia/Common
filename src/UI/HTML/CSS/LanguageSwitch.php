@@ -54,7 +54,7 @@ class LanguageSwitch
 		$list	= new MenuCollection();
 		$icon	= self::getFlag( $currentLanguage );
 		$label	= $this->languages[$currentLanguage];
-		$span	= Tag::create( "span", $icon, array( 'class' => "flagIcon" ) );
+		$span	= Tag::create( "span", $icon, ['class' => "flagIcon"] );
 		$main	= new MenuItem( "#", $span.$label );
 		$list->addChild( $main );
 
@@ -63,12 +63,12 @@ class LanguageSwitch
 			if( $languageKey == $currentLanguage )
 				continue;
 			$icon	= self::getFlag( $languageKey );
-			$span	= Tag::create( "span", $icon, array( 'class' => "flagIcon" ) );
+			$span	= Tag::create( "span", $icon, ['class' => "flagIcon"] );
 			$item	= new MenuItem( "?language=".$languageKey, $span.$languageLabel );
 			$main->addChild( $item );
 		}
 		$code	= HtmlTreeMenu::buildMenu( $list );
-		$code	= Tag::create( "span", $code, array( 'class' => "menu select" ) );
+		$code	= Tag::create( "span", $code, ['class' => "menu select"] );
 		return $code;
 	}
 

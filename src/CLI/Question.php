@@ -30,10 +30,10 @@ class Question
 	protected $rangeTo			= 0;
 	protected $strictOptions	= TRUE;
 
-	public static $defaultBooleanOptions	= array(
+	public static $defaultBooleanOptions	= [
 		'y'		=> 'yes',
 		'n'		=> 'no',
-	);
+	];
 
 	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE )
 	{
@@ -173,7 +173,7 @@ class Question
 				if( !is_null( $this->default ) )
 					if( $this->default < $this->rangeFrom || $this->default > $this->rangeTo )
 						throw new RangeException( 'Default value is not within set range' );
-				$options	= array( $this->rangeFrom.'-'.$this->rangeTo );
+				$options	= [$this->rangeFrom.'-'.$this->rangeTo];
 			}
 		}
 		if( strlen( trim( $this->default ) ) )

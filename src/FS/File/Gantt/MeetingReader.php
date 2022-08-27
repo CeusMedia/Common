@@ -97,12 +97,12 @@ class MeetingReader
 			$name		= $node->getAttribute( 'name' );
 			$start		= $node->getAttribute( 'start' );
 			$duration	= $node->getAttribute( 'duration' );
-			$meetings[]	= array(
+			$meetings[]	= [
 				'name'		=> $name,
 				'start'		=> $start,
 				'end'		=> self::calculateEndDate( $start, $duration ),
 				'duration'	=> $duration,
-			);
+			];
 		}
 		return $meetings;
 	}

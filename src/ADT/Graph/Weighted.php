@@ -319,7 +319,7 @@ class Weighted
 		$stack	= $stack ?? new Stack();
 		if( $this->isEdge( $source, $target ) ){
 			$stack->push( $target );
-			return array( $stack );
+			return [$stack];
 		}
 		$hadNodes[] = $source->getNodeName();
 		$ways = [];

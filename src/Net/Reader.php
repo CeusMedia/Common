@@ -209,7 +209,7 @@ class Reader
 		$errno			= $curl->getInfo( CURL::INFO_ERRNO );
 		if( $errno )
 			throw new IoException( 'HTTP request failed: '.$error, $errno, $this->url );
-		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
+		if( !in_array( $code, ['200', '301', '303', '304', '307'] ) )
 			throw new IoException( 'HTTP request failed', $code, $this->url );
 		return $this->body;
 	}

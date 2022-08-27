@@ -457,7 +457,7 @@ class Spyc
   private static function getTranslations(array $words) {
     $result = [];
     foreach ($words as $i) {
-      $result = array_merge($result, array(ucfirst($i), strtoupper($i), strtolower($i)));
+      $result = array_merge($result, [ucfirst($i), strtoupper($i), strtolower($i)]);
     }
     return $result;
   }
@@ -638,7 +638,7 @@ class Spyc
       array_shift($array);
       $value = trim(implode(': ',$array));
       $value = $this->_toType($value);
-      return array($key => $value);
+      return [$key => $value];
     }
 
     if ($first_character == '{' && $last_character == '}') {
@@ -1052,8 +1052,8 @@ class Spyc
     $array = [];
     $key         = self::unquote(trim(substr($line,1,-1)));
     $array[$key] = [];
-    $this->delayedPath = array(strpos ($line, $key) + $this->indent => $key);
-    return array($array);
+    $this->delayedPath = [strpos ($line, $key) + $this->indent => $key];
+    return [$array];
   }
 
   private function checkKeysInValue($value) {
@@ -1115,7 +1115,7 @@ class Spyc
 
   private function returnArrayElement ($line) {
      // Weird %)
-     if (strlen($line) <= 1) return array(array());
+     if (strlen($line) <= 1) return [[]];
      $array = [];
      $value   = trim(substr($line,1));
      $value   = $this->_toType($value);

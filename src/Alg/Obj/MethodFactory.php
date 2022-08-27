@@ -216,10 +216,10 @@ class MethodFactory
 		}
 		else{
 			$method		= $reflection->getMethod( '__call' );
-			$parameters	= array(
+			$parameters	= [
 				$methodName,
-				$parameters
-			);
+				$parameters,
+			];
 		}
 		if( $allowProtected && version_compare( PHP_VERSION, '5.3.2' ) >= 0 )
 			//  @see http://php.net/manual/de/reflectionmethod.setaccessible.php

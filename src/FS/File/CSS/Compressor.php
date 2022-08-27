@@ -43,13 +43,13 @@ use Exception;
 class Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
-	var $prefix		= "";
+	public $prefix		= "";
 
 	/**	@var		array			$statistics		Statistical Data */
-	var $statistics	= [];
+	public $statistics	= [];
 
 	/**	@var		string			$suffix			Suffix of compressed File Name */
-	var $suffix		= ".min";
+	public $suffix		= ".min";
 
 /*	static public function compressFile( $fileName, $oneLine = FALSE ){
 		return self::compressString( FileReader::load( $fileName ), $oneLine );
@@ -101,7 +101,7 @@ class Compressor
 		//  remove space after colons
 		$string	= str_replace( ': ', ':', $string );
 		//  remove whitespace
-		$string	= str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ' ), '', $string );
+		$string	= str_replace( ["\r\n", "\r", "\n", "\t", '  ', '    '], '', $string );
 		//  remove spaces after selectors
 		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );
 		//  remove spaces after selectors

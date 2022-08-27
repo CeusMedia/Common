@@ -40,11 +40,11 @@ namespace CeusMedia\Common\Net\FTP;
 class Reader
 {
 	/**	@var		array			$fileTypes		List of File Types (dir,file,link) */
-	protected $fileTypes	= array(
+	protected $fileTypes	= [
 		'd'	=> "dir",
 		'-'	=> "file",
 		'l'	=> "link"
-	);
+	];
 
 	/**	@var		Connection		$connection		FTP Connection Object */
 	protected $connection;

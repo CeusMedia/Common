@@ -51,11 +51,11 @@ class Link
 	 */
 	public static function render( $url, $label, $targetId, $class = NULL )
 	{
-		$attributes	= array(
+		$attributes	= [
 			'href'		=> "#".$targetId,
 			'class'		=> $class,
 			'onclick'	=> "ahah('".$url."','".$targetId."');",
-		);
+		];
 		return Tag::create( 'a', $label, $attributes );
 	}
 }

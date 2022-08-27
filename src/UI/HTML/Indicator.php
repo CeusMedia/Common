@@ -128,7 +128,7 @@ class Indicator extends OptionObject
 		$colorR	= ( 1 - $ratio ) > 0.5 ? 255 : round( ( 1 - $ratio ) * 2 * 255 );
 		$colorG	= $ratio > 0.5 ? 255 : round( $ratio * 2 * 255 );
 		$colorB	= "0";
-		return array( $colorR, $colorG, $colorB );
+		return [$colorR, $colorG, $colorB];
 	}
 
 	/**
@@ -211,7 +211,7 @@ class Indicator extends OptionObject
 		);
 		$bar		= Tag::create( 'div', "", $attributes );
 
-		$attributes	= array( 'class' => $this->getOption( 'classOuter' ) );
+		$attributes	= ['class' => $this->getOption( 'classOuter' )];
 		$css		= [];
 		if( $length !== 100 )
 			$css['width']	= preg_match( "/%$/", $length ) ? $length : $length.'px';
@@ -232,7 +232,7 @@ class Indicator extends OptionObject
 		if( !$this->getOption( 'usePercentage' ) )
 			return "";
 		$value		= floor( $ratio * 100 )."&nbsp;%";
-		$attributes	= array( 'class' => $this->getOption( 'classPercentage' ) );
+		$attributes	= ['class' => $this->getOption( 'classPercentage' )];
 		$div		= Tag::create( "span", $value, $attributes );
 		return $div;
 	}
@@ -249,7 +249,7 @@ class Indicator extends OptionObject
 		if( !$this->getOption( 'useRatio' ) )
 			return "";
 		$content	= $found."/".$count;
-		$attributes	= array( 'class' => $this->getOption( 'classRatio' ) );
+		$attributes	= ['class' => $this->getOption( 'classRatio' )];
 		$div		= Tag::create( "span", $content, $attributes );
 		return $div;
 	}

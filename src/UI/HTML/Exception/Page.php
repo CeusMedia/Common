@@ -84,10 +84,10 @@ class Page
 		$page->addJavaScript( '//cdn.ceusmedia.de/js/jquery/cmExceptionView/0.1.js' );
 		$page->addStylesheet( '//cdn.ceusmedia.de/js/jquery/cmExceptionView/0.1.css' );
 		$page->addStylesheet( '//cdn.ceusmedia.de/css/bootstrap.min.css' );
-		$options	= array( 'foldTraces' => TRUE );
+		$options	= ['foldTraces' => TRUE];
 		$script		= JQuery::buildPluginCall( 'cmExceptionView', 'dl.exception', $options );
 		$page->addHead( Tag::create( 'script', $script ) );
 		$page->addBody( Tag::create( 'h2', 'Error' ).$view );
-		return $page->build( array( 'style' => 'margin: 1em' ) );
+		return $page->build( ['style' => 'margin: 1em'] );
 	}
 }

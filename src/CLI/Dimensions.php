@@ -52,11 +52,11 @@ class Dimensions
 			self::$width	= $output[2][0];
 			self::$height	= $output[1][0];
 		}*/
-		return (object) array(
+		return (object) [
 			'colors'	=> self::getColors( $force ),
 			'height'	=> self::getHeight( $force ),
 			'width'		=> self::getWidth( $force ),
-		);
+		];
 	}
 
 	/**

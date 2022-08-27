@@ -81,12 +81,12 @@ class Parser
 	 */
 	public function getInfo(): object
 	{
-		return (object) array(
+		return (object) [
 			'status'	=> $this->status,
 			'code'		=> $this->getError(),
 			'constant'	=> $this->getError( TRUE ),
 			'message'	=> $this->getMessage(),
-		);
+		];
 	}
 
 	/**
@@ -114,10 +114,10 @@ class Parser
 		if( json_last_error() !== JSON_ERROR_NONE ){
 			$this->status	= static::STATUS_ERROR;
 			$message	= 'Decoding JSON failed (%s): %s';
-			$message	= vsprintf( $message, array(
+			$message	= vsprintf( $message, [
 				$this->getConstantFromCode( json_last_error() ),
-				json_last_error_msg()
-			) );
+				json_last_error_msg(),
+			] );
 			throw new RuntimeException( $message, json_last_error() );
 		}
 		$this->status	= static::STATUS_PARSED;

@@ -46,7 +46,7 @@ use ZipArchive;
  */
 class Zip
 {
-	static public $errors	= array(
+	static public $errors	= [
 		0	=> 'No error',
 		1	=> 'Multi-disk zip archives not supported',
 		2	=> 'Renaming temporary file failed',
@@ -71,7 +71,7 @@ class Zip
 		21	=> 'Zip archive inconsistent',
 		22	=> 'Can\'t remove file',
 		23	=> 'Entry has been deleted',
-	);
+	];
 
 	protected $fileName;
 

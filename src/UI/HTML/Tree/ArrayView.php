@@ -130,7 +130,7 @@ class ArrayView
 
 			$linkClass	= rawurlencode( $currentId ) == $node['id'] ? 'selected' : NULL;
 
-			$label	= Tag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
+			$label	= Tag::create( "span", $node['label'], ['class' => $node['class']] );
 			//  linked Item
 			if( $node['linked'] )
 			{
@@ -142,7 +142,7 @@ class ArrayView
 				$label	= $link;
 				//  linked Leafes have a Span Container
 				if( 1 || $node['type'] == "leaf" )
-					$label	= Tag::create( "span", $link, array( 'class' => $node['class'] ) );
+					$label	= Tag::create( "span", $link, ['class' => $node['class']] );
 			}
 			$sublist	= "";
 			$children	= new ArrayObject();
@@ -151,7 +151,7 @@ class ArrayView
 
 			$sublist	= "\n".$this->constructTree( $children, $currentId, [], $level + 1, $way.$node['label'] );
 			$label		.= $sublist;
-			$item		= Elements::ListItem( $label, $level, array( 'id' => $node['id'], 'class' => $node['class'] ) );
+			$item		= Elements::ListItem( $label, $level, ['id' => $node['id'], 'class' => $node['class']] );
 			$list[]		= $item;
 		}
 		if( count( $list ) )

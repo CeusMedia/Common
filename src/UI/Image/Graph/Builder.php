@@ -192,10 +192,10 @@ class Builder
 	protected static function setUpPlots( $graph, $config, $data )
 	{
 		//  --  CREATE PLOTS  --  //
-		$plots	= array(
+		$plots	= [
 			'y2'	=> [],
 			'y1'	=> [],
-		);
+		];
 		$nr	= 1;
 		while( 1 )
 		{

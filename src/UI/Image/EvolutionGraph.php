@@ -55,15 +55,15 @@ class EvolutionGraph extends OptionObject
 		'padding_top'			=> 15,
 		'padding_bottom'		=> 15,
 		//  Color of Background
-		'color_background'		=> array( 0xFF, 0xFF, 0xFF ),
+		'color_background'		=> [0xFF, 0xFF, 0xFF],
 		//  Color of Y-Axis Labels
-		'color_bars'			=> array( 0xCC, 0xCC, 0xCC ),
+		'color_bars'			=> [0xCC, 0xCC, 0xCC],
 		//  Color of dashed Lines
-		'color_dash'			=> array( 0xDF, 0xDF, 0xDF ),
+		'color_dash'			=> [0xDF, 0xDF, 0xDF],
 //  Color of Text
-//		'color_text'			=> array( 0x0, 0x00, 0x00 ),
+//		'color_text'			=> [0x0, 0x00, 0x00],
 		//  Color of Title Text
-		'color_title'			=> array( 0x00, 0x00, 0x00 ),
+		'color_title'			=> [0x00, 0x00, 0x00],
 		'title_x'				=> 20,
 		'title_y'				=> 0,
 		//  Title Text (to be changed with setTitle()

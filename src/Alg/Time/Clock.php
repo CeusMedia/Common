@@ -129,14 +129,14 @@ class Clock
 		$total			= round( $totalMicro * pow( 10, $base - 6 ), $round );
 		$time			= round( $timeMicro * pow( 10, $base - 6 ), $round );
 
-		$this->laps[]	= array(
+		$this->laps[]	= [
 			'time'			=> $time,
 			'timeMicro'		=> $timeMicro,
 			'total'			=> $total,
 			'totalMicro'	=> $totalMicro,
 			'label'			=> $label,
 			'description'	=> $description,
-		);
+		];
 		$this->microTimeLap	= $microTimeNow;
 		return $time;
 	}

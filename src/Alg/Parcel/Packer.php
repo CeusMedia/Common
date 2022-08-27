@@ -100,7 +100,7 @@ class Packer
 				//  get smallest Packet Type for Article
 				$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );
 				//  put Article in new Packet
-				$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );
+				$packet		= $this->factory->produce( $packetName, [$largestArticle => 1] );
 				//  add Packet to Packet List
 				$this->packetList[]	= $packet;
 				//  remove Article from Article List
@@ -172,7 +172,7 @@ class Packer
 			//  get smallest Packet Type for Article
 			$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );
 			//  produce new Packet and put Article in
-			$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );
+			$packet		= $this->factory->produce( $packetName, [$largestArticle => 1] );
 				//  add Packet to Packet List
 				$this->packetList[]	= $packet;
 			//  remove Article from Article List

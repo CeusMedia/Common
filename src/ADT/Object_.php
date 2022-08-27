@@ -64,12 +64,12 @@ class Object_
 	 */
 	public function getObjectInfo()
 	{
-		$info	= array(
+		$info	= [
 			'name'		=> $this->getClass(),
 			'parent'	=> $this->getParent(),
 			'methods'	=> $this->getMethods(),
 			'vars'		=> $this->getVars(),
-		);
+		];
 		return $info;
 	}
 
@@ -103,7 +103,7 @@ class Object_
 	public function hasMethod( $methodName, $callableOnly = TRUE )
 	{
 		if( $callableOnly )
-			return method_exists( $this, $methodName ) && is_callable( array( $this, $methodName ) );
+			return method_exists( $this, $methodName ) && is_callable( [$this, $methodName] );
 		else
 			return method_exists( $this, $methodName );
 	}

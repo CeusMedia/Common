@@ -89,7 +89,7 @@ class Validation extends Runtime
 	 */
 	public function serialize(): string
 	{
-		return serialize( array( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) );
+		return serialize( [$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form] );
 	}
 
 	/**

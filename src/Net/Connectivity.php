@@ -89,7 +89,7 @@ class Connectivity
 		}
 		if( $this->status !== $currentStatus ){
 			if( $this->callbackOnChange ){
-				call_user_func_array( $this->callbackOnChange, array( $this->status ) );
+				call_user_func_array( $this->callbackOnChange, [$this->status] );
 			}
 		}
 	}

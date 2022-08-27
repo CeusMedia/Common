@@ -57,12 +57,12 @@ class Tag implements Renderable
 	/**	@var		array		$content		Content of tag */
 	protected $content;
 
-	public static $shortTagExcludes	= array(
+	public static $shortTagExcludes	= [
 		'style',
 		'script',
 		'div',
 		'textarea'
-	);
+	];
 
 	/**
 	 *	Constructor.

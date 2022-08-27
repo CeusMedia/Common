@@ -81,22 +81,22 @@ class DefinitionValidator
 			if( !strlen( $value ) )
 			{
 				if( $syntax['mandatory'] )
-					$errors[]	= array( 'isMandatory', NULL );
+					$errors[]	= ['isMandatory', NULL];
 				return $errors;
 			}
 
 			if( $syntax['class'] )
 				if( !$this->validator->isClass( $value, $syntax['class'] ) )
-					$errors[]	= array( 'isClass', $syntax['class'] );
+					$errors[]	= ['isClass', $syntax['class']];
 
-			$predicates	= array(
+			$predicates	= [
 				'maxlength'	=> 'hasMaxLength',
 				'minlength'	=> 'hasMinLength',
-			);
+			];
 			foreach( $predicates as $key => $predicate )
 				if( $syntax[$key] )
 					if( !$this->validator->validate( $value, $predicate, $syntax[$key] ) )
-						$errors[]	= array( $predicate, $syntax[$key] );
+						$errors[]	= [$predicate, $syntax[$key]];
 		}
 
 		if( !empty( $definition['semantic'] ) )
@@ -106,7 +106,7 @@ class DefinitionValidator
 				$semantic	= new ArrayObject( $semantic );
 				$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
 				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
-					$errors[]	= array( $semantic['predicate'], $param );
+					$errors[]	= [$semantic['predicate'], $param];
 			}
 		}
 		return $errors;

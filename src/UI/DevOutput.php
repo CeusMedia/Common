@@ -47,19 +47,19 @@ class DevOutput
 	public const CHANNEL_TEXT		= 'text';
 	public const CHANNEL_CONSOLE	= 'text';
 
-	public const CHANNELS			= array(
+	public const CHANNELS			= [
 		self::CHANNEL_AUTO,
 		self::CHANNEL_HTML,
 		self::CHANNEL_TEXT,
 		self::CHANNEL_CONSOLE
-	);
+	];
 
 	public $channel;
 
 	public static $defaultChannel	= self::CHANNEL_AUTO;
 
-	public static $channelSettings	= array(
-		self::CHANNEL_HTML	=> array(
+	public static $channelSettings	= [
+		self::CHANNEL_HTML	=> [
 			// Sign for Line Break
 			'lineBreak'			=> "<br/>",
 			// Sign for Spaces
@@ -80,8 +80,8 @@ class DevOutput
 			'indentFactor'		=> 6,
 			'stringTrimMask'	=> '&hellip;',
 			'stringMaxLength'	=> 1500
-		),
-		self::CHANNEL_TEXT	=> array(
+		],
+		self::CHANNEL_TEXT	=> [
 			// Sign for Line Break
 			'lineBreak'			=> PHP_EOL,
 			// Sign for Spaces
@@ -102,8 +102,8 @@ class DevOutput
 			'indentFactor'		=> 2,
 			'stringTrimMask'	=> '...',
 			'stringMaxLength'	=> 50
-		)
-	);
+		]
+	];
 
 	protected $settings;
 

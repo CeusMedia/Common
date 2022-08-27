@@ -54,7 +54,7 @@ class ColorConverter
 		$c	= ( $c - $k ) / ( 1 - $k );
 		$m	= ( $m - $k ) / ( 1 - $k );
 		$y	= ( $y - $k ) / ( 1 - $k );
-		return array( $c, $m, $y, $k );
+		return [$c, $m, $y, $k];
 	}
 
 	/**
@@ -70,7 +70,7 @@ class ColorConverter
 		$r	= 255 * ( 1 - $c );
 		$g	= 255 * ( 1 - $m );
 		$b	= 255 * ( 1 - $y );
-		return array( $r, $g, $b );
+		return [$r, $g, $b];
 	}
 
 	/**
@@ -86,7 +86,7 @@ class ColorConverter
 		$c	= min( 1, $c * ( 1 - $k ) + $k );
 		$m	= min( 1, $m * ( 1 - $k ) + $k );
 		$y	= min( 1, $y * ( 1 - $k ) + $k );
-		return array( $c, $m, $y );
+		return [$c, $m, $y];
 	}
 
 	/**
@@ -192,7 +192,7 @@ class ColorConverter
 	public static function html2hsv( string $html ): array
 	{
 		sscanf( $html, "%2X%2X%2X", $r, $g, $b );
-		return self::rgb2hsv( array( $r, $g, $b ) );
+		return self::rgb2hsv( [$r, $g, $b] );
 	}
 
 	/**
@@ -205,7 +205,7 @@ class ColorConverter
 	public static function html2rgb( string $html ): array
 	{
 		sscanf( $html, "%2X%2X%2X", $r, $g, $b );
-		return array( $r, $g, $b );
+		return [$r, $g, $b];
 	}
 
 	/**
@@ -221,7 +221,7 @@ class ColorConverter
 		$c	= 1 - ( $r / 255 );
 		$m	= 1 - ( $g / 255 );
 		$y	= 1 - ( $b / 255 );
-		return array( $c, $m, $y );
+		return [$c, $m, $y];
 	}
 
 	/**
@@ -261,7 +261,7 @@ class ColorConverter
 			$h	= 60 * $h;
 			$h	= ( $h < 0 ) ? $h + 360 : $h;
 		}
-		return array( round( $h ), round( $s * 100 ), round( $v / 2.55 ) );
+		return [round( $h ), round( $s * 100 ), round( $v / 2.55 )];
 	}
 
 	private function rgb2hsv_2( array $rgb ): array
@@ -295,11 +295,11 @@ class ColorConverter
 			if( $h > 1 )
 				$h -= 1;
 		}
-		return array(
+		return [
 			round( $h * 360 ),
 			round( $s * 100 ),
-			round( $v * 100 )
-		);
+			round( $v * 100 ),
+		];
 	}
 
 	/**
@@ -332,7 +332,7 @@ class ColorConverter
 		$x	= 0.430574 * $r + 0.341550 * $g + 0.178325 * $b;
 		$y	= 0.222020 * $r + 0.706655 * $g + 0.071330 * $b;
 		$z	= 0.020183 * $r + 0.129553 * $g + 0.939180 * $b;
-		return array( $x, $y, $z );
+		return [$x, $y, $z];
 	}
 
 	/**
@@ -351,7 +351,7 @@ class ColorConverter
 		$r	= round( $r * 255 );
 		$g	= round( $g * 255 );
 		$b	= round( $b * 255 );
-		return array( $r, $g, $b );
+		return [$r, $g, $b];
 	}
 
 #	/**
@@ -366,7 +366,7 @@ class ColorConverter
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $x, $y, $z ) = $xyz;
-#		return array( $l, $u, $v );
+#		return [$l, $u, $v];
 #	}
 #
 #	/**
@@ -381,7 +381,7 @@ class ColorConverter
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $u, $v ) = $luv;
-#		return array( $x, $y, $z );
+#		return [$x, $y, $z];
 #	}
 #
 #	/**
@@ -396,7 +396,7 @@ class ColorConverter
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $x, $y, $z ) = $xyz;
-#		return array( $l, $a, $b );
+#		return [$l, $a, $b];
 #	}
 #
 #	/**
@@ -411,7 +411,7 @@ class ColorConverter
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $a, $b ) = $lab;
-#		return array( $x, $y, $z );
+#		return [$x, $y, $z];
 #	}
 #
 #	/**
@@ -426,7 +426,7 @@ class ColorConverter
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $a, $b ) = $lab;
-#		return array( $l, $u, $v );
+#		return [$l, $u, $v];
 #	}
 #
 #	/**
@@ -441,6 +441,6 @@ class ColorConverter
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $u, $v ) = $luv;
-#		return array( $l, $a, $b );
+#		return [$l, $a, $b];
 #	}
 }

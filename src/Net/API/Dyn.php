@@ -86,7 +86,7 @@ class Dyn
 		$html	= $this->reader->read();
 		$parts	= explode( ": ", strip_tags( $html ) );
 		$ip		= trim( array_pop( $parts ) );
-		$this->save( array( 'ip' => $ip, 'timestamp' => time() ) );
+		$this->save( ['ip' => $ip, 'timestamp' => time()] );
 		return $ip;
 	}
 
@@ -100,10 +100,10 @@ class Dyn
 	{
 		if( !$this->cacheFile )
 			return 0;
-		$last	= array(
+		$last	= [
 			'ip'		=> $this->lastIp,
 			'timestamp'	=> $this->lastCheck
-		);
+		];
 		$data	= array_merge( $last,  $data );
 		return FileWriter::save( $this->cacheFile, json_encode( $data ) );
 	}

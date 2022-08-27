@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\HTML;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\UI\HTML\Panel;
 
 /**
  *	TestUnit of UI_HTML_Panel.
@@ -17,7 +20,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			07.09.2008
  *
  */
-class Test_UI_HTML_PanelTest extends BaseCase
+class PanelTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +47,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 	 */
 	public function testBuild1()
 	{
-		$panel		= new UI_HTML_Panel();
+		$panel		= new Panel();
 		$assertion	= '<div id="a1" class="panel default"><div class="panelContent"><div class="panelContentInner"></div></div></div>';
 		$creation	= $panel->build( "a1" );
 		$this->assertEquals( $assertion, $creation );
@@ -57,7 +60,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 	 */
 	public function testBuild2()
 	{
-		$panel		= new UI_HTML_Panel();
+		$panel		= new Panel();
 		$panel->setHeader( "header1" );
 		$panel->setFooter( "footer1" );
 		$panel->setContent( "content1" );
@@ -74,7 +77,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 	public function testCreate1()
 	{
 		$assertion	= '<div id="a1" class="panel default"><div class="panelContent"><div class="panelContentInner"></div></div></div>';
-		$creation	= UI_HTML_Panel::create( "a1", NULL, NULL );
+		$creation	= Panel::create( "a1", NULL, NULL );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -86,7 +89,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 	public function testCreate2()
 	{
 		$assertion	= '<div id="a1" class="panel default"><div class="panelHead"><div class="panelHeadInner">header1</div></div><div class="panelContent"><div class="panelContentInner">content1</div></div><div class="panelFoot"><div class="panelFootInner">footer1</div></div></div>';
-		$creation	= UI_HTML_Panel::create( "a1", "content1", "header1", NULL, "footer1" );
+		$creation	= Panel::create( "a1", "content1", "header1", NULL, "footer1" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -97,7 +100,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 	 */
 	public function testSetContent()
 	{
-		$panel		= new Test_UI_HTML_PanelInstance();
+		$panel		= new Test_PanelInstance();
 
 		$panel->setContent( "1" );
 		$assertion	= "1";
@@ -117,7 +120,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 	 */
 	public function testSetHeader()
 	{
-		$panel		= new Test_UI_HTML_PanelInstance();
+		$panel		= new Test_PanelInstance();
 
 		$panel->setHeader( "1" );
 		$assertion	= "1";
@@ -137,7 +140,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 	 */
 	public function testSetFooter()
 	{
-		$panel		= new Test_UI_HTML_PanelInstance();
+		$panel		= new Test_PanelInstance();
 
 		$panel->setFooter( "1" );
 		$assertion	= "1";
@@ -150,7 +153,7 @@ class Test_UI_HTML_PanelTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_UI_HTML_PanelInstance extends UI_HTML_Panel
+class Test_PanelInstance extends Panel
 {
 	public function getProtectedVar( $varName )
 	{

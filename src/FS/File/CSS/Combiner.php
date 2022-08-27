@@ -43,16 +43,16 @@ use RuntimeException;
 class Combiner
 {
 	/**	@var		string		$prefix			Prefix of combined File Name */
-	var $prefix					= "";
+	public $prefix					= "";
 
 	/**	@var		string		$suffix			Suffix of combined File Name */
-	var $suffix					= ".combined";
+	public $suffix					= ".combined";
 
 	/**	@var		string		$importPattern	Pattern of imported CSS Files */
-	var $importPattern			= '#^@import (url\(\s*)?["\'](.*)["\'](\s*\))?;?$#i';
+	public $importPattern			= '#^@import (url\(\s*)?["\'](.*)["\'](\s*\))?;?$#i';
 
 	/**	@var		array		$statistics		Statistical Data */
-	var $statistics				= [];
+	public $statistics				= [];
 
 	/**
 	 *	Combines all CSS Files imported in Style File, saves Combination File and returns File URI of Combination File.

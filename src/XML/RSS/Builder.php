@@ -185,11 +185,11 @@ class Builder
 				$value	= $item[$element] ?? NULL;
 				if( $required || $value ){
 					if( $element == "source" && $value ){
-						$node->addChild( new Node( $element, $this->channel['title'], array( 'url' => $value ) ) );
+						$node->addChild( new Node( $element, $this->channel['title'], ['url' => $value] ) );
 						continue;
 					}
 					if( $element == "guid" && $value ){
-						$node->addChild( new Node( $element, $value, array( 'isPermaLink' => 'true' ) ) );
+						$node->addChild( new Node( $element, $value, ['isPermaLink' => 'true'] ) );
 						continue;
 					}
 					if( $element == "pubDate" && $value )

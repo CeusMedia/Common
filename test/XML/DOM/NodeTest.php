@@ -7,7 +7,7 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-use CeusMedia\Common\Test\XML\DOM;
+namespace CeusMedia\Common\Test\XML\DOM;
 
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\DOM\Node;

@@ -41,7 +41,7 @@ namespace CeusMedia\Common\Alg\Crypt;
 class PasswordStrength
 {
 	/**	@var	array	$badWords		List of unsecure words */
-	public static $badWords	= array(
+	public static $badWords	= [
 		"password",
 		"password1",
 		"sex",
@@ -53,7 +53,7 @@ class PasswordStrength
 		"letmein",
 		"qwerty",
 		"monkey"
-	);
+	];
 	/**	@var	int		$minLength		... */
 	public static $minLength	= 6;
 

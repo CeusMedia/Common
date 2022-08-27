@@ -66,7 +66,7 @@ class Builder
 	 */
 	private static function escape( string $string ): string
 	{
-		$replace	= array(
+		$replace	= [
 			'\\'	=> '\\\\',
 			'"'	=> '\"',
 			'/'	=> '\/',
@@ -75,8 +75,8 @@ class Builder
 			"\n"	=> '\n',
 			"\r"	=> '\r',
 			"\t"	=> '\t',
-			"\u"	=> '\u'
-			);
+			"\u"	=> '\u',
+		];
 		return str_replace( array_keys( $replace ), array_values( $replace ), $string );
 	}
 

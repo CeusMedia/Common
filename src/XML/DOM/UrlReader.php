@@ -48,12 +48,12 @@ class UrlReader
 	protected $url;
 
 	/**	@var		array		$mimeTypes		List of acceptable Response MIME Type */
-	public static $mimeTypes	= array(
+	public static $mimeTypes	= [
 		'application/xml',
 		'application/xslt+xml',
 		'application/rss+xml',
 		'text/xml',
-	);
+	];
 
 	public static $userAgent	= 'CeusMediaCommon:XML.DOM.UrlReader/0.9';
 

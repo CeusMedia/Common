@@ -46,10 +46,10 @@ class JsonExtended extends Json
 	{
 		$label		= $entry->getFilename();
 		$extension	= $this->getFileExtension( $entry );
-		$attributes	= array(
+		$attributes	= [
 			'href' 		=> $this->getFileUrl( $entry ),
 			'target'	=> $this->fileTarget
-		);
+		];
 		$link		= Tag::create( "a", $label, $attributes );
 		return [
 			'text'		=> $link,

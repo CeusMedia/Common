@@ -72,13 +72,13 @@ class Renderer
 	}
 
 	public function getLayoutEngines(){
-		return array( "circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi" );
+		return ["circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi"];
 	}
 
 	public function getMap( $type = "cmapx_np", $graphOptions = [] ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
-		if( !in_array( $type, array( "ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np" ) ) )
+		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		$this->graph->save( $tempFile, $graphOptions );
@@ -112,7 +112,7 @@ class Renderer
 	public function saveAsImage( $fileName, $type = "png", $graphOptions = [] ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
-#		if( !in_array( $type, array( "ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np" ) ) )
+#		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 #			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		$this->graph->save( $tempFile, $graphOptions );

@@ -113,13 +113,13 @@ class Request extends Dictionary
 		//  store HTTP method
 		$this->method->set( getEnv( 'REQUEST_METHOD' ) );
 
-		$this->sources	= array(
+		$this->sources	= [
 			"GET"		=> &$_GET,
 			"POST"		=> &$_POST,
 			"FILES"		=> &$_FILES,
 			"SESSION"	=> [],
 			"COOKIE"	=> [],
-		);
+		];
 		if( $useSession )
 			$this->sources['session']	=& $_SESSION;
 		if( $useCookie )
@@ -183,11 +183,11 @@ class Request extends Dictionary
 			return getallheaders();
 
 		$headers		= [];
-		$copyDirectly	= array(
+		$copyDirectly	= [
 			'CONTENT_TYPE'   => 'Content-Type',
 			'CONTENT_LENGTH' => 'Content-Length',
 			'CONTENT_MD5'    => 'Content-Md5',
-		);
+		];
 
 		foreach( $_SERVER as $key => $value ){
 			if( substr( $key, 0, 5 ) === 'HTTP_' ){

@@ -145,7 +145,7 @@ class Psr0
 	 */
 	public function register(): self
 	{
-		spl_autoload_register( array( $this, 'loadClass' ) );
+		spl_autoload_register( [$this, 'loadClass'] );
 		return $this;
 	}
 
@@ -156,7 +156,7 @@ class Psr0
 	 */
 	public function unregister(): self
 	{
-		spl_autoload_unregister( array( $this, 'loadClass' ) );
+		spl_autoload_unregister( [$this, 'loadClass'] );
 		return $this;
 	}
 

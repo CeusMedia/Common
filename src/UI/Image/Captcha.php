@@ -69,9 +69,9 @@ class Captcha
 	/**	@var		int			$offsetY		Maximum Offset in Y-Axis */
 	public $offsetY				= 10;
 	/**	@var		array		$textColor		List of RGB Values of Text */
-	public $textColor			= array( 0, 0, 0 );
+	public $textColor			= [0, 0, 0];
 	/**	@var		array		$background		List of RGB Values of Background */
-	public $background			= array( 255, 255, 255 );
+	public $background			= [255, 255, 255];
 	/**	@var		int			$quality		Quality of JPEG Image in % */
 	public $quality				= 90;
 

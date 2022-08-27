@@ -41,7 +41,7 @@ use InvalidArgumentException;
  */
 class Status
 {
-	protected static $codes	= array(
+	protected static $codes	= [
 		100 => "Continue",
 		101 => "Switching Protocols",
 		102 => "Processing",
@@ -114,7 +114,7 @@ class Status
 		511 => "Network Authentication Required",
 		598 => "Network read timeout error",
 		599 => "Network connect timeout error"
-	);
+	];
 
 	/**
 	 *	Returns HTTP status text for status code.

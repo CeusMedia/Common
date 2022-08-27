@@ -52,7 +52,7 @@ class MapList
 	 */
 	public static function sort( array $data, string $key, int $direction = self::DIRECTION_ASC ): array
 	{
-		return self::sortByMultipleColumns( $data, array( $key => $direction ) );
+		return self::sortByMultipleColumns( $data, [$key => $direction] );
 	}
 
 	/**

@@ -52,17 +52,17 @@ class Progress
 	protected const STATUS_STARTED	= 2;
 	protected const STATUS_FINISHED	= 3;
 
-	protected const STATUSES			= array(
+	protected const STATUSES			= [
 		self::STATUS_NONE,
 		self::STATUS_READY,
 		self::STATUS_STARTED,
 		self::STATUS_FINISHED,
-	);
+	];
 
 	protected $status		= 0;
 	protected $startTime	= 0;
 	protected $total		= 0;
-	protected $barBlocks	= array( '_', '░', '▓', '█' );
+	protected $barBlocks	= ['_', '░', '▓', '█'];
 	protected $barTemplate	= '%1$s%2$s%3$s%4$s';
 	protected $width		= 80;
 	protected $output;
@@ -262,11 +262,11 @@ class Progress
 			$barPart2	= str_repeat( $this->barBlocks[0], $barWidth - $length1 - 1 );
 			$bar		= $barPart1.$block.$barPart2;
 		}
-		return vsprintf( $this->barTemplate, array(
+		return vsprintf( $this->barTemplate, [
 			$bar,
 			$numbers,
 			$ratio,
-			$timeLeft
-		) );
+			$timeLeft,
+		] );
 	}
 }

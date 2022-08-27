@@ -67,7 +67,7 @@ class Browser
 	 */
 	public function getBrowser()
 	{
-		return array( "browser" => $this->browser, "version" => $this->browserVersion, "type" => $this->browserType );
+		return ["browser" => $this->browser, "version" => $this->browserVersion, "type" => $this->browserType];
 	}
 
 	/**

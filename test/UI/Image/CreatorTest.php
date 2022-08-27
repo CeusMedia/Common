@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\Image;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\UI\Image\Creator;
 
 /**
  *	TestUnit of Inverter.
@@ -17,14 +20,14 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			16.06.2008
  *
  */
-class Test_UI_Image_CreatorTest extends BaseCase
+class CreatorTest extends BaseCase
 {
 	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 		$this->path		= dirname( __FILE__ )."/";
-		$this->image	= new UI_Image_Creator();
+		$this->image	= new Creator();
 		$this->image->loadImage( $this->path."aptana_256.png" );
 		$this->tearDown();
 	}
@@ -40,7 +43,7 @@ class Test_UI_Image_CreatorTest extends BaseCase
 	public function testCreate()
 	{
 		$this->markTestSkipped( 'No image tests.' );
-		$image	= new UI_Image_Creator();
+		$image	= new Creator();
 		$image->create( 100, 200 );
 		imagepng( $image->getResource(), $this->path."targetCreator1.png" );
 
@@ -52,7 +55,7 @@ class Test_UI_Image_CreatorTest extends BaseCase
 	public function testLoadImagePng()
 	{
 		$this->markTestSkipped( 'No image tests.' );
-		$image	= new UI_Image_Creator();
+		$image	= new Creator();
 		$image->loadImage( $this->path."sourceCreator.png" );
 		imagepng( $image->getResource(), $this->path."targetCreator.png" );
 
@@ -63,7 +66,7 @@ class Test_UI_Image_CreatorTest extends BaseCase
 	public function testLoadImageJpeg()
 	{
 		$this->markTestSkipped( 'No image tests.' );
-		$image	= new UI_Image_Creator();
+		$image	= new Creator();
 		$image->loadImage( $this->path."sourceCreator.jpg" );
 
 		$assertion	= TRUE;
@@ -74,7 +77,7 @@ class Test_UI_Image_CreatorTest extends BaseCase
 	public function testLoadImageGif()
 	{
 		$this->markTestSkipped( 'No image tests.' );
-		$image	= new UI_Image_Creator();
+		$image	= new Creator();
 		$image->loadImage( $this->path."sourceCreator.gif" );
 		imagegif( $image->getResource(), $this->path."targetCreator.gif" );
 
@@ -85,14 +88,14 @@ class Test_UI_Image_CreatorTest extends BaseCase
 	public function testLoadImageException1()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$image	= new UI_Image_Creator();
+		$image	= new Creator();
 		$image->loadImage( $this->path."not_existing.gif" );
 	}
 
 	public function testLoadImageException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$image	= new UI_Image_Creator();
+		$image	= new Creator();
 		$image->loadImage( $this->path."CreatorTest.php" );
 	}
 

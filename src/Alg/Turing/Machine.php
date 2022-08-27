@@ -150,7 +150,7 @@ class Machine
 			$_current = $this->getCurrent( $output, $this->pointer );
 			reset( $this->transition );
 			foreach( $this->transition as $trans ){
-				if( $trans[0] == array( $this->state, $_current ) ){
+				if( $trans[0] == [$this->state, $_current] ){
 					$value = $trans[1];
 					$state = $value[0];
 					$this->state = $state;

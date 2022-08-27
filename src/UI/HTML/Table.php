@@ -203,18 +203,18 @@ class Table
 		foreach( $this->columns as $columns )
 		{
 			foreach( $columns as $nr => $width )
-				$columns[$nr]	= Tag::create( "col", NULL, array( 'width' => $width ) );
+				$columns[$nr]	= Tag::create( "col", NULL, ['width' => $width] );
 			$list[]	= Tag::create( "colgroup", "\n      ".implode( "\n      ", $columns )."\n  " );
 		}
 		$colgroups		= "\n  ".implode( "\n  ", $list );
 
 		$caption		= $this->caption ? "\n  ".Tag::create( 'caption', $this->caption ) : "";
 		$content		= $caption.$colgroups.$tableHead.$tableFoot.$tableBody;
-		$attributes		= array(
+		$attributes		= [
 			'id'		=> $this->id,
 			'class'		=> $this->class,
 			'summary'	=> $this->summary
-		);
+		];
 		$table			= Tag::create( "table", $content, $attributes );
 		return $start.$table.$end;
 	}

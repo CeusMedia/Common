@@ -77,7 +77,7 @@ class Index
 		foreach( $parts as $nr => $part ){
 			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//
 			$id			= strtolower( trim( $heading ) );											//
-			$id			= str_replace( array( " ", "_" ), "-", $id );								//
+			$id			= str_replace( [" ", "_"], "-", $id );								//
 			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//
 			$this->headings[]	= (object) array(													//
 				'label'		=> $heading,															//
@@ -102,11 +102,11 @@ class Index
 	public function renderList( $itemClassPrefix = "level-" ){
 		$list	= [];																			//
 		foreach( $this->headings as $item ){														//
-			$link	= Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//
-			$attributes		= array( 'class' => $itemClassPrefix.$item->level );							//
+			$link	= Tag::create( 'a', $item->label, ['href' => "#".$item->id] );	//
+			$attributes		= ['class' => $itemClassPrefix.$item->level];							//
 			$list[]	= Elements::ListItem( $link, 0, $attributes );							//
 		}
-		return Tag::create( 'ul', $list, array( 'class' => 'index-list' ) );				//
+		return Tag::create( 'ul', $list, ['class' => 'index-list'] );				//
 	}
 
 	/**
@@ -120,12 +120,12 @@ class Index
 		if( is_null( $tree ) )																		//
 			$tree	= $this->tree;																	//
 		foreach( $tree as $item ){
-			$link	= Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//
-			$attributes		= array( 'class' => 'level-'.$item->level );							//
+			$link	= Tag::create( 'a', $item->label, ['href' => "#".$item->id] );	//
+			$attributes		= ['class' => 'level-'.$item->level];							//
 			$subtree		= $this->renderTree( $item->children );									//
 			$list[]	= Elements::ListItem( $link.$subtree, 0, $attributes );					//
 		}
-		return Tag::create( 'ul', $list, array( 'class' => 'index-tree' ) );				//
+		return Tag::create( 'ul', $list, ['class' => 'index-tree'] );				//
 	}
 
 	/**

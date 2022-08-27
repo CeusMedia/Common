@@ -74,11 +74,11 @@ class Receiver extends Dictionary
 	public function __construct( bool $useSession = FALSE, bool $useCookie = FALSE )
 	{
 		$this->method	= new Method( getEnv( 'REQUEST_METHOD' ) );
-		$this->sources	= array(
+		$this->sources	= [
 			"get"	=> &$_GET,
 			"post"	=> &$_POST,
 			"files"	=> &$_FILES,
-		);
+		];
 		if( $useSession )
 			$this->sources['session']	=& $_SESSION;
 		if( $useCookie )

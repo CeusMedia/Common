@@ -41,7 +41,7 @@ class Reflect extends Abstraction
 {
 	protected function handleRequest( $request ): string
 	{
-		$buffer		= array( "\n" );
+		$buffer		= ["\n"];
 		$buffer[]	= "Total requests: ".$this->statSeenTotal;
 		$buffer[]	= "Maximum simultaneous: ".$this->statSeenMax;
 		$buffer[]	= "Currently active: " . ( count( $this->childrenMap ) + 1 );

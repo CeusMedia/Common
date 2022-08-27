@@ -130,11 +130,11 @@ class SgmlTagReader
 				$attributes[$key]	= $value;
 			}
 		}
-		return array(
+		return [
 			'nodename'		=> $nodename,
 			'content'		=> $content,
-			'attributes'	=> $attributes
-		);
+			'attributes'	=> $attributes,
+		];
 	}
 
 /*	public static function transformAttributeValues( $attributes, $transform, $keys = [] )

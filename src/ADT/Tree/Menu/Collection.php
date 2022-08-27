@@ -50,10 +50,10 @@ class Collection
 	/**	@var		array			$children		List of nested Tree Menu Items */
 	public $children				= [];
 
-	public $defaultAttributes		= array(
+	public $defaultAttributes		= [
 		'class'		=> "option",
 		'default'	=> FALSE,
-	);
+	];
 
 	/**
 	 *	Constructor.

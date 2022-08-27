@@ -4,7 +4,7 @@ namespace CeusMedia\Common\CLI;
 
 class Color
 {
-	private static $foregroundColors	= array(
+	private static $foregroundColors	= [
 		'black'			=> '0;30',
 		'dark_gray'		=> '1;30',
 		'red'			=> '0;31',
@@ -21,9 +21,9 @@ class Color
 		'light_cyan'	=> '1;36',
 		'light_gray'	=> '0;37',
 		'white'			=> '1;37',
-	);
+	];
 
-	private static $backgroundColors	= array(
+	private static $backgroundColors	= [
 		'black'			=> '40',
 		'red'			=> '41',
 		'green'			=> '42',
@@ -32,14 +32,14 @@ class Color
 		'magenta'		=> '45',
 		'cyan'			=> '46',
 		'light_gray'	=> '47',
-	);
+	];
 
-	public static $classes				= array(
-		'error'			=> array( 'white', 'red' ),
-		'warning'		=> array( 'white', 'yellow' ),
-		'info'			=> array( 'white', 'blue' ),
-		'success'		=> array( 'white', 'green' ),
-	);
+	public static $classes				= [
+		'error'			=> ['white', 'red'],
+		'warning'		=> ['white', 'yellow'],
+		'info'			=> ['white', 'blue'],
+		'success'		=> ['white', 'green'],
+	];
 
 	public function applyClass( string $string, string $class ): string
 	{

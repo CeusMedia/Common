@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\Image;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\UI\Image\Captcha;
 
 /**
  *	TestUnit of UI_Image_Captcha.
@@ -17,7 +20,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			05.05.2008
  *
  */
-class Test_UI_Image_CaptchaTest extends BaseCase
+class CaptchaTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -29,7 +32,7 @@ class Test_UI_Image_CaptchaTest extends BaseCase
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 		$this->path		= dirname( __FILE__ )."/";
-		$this->captcha	= new UI_Image_Captcha();
+		$this->captcha	= new Captcha();
 		$this->captcha->font	= $this->path."tahoma.ttf";
 		$this->captcha->width	= 150;
 		$this->captcha->angle	= 45;
@@ -66,7 +69,7 @@ class Test_UI_Image_CaptchaTest extends BaseCase
 		$creation	= (bool) preg_match( "@[A-Z]@", $word );
 		$this->assertEquals( $assertion, $creation );
 
-		$captcha	= new UI_Image_Captcha();
+		$captcha	= new Captcha();
 		$captcha->useLarges	= TRUE;
 		$captcha->useDigits	= TRUE;
 		$captcha->length	= 50;

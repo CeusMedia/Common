@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\Image;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\UI\Image\ThumbnailCreator;
 
 /**
  *	TestUnit of Thumbnail Creator.
@@ -17,7 +20,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			16.02.2008
  *
  */
-class Test_UI_Image_ThumbnailCreatorTest extends BaseCase
+class ThumbnailCreatorTest extends BaseCase
 {
 	protected $assertFile;
 	protected $sourceFile;
@@ -51,7 +54,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends BaseCase
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $sourceFile, $targetFile );
+		$creator	= new ThumbnailCreator( $sourceFile, $targetFile );
 		$creator->thumbize( 16, 16 );
 
 		$assertion	= true;
@@ -75,7 +78,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends BaseCase
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $sourceFile, $targetFile );
+		$creator	= new ThumbnailCreator( $sourceFile, $targetFile );
 		$creator->thumbize( 16, 16 );
 
 		$assertion	= true;
@@ -96,7 +99,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends BaseCase
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $sourceFile, $targetFile );
+		$creator	= new ThumbnailCreator( $sourceFile, $targetFile );
 		$creator->thumbize( 16, 16 );
 
 		$assertion	= true;
@@ -114,7 +117,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends BaseCase
 		if( file_exists( $this->targetFile ) )
 			unlink( $this->targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $this->sourceFile, $this->targetFile );
+		$creator	= new ThumbnailCreator( $this->sourceFile, $this->targetFile );
 		$creator->thumbizeByLimit( 100, 16 );
 
 		$assertion	= true;
@@ -130,7 +133,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends BaseCase
 	{
 		try
 		{
-			$creator	= new UI_Image_ThumbnailCreator( __FILE__, "notexisting.txt" );
+			$creator	= new ThumbnailCreator( __FILE__, "notexisting.txt" );
 			$this->fail( 'An expected Exception has not been thrown.' );
 		}
 		catch( Exception $e )

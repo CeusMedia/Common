@@ -53,9 +53,9 @@ class Tabs
 	protected $divs	= [];
 
 	/**	@var		array		$options	Array of Options for the jQuery Plugin Call */
-	protected $options	= array(
+	protected $options	= [
 		'navClass'	=> "tabs-nav"
-	);
+	];
 
 	/**	@var		array		$tabs		List of Tab Labels */
 	protected $tabs	= [];
@@ -182,17 +182,17 @@ class Tabs
 			$divKey		= $index."-container";
 			$url		= $urlPrefix."#".$divKey;
 			$label		= Tag::create( 'span', $label );
-			$link		= Tag::create( 'a', $label, array( 'href' => $url ) );
-			$tabs[]		= Tag::create( 'li', $link, array( 'id' => $tabKey ) );
+			$link		= Tag::create( 'a', $label, ['href' => $url] );
+			$tabs[]		= Tag::create( 'li', $link, ['id' => $tabKey] );
 
 			$divClass	= $class ? $class."-container" : NULL;
-			$attributes	= array( 'id' => $divKey, 'class' => $divClass );
+			$attributes	= ['id' => $divKey, 'class' => $divClass];
 			$divs[]		= Tag::create( 'div', $contents[$index], $attributes );
 			self::$counter++;
 		}
-		$tabs		= Tag::create( 'ul', implode( "\n", $tabs ), array( 'class' => $class ) );
+		$tabs		= Tag::create( 'ul', implode( "\n", $tabs ), ['class' => $class] );
 		$divs		= implode( "\n", $divs );
-		$content	= Tag::create( 'div', $tabs.$divs, array( 'id' => $id ) );
+		$content	= Tag::create( 'div', $tabs.$divs, ['id' => $id] );
 		return $content;
 	}
 
@@ -200,7 +200,7 @@ class Tabs
 	 *	Sets an Option for the jQuery Tabs Plugin Call.
 	 *	Attention: To set a String it must be quoted, iE setOption( 'stringKey', '"stringValue"' ).
 	 *	Numbers (Integer, Double, Float) and Booleans can be set directly.
-	 *	It is also possible to set Array and Objects by using json_encode, iE setOption( 'key', json_encode( array( 1, 2 ) ) ).
+	 *	It is also possible to set Array and Objects by using json_encode, iE setOption( 'key', json_encode( [1, 2] ) ).
 	 *	JavaScript Callback Functions will be given as a simple String (without mentioned quotes).
 	 *
 	 *	@access		public

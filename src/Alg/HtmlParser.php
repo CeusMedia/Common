@@ -114,14 +114,14 @@ class HtmlParser
 	 */
 	public function getFavoriteIcon( bool $throwException = TRUE ): string
 	{
-		$values	= array(
+		$values	= [
 			'apple-touch-icon',
 			'APPLE-TOUCH-ICON',
 			'shortcut icon',
 			'SHORTCUT ICON',
 			'icon',
 			'ICON',
-		);
+		];
 		foreach( $values as $value ){
 			$tags	= $this->getTags( 'link', 'rel', $value );
 			if( count( $tags ) )

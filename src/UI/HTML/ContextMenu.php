@@ -43,10 +43,10 @@ class ContextMenu
 
 	public static function buildCode( $context, $content, $id = NULL )
 	{
-		$label		= Tag::create( 'div', $context, array( 'class' => 'label' ) );
-		$opener		= Tag::create( 'div', Tag::create( 'span', '&nabla;' ), array( 'class' => 'opener' ) );
-		$options	= Tag::create( 'div', $content, array( 'class' => 'contextMenu', 'id' => $id ) );
-		$html		= Tag::create( 'div', $label.$opener.$options, array( 'class' => 'cmContextMenu' ) );
+		$label		= Tag::create( 'div', $context, ['class' => 'label'] );
+		$opener		= Tag::create( 'div', Tag::create( 'span', '&nabla;' ), ['class' => 'opener'] );
+		$options	= Tag::create( 'div', $content, ['class' => 'contextMenu', 'id' => $id] );
+		$html		= Tag::create( 'div', $label.$opener.$options, ['class' => 'cmContextMenu'] );
 		return $html;
 	}
 

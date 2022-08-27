@@ -128,7 +128,7 @@ class Parser
 			"tag"			=> $tag,
 			"attributes"	=> $attributes,
 			"content"		=> '',
-			"children"		=> []
+			"children"		=> [],
 		];
 		$index	= count( $this->last[$count] ) - 1;
 		$this->last[]	= &$this->last[$count][$index]['children'];
@@ -163,7 +163,7 @@ class Parser
 		xml_set_object( $this->xml, $this );
 		xml_set_element_handler( $this->xml, 'handleTagOpenForArray', 'handleTagCloseForArray' );
 		xml_set_character_data_handler( $this->xml, 'handleCDataForArray' );
-		$this->last	= array( &$this->data );
+		$this->last	= [&$this->data];
 		if( !xml_parse( $this->xml, $xml ) ){
 			$msg	= "XML error: %s at line %d";
 			$error	= xml_error_string( xml_get_error_code( $this->xml ) );
@@ -186,7 +186,7 @@ class Parser
 		xml_set_object( $this->xml, $this );
 		xml_set_element_handler( $this->xml, 'handleTagOpenForObject', 'handleTagCloseForObject' );
 		xml_set_character_data_handler( $this->xml, 'handleCDataForObject' );
-		$this->last	= array( &$this->data );
+		$this->last	= [&$this->data];
 		if( !xml_parse( $this->xml, $xml ) ){
 			$msg	= "XML error: %s at line %d";
 			$error	= xml_error_string( xml_get_error_code( $this->xml ) );

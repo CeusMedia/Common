@@ -299,7 +299,7 @@ class ArgumentParser
 	 */
 	protected function onReadOptionKey( string $sign, int &$status, string &$buffer, string &$option )
 	{
-		if( in_array( $sign, array( " ", ":", "=" ), TRUE ) ){
+		if( in_array( $sign, [" ", ":", "="], TRUE ) ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
 				throw new InvalidArgumentException( 'Invalid option "'.$option.'"' );
 			if( !$this->possibleOptions[$option] ){

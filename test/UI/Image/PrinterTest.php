@@ -8,7 +8,10 @@
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\Image;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\UI\Image\Printer;
 
 /**
  *	TestUnit of Inverter.
@@ -17,7 +20,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			16.06.2008
  *
  */
-class Test_UI_Image_PrinterTest extends BaseCase
+class PrinterTest extends BaseCase
 {
 	public function setUp(): void
 	{
@@ -37,13 +40,13 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	public function testConstructException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		new UI_Image_Printer( "not_a_resource" );
+		new Printer( "not_a_resource" );
 	}
 
 	public function _testShowPng()
 	{
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 
 		ob_start();
 		$printer->show( IMAGETYPE_PNG, 100, FALSE );
@@ -56,7 +59,7 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	public function _testShowJpeg()
 	{
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 
 		ob_start();
 		$printer->show( IMAGETYPE_JPEG, 100, FALSE );
@@ -69,7 +72,7 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	public function _testShowGif()
 	{
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 
 		ob_start();
 		$printer->show( IMAGETYPE_GIF, 0, FALSE );
@@ -84,7 +87,7 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->show( 15, 0 );
 	}
 
@@ -92,7 +95,7 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", IMAGETYPE_PNG, 0 );
 
 		$file		= new FS_File_Reader( $this->path."targetPrinter.png" );
@@ -103,7 +106,7 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.jpg", IMAGETYPE_JPEG, 100 );
 
 		$assertion	= TRUE;
@@ -115,7 +118,7 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.gif", IMAGETYPE_GIF, 0 );
 
 		$file		= new FS_File_Reader( $this->path."targetPrinter.gif" );
@@ -126,7 +129,7 @@ class Test_UI_Image_PrinterTest extends BaseCase
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", 15, 0 );
 	}
 }

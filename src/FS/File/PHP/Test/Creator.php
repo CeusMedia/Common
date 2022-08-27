@@ -82,7 +82,7 @@ class Creator
 	 */
 	public function  __construct()
 	{
-		$this->pathTemplates	= dirname( __FILE__ ).'/';
+		$this->pathTemplates	= __DIR__.'/';
 	}
 
 	/**

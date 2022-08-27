@@ -78,11 +78,11 @@ class JID
 			throw new InvalidArgumentException( 'Given JID is not valid.' );
 		$matches	= [];
 		preg_match_all( self::$regexJid, $jid, $matches );
-		return array(
+		return [
 			'domain'	=> $matches[2][0],
 			'node'		=> $matches[1][0],
-			'resource'	=> $matches[3][0]
-		);
+			'resource'	=> $matches[3][0],
+		];
 	}
 
 	/**

@@ -99,7 +99,7 @@ class LinkSelect
 			$main->addChild( $item );
 		}
 		$code	= TreeMenu::buildMenu( $list );
-		$code	= Tag::create( "span", $code, array( 'class' => $class ) );
+		$code	= Tag::create( "span", $code, ['class' => $class] );
 		return $code;
 	}
 }

@@ -47,11 +47,11 @@ class Template extends RuntimeException
 	public const LABELS_MISSING			= 2;
 
 	/**	@var		string		$messages		Map of Exception Messages, can be overwritten statically */
-	public static $messages	= array(
+	public static $messages	= [
 		self::FILE_NOT_FOUND		=> 'Template File "%1$s" is missing',
 		self::FILE_LABELS_MISSING	=> 'Template "%1$s" is missing %2$s',
 		self::LABELS_MISSING		=> 'Template is missing %1$s',
-	);
+	];
 
 	/**	@var		array		$labels			Holds all not used and non-optional labels */
 	protected $labels			= [];

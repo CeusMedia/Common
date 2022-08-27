@@ -129,10 +129,10 @@ class MonthCalendar extends OptionObject
 				}
 				$line	= implode( "", $cells );
 			}
-			$lines[]	= Tag::create( "div", $line, array( 'class' => 'day-week' ) );
+			$lines[]	= Tag::create( "div", $line, ['class' => 'day-week'] );
 		}
 		$lines		= implode( "\n\t  ", $lines );
-		$days		= Tag::create( "div", $lines, array( 'class' => "days" ) );
+		$days		= Tag::create( "div", $lines, ['class' => "days"] );
 		$heading	= $this->buildHeading( $heading_span );
 		$weekdays	= $this->buildWeekDays();
 		$code		= $this->getCode( $heading, $weekdays, $days );
@@ -148,7 +148,7 @@ class MonthCalendar extends OptionObject
 	 */
 	protected function buildCell( $day, $class = "")
 	{
-		$classes	= array( 'day' );
+		$classes	= ['day'];
 		if(	$this->getOption( 'current_year' ) == $this->getOption( 'show_year' ) &&
 			$this->getOption( 'current_month' ) == $this->getOption( 'show_month' ) &&
 			$this->getOption( 'current_day' ) == $day )
@@ -164,7 +164,7 @@ class MonthCalendar extends OptionObject
 		}
 		else
 			$day	= "&nbsp;";
-		$code	= Tag::create( "div", $day, array( 'class' => implode( " ", $classes ) ) );
+		$code	= Tag::create( "div", $day, ['class' => implode( " ", $classes )] );
 		return $code;
 	}
 
@@ -202,10 +202,10 @@ class MonthCalendar extends OptionObject
 		$url	= $this->getOption( 'url' )."&".$this->getOption( 'carrier_year' )."=".$next_year."&".$this->getOption( 'carrier_month' )."=".$next_month;
 		$next	= Elements::Link( $url, "&gt;" );
 
-		$left	= Tag::create( "div", $prev, array( 'class' => "go-left" ) );
-		$right	= Tag::create( "div", $next, array( 'class' => "go-right" ) );
-		$label	= Tag::create( "div", htmlspecialchars( $month ).' '.$year, array( 'class' => "label" ) );
-		$code	= Tag::create( "div", $left.$label.$right, array( 'class' => 'month' ) );
+		$left	= Tag::create( "div", $prev, ['class' => "go-left"] );
+		$right	= Tag::create( "div", $next, ['class' => "go-right"] );
+		$label	= Tag::create( "div", htmlspecialchars( $month ).' '.$year, ['class' => "label"] );
+		$code	= Tag::create( "div", $left.$label.$right, ['class' => 'month'] );
 		return $code;
 	}
 
@@ -217,9 +217,9 @@ class MonthCalendar extends OptionObject
 	protected function buildWeekDays()
 	{
 		foreach( $this->days as $day )
-			$days[]	= Tag::create( "div", $day, array( 'class' => "weekday" ) );
+			$days[]	= Tag::create( "div", $day, ['class' => "weekday"] );
 		$days	= implode( "", $days );
-		$code	= Tag::create( "div", $days, array( 'class' => "weekdays" ) );
+		$code	= Tag::create( "div", $days, ['class' => "weekdays"] );
 		return $code;
 	}
 
@@ -240,8 +240,8 @@ class MonthCalendar extends OptionObject
 		}
 		else
 		{
-			$clearFix	= Tag::create( 'div', "", array( 'style' => 'clear: both' ) );
-			$content	= Tag::create( 'div', $heading.$weekdays.$weeks.$clearFix, array( 'class' => 'calendar' ) );
+			$clearFix	= Tag::create( 'div', "", ['style' => 'clear: both'] );
+			$content	= Tag::create( 'div', $heading.$weekdays.$weeks.$clearFix, ['class' => 'calendar'] );
 		}
 		return $content;
 	}

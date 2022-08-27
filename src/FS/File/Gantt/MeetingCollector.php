@@ -71,12 +71,12 @@ class MeetingCollector
 			if( $projectName && $projectName != $project['name'] )
 				continue;
 			foreach( $project['meetings'] as $meeting ){
-				$dates[]	= array(
+				$dates[]	= [
 					'project'	=> $project['name'],
 					'name'		=> $meeting['name'],
 					'start'		=> $meeting['start'],
 					'end'		=> $meeting['end'],
-				);
+				];
 			}
 		}
 		return $dates;
@@ -94,11 +94,11 @@ class MeetingCollector
 		foreach( $this->projects as $project ){
 			if( $projectName && $projectName != $project['name'] )
 				continue;
-			$dates[]	= array(
+			$dates[]	= [
 				'name'	=> $project['name'],
 				'start'	=> $project['start'],
 				'end'	=> $project['end'],
-			);
+			];
 		}
 		return $dates;
 	}

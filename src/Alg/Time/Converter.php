@@ -187,7 +187,7 @@ class Converter
 				foreach( $matches2 as $match_key => $match_array )
 					if( isset( $match_array[0] ) )
 						$matches2[$match_key] = $match_array[0];
-				$components = array(
+				$components = [
 					"d"	=> "day",
 					"j"	=> "day",
 					"m"	=> "month",
@@ -198,7 +198,7 @@ class Converter
 					"G"	=> "hour",
 					"i"	=> "minute",
 					"s"	=> "second"
-				);
+				];
 				$parts	= [];
 				foreach( $components as $key => $name ){
 					${$name}	= 0;
