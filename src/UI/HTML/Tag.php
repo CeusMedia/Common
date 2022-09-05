@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for HTML tags.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.04.2008
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -41,7 +41,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.04.2008
  */
 class Tag implements Renderable
 {
@@ -54,7 +53,7 @@ class Tag implements Renderable
 	/**	@var		string		$name			Node name of tag */
 	protected $name;
 
-	/**	@var		array		$content		Content of tag */
+	/**	@var		mixed		$content		Content of tag */
 	protected $content;
 
 	public static $shortTagExcludes	= [
@@ -68,7 +67,7 @@ class Tag implements Renderable
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$name			Node name of tag
-	 *	@param		string		$content		Content of tag
+	 *	@param		mixed		$content		Content of tag
 	 *	@param		array		$attributes		Attributes of tag
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
@@ -108,7 +107,7 @@ class Tag implements Renderable
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$name			Node name of tag
-	 *	@param		string		$content		Content of tag
+	 *	@param		mixed		$content		Content of tag
 	 *	@param		array		$attributes		Attributes of tag
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		string
@@ -188,10 +187,10 @@ class Tag implements Renderable
 	/**
 	 *	Returns value of tag data if set or map of all data if not key is set.
 	 *	@access		public
-	 *	@param		string		$key		Key of data to get
+	 *	@param		string|NULL		$key		Key of data to get
 	 *	@return		mixed|array|NULL
 	 */
-	public function getData( $key = NULL )
+	public function getData( ?string $key = NULL )
 	{
 		if( is_null( $key ) )
 			return $this->data ;
@@ -209,11 +208,11 @@ class Tag implements Renderable
 	 *	Sets attribute of tag.
 	 *	@access		public
 	 *	@param		string		$key			Key of attribute
-	 *	@param		string		$value			Value of attribute
+	 *	@param		mixed		$value			Value of attribute
 	 *	@param		boolean		$strict			Flag: deny to override attribute
 	 *	@return		self
 	 */
-	public function setAttribute( $key, $value = NULL, $strict = TRUE ): self
+	public function setAttribute( string $key, $value = NULL, bool $strict = TRUE ): self
 	{
 		//  no valid attribute key defined
 		if( empty( $key ) )
@@ -257,7 +256,7 @@ class Tag implements Renderable
 	 *	@param		boolean		$strict			Flag: deny to override attribute
 	 *	@return		self
 	 */
-	public function setAttributes( $attributes, $strict = TRUE ): self
+	public function setAttributes( array $attributes, bool $strict = TRUE ): self
 	{
 		//  iterate attributes map
 		foreach( $attributes as $key => $value )
@@ -270,11 +269,11 @@ class Tag implements Renderable
 	 *	Sets data attribute of tag.
 	 *	@access		public
 	 *	@param		string		$key			Key of data attribute
-	 *	@param		string		$value			Value of data attribute
+	 *	@param		mixed		$value			Value of data attribute
 	 *	@param		boolean		$strict			Flag: deny to override data
 	 *	@return		self
 	 */
-	public function setData( $key, $value = NULL, $strict = TRUE ): self
+	public function setData( string $key, $value = NULL, bool $strict = TRUE ): self
 	{
 		//  no valid data key defined
 		if( empty( $key ) )
@@ -296,8 +295,7 @@ class Tag implements Renderable
 				//  remove attribute
 				unset( $this->data[$key] );
 		}
-		else
-		{
+		else{
 			//  value is string or numeric
 			if( is_string( $value ) || is_numeric( $value ) )
 				//  detect injection
@@ -313,7 +311,7 @@ class Tag implements Renderable
 	/**
 	 *	Sets Content of Tag.
 	 *	@access		public
-	 *	@param		string|object	$content	Content of Tag or stringable object
+	 *	@param		mixed		$content	Content of Tag or renderable object
 	 *	@return		self
 	 *	@throws		InvalidArgumentException	if given object has no __toString method
 	 */
@@ -336,7 +334,7 @@ class Tag implements Renderable
 
 	//  --  PROTECTED  --  //
 
-	static protected function flattenArray( $array, $delimiter = " ", $path = NULL ): string
+	static protected function flattenArray( array $array, string $delimiter = " " ): string
 	{
 		foreach( $array as $key => $value )
 			if( is_array( $value ) )
@@ -344,7 +342,8 @@ class Tag implements Renderable
 		return join( $delimiter, $array );
 	}
 
-	protected static function renderData( $data = [] ){
+	protected static function renderData( array $data = [] ): string
+	{
 		$list	= [];
 		foreach( $data as $key => $value ){
 			$key	= 'data-'.CamelCase::decode( $key, '-' );

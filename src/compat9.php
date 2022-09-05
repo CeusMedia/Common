@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpFullyQualifiedNameUsageInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpMultipleClassesDeclarationsInOneFile */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+
 namespace CeusMedia\Common{
 	class Loader extends \Loader{}
 	class FS extends \FS{}
@@ -395,62 +400,27 @@ namespace CeusMedia\Common\UI{
 	class Image extends \UI_Image{}
 	class DevOutput extends \UI_DevOutput{}}
 namespace CeusMedia\Common\UI\HTML{
-	class MonthCalendar extends \UI_HTML_MonthCalendar{}
 	class PageFrame extends \UI_HTML_PageFrame{}
 	class JQuery extends \UI_HTML_JQuery{}
 	class Pagination extends \UI_HTML_Pagination{}
 	class CollapsePanel extends \UI_HTML_CollapsePanel{}
-	class Legend extends \UI_HTML_Legend{}
 	class ContextMenu extends \UI_HTML_ContextMenu{}
-	class CountryFlagIcon extends \UI_HTML_CountryFlagIcon{}
 	class Index extends \UI_HTML_Index{}
 	class Ladder extends \UI_HTML_Ladder{}
-	class OrderedList extends \UI_HTML_OrderedList{}
-	class ListItem extends \UI_HTML_ListItem{}
-	class Input extends \UI_HTML_Input{}
 	class Paging extends \UI_HTML_Paging{}
-	class Form extends \UI_HTML_Form{}
 	class FormElements extends \UI_HTML_FormElements{}
 	class Options extends \UI_HTML_Options{}
 	class Elements extends \UI_HTML_Elements{}
 	class Tag extends \UI_HTML_Tag{}
-	class Label extends \UI_HTML_Label{}
 	class Table extends \UI_HTML_Table{}
 	class Indicator extends \UI_HTML_Indicator{}
-	class Link extends \UI_HTML_Link{}
-	class UnorderedList extends \UI_HTML_List{}
 	class Tabs extends \UI_HTML_Tabs{}
-	class EventMonthCalendar extends \UI_HTML_EventMonthCalendar{}
-	class Panel extends \UI_HTML_Panel{}
-	class Buffer extends \UI_HTML_Buffer{}
-	class Fieldset extends \UI_HTML_Fieldset{}
-	class Image extends \UI_HTML_Image{}
-	abstract class Abstraction extends \UI_HTML_Abstract{}}
-namespace CeusMedia\Common\UI\HTML\AHAH{
-	class Link extends \UI_HTML_AHAH_Link{}}
-namespace CeusMedia\Common\UI\HTML\Button{
-	class Submit extends \UI_HTML_Button_Submit{}
-	class Container extends \UI_HTML_Button_Container{}
-	class Cancel extends \UI_HTML_Button_Cancel{}
-	class Link extends \UI_HTML_Button_Link{}
-	abstract class Abstraction extends \UI_HTML_Button_Abstract{}
-	class Reset extends \UI_HTML_Button_Reset{}}
-namespace CeusMedia\Common\UI\HTML\CSS{
-	class TreeMenu extends \UI_HTML_CSS_TreeMenu{}
-	class LinkSelect extends \UI_HTML_CSS_LinkSelect{}
-	class LanguageSwitch extends \UI_HTML_CSS_LanguageSwitch{}}
+	class Panel extends \UI_HTML_Panel{}}
 namespace CeusMedia\Common\UI\HTML\Exception{
 	class Trace extends \UI_HTML_Exception_Trace{}
 	class View extends \UI_HTML_Exception_View{}
 	class TraceViewer extends \UI_HTML_Exception_TraceViewer{}
 	class Page extends \UI_HTML_Exception_Page{}}
-namespace CeusMedia\Common\UI\HTML\Tree{
-	class ArrayView extends \UI_HTML_Tree_ArrayView{}
-	class VariableDump extends \UI_HTML_Tree_VariableDump{}
-	class FolderCheckView extends \UI_HTML_Tree_FolderCheckView{}
-	class Menu extends \UI_HTML_Tree_Menu{}
-	class LayerMenu extends \UI_HTML_Tree_LayerMenu{}
-	class FolderView extends \UI_HTML_Tree_FolderView{}}
 namespace CeusMedia\Common\UI\Image{
 	class Rotator extends \UI_Image_Rotator{}
 	class Captcha extends \UI_Image_Captcha{}
@@ -477,15 +447,6 @@ namespace CeusMedia\Common\UI\Image\Graph{
 namespace CeusMedia\Common\UI\Image\Graphviz{
 	class Renderer extends \UI_Image_Graphviz_Renderer{}
 	class Graph extends \UI_Image_Graphviz_Graph{}}
-namespace CeusMedia\Common\UI\JS{
-	class CodeMirror extends \UI_JS_CodeMirror{}}
-namespace CeusMedia\Common\UI\SVG{
-	class ChartData extends \UI_SVG_ChartData{}
-	class PieGraph extends \UI_SVG_PieGraph{}
-	class BarAcross extends \UI_SVG_BarAcross{}
-	class Chart extends \UI_SVG_Chart{}}
-namespace CeusMedia\Common\UI\XML{
-	class Elements extends \UI_XML_Elements{}}
 namespace CeusMedia\Common\XML{
 	class Element extends \XML_Element{}
 	class Converter extends \XML_Converter{}

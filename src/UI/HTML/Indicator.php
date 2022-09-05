@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds HTML of Bar Indicator.
  *
@@ -63,7 +64,7 @@ class Indicator extends OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $options = [] )
+	public function __construct( array $options = [] )
 	{
 		parent::__construct( $this->defaultOptions, $options );
 	}
@@ -73,10 +74,10 @@ class Indicator extends OptionObject
 	 *	@access		public
 	 *	@param		int			$found		Amount of positive Cases
 	 *	@param		int			$count		Amount of all Cases
-	 *	@param		int			$length		Length of inner Indicator Bar
+	 *	@param		int|NULL	$length		Length of inner Indicator Bar
 	 *	@return		string
 	 */
-	public function build( $found, $count, $length = NULL )
+	public function build( int $found, int $count, ?int $length = NULL ): string
 	{
 		$length			= is_null( $length ) ? $this->getOption( 'length' ) : $length;
 		$found			= min( $found, $count );
@@ -111,7 +112,8 @@ class Indicator extends OptionObject
 	 *	@param		int			$count		Amount of all Cases
 	 *	@return		array		List of RGB values
 	 */
-	public function getColor( $found, $count ){
+	public function getColor( int $found, int $count ): array
+	{
 		$ratio			= $count ? $found / $count : 0;
 		return $this->getColorFromRatio( $ratio );
 	}
@@ -122,7 +124,8 @@ class Indicator extends OptionObject
 	 *	@param		float		$ratio		Ratio (between 0 and 1)
 	 *	@return		array		List of RGB values
 	 */
-	public function getColorFromRatio( $ratio ){
+	public function getColorFromRatio( float $ratio ): array
+	{
 		if( $this->getOption( 'invertColor' ) )
 			$ratio	= 1 - $ratio;
 		$colorR	= ( 1 - $ratio ) > 0.5 ? 255 : round( ( 1 - $ratio ) * 2 * 255 );
@@ -134,9 +137,9 @@ class Indicator extends OptionObject
 	/**
 	 *	Returns CSS Class of Indicator DIV.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		string|NULL
 	 */
-	public function getIndicatorClass()
+	public function getIndicatorClass(): ?string
 	{
 		return $this->getOption( 'classIndicator' );
 	}
@@ -144,9 +147,9 @@ class Indicator extends OptionObject
 	/**
 	 *	Returns CSS Class of inner DIV.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		string|NULL
 	 */
-	public function getInnerClass()
+	public function getInnerClass(): ?string
 	{
 		return $this->getOption( 'classInner' );
 	}
@@ -154,9 +157,9 @@ class Indicator extends OptionObject
 	/**
 	 *	Returns CSS Class of outer DIV.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		string|NULL
 	 */
-	public function getOuterClass()
+	public function getOuterClass(): ?string
 	{
 		return $this->getOption( 'classOuter' );
 	}
@@ -164,9 +167,9 @@ class Indicator extends OptionObject
 	/**
 	 *	Returns CSS Class of Percentage DIV.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		string|NULL
 	 */
-	public function getPercentageClass()
+	public function getPercentageClass(): ?string
 	{
 		return $this->getOption( 'classPercentage' );
 	}
@@ -174,14 +177,15 @@ class Indicator extends OptionObject
 	/**
 	 *	Returns CSS Class of Ratio DIV.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		string|NULL
 	 */
-	public function getRatioClass()
+	public function getRatioClass(): ?string
 	{
 		return $this->getOption( 'classRatio' );
 	}
 
-	static public function render( $count, $found, $options = [] ){
+	public static function render( int $count, int $found, array $options = [] ): string
+	{
 		$indicator	= new Indicator( $options );
 		return $indicator->build( $count, $found );
 	}
@@ -193,14 +197,13 @@ class Indicator extends OptionObject
 	 *	@param		int			$length		Length of Indicator
 	 *	@return		string
 	 */
-	protected function renderBar( $ratio, $length = 100 )
+	protected function renderBar( float $ratio, int $length = 100 ): string
 	{
 		$css			= [];
 //		$width			= floor( $ratio * $length );
 		$width			= max( 0, min( 100, $ratio * 100 ) );
 		$css['width']	= $width.'%';
-		if( $this->getOption( 'useColor' ) )
-		{
+		if( $this->getOption( 'useColor' ) ){
 			$color	= $this->getColorFromRatio( $ratio );
 			$css['background-color']	= "rgb(".$color[0].",".$color[1].",".$color[2].")";
 		}
@@ -227,14 +230,13 @@ class Indicator extends OptionObject
 	 *	@param		float		$ratio		Ratio (between 0 and 1)
 	 *	@return		string
 	 */
-	protected function renderPercentage( $ratio )
+	protected function renderPercentage( float $ratio ): string
 	{
 		if( !$this->getOption( 'usePercentage' ) )
 			return "";
 		$value		= floor( $ratio * 100 )."&nbsp;%";
 		$attributes	= ['class' => $this->getOption( 'classPercentage' )];
-		$div		= Tag::create( "span", $value, $attributes );
-		return $div;
+		return Tag::create( "span", $value, $attributes );
 	}
 
 	/**
@@ -244,43 +246,44 @@ class Indicator extends OptionObject
 	 *	@param		int			$count		Amount of all Cases
 	 *	@return		string
 	 */
-	protected function renderRatio( $found, $count )
+	protected function renderRatio( int $found, int $count ): string
 	{
 		if( !$this->getOption( 'useRatio' ) )
 			return "";
 		$content	= $found."/".$count;
 		$attributes	= ['class' => $this->getOption( 'classRatio' )];
-		$div		= Tag::create( "span", $content, $attributes );
-		return $div;
+		return Tag::create( "span", $content, $attributes );
 	}
 
 	/**
 	 *	Sets CSS Class of Indicator DIV.
 	 *	@access		public
-	 *	@param		string		$class		CSS Class Name
-	 *	@return		void
+	 *	@param		string|NULL		$class		CSS Class Name
+	 *	@return		self
 	 */
-	public function setIndicatorClass( $class )
+	public function setIndicatorClass( ?string $class ): self
 	{
 		$this->setOption( 'classIndicator', $class );
+		return $this;
 	}
 
 	/**
 	 *	Sets CSS Class of inner DIV.
 	 *	@access		public
-	 *	@param		string		$class		CSS Class Name
-	 *	@return		void
+	 *	@param		string|NULL		$class		CSS Class Name
+	 *	@return		self
 	 */
-	public function setInnerClass( $class )
+	public function setInnerClass( ?string $class ): self
 	{
 		$this->setOption( 'classInner', $class );
+		return $this;
 	}
 
 	/**
 	 *	Sets Option.
 	 *	@access		public
 	 *	@param		string		$key		Option Key (useColor|usePercentage|useRatio)
-	 *	@param		bool		$values		Flag: switch Option
+	 *	@param		bool		$value		Flag: switch Option
 	 *	@return		bool
 	 */
 	public function setOption( string $key, $value ): bool
@@ -293,33 +296,36 @@ class Indicator extends OptionObject
 	/**
 	 *	Sets CSS Class of outer DIV.
 	 *	@access		public
-	 *	@param		string		$class		CSS Class Name
-	 *	@return		void
+	 *	@param		string|NULL		$class		CSS Class Name
+	 *	@return		self
 	 */
-	public function setOuterClass( $class )
+	public function setOuterClass( ?string $class ): self
 	{
 		$this->setOption( 'classOuter', $class );
+		return $this;
 	}
 
 	/**
 	 *	Sets CSS Class of Percentage DIV.
 	 *	@access		public
-	 *	@param		string		$class		CSS Class Name
-	 *	@return		void
+	 *	@param		string|NULL		$class		CSS Class Name
+	 *	@return		self
 	 */
-	public function setPercentageClass( $class )
+	public function setPercentageClass( ?string $class ): self
 	{
 		$this->setOption( 'classPercentage', $class );
+		return $this;
 	}
 
 	/**
 	 *	Sets CSS Class of Ratio DIV.
 	 *	@access		public
-	 *	@param		string		$class		CSS Class Name
-	 *	@return		void
+	 *	@param		string|NULL		$class		CSS Class Name
+	 *	@return		self
 	 */
-	public function setRatioClass( $class )
+	public function setRatioClass( ?string $class ): self
 	{
 		$this->setOption( 'classRatio', $class );
+		return $this;
 	}
 }

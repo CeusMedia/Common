@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for jQuery Plugin Calls for HTML Documents.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.06.2008
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\UI\HTML;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.06.2008
  */
 class JQuery
 {
@@ -49,11 +48,11 @@ class JQuery
 	 *	@static
 	 *	@param		string		$plugin			Name of Plugin Constructor Methode
 	 *	@param		string		$selector		XPath Selector of HTML Tag(s) to call Plugin on
-	 *	@param		array		$option			Array of Plugin Constructor Options
+	 *	@param		array		$options			Array of Plugin Constructor Options
 	 *	@param		int			$spaces			Number of indenting Whitespaces
 	 *	@return		string
 	 */
-	public static function buildPluginCall( $plugin, $selector, $options = [], $spaces = 0 )
+	public static function buildPluginCall( string $plugin, string $selector, array $options = [], int $spaces = 0 ): string
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );

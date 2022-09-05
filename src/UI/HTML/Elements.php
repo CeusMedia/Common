@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnnecessaryLocalVariableInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds HTML Components.
  *
@@ -38,7 +40,7 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Elements extends FormElements
 {
-	public static function CheckboxLabel( $name, $value, $checked, $text, $class = 'checklabel' )
+	public static function CheckboxLabel( $name, $value, $checked, $text, $class = 'checklabel' ): string
 	{
 		$checkBox	= self::CheckBox( $name, $value, $checked );
 		$checkSpan	= Tag::create( "span", $checkBox, ['class' => "checkbox"] );
@@ -58,9 +60,9 @@ class Elements extends FormElements
 	 *	@param		string		$label			ID der Beschriftung
 	 *	@param		string		$icons			HTML Code der Icons vor der CheckBox
 	 *	@return		string
-	 *	@todo		Gui_Elements::CheckLabel: Icons einbaun
+	 *	@todo		Gui_Elements::CheckLabel: add Icons
 	 */
-/*	public static function CheckLabel( $checkbox, $text, $class, $label, $icons = false)
+/*	public static function CheckLabel( $checkbox, $text, $class, $label, $icons = false): string
 	{
 		$ins_label = $label?" id='fld_'.$label.''":"';
 		$ins_class	= $class ? ' class="'.$class.'"" : '';
@@ -77,9 +79,9 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo		Signature Documenation
+	 *	@todo		Signature Documentation
 	 */
-	public static function CheckButton( $name, $value, $text, $class = FALSE )
+	public static function CheckButton( string $name, $value, $text, $class = FALSE ): string
 	{
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
 		$code = '
@@ -95,15 +97,15 @@ class Elements extends FormElements
 	 *	Builds HTML Code for a Radio Button with a Label.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		string		$label			Field Label
-	 *	@param		string		$value			Field Value
-	 *	@param		string		$checked 		Auswahl-Status
-	 *	@param		string		$class			CSS Class
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string			$name			Field Name
+	 *	@param		mixed			$label			Field Label
+	 *	@param		mixed			$value			Field Value
+	 *	@param		boolean			$checked 		Auswahl-Status
+	 *	@param		string|NULL		$class			CSS Class
+	 *	@param		string|NULL		$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	public static function RadioLabel( $name, $label, $value, $checked = NULL, $class = NULL, $readOnly = NULL )
+	public static function RadioLabel( string $name, $label, $value, ?bool $checked = NULL, ?string $class = NULL, ?string $readOnly = NULL ): string
 	{
 		$radio		= Elements::Radio( $name, $value, $checked, $class, $readOnly );
 		$field		= Elements::FieldCell( '', $radio );
@@ -113,10 +115,9 @@ class Elements extends FormElements
 		return $code;
 	}
 
-	public static function MailLink( $address, $label, $class = "mail", $crypt = TRUE )
+	public static function MailLink( $address, $label, ?string $class = "mail", bool $crypt = TRUE ): string
 	{
-		if( $crypt )
-		{
+		if( $crypt ){
 			$crypt	= $address;
 			$crypt	= str_replace( "@", " (at) ", $crypt );
 			$crypt	= str_replace( ".", " [dot] ", $crypt );
@@ -131,9 +132,9 @@ class Elements extends FormElements
 	 *	@static
 	 *	@todo	Signature Documentation
 	 */
-	public static function FoldingArea( $name, $content, $state = false, $class = false )
+	public static function FoldingArea( string $name, $content, $open = FALSE, ?string $class = NULL ): string
 	{
-		$ins_state	= " style=\"display: ".( $state ? "block" : "none" )."\"";
+		$ins_state	= " style=\"display: ".( $open ? "block" : "none" )."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$code		= "<div id='fa_".$name."' ".$ins_class.$ins_state.">".$content."</div>";
 		return $code;
@@ -143,7 +144,7 @@ class Elements extends FormElements
 	 *	@static
 	 *	@todo	Signature Documentation
 	 */
-	public static function FoldingButton( $name, $value, $text, $class )
+	public static function FoldingButton( string $name, $value, $text, ?string $class = NULL ): string
 	{
 		$onClick = "switchFoldingButton('".$name."', '".( $class ? $class."_" : "" )."'); switchFoldingArea('".$name."'); return false;";
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
@@ -158,9 +159,9 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo		Signature Documenation
+	 *	@todo		Signature Documentation
 	 */
-	public static function CheckTable( $id, $class = 'panel', $width = "100%", $border = 0, $spacing = 0 )
+	public static function CheckTable( string $id, ?string $class = 'panel', string $width = "100%", int $border = 0, int $spacing = 0 ): string
 	{
 		$ins_id		= " id=\"chktbl_".$id."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -173,9 +174,9 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo		Signature Documenation
+	 *	@todo		Signature Documentation
 	 */
-	public static function CheckTableEnd( $id )
+	public static function CheckTableEnd( string $id ): string
 	{
 		$code	= "</table><script>ct.recallStatus('".$id."');</script>";
 		return $code;
@@ -183,9 +184,9 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo		Signature Documenation
+	 *	@todo		Signature Documentation
 	 */
-	public static function Anchor( $name )
+	public static function Anchor( $name ): string
 	{
 		$code	= "<a name='".$name."'></a>";
 		return $code;
@@ -196,11 +197,11 @@ class Elements extends FormElements
 	 *	Erzeugt HTML Box for Hover über HTML-Elementen.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$html		HTML of linked Element
-	 *	@param		string		$text		Text within HelpHover
+	 *	@param		mixed		$html		HTML of linked Element
+	 *	@param		mixed		$text		Text within HelpHover
 	 *	@param		string		$class		CSS Class of HelpHover
 	 */
-	public static function HelpHover( $html, $text, $class = 'helptext' )
+	public static function HelpHover( $html, $text, string $class = 'helptext' ): string
 	{
 		$id	= uniqid( "hhItem" );
 		$code	= "<span class=\"hover\" id=\"".$id."\">".$html."</span><div class=\"".$class."\" id=\"".$id."Help\">".$text."</div>";
@@ -212,11 +213,11 @@ class Elements extends FormElements
 	 *	Erzeugt HTML Box for ToolTip über HTML-Elementen.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$html		HTML of linked Element
-	 *	@param		string		$text		Text within ToolTip
+	 *	@param		mixed		$html		HTML of linked Element
+	 *	@param		mixed		$text		Text within ToolTip
 	 *	@param		string		$class		CSS Class of ToolTip
 	 */
-	public static function ToolTip( $html, $text, $class = 'container' )
+	public static function ToolTip( $html, $text, string $class = 'container' ): string
 	{
 		$id		= uniqid( "ttItem" );
 		$text	= str_replace( "  ", "<br/>", $text );
@@ -237,12 +238,12 @@ class Elements extends FormElements
 	 *	Erzeugt HTML-Code eines Acronyms.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$text			Text des Acronyms
-	 *	@param		string		$description		Beschreibung des Acronyms
+	 *	@param		mixed		$text			Text des Acronyms
+	 *	@param		mixed		$description		Beschreibung des Acronyms
 	 *	@param		string		$class			CSS-Klasse des Acronyms
 	 *	@return		string
 	 */
-	public static function Acronym( $text, $description, $class = "" )
+	public static function Acronym( $text, $description, string $class = "" ): string
 	{
 		$ins_title		= " title=\"".$description."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -256,7 +257,7 @@ class Elements extends FormElements
 	 *	@static
 	 *	@return		string
 	 */
-	public static function ColumnGroup()
+	public static function ColumnGroup(): string
 	{
 		$code	= "";
 		$cols	= [];
@@ -265,8 +266,7 @@ class Elements extends FormElements
 			$args	= $args[0];
 		if( preg_match( "@,@", $args[0] ) )
 			$args	= explode( ",", $args[0] );
-		if( sizeof( $args ) )
-		{
+		if( sizeof( $args ) ){
 			foreach( $args as $arg )
 				$cols[] = "<col width=\"".$arg."\"/>";
 			$cols	= implode( "", $cols );
@@ -280,13 +280,13 @@ class Elements extends FormElements
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$field_id			interner Name des Eingabefeldes
-	 *	@param		string		$field_element		HTML-Code des Eingabeelements
+	 *	@param		mixed		$field_element		HTML-Code des Eingabeelements
 	 *	@param		string		$class			CSS-Klasse
 	 *	@param		string		$suffix			Textausgabe hinter dem Eingabefeld
-	 *	@param		string		$colspan			Anzahl der überstreckten Spalten
+	 *	@param		integer		$colspan			Anzahl der überstreckten Spalten
 	 *	@return		string
 	 */
-	public static function Field( $field_id, $field_element, $class = "field", $suffix = "", $colspan = 1 )
+	public static function Field( string $field_id, $field_element, string $class = "field", string $suffix = "", int $colspan = 1 ): string
 	{
 		$ins_id		= $field_id ? " id=\"fld_".$field_id."\"" : "";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -301,7 +301,7 @@ class Elements extends FormElements
 		return $code;
 	}
 
-	public static function Heading( $label, $level, $class = NULL )
+	public static function Heading( $label, int $level, ?string $class = NULL ): string
 	{
 		return Tag::create( 'h'.$level, $label, ['class' => $class] );
 	}
@@ -310,12 +310,14 @@ class Elements extends FormElements
 	 *	Erzeugt HTML-Code einer Grafik.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$url				URL der Grafik
-	 *	@param		string		$title			Alternativ-Text
+	 *	@param		mixed		$url				URL der Grafik
+	 *	@param		mixed		$title			Alternativ-Text
 	 *	@param		string		$class			CSS-Klasse des Eingabefeldes
+	 *	@param		int|NULL	$width			Breitenangabe
+	 *	@param		int|NULL	$height			Höhenangabe
 	 *	@return		string
 	 */
-	public static function Image( $url, $title, $class = "", $width = NULL, $height = NULL )
+	public static function Image( $url, $title, string $class = "", ?int $width = NULL, ?int $height = NULL ): string
 	{
 		$attributes	= array(
 			'src'		=> $url,
@@ -335,24 +337,21 @@ class Elements extends FormElements
 	 *	Erzeugt HTML-Code einer Feldbeschriftung.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$label_name		interner Name des Beschrifungsfeldes
-	 *	@param		string		$label_name		Inhalt des Beschriftungsfeldes
+	 *	@param		mixed		$label_name		interner Name des Beschriftungsfeldes
+	 *	@param		mixed		$label_text		Inhalt des Beschriftungsfeldes
 	 *	@param		string		$class			CSS-Klasse
-	 *	@param		string		$icons			Array mit Icons vor den Eingabefeld
-	 *	@param		string		$width			Weitenangabe
+	 *	@param		array		$icons			Array mit Icons vor dem Eingabefeld
 	 *	@return		string
 	 */
-	public static function Label( $label_name, $label_text, $class = 'label', $icons = [] )
+	public static function Label( $label_name, $label_text, string $class = 'label', array $icons = [] ): string
 	{
-		if( !is_array( $icons ) )
-		{
+		if( !is_array( $icons ) ){
 			if( $icons )
 				$icons = [$icons];
 			else
 				$icons = [];
 		}
-		if( sizeof( $icons ) && $label_name )
-		{
+		if( sizeof( $icons ) && $label_name ){
 			$ins_icons = "";
 			foreach( $icons as $icon )
 				if( trim( $icon ) )
@@ -366,8 +365,7 @@ class Elements extends FormElements
 			  </tr>
 			</table>";
 		}
-		else
-		{
+		else{
 			$ins_id		= $label_name ? " id=\"lbl_".$label_name."\"" : "";
 			$ins_class	= $class ? " class=\"".$class."\"" : "";
 			$label		= $label_name ? "<label for='".$label_name."'>".$label_text."</label>" : $label_text;
@@ -390,7 +388,7 @@ class Elements extends FormElements
 	 *	@param		bool		$relation		Relation (nofollow,licence,...)
 	 *	@return		string
 	 */
-	public static function Link( $url, $name, $class = NULL, $target = NULL, $confirm = NULL, $tabindex = NULL, $key = NULL, $relation = NULL )
+	public static function Link( $url, $name, $class = NULL, $target = NULL, $confirm = NULL, $tabindex = NULL, $key = NULL, $relation = NULL ): string
 	{
 		$url = str_replace( '"', "'", $url );
 		$url = str_replace( "&", "&amp;", $url );
@@ -416,7 +414,7 @@ class Elements extends FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function ListItem( $content, $level = 0, $attributes = [] )
+	public static function ListItem( $content, $level = 0, $attributes = [] ): string
 	{
 		$depth	= 2 * abs( (int) $level ) + 1;
 		$indent	= str_repeat( "  ", $depth );
@@ -434,7 +432,7 @@ class Elements extends FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function orderedList( $items, $level = 0, $attributes = [] )
+	public static function orderedList( $items, $level = 0, $attributes = [] ): string
 	{
 		$content	= "\n".implode( "\n", $items )."\n";
 		$indent		= str_repeat( "	", 2 * abs( (int) $level ) );
@@ -443,7 +441,7 @@ class Elements extends FormElements
 		return $code;
 	}
 
-	public static function Preview( $html, $url, $title, $zoom = false )
+	public static function Preview( $html, $url, $title, $zoom = false ): string
 	{
 		$id	= uniqid( "" );
 		$class	= $zoom ? "preview_zoom" : "preview";
@@ -470,7 +468,7 @@ class Elements extends FormElements
 	 *	@param		string		$class			CSS-Klasse
 	 *	@return		string
 	 */
-	public static function Separator( $colspan = 3, $rowspan = 1, $class = "inline" )
+	public static function Separator( $colspan = 3, $rowspan = 1, $class = "inline" ): string
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_colspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
@@ -491,7 +489,7 @@ class Elements extends FormElements
 	 *	@param		int			$spacing			Zellenabstand
 	 *	@return		string
 	 */
-	public static function Table( $content, $class = "filledframe", $width = "100%", $border = 0, $padding = 0, $spacing = 0 )
+	public static function Table( $content, $class = "filledframe", $width = "100%", $border = 0, $padding = 0, $spacing = 0 ): string
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_width	= $width ? " width=\"".$width."\"" : "";
@@ -511,7 +509,7 @@ class Elements extends FormElements
 	 *	@param		string		$checktable_id	ID der CheckTable
 	 *	@return		string
 	 */
-	public static function TableCaption( $caption, $class = '', $checktable_id = "" )
+	public static function TableCaption( $caption, $class = '', $checktable_id = "" ): string
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_check	= $checktable_id ? " onClick=\"ct.switchTable('".$checktable_id."');\"" : "";
@@ -529,7 +527,7 @@ class Elements extends FormElements
 	 *	@param		string		$class 			CSS Style Klasse
 	 *	@return		string
 	 */
-	public static function TableHeading( $heading, $colspan = 3, $class = 'tabhead' )
+	public static function TableHeading( $heading, $colspan = 3, $class = 'tabhead' ): string
 	{
 		$code = "";
 		if( $heading )
@@ -549,7 +547,7 @@ class Elements extends FormElements
 	 *	@param		string		$class 		CSS Style Klasse
 	 *	@return		string
 	 */
-	public static function TableHeads( $heads, $class = '', $colspan = 0 )
+	public static function TableHeads( $heads, $class = '', $colspan = 0 ): string
 	{
 		$cols		= [];
 		$class		= $class ? " class=\"".$class."\"" : "";
@@ -569,7 +567,7 @@ class Elements extends FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function unorderedList( $items, $level = 0, $attributes = [] )
+	public static function unorderedList( $items, $level = 0, $attributes = [] ): string
 	{
 		$depth1		= 2 * abs( (int) $level );
 		$depth2		= $level ? 2 * abs( (int) $level - 1 ) + 1 : 0;

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for HTML Form Components.
  *
@@ -41,28 +42,24 @@ class FormElements
 	/**
 	 *	Adds Disabled Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
 	 *	@access		protected
-	 *	@param		array		$attributes		Reference to Attributes Array
-	 *	@param		mixed		$disabled		Bool or String, String will be set in mit JavaScript Alert
+	 *	@param		array			$attributes		Reference to Attributes Array
+	 *	@param		string|NULL		$disabled		Bool or String, String will be set in mit JavaScript Alert
 	 *	@return		void
 	 */
-	protected static function addDisabledAttributes( &$attributes, $disabled )
+	protected static function addDisabledAttributes( array &$attributes, ?string $disabled = NULL )
 	{
-		if( is_string( $disabled ) ){
-			$attributes['readonly']	= "readonly";
-			$attributes['onclick']	= "alert('".$disabled."');";
-		}
-		else
-			$attributes['disabled']	= "disabled";
+		$attributes['readonly']	= 'readonly';
+		$attributes['onclick']	= $disabled ? "alert('".$disabled."');" : 'disabled';
 	}
 
 	/**
 	 *	Adds Readonly Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
 	 *	@access		protected
-	 *	@param		array		$attributes		Reference to Attributes Array
-	 *	@param		mixed		$readOnly		Bool or String, String will be set in with JavaScript Alert
+	 *	@param		array				$attributes		Reference to Attributes Array
+	 *	@param		string|bool|NULL	$readOnly		Bool or String, String will be set in with JavaScript Alert
 	 *	@return		void
 	 */
-	protected static function addReadonlyAttributes( &$attributes, $readOnly )
+	protected static function addReadonlyAttributes( array &$attributes, $readOnly = NULL )
 	{
 		$attributes['readonly']	= "readonly";
 		if( is_string( $readOnly ) )
@@ -74,49 +71,49 @@ class FormElements
 	 *	Builds HTML Code for a Button to submit a Form.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name 			Button Name
-	 *	@param		string		$label 			Button Label
-	 *	@param		string		$class			CSS Class
-	 *	@param		string		$confirm 		Confirmation Message
-	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
-	 *	@param		string		$title			Titel text on mouse hover
+	 *	@param		string			$name 			Button Name
+	 *	@param		string			$label 			Button Label
+	 *	@param		string|NULL		$class			CSS Class
+	 *	@param		string|NULL		$confirm 		Confirmation Message
+	 *	@param		string|NULL		$disabled		Button is not usable, JavaScript Alert if String is given
+	 *	@param		string|NULL		$title			Titel text on mouse hover
 	 *	@return		string
 	 */
-	public static function Button( $name, $label, $class = NULL, $confirm = NULL, $disabled = NULL, $title = NULL )
+	public static function Button( string $name, string $label, ?string $class = NULL, ?string $confirm = NULL, ?string $disabled = NULL, ?string $title = NULL ): string
 	{
 		$attributes	= array(
 			'type'		=> "submit",
 			'name'		=> $name,
 			'value'		=> 1,
 			'class'		=> $class,
-			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
+			'onclick'	=> $confirm ? "return confirm('".$confirm."');" : NULL,
 			'title'		=> $title,
 		);
 		if( $disabled )
 			self::addDisabledAttributes( $attributes, $disabled );
-		return Tag::create( "button", Tag::create( "span", (string) $label ), $attributes );
+		return Tag::create( "button", Tag::create( "span", $label ), $attributes );
 	}
 
 	/**
 	 *	Builds HTML Code for a Checkbox.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name 			Field Name
-	 *	@param		string		$value 			Field Value if checked
-	 *	@param		bool		$checked		Field State
-	 *	@param		string		$class 			CSS Class
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string				$name 			Field Name
+	 *	@param		string|int|float	$value 			Field Value if checked
+	 *	@param		bool				$checked		Field State
+	 *	@param		string|NULL			$class 			CSS Class
+	 *	@param		string|bool|NULL	$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	public static function Checkbox( $name, $value, $checked = NULL, $class = NULL, $readOnly = NULL )
+	public static function Checkbox( string $name, $value, bool $checked = NULL, ?string $class = NULL, $readOnly = NULL ): string
 	{
 		$attributes	= array(
 			'id'		=> $name,
 			'type'		=> "checkbox",
 			'name'		=> $name,
-			'value'		=> $value,
+			'value'		=> (string) $value,
 			'class'		=> $class,
-			'checked'	=> $checked		? "checked"		: NULL,
+			'checked'	=> $checked ? "checked" : NULL,
 			'disabled'	=> $readOnly && !is_string( $readOnly ) ? "disabled" : NULL,
 		);
 		if( $readOnly )
@@ -128,20 +125,21 @@ class FormElements
 	 *	Builds HTML Code for a File Upload Field.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
-	 *	@param		int			$tabIndex		Tabbing Order
-	 *	@param		int			$maxLength		Maximum Length
+	 *	@param		string				$name			Field Name
+	 *	@param		string|int|float	$value			Field Value
+	 *	@param		string|NULL			$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		string|bool|NULL	$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		int|NULL			$tabIndex		Tabbing Order
+	 *	@param		int|NULL			$maxLength		Maximum Length
 	 *	@return		string
 	 */
-	public static function File( $name, $value = "", $class = NULL, $readOnly = NULL, $tabIndex = NULL, $maxLength = NULL )
+	public static function File( string $name, $value = "", ?string $class = NULL, $readOnly = NULL, ?int $tabIndex = NULL, ?int $maxLength = NULL ): string
 	{
 		$attributes	= array(
 			'id'		=> $name,
 			'type'		=> "file",
 			'name'		=> $name,
-			'value'		=> $value,
+			'value'		=> (string) $value,
 			'class'		=> $class,
 			'tabindex'	=> $tabIndex,
 			'maxlength'	=> $maxLength,
@@ -155,19 +153,19 @@ class FormElements
 	 *	Builds HTML Code for a Form using POST.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Form Name, also used for ID with Prefix 'form_'
-	 *	@param		string		$action			Form Action, mostly an URL
-	 *	@param		string		$target			Target Frage of Action
-	 *	@param		string		$enctype		Encryption Type, needs to be 'multipart/form-data' for File Uploads
-	 *	@param		string		$onSubmit 		JavaScript to execute before Form is submitted, Validation is possible
+	 *	@param		string|NULL		$name			Form Name, also used for ID with Prefix 'form_'
+	 *	@param		string|NULL		$action			Form Action, mostly a URL
+	 *	@param		string|NULL		$target			Target Frage of Action
+	 *	@param		string|NULL		$enctype		Encryption Type, needs to be 'multipart/form-data' for File Uploads
+	 *	@param		string|NULL		$onSubmit 		JavaScript to execute before Form is submitted, Validation is possible
 	 *	@return		string
 	 */
-	public static function Form( $name = NULL, $action = NULL, $target = NULL, $enctype = NULL, $onSubmit = NULL )
+	public static function Form( ?string $name = NULL, ?string $action = NULL, ?string $target = NULL, ?string $enctype = NULL, ?string $onSubmit = NULL ): string
 	{
 		$attributes	= array(
-			'id'		=> $name		? "form_".$name : NULL,
+			'id'		=> $name ? "form_".$name : NULL,
 			'name'		=> $name,
-			'action'	=> $action		? str_replace( "&", "&amp;", $action ) : NULL,
+			'action'	=> $action ? str_replace( "&", "&amp;", $action ) : NULL,
 			'target'	=> $target,
 			'method'	=> "post",
 			'enctype'	=> $enctype,
@@ -181,17 +179,17 @@ class FormElements
 	 *	Builds HTML Code for a hidden Input Field. It is not advised to work with hidden Fields.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		string		$value			Field Value
+	 *	@param		string				$name			Field Name
+	 *	@param		string|int|float	$value			Field Value
 	 *	@return 	string
 	 */
-	public static function HiddenField( $name, $value )
+	public static function HiddenField( string $name, $value ): string
 	{
 		$attributes	= array(
 			'id'		=> $name,
 			'type'		=> "hidden",
 			'name'		=> $name,
-			'value'		=> $value,
+			'value'		=> (string) $value,
 		);
 		return Tag::create( "input", NULL, $attributes );
 	}
@@ -200,22 +198,22 @@ class FormElements
 	 *	Builds HTML Code for an Input Field. Validation is possible using Validator Classes from UI.validateInput.js.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		string		$value			Field Value
-	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
-	 *	@param		int			$tabIndex		Tabbing Order
-	 *	@param		int			$maxLength		Maximum Length
-	 *	@param		string		$validator		Validator Class (using UI.validateInput.js)
+	 *	@param		string					$name			Field Name
+	 *	@param		string|int|float|NULL	$value			Field Value
+	 *	@param		string|NULL				$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		string|bool|NULL		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		int|NULL				$tabIndex		Tabbing Order
+	 *	@param		int|NULL				$maxLength		Maximum Length
+	 *	@param		string|NULL				$validator		Validator Class (using UI.validateInput.js)
 	 *	@return		string
 	 */
-	public static function Input( $name, $value = NULL, $class = NULL, $readOnly = NULL, $tabIndex = NULL, $maxLength = NULL, $validator = NULL )
+	public static function Input( string $name, $value = NULL, ?string $class = NULL, $readOnly = NULL, ?int $tabIndex = NULL, ?int $maxLength = NULL, ?string $validator = NULL ): string
 	{
 		$attributes	= array(
 			'id'		=> $name,
 			'type'		=> "text",
 			'name'		=> $name,
-			'value'		=> $value,
+			'value'		=> (string) $value,
 			'class'		=> $class,
 			'tabindex'	=> $tabIndex,
 			'maxlength'	=> $maxLength,
@@ -230,33 +228,32 @@ class FormElements
 	 *	Builds HTML Code for a Field Label.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id				ID of Field to reference
-	 *	@param		string		$label			Label Text
-	 *	@param		string		$class			CSS Class
+	 *	@param		string		$inputId		ID of Field to reference
+	 *	@param		string			$label			Label Text
+	 *	@param		string|NULL		$class			CSS Class
 	 *	@return		string
 	 */
-	public static function Label( $id, $label, $class = NULL )
+	public static function Label( string $inputId, string $label, ?string $class = NULL ): string
 	{
-		$attributes	= array(
-			'for'		=> $id,
-			'class'		=> $class ? $class : NULL,
-		);
-		return Tag::create( "label", $label, $attributes );
+		return Tag::create( "label", $label, [
+			'for'		=> $inputId,
+			'class'		=> $class,
+		] );
 	}
 
 	/**
 	 *	Builds HTML Code for a Button behaving like a Link.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$label			Button Label, also used for ID with Prefix 'button_' and MD5 Hash
-	 *	@param		string		$url			URL to request
-	 *	@param		string		$class			CSS Class
-	 *	@param		string		$confirm 		Confirmation Message
-	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
-	 *	@param		string		$title			Title text on mouse hove
+	 *	@param		string			$url			URL to request
+	 *	@param		string			$label			Button Label, also used for ID with Prefix 'button_' and MD5 Hash
+	 *	@param		string|NULL		$class			CSS Class
+	 *	@param		string|NULL		$confirm 		Confirmation Message
+	 *	@param		string|NULL		$disabled		Button is not usable, JavaScript Alert if String is given
+	 *	@param		string|NULL		$title			Title text on mouse hove
 	 *	@return		string
 	 */
-	public static function LinkButton( $url, $label, $class = NULL, $confirm = NULL, $disabled = NULL, $title = NULL )
+	public static function LinkButton( string $url, string $label, ?string $class = NULL, ?string $confirm = NULL, ?string $disabled = NULL, ?string $title = NULL ): string
 	{
 		$action			= "document.location.href='".$url."';";
 		$attributes	= array(
@@ -275,21 +272,21 @@ class FormElements
 	 *	Builds HTML Code for an Option for a Select.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$value			Option Value
-	 *	@param		string		$label			Option Label
-	 *	@param		bool		$selected		Option State
-	 *	@param		string		$disabled		Option is not selectable
-	 *	@param		string		$class			CSS Class
+	 *	@param		string|int|float	$value			Option Value
+	 *	@param		string				$label			Option Label
+	 *	@param		bool				$selected		Option State
+	 *	@param		bool				$disabled		Option is not selectable
+	 *	@param		string|NULL			$class			CSS Class
 	 *	@return		string
 	 */
-	public static function Option( $value, $label, $selected = NULL, $disabled = NULL, $class = NULL )
+	public static function Option( $value, string $label, bool $selected = FALSE, bool $disabled = FALSE, ?string $class = NULL ): string
 	{
 		if( !( $value != "_selected" && $value != "_groupname" ) )
 			return "";
 		$attributes	= array(
 			'value'		=> $value,
-			'selected'	=> $selected	? "selected" : NULL,
-			'disabled'	=> $disabled	? "disabled" : NULL,
+			'selected'	=> $selected ? "selected" : NULL,
+			'disabled'	=> $disabled ? "disabled" : NULL,
 			'class'		=> $class,
 		);
 		return Tag::create( "option", htmlspecialchars( $label ), $attributes );
@@ -299,12 +296,12 @@ class FormElements
 	 *	Builds HTML Code for an Option Group for a Select.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$label			Group Label
-	 *	@param		string		$options 		Array of Options
-	 *	@param		string		$selected		Value of selected Option
+	 *	@param		string				$label			Group Label
+	 *	@param		array				$options 		Array of Options
+	 *	@param		string|array|NULL		$selected		Value of selected Option
 	 *	@return		string
 	 */
-	public static function OptionGroup( $label, $options, $selected = NULL )
+	public static function OptionGroup( string $label, array $options, $selected = NULL ): string
 	{
 		$attributes	= ['label' => $label];
 		$options	= self::Options( $options, $selected );
@@ -315,33 +312,28 @@ class FormElements
 	 *	Builds HTML Code for Options for a Select.
 	 *	@access		public
 	 *	@static
-	 *	@param		array		$options 			Array of Options
-	 *	@param		string		$selected			Value of selected Option
+	 *	@param		array				$options 			Array of Options
+	 *	@param		string|array|NULL	$selected			Value of selected Option
 	 *	@return		string
 	 */
-	public static function Options( $options, $selected = NULL )
+	public static function Options( array $options, $selected = NULL ): string
 	{
 		$list		= [];
-		foreach( $options as $key => $value)
-		{
-			if( (string) $key != "_selected" && is_array( $value ) )
-			{
-				foreach( $options as $groupLabel => $groupOptions )
-				{
+		foreach( $options as $key => $value){
+			if( (string) $key != "_selected" && is_array( $value ) ){
+				foreach( $options as $groupLabel => $groupOptions ){
 					if( !is_array( $groupOptions ) )
 						continue;
 					if( (string) $groupLabel == "_selected" )
 						continue;
-					$groupName	= isset( $groupOptions['_groupname'] ) ? $groupOptions['_groupname'] : $groupLabel;
-					$select		= isset( $options['_selected'] ) ? $options['_selected'] : $selected;
+					$groupName	= $groupOptions['_groupname'] ?? $groupLabel;
+					$select		= $options['_selected'] ?? $selected;
 					$list[]		= self::OptionGroup( $groupName, $groupOptions, $select );
 				}
 				return implode( "", $list );
 			}
 		}
-		foreach( $options as $value => $label )
-		{
-			$value		= (string) $value;
+		foreach( $options as $value => $label ){
 			$isSelected	= is_array( $selected ) ? in_array( $value, $selected ) : (string) $selected == (string) $value;
 			$list[]		= self::Option( $value, $label, $isSelected );
 		}
@@ -352,14 +344,14 @@ class FormElements
 	 *	Builds HTML Code for a Password Field.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
-	 *	@param		int			$tabIndex		Tabbing Order
-	 *	@param		int			$maxLength		Maximum Length
+	 *	@param		string				$name			Field Name
+	 *	@param		string|NULL			$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		string|bool|NULL	$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		int|NULL			$tabIndex		Tabbing Order
+	 *	@param		int|NULL			$maxLength		Maximum Length
 	 *	@return		string
 	 */
-	public static function Password( $name, $class = NULL, $readOnly = NULL, $tabIndex = NULL, $maxLength = NULL )
+	public static function Password( string $name, ?string $class = NULL, $readOnly = NULL, ?int $tabIndex = NULL, ?int $maxLength = NULL ): string
 	{
 		$attributes	= array(
 			'id'		=> $name,
@@ -378,14 +370,14 @@ class FormElements
 	 *	Builds HTML Code for Radio Buttons.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name 			Field Name
-	 *	@param		string		$value 			Field Value if checked
-	 *	@param		string		$checked 		Field State
-	 *	@param		string		$class			CSS Class
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string				$name			Field Name
+	 *	@param		string|int|float	$value			Field Value if checked
+	 *	@param		boolean				$checked		Field State
+	 *	@param		string|NULL			$class			CSS Class
+	 *	@param		string|bool|NULL	$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	public static function Radio( $name, $value, $checked = NULL, $class = NULL, $readOnly = NULL )
+	public static function Radio( string $name, $value, bool $checked = FALSE, ?string $class = NULL, $readOnly = NULL ): string
 	{
 		$attributes	= array(
 			'id'		=> $name.'_'.$value,
@@ -405,17 +397,16 @@ class FormElements
 	 *	Builds HTML for a Group of Radio Buttons, behaving like a Select.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		array		$options		Array of Options
-	 *	@param		string		$class			CSS Class
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string				$name			Field Name
+	 *	@param		array				$options		Array of Options
+	 *	@param		string|NULL			$class			CSS Class
+	 *	@param		string|bool|NULL	$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	public static function RadioGroup( $name, $options, $class = NULL, $readOnly = NULL )
+	public static function RadioGroup( string $name, array $options, ?string $class = NULL, $readOnly = NULL ): string
 	{
 		$radios	= [];
-		foreach( $options as $value => $label )
-		{
+		foreach( $options as $value => $label ){
 			if( (string) $value == '_selected' )
 				continue;
 			$selected	= isset( $options['_selected'] ) ? (string) $value == (string) $options['_selected'] : NULL;
@@ -426,22 +417,21 @@ class FormElements
 			$content	= Tag::create( "span", $spanRadio.$spanLabel, ['class' => 'radiolabel'] );
 			$radios[]	= $content;
 		}
-		$group	= implode( "", $radios );
-		return $group;
+		return implode( "", $radios );
 	}
 
 	/**
 	 *	Builds HTML Code for a Button to reset the current Form.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$label	 		Button Label
-	 *	@param		string		$class			CSS Class
-	 *	@param		string		$confirm 		Confirmation Message
-	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
-	 *	@param		string		$title			Title text on mouse hover
+	 *	@param		string			$label	 		Button Label
+	 *	@param		string|NULL		$class			CSS Class
+	 *	@param		string|NULL		$confirm 		Confirmation Message
+	 *	@param		string|NULL		$disabled		Button is not usable, JavaScript Alert if String is given
+	 *	@param		string|NULL		$title			Title text on mouse hover
 	 *	@return		string
 	 */
-	public static function ResetButton( $label, $class = NULL, $confirm = NULL, $disabled = NULL, $title = NULL )
+	public static function ResetButton( string $label, ?string $class = NULL, ?string $confirm = NULL, ?string $disabled = NULL, ?string $title = NULL ): string
 	{
 		$attributes	= array(
 			'type'		=> "reset",
@@ -458,20 +448,19 @@ class FormElements
 	 *	Builds HTML Code for a Select.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		mixed		$options		Array of String of Options
-	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
-	 *	@param		string		$submit			ID of Form to submit on Change
-	 *	@param		string		$focus			ID of Element to focus on Change
-	 *	@param		string		$change			JavaScript to execute on Change
+	 *	@param		string				$name			Field Name
+	 *	@param		string|array		$options		Array of String of Options
+	 *	@param		string|NULL			$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		string|bool|NULL	$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string|NULL			$submit			ID of Form to submit on Change
+	 *	@param		string|NULL			$focus			ID of Element to focus on Change
+	 *	@param		string|NULL			$change			JavaScript to execute on Change
 	 *	@return		string
 	 */
-	public static function Select( $name, $options, $class = NULL, $readOnly = NULL, $submit = NULL, $focus = NULL, $change = NULL )
+	public static function Select( string $name, $options, ?string $class = NULL, $readOnly = NULL, ?string $submit = NULL, ?string $focus = NULL, ?string $change = NULL ): string
 	{
-		if( is_array( $options ) )
-		{
-			$selected	= isset( $options['_selected'] ) ? $options['_selected'] : NULL;
+		if( is_array( $options ) ){
+			$selected	= $options['_selected'] ?? NULL;
 			$options	= self::Options( $options, $selected );
 		}
 		$focus	= $focus	? "document.getElementById('".$focus."').focus();" : NULL;
@@ -481,7 +470,7 @@ class FormElements
 			'name'		=> $name,
 			'class'		=> $class,
 			'multiple'	=> substr( trim( $name ), -2 ) == "[]"	? "multiple" : NULL,
-			'onchange'	=> $focus.$submit.$change ? $focus.$submit.$change : NULL,
+			'onchange'	=> $focus.$submit.( $change ? $focus.$submit.$change : ''),
 		);
 		if( $readOnly ){
 			$attributes['readonly']		= "readonly";
@@ -497,14 +486,14 @@ class FormElements
 	 *	Builds HTML Code for a Textarea.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		string		$content		Field Content
-	 *	@param		string		$class			CSS Class (ll|lm|ls|ml|mm|ms|sl|sm|ss)
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
-	 *	@param		string		$validator		Validator Class (using UI.validateInput.js)
+	 *	@param		string				$name			Field Name
+	 *	@param		string|NULL			$content		Field Content
+	 *	@param		string|NULL			$class			CSS Class (ll|lm|ls|ml|mm|ms|sl|sm|ss)
+	 *	@param		string|bool|NULL	$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string|NULL			$validator		Validator Class (using UI.validateInput.js)
 	 *	@return		string
 	 */
-	public static function Textarea( $name, $content, $class = NULL, $readOnly = NULL, $validator = NULL )
+	public static function Textarea( string $name, ?string $content = NULL, ?string $class = NULL, $readOnly = NULL, ?string $validator = NULL ): string
 	{
 		$attributes	= array(
 			'id'		=> $name,

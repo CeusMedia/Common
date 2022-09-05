@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.7
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -36,12 +36,10 @@ namespace CeusMedia\Common\UI\HTML;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.7
  */
 class ContextMenu
 {
-
-	public static function buildCode( $context, $content, $id = NULL )
+	public static function buildCode( $context, $content, string $id ): string
 	{
 		$label		= Tag::create( 'div', $context, ['class' => 'label'] );
 		$opener		= Tag::create( 'div', Tag::create( 'span', '&nabla;' ), ['class' => 'opener'] );
@@ -50,7 +48,7 @@ class ContextMenu
 		return $html;
 	}
 
-	public static function buildScript( $selector, $options	= [] )
+	public static function buildScript( string $selector, array $options	= [] ): string
 	{
 		return JQuery::buildPluginCall( 'cmContextMenu', $selector, $options );
 	}

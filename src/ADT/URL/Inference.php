@@ -96,6 +96,7 @@ class Inference extends URL
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
 	 *
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$mapSet			Map of Parameters to append to URL
 	 *	@param		array		$listRemove		List of Parameters to remove from URL
 	 *	@return		string		New URL.
@@ -121,17 +122,18 @@ class Inference extends URL
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
 	 *
 	 *	@access		public
+	 *	@static
 	 *	@param		array			$mapSet			Map of Parameters to append to URL
 	 *	@param		array			$listRemove		List of Parameters to remove from URL
 	 *	@param		string|NULL		$fragment		Fragment ID
 	 *	@return		string			New URL.
 	 */
-	public function buildStatic( array $mapSet = [], array $listRemove = [], ?string $fragment = NULL ): string
+	public static function buildStatic( array $mapSet = [], array $listRemove = [], ?string $fragment = NULL, bool $absolute = FALSE ): string
 	{
 		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
 		$url		= new URL( self::$staticScheme, self::$staticAddress );
-		return $url->get( $this->isAbsolute() ).$parameters;
+		return $url->get( $absolute ).$parameters;
 	}
 }

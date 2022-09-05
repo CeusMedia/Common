@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Generates HTML of an index structure, parsed headings within HTML or given by OPML (or [several] tree structures and objects).
  *
@@ -23,7 +24,6 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -37,7 +37,6 @@ namespace CeusMedia\Common\UI\HTML;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  *	@todo		implement import of trees and perhaps normal setters
  *	@todo		code doc
  */
@@ -49,16 +48,18 @@ class Index
 	/**
 	 *	Parses HTML for headings.
 	 *	@access		public
-	 *	@param		string		$html		Reference to HTML to inspect for headings
+	 *	@param		string		$content		Reference to HTML to inspect for headings
+	 *	@param		integer		$level			Heading level to start at, default: 1
 	 *	@return		void
 	 */
-	public function importFromHtml( &$content, $level = 1 ){
+	public function importFromHtml( string &$content, int $level = 1 ){
 		$this->headings	= [];																	//
 		$this->tree		= $this->importFromHtmlRecursive( $content, $level );						//
 		$this->setHeadingIds( $content, $level );													//
 	}
 
-	protected function importFromHtmlRecursive( $content, $level ){
+	protected function importFromHtmlRecursive( string $content, int $level ): array
+	{
 		//  no heading of this level found
 		if( !preg_match( "/<h".$level.">/", $content ) )
 			//  return empty list
@@ -99,7 +100,8 @@ class Index
 	 *	@access		public
 	 *	@return		string		HTML of list containing heading structure.
 	 */
-	public function renderList( $itemClassPrefix = "level-" ){
+	public function renderList( string $itemClassPrefix = "level-" ): string
+	{
 		$list	= [];																			//
 		foreach( $this->headings as $item ){														//
 			$link	= Tag::create( 'a', $item->label, ['href' => "#".$item->id] );	//
@@ -112,10 +114,11 @@ class Index
 	/**
 	 *	Generates nested lists of parsed heading structure.
 	 *	@access		public
-	 *	@param		array		$tree		Tree of heading structure, default: parsed tree
-	 *	@return		string		HTML of nested lists containing heading structure.
+	 *	@param		array|NULL		$tree		Tree of heading structure, default: parsed tree
+	 *	@return		string			HTML of nested lists containing heading structure.
 	 */
-	public function renderTree( $tree = NULL ){														//
+	public function renderTree( ?array $tree = NULL ): string
+	{
 		$list	= [];																			//
 		if( is_null( $tree ) )																		//
 			$tree	= $this->tree;																	//
@@ -135,7 +138,8 @@ class Index
 	 *	@param		integer		$level			Heading level to start at, default: 1
 	 *	@return		string		Resulting HTML
 	 */
-	protected function setHeadingIds( &$content, $level = 1 ){
+	protected function setHeadingIds( string &$content, int $level = 1 ): string
+	{
 		foreach( $this->headings as $heading ){														//
 			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//
 			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//

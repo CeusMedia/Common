@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
  *
@@ -24,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -38,7 +38,6 @@ namespace CeusMedia\Common\UI\HTML;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
- *	@since			0.6.8
  */
 class Ladder
 {
@@ -51,7 +50,7 @@ class Ladder
 	 *	@param		string		$id			ID of Ladder HTML Container
 	 *	@return		void
 	 */
-	public function __construct( $id )
+	public function __construct( string $id )
 	{
 		$this->id	= $id;
 	}
@@ -61,14 +60,15 @@ class Ladder
 	 *	@access		public
 	 *	@param		string		$label		Label of Step
 	 *	@param		string		$content	Content of Step
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addStep( $label, $content )
+	public function addStep( string $label, string $content ): self
 	{
 		$this->steps[]	= array(
 			'label'		=> $label,
 			'content'	=> $content,
 		);
+		return $this;
 	}
 
 	/**
@@ -76,12 +76,11 @@ class Ladder
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildHtml()
+	public function buildHtml(): string
 	{
 		$list	= [];
 		$divs	= [];
-		foreach( $this->steps as $nr => $step )
-		{
+		foreach( $this->steps as $nr => $step ){
 			$id		= $this->id."_link".$nr;
 			$list[]	= Elements::ListItem( $step['label'], 0, ['id' => $id] );
 			$id		= $this->id."_".$nr;
@@ -89,8 +88,7 @@ class Ladder
 		}
 		$list	= Elements::unorderedList( $list );
 		$divs	= implode( "\n", $divs );
-		$div	= Tag::create( 'div', "\n".$list.$divs."\n", ['id' => $this->id] );
-		return $div;
+		return Tag::create( 'div', "\n".$list.$divs."\n", ['id' => $this->id] );
 	}
 
 	/**
@@ -98,7 +96,7 @@ class Ladder
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildScript()
+	public function buildScript(): string
 	{
 		return JQuery::buildPluginCall( 'cmLadder', '#'.$this->id );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Wrapper of jQuery plugin 'cmOptions' to create HTML and JavaScript.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\UI\HTML;
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class Options
 {
@@ -55,7 +54,7 @@ class Options
 	 *	@param		string		$name		Name of Select Box
 	 *	@return		void
 	 */
-	public function __construct( $name )
+	public function __construct( string $name )
 	{
 		$this->name	= $name;
 	}
@@ -65,10 +64,9 @@ class Options
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildCode()
+	public function buildCode(): string
 	{
-		$select		= Elements::Select( $this->name, $this->options, $this->class );
-		return $select;
+		return Elements::Select( $this->name, $this->options, $this->class );
 	}
 
 	/**
@@ -76,7 +74,7 @@ class Options
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildScript()
+	public function buildScript(): string
 	{
 		$options	= array(
 			'url'		=> $this->url,
@@ -92,33 +90,36 @@ class Options
 	 *	Set asynchronous mode (enabled by default).
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: asynchronous mode
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setAsync( $bool )
+	public function setAsync( bool $bool ): self
 	{
 		$this->async	= $bool;
+		return $this;
 	}
 
 	/**
 	 *	Sets jQuery AJAX Cache mode (enabled by default).
 	 *	@access		public
 	 *	@param		bool		$bool		Flag: use jQuery AJAX Cache
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCache( $bool )
+	public function setCache( bool $bool ): self
 	{
 		$this->cache	= $bool;
+		return $this;
 	}
 
 	/**
 	 *	Sets Class of Select Box for CSS.
 	 *	@access		public
 	 *	@param		string		$class		CSS Class Name(s)
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setClass( $class )
+	public function setClass( string $class ): self
 	{
 		$this->class	= $class;
+		return $this;
 	}
 
 	/**
@@ -126,32 +127,35 @@ class Options
 	 *	@access		public
 	 *	@param		string		$value		Value of default option
 	 *	@param		string		$label		Label of default option
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setDefaultItem( $value, $label )
+	public function setDefaultItem( string $value, string $label ): self
 	{
 		$this->options[$value]	= $label;
+		return $this;
 	}
 
 	/**
 	 *	Sets selected Option.
 	 *	@access		public
 	 *	@param		string		$value		Value of selected Option
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setSelectedItem( $value )
+	public function setSelectedItem( string $value ): self
 	{
 		$this->selected	= $value;
+		return $this;
 	}
 
 	/**
 	 *	Sets URL to request JSON Options at.
 	 *	@access		public
 	 *	@param		string		$url		URL of Options in JSON
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setUrl( $url )
+	public function setUrl( string $url ): self
 	{
 		$this->url	= $url;
+		return $this;
 	}
 }

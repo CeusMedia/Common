@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -45,8 +46,15 @@ use RuntimeException;
 class Compare
 {
 	protected $url1;
+
 	protected $url2;
 
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		URL|string		$url1
+	 *	@param		URL|string		$url2
+	 */
 	public function __construct( $url1 = NULL, $url2 = NULL )
 	{
 		if( $url1 )
@@ -55,7 +63,13 @@ class Compare
 			$this->setUrl2( $url2 );
 	}
 
-	public function setUrl1( $url )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		URL|string		$url
+	 *	@return		self
+	 */
+	public function setUrl1( $url ): self
 	{
 		if( is_string( $url ) )
 			$url	= new URL( $url );
@@ -65,7 +79,13 @@ class Compare
 		return $this;
 	}
 
-	public function setUrl2( $url )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		URL|string		$url
+	 *	@return		self
+	 */
+	public function setUrl2( $url ): self
 	{
 		if( is_string( $url ) )
 			$url	= new URL( $url );
@@ -75,7 +95,7 @@ class Compare
 		return $this;
 	}
 
-	public function sameBase()
+	public function sameBase(): bool
 	{
 		if( !$this->url1 || !$this->url2 )
 			throw new RuntimeException( 'Not both URLs are set' );
@@ -89,7 +109,15 @@ class Compare
 		return $sameScheme && $sameHost && $samePort && $sameUsername && $samePassword;
 	}
 
-	public static function sameBaseStatic( $url1, $url2 )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@static
+	 *	@param		URL|string		$url1
+	 *	@param		URL|string		$url2
+	 *	@return		bool
+	 */
+	public static function sameBaseStatic( $url1, $url2 ): bool
 	{
 		$that	= new self( $url1, $url2 );
 		return $that->sameBase();

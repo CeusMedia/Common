@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	User Interface Component for Panels with Header, Footer and Content.
  *	Base Implementation for further Panel Systems.
@@ -24,7 +25,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			21.11.2008
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -35,7 +35,6 @@ namespace CeusMedia\Common\UI\HTML;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.11.2008
  */
 class Panel
 {
@@ -87,7 +86,7 @@ class Panel
 	 *	@param		string		$theme			Theme / additional CSS Class of Panel
 	 *	@return		string
 	 */
-	public function build( $id, $theme = "default" )
+	public function build( string $id, string $theme = "default" ): string
 	{
 		return $this->create( $id, $this->content, $this->header, $this->abstract, $this->footer, $theme, $this->attributes );
 	}
@@ -96,16 +95,16 @@ class Panel
 	 *	Builds HTML Code of Panel statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id					Tag ID of Panel
-	 *	@param		string		$content			Content of Panel
-	 *	@param		string		$header				Content of Header
-	 *	@param		string		$abstract			Content of Abstract
-	 *	@param		string		$footer				Content of Footer
-	 *	@param		string		$theme				Theme / additional CSS Class of Panel
-	 *	@param		array		$attributes			Map of Attributes of Panel DIV
+	 *	@param		string			$id					Tag ID of Panel
+	 *	@param		mixed			$content			Content of Panel
+	 *	@param		mixed|NULL		$header				Content of Header
+	 *	@param		mixed|NULL		$abstract			Content of Abstract
+	 *	@param		mixed|NULL		$footer				Content of Footer
+	 *	@param		string			$theme				Theme / additional CSS Class of Panel
+	 *	@param		array			$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme= "default", $attributes = [] )
+	public static function create( string $id, $content, $header = NULL, $abstract = NULL, $footer = NULL, string $theme= "default", array $attributes = [] ): string
 	{
 		$divContInner	= self::wrap( (string) $content, self::$classContentInner );
 		$divCont		= self::wrap( $divContInner, self::$classContent );
@@ -113,37 +112,34 @@ class Panel
 		$divHead		= "";
 		$divFoot		= "";
 
-		if( !is_null( $abstract ) )
-		{
+		if( !is_null( $abstract ) ){
 			$divAbstractInner	= self::wrap( $abstract, self::$classAbstractInner );
 			$divAbstract		= self::wrap( $divAbstractInner, self::$classAbstract );
 		}
-		if( !is_null( $footer ) )
-		{
+		if( !is_null( $footer ) ){
 			$divFootInner	= self::wrap( $footer, self::$classFooterInner );
 			$divFoot		= self::wrap( $divFootInner, self::$classFooter );
 		}
-		if( !is_null( $header ) )
-		{
+		if( !is_null( $header ) ){
 			$divHeadInner	= self::wrap( $header, self::$classHeaderInner );
 			$divHead		= self::wrap( $divHeadInner, self::$classHeader );
 		}
 
 		$classes		= $theme ? self::$classPanel." ".$theme : self::$classPanel;
 		$attributes		= array_merge( ["id" => $id], $attributes );
-		$divPanel		= self::wrap( $divHead.$divAbstract.$divCont.$divFoot, $classes, $attributes );
-		return $divPanel;
+		return self::wrap( $divHead.$divAbstract.$divCont.$divFoot, $classes, $attributes );
 	}
 
 	/**
 	 *	Sets Abstract of Panel.
 	 *	@access		public
-	 *	@param		string		$abstract			Abstract of Panel
-	 *	@return		void
+	 *	@param		mixed|NULL		$abstract			Abstract of Panel
+	 *	@return		self
 	 */
-	public function setAbstract( $abstract )
+	public function setAbstract( $abstract ): self
 	{
 		$this->abstract	= $abstract;
+		return $this;
 	}
 
 	/**
@@ -151,68 +147,73 @@ class Panel
 	 *	@access		public
 	 *	@param		string		$key				Key of Attribute
 	 *	@param		string		$value				Value of Attribute
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setAttribute( $key, $value )
+	public function setAttribute( string $key, string $value ): self
 	{
 		$this->attributes[$key]	= $value;
+		return $this;
 	}
 
 	/**
 	 *	Sets a Map of Attributes of Panel DIV.
 	 *	@access		public
 	 *	@param		array		$attributes			Map of Attribute
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setAttributes( $attributes )
+	public function setAttributes( array $attributes ): self
 	{
 		foreach( $attributes as $key => $value )
 			$this->attributes[$key]	= $value;
+		return $this;
 	}
 
 	/**
 	 *	Sets Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content			Content of Panel
-	 *	@return		void
+	 *	@param		mixed|NULL		$content			Content of Panel
+	 *	@return		self
 	 */
-	public function setContent( $content )
+	public function setContent( $content ): self
 	{
 		$this->content	= $content;
+		return $this;
 	}
 
 	/**
 	 *	Sets Footer Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content			Footer Content of Panel
-	 *	@return		void
+	 *	@param		mixed|NULL		$footer			Footer Content of Panel
+	 *	@return		self
 	 */
-	public function setFooter( $footer )
+	public function setFooter( $footer ): self
 	{
 		$this->footer	= $footer;
+		return $this;
 	}
 
 	/**
 	 *	Sets Header Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content			Header Content of Panel
-	 *	@return		void
+	 *	@param		mixed|NULL		$header			Header Content of Panel
+	 *	@return		self
 	 */
-	public function setHeader( $header )
+	public function setHeader( $header ): self
 	{
 		$this->header	= $header;
+		return $this;
 	}
 
 	/**
 	 *	Wraps Content in DIV.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$content			...
-	 *	@param		string		$class				CSS Class of DIV
-	 *	@param		array		$attributes			Array of Attributes
+	 *	@param		mixed|NULL		$content			...
+	 *	@param		string			$class				CSS Class of DIV
+	 *	@param		array			$attributes			Array of Attributes
 	 *	@return		string
 	 */
-	protected static function wrap( $content, $class, $attributes = [] )
+	protected static function wrap( $content, string $class, array $attributes = [] ): string
 	{
 		$attributes	= array_merge( $attributes, ['class' => $class] );
 		return Tag::create( "div", $content, $attributes );
