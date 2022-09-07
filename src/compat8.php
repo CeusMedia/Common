@@ -314,7 +314,6 @@ class Net_XMPP_XMPPHP_XMLObj extends CeusMedia\Common\Net\XMPP\XMPPHP\XMLObj{}
 class Net_XMPP_XMPPHP_XMLStream extends CeusMedia\Common\Net\XMPP\XMPPHP\XMLStream{}
 class Net_XMPP_XMPPHP_XMPP extends CeusMedia\Common\Net\XMPP\XMPPHP\XMPP{}
 interface Renderable extends CeusMedia\Common\Renderable{}
-class UI_ClassParser extends CeusMedia\Common\UI\ClassParser{}
 class UI_DevOutput extends CeusMedia\Common\UI\DevOutput{}
 class UI_HTML_CollapsePanel extends CeusMedia\Common\UI\HTML\CollapsePanel{}
 class UI_HTML_ContextMenu extends CeusMedia\Common\UI\HTML\ContextMenu{}

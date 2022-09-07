@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Visualisation of Exception.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\UI\HTML\Exception;
@@ -34,6 +34,7 @@ use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\UI\HTML\Tag;
 use CeusMedia\Common\XML\ElementReader as XmlElementReader;
 use Exception;
+use Throwable;
 
 /**
  *	Visualisation of Exception Stack Trace.
@@ -43,30 +44,31 @@ use Exception;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class View
 {
 	/**
 	 *	Prints exception view.
 	 *	@access		public
-	 *	@param		Exception	$exception		Exception
+	 *	@param		Throwable	$exception		Exception
 	 *	@return		void
+	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
 	 */
-	public static function display( Exception $e )
+	public static function display( Throwable $exception )
 	{
-		print self::render( $e );
+		print self::render( $exception );
 	}
 
 	/**
 	 *	Resolves SQLSTATE Code and returns its Meaning.
 	 *	@access		protected
 	 *	@static
-	 *	@return		string
+	 *	@return		string		$SQLSTATE
+	 *	@throws		Exception	if the XML data could not be parsed
 	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
 	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
 	 */
-	protected static function getMeaningOfSQLSTATE( $SQLSTATE )
+	protected static function getMeaningOfSQLSTATE( $SQLSTATE ): string
 	{
 		$class1	= substr( $SQLSTATE, 0, 2 );
 		$class2	= substr( $SQLSTATE, 2, 3 );
@@ -86,7 +88,14 @@ class View
 		return '';
 	}
 
-	public static function render( Exception $e, $showTrace = TRUE, $showPrevious = TRUE )
+	/**
+	 *	@param		Throwable	$e
+	 *	@param		bool		$showTrace
+	 *	@param		bool		$showPrevious
+	 *	@return		string
+	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
+	 */
+	public static function render( Throwable $e, bool $showTrace = TRUE, bool $showPrevious = TRUE ): string
 	{
 		$list	= [];
 
@@ -94,7 +103,7 @@ class View
 		$list[]	= Tag::create( 'dt', 'Message', ['class' => 'exception-message'] );
 		$list[]	= Tag::create( 'dd', $msg, ['class' => 'exception-message'] );
 
-		if( (int) $e->getCode() !== 0 ){
+		if( $e->getCode() !== 0 ){
 			$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
 			$list[]	= Tag::create( 'dt', 'Code', ['class' => 'exception-code'] );
 			$list[]	= Tag::create( 'dd', $code, ['class' => 'exception-code'] );
@@ -130,19 +139,15 @@ class View
 		$list[]	= Tag::create( 'dt', 'Line', ['class' => 'exception-line'] );
 		$list[]	= Tag::create( 'dd', (string) $e->getLine(), ['class' => 'exception-line'] );
 
-		if( $showTrace )
-		{
+		if( $showTrace ){
 			$trace	= Trace::render( $e );
-			if( $trace )
-			{
+			if( $trace ){
 				$list[]	= Tag::create( 'dt', 'Trace' );
 				$list[]	= Tag::create( 'dd', $trace );
 			}
 		}
-		if( $showPrevious )
-		{
-			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() )
-			{
+		if( $showPrevious ){
+			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() ){
 				$list[]	= Tag::create( 'dt', 'Previous' );
 				$list[]	= Tag::create( 'dd', View::render( $e->getPrevious() ) );
 			}
@@ -158,11 +163,11 @@ class View
 	 *	@param		string		$fileName		File Name to clear
 	 *	@return		string
 	 */
-	protected static function trimRootPath( $fileName )
+	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= isset( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : "";
+		$rootPath	= $_SERVER['DOCUMENT_ROOT'] ?? '';
 		if( !$rootPath || !$fileName )
-			return;
+			return '';
 		$fileName	= str_replace( '\\', "/", $fileName );
 		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
 		if( $cut == $rootPath )

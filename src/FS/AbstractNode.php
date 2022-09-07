@@ -6,6 +6,11 @@ abstract class AbstractNode
 {
 	protected $pathName;
 
+	public function __construct( string $pathName )
+	{
+		$this->setPathName( $pathName );
+	}
+
 	public function getName(): string
 	{
 		return pathinfo( $this->pathName, PATHINFO_BASENAME );

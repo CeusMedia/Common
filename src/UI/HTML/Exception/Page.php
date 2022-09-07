@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder of Exception Pages.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\UI\HTML\Exception;
@@ -41,7 +41,6 @@ use Exception;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Page
 {
@@ -49,7 +48,7 @@ class Page
 	 *	Displays rendered Exception Page.
 	 *	@access		public
 	 *	@param		Exception				$e			Exception to render View for
-	 *	@return		string
+	 *	@return		void
 	 *	@static
 	 */
 	public static function display( Exception $e )
@@ -57,6 +56,7 @@ class Page
 		$view	= View::render( $e );
 		print( self::wrapExceptionView( $view ) );
 	}
+
 	/**
 	 *	Returns rendered Exception Page.
 	 *	@access		public
@@ -64,7 +64,7 @@ class Page
 	 *	@return		string
 	 *	@static
 	 */
-	public static function render( Exception $e )
+	public static function render( Exception $e ): string
 	{
 		$view	= View::render( $e );
 		return self::wrapExceptionView( $view );
@@ -73,10 +73,10 @@ class Page
 	/**
 	 *	Wraps an Exception View to an Exception Page.
 	 *	@access		public
-	 *	@param		View	$view		Exception View
+	 *	@param		string		$view		Exception View
 	 *	@return		string
 	 */
-	public static function wrapExceptionView( $view )
+	public static function wrapExceptionView( string $view ): string
 	{
 		$page	= new PageFrame();
 		$page->setTitle( 'Exception' );

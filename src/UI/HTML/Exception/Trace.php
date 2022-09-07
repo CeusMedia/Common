@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Visualisation of Exception Stack Trace.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\UI\HTML\Exception;
@@ -33,6 +33,7 @@ use CeusMedia\Common\UI\HTML\Tag;
 use Countable;
 use Exception;
 use InvalidArgumentException;
+use Throwable;
 
 /**
  *	Visualisation of Exception Stack Trace.
@@ -42,17 +43,16 @@ use InvalidArgumentException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 class Trace
 {
 	/**
 	 *	Prints exception trace HTML code.
 	 *	@access		public
-	 *	@param		Exception	$exception		Exception
+	 *	@param		Throwable	$exception		Exception
 	 *	@return		void
 	 */
-	public static function display( Exception $exception )
+	public static function display( Throwable $exception )
 	{
 		print self::render( $exception );
 	}
@@ -63,18 +63,15 @@ class Trace
 	 *	@param		array		$trace			Trace of exception
 	 *	@return		string
 	 */
-	public static function renderFromTrace( $trace )
+	public static function renderFromTrace( array $trace ): string
 	{
-		if( !is_array( $trace ) )
-			throw new InvalidArgumentException( "Trace must be an array" );
 		if( !count( $trace ) )
 			return '';
 		$i	= 0;
 		$j	= 0;
 		$list	= [];
-		foreach( $trace as $key => $trace )
-		{
-			$step	= self::renderTraceStep( $trace, $i++, $j );
+		foreach( $trace as $entry ){
+			$step	= self::renderTraceStep( $entry, $i++, $j );
 			if( !$step )
 				continue;
 			$list[]	= Tag::create( 'li', $step );
@@ -86,10 +83,10 @@ class Trace
 	/**
 	 *	Renders exception trace HTML code.
 	 *	@access		private
-	 *	@param		Exception	$exception		Exception
+	 *	@param		Throwable	$exception		Exception
 	 *	@return		string
 	 */
-	public static function render( Exception $exception )
+	public static function render( Throwable $exception ): string
 	{
 		$trace	= $exception->getTrace();
 		return self::renderFromTrace( $trace );
@@ -99,10 +96,10 @@ class Trace
 	 *	Renders an argument.
 	 *	@access		protected
 	 *	@static
-	 *	@param		array		$argument		Array to render
+	 *	@param		mixed		$argument		Array to render
 	 *	@return		string
 	 */
-	protected static function renderArgument( $argument )
+	protected static function renderArgument( $argument ): string
 	{
 		switch( gettype( $argument ) )
 		{
@@ -131,11 +128,10 @@ class Trace
 	 *	@param		array		$array			Array to render
 	 *	@return		string
 	 */
-	protected static function renderArgumentArray( $array )
+	protected static function renderArgumentArray( array $array ): string
 	{
 		$list	= [];
-		foreach( $array as $key => $value )
-		{
+		foreach( $array as $key => $value ){
 			$type	= self::renderArgumentType( $value );
 			$string	= self::renderArgument( $value );
 			$list[]	= Tag::create( 'dt', $type." ".$key );
@@ -150,10 +146,10 @@ class Trace
 	 *	Renders formatted argument type.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$argument		Argument to render type for
+	 *	@param		mixed		$argument		Argument to render type for
 	 *	@return		string
 	 */
-	protected static function renderArgumentType( $argument )
+	protected static function renderArgumentType( $argument ): string
 	{
 		$type		= gettype( $argument );
 		$length		= '';
@@ -173,7 +169,7 @@ class Trace
 	 *	@param		int			$i			Trace Step Number
 	 *	@return		string
 	 */
-	private static function renderTraceStep( $trace, $i, $j )
+	private static function renderTraceStep( array $trace, $i, $j ): string
 	{
 		if( $j == 0 )
 			if( isset( $trace['function'] ) )
@@ -229,10 +225,10 @@ class Trace
 	 *	@static
 	 *	@param		string		$string			String to secure
 	 *	@param		integer		$maxLength		Number of characters to show at most
-	 *	@param		string		$mask			Mask to show for cutted content
+	 *	@param		string		$mask			Mask to show for cut content
 	 *	@return		string
 	 */
-	protected static function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
+	protected static function secureString( string $string, int $maxLength = 0, string $mask = '&hellip;' ): string
 	{
 		if( $maxLength && strlen( $string ) > $maxLength )
 			$value	= TextTrimmer::trimCentric( $string, $maxLength, $mask );
@@ -249,7 +245,7 @@ class Trace
 	 *	@param		string		$fileName		File Name to clear
 	 *	@return		string
 	 */
-	protected static function trimRootPath( $fileName )
+	protected static function trimRootPath( string $fileName ): string
 	{
 		$rootPath	= realpath( getEnv( 'DOCUMENT_ROOT' ) );
 		if( strlen( trim( $fileName ) ) && $rootPath )

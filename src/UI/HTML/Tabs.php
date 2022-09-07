@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
@@ -24,14 +25,12 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.11.2008
  */
 
 namespace CeusMedia\Common\UI\HTML;
 
 use CeusMedia\Common\UI\HTML\JQuery as JQuery;
 use Exception;
-use InvalidArgumentException;
 
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
@@ -42,7 +41,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.11.2008
  */
 class Tabs
 {
@@ -68,7 +66,7 @@ class Tabs
 	 *	@param		array		$tabs		Array of Labels and Contents
 	 *	@return		void
 	 */
-	public function __construct( $tabs = [], $class = NULL )
+	public function __construct( array $tabs = [], ?string $class = NULL )
 	{
 		if( $tabs )
 			$this->addTabs( $tabs );
@@ -79,23 +77,23 @@ class Tabs
 	/**
 	 *	Adds a new Tab by its Label and Content.
 	 *	@access		public
-	 *	@param		string		$label		Label of Tab
-	 *	@param		string		$content	Content related to Tab
+	 *	@param		string			$label			Label of Tab
+	 *	@param		string			$content		Content related to Tab
+	 *	@param		string|NULL		$fragmentId	...
 	 *	@return		void
+	 *	@throws		Exception		if fragment ID is set, already
 	 */
-	public function addTab( $label, $content, $fragmentKey = NULL )
+	public function addTab( string $label, string $content, ?string $fragmentId = NULL )
 	{
-		if( is_null( $fragmentKey ) )
-		{
+		if( is_null( $fragmentId ) ){
 			$this->tabs[]	= $label;
 			$this->divs[]	= $content;
 		}
-		else
-		{
-			if( isset( $this->tabs[$fragmentKey] ) )
-				throw new Exception( 'Tab with Fragment ID "'.$fragmentKey.'" is already set' );
-			$this->tabs[$fragmentKey]	= $label;
-			$this->divs[$fragmentKey]	= $content;
+		else{
+			if( isset( $this->tabs[$fragmentId] ) )
+				throw new Exception( 'Tab with Fragment ID "'.$fragmentId.'" is already set' );
+			$this->tabs[$fragmentId]	= $label;
+			$this->divs[$fragmentId]	= $content;
 		}
 	}
 
@@ -103,25 +101,26 @@ class Tabs
 	 *	Constructor, can set Tabs.
 	 *	@access		public
 	 *	@param		array		$tabs		Array of Labels and Contents
-	 *	@return		void
+	 *	@return		self
+	 * @noinspection PhpDocMissingThrowsInspection
 	 */
-	public function addTabs( $tabs = [] )
+	public function addTabs( array $tabs = [] ): self
 	{
-		if( !is_array( $tabs ) )
-			throw new InvalidArgumentException( 'Tabs must be given as array of labels and contents.' );
 		foreach( $tabs as $label => $content )
+			/** @noinspection PhpUnhandledExceptionInspection */
 			$this->addTab( $label, $content );
+		return $this;
 	}
 
 	/**
-	 *	Creates JavaScript Call, applying afore set Options and given Options.
+	 *	Creates JavaScript Call, applying before set Options and given Options.
 	 *	@access		public
 	 *	@param		string		$selector		jQuery Selector of Tabs DIV (mostly '#' + ID)
-	 *	@param		array		$options		Tabs Options Array, additional to afore set Options
+	 *	@param		array		$options		Tabs Options Array, additional to before set Options
 	 *	@return 	string
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public function buildScript( $selector, $options = [] )
+	public function buildScript( string $selector, array $options = [] ): string
 	{
 		$options	= array_merge( $this->options, $options );
 		return self::createScript( $selector, $options );
@@ -130,11 +129,12 @@ class Tabs
 	/**
 	 *	Builds HTML Code of Tabbed Content.
 	 *	@access		public
-	 *	@param		string		$id			ID of whole Tabbed Content Block
-	 *	@param		string		$class		CSS Class of Tabs DIV (main container)
+	 *	@param		string			$id			ID of whole Tabbed Content Block
+	 *	@param		string|NULL		$class		CSS Class of Tabs DIV (main container)
 	 *	@return		string
+	 *	@throws		Exception		if number of labels and contents does not match
 	 */
-	public function buildTabs( $id, $class = NULL )
+	public function buildTabs( string $id, ?string $class = NULL ): string
 	{
 		if( empty( $class ) && !empty( $this->options['navClass'] ) )
 			$class	= $this->options['navClass'];
@@ -150,7 +150,7 @@ class Tabs
 	 *	@return 	string
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public static function createScript( $selector, $options = [] )
+	public static function createScript( string $selector, array $options = [] ): string
 	{
 		return JQuery::buildPluginCall( "tabs", $selector, $options );
 	}
@@ -159,13 +159,14 @@ class Tabs
 	 *	Builds HTML Code of Tabbed Content statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id			ID of whole Tabbed Content Block
-	 *	@param		array		$label		List of Tab Labels
-	 *	@param		array		$contents	List of Contents related to the Tabs
-	 *	@param		string		$class		CSS Class of Tabs DIV (main container)
+	 *	@param		string			$id			ID of whole Tabbed Content Block
+	 *	@param		array			$labels		List of Tab Labels
+	 *	@param		array			$contents	List of Contents related to the Tabs
+	 *	@param		string|NULL		$class		CSS Class of Tabs DIV (main container)
 	 *	@return		string
+	 *	@throws		Exception		if number of labels and contents does not match
 	 */
-	public static function createTabs( $id, $labels = [], $contents = [], $class = NULL )
+	public static function createTabs( string $id, array $labels = [], array $contents = [], ?string $class = NULL ): string
 	{
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );
@@ -174,10 +175,7 @@ class Tabs
 		$urlPrefix	= ( $belowV3 && getEnv( 'REDIRECT_URL' ) ) ? getEnv( 'REDIRECT_URL' ) : '';
 		$tabs		= [];
 		$divs		= [];
-		$labels		= $labels;
-		$contents	= $contents;
-		foreach( $labels as $index => $label )
-		{
+		foreach( $labels as $index => $label ) {
 			$tabKey		= is_int( $index ) ? 'tab-'.$index : $index;
 			$divKey		= $index."-container";
 			$url		= $urlPrefix."#".$divKey;
@@ -192,8 +190,7 @@ class Tabs
 		}
 		$tabs		= Tag::create( 'ul', implode( "\n", $tabs ), ['class' => $class] );
 		$divs		= implode( "\n", $divs );
-		$content	= Tag::create( 'div', $tabs.$divs, ['id' => $id] );
-		return $content;
+		return Tag::create( 'div', $tabs.$divs, ['id' => $id] );
 	}
 
 	/**
@@ -206,19 +203,21 @@ class Tabs
 	 *	@access		public
 	 *	@param		string		$key
 	 *	@param		mixed		$value			Option Value (Strings must be quoted)
-	 *	@return		string
+	 *	@return		self
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public function setOption( $key, $value )
+	public function setOption( string $key, $value ): self
 	{
 		if( is_null( $value ) )
 			unset( $this->options[$key] );
 		else
 			$this->options[$key]	= $value;
+		return $this;
 	}
 
-	public function setVersion( $version )
+	public function setVersion( int $version ): self
 	{
 		self::$version	= $version;
+		return $this;
 	}
 }

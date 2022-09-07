@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Abstract basic class for all image modifying classes.
  *
@@ -23,7 +25,6 @@
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.2009
  */
 
 namespace CeusMedia\Common\UI\Image;
@@ -40,7 +41,6 @@ use RuntimeException;
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.2009
  */
 abstract class Modifier
 {
@@ -63,14 +63,14 @@ abstract class Modifier
 	protected $targetUri;
 
 	/**
-	 *	Constructur.
+	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$sourceUri 		File URI of Source Image
-	 *	@param		string		$targetUri 		File URI of Target Image
-	 *	@param		int			$quality 		Quality of Target Image
+	 *	@param		string|NULL		$sourceUri 		File URI of Source Image
+	 *	@param		string|NULL		$targetUri 		File URI of Target Image
+	 *	@param		int				$quality 		Quality of Target Image
 	 *	@return		void
 	 */
-	public function __construct( $sourceUri = NULL, $targetUri = NULL, $quality = 100 )
+	public function __construct( ?string $sourceUri = NULL, ?string $targetUri = NULL, int $quality = 100 )
 	{
 		if( !is_null( $sourceUri ) )
 			$this->setSourceUri( $sourceUri );
@@ -83,8 +83,7 @@ abstract class Modifier
 	{
 		if( !$this->sourceUri )
 			throw new RuntimeException( 'No source image URI set' );
-		switch( $this->sourceInfo[2] )
-		{
+		switch( $this->sourceInfo[2] ){
 			case IMAGETYPE_GIF:
 				$this->source	= imagecreatefromgif( $this->sourceUri );
 				break;
@@ -102,10 +101,10 @@ abstract class Modifier
 	/**
 	 *	Saves target image source to image file.
 	 *	@access		public
-	 *	@param		int			$type			Output format type
+	 *	@param		int|NULL		$type			Output format type
 	 *	@return		bool
 	 */
-	public function saveImage( $type = NULL )
+	public function saveImage( ?int $type = NULL ): bool
 	{
 		if( !$this->source )
 			throw new RuntimeException( 'No image loaded' );
@@ -114,8 +113,7 @@ abstract class Modifier
 		if( !$this->targetUri )
 			throw new RuntimeException( 'No target image URI set' );
 		$type	= $type ? $type : $this->sourceInfo[2];
-		switch( $type )
-		{
+		switch( $type ){
 			case IMAGETYPE_GIF:
 				return imagegif( $this->target, $this->targetUri );
 			case IMAGETYPE_JPEG:
@@ -131,20 +129,21 @@ abstract class Modifier
 	 *	Sets the Quality of resulting Image.
 	 *	@access		public
 	 *	@param		int			$quality 		Quality of resulting Image
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setQuality( $quality )
+	public function setQuality( int $quality ): self
 	{
 		$this->quality	= $quality;
+		return $this;
 	}
 
 	/**
 	 *	Sets the File Name of Source Image.
 	 *	@access		public
 	 *	@param		string		$sourceUri 		File URI of Source Image
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setSourceUri( $sourceUri )
+	public function setSourceUri( string $sourceUri ): self
 	{
 		if( !file_exists( $sourceUri ) )
 			throw new InvalidArgumentException( 'Image source "'.$sourceUri.'" is not existing' );
@@ -154,16 +153,18 @@ abstract class Modifier
 		$this->sourceUri	= $sourceUri;
 		$this->sourceInfo	= $info;
 		$this->loadImage();
+		return $this;
 	}
 
 	/**
 	 *	Sets the File Name of Target Image.
 	 *	@access		public
 	 *	@param		string		$targetUri 		File URI of resulting Target Image
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setTargetUri( $targetUri )
+	public function setTargetUri( string $targetUri ): self
 	{
 		$this->targetUri	= $targetUri;
+		return $this;
 	}
 }

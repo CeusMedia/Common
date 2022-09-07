@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\FS\File\JSON;
 
-use CeusMedia\Common\ADT\JSON\Formater as JsonFormat;
+use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
 use CeusMedia\Common\ADT\Tree\MagicNode;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
@@ -101,7 +101,7 @@ class Config
 	{
 		$json	= $this->data->toJson();
 		if( $this->format )
-			$json	= JsonFormat::format( $json );
+			$json	= JsonPretty::print( $json );
 		return FileWriter::save( $this->fileName, $json );
 	}
 

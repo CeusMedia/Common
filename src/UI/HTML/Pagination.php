@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Pagination System for limited Tables and Lists.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2005
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -39,7 +39,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2005
  */
 class Pagination extends OptionObject
 {
@@ -50,6 +49,7 @@ class Pagination extends OptionObject
 	 */
 	public function __construct( $options = [] )
 	{
+		parent::__construct();
 		if( !is_array( $options ) )
 			throw new InvalidArgumentException( 'Option map is not an array' );
 		$defaultOptions	= [
@@ -97,7 +97,7 @@ class Pagination extends OptionObject
 	 *	@param		int			$offset			Currently offset entries
 	 *	@return		string
 	 */
-	public function build( $amount, $limit, $offset = 0 )
+	public function build( int $amount, int $limit, int $offset = 0 ): string
 	{
 		$pages	= [];
 		if( $limit && $amount > $limit )
@@ -107,13 +107,13 @@ class Pagination extends OptionObject
 			$showFirstLast	= $this->getOption( 'showFirstLast' );
 			$showPrevNext	= $this->getOption( 'showFirstLast' );
 			//  reset invalid negative offsets
-			$offset		= ( (int)$offset >= 0 ) ? (int)$offset : 0;
+			$offset		= ( $offset >= 0 ) ? $offset : 0;
 			//  synchronise invalid offsets
 			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;
 			//  current page
 			$here		= ceil( $offset / $limit );
 			//  pages before
-			$before		= (int)$offset / (int)$limit;
+			$before		= $offset / $limit;
 
 				//  --  FIRST PAGE --  //
 			//  show first link
@@ -209,13 +209,12 @@ class Pagination extends OptionObject
 	/**
 	 *	Builds Paging Button.
 	 *	@access		protected
-	 *	@param		string		$text			Text or HTML of Paging Button Span
-	 *	@param		string		$classItem		Additive Style Class of Paging Button Span
-	 *	@param		int			$offset			Currently offset entries
-	 *	@param		string		$linkClass		Style Class of Paging Button Link
+	 *	@param		string			$text			Text or HTML of Paging Button Span
+	 *	@param		string|NULL		$class			Additive Style Class of Paging Button Span
+	 *	@param		int|NULL		$offset			Currently offset entries
 	 *	@return		string
 	 */
-	protected function buildButton( $text, $class, $offset = NULL )
+	protected function buildButton( string $text, ?string $class, ?int $offset = NULL ): string
 	{
 		$label	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
 		if( empty( $label ) )
@@ -224,8 +223,7 @@ class Pagination extends OptionObject
 		foreach( explode( " ", $class ) as $class )
 			$classes[]	= ( $class && $this->hasOption( $class ) ) ? $this->getOption( $class ) : $class;
 		$class	= implode( " ", $classes );
-		if( $offset !== NULL )
-		{
+		if( $offset !== NULL ){
 			$url		= $this->buildLinkUrl( $offset );
 #			if( $label == $text )
 #				$linkClass	.= " page";
@@ -235,23 +233,22 @@ class Pagination extends OptionObject
 			$label	= Tag::create( "span", $label, ['class' => $class] );
 #		if( $label == $text )
 #			$spanClass	.= " page";
-		return $this->buildItem( $label, NULL );
+		return $this->buildItem( $label);
 	}
 
 	/**
 	 *	Builds List Item of Pagination Link.
 	 *	@access		protected
-	 *	@param		string		$text			Text or HTML of Paging Button Span
-	 *	@param		string		$class			Additive Style Class of Paging Button Span
+	 *	@param		string			$text			Text or HTML of Paging Button Span
+	 *	@param		string|NULL		$class			Additive Style Class of Paging Button Span
 	 *	@return		string
 	 */
-	protected function buildItem( $text, $class = NULL )
+	protected function buildItem( string $text, ?string $class = NULL ): string
 	{
 		$list	= [];
 		if( $class )
 			$list[]	= $class;
-		$item	= Elements::ListItem( $text, 0, ['class' => $class] );
-		return $item;
+		return Elements::ListItem( $text, 0, $list );
 	}
 
 	/**
@@ -260,7 +257,7 @@ class Pagination extends OptionObject
 	 *	@param		int			$offset			Currently offset entries
 	 *	@return		string
 	 */
-	protected function buildLinkUrl( $offset )
+	protected function buildLinkUrl( int $offset ): string
 	{
 		$param	= $this->getOption( 'param' );
 		$param[$this->getOption( 'keyOffset' )] = $offset;
@@ -268,7 +265,6 @@ class Pagination extends OptionObject
 		foreach( $param as $key => $value )
 			$list[]	= $key.$this->getOption( 'keyAssign' ).$value;
 		$param	= implode( $this->getOption( 'keyParam' ), $list );
-		$link	= $this->getOption( 'uri' ).$this->getOption( 'keyRequest' ).$param;
-		return $link;
+		return  $this->getOption( 'uri' ).$this->getOption( 'keyRequest' ).$param;
 	}
 }

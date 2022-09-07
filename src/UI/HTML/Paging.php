@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Paging System for Lists.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2005
  */
 
 namespace CeusMedia\Common\UI\HTML;
@@ -39,7 +39,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2005
  */
 class Paging extends OptionObject
 {
@@ -50,6 +49,7 @@ class Paging extends OptionObject
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->setOption( 'uri',			"./" );
 		$this->setOption( 'param',			array() );
 		$this->setOption( 'coverage',		"2" );
@@ -84,24 +84,22 @@ class Paging extends OptionObject
 	 *	@param		int			$offset			Currently offset entries
 	 *	@return		string
 	 */
-	public function build( $amount, $limit, $offset )
+	public function build( int $amount, int $limit, int $offset ): string
 	{
 		$pages	= [];
-		if( $limit && $amount > $limit )
-		{
+		if( $limit && $amount > $limit ){
 			$cover		= $this->getOption( 'coverage' );
 			$extreme	= $this->getOption( 'extreme' );
 			$more		= $this->getOption( 'more' );
 			//  reset invalid negative offsets
-			$offset		= ( (int)$offset >= 0 ) ? (int)$offset : 0;
+			$offset		= ( $offset >= 0 ) ? $offset : 0;
 			//  synchronise invalid offsets
 			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;
 			//  current page
 			$here		= ceil( $offset / $limit );
 			//  pages before
-			$before		= (int)$offset / (int)$limit;
-			if( $before )
-			{
+			$before		= $offset / $limit;
+			if( $before ){
 				//  --  FIRST PAGE --  //
 				//  first page
 				if( $extreme && $before > $extreme )
@@ -121,8 +119,7 @@ class Paging extends OptionObject
 				//  previous pages
 				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )
 					$pages[]	= $this->buildButton( $i + 1, 'class_link', 'class_link', $i * $limit );
-/*				if( $this->getOption( 'key_previous' ) )
-				{
+/*				if( $this->getOption( 'key_previous' ) ){
 					$latest	= count( $pages ) - 1;
 					$button	= $this->buildButton( $i, 'class_link', 'class_link', ($i-1) * $limit, 'previous' );
 					$pages[$latest]	= $button;
@@ -133,12 +130,10 @@ class Paging extends OptionObject
 			$pages[]	= $this->buildButton( $here + 1, 'class_text' );
 			//  pages after
 			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );
-			if( $after )
-			{
+			if( $after ){
 				//  --  NEXT PAGES --  //
 				//  after pages
-				for( $i=0; $i<min( $cover, $after ); $i++ )
-				{
+				for( $i=0; $i<min( $cover, $after ); $i++ ){
 					$offset		= ( $here + $i + 1 ) * $limit;
 					$pages[]	= $this->buildButton( $here + $i + 2, 'class_link', 'class_link', $offset );
 				}
@@ -155,34 +150,32 @@ class Paging extends OptionObject
 
 				//  --  LAST PAGE --  //
 				//  last page
-				if( $extreme && $after > $extreme )
-				{
+				if( $extreme && $after > $extreme ){
 					$offset		= ( $here + $after ) * $limit;
 					$pages[]	= $this->buildButton( 'text_last', 'class_link', 'class_link', $offset );
 				}
 			}
 		}
-		$pages	= implode( $this->getOption( "linebreak" ), $pages );
-		return $pages;
+		return implode( $this->getOption( "linebreak" ), $pages );
 	}
 
 	/**
 	 *	Builds Paging Button.
 	 *	@access		protected
-	 *	@param		string		$text			Text or HTML of Paging Button Span
-	 *	@param		string		$spanClass		Additive Style Class of Paging Button Span
-	 *	@param		int			$offset			Currently offset entries
-	 *	@param		string		$linkClass		Style Class of Paging Button Link
+	 *	@param		string			$text			Text or HTML of Paging Button Span
+	 *	@param		string			$spanClass		Additive Style Class of Paging Button Span
+	 *	@param		int|NULL		$offset			Currently offset entries
+	 *	@param		string|NULL		$linkClass		Style Class of Paging Button Link
+	 *	@param		string|NULL		$key			Access Key
 	 *	@return		string
 	 */
-	protected function buildButton( $text, $spanClass, $linkClass = NULL, $offset = NULL, $key = NULL )
+	protected function buildButton( string $text, string $spanClass, ?string $linkClass = NULL, ?int $offset = NULL, ?string $key = NULL ): string
 	{
 		$label	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
 		if( empty( $label ) )
 			throw new InvalidArgumentException( 'Button Label cannot be empty.' );
 		$spanClass	= $this->getOption( $spanClass ) ? $this->getOption( $spanClass ) : "";
-		if( $offset !== NULL )
-		{
+		if( $offset !== NULL ){
 			$linkClass	= (string) $this->getOption( $linkClass );
 			$url		= $this->buildLinkUrl( $offset );
 			$key		= $key ? $this->getOption( 'key_'.$key ) : "";
@@ -201,7 +194,7 @@ class Paging extends OptionObject
 	 *	@param		int			$offset			Currently offset entries
 	 *	@return		string
 	 */
-	protected function buildLinkUrl( $offset )
+	protected function buildLinkUrl( int $offset ): string
 	{
 		$param	= $this->getOption( 'param' );
 		$param[$this->getOption( 'key_offset' )] = $offset;
@@ -209,21 +202,19 @@ class Paging extends OptionObject
 		foreach( $param as $key => $value )
 			$list[]	= $key.$this->getOption( 'key_assign' ).$value;
 		$param	= implode( $this->getOption( 'key_param' ), $list );
-		$link	= $this->getOption( 'uri' ).$this->getOption( 'key_request' ).$param;
-		return $link;
+		return $this->getOption( 'uri' ).$this->getOption( 'key_request' ).$param;
 	}
 
 	/**
 	 *	Builds Span Link of Paging Button.
 	 *	@access		protected
-	 *	@param		string		$text			Text or HTML of Paging Button Span
-	 *	@param		string		$class			Additive Style Class of Paging Button Span
+	 *	@param		string			$text			Text or HTML of Paging Button Span
+	 *	@param		string|NULL		$class			Additive Style Class of Paging Button Span
 	 *	@return		string
 	 */
-	protected function buildSpan( $text, $class = NULL )
+	protected function buildSpan( string $text, ?string $class = NULL ): string
 	{
 		$class 	= $class ? $this->getOption( 'class_span' )." ".$class : $this->getOption( 'class_span' );
-		$span	= Tag::create( "span", $text, ['class' => $class] );
-		return $span;
+		return Tag::create( "span", $text, ['class' => $class] );
 	}
 }

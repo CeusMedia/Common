@@ -7,9 +7,8 @@ class CodeMirror
 
 	protected $theme	= [];
 
-	protected $options	= array(
+	protected $options	= [
 		'lineNumbers'				=> TRUE,
-		'matchBrackets'				=> TRUE,
 		'mode'						=> "application/x-httpd-php",
 		'indentUnit'				=> 4,
 		'indentWithTabs'			=> TRUE,
@@ -19,9 +18,9 @@ class CodeMirror
 		'enterMode'					=> "keep",
 		'highlightSelectionMatches'	=> TRUE,
 		'matchBrackets'				=> TRUE,
-	);
+	];
 
-	public function build( $textareaSelector, $options = [] )
+	public function build( string $textareaSelector, array $options = [] ): string
 	{
 		$options	= array_merge( $this->options, $options );
 		ksort( $options );
@@ -34,18 +33,18 @@ $("'.$textareaSelector.'").each(function(){
 		return $script;
 	}
 
-	public function getOptions()
+	public function getOptions(): array
 	{
 		return $this->options;
 	}
 
-	public function setMode( $mode ): self
+	public function setMode( string $mode ): self
 	{
 		$this->setOption( 'mode', $mode );
 		return $this;
 	}
 
-	public function setOption( $key, $value ): self
+	public function setOption( string $key, $value ): self
 	{
 		if( is_null( $value ) ){
 			if( isset( $this->options[$key] ) )
@@ -56,13 +55,13 @@ $("'.$textareaSelector.'").each(function(){
 		return $this;
 	}
 
-	public function setReadOnly( $status = TRUE ): self
+	public function setReadOnly( bool $status = TRUE ): self
 	{
-		$this->setOption( 'readonly', (bool) $status );
+		$this->setOption( 'readonly', $status );
 		return $this;
 	}
 
-	public function setTheme( $theme ): self
+	public function setTheme( string $theme ): self
 	{
 		$this->setOption( 'theme', $theme );
 		return $this;

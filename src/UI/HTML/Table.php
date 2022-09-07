@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -42,20 +43,25 @@ use InvalidArgumentException;
 class Table
 {
 	protected $bodyRows	= [];
+
 	protected $footRows	= [];
+
 	protected $headRows	= [];
+
 	protected $summary	= NULL;
+
 	protected $columns	= [];
+
 	protected $caption	= NULL;
+
 	protected $class	= NULL;
+
 	protected $id		= NULL;
 
-	public function __construct( $attributes = [] )
+	public function __construct( array $attributes = [] )
 	{
-		foreach( $attributes as $key => $value )
-		{
-			switch( $key )
-			{
+		foreach( $attributes as $key => $value ){
+			switch( $key ){
 				case 'caption':
 					$this->setCaption( $value );
 					break;
@@ -83,10 +89,9 @@ class Table
 					break;
 			}
 		}
-
 	}
 
-	public function addCell( $label, $attributes = [] )
+	public function addCell( string $label, array $attributes = [] ): self
 	{
 		if( !$this->bodyRows )
 			$this->bodyRows[]	= [];
@@ -94,62 +99,66 @@ class Table
 		if( empty( $label ) )
 			$label	= "&#160;";
 		$this->bodyRows[$current][]	= Tag::create( "td", $label, $attributes );
+		return $this;
 	}
 
-	public function addColumn( $column )
+	public function addColumn( string $column ): self
 	{
 		if( !$this->columns )
 			$this->columns[]	= [];
 		$current	= count( $this->columns ) - 1;
 		$this->columns[$current][]	= $column;
+		return $this;
 	}
 
-	public function addColumns( $columns = [] )
+	public function addColumns( array $columns = [] ): self
 	{
 		$this->columns[]	= [];
 		if( is_string( $columns ) )
 			$columns	= explode( ",", $columns );
 		foreach( $columns as $value )
 			$this->addColumn( $value );
+		return $this;
 	}
 
-	public function addFoot( $label, $attributes = [] )
+	public function addFoot( string $label, array $attributes = [] ): self
 	{
 		if( !$this->footRows )
 			$this->footRows[]	= [];
 		$current	= count( $this->footRows ) - 1;
 		$this->footRows[$current][]	= Tag::create( "td", $label, $attributes );
+		return $this;
 	}
 
-	public function addFoots( $foots )
+	public function addFoots( array $foots ): self
 	{
 		$this->footRows[]	= [];
-		foreach( $foots as $key => $value )
-		{
+		foreach( $foots as $key => $value ){
 			if( is_int( $key ) && is_string( $value ) )
 				$this->addFoot( $value );
 			else if( is_string( $key ) && is_array( $value ) )
 				$this->addFoot( $key, $value );
 			else
-				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.$gettype( $value ) );
+				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.gettype( $value ) );
 		}
+		return $this;
 	}
 
-	public function addHead( $label, $attributes = [] )
+	public function addHead( string $label, array $attributes = [] ): self
 	{
 		if( !$this->headRows )
 			$this->headRows[]	= [];
 		$current				= count( $this->headRows ) - 1;
-		$attributes['scope']	= isset( $attributes['scope'] ) ? $attributes['scope'] : 'col';
+		$attributes['scope']	= $attributes['scope'] ?? 'col';
 		$tag					= Tag::create( "th", $label, $attributes );
 		$this->headRows[$current][]	= $tag;
+		return $this;
 	}
 
-	public function addHeads( $heads )
+	public function addHeads( array $heads ): self
 	{
 		$this->headRows[]	= [];
-		foreach( $heads as $key => $value )
-		{
+		foreach( $heads as $key => $value ){
 			if( is_int( $key ) && is_array( $value ) )
 				$this->addHeads( $value );
 			else if( is_int( $key ) && is_string( $value ) )
@@ -159,13 +168,13 @@ class Table
 			else
 				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.gettype( $value ) );
 		}
+		return $this;
 	}
 
-	public function addRow( $cells = [] )
+	public function addRow( array $cells = [] )
 	{
 		$this->bodyRows[]	= [];
-		foreach( $cells as $key => $value )
-		{
+		foreach( $cells as $key => $value ){
 			if( is_int( $key ) && is_string( $value ) )
 				$this->addCell( $value );
 			else if( is_string( $key ) && is_array( $value ) )
@@ -175,7 +184,7 @@ class Table
 		}
 	}
 
-	public function render( $comment = "TEST" )
+	public function render( ?string $comment = "TEST" ): string
 	{
 		$start	= $comment ? "\n<!--  TABLE: ".$comment." >>  -->\n" : "";
 		$end	= $comment ? "\n<!--  << TABLE: ".$comment."  -->\n" : "";
@@ -219,23 +228,27 @@ class Table
 		return $start.$table.$end;
 	}
 
-	public function setCaption( $label )
+	public function setCaption( ?string $label ): self
 	{
 		$this->caption	= $label;
+		return $this;
 	}
 
-	public function setClass( $class )
+	public function setClass( ?string $class ): self
 	{
 		$this->class	= $class;
+		return $this;
 	}
 
-	public function setId( $id )
+	public function setId( ?string $id ): self
 	{
 		$this->id	= $id;
+		return $this;
 	}
 
-	public function setSummary( $label )
+	public function setSummary( ?string $label ): self
 	{
 		$this->summary	= $label;
+		return $this;
 	}
 }

@@ -206,7 +206,7 @@ class Template
 	 *	@param		mixed		$object
 	 *	@param		array		$steps			Steps within recursion
 	 *	@param		bool		$overwrite		Flag: overwrite existing tag
-	 *	@return		void
+	 *	@return		int
 	 */
 	public function addObject( string $name, $object, array $steps = [], bool $overwrite = FALSE ): int
 	{

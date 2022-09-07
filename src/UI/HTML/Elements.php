@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnnecessaryLocalVariableInspection */
+<?php /** @noinspection HtmlDeprecatedTag */
+/** @noinspection XmlDeprecatedElement */
+/** @noinspection PhpUnused */
+/** @noinspection HtmlDeprecatedAttribute */
+/** @noinspection PhpUnnecessaryLocalVariableInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -286,7 +290,7 @@ class Elements extends FormElements
 	 *	@param		integer		$colspan			Anzahl der überstreckten Spalten
 	 *	@return		string
 	 */
-	public static function Field( string $field_id, $field_element, string $class = "field", string $suffix = "", int $colspan = 1 ): string
+	public static function FieldCell( string $field_id, $field_element, string $class = "field", string $suffix = "", int $colspan = 1 ): string
 	{
 		$ins_id		= $field_id ? " id=\"fld_".$field_id."\"" : "";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -321,11 +325,11 @@ class Elements extends FormElements
 	{
 		$attributes	= array(
 			'src'		=> $url,
-			'class'		=> $class		? $class : NULL,
-			'width'		=> $width		? $width : NULL,
-			'height'	=> $height		? $height : NULL,
-			'alt'		=> $title		? $title : NULL,
-			'title'		=> $title		? $title : NULL,
+			'class'		=> $class		?: NULL,
+			'width'		=> $width		?: NULL,
+			'height'	=> $height		?: NULL,
+			'alt'		=> $title		?: NULL,
+			'title'		=> $title		?: NULL,
 			'hspace'	=> 0,
 			'vspace'	=> 0,
 		);
@@ -337,38 +341,34 @@ class Elements extends FormElements
 	 *	Erzeugt HTML-Code einer Feldbeschriftung.
 	 *	@access		public
 	 *	@static
-	 *	@param		mixed		$label_name		interner Name des Beschriftungsfeldes
-	 *	@param		mixed		$label_text		Inhalt des Beschriftungsfeldes
-	 *	@param		string		$class			CSS-Klasse
-	 *	@param		array		$icons			Array mit Icons vor dem Eingabefeld
+	 *	@param		string			$labelName		interner Name des Beschriftungsfeldes
+	 *	@param		string			$labelText		Inhalt des Beschriftungsfeldes
+	 *	@param		string			$class			CSS-Klasse
+	 *	@param		array|string	$icons			Array mit Icons vor dem Eingabefeld
 	 *	@return		string
 	 */
-	public static function Label( $label_name, $label_text, string $class = 'label', array $icons = [] ): string
+	public static function LabelCell( string $labelName, string $labelText, string $class = 'label', $icons = [] ): string
 	{
-		if( !is_array( $icons ) ){
-			if( $icons )
-				$icons = [$icons];
-			else
-				$icons = [];
-		}
-		if( sizeof( $icons ) && $label_name ){
+		if( !is_array( $icons ) )
+			$icons = $icons ? [$icons] : [];
+		if( sizeof( $icons ) && $labelName ){
 			$ins_icons = "";
 			foreach( $icons as $icon )
 				if( trim( $icon ) )
 					$ins_icons .= "<td>".$icon."</td>";
-			$code = "<td".$ins_width.">
+			$code = "<td>
 			<table cellpadding='0' cellspacing='0' border='0' width='100%'>
 			  <tr>
-				<td class='label' id='lbl_".$label_name."'><label for='".$label_name."'>".$label_text."</label></td>
-				<td class='prefix' id='ico_".$label_name."' align='right' valign='middle'>
+				<td class='label' id='lbl_".$labelName."'><label for='".$labelName."'>".$labelText."</label></td>
+				<td class='prefix' id='ico_".$labelName."' align='right' valign='middle'>
 				  <table cellpadding='0' cellspacing='0' border='0'><tr>".$ins_icons."</tr></table></td>
 			  </tr>
 			</table>";
 		}
 		else{
-			$ins_id		= $label_name ? " id=\"lbl_".$label_name."\"" : "";
+			$ins_id		= $labelName ? " id=\"lbl_".$labelName."\"" : "";
 			$ins_class	= $class ? " class=\"".$class."\"" : "";
-			$label		= $label_name ? "<label for='".$label_name."'>".$label_text."</label>" : $label_text;
+			$label		= $labelName ? "<label for='".$labelName."'>".$labelText."</label>" : $labelText;
 			$code		= "<td".$ins_id.$ins_class.">".$label."</td>";
 		}
 		return $code;
@@ -378,31 +378,30 @@ class Elements extends FormElements
 	 *	Erzeugt HTML-Code eines Links.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$url			URL des Links
-	 *	@param		string		$name			Name des Links
-	 *	@param		string		$class			CSS-Klasse des Links
-	 *	@param		string		$target			Zielframe des Links
-	 *	@param		string		$confirm		Bestätigungstext des Links
-	 *	@param		int			$tabindex		Tabulatur-Index
-	 *	@param		string		$key			Access Key (eindeutiger Buchstabe)
-	 *	@param		bool		$relation		Relation (nofollow,licence,...)
+	 *	@param		string			$url			URL des Links
+	 *	@param		string			$name			Name des Links
+	 *	@param		string|NULL		$class			CSS-Klasse des Links
+	 *	@param		string|NULL		$target			Zielframe des Links
+	 *	@param		string|NULL		$confirm		Bestätigungstext des Links
+	 *	@param		int|NULL		$tabindex		Tabulatur-Index
+	 *	@param		string|NULL		$key			Access Key (eindeutiger Buchstabe)
+	 *	@param		string|NULL		$relation		Relation (nofollow,licence,...)
 	 *	@return		string
 	 */
-	public static function Link( $url, $name, $class = NULL, $target = NULL, $confirm = NULL, $tabindex = NULL, $key = NULL, $relation = NULL ): string
+	public static function Link( string $url, string $name, ?string $class = NULL, ?string $target = NULL, ?string $confirm = NULL, ?int $tabindex = NULL, ?string $key = NULL, ?string $relation = NULL ): string
 	{
 		$url = str_replace( '"', "'", $url );
 		$url = str_replace( "&", "&amp;", $url );
 		$attributes	= array(
 			'href'		=> $url,
-			'class'		=> $class		? $class : NULL,
-			'accesskey'	=> $key			? $key : NULL,
-			'tabindex'	=> $tabindex	? $tabindex : NULL,
-			'target'	=> $target		? $target : NULL,
-			'rel'		=> $relation	? $relation : NULL,
+			'class'		=> $class		?: NULL,
+			'accesskey'	=> $key			?: NULL,
+			'tabindex'	=> $tabindex	?: NULL,
+			'target'	=> $target		?: NULL,
+			'rel'		=> $relation	?: NULL,
 			'onclick'	=> $confirm		? "return confirm('".$confirm."')" : NULL,
 		);
-		$link	= Tag::create( "a", $name, $attributes );
-		return $link;
+		return Tag::create( "a", $name, $attributes );
 	}
 
 	/**
@@ -414,36 +413,35 @@ class Elements extends FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function ListItem( $content, $level = 0, $attributes = [] ): string
+	public static function ListItem( string $content, int $level = 0, array $attributes = [] ): string
 	{
-		$depth	= 2 * abs( (int) $level ) + 1;
+		$depth	= 2 * abs( $level ) + 1;
 		$indent	= str_repeat( "  ", $depth );
 		$tag	= Tag::create( "li", $content, $attributes );
-		$code	= $indent.$tag;
-		return $code;
+		return $indent.$tag;
 	}
 
 	/**
 	 *	Build ordered List from List Items.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$content			Content of List Item
+	 *	@param		array		$items			Content of List Item
 	 *	@param		int			$level			Level of Indenting
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function orderedList( $items, $level = 0, $attributes = [] ): string
+	public static function orderedList( array $items, int $level = 0, array $attributes = [] ): string
 	{
 		$content	= "\n".implode( "\n", $items )."\n";
-		$indent		= str_repeat( "	", 2 * abs( (int) $level ) );
+		$indent		= str_repeat( "	", 2 * abs( $level ) );
 		$tag		= Tag::create( "ol", $content, $attributes );
 		$code		= $indent.$tag;
 		return $code;
 	}
 
-	public static function Preview( $html, $url, $title, $zoom = false ): string
+	public static function Preview( string $html, string $url, string $title, bool $zoom = FALSE ): string
 	{
-		$id	= uniqid( "" );
+		$id	= uniqid();
 		$class	= $zoom ? "preview_zoom" : "preview";
 		$ins_zoom	= "";
 		if( $zoom )
@@ -462,13 +460,12 @@ class Elements extends FormElements
 	 * Erzeugt HTML-Code einer horizontale und vertikale Trennzeile.
 	 *	@access		public
 	 *	@static
-	 *	@param		int			$colspan			Name des Formulars
+	 *	@param		int			$colspan		Name des Formulars
 	 *	@param		int			$rowspan		URL der Aktion
-	 *	@param		int			$strength		Stärke der Linie
 	 *	@param		string		$class			CSS-Klasse
 	 *	@return		string
 	 */
-	public static function Separator( $colspan = 3, $rowspan = 1, $class = "inline" ): string
+	public static function Separator( int $colspan = 3, int $rowspan = 1, string $class = "inline" ): string
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_colspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
@@ -481,40 +478,39 @@ class Elements extends FormElements
 	 *	Erzeugt HTML-Code einer Tabelle.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$content			Inhalt der Tabelle
+	 *	@param		string		$content		Inhalt der Tabelle
 	 *	@param		string		$class 			CSS Style Klasse
-	 *	@param		int			$width			Breite der Tabelle
+	 *	@param		string		$width			Breite der Tabelle
 	 *	@param		int			$border			Rahmendicke der Tabelle
-	 *	@param		int			$padding			Innenabstand der Tabelle
-	 *	@param		int			$spacing			Zellenabstand
+	 *	@param		int			$padding		Innenabstand der Tabelle
+	 *	@param		int			$spacing		Zellenabstand
 	 *	@return		string
 	 */
-	public static function Table( $content, $class = "filledframe", $width = "100%", $border = 0, $padding = 0, $spacing = 0 ): string
+	public static function Table( string $content, string $class = "filledframe", string $width = "100%", int $border = 0, int $padding = 0, int $spacing = 0 ): string
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_width	= $width ? " width=\"".$width."\"" : "";
 		$ins_border	= $border ? " border=\"".$border."\"" : "";
 		$ins_padding	= " cellpadding=\"".$padding."\"";
 		$ins_spacing	= " cellspacing=\"".$spacing."\"";
-		$code = "<table".$ins_class.$ins_width.$ins_border.$ins_padding.$ins_spacing.">".$content."</table>\n";
-		return $code;
+		return "<table".$ins_class.$ins_width.$ins_border.$ins_padding.$ins_spacing.">".$content."</table>\n";
 	}
 
 	/**
 	 *	Erzeugt eine Überschriftzeile für Tabellen als HTML-Code.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$caption 			Inhalt der Überschrift
+	 *	@param		string		$caption 		Inhalt der Überschrift
 	 *	@param		string		$class 			CSS Style Klasse
-	 *	@param		string		$checktable_id	ID der CheckTable
+	 *	@param		string		$checkTableId	ID der CheckTable
 	 *	@return		string
 	 */
-	public static function TableCaption( $caption, $class = '', $checktable_id = "" ): string
+	public static function TableCaption( string $caption, string $class = '', string $checkTableId = '' ): string
 	{
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_check	= $checktable_id ? " onClick=\"ct.switchTable('".$checktable_id."');\"" : "";
+		$insClass	= $class ? " class=\"".$class."\"" : "";
+		$insCheck	= $checkTableId ? " onClick=\"ct.switchTable('".$checkTableId."');\"" : "";
 		$span		= Tag::create( "span", $caption );
-		$code		= "<caption".$ins_class.$ins_check.">".$span."</caption>";
+		$code		= "<caption".$insClass.$insCheck.">".$span."</caption>";
 		return $code;
 	}
 
@@ -523,18 +519,17 @@ class Elements extends FormElements
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$heading 		Inhalt der Überschrift
-	 *	@param		int			$colspan 			Spaltenanzahl der Tabelle
+	 *	@param		int			$colspan 		Spaltenanzahl der Tabelle
 	 *	@param		string		$class 			CSS Style Klasse
 	 *	@return		string
 	 */
-	public static function TableHeading( $heading, $colspan = 3, $class = 'tabhead' ): string
+	public static function TableHeading( string $heading, int $colspan = 3, string $class = 'tabhead' ): string
 	{
 		$code = "";
-		if( $heading )
-		{
-			$ins_class	= $class ? " class=\"".$class."\"" : "";
-			$ins_colspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
-			$code = "  <tr><th".$ins_class.$ins_colspan.">".$heading."</th></tr>\n";
+		if( $heading ){
+			$insClass	= $class ? " class=\"".$class."\"" : "";
+			$insColspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
+			$code = "  <tr><th".$insClass.$insColspan.">".$heading."</th></tr>\n";
 		}
 		return $code;
 	}
@@ -545,37 +540,36 @@ class Elements extends FormElements
 	 *	@static
 	 *	@param		array		$heads 		Inhalte der Überschriften
 	 *	@param		string		$class 		CSS Style Klasse
+	 *	@param		int			$colspan 	...
 	 *	@return		string
 	 */
-	public static function TableHeads( $heads, $class = '', $colspan = 0 ): string
+	public static function TableHeads( array $heads, string $class = '', int $colspan = 0 ): string
 	{
 		$cols		= [];
 		$class		= $class ? " class=\"".$class."\"" : "";
 		$colspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
 		foreach( $heads as $head )
 			$cols[]	= "<th".$class.$colspan.">".$head."</th>";
-		$code	= "<tr>".implode( "", $cols )."</tr>";
-		return $code;
+		return "<tr>".implode( "", $cols )."</tr>";
 	}
 
 	/**
 	 *	Build unordered List from List Items.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$content			Content of List Item
+	 *	@param		array		$items			Content of List Item
 	 *	@param		int			$level			Level of Indenting
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static function unorderedList( $items, $level = 0, $attributes = [] ): string
+	public static function unorderedList( array $items, int $level = 0, array $attributes = [] ): string
 	{
-		$depth1		= 2 * abs( (int) $level );
-		$depth2		= $level ? 2 * abs( (int) $level - 1 ) + 1 : 0;
+		$depth1		= 2 * abs( $level );
+		$depth2		= $level ? 2 * abs( $level - 1 ) + 1 : 0;
 		$indent1	= str_repeat( "  ", $depth1 );
 		$indent2	= str_repeat( "  ", $depth2 );
 		$content	= "\n".implode( "\n", $items )."\n".$indent1;
 		$tag		= Tag::create( "ul", $content, $attributes );
-		$code		= $indent1.$tag."\n".$indent2;
-		return $code;
+		return $indent1.$tag."\n".$indent2;
 	}
 }

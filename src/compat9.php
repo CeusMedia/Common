@@ -394,7 +394,6 @@ namespace CeusMedia\Common\Net\XMPP\XMPPHP{
 namespace CeusMedia\Common\UI{
 	class Template extends \UI_Template{}
 	class VariableDumper extends \UI_VariableDumper{}
-	class ClassParser extends \UI_ClassParser{}
 	class Text extends \UI_Text{}
 	class OutputBuffer extends \UI_OutputBuffer{}
 	class Image extends \UI_Image{}

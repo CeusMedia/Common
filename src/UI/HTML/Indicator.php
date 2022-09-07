@@ -100,7 +100,7 @@ class Indicator extends OptionObject
 		}
 		if( $this->getOption( 'useColorAtBorder' ) ){
 			$color	= $this->getColorFromRatio( $ratio );
-			$divIndicator->setAttribute( 'style', "border-color: rgb(".$color[0].",".$color[1].",".$color[2].")" );
+			$divIndicator->setAttribute( 'style', sprintf("border-color: rgb(%s,%s,%s)", $color[0], $color[1], $color[2]));
 		}
 		return $divIndicator->build();
 	}
@@ -199,28 +199,25 @@ class Indicator extends OptionObject
 	 */
 	protected function renderBar( float $ratio, int $length = 100 ): string
 	{
-		$css			= [];
-//		$width			= floor( $ratio * $length );
-		$width			= max( 0, min( 100, $ratio * 100 ) );
-		$css['width']	= $width.'%';
+		$width		= max( 0, min( 100, $ratio * 100 ) );
+		$cssDiv		= ['width' => $width.'%'];
+		$cssSpan	= [];
 		if( $this->getOption( 'useColor' ) ){
 			$color	= $this->getColorFromRatio( $ratio );
-			$css['background-color']	= "rgb(".$color[0].",".$color[1].",".$color[2].")";
+			$cssDiv['background-color']	= sprintf("rgb(%s,%s,%s)", $color[0], $color[1], $color[2]);
+			if( $this->getOption( 'useColorAtBorder' ) )
+				$cssSpan['border-color']	= sprintf("rgb(%s,%s,%s)", $color[0], $color[1], $color[2]);
 		}
 
-		$attributes	= array(
+		$bar	= Tag::create( 'div', "", [
 			'class'	=> $this->getOption( 'classInner' ),
-			'style'	=> $css,
-		);
-		$bar		= Tag::create( 'div', "", $attributes );
+			'style'	=> $cssDiv,
+		] );
 
 		$attributes	= ['class' => $this->getOption( 'classOuter' )];
-		$css		= [];
 		if( $length !== 100 )
-			$css['width']	= preg_match( "/%$/", $length ) ? $length : $length.'px';
-		if( $this->getOption( 'useColor' ) && $this->getOption( 'useColorAtBorder' ) )
-			$css['border-color']	= "rgb(".$color[0].",".$color[1].",".$color[2].")";
-		$attributes['style']	= $css;
+			$cssSpan['width']	= preg_match( "/%$/", $length ) ? $length : $length.'px';
+		$attributes['style']	= $cssSpan;
 		return Tag::create( "span", $bar, $attributes );
 	}
 
@@ -233,7 +230,7 @@ class Indicator extends OptionObject
 	protected function renderPercentage( float $ratio ): string
 	{
 		if( !$this->getOption( 'usePercentage' ) )
-			return "";
+			return '';
 		$value		= floor( $ratio * 100 )."&nbsp;%";
 		$attributes	= ['class' => $this->getOption( 'classPercentage' )];
 		return Tag::create( "span", $value, $attributes );

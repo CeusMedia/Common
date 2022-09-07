@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
  *
@@ -27,6 +28,8 @@
 
 namespace CeusMedia\Common\UI\HTML;
 
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Renderable;
 use InvalidArgumentException;
 use OutOfRangeException;
 
@@ -76,7 +79,7 @@ class PageFrame
 	 *	@param		string		$styleType		Default Stylesheet MIME-Type
 	 *	@return		void
 	 */
-	public function __construct( $docType = "XHTML_10_STRICT", $language = "en", $charset = "UTF-8", $scriptType = "text/javascript", $styleType = "text/css" )
+	public function __construct( string $docType = "XHTML_10_STRICT", string $language = "en", string $charset = "UTF-8", string $scriptType = "text/javascript", string $styleType = "text/css" )
 	{
 		$this->setDocType( $docType );
 		$this->setLanguage( $language );
@@ -95,23 +98,24 @@ class PageFrame
 	/**
 	 *	Adds further HTML to Body.
 	 *	@access		public
-	 *	@param		string		$string			HTML String for Head
-	 *	@return		void
+	 *	@param		string|Renderable		$string			HTML String for Head
+	 *	@return		self
 	 */
-	public function addBody( $string )
+	public function addBody( $string ): self
 	{
-		$this->body[]	= $string;
+		$this->body[]	= is_string( $string ) ?: $string->render();
+		return $this;
 	}
 
 	/**
 	 *	Adds a favourite Icon to the Page (supports ICO and other Formats).
 	 *	@access		public
-	 *	@param		string		$url			URL of Icon or Image
-	 *	@return		void
-	 *	@since		0.6.7
+	 *	@param		string|URL		$url			URL of Icon or Image
+	 *	@return		self
 	 */
-	public function addFavouriteIcon( $url )
+	public function addFavouriteIcon( $url ): self
 	{
+		$url	= !$url instanceof URL ?: $url->get();
 		$ext	= strtolower( pathinfo( $url, PATHINFO_EXTENSION ) );
 		$type	= "image/x-icon";
 		if( $ext === 'png' )
@@ -123,54 +127,59 @@ class PageFrame
 			'type'		=> $type,
 			'href'		=> $url,
 		];
+		return $this;
 	}
 
 	/**
 	 *	Adds further HTML to Head.
 	 *	@access		public
-	 *	@param		string		$string			HTML String for Head
-	 *	@return		void
+	 *	@param		string|Renderable		$string			HTML String for Head
+	 *	@return		self
 	 */
-	public function addHead( $string )
+	public function addHead( $string ): self
 	{
-		$this->head[]	= $string;
+		$this->head[]	= !$string instanceof Renderable ?: $string->render();
+		return $this;
 	}
 
 	/**
-	 *	Adds a Java Script Link to Head.
+	 *	Adds a JavaScript Link to Head.
 	 *	@access		public
-	 *	@param		string		$uri			URI to Script
-	 *	@param		string		$type			MIME Type of Script
-	 *	@param		string		$charset		Charset of Script
-	 *	@return		void
+	 *	@param		string|URL		$uri			URI to Script
+	 *	@param		string|NULL		$type			MIME Type of Script
+	 *	@param		string|NULL		$charset		Charset of Script
+	 *	@return		self
 	 */
-	public function addJavaScript( $uri, $type = NULL, $charset = NULL )
+	public function addJavaScript( $uri, ?string $type = NULL, ?string $charset = NULL ): self
 	{
 		$typeDefault	= 'text/javascript';
 		if( isset( $this->metaTags["http-equiv:content-script-type"] ) )
 			$typeDefault	= $this->metaTags["http-equiv:content-script-type"]['content'];
 		$scriptData	= [
-			'type'		=> $type ? $type : $typeDefault,
-			'charset'	=> $charset ? $charset : NULL,
-			'src'		=> $uri,
+			'type'		=> $type ?: $typeDefault,
+			'charset'	=> $charset ?: NULL,
+			'src'		=> !$uri instanceof URL ?: $uri->get(),
 		];
 		$this->scripts[]	= $scriptData;
+		return $this;
 	}
 
 	/**
 	 *	Adds link to head.
 	 *	@access		public
-	 *	@param		string		$uri			URI to linked resource
-	 *	@param		string		$relation		Relation to resource like stylesheet, canonical etc.
-	 *	@param		string		$type			Type of resource
-	 *	@return		void
+	 *	@param		string|URL		$uri			URI to linked resource
+	 *	@param		string			$relation		Relation to resource like stylesheet, canonical etc.
+	 *	@param		string|NULL		$type			Type of resource
+	 *	@return		self
 	 */
-	public function addLink( $uri, $relation, $type = NULL ){
+	public function addLink( $uri, string $relation, ?string $type = NULL ): self
+	{
 		$this->links[]	= [
-			'uri'		=> $uri,
+			'uri'		=> !$uri instanceof URL ?: $uri->get(),
 			'rel'		=> $relation,
 			'type'		=> $type
 		];
+		return $this;
 	}
 
 	/**
@@ -179,55 +188,62 @@ class PageFrame
 	 *	@param		string		$type			Meta Tag Key Type (name|http-equiv)
 	 *	@param		string		$key			Meta Tag Key Name
 	 *	@param		string		$value			Meta Tag Value
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addMetaTag( $type, $key, $value )
+	public function addMetaTag( string $type, string $key, string $value ): self
 	{
 		$metaData	= [
 			$type		=> $key,
 			'content'	=> $value,
 		];
 		$this->metaTags[strtolower( $type.":".$key )]	= $metaData;
+		return $this;
 	}
 
-	public function addPrefix( $prefix, $namespace )
+	public function addPrefix( string $prefix, string $namespace ): self
 	{
-		$this->prefixes[$prefix]	= $namespace;
+		$this->prefixes[$prefix]	= !$namespace instanceof URL ?: $namespace->get();
+		return $this;
 	}
 
-	public function addScript( $script, $type = "text/javascript" ){
+	public function addScript( string $script, string $type = "text/javascript" ): self
+	{
 		$this->addHead( Tag::create( 'script', $script, ['type' => $type] ) );
+		return $this;
 	}
 
 	/**
 	 *	Adds a Stylesheet Link to Head.
 	 *	@access		public
-	 *	@param		string		$uri			URI to CSS File
-	 *	@param		string		$media			Media Type (all|screen|print|...), default: screen
-	 *	@param		string		$type			Content Type, by default 'text/css'
-	 *	@return		void
+	 *	@param		string|URL		$uri			URI to CSS File
+	 *	@param		string			$media			Media Type (all|screen|print|...), default: screen
+	 *	@param		string|NULL		$type			Content Type, by default 'text/css'
+	 *	@return		self
 	 *	@see		http://www.w3.org/TR/html4/types.html#h-6.13
 	 */
-	public function addStylesheet( $uri, $media = "all", $type = NULL )
+	public function addStylesheet( $uri, string $media = "all", ?string $type = NULL ): self
 	{
 		$typeDefault	= 'text/css';
 		if( isset( $this->metaTags["http-equiv:content-style-type"] ) )
 			$typeDefault	= $this->metaTags["http-equiv:content-style-type"]['content'];
 		$styleData	= [
 			'rel'		=> "stylesheet",
-			'type'		=> $type ? $type : $typeDefault,
+			'type'		=> $type ?: $typeDefault,
 			'media'		=> $media,
-			'href'		=> $uri,
+			'href'		=> !$uri instanceof URL ?: $uri->get(),
 		];
 		$this->links[]	= $styleData;
+		return $this;
 	}
 
 	/**
 	 *	Builds Page Frame HTML.
 	 *	@access		public
+	 *	@param		array		$bodyAttributes
+	 *	@param		array		$htmlAttributes
 	 *	@return		string
 	 */
-	public function build( $bodyAttributes = [], $htmlAttributes = [] )
+	public function build( array $bodyAttributes = [], array $htmlAttributes = [] ): string
 	{
 		if( !is_array( $bodyAttributes ) )
 			throw new InvalidArgumentException( 'Parameter "bodyAttributes" need to be an array or empty' );
@@ -297,71 +313,76 @@ class PageFrame
 	 *	@param		string		$separator		Glue between added body blocks
 	 *	@return		string
 	 */
-	public function getBody( $separator = "\n" )
+	public function getBody( string $separator = "\n" ): string
 	{
 		return join( $separator, $this->body );
 	}
 
-	public function getLanguage(){
+	public function getLanguage(): string
+	{
 		return $this->language;
 	}
 
 	/**
 	 *	Returns set page title.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getTitle(){
+	public function getTitle(): ?string
+	{
 		return $this->title;
 	}
 
 	/**
 	 *	Sets base URI for all referencing resources.
 	 *	@access		public
-	 *	@param		string		$uri			Base URI for all referencing resources
-	 *	@return		void
+	 *	@param		string|URL		$uri			Base URI for all referencing resources
+	 *	@return		self
 	 */
-	public function setBaseHref( $uri )
+	public function setBaseHref( $uri ): self
 	{
-		$this->baseHref	= $uri;
+		$this->baseHref	= !$uri instanceof URL ?: $uri->get();
+		return $this;
 	}
 
 	/**
 	 *	Sets body of HTML page.
 	 *	@access		public
-	 *	@param		string		$string			Body of HTML page
-	 *	@return		void
+	 *	@param		string|Renderable		$string			Body of HTML page
+	 *	@return		self
 	 */
-	public function setBody( $string )
+	public function setBody( $string ): self
 	{
-		$this->body		= [$string];
+		$this->body		= [!$string instanceof Renderable ?: $string->render()];
+		return $this;
 	}
 
 	/**
 	 *	Sets canonical link.
 	 *	Removes link having been set before.
 	 *	@access		public
-	 *	@param		string		$url			URL of canonical link
-	 *	@return		void
+	 *	@param		string|URL		$url			URL of canonical link
+	 *	@return		self
 	 */
-	public function setCanonicalLink( $url )
+	public function setCanonicalLink( $url ): self
 	{
+		$url	= !$url instanceof URL ?: $url->get();
 		foreach( $this->links as $nr => $link )
 			if( $link['rel'] === 'canonical' )
 				unset( $this->links[$nr] );
 		$this->addLink( $url, 'canonical' );
+		return $this;
 	}
 
 	/**
 	 *	Sets document type of page.
 	 *	@access		public
 	 *	@param		string		$doctype		Document type to set
-	 *	@return		void
+	 *	@return		self
 	 *	@see		http://www.w3.org/QA/2002/04/valid-dtd-list.html
 	 */
-	public function setDocType( $doctype )
+	public function setDocType( string $doctype ): self
 	{
-		$doctypes	= array_keys( $this->doctypes );
 		$key		= str_replace( [' ', '-'], '_', trim( $doctype ) );
 		$key		= preg_replace( "/[^A-Z0-9_]/", '', strtoupper( $key ) );
 		if( !strlen( trim( $key ) ) )
@@ -369,40 +390,48 @@ class PageFrame
 		if( !array_key_exists( $key, $this->doctypes ) )
 			throw new OutOfRangeException( 'Doctype "'.$doctype.'" (understood as '.$key.') is invalid' );
 		$this->doctype	= $key;
+		return $this;
 	}
 
 	/**
 	 *	Sets Application Heading in Body.
 	 *	@access		public
-	 *	@param		string		$heading		Application Heading
-	 *	@return		void
+	 *	@param		string|Renderable		$heading		Application Heading
+	 *	@return		self
 	 */
-	public function setHeading( $heading )
+	public function setHeading( $heading ): self
 	{
-		$this->heading	= $heading;
+		$this->heading	= !$heading instanceof Renderable ?: $heading->render();
+		return $this;
 	}
 
-	public function setHeadProfileUrl( $url )
+	public function setHeadProfileUrl( $url ): self
 	{
-		$this->profile	= $url;
+		$this->profile	= !$url instanceof URL ?: $url->get();
+		return $this;
 	}
 
-	public function setLanguage( $language ){
+	public function setLanguage( string $language ): self
+	{
 		$this->language	= $language;
+		return $this;
 	}
 
 	/**
 	 *	Sets Page Title, visible in Browser Title Bar.
 	 *	@access		public
 	 *	@param		string		$title			Page Title
-	 *	@return		void
+	 *	@param		string		$mode			Concat mode: set, append, prepend
+	 *	@param		string		$separator		Default: " | "
+	 *	@return		self
 	 */
-	public function setTitle( $title, $mode = 'set', $separator = ' | ' )
+	public function setTitle( string $title, string $mode = 'set', string $separator = ' | ' ): self
 	{
-		if( $mode == 'append' || $mode === 1 )
+		if( $mode == 'append' )
 			$title	= $this->title.$separator.$title;
-		else if( $mode == 'prepend' || $mode === -1 )
+		else if( $mode == 'prepend' )
 			$title	= $title.$separator.$this->title;
 		$this->title	= $title;
+		return $this;
 	}
 }

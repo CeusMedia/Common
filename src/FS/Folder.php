@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Common\FS;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
@@ -10,9 +11,9 @@ class Folder extends AbstractNode
 {
 	protected $pathName;
 
-	public function __construct( $pathName, $create = FALSE, $mode = 0777, $strict = TRUE )
+	public function __construct( string $pathName, bool $create = FALSE, int $mode = 0777, bool $strict = TRUE )
 	{
-		$this->setPathName( $pathName );
+		parent::__construct( $pathName );
 		if( $create && !$this->exists() )
 			$this->create( $mode, $strict );
 	}

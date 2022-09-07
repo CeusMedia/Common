@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Rotates an Image.
  *
@@ -23,7 +25,6 @@
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.2009
  */
 
 namespace CeusMedia\Common\UI\Image;
@@ -38,18 +39,17 @@ use RuntimeException;
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.2009
  */
 class Rotator extends Modifier
 {
 	/**
-	 *	Invertes Source Image.
+	 *	Inverts Source Image.
 	 *	@access		public
-	 *	@param		int			$angle			Rotation angle in degrees
-	 *	@param		int			$type			Output format type
+	 *	@param		int				$angle			Rotation angle in degrees
+	 *	@param		int|NULL		$type			Output format type
 	 *	@return		bool
 	 */
-	public function rotate( $angle, $type = NULL )
+	public function rotate( int $angle, ?int $type = NULL ): bool
 	{
 		if( !$this->sourceUri )
 			throw new RuntimeException( 'No source image set' );
@@ -70,8 +70,9 @@ class Rotator extends Modifier
 	 *	@param		string		$imageUri		URI of Image File
 	 *	@param		int			$angle			Rotation angle in degrees
 	 *	@param		int			$quality		JPEG Quality in percent
+	 *	@return		bool
 	 */
-	public static function rotateImage( $imageUri, $angle, $quality = 100 )
+	public static function rotateImage( string $imageUri, int $angle, int $quality = 100 ): bool
 	{
 		$modifier	= new Rotator( $imageUri, $imageUri, $quality );
 		return $modifier->rotate( $angle );

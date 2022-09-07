@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\FS\File\JSON;
 
-use CeusMedia\Common\ADT\JSON\Formater as JsonFormat;
+use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 
 /**
@@ -82,7 +82,7 @@ class Writer
 			if( version_compare( phpversion(), '5.4.0' ) >= 0 )
 				$json	= json_encode( $value, JSON_PRETTY_PRINT );
 			else
-				$json	= JsonFormat::format( json_encode( $value ) );
+				$json	= JsonPretty::print( json_encode( $value ) );
 		}
 		else
 			$json	= json_encode( $value );

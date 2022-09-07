@@ -18,7 +18,7 @@ class File extends AbstractNode
 	 */
 	public function __construct( string $pathName, bool $create = FALSE, int $mode = 0777, bool $strict = TRUE )
 	{
-		$this->setPathName( $pathName );
+		parent::__construct( $pathName );
 		if( $create && !$this->exists() )
 			$this->create( $mode, $strict );
 	}
