@@ -39,9 +39,6 @@ abstract class ADT_Singleton extends CeusMedia\Common\ADT\Singleton{}
 class ADT_String extends CeusMedia\Common\ADT\String_{}
 class ADT_StringBuffer extends CeusMedia\Common\ADT\StringBuffer{}
 class ADT_Time_Delay extends CeusMedia\Common\ADT\Time\Delay{}
-class ADT_Tree_AvlNode extends CeusMedia\Common\ADT\Tree\AvlNode{}
-class ADT_Tree_BalanceBinaryNode extends CeusMedia\Common\ADT\Tree\BalanceBinaryNode{}
-class ADT_Tree_BinaryNode extends CeusMedia\Common\ADT\Tree\BinaryNode{}
 class ADT_Tree_MagicNode extends CeusMedia\Common\ADT\Tree\MagicNode{}
 class ADT_Tree_Menu_Item extends CeusMedia\Common\ADT\Tree\Menu\Item{}
 class ADT_Tree_Menu_List extends CeusMedia\Common\ADT\Tree\Menu\Collection{}
@@ -340,19 +337,12 @@ class UI_Image_Captcha extends CeusMedia\Common\UI\Image\Captcha{}
 class UI_Image_Creator extends CeusMedia\Common\UI\Image\Creator{}
 class UI_Image_Drawer extends CeusMedia\Common\UI\Image\Drawer{}
 class UI_Image_Error extends CeusMedia\Common\UI\Image\Error{}
-class UI_Image_EvolutionGraph extends CeusMedia\Common\UI\Image\EvolutionGraph{}
 class UI_Image_Exif extends CeusMedia\Common\UI\Image\Exif{}
 class UI_Image_Filter extends CeusMedia\Common\UI\Image\Filter{}
-class UI_Image_FormulaDiagram extends CeusMedia\Common\UI\Image\FormulaDiagram{}
-class UI_Image_Graph_Builder extends CeusMedia\Common\UI\Image\Graph\Builder{}
-class UI_Image_Graph_Components extends CeusMedia\Common\UI\Image\Graph\Components{}
-abstract class UI_Image_Graph_Generator extends CeusMedia\Common\UI\Image\Graph\Generator{}
-class UI_Image_Graph_LinePlot extends CeusMedia\Common\UI\Image\Graph\LinePlot{}
 class UI_Image_Graphviz_Graph extends CeusMedia\Common\UI\Image\Graphviz\Graph{}
 class UI_Image_Graphviz_Renderer extends CeusMedia\Common\UI\Image\Graphviz\Renderer{}
 class UI_Image_Histogram extends CeusMedia\Common\UI\Image\Histogram{}
 class UI_Image_Modifier extends CeusMedia\Common\UI\Image\Modifier{}
-class UI_Image_PieGraph extends CeusMedia\Common\UI\Image\PieGraph{}
 class UI_Image_Printer extends CeusMedia\Common\UI\Image\Printer{}
 class UI_Image_Processing extends CeusMedia\Common\UI\Image\Processing{}
 class UI_Image_Rotator extends CeusMedia\Common\UI\Image\Rotator{}

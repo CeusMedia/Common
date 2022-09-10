@@ -58,9 +58,6 @@ namespace CeusMedia\Common\ADT\JSON{
 namespace CeusMedia\Common\ADT\Time{
 	class Delay extends \ADT_Time_Delay{}}
 namespace CeusMedia\Common\ADT\Tree{
-	class BinaryNode extends \ADT_Tree_BinaryNode{}
-	class BalanceBinaryNode extends \ADT_Tree_BalanceBinaryNode{}
-	class AvlNode extends \ADT_Tree_AvlNode{}
 	class Node extends \ADT_Tree_Node{}
 	class MagicNode extends \ADT_Tree_MagicNode{}}
 namespace CeusMedia\Common\ADT\Tree\Menu{
@@ -426,23 +423,15 @@ namespace CeusMedia\Common\UI\Image{
 	class Histogram extends \UI_Image_Histogram{}
 	class Printer extends \UI_Image_Printer{}
 	class Modifier extends \UI_Image_Modifier{}
-	class PieGraph extends \UI_Image_PieGraph{}
 	class Processing extends \UI_Image_Processing{}
 	class Drawer extends \UI_Image_Drawer{}
 	class Watermark extends \UI_Image_Watermark{}
-	class EvolutionGraph extends \UI_Image_EvolutionGraph{}
 	class Exif extends \UI_Image_Exif{}
 	class Creator extends \UI_Image_Creator{}
 	class Error extends \UI_Image_Error{}
 	class ThumbnailCreator extends \UI_Image_ThumbnailCreator{}
-	class FormulaDiagram extends \UI_Image_FormulaDiagram{}
 	class Filter extends \UI_Image_Filter{}
 	class TransparentWatermark extends \UI_Image_TransparentWatermark{}}
-namespace CeusMedia\Common\UI\Image\Graph{
-	class LinePlot extends \UI_Image_Graph_LinePlot{}
-	class Builder extends \UI_Image_Graph_Builder{}
-	abstract class Generator extends \UI_Image_Graph_Generator{}
-	class Components extends \UI_Image_Graph_Components{}}
 namespace CeusMedia\Common\UI\Image\Graphviz{
 	class Renderer extends \UI_Image_Graphviz_Renderer{}
 	class Graph extends \UI_Image_Graphviz_Graph{}}

@@ -42,9 +42,9 @@ use RuntimeException;
  */
 class Parser
 {
-	protected const STATUS_EMPTY			= 0;
-	protected const STATUS_PARSED			= 1;
-	protected const STATUS_ERROR			= 2;
+	public const STATUS_EMPTY			= 0;
+	public const STATUS_PARSED			= 1;
+	public const STATUS_ERROR			= 2;
 
 	protected $status			= 0;
 

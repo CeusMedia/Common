@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	@package		Tests.adt.json
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -16,7 +17,8 @@ use Exception;
  */
 class ParserTest extends BaseCase
 {
-	public function testParse(){
+	public function testParse()
+	{
 		$parser	= new Parser();
 
 		$info	= (object) array(
@@ -40,14 +42,16 @@ class ParserTest extends BaseCase
 
 	/**
 	 */
-	public function testParseException(){
+	public function testParseException()
+	{
 		$this->expectException( 'RuntimeException' );
 		$parser	= new Parser();
 		$json	= '[a';
 		$parser->parse( $json );
 	}
 
-	public function testParseWithError(){
+	public function testParseWithError()
+	{
 		$parser	= new Parser();
 		$json	= '[a';
 
