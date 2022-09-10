@@ -1,4 +1,5 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Mark Image with another Image.

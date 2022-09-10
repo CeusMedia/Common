@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Paints Formula Diagram
  *
@@ -67,14 +69,14 @@ class FormulaDiagram extends Drawer
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		CompactInterval		Interval on X Axis
-	 *	@param		CompactInterval		Interval on Y Axis
-	 *	@param		Formula				Formula to display
-	 *	@param		float				Dots between to 2 Points.
-	 *	@param		int					Dots between Grid Lines (0 for 'no Grid')
+	 *	@param		CompactInterval	$intervalX	Interval on X Axis
+	 *	@param		CompactInterval	$intervalY	Interval on Y Axis
+	 *	@param		Formula			$formula	Formula to display
+	 *	@param		float			$step		Dots between to 2 Points.
+	 *	@param		int				$grid		Dots between Grid Lines (0 for 'no Grid')
 	 *	@return		void
 	 */
-	public function __construct( $intervalX, $intervalY, $formula, $step = 1, $grid = 0 )
+	public function __construct( CompactInterval $intervalX, CompactInterval $intervalY, Formula $formula, float $step = 1, int $grid = 0 )
 	{
 		$this->intervalX	= $grid ? new CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
 		$this->intervalY	= $grid ? new CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
@@ -85,7 +87,7 @@ class FormulaDiagram extends Drawer
 		$this->zoomY		= 1;
 	}
 
-	public function draw( $stop = false )
+	public function draw( bool $stop = FALSE )
 	{
 		if( $stop )
 			$clock = new Clock ();
@@ -96,14 +98,13 @@ class FormulaDiagram extends Drawer
 		$yEnd		= $this->intervalY->getEnd();
 		$yDiam		= $this->intervalY->getDiam();
 
-		$this->create ($xDiam, $yDiam);
+		$this->create( $xDiam, $yDiam );
 
 #		$col	= $this->allocateColor( $this->backRed, $this->backGreen, $this->backBlue );
 		$col1	= $this->allocateColor( $this->arcRed, $this->arcGreen, $this->arcBlue );
 		$grcol	= $this->allocateColor( $this->gridRed, $this->gridGreen, $this->gridBlue );
 
-		if( $this->grid )
-		{
+		if( $this->grid ){
 			//  horizontal Grid Lines
 			for( $i=0; $i<$xDiam; $i+=$this->grid )
 				$this->drawLine( $i, 0, $i, $yDiam, $grcol );
@@ -111,25 +112,21 @@ class FormulaDiagram extends Drawer
 			for( $i=0; $i<$yDiam; $i+=$this->grid )
 				$this->drawLine( 0, $i, $xDiam, $i,$grcol );
 		}
-		if( $xStart <= 0 && 0 < $xEnd )
-		{
+		if( $xStart <= 0 && 0 < $xEnd ){
 			$this->drawLine( abs( $xStart ), 0, abs( $xStart ), $yDiam, $col1 );
 			for( $i=50; $i<$yDiam-1; $i+=50 )
 				$this->drawString( abs( $xStart )+5, $i - ( ( strlen( $i ) - 1 ) * 5 ), ( $i + $yStart ) / $this->zoomY, 1, $col1 );
 		}
-		if( $yStart <= 0 && 0 < $yEnd )
-		{
+		if( $yStart <= 0 && 0 < $yEnd ){
 			$this->drawLine( 0, abs( $yStart ), $xDiam, abs( $yStart ), $col1 );
 			for( $i=50; $i<$xDiam-1; $i+=50 )
 				$this->drawString( $i - ( ( strlen( $i ) - 1 ) * 5 ), abs( $yStart ) + 5, ( $i + $xStart ) / $this->zoomX, 1, $col1 );
 		}
 		ob_start();
 		$j=0;
-		for( $x=$xStart; $x<$xEnd; $x+=$this->step )
-		{
+		for( $x=$xStart; $x<$xEnd; $x+=$this->step ){
 			$useX = $x / $this->zoomX / $this->yscale();
-			if( false !== ( $value = $this->formula->getValue( $useX ) ) )
-			{
+			if( false !== ( $value = $this->formula->getValue( $useX ) ) ){
 				$x_points[$j] = $x + abs( $xStart );
 				$y_points[$j] = ( ( -1 ) * $this->yscale() * $value * $this->zoomY ) + abs( $yStart );
 				if( 0 <= $y_points[$j] && $y_points[$j] <= $yDiam )
@@ -147,38 +144,43 @@ class FormulaDiagram extends Drawer
 		$this->show();
 	}
 
-	public function setArcColor( $r, $g, $b )
+	public function setArcColor( int $r, int $g, int $b ): self
 	{
 		$this->arcRed	= $r;
 		$this->arcGreen	= $g;
 		$this->arcBlue	= $b;
+		return $this;
 	}
 
-	public function setBackgroundColor( $r, $g, $b )
+	public function setBackgroundColor( int $r, int $g, int $b ): self
 	{
 		$this->backRed		= $r;
 		$this->backGreen	= $g;
 		$this->backBlue		= $b;
+		return $this;
 	}
 
-	public function setGridColor( $r, $g, $b )
+	public function setGridColor( int $r, int $g, int $b ): self
 	{
 		$this->gridRed		= $r;
 		$this->gridGreen	= $g;
 		$this->gridBlue		= $b;
+		return $this;
 	}
 
-	public function setZoomX( $zoom )
+	public function setZoomX( int $zoom ): self
 	{
 		$this->zoomX	= $zoom;
+		return $this;
 	}
 
-	public function setZoomY( $zoom )
+	public function setZoomY( int $zoom ): self
 	{
 		$this->zoomY	= $zoom;
+		return $this;
 	}
 
-	public function yscale()
+	public function yscale(): int
 	{
 /*		$exp = $this->formula->getExpression();
 		if((substr_count($exp,'sin')>0) || (substr_count($exp,'cos')>0) || (substr_count($exp,'tan')>0))

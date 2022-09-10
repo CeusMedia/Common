@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Histogram image generator.
  *
@@ -23,7 +25,6 @@
  *	@copyright		2012-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\UI\Image;
@@ -39,12 +40,11 @@ use Exception;
  *	@copyright		2012-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  *	@todo			Code Doc
  */
 class Histogram
 {
-	static public function drawChannels( $data )
+	public static function drawChannels( array $data ): Image
 	{
 		$image	= new Image();
 		$image->create( 256, 100 );
@@ -59,8 +59,7 @@ class Histogram
 		for( $i=0; $i<256; $i++ )
 			$max	= max( $max, $data['r'][$i] + $data['g'][$i] + $data['b'][$i] );
 		$max	*= 1.05;
-		for( $i=0; $i<256; $i++ )
-		{
+		for( $i=0; $i<256; $i++ ){
 			$x1	= $i;
 			if( $b = floor( $data['b'][$i] / $max * 100 ) )
 				$drawer->drawLine( $i, 0, $x1, $b, $blue );
@@ -74,7 +73,8 @@ class Histogram
 		return $image;
 	}
 
-	static public function drawHistrogram( $data, $colorR = 0, $colorG = 0, $colorB = 0 ){
+	static public function drawHistrogram( array $data, int $colorR = 0, int $colorG = 0, int $colorB = 0 ): Image
+    {
 		$max	= max( $data );
 		if( !$max )
 			throw new Exception( "Error: max 0" );
@@ -96,11 +96,10 @@ class Histogram
 		return $image;
 	}
 
-	static public function getData( UI_Image $image )
+	public static function getData( Image $image ): array
 	{
 		$pixels		= $image->getWidth() * $image->getHeight();
-		if( $pixels > 2 * 1000 * 1000 )
-		{
+		if( $pixels > 2 * 1000 * 1000 ){
 			$tempFile	= uniqid().'.image';
 			$thumb	= new ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
 			$thumb->thumbizeByLimit( 1000, 1000 );
@@ -115,10 +114,8 @@ class Histogram
 			'b'	=> array_fill( 0, 256, 0 ),
 		);
 		$resource	= $image->getResource();
-		for( $x=0; $x<$image->getWidth(); $x++ )
-		{
-			for( $y=0; $y<$image->getHeight(); $y++ )
-			{
+		for( $x=0; $x<$image->getWidth(); $x++ ){
+			for( $y=0; $y<$image->getHeight(); $y++ ){
 				$rgb	= imagecolorat( $resource, $x, $y );
 				$r		= ($rgb >> 16) & 0xFF;
 				$g		= ($rgb >> 8) & 0xFF;

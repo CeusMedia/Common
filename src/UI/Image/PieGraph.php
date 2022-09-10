@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -53,7 +55,7 @@ class PieGraph
 		'#3F3F3F',
 	);
 
-	public function __construct( $width, $height )
+	public function __construct( int $width, int $height )
 	{
 		$this->setSize( $width, $height );
 	}
@@ -71,7 +73,7 @@ class PieGraph
 		return Template::render( 'templates/graph.html', $data );
 	}
 
-	public function buildImage( $id, $data, $uri = NULL )
+	public function buildImage( string $id, array $data, ?string $uri = NULL )
 	{
 		if( empty( $data['values'] ) )
 			return "No entries found";
@@ -109,54 +111,61 @@ class PieGraph
 		$this->map	= $graph->getHTMLImageMap( $id."_imageMap" );
 	}
 
-	public function setAntialias( $bool )
+	public function setAntialias( bool $bool ): self
 	{
-		$this->antialias	= (bool) $bool;
+		$this->antialias	= $bool;
+		return $this;
 	}
 
-	public function setCenter( $x, $y )
+	public function setCenter( int $x, int $y ): self
 	{
-		$this->centerX			= $x;
-		$this->centerY			= $y;
+		$this->centerX		= $x;
+		$this->centerY		= $y;
+		return $this;
 	}
 
-	public function setColors( $colors )
+	public function setColors( array $colors ): self
 	{
-		if( !is_array( $colors ) )
-			throw new InvalidArgumentException( 'Must be array' );
 		$this->colors	= $colors;
+		return $this;
 	}
 
-	public function setHeading( $heading )
+	public function setHeading( string $heading ): self
 	{
 		$this->heading	= $heading;
+		return $this;
 	}
 
-	public function setLegendAlign( $x, $y )
+	public function setLegendAlign( int $x, int $y ): self
 	{
 		$this->legendAlignX		= $x;
 		$this->legendAlignY		= $y;
+		return $this;
 	}
 
-	public function setLegendMargin( $x, $y )
+	public function setLegendMargin( int $x, int $y ): self
 	{
 		$this->legendMarginX	= $x;
 		$this->legendMarginY	= $y;
+		return $this;
 	}
 
-	public function setLegendShadow( $bool )
+	public function setLegendShadow( bool $bool ): self
 	{
-		$this->legendShadow	= (bool) $bool;
+		$this->legendShadow	= $bool;
+		return $this;
 	}
 
-	public function setShadow( $bool )
+	public function setShadow( bool $bool ): self
 	{
-		$this->shadow	= (bool) $bool;
+		$this->shadow	= $bool;
+		return $this;
 	}
 
-	public function setSize( $width, $height )
+	public function setSize( int $width, int $height ): self
 	{
 		$this->width	= $width;
 		$this->height	= $height;
+		return $this;
 	}
 }

@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Basic Image Creation.
  *
@@ -39,12 +41,13 @@ namespace CeusMedia\Common\UI\Image;
 class Drawer
 {
 	protected $image;
+
 	protected $type	= 0;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Resource		Image Resource, can be created with UI_Image_Creator
+	 *	@param		resource		$image      Image Resource, can be created with UI_Image_Creator
 	 *	@return		void
 	 */
 	public function __construct( $image )
@@ -52,45 +55,46 @@ class Drawer
 		$this->setImage( $image );
 	}
 
-	public function drawBorder( $color, $width = 1 )
+	public function drawBorder( int $color, int $width = 1 )
 	{
 		for( $i = 0; $i < $width; $i++ )
-			$this->drawRectangle( 0 + $i, 0 + $i, imagesx( $this->image ) - $i - 1, imagesy( $this->image ) - $i - 1, $color );
+			$this->drawRectangle( $i, $i, imagesx( $this->image ) - $i - 1, imagesy( $this->image ) - $i - 1, $color );
 	}
 
-	public function drawLine( $x0, $y0, $x1, $y1, $color )
+	public function drawLine( int $x0, int $y0, int $x1, int $y1, int $color ): bool
 	{
 		return imageline( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 
-	public function drawPixel( $x, $y, $color )
+	public function drawPixel( int $x, int $y, int $color ): bool
 	{
 		return imagesetpixel( $this->image, $x, $y, $color );
 	}
 
-	public function drawRectangle( $x0, $y0, $x1, $y1, $color )
+	public function drawRectangle( $x0, int $y0, int $x1, int $y1, int $color ): bool
 	{
 		return imagerectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 
-	public function drawString( $x, $y, $text, $size, $color )
+	public function drawString( int $x, int $y, string $text, $size, int $color ): bool
 	{
 		return imagestring( $this->image, $size, $x, $y, $text, $color );
 	}
 
-	public function fill( $color )
+	public function fill( int $color ): bool
 	{
 		return imagefilledrectangle( $this->image, 0, 0, imagesx( $this->image ) - 1, imagesy( $this->image ) - 1, $color );
 	}
 
-	public function fillRectangle( $x0, $y0, $x1, $y1, $color )
+	public function fillRectangle( int $x0, int $y0, int $x1, int $y1, int $color ): bool
 	{
 		return imagefilledrectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 
-	public function getColor( $red, $green, $blue, $alpha = 0 )
+	public function getColor( int $red, int $green, int $blue, int $alpha = 0 ): ?int
 	{
-		return imagecolorallocatealpha( $this->image, $red, $green, $blue, $alpha );
+		$color = imagecolorallocatealpha( $this->image, $red, $green, $blue, $alpha );
+        return $color ?: NULL;
 	}
 
 	public function getImage()
@@ -106,7 +110,7 @@ class Drawer
 	/**
 	 *	Sets Image Handler.
 	 *	@access		public
-	 *	@param		Resource		Image Handler
+	 *	@param		resource		$image      Image Handler
 	 *	@return		void
 	 */
 	public function setImage( $image )
@@ -114,7 +118,7 @@ class Drawer
 		$this->image = $image;
 	}
 
-	public function show( $quality = 100 )
+	public function show( int $quality = 100 )
 	{
 		Printer::showImage( $this->image, $this->type, $quality );
 		die;

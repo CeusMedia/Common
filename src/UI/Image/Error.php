@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Creates and displays Error Image with Message.
  *
@@ -23,7 +25,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.06.2008
  */
 
 namespace CeusMedia\Common\UI\Image;
@@ -36,7 +37,6 @@ namespace CeusMedia\Common\UI\Image;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.06.2008
  */
 class Error
 {
@@ -56,7 +56,7 @@ class Error
 	 *	@param		int			$posY			Y Position of Message
 	 *	@return		void
 	 */
-	public function __construct( $message, $width = 200, $height = 20, $posX = 5, $posY = 3 )
+	public function __construct( string $message, int $width = 200, int $height = 20, int $posX = 5, int $posY = 3 )
 	{
 		$image	= new Creator();
 		$image->create( $width, $height );

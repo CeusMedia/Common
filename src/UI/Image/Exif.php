@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	...
  *
@@ -23,7 +25,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\UI\Image;
@@ -43,13 +44,14 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class Exif extends Dictionary
 {
 	protected $imageUri;
 
-	public function __construct( $imageUri )
+    protected $raw;
+
+	public function __construct( string $imageUri )
 	{
 		if( !function_exists( 'exif_read_data' ) )
 			throw new RuntimeException( 'Exif not supported' );
@@ -72,32 +74,32 @@ class Exif extends Dictionary
 		}
 	}
 
-	public function getRawData()
+	public function getRawData(): array
 	{
 		return $this->raw;
 	}
 
-	public function getThumbnailData()
+	public function getThumbnailData(): array
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
-		return array(
+		return [
 			'content'	=> $content,
 			'width'		=> $width,
 			'height'	=> $height,
 			'type'		=> $type
-		);
+		];
 	}
 
-	public function getThumbnailImage()
+	public function getThumbnailImage(): string
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
 		if( !$content )
 			throw new Exception( 'No thumbnail available' );
-		$attributes	= array(
+		$attributes	= [
 			'width'		=> $width,
 			'height'	=> $height,
 			'src'		=> 'data:image/gif;base64,'.base64_encode( $content )
-		);
+		];
 		return HtmlTag::create( 'img', NULL, $attributes );
 	}
 }

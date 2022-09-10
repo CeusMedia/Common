@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Simple CAPTCHA Generator.
  *
@@ -46,32 +48,46 @@ class Captcha
 {
 	/**	@var		bool		$useDigits		Flag: use Digits */
 	public $useDigits			= FALSE;
+
 	/**	@var		bool		$useLarges		Flag: use large Letters */
 	public $useLarges			= FALSE;
+
 	/**	@var		bool		$useSmalls		Flag: use small Letters */
 	public $useSmalls			= TRUE;
+
 	/**	@var		bool		$unique			Flag: every Sign may only appear once in randomized String */
 	public $unique				= FALSE;
+
 	/**	@var		int			$length			Number of CAPTCHA Signs */
 	public $length				= 4;
+
 	/**	@var		string		$font			File Path of True Type Font to use */
 	public $font				= "";
+
 	/**	@var		int			$fontSize		Font Size */
 	public $fontSize			= 14;
+
 	/**	@var		int			$width			Width of CAPTCHA Image */
 	public $width				= 100;
-	/**	@var		int			$height			Height of CAPTCHA Image */
+
+    /**	@var		int			$height			Height of CAPTCHA Image */
 	public $height				= 40;
+
 	/**	@var		int			$angle			Angle of maximal Rotation in ° */
 	public $angle				= 50;
+
 	/**	@var		int			$offsetX		Maximum Offset in X-Axis */
 	public $offsetX				= 5;
+
 	/**	@var		int			$offsetY		Maximum Offset in Y-Axis */
 	public $offsetY				= 10;
+
 	/**	@var		array		$textColor		List of RGB Values of Text */
 	public $textColor			= [0, 0, 0];
+
 	/**	@var		array		$background		List of RGB Values of Background */
 	public $background			= [255, 255, 255];
+
 	/**	@var		int			$quality		Quality of JPEG Image in % */
 	public $quality				= 90;
 
@@ -81,7 +97,8 @@ class Captcha
 	 *	@param		string		$fileName		Name of CAPTCHA image file to create
 	 *	@return		string		CAPTCHA word rendered in image file
 	 */
-	public function generate( $fileName ){
+	public function generate( string $fileName ): string
+    {
 		$word	= $this->generateWord();
 		$this->generateImage( $word, $fileName );
 		return $word;
@@ -90,13 +107,13 @@ class Captcha
 	/**
 	 *	Generates Captcha Image for Captcha Word.
  	 *	Saves image if file name is set.
-	 *	Otherwise returns binary content of image.
+	 *	Otherwise, returns binary content of image.
 	 *	@access		public
-	 *	@param		string		$word		Captcha Word
-	 *	@param		string		$fileName	File Name to write Captcha Image to
+	 *	@param		string			$word		Captcha Word
+	 *	@param		string|NULL		$fileName	File Name to write Captcha Image to
 	 *	@return		int
 	 */
-	public function generateImage( $word, $fileName = NULL )
+	public function generateImage( string $word, ?string $fileName = NULL ): int
 	{
 		if( !$this->font )
 			throw new RuntimeException( 'No font defined' );
@@ -158,7 +175,7 @@ class Captcha
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function generateWord()
+	public function generateWord(): string
 	{
 		$rand				= new Randomizer();
 		$rand->digits		= "2345678";

@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Generator for Evolution Graph Images.
  *
@@ -23,7 +25,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.09.2006
  */
 
 namespace CeusMedia\Common\UI\Image;
@@ -38,7 +39,6 @@ use CeusMedia\Common\ADT\OptionObject;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.09.2006
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
@@ -85,12 +85,14 @@ class EvolutionGraph extends OptionObject
 	/**	@var	array		graphs		Array of Values of one or more Graphs */
 	protected $graphs	= [];
 
+	protected $labels;
+
 	/**
 	 *	Constructor, sets default Options.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $options = [] )
+	public function __construct( array $options = [] )
 	{
 		parent::__construct();
 		$this->setDefaults();
@@ -104,9 +106,9 @@ class EvolutionGraph extends OptionObject
 	 *	@param		string		$legend		Legend Label of Graph
 	 *	@param		array		$color		Array of RGB-Values
 	 *	@param		array		$data		Array of Values of Graph
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addGraph( $legend, $color, $data )
+	public function addGraph( string $legend, array $color, array $data ): self
 	{
 		$position	= count( $this->graphs );
 		$this->graphs[$position]	= array(
@@ -114,34 +116,34 @@ class EvolutionGraph extends OptionObject
 			'color'		=> $color,
 			'values'	=> $data,
 		);
+		return $this;
 	}
 
 	/**
 	 *	Draws Graph Image to Browser.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function drawGraph()
+	public function drawGraph(): self
 	{
 		//  generate Graph Image
 		$im	= $this->generateGraph();
 		//  send Image to Browser
 		ImagePng( $im );
+		return $this;
 	}
 
-	protected function drawGraphs( &$image, $maxValue, $ratio )
+	protected function drawGraphs( &$image, float $maxValue, float $ratio ): self
 	{
 		$verticalZone	= $this->getOption( 'height' ) - $this->getOption( 'padding_top' ) - $this->getOption( 'padding_bottom' );
-		for( $i=0; $i<count( $this->graphs ); $i++ )
-		{
+		for( $i=0; $i<count( $this->graphs ); $i++ ){
 			$graph	= $this->graphs[$i];
 			$color	= $this->setColor( $image, $graph['color'] );
 			// write the legend
 			ImageString( $image, 2, $this->getOption( 'padding_left' ) + $this->getOption( 'legend_adjust_x' ), $this->getOption( 'padding_top' ) + $this->getOption( 'legend_adjust_y' ) + $i * 10, $graph['legend'], $color );
 			// FIXME: a more general approach; maybe allow custom placement on the image
 			// draw the graph
-			for( $n=0; $n<count( $graph['values'] ) - 1; $n++)
-			{
+			for( $n=0; $n<count( $graph['values'] ) - 1; $n++){
 				// calculate and draw line from value N to value N+1
 				$xn1	= $this->getOption( 'padding_left' ) + $n * $ratio;
 				$yn1	= $this->getOption( 'height' ) - $this->getOption( 'padding_bottom' ) - floor( $graph['values'][$n] * $verticalZone / $maxValue );
@@ -150,14 +152,16 @@ class EvolutionGraph extends OptionObject
 				ImageLine( $image, $xn1, $yn1, $xn2, $yn2, $color );
 			}
 		}
+		return $this;
 	}
 
-	protected function drawOutlines( &$image, $color )
+	protected function drawOutlines( &$image, int $color ): self
 	{
 		ImageLine( $image, $this->getOption( 'padding_left' ), $this->getOption( 'height' ) - $this->getOption( 'padding_bottom' ), $this->getOption( 'width' ) - $this->getOption( 'padding_right' ), $this->getOption( 'height' ) - $this->getOption( 'padding_bottom' ), $color );
 		ImageLine( $image, $this->getOption( 'padding_left' ), $this->getOption( 'padding_top' ), $this->getOption( 'width' ) - $this->getOption( 'padding_right' ), $this->getOption( 'padding_top' ), $color );
 		ImageLine( $image, $this->getOption( 'padding_left' ), $this->getOption( 'height' ) - $this->getOption( 'padding_bottom' ), $this->getOption( 'padding_left' ), $this->getOption( 'padding_top' ), $color );
 		ImageLine( $image, $this->getOption( 'width' ) - $this->getOption( 'padding_right' ), $this->getOption( 'padding_top' ), $this->getOption( 'width' ) - $this->getOption( 'padding_right' ), $this->getOption( 'height' ) - $this->getOption( 'padding_bottom' ), $color );
+		return $this;
 	}
 
 	/**
@@ -186,8 +190,7 @@ class EvolutionGraph extends OptionObject
 		//  draw Outlines of Graph Image
 		$this->drawOutlines( $im, $imageColorBars );
 		// in case no maximum scale has been provided, calculate the maximum value reached by any of the lines
-		if( !isset( $maxValue ) )
-		{
+		if( !isset( $maxValue ) ){
 			$maxValue	= 0;
 			for( $g=0; $g<count( $this->graphs ); $g++ )
 				$maxValue	= max( $maxValue, max( $this->graphs[$g]['values'] ) );
@@ -199,8 +202,7 @@ class EvolutionGraph extends OptionObject
 		// determine the maximum height available for drawing
 		// draw the horizontal dotted "guidelines"
 		$ratio	= floor( $this->getOption( 'height' ) - $this->getOption( 'padding_top' ) - $this->getOption( 'padding_bottom' ) ) / $this->getOption( 'horizontal_bars' );
-		for( $i=0; $i<$this->getOption( 'horizontal_bars' ); $i++ )
-		{
+		for( $i=0; $i<$this->getOption( 'horizontal_bars' ); $i++ ){
 			$height	= $this->getOption( 'padding_top' ) + $i * $ratio;
 			if( $i )
 				ImageDashedLine( $im, $this->getOption( 'padding_left' ), $height, $this->getOption( 'width' ) - $this->getOption( 'padding_right' ), $height, $imageColorDash );
@@ -211,10 +213,8 @@ class EvolutionGraph extends OptionObject
 		// draw the vertical dotted guidelines; these depend on how much data you have
 		// FIXME: make it possible to draw only the Nth line
 		$ratio	= floor( $this->getOption( 'width' ) - $this->getOption( 'padding_left' ) - $this->getOption( 'padding_right' ) ) / ( count( $this->labels ) - 1 );
-		for( $i=0; $i<count( $this->labels ); $i++ )
-		{
-			if( $i<count( $this->labels ) -2 )
-			{
+		for( $i=0; $i<count( $this->labels ); $i++ ){
+			if( $i<count( $this->labels ) -2 ){
 				$width	=$this->getOption( 'padding_left' ) + ( $i + 1 ) * $ratio;
 				ImageDashedLine( $im, $width, $this->getOption( 'padding_top' ), $width, $this->getOption( 'height' ) - $this->getOption( 'padding_bottom' ), $imageColorDash );
 			}
@@ -233,48 +233,52 @@ class EvolutionGraph extends OptionObject
 	/**
 	 *	Saves Graph Image to File.
 	 *	@access		public
-	 *	@param		string		filename		File Name to save Graph Image to
-	 *	@return		void
+	 *	@param		string		$filename		File Name to save Graph Image to
+	 *	@return		self
 	 */
-	public function saveGraph( $filename )
+	public function saveGraph( string $filename ): self
 	{
 		// generate the image
 		$im	= $this->generateGraph();
 		// output the image
 		ImagePng( $im, $filename );
+		return $this;
 	}
 
-	protected function setColor( &$image, $values )
+	protected function setColor( &$image, array $values ): ?int
 	{
-		$color	= ImageColorAllocate( $image, $values[0], $values[1], $values[2] );
-		return	$color;
+		$color = ImageColorAllocate( $image, $values[0], $values[1], $values[2] );
+		return $color ?: NULL;
 	}
 
-	protected function setDefaults()
+	protected function setDefaults(): self
 	{
 		foreach( $this->defaults as $key => $value )
 			$this->setOption( $key, $value );
+		return $this;
 	}
 
 	/**
 	 *	Sets Labels of X-Axis.
 	 *	@access		public
-	 *	@param		array		labels		Array of Labels of X-Axis
-	 *	@return		void
+	 *	@param		array		$labels		Array of Labels of X-Axis
+	 *	@return		self
 	 */
-	public function setLabels( $labels )
+	public function setLabels( array $labels ): self
 	{
 		$this->labels	= $labels;
+		return $this;
 	}
 
 	/**
 	 *	Sets Title of Graph.
 	 *	@access		public
-	 *	@param		string		title			Title of Graph
-	 *	@return		void
+	 *	@param		string		$title			Title of Graph
+	 *	@return		self
 	 */
-	public function setTitle( $title )
+	public function setTitle( string $title ): self
 	{
 		$this->setOption( 'title_text', $title );
+		return $this;
 	}
 }

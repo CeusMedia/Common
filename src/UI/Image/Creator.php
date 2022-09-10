@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	...
  *
@@ -46,8 +48,9 @@ class Creator
 	protected $resource		= NULL;
 	protected $type			= NULL;
 	protected $width		= -1;
+    protected $extension;
 
-	public function create( $width, $height, $backgroundRed = 255, $backgroundGreen = 255, $backgroundBlue = 255, $alpha = 0 )
+	public function create( int $width, int $height, int $backgroundRed = 255, int $backgroundGreen = 255, int $backgroundBlue = 255, int $alpha = 0 )
 	{
 		$this->resource	= imagecreatetruecolor( $width, $height );
 		$this->width	= $width;
@@ -56,12 +59,12 @@ class Creator
 		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );
 	}
 
-	public function getExtension()
+	public function getExtension(): ?string
 	{
 		return $this->extension;
 	}
 
-	public function getHeight()
+	public function getHeight(): int
 	{
 		return $this->height;
 	}
@@ -71,17 +74,17 @@ class Creator
 		return $this->resource;
 	}
 
-	public function getType()
+	public function getType(): ?int
 	{
 		return $this->type;
 	}
 
-	public function getWidth()
+	public function getWidth(): int
 	{
 		return $this->width;
 	}
 
-	public function loadImage( $fileName )
+	public function loadImage( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );

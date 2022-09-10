@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Image filter.
  *
@@ -55,7 +57,7 @@ class Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function blurGaussian()
+	public function blurGaussian(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_GAUSSIAN_BLUR );
 	}
@@ -65,7 +67,7 @@ class Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function blurSelective()
+	public function blurSelective(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_SELECTIVE_BLUR );
 	}
@@ -76,7 +78,7 @@ class Filter
 	 *	@param		integer		$level		Value between -255 and 255
 	 *	@return		boolean
 	 */
-	public function brightness( $level )
+	public function brightness( int $level ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_BRIGHTNESS, $level );
 	}
@@ -85,12 +87,12 @@ class Filter
 	 *	Adds or subtracts colors.
 	 *	@access		public
 	 *	@param		integer		$red		Red component, value between -255 and 255
-	 *	@param		integer		$red		Green component, value between -255 and 255
-	 *	@param		integer		$red		Blue component, value between -255 and 255
-	 *	@param		integer		$alpha		Alpha channel, value between 0 (opacue) and 127 (transparent)
+	 *	@param		integer		$green		Green component, value between -255 and 255
+	 *	@param		integer		$blue		Blue component, value between -255 and 255
+	 *	@param		integer		$alpha		Alpha channel, value between 0 (opaque) and 127 (transparent)
 	 *	@return		boolean
 	 */
-	public function colorize( $red, $green, $blue, $alpha = 0 )
+	public function colorize( int $red, int $green, int $blue, int $alpha = 0 ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_COLORIZE, $red, $green, $blue, $alpha );
 	}
@@ -101,7 +103,7 @@ class Filter
 	 *	@param		integer		$level		Value up to 100
 	 *	@return		boolean
 	 */
-	public function contrast( $level )
+	public function contrast( int $level ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_CONTRAST, $level );
 	}
@@ -111,7 +113,7 @@ class Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function detectEdges()
+	public function detectEdges(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_EDGEDETECT );
 	}
@@ -121,12 +123,12 @@ class Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function emboss()
+	public function emboss(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_EMBOSS );
 	}
 
-	public function gamma( $level )
+	public function gamma( int $level ): bool
 	{
 		return imagegammacorrect( $this->image->getResource(), 1.0, (double) $level );
 	}
@@ -136,7 +138,7 @@ class Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function grayscale()
+	public function grayscale(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_GRAYSCALE );
 	}
@@ -146,7 +148,7 @@ class Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function negate()
+	public function negate(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_NEGATE );
 	}
@@ -158,8 +160,7 @@ class Filter
 	 *	@param		boolean		$effect		Flag: activate advanced pixelation effect
 	 *	@return		boolean
 	 */
-
-	public function pixelate( $size, $effect = FALSE )
+	public function pixelate( int $size, bool $effect = FALSE ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_PIXELATE, $size, $effect );
 	}
@@ -169,7 +170,7 @@ class Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function removeMean()
+	public function removeMean(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_MEAN_REMOVAL );
 	}
@@ -180,7 +181,7 @@ class Filter
 	 *	@param		integer		$weight		Level of smoothness
 	 *	@return		boolean
 	 */
-	public function smooth( $weight )
+	public function smooth( int $weight ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_SMOOTH, $weight );
 	}
