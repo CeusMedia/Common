@@ -125,7 +125,7 @@ class FeedIdentifier
 		$rss	= $xpath->query( "//rss/@version" );
 		if( $rss->length ){
 			$this->type		= "RSS";
-			$this->version	= $rss->item( 0 )->value;
+			$this->version	= $rss->item( 0 )->nodeValue;
 			return TRUE;
 		}
 
@@ -168,7 +168,7 @@ class FeedIdentifier
 	/**
 	 *	Identifies Feed from a File.
 	 *	@access		public
-	 *	@param		string	filename		XML File of Feed
+	 *	@param		string		$filename		XML File of Feed
 	 *	@return		bool
 	 *	@throws		Exception
 	 */

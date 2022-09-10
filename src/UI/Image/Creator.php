@@ -90,8 +90,7 @@ class Creator
 			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );
 		$info		= pathinfo( $fileName );
 		$extension	= strtolower( $info['extension'] );
-		switch( $extension )
-		{
+		switch( $extension ){
 			case 'png':
 				$this->resource	= imagecreatefrompng( $fileName );
 				$this->type	= IMAGETYPE_PNG;

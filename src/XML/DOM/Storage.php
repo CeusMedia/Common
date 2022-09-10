@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
  *
@@ -28,6 +30,7 @@
 namespace CeusMedia\Common\XML\DOM;
 
 use CeusMedia\Common\ADT\OptionObject;
+use DOMException;
 use InvalidArgumentException;
 
 /**
@@ -43,6 +46,7 @@ class Storage extends OptionObject
 {
 	/**	@var	string			$fileName		URI of XML File */
 	protected $fileName;
+
 	/**	@var	array			$storage		Array for Storage Operations */
 	protected $storage	= [];
 
@@ -51,8 +55,9 @@ class Storage extends OptionObject
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of XML File
 	 *	@return 	void
+	 *	@throws		DOMException
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		parent::__construct();
 		$this->setOption( 'tag_root',	"storage" );
@@ -70,11 +75,11 @@ class Storage extends OptionObject
 	/**
 	 *	Returns value of a Path in the Storage.
 	 *	@access		public
-	 *	@param		string		$path			Path to stored Value
-	 *	@param		array		$array			current Position in Storage Array
+	 *	@param		string			$path			Path to stored Value
+	 *	@param		array|NULL		$array			current Position in Storage Array
 	 *	@return 	mixed
 	 */
-	public function get( $path, $array = NULL )
+	public function get( string $path, ?array $array = NULL )
 	{
 		if( $array == NULL )
 			$array	= $this->storage;
@@ -100,7 +105,7 @@ class Storage extends OptionObject
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
-	protected function readRecursive( $node, &$array )
+	protected function readRecursive( Node $node, array &$array )
 	{
 		$nodeTag	= $node->getNodename();
 		$nodeName	= $node->getAttribute( 'name' );
@@ -127,12 +132,13 @@ class Storage extends OptionObject
 	 *	@param		string		$path			Path to value
 	 *	@param		bool		$write			Flag: write on Update
 	 *	@return 	bool
+	 *	@throws		DOMException
 	 */
-	public function remove( $path, $write = false )
+	public function remove( string $path, bool $write = FALSE ): bool
 	{
 		$result	= $this->removeRecursive( $path, $this->storage );
 		if( $write && $result )
-			return $this->write();
+			return 0 !== $this->write();
 		return $result;
 	}
 
@@ -140,11 +146,10 @@ class Storage extends OptionObject
 	 *	Recursive removes a Value From the Storage by its Path.
 	 *	@access		protected
 	 *	@param		string		$path			Path to value
-	 *	@param		mixed		$value			Value to set at Path
 	 *	@param		array		$array			Current Array in Storage
 	 *	@return 	bool
 	 */
-	protected function removeRecursive( $path, &$array )
+	protected function removeRecursive( string $path, array &$array ): bool
 	{
 		if( substr_count( $path, "." ) ){
 			$parts	= explode( ".", $path );
@@ -166,15 +171,16 @@ class Storage extends OptionObject
 	 *	@param		mixed		$value			Value to set at Path
 	 *	@param		bool		$write			Flag: write on Update
 	 *	@return 	bool
+	 *	@throws		DOMException
 	 */
-	public function set( $path, $value, $write = false )
+	public function set( string $path, $value, bool $write = FALSE ): bool
 	{
 		$type	= gettype( $value );
 		if( !in_array( $type, ["double", "integer", "boolean", "string"], TRUE ) )
 			throw new InvalidArgumentException( "Value must be of type double, integer, boolean or string. ".ucfirst( $type )." given", E_USER_WARNING );
 		$result	=	$this->setRecursive( $path, $value, $this->storage );
 		if( $write && $result )
-			return $this->write();
+			return 0 !== $this->write();
 		return $result;
 	}
 
@@ -186,7 +192,7 @@ class Storage extends OptionObject
 	 *	@param		array		$array			Current Array in Storage
 	 *	@return 	bool
 	 */
-	protected function setRecursive( $path, $value, &$array )
+	protected function setRecursive( string $path, $value, array &$array ): bool
 	{
 		if( substr_count( $path, "." ) ){
 			$parts	= explode( ".", $path );
@@ -204,9 +210,10 @@ class Storage extends OptionObject
 	/**
 	 *	Writes XML File from Storage.
 	 *	@access		public
-	 *	@return 	bool
+	 *	@return 	int
+	 *	@throws		DOMException
 	 */
-	public function write()
+	public function write(): int
 	{
 		$writer	= new FileWriter( $this->fileName );
 		$root	= new Node( $this->getOption( 'tag_root' ) );
@@ -221,22 +228,21 @@ class Storage extends OptionObject
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
-	protected function writeRecursive( &$node, $array )
+	protected function writeRecursive( Node &$node, array $array )
 	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
 				$child	= new Node( $this->getOption( 'tag_level' ) );
 				$child->setAttribute( 'name', $key );
-				$this->writeRecursive( $child, $array[$key] );
-				$node->addChild( $child );
+				$this->writeRecursive( $child, $value );
 			}
 			else{
 				$child	= new Node( $this->getOption( 'tag_pair' ) );
 				$child->setAttribute( 'name', $key );
 				$child->setAttribute( 'type', gettype( $value ) );
 				$child->setContent( utf8_encode( $value ) );
-				$node->addChild( $child );
 			}
+			$node->addChild( $child );
 		}
 	}
 }

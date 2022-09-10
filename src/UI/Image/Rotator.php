@@ -1,5 +1,5 @@
-<?php /** @noinspection PhpComposerExtensionStubsInspection */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Rotates an Image.

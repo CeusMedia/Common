@@ -1,4 +1,6 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpUnused */
 
 /**
  *	Converts XML strings statically to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
@@ -29,7 +31,9 @@
 namespace CeusMedia\Common\XML;
 
 use CeusMedia\Common\XML\DOM\Parser;
-use DOMNode;
+use CeusMedia\Common\XML\DOM\Node as DomNode;
+#use DOMNode;
+use Exception;
 use stdClass;
 
 /**
@@ -50,6 +54,7 @@ class Converter
 	 *	@access		public
 	 *	@param		string		$xml		XML string
 	 *	@return		string		JSON representation of XML string
+	 *	@throws		Exception
 	 */
 	public static function toJson( string $xml ): string
 	{
@@ -63,6 +68,7 @@ class Converter
 	 *	@access		public
 	 *	@param		string		$xml		XML string
 	 *	@return		object
+	 *	@throws		Exception
 	 */
 	public static function toPlainObject( string $xml ): object
 	{
@@ -82,11 +88,11 @@ class Converter
 	 *	Converts DOM node to tree of objects recursively and in-situ.
 	 *	@static
 	 *	@access		protected
-	 *	@param		DOMNode		$node		DOM node to convert
+	 *	@param		DomNode		$node		DOM node to convert
 	 *	@param		object		$object		Tree for objects
 	 *	@return		void
 	 */
-	protected static function convertToObjectRecursive( DOMNode $node, object $object )
+	protected static function convertToObjectRecursive( DomNode $node, object $object )
 	{
 		$object->children	= new stdClass();
 		$object->attributes	= new stdClass();

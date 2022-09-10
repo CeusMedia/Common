@@ -45,11 +45,8 @@ class Watermark
 	/**	@var		array		$size			Array of Information of Stamp Image */
 	protected $size;
 
-	/**	@var		string		$stamp			File Name of Stamp Image */
+	/**	@var		Creator		$stamp			File Name of Stamp Image */
 	protected $stamp;
-
-	/**	@var		array		$stampSource	Image Source Stamp Image */
-	protected $stampSource;
 
 	/**	@var		int			$quality		Quality of resulting JPEG Image */
 	protected $quality;
@@ -87,14 +84,14 @@ class Watermark
 	/**
 	 *	Return Array with Coords of Stamp Image within a given Image.
 	 *	@access		protected
-	 *	@param		resource		$image 		Image Resource
+	 *	@param		Creator		$image 		Image Resource
 	 *	@return		array
 	 */
-	protected function calculatePosition( $image ): array
+	protected function calculatePosition( Creator $image ): array
 	{
 		switch( $this->positionH ){
 			case 'left':
-				$posX	= 0 + $this->marginX;
+				$posX	= $this->marginX;
 				break;
 			case 'center':
 				$posX	= ceil( $image->getWidth() / 2 - $this->stamp->getWidth() / 2 );
@@ -106,7 +103,7 @@ class Watermark
 		}
 		switch( $this->positionV ){
 			case 'top':
-				$posY	= 0 + $this->marginY;
+				$posY	= $this->marginY;
 				break;
 			case 'middle':
 				$posY	= ceil( $image->getHeight() / 2 - $this->stamp->getHeight() / 2 );
@@ -123,7 +120,7 @@ class Watermark
 	}
 
 	/**
-	 *	Marks a Image with Stamp Image.
+	 *	Marks an Image with Stamp Image.
 	 *	@access		public
 	 *	@param		string			$source 		File Name of Source Image
 	 *	@param		string|NULL		$target 		Target Name of Target Image

@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
+
 /**
  *	Renderer graphs in DOT language (Graphviz).
  *
@@ -23,19 +25,17 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 
 namespace CeusMedia\Common\UI\Image\Graphviz;
 
 use CeusMedia\Common\FS\File\Editor as FileEditor;
 use CeusMedia\Common\FS\File\Reader as FileReader;
-use InvalidArgumentException;
 use OutOfBoundsException;
 use RuntimeException;
 
 /**
- *	Renderer graphs in DOT language (Graphviz).
+ *	Renders graphs in DOT language (Graphviz).
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
@@ -43,39 +43,44 @@ use RuntimeException;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  *	@todo			implement support for other image formats than PNG
  *	@todo			implement support for SVG and PDF
  */
 class Renderer
 {
 	protected $layoutEngine			= "dot";
+
 	protected $graph;
+
 	protected $gvInstalled			= NULL;
 
-
-	static public function checkGraphvizSupport(){
+	public static function checkGraphvizSupport(): bool
+	{
 		exec( 'dot -V', $results, $code );
 		if( $code == 127 )
 			return FALSE;
 		return TRUE;
 	}
 
-	public function __construct( Graph $graph, $layoutEngine = "dot" ){
+	public function __construct( Graph $graph, string $layoutEngine = 'dot' )
+	{
 		$this->setGraph( $graph );
 		$this->setLayoutEngine( $layoutEngine );
 		$this->gvInstalled	= $this->checkGraphvizSupport();
 	}
 
-	public function getGraph(){
+	public function getGraph(): ?Graph
+	{
 		return $this->graph;
 	}
 
-	public function getLayoutEngines(){
+	public function getLayoutEngines(): array
+	{
 		return ["circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi"];
 	}
 
-	public function getMap( $type = "cmapx_np", $graphOptions = [] ){
+	public function getMap( string $type = "cmapx_np", array $graphOptions = [] ): string
+	{
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
@@ -92,7 +97,8 @@ class Renderer
 		return $map;
 	}
 
-	public function printGraph( $type = "png", $graphOptions = [] ){
+	public function printGraph( string $type = "png", array $graphOptions = [] )
+	{
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
@@ -109,7 +115,8 @@ class Renderer
 		exit;
 	}
 
-	public function saveAsImage( $fileName, $type = "png", $graphOptions = [] ){
+	public function saveAsImage( string $fileName, string $type = "png", array $graphOptions = [] ): bool
+	{
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 #		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
@@ -124,13 +131,17 @@ class Renderer
 		return $file->rename( $fileName );
 	}
 
-	public function setGraph( Graph $graph ){
+	public function setGraph( Graph $graph ): self
+	{
 		$this->graph	= $graph;
+		return $this;
 	}
 
-	public function setLayoutEngine( $layoutEngine ){
+	public function setLayoutEngine( string $layoutEngine ): self
+	{
 		if( !in_array( $layoutEngine, $this->getLayoutEngines() ) )
 			throw new OutOfBoundsException( 'Invalid layout engine "'.$layoutEngine.'"' );
 		$this->layoutEngine	= $layoutEngine;
+		return $this;
 	}
 }

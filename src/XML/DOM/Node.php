@@ -212,7 +212,7 @@ class Node
 	/**
 	 *	Indicates whether XML Node has an attributes by its name.
 	 *	@access		public
-	 *	@param		string|NULL		$nodeName		Name of Child Node
+	 *	@param		string		$nodeName		Name of Child Node
 	 *	@return		bool
 	 */
 	public function hasChild( string $nodeName ): bool

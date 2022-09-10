@@ -1,4 +1,5 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Image resource reader and writer.
@@ -67,13 +68,19 @@ use RuntimeException;
 */
 class Image
 {
-	protected $resource			= NULL;
-	protected $type				= IMAGETYPE_PNG;
-	protected $width			= 0;
-	protected $height			= 0;
-	protected $quality			= 100;
-	protected $fileName			= NULL;
 	public $colorTransparent;
+
+	protected $resource			= NULL;
+
+	protected $type				= IMAGETYPE_PNG;
+
+	protected $width			= 0;
+
+	protected $height			= 0;
+
+	protected $quality			= 100;
+
+	protected $fileName			= NULL;
 
 	/**
 	 *	Constructor.
@@ -336,10 +343,11 @@ class Image
 	/**
 	 *	Binds image resource to this image object.
 	 *	@access		public
-	 *	@param		resource	$resource		Image resource
-	 *	@return		void
+	 *	@param		resource		$resource		Image resource
+	 *	@param		integer			$alpha			Alpha channel value (0-100)
+	 *	@return		self
 	 */
-	public function setResource( $resource )
+	public function setResource( $resource, int $alpha = 0 ): self
 	{
 		if( !is_resource( $resource ) )
 			throw new InvalidArgumentException( 'Must be a valid image resource' );
@@ -357,6 +365,7 @@ class Image
 		imagealphablending( $this->resource, FALSE );
 		//  copying the complete alpha channel
 		imagesavealpha( $this->resource, TRUE );
+		return $this;
 	}
 
 	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ){
@@ -364,18 +373,17 @@ class Image
 		imagecolortransparent( $this->resource, $color );
 	}
 
-	public function setType( $type )
+	public function setType( $type ): self
 	{
 		if( !( ImageTypes() & $type ) )
 			throw new InvalidArgumentException( 'Invalid type' );
 		$this->type	= $type;
-		if( $this->fileName )
-		{
+		if( $this->fileName ){
 			$baseName	= pathinfo( $this->fileName, PATHINFO_FILENAME );
 			$pathName	= pathinfo( $this->fileName, PATHINFO_DIRNAME );
 			$extension	= image_type_to_extension( $this->type );
 			$this->fileName	= $pathName.'/'.$baseName.$extension;
 		}
-
+		return $this;
 	}
 }

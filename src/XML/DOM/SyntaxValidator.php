@@ -41,10 +41,10 @@ use DOMDocument;
  */
 class SyntaxValidator
 {
-	/**	@var	DOMDocument		$document	DOM Document of Syntax is valid */
+	/**	@var	DOMDocument			$document	DOM Document of Syntax is valid */
 	protected $document	= NULL;
 
-	/**	@var	array			$errors		Parsing Errors if Syntax is invalid */
+	/**	@var	string|FALSE|NULL	$errors		Parsing Errors if Syntax is invalid */
 	protected $errors	= [];
 
 	/**
@@ -60,11 +60,11 @@ class SyntaxValidator
 	/**
 	 *	Returns Array of parsing Errors.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		string|NULL
 	 */
-	public function getErrors(): array
+	public function getErrors(): ?string
 	{
-		return $this->errors;
+		return $this->errors ?: NULL;
 	}
 
 	/**
