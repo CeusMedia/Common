@@ -9,8 +9,8 @@ includes:
 #	Exception: 1
 #	FS: 1
 #	Net: 1
-#	UI: 0
-#	XML: 1
+#	UI: 2
+#	XML: 2
 
 parameters:
 	phpVersion: 70300
@@ -21,16 +21,16 @@ parameters:
 		analyse:
 			- ../../src/FS/File/YAML/Spyc.php
 			- ../../src/Net/XMPP/XMPPHP
-			- ../../src/ADT
-			- ../../src/Alg
-			- ../../src/CLI
-			- ../../src/Exception
-			- ../../src/FS
-			- ../../src/Net
+#			- ../../src/ADT
+#			- ../../src/Alg
+#			- ../../src/CLI
+#			- ../../src/Exception
+#			- ../../src/FS
+#			- ../../src/Net
 #			- ../../src/UI
-			- ../../src/UI/HTML
+#			- ../../src/UI/HTML
 #			- ../../src/UI/Image
-			- ../../src/XML
+#			- ../../src/XML
 		analyseAndScan:
 			- ../../src/compat8.php
 			- ../../src/compat9.php
