@@ -33,6 +33,18 @@ class ReaderTest extends BaseCase
 	}
 
 	/**
+	 *	Tests Method 'count'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function test_count()
+	{
+		$assertion	= 2;
+		$creation	= $this->reader->count();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests Method 'getList'.
 	 *	@access		public
 	 *	@return		void
@@ -71,18 +83,6 @@ class ReaderTest extends BaseCase
 			"line2",
 		);
 		$creation	= $this->reader->getList();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'getSize'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetSize()
-	{
-		$assertion	= 2;
-		$creation	= $this->reader->getSize();
 		$this->assertEquals( $assertion, $creation );
 	}
 

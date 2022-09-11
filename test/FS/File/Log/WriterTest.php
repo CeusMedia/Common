@@ -47,11 +47,9 @@ class WriterTest extends BaseCase
 	public function test__construct()
 	{
 		$writer	= new Writer( $this->fileName );
-		$writer->note( 1 );
+		$writer->note( "1" );
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 	}
 
 	/**
@@ -63,29 +61,22 @@ class WriterTest extends BaseCase
 	{
 		$writer	= new Writer( $this->fileName );
 
-		$assertion	= TRUE;
-		$creation	= $writer->note( 1 );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $writer->note( "1" );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->fileName );
 
 		$content	= file_get_contents( $this->fileName );
 		$pattern	= "@^[0-9]+ \[([0-9]|[.: -])+\] 1\\n@s";
-		$assertion	= TRUE;
 		$creation	= preg_match( "@^[0-9]+ \[([0-9]|[.: -])+\] 1\\n@s", file_get_contents( $this->fileName ) );
 		$creation	= (bool) preg_match( $pattern, $content );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
-		$creation	= $writer->note( 2 );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $writer->note( "2" );
+		$this->assertTrue( $creation );
 
 		$content	= file_get_contents( $this->fileName );
 		$pattern	= "@^[0-9]+ \[([0-9]|[.: -])+\] 1\\n[0-9]+ \[([0-9]|[.: -])+\] 2\\n@s";
-		$assertion	= TRUE;
 		$creation	= (bool) preg_match( $pattern, $content );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 }

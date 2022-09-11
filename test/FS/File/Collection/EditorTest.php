@@ -153,9 +153,8 @@ class EditorTest extends BaseCase
 		$creation	= Editor::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->editor->removeIndex( 0 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 0, $creation );
 
 		$assertion	= array();
 		$creation	= Editor::read( $this->fileName );

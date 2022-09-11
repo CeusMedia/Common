@@ -76,11 +76,11 @@ class Editor extends Reader
 	/**
 	 *	Edits an existing Item of current List.
 	 *	@access		public
-	 *	@param		int			$oldItem		Item to replace
-	 *	@param		int			$newItem		Item to set instead
+	 *	@param		string		$oldItem		Item to replace
+	 *	@param		string		$newItem		Item to set instead
 	 *	@return		int			Number of written bytes
 	 */
-	public function edit( int $oldItem, int $newItem ): int
+	public function edit( string $oldItem, string $newItem ): int
 	{
 		$index	= $this->getIndex( $oldItem );
 		$this->list[$index]	= $newItem;

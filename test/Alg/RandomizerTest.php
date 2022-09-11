@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Alg_Randomizer.
  *	@package		Tests.Alg
@@ -18,6 +21,9 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class RandomizerTest extends BaseCase
 {
+	/** @var Randomizer $randomizer Randomizer instance for all tests */
+	protected $randomizer;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -38,33 +44,29 @@ class RandomizerTest extends BaseCase
 		$this->randomizer->useSigns		= FALSE;
 		$string		= $this->randomizer->get( 1 );
 
-		$assertion	= TRUE;
 		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= 1;
 		$creation	= strlen( $string );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= (bool) preg_match( "@^[a-zA-Z0-9]$@", $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$this->randomizer->useLarges	= FALSE;
 		$this->randomizer->useDigits	= FALSE;
 		$string		= $this->randomizer->get( 20 );
 
-		$assertion	= TRUE;
 		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= 20;
 		$creation	= strlen( $string );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= (bool) preg_match( "@^[a-z]{20}$@", $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -74,11 +76,9 @@ class RandomizerTest extends BaseCase
 	 */
 	public function testGetWithStrength()
 	{
-		$string		= $this->randomizer->get( 15, 30 );
+		$strong		= $this->randomizer->get( 15, 30 );
 
-		$assertion	= TRUE;
-		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $strong );
 	}
 
 	/**
@@ -99,18 +99,13 @@ class RandomizerTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetLarge()
+	public function test_get_withLargeLength()
 	{
 		$this->randomizer->unique	= FALSE;
 		$string		= $this->randomizer->get( 240 );
 
-		$assertion	= TRUE;
-		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 240;
-		$creation	= strlen( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $string );
+		$this->assertEquals( 240, strlen( $string ) );
 	}
 
 	/**
@@ -118,9 +113,10 @@ class RandomizerTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetLengthException1()
+	public function test_get_fromString_expectTypeError()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->randomizer->get( "not_an_integer" );
 	}
 
@@ -129,7 +125,7 @@ class RandomizerTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetLengthException2()
+	public function test_get_fromInt_expectTypeError()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 0 );
@@ -166,9 +162,9 @@ class RandomizerTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStrengthException1()
+	public function test_get_withStrengthFromString_expectTypeError()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
 		$this->randomizer->get( 6, "not_an_integer" );
 	}
 
@@ -177,7 +173,7 @@ class RandomizerTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStrengthException2()
+	public function test_get_withInvalidStrength_expectException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 6, 101 );
@@ -188,7 +184,7 @@ class RandomizerTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStrengthException3()
+	public function test_get_withNegativeStrength_expectException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 6, -101 );

@@ -56,13 +56,8 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertIniToJson( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThanOrEqual( 0, $length );
 
 		$assertion	= file_get_contents( $assertFile );
 		$creation	= file_get_contents( $targetFile );

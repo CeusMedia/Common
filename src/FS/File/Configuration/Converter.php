@@ -283,6 +283,7 @@ class Converter
 				$json[$sectionName][$key]	= $pair;
 			}
 		}
+//		$json	= json_encode( $json, JSON_PRETTY_PRINT );
 		$json	= JsonPretty::print( JsonBuilder::encode( $json ), TRUE );
 		return FileWriter::save( $fileName, $json );
 	}

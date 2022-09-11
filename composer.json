@@ -68,6 +68,10 @@
         "@install-dev",
         "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"
     ],
+    "dev-phpunit": [
+      "@install-dev",
+      "php vendor/bin/phpunit --configuration tool/config/phpunit9.xml --testsuite units"
+    ],
     "dev-phpstan": [
       "@install-dev",
       "vendor/bin/phpstan analyze --configuration=tool/config/phpstan.neon --memory-limit=4G --verbose"

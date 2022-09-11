@@ -57,8 +57,9 @@ class BackupTest extends BaseCase
 
 	/**
 	 */
-	public function testGetContentException1(){
-		$this->expectException( 'InvalidArgumentException' );
+	public function test_getContent_fromString_expectTypeError()
+	{
+		$this->expectException( 'TypeError' );
 		$this->file->store();
 		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->file->getContent( "a" );

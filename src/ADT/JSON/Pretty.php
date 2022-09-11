@@ -42,7 +42,6 @@ use InvalidArgumentException;
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
  *	@deprecated		use json_encode( $data, JSON_PRETTY_PRINT ) instead
- *	@todo			currently broken: missing quotes on keys and values
  *	@todo			support and implement 3 strategies: native, own, json5
  */
 class Pretty
@@ -96,6 +95,7 @@ class Pretty
 				case '"':
 					if( $c > 0 && $json[$c-1] != '\\' )
 						$inString = !$inString;
+					$content .= $char;
 					break;
 				default:
 					$content .= $char;
