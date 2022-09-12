@@ -1,23 +1,22 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			29.10.2010
- *
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Net;
+
+use CeusMedia\Common\Net\CURL as Net_CURL;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			29.10.2010
- *
  */
-class Test_Net_CURLTest extends BaseCase
+class CURLTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

@@ -30,7 +30,7 @@ class GoogleSitemapBuilderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->xmlFile	= dirname( __FILE__ ).'/sitemap.xml';
+		$this->xmlFile	= dirname( __FILE__ ).'/assets/sitemap.xml';
 	}
 
 	/**

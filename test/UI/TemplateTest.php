@@ -13,7 +13,7 @@ namespace CeusMedia\Common\Test\UI;
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\Test\MockAntiProtection;
 use CeusMedia\Common\ADT\Collection\Dictionary;
-use CeusMedia\Common\UI\Template as UI_Template;
+use CeusMedia\Common\UI\Template;
 
 use ArrayObject;
 
@@ -29,9 +29,9 @@ class TemplateTest extends BaseCase
 
 	public function setUp(): void
 	{
-		$this->mock			= MockAntiProtection::getInstance( 'UI_Template' );
+		$this->mock			= MockAntiProtection::getInstance( Template::class );
 		$this->path			= dirname( __FILE__ )."/";
-		$this->template		= new UI_Template( $this->path.'template_testcase1.html' );
+		$this->template		= new Template( $this->path.'template_testcase1.html' );
 		$this->mockElements	= array(
 			'user'	=> "Welt",
 			'list'	=> array(
@@ -230,7 +230,7 @@ class TemplateTest extends BaseCase
 			'text'	=> 'das ist der text',
 		);
 		$assertion	= file_get_contents( $this->path.'template_testcase4_result.html' );
-		$creation	= UI_Template::render( $this->path.'template_testcase4.html', $data );
+		$creation	= Template::render( $this->path.'template_testcase4.html', $data );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

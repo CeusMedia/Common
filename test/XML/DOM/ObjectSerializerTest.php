@@ -21,6 +21,15 @@ use CeusMedia\Common\XML\DOM\ObjectSerializer;
  */
 class ObjectSerializerTest extends BaseCase
 {
+	/** @var string  */
+	protected $fileName;
+
+	/** @var ObjectSerializer  */
+	protected $serializer;
+
+	/** @var TestObject  */
+	protected $object;
+
 	/**
 	 *	Sets up Leaf.
 	 *	@access		public
@@ -28,7 +37,7 @@ class ObjectSerializerTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->fileName		= dirname( __FILE__ ).'/serializer.xml';
+		$this->fileName		= dirname( __FILE__ ).'/assets/serializer.xml';
 		$this->serializer		= new ObjectSerializer();
 		$this->object			= new TestObject();
 		$this->object->string	= "content";

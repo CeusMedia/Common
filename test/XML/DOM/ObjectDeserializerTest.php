@@ -20,6 +20,12 @@ use CeusMedia\Common\XML\DOM\ObjectDeserializer;
  */
 class ObjectDeserializerTest extends BaseCase
 {
+	/** @var ObjectDeserializer  */
+	protected $deserializer;
+
+	/** @var Object_  */
+	protected $object;
+
 	/**
 	 *	Sets up Leaf.
 	 *	@access		public
@@ -42,7 +48,7 @@ class ObjectDeserializerTest extends BaseCase
 
 		$serializer	= new ObjectSerializer();
 		$xml	= $serializer->serialize( $this->object );
-		file_put_contents( dirname( __FILE__ ).'/deserializer.xml', $xml );
+		file_put_contents( dirname( __FILE__ ).'/assets/deserializer.xml', $xml );
 	}
 
 	/**
@@ -52,7 +58,7 @@ class ObjectDeserializerTest extends BaseCase
 	 */
 	public function testDeserialize()
 	{
-		$xml		= file_get_contents( dirname( __FILE__ ).'/deserializer.xml' );
+		$xml		= file_get_contents( dirname( __FILE__ ).'/assets/deserializer.xml' );
 		$assertion	= $this->object;
 		$creation	= $this->deserializer->deserialize( $xml );
 		$this->assertEquals( $assertion, $creation );

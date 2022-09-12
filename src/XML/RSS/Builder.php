@@ -207,25 +207,25 @@ class Builder
 	/**
 	 *	Returns formatted date.
 	 *	@access		protected
-	 *	@param		int			$time			Timestamp
+	 *	@param		string|int		$timestamp		Timestamp or formatted date
 	 *	@return		string
 	 */
-	protected function getDate( int $time ): string
+	protected function getDate( $timestamp ): string
 	{
-		if( preg_match( '@^[0-9]+$@', $time ) )
-			$time	= date( "r", $time );
-		return $time;
+		if( preg_match( '@^[0-9]+$@', $timestamp ) )
+			$timestamp	= date( "r", $timestamp );
+		return $timestamp;
 	}
 
 	/**
 	 *	Sets an Information Pair of Channel.
 	 *	@access		public
-	 *	@param		string		$key		Key of Channel Information Pair
-	 *	@param		string		$value		Value of Channel Information Pair
+	 *	@param		string			$key		Key of Channel Information Pair
+	 *	@param		string|NULL		$value		Value of Channel Information Pair
 	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelPair( string $key, string $value ): self
+	public function setChannelPair( string $key, ?string $value ): self
 	{
 		$this->channel[$key]	= $value;
 		return $this;

@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 
 /**
@@ -10,8 +11,8 @@ declare( strict_types = 1 );
 namespace CeusMedia\Common\XML\DOM;
 
 use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\XML\DOM\FileReader as XML_DOM_FileReader;
-use CeusMedia\Common\XML\DOM\Node as XML_DOM_Node;
+use CeusMedia\Common\XML\DOM\FileReader;
+use CeusMedia\Common\XML\DOM\Node;
 
 /**
  *	TestUnit of XML DOM File Writer.
@@ -20,6 +21,10 @@ use CeusMedia\Common\XML\DOM\Node as XML_DOM_Node;
  */
 class FileReaderTest extends BaseCase
 {
+	/** @var string  */
+	protected $fileName;
+
+
 	/**
 	 *	Sets up Leaf.
 	 *	@access		public
@@ -27,7 +32,7 @@ class FileReaderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->fileName		= dirname( __FILE__ ).'/builder.xml';
+		$this->fileName		= dirname( __FILE__ ).'/assets/builder.xml';
 	}
 
 	/**
@@ -37,20 +42,20 @@ class FileReaderTest extends BaseCase
 	 */
 	public function testRead1()
 	{
-		$reader	= new XML_DOM_FileReader( $this->fileName );
-		$tree	= new XML_DOM_Node( "testRoot" );
-		$node1	= new XML_DOM_Node( "testNode1" );
+		$reader	= new FileReader( $this->fileName );
+		$tree	= new Node( "testRoot" );
+		$node1	= new Node( "testNode1" );
 		$node1->setAttribute( "testKeyNode1", "testValueNode1" );
-		$leaf11	= new XML_DOM_Node( "testLeaf11", "testContentLeaf11" );
+		$leaf11	= new Node( "testLeaf11", "testContentLeaf11" );
 		$leaf11->setAttribute( "testKeyLeaf11", "testValueLeaf11" );
-		$leaf12	= new XML_DOM_Node( "testLeaf12", "testContentLeaf12" );
+		$leaf12	= new Node( "testLeaf12", "testContentLeaf12" );
 		$leaf12->setAttribute( "testKeyLeaf12", "testValueLeaf12" );
 
-		$node2	= new XML_DOM_Node( "testNode2" );
+		$node2	= new Node( "testNode2" );
 		$node2->setAttribute( "testKeyNode2", "testValueNode2" );
-		$leaf21	= new XML_DOM_Node( "testLeaf21", "testContentLeaf21" );
+		$leaf21	= new Node( "testLeaf21", "testContentLeaf21" );
 		$leaf21->setAttribute( "testKeyLeaf21", "testValueLeaf21" );
-		$leaf22	= new XML_DOM_Node( "testLeaf22", "testContentLeaf22" );
+		$leaf22	= new Node( "testLeaf22", "testContentLeaf22" );
 		$leaf22->setAttribute( "testKeyLeaf22", "testValueLeaf22" );
 
 		$node1->addChild( $leaf11 );
@@ -58,9 +63,9 @@ class FileReaderTest extends BaseCase
 		$node2->addChild( $leaf21 );
 		$node2->addChild( $leaf22 );
 
-		$leaf31	= new XML_DOM_Node( "testLeaf31", "testContentLeaf31" );
+		$leaf31	= new Node( "testLeaf31", "testContentLeaf31" );
 		$leaf31->setAttribute( "testKeyLeaf31", "testValueLeaf31" );
-		$leaf32	= new XML_DOM_Node( "testLeaf32", "testContentLeaf32" );
+		$leaf32	= new Node( "testLeaf32", "testContentLeaf32" );
 		$leaf32->setAttribute( "testKeyLeaf32", "testValueLeaf32" );
 
 		$tree->addChild( $node1 );
@@ -81,7 +86,7 @@ class FileReaderTest extends BaseCase
 	public function testRead2()
 	{
 		$this->expectException( 'RuntimeException' );
-		$reader	= new XML_DOM_FileReader( "not_existing_file.xml" );
+		$reader	= new FileReader( "not_existing_file.xml" );
 		$reader->read();
 	}
 
@@ -92,19 +97,19 @@ class FileReaderTest extends BaseCase
 	 */
 	public function testLoad1()
 	{
-		$tree	= new XML_DOM_Node( "testRoot" );
-		$node1	= new XML_DOM_Node( "testNode1" );
+		$tree	= new Node( "testRoot" );
+		$node1	= new Node( "testNode1" );
 		$node1->setAttribute( "testKeyNode1", "testValueNode1" );
-		$leaf11	= new XML_DOM_Node( "testLeaf11", "testContentLeaf11" );
+		$leaf11	= new Node( "testLeaf11", "testContentLeaf11" );
 		$leaf11->setAttribute( "testKeyLeaf11", "testValueLeaf11" );
-		$leaf12	= new XML_DOM_Node( "testLeaf12", "testContentLeaf12" );
+		$leaf12	= new Node( "testLeaf12", "testContentLeaf12" );
 		$leaf12->setAttribute( "testKeyLeaf12", "testValueLeaf12" );
 
-		$node2	= new XML_DOM_Node( "testNode2" );
+		$node2	= new Node( "testNode2" );
 		$node2->setAttribute( "testKeyNode2", "testValueNode2" );
-		$leaf21	= new XML_DOM_Node( "testLeaf21", "testContentLeaf21" );
+		$leaf21	= new Node( "testLeaf21", "testContentLeaf21" );
 		$leaf21->setAttribute( "testKeyLeaf21", "testValueLeaf21" );
-		$leaf22	= new XML_DOM_Node( "testLeaf22", "testContentLeaf22" );
+		$leaf22	= new Node( "testLeaf22", "testContentLeaf22" );
 		$leaf22->setAttribute( "testKeyLeaf22", "testValueLeaf22" );
 
 		$node1->addChild( $leaf11 );
@@ -112,9 +117,9 @@ class FileReaderTest extends BaseCase
 		$node2->addChild( $leaf21 );
 		$node2->addChild( $leaf22 );
 
-		$leaf31	= new XML_DOM_Node( "testLeaf31", "testContentLeaf31" );
+		$leaf31	= new Node( "testLeaf31", "testContentLeaf31" );
 		$leaf31->setAttribute( "testKeyLeaf31", "testValueLeaf31" );
-		$leaf32	= new XML_DOM_Node( "testLeaf32", "testContentLeaf32" );
+		$leaf32	= new Node( "testLeaf32", "testContentLeaf32" );
 		$leaf32->setAttribute( "testKeyLeaf32", "testValueLeaf32" );
 
 		$tree->addChild( $node1 );
@@ -123,7 +128,7 @@ class FileReaderTest extends BaseCase
 		$tree->addChild( $leaf32 );
 
 		$assertion	= $tree;
-		$creation	= XML_DOM_FileReader::load( $this->fileName );
+		$creation	= FileReader::load( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -135,6 +140,6 @@ class FileReaderTest extends BaseCase
 	public function testLoad2()
 	{
 		$this->expectException( 'RuntimeException' );
-		XML_DOM_FileReader::load( "not_existing_file.xml" );
+		FileReader::load( "not_existing_file.xml" );
 	}
 }

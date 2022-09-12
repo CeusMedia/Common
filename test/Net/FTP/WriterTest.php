@@ -1,24 +1,36 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of Net_FTP_Writer.
  *	@package		Tests.net.ftp
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			01.07.2008
- *
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Net\FTP;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Net\FTP\Reader;
+use CeusMedia\Common\Net\FTP\Writer;
+use CeusMedia\Common\Net\FTP\Connection;
 
 /**
  *	TestUnit of Net_FTP_Writer.
  *	@package		Tests.net.ftp
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			01.07.2008
- *
  */
-class Test_Net_FTP_WriterTest extends BaseCase
+class WriterTest extends BaseCase
 {
+	/** @var Connection  */
+	protected $connection;
+
+	protected $local;
+
+	protected $path;
+
+	protected $reader;
+
+	protected $writer;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -26,19 +38,19 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->config	= self::$_config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
+		$config	= self::$_config['unitTest-FTP'];
+		$host		= $config['host'];
+		$port		= $config['port'];
+		$username	= $config['user'];
+		$password	= $config['pass'];
+		$this->path		= $config['path'];
+		$this->local	= $config['local'];
 
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in Common.ini' );
 
-		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
-		$this->connection->login( $this->username, $this->password );
+		$this->connection	= new Connection( $host, $port );
+		$this->connection->login( $username, $password );
 
 		@mkDir( $this->local );
 		@mkDir( $this->local."folder" );
@@ -48,8 +60,8 @@ class Test_Net_FTP_WriterTest extends BaseCase
 		if( $this->path )
 			$this->connection->setPath( $this->path );
 
-		$this->reader	= new Net_FTP_Reader( $this->connection );
-		$this->writer	= new Net_FTP_Writer( $this->connection );
+		$this->reader	= new Reader( $this->connection );
+		$this->writer	= new Writer( $this->connection );
 	}
 
 	/**
@@ -74,6 +86,7 @@ class Test_Net_FTP_WriterTest extends BaseCase
 		@rmDir( $this->local."created" );
 		@rmDir( $this->local."moved" );
 		@rmDir( $this->local );
+		$this->connection->close();
 	}
 
 	/**
@@ -99,21 +112,13 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testCopyFile()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->copyFile( "source.txt", "target.txt" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."target.txt" );
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."target.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
 		$creation	= $this->writer->copyFile( "folder/source.txt", "folder/target.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."folder/target.txt" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."folder/target.txt" );
 	}
 
 	/**
@@ -125,13 +130,9 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	{
 		$this->writer->setPath( "folder" );
 
-		$assertion	= TRUE;
 		$creation	= $this->writer->copyFile( "source.txt", "target.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."folder/target.txt" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."folder/target.txt" );
 	}
 
 	/**
@@ -163,13 +164,9 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testCopyFolder()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->copyFolder( "folder", "copy" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."copy" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."copy" );
 
 		$assertion	= 1;
 		$creation	= count( $this->reader->getFileList( "copy" ) );
@@ -183,13 +180,9 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testCreateFolder()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->createFolder( "created" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."created" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."created" );
 	}
 
 	/**
@@ -217,17 +210,10 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testMoveFile()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->moveFile( "source.txt", "target.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->local."source.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."target.txt" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."target.txt" );
+		$this->assertFileDoesNotExist( $this->local."source.txt" );
 	}
 
 	/**
@@ -237,21 +223,13 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testMoveFolder()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->moveFolder( "folder", "moved" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileDoesNotExist( $this->local."folder" );
+		$this->assertFileExists( $this->local."moved" );
 
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->local."folder" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."moved" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
 		$creation	= $this->writer->moveFolder( "moved", "moved" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -261,13 +239,9 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testPutFile()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->putFile( $this->local."source.txt", "target.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."target.txt" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."target.txt" );
 
 		$assertion	= "source file";
 		$creation	= file_get_contents( $this->local."target.txt" );
@@ -281,13 +255,9 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testRemoveFile()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->removeFile( "folder/source.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->local."folder/source.txt" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileDoesNotExist( $this->local."folder/source.txt" );
 	}
 
 	/**
@@ -297,13 +267,9 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testRemoveFolder()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->removeFolder( "folder" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->local."folder" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileDoesNotExist( $this->local."folder" );
 	}
 
 	/**
@@ -313,13 +279,10 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testRenameFile()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->writer->renameFile( "source.txt", "renamed.txt" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->local."renamed.txt" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->local."renamed.txt" );
+		$this->assertFileDoesNotExist( $this->local."source.txt" );
 	}
 
 	/**
@@ -329,21 +292,18 @@ class Test_Net_FTP_WriterTest extends BaseCase
 	 */
 	public function testSetPath()
 	{
-		$assertion	= FALSE;
 		$creation	= $this->writer->setPath( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->writer->setPath( "folder" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->writer->getPath();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->writer->setPath( "/".$this->path."folder" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->writer->getPath();

@@ -1,10 +1,8 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of UI_Image_Creator.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.06.2008
- *
  */
 declare( strict_types = 1 );
 
@@ -12,23 +10,26 @@ namespace CeusMedia\Common\Test\UI\Image;
 
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\UI\Image\Creator;
+use CeusMedia\Common\FS\File\Reader as FileReader;
 
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.06.2008
- *
  */
 class CreatorTest extends BaseCase
 {
+	/** @var Creator  */
+	protected $creator;
+	protected $path;
+
 	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
-		$this->path		= dirname( __FILE__ )."/";
-		$this->image	= new Creator();
-		$this->image->loadImage( $this->path."aptana_256.png" );
+		$this->path		= dirname( __FILE__ )."/assets/";
+		$this->creator	= new Creator();
+		$this->creator->loadImage( $this->path."aptana_256.png" );
 		$this->tearDown();
 	}
 
@@ -43,9 +44,9 @@ class CreatorTest extends BaseCase
 	public function testCreate()
 	{
 		$this->markTestSkipped( 'No image tests.' );
-		$image	= new Creator();
-		$image->create( 100, 200 );
-		imagepng( $image->getResource(), $this->path."targetCreator1.png" );
+		$creator	= new Creator();
+		$creator->create( 100, 200 );
+		imagepng( $creator->getResource(), $this->path."targetCreator1.png" );
 
 		$image	= imagecreatefrompng( $this->path."targetCreator1.png" );
 		$this->assertEquals( 100, imagesx( $image ) );
@@ -59,7 +60,7 @@ class CreatorTest extends BaseCase
 		$image->loadImage( $this->path."sourceCreator.png" );
 		imagepng( $image->getResource(), $this->path."targetCreator.png" );
 
-		$file		= new FS_File_Reader( $this->path."sourceCreator.png" );
+		$file		= new FileReader( $this->path."sourceCreator.png" );
 		$this->assertTrue( $file->equals( $this->path."targetCreator.png" ) );
 	}
 
@@ -69,61 +70,57 @@ class CreatorTest extends BaseCase
 		$image	= new Creator();
 		$image->loadImage( $this->path."sourceCreator.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_resource( $image->getResource() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsResource( $image->getResource() );
 	}
 
 	public function testLoadImageGif()
 	{
 		$this->markTestSkipped( 'No image tests.' );
-		$image	= new Creator();
-		$image->loadImage( $this->path."sourceCreator.gif" );
-		imagegif( $image->getResource(), $this->path."targetCreator.gif" );
+		$creator	= new Creator();
+		$creator->loadImage( $this->path."sourceCreator.gif" );
+		imagegif( $creator->getResource(), $this->path."targetCreator.gif" );
 
-		$file		= new FS_File_Reader( $this->path."sourceCreator.gif" );
+		$file		= new FileReader( $this->path."sourceCreator.gif" );
 		$this->assertTrue( $file->equals( $this->path."targetCreator.gif" ) );
 	}
 
 	public function testLoadImageException1()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$image	= new Creator();
-		$image->loadImage( $this->path."not_existing.gif" );
+		$creator	= new Creator();
+		$creator->loadImage( $this->path."not_existing.gif" );
 	}
 
 	public function testLoadImageException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$image	= new Creator();
-		$image->loadImage( $this->path."CreatorTest.php" );
+		$creator	= new Creator();
+		$creator->loadImage( $this->path."CreatorTest.php" );
 	}
 
 	public function testGetWidth()
 	{
 		$assertion	= 256;
-		$creation	= $this->image->getWidth();
+		$creation	= $this->creator->getWidth();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testGetHeight()
 	{
 		$assertion	= 256;
-		$creation	= $this->image->getHeight();
+		$creation	= $this->creator->getHeight();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testGetType()
 	{
 		$assertion	= IMAGETYPE_PNG;
-		$creation	= $this->image->getType();
+		$creation	= $this->creator->getType();
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetResource()
+	public function test_get_returnsResource()
 	{
-		$assertion	= TRUE;
-		$creation	= is_resource( $this->image->getResource() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsResource( $this->creator->getResource() );
 	}
 }

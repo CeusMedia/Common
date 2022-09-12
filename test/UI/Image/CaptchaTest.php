@@ -3,8 +3,6 @@
  *	TestUnit of UI_Image_Captcha.
  *	@package		Tests.ui
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
- *
  */
 declare( strict_types = 1 );
 
@@ -17,11 +15,15 @@ use CeusMedia\Common\UI\Image\Captcha;
  *	TestUnit of UI_Image_Captcha.
  *	@package		Tests.ui
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
- *
  */
 class CaptchaTest extends BaseCase
 {
+	/** @var Captcha  */
+	protected $captcha;
+
+	/** @var string  */
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -31,7 +33,7 @@ class CaptchaTest extends BaseCase
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
-		$this->path		= dirname( __FILE__ )."/";
+		$this->path		= dirname( __FILE__ )."/assets/";
 		$this->captcha	= new Captcha();
 		$this->captcha->font	= $this->path."tahoma.ttf";
 		$this->captcha->width	= 150;
@@ -57,17 +59,9 @@ class CaptchaTest extends BaseCase
 	{
 		$word		= $this->captcha->generateWord();
 
-		$assertion	= TRUE;
-		$creation	= is_string( $word );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= (bool) preg_match( "@[0-9]@", $word );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= (bool) preg_match( "@[A-Z]@", $word );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $word );
+		$this->assertDoesNotMatchRegularExpression( "@[0-9]@", $word );
+		$this->assertDoesNotMatchRegularExpression( "@[A-Z]@", $word );
 
 		$captcha	= new Captcha();
 		$captcha->useLarges	= TRUE;
@@ -76,13 +70,8 @@ class CaptchaTest extends BaseCase
 		$captcha->font		= $this->path."tahoma.ttf";
 		$word		= $captcha->generateWord();
 
-		$assertion	= TRUE;
-		$creation	= is_string( $word );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= (bool) preg_match( "@[A-Z]|[0-9]@", $word );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $word );
+		$this->assertMatchesRegularExpression( "@[A-Z]|[0-9]@", $word );
 	}
 
 	/**
@@ -94,25 +83,15 @@ class CaptchaTest extends BaseCase
 	{
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
 		$oldImage	= file_get_contents( $this->path."captcha.created.jpg" );
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 		$newImage	= file_get_contents( $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
 		$assertion	= TRUE;
 		$creation	= $newImage	!= $oldImage;
@@ -132,25 +111,15 @@ class CaptchaTest extends BaseCase
 
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
 		$oldImage	= file_get_contents( $this->path."captcha.created.jpg" );
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 		$newImage	= file_get_contents( $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
 		$assertion	= TRUE;
 		$creation	= $newImage	== $oldImage;

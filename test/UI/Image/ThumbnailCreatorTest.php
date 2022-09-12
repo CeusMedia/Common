@@ -1,10 +1,8 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of Thumbnail Creator.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
  */
 declare( strict_types = 1 );
 
@@ -12,13 +10,12 @@ namespace CeusMedia\Common\Test\UI\Image;
 
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\UI\Image\ThumbnailCreator;
+use Exception;
 
 /**
  *	TestUnit of Thumbnail Creator.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
  */
 class ThumbnailCreatorTest extends BaseCase
 {
@@ -26,12 +23,15 @@ class ThumbnailCreatorTest extends BaseCase
 	protected $sourceFile;
 	protected $targetFile;
 
+	/** @var string  */
+	protected $path;
+
 	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 		$this->assertFile	= $this->path."assertThumbnail.png";
 		$this->sourceFile	= $this->path."sourceThumbnail.png";
 		$this->targetFile	= $this->path."targetThumbnail.png";
@@ -131,13 +131,7 @@ class ThumbnailCreatorTest extends BaseCase
 
 	public function testThumbizeExceptions()
 	{
-		try
-		{
-			$creator	= new ThumbnailCreator( __FILE__, "notexisting.txt" );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		$this->expectException( 'Exception' );
+		$creator	= new ThumbnailCreator( __FILE__, "notexisting.txt" );
 	}
 }

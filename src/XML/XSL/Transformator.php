@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Transformator for XML and XSLT.
@@ -83,9 +84,10 @@ class Transformator
 	{
 		if( !( $this->xml && $this->xsl ) )
 			throw new InvalidArgumentException( 'XML and XSL must be set.' );
-		$doc	= new DOMDocument();
-		$xml	= $doc->loadXML( $this->xml );
-		$xsl	= $doc->loadXML( $this->xsl );
+		$xml	= new DOMDocument();
+		$xml->loadXML( $this->xml );
+		$xsl	= new DOMDocument();
+		$xsl->loadXML( $this->xsl );
 		$proc	= new XSLTProcessor();
 		$proc->importStyleSheet( $xsl );
 		return $proc->transformToXML( $xml );

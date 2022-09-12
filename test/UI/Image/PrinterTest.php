@@ -1,15 +1,14 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of UI_Image_Printer.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.06.2008
- *
  */
 declare( strict_types = 1 );
 
 namespace CeusMedia\Common\Test\UI\Image;
 
+use CeusMedia\Common\FS\File\Reader;
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\UI\Image\Printer;
 
@@ -17,17 +16,18 @@ use CeusMedia\Common\UI\Image\Printer;
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.06.2008
- *
  */
 class PrinterTest extends BaseCase
 {
+	/** @var string  */
+	protected $path;
+
 	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 	}
 
 	public function tearDown(): void
@@ -98,7 +98,7 @@ class PrinterTest extends BaseCase
 		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", IMAGETYPE_PNG, 0 );
 
-		$file		= new FS_File_Reader( $this->path."targetPrinter.png" );
+		$file		= new Reader( $this->path."targetPrinter.png" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.png" ) );
 	}
 
@@ -121,7 +121,7 @@ class PrinterTest extends BaseCase
 		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.gif", IMAGETYPE_GIF, 0 );
 
-		$file		= new FS_File_Reader( $this->path."targetPrinter.gif" );
+		$file		= new Reader( $this->path."targetPrinter.gif" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.gif" ) );
 	}
 

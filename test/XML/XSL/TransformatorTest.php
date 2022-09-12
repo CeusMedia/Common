@@ -1,24 +1,27 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of XSL Transformator.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			13.12.2007
- *
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\XML\XSL;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\XSL\Transformator;
 
 /**
  *	TestUnit of XSL Transformator.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			13.12.2007
- *
  */
-class Test_XML_XSL_TransformatorTest extends BaseCase
+class TransformatorTest extends BaseCase
 {
+	protected $transformator;
+	protected $result;
+	protected $path;
+
 	/**
 	 *	Sets up Node.
 	 *	@access		public
@@ -28,8 +31,8 @@ class Test_XML_XSL_TransformatorTest extends BaseCase
 	{
 		if( !class_exists( 'XSLTProcessor' ) )
 			$this->markTestSkipped( 'Support for XSL is missing' );
-		$this->path	= dirname( __FILE__ )."/";
-		$this->transformator	= new XML_XSL_Transformator();
+		$this->path		= dirname( __FILE__ )."/";
+		$this->transformator	= new Transformator();
 		$this->transformator->loadXmlFile( $this->path."collection.xml" );
 		$this->transformator->loadXslFile( $this->path."collection.xsl" );
 		$this->result	= file_get_contents( $this->path."result.html" );

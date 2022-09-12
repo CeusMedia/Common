@@ -237,7 +237,7 @@ class Node
 	 */
 	public function hasContent(): bool
 	{
-		return $this->content !== NULL;
+		return $this->content !== NULL && $this->content !== '';
 	}
 
 	/**
@@ -283,7 +283,7 @@ class Node
 	public function removeContent(): self
 	{
 		if( $this->hasContent() )
-			$this->setContent( "" );
+			$this->setContent( '' );
 		return $this;
 	}
 

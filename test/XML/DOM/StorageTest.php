@@ -23,6 +23,10 @@ use CeusMedia\Common\XML\DOM\Storage;
  */
 class StorageTest extends BaseCase
 {
+	protected $fileName;
+
+	protected $storage;
+
 	/**
 	 *	Sets up Leaf.
 	 *	@access		public
@@ -30,7 +34,7 @@ class StorageTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->fileName		= dirname( __FILE__ )."/storage.xml";
+		$this->fileName		= dirname( __FILE__ )."/assets/storage.xml";
 		$this->storage	= new Storage( $this->fileName );
 		$this->storage->set( "tests.test1.key1", "value11" );
 		$this->storage->write();
@@ -66,19 +70,16 @@ class StorageTest extends BaseCase
 	public function testRemove()
 	{
 		//  remove Value
-		$assertion	= true;
 		$creation	= $this->storage->remove( "tests.test1.key1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check Value
-		$assertion	= NULL;
 		$creation	= $this->storage->get( "tests.test1.key1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertNull( $creation );
 
 		//  try to remove Value again
-		$assertion	= false;
 		$creation	= $this->storage->remove( "tests.test1.key1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -89,19 +90,17 @@ class StorageTest extends BaseCase
 	public function testRemoveAndWrite()
 	{
 		//  remove Value and write
-		$assertion	= true;
 		$creation	= $this->storage->remove( "tests.test1.key1", true );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  remove Value and write
 		$assertion	= 0;
 		$creation	= substr_count( file_get_contents( $this->fileName ), "value11" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 0, $creation );
 
 		//  try to remove Value again
-		$assertion	= false;
 		$creation	= $this->storage->remove( "tests.test1.key1", true );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -112,9 +111,8 @@ class StorageTest extends BaseCase
 	public function testSet()
 	{
 		//  set Value
-		$assertion	= true;
 		$creation	= $this->storage->set( "tests.test2.key1", "value21" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check Value
 		$assertion	= "value21";
@@ -122,9 +120,8 @@ class StorageTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		//  try to set Value again
-		$assertion	= false;
 		$creation	= $this->storage->set( "tests.test2.key1", "value21" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -135,9 +132,8 @@ class StorageTest extends BaseCase
 	public function testSetAndWrite()
 	{
 		//  set Value and write
-		$assertion	= true;
 		$creation	= $this->storage->set( "tests.test2.key2", "value22", true );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check Value in File
 		$assertion	= 1;
@@ -145,8 +141,7 @@ class StorageTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		//  try to set Value again
-		$assertion	= false;
 		$creation	= $this->storage->set( "tests.test2.key2", "value22", true );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 }

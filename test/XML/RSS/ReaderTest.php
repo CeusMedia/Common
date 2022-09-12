@@ -1,26 +1,25 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *
  */
 declare( strict_types = 1 );
 
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\RSS\Reader;
 
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *
  */
-class Test_XML_RSS_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
-
-	protected $url		= "http://www.rssboard.org/files/sample-rss-2.xml";
+	protected $file;
+	protected $serial;
+	protected $reader;
+	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
 
 	/**
 	 *	Sets up Leaf.
@@ -31,7 +30,7 @@ class Test_XML_RSS_ReaderTest extends BaseCase
 	{
 		$this->file		= dirname( __FILE__ )."/reader.xml";
 		$this->serial	= dirname( __FILE__ )."/reader.serial";
-		$this->reader	= new XML_RSS_Reader();
+		$this->reader	= new Reader();
 	}
 
 	/**

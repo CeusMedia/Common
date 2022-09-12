@@ -1,10 +1,8 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of XML_Atom_Reader.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.05.2008
- *
  */
 declare( strict_types = 1 );
 
@@ -17,10 +15,8 @@ use CeusMedia\Common\XML\Atom\Reader;
  *	TestUnit of XML_Atom_Reader.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.05.2008
- *
  */
-class Test_XML_Atom_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

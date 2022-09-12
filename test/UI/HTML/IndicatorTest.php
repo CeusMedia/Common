@@ -1,24 +1,29 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.07.2008
- *
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\Indicator;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.07.2008
- *
  */
-class Test_UI_HTML_IndicatorTest extends BaseCase
+class IndicatorTest extends BaseCase
 {
+	/** @var Indicator $indicator */
+	protected $indicator;
+
+	/** @var string $path */
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -27,7 +32,7 @@ class Test_UI_HTML_IndicatorTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ )."/";
-		$this->indicator	= new UI_HTML_Indicator();
+		$this->indicator	= new Indicator();
 	}
 
 	/**
@@ -46,7 +51,7 @@ class Test_UI_HTML_IndicatorTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$indicator	= new UI_HTML_Indicator();
+		$indicator	= new Indicator();
 
 		$assertion	= TRUE;
 		$creation	= $indicator->getOption( 'useColor' );

@@ -3,8 +3,6 @@
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *
  */
 declare( strict_types = 1 );
 
@@ -19,11 +17,14 @@ use InvalidArgumentException;
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *
  */
 class WatermarkTest extends BaseCase
 {
+	/** @var WatermarkInstance  */
+	protected $mark;
+
+	/** @var string  */
+	protected $path;
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -31,7 +32,7 @@ class WatermarkTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 		$this->mark	= new WatermarkInstance( $this->path."mark.png" );
@@ -76,8 +77,8 @@ class WatermarkTest extends BaseCase
 	 */
 	public function testMarkImage()
 	{
-		$this->markTestSkipped( 'No image tests.' );
-		$mark	= new UI_Image_Watermark( $this->path."mark.png", 50, 100 );
+//		$this->markTestSkipped( 'No image tests.' );
+		$mark	= new Watermark( $this->path."mark.png", 50, 100 );
 		$mark->setMargin( 10, 10 );
 		$mark->markImage( $this->path."sourceWatermark.png", $this->path."targetWatermark.png" );
 		$this->assertFileEquals( $this->path."targetWatermark.png", $this->path."assertWatermark.png", "Watermark file not identical." );
@@ -192,15 +193,30 @@ class WatermarkTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
+
+/**
+ *
+ */
 class WatermarkInstance extends Watermark
 {
-	public function getProtectedVar( $varName )
+	/**
+	 * @param $varName
+	 * @return mixed
+	 * @throws Exception
+	 */
+	public function getProtectedVar($varName )
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );
 		return $this->$varName;
 	}
 
+	/**
+	 * @param $varName
+	 * @param $varValue
+	 * @return void
+	 * @throws Exception
+	 */
 	public function setProtectedVar( $varName, $varValue )
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )

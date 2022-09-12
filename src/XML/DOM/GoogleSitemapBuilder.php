@@ -59,10 +59,10 @@ class GoogleSitemapBuilder
 	 *	Builds and return XML of Sitemap.
 	 *	@access		public
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
-	 *	@return		bool
+	 *	@return		string
 	 *	@throws		Exception
 	 */
-	public function build( string $baseUrl ): bool
+	public function build( string $baseUrl ): string
 	{
 		return self::buildSitemap( $this->list, $baseUrl );
 	}

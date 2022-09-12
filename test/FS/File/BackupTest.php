@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	Test class for FS_File_Backup.
  *	@package		Tests.FS.File

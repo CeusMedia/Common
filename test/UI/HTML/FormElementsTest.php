@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of Tag.
  *	@package		Tests.ui.html
@@ -38,7 +38,7 @@ class FormElementsTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" disabled="disabled"><span>testLabel</span></button>';
-		$creation	= FormElements::Button( "testButton", "testLabel", "testClass", FALSE, TRUE );
+		$creation	= FormElements::Button( "testButton", "testLabel", "testClass", NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" onclick="alert(&#039;testDisabled&#039;);" readonly="readonly"><span>testLabel</span></button>';
@@ -67,11 +67,11 @@ class FormElementsTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly"/>';
-		$creation	= FormElements::CheckBox( "testName", "testValue", NULL, "testClass", TRUE );
+		$creation	= FormElements::CheckBox( "testName", "testValue", FALSE, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= FormElements::CheckBox( "testName", "testValue", NULL, "testClass", "testDisabled" );
+		$creation	= FormElements::CheckBox( "testName", "testValue", FALSE, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -123,7 +123,7 @@ class FormElementsTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="file" name="testName" value="testValue" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= FormElements::File( "testName", "testValue", FALSE, "testDisabled" );
+		$creation	= FormElements::File( "testName", "testValue", NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -195,7 +195,7 @@ class FormElementsTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" disabled="disabled">testLabel</option>';
-		$creation	= FormElements::Option( "testValue", "testLabel", NULL, TRUE );
+		$creation	= FormElements::Option( "testValue", "testLabel", FALSE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" selected="selected" disabled="disabled">testLabel</option>';
@@ -203,7 +203,7 @@ class FormElementsTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" class="testClass">testLabel</option>';
-		$creation	= FormElements::Option( "testValue", "testLabel", NULL, NULL, "testClass" );
+		$creation	= FormElements::Option( "testValue", "testLabel", FALSE, FALSE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" selected="selected" disabled="disabled" class="testClass">testLabel</option>';
@@ -301,11 +301,11 @@ class FormElementsTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly"/>';
-		$creation	= FormElements::Radio( "testName", "testValue", NULL, "testClass", TRUE );
+		$creation	= FormElements::Radio( "testName", "testValue", FALSE, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= FormElements::Radio( "testName", "testValue", NULL, "testClass", "testDisabled" );
+		$creation	= FormElements::Radio( "testName", "testValue", FALSE, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -342,7 +342,7 @@ class FormElementsTest extends BaseCase
 		$spanRadio	= '<span class="radio">'.$fieldRadio.'</span>';
 		$spanLabel	= '<span class="label"><label for="testName_value1">label1</label></span>';
 		$assertion	= '<span class="radiolabel">'.$spanRadio.$spanLabel.'</span>';
-		$creation	= FormElements::RadioGroup( "testName", $options, FALSE, "testDisabled" );
+		$creation	= FormElements::RadioGroup( "testName", $options, NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 

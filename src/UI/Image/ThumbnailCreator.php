@@ -98,7 +98,7 @@ class ThumbnailCreator
 			throw new Exception( 'Source File "'.$source.'" is not a supported Image.' );
 		$this->size		= $size;
 		$this->source	= $source;
-        return $this;
+		return $this;
 	}
 
 	/**
@@ -110,7 +110,7 @@ class ThumbnailCreator
 	public function setTarget( string $target ): self
 	{
 		$this->target	= $target;
-        return $this;
+		return $this;
 	}
 
 	/**

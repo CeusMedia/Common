@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 
 /**
@@ -23,6 +24,9 @@ use CeusMedia\Common\XML\DOM\GoogleSitemapWriter;
  */
 class GoogleSitemapWriterTest extends BaseCase
 {
+	protected $testFile;
+	protected $xmlFile;
+
 	/**
 	 *	Sets up Builder.
 	 *	@access		public
@@ -30,8 +34,8 @@ class GoogleSitemapWriterTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->xmlFile	= dirname( __FILE__ ).'/sitemap.xml';
-		$this->testFile	= dirname( __FILE__ ).'/test.xml';
+		$this->xmlFile	= dirname( __FILE__ ).'/assets/sitemap.xml';
+		$this->testFile	= dirname( __FILE__ ).'/assets/test.xml';
 	}
 
 	/**

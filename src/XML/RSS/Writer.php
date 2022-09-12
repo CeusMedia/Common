@@ -77,12 +77,12 @@ class Writer
 	/**
 	 *	Sets an Information Pair of Channel.
 	 *	@access		public
-	 *	@param		string		$key		Key of Channel Information Pair
-	 *	@param		string		$value		Value of Channel Information Pair
+	 *	@param		string			$key		Key of Channel Information Pair
+	 *	@param		string|NULL		$value		Value of Channel Information Pair
 	 *	@return		self
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelPair( string $key, string $value ): self
+	public function setChannelPair( string $key, ?string $value ): self
 	{
 		$this->channelData[$key]	= $value;
 		return $this;

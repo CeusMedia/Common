@@ -1,5 +1,10 @@
 <?php
+/** @noinspection PhpDocMissingThrowsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of FS_File_Configuration_Converter.
  *	@package		Tests.FS.File.Configuration
@@ -18,6 +23,8 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class ConverterTest extends BaseCase
 {
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -77,17 +84,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertIniToXml( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -103,17 +102,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertJsonToIni( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -129,17 +120,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertJsonToXml( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -155,17 +138,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertXmlToIni( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -181,16 +156,8 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertXmlToJson( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 }

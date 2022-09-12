@@ -1,24 +1,32 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.02.2008
  *
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Net;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Net\Reader as NetReader;
+use CeusMedia\Common\Net\CURL as NetCURL;
 
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.02.2008
  *
  */
-class Test_Net_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
+	protected $url;
+	protected $needle;
+
+	/** @var NetReader  */
+	protected $reader;
+
 	/**
 	 *	Sets up Reader.
 	 *	@access		public
@@ -26,15 +34,15 @@ class Test_Net_ReaderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->url		= "http://www.example.com";
+		$this->url		= "https://www.example.com";
 		$this->needle	= "@RFC\s+2606@i";
 
-		$this->url		= "http://ceusmedia.de/";
+		$this->url		= "https://ceusmedia.de/";
 		$this->needle	= "@ceus media@i";
 
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'Missing cURL support' );
-		$this->reader	= new Net_Reader( $this->url );
+		$this->reader	= new NetReader( $this->url );
 		$this->reader->setUserAgent( "cmClasses:UnitTest/0.1" );
 	}
 
@@ -47,7 +55,7 @@ class Test_Net_ReaderTest extends BaseCase
 	{
 		$response	= $this->reader->read();
 		$assertion	= "200";
-		$creation	= $this->reader->getInfo( Net_CURL::INFO_HTTP_CODE );
+		$creation	= $this->reader->getInfo( NetCURL::INFO_HTTP_CODE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
@@ -111,7 +119,7 @@ class Test_Net_ReaderTest extends BaseCase
 	public function testReadException()
 	{
 		$this->expectException( "RuntimeException" );
-		$reader		= new Net_Reader( "" );
+		$reader		= new NetReader( "" );
 		$reader->read();
 	}
 
@@ -122,7 +130,7 @@ class Test_Net_ReaderTest extends BaseCase
 	 */
 	public function testReadUrl()
 	{
-		$response	= Net_Reader::readUrl( $this->url );
+		$response	= NetReader::readUrl( $this->url );
 		$assertion	= true;
 		$creation	= (bool) preg_match( $this->needle, $response );
 		$this->assertEquals( $assertion, $creation );

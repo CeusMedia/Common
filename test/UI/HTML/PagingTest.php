@@ -3,22 +3,25 @@
  *	TestUnit of UI_HTML_Paging.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.07.2008
- *
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\Paging;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Paging.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.07.2008
- *
  */
-class Test_UI_HTML_PagingTest extends BaseCase
+class PagingTest extends BaseCase
 {
+	protected $paging;
+
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -27,7 +30,7 @@ class Test_UI_HTML_PagingTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
-		$this->paging	= new UI_HTML_Paging();
+		$this->paging	= new Paging();
 		$this->paging->setOption( 'text_next', 		"[next]" );
 		$this->paging->setOption( 'text_previous',	"[prev]" );
 		$this->paging->setOption( 'text_last',		"[last]" );
@@ -51,7 +54,7 @@ class Test_UI_HTML_PagingTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$paging	= new UI_HTML_Paging();
+		$paging	= new Paging();
 
 		$assertion	= "./";
 		$creation	= $paging->getOption( 'uri' );

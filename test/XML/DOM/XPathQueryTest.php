@@ -1,4 +1,6 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -11,6 +13,9 @@ namespace CeusMedia\Common\Test\XML\DOM;
 
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\DOM\XPathQuery;
+use DOMDocument;
+use DOMNode;
+use DOMNodeList;
 
 /**
  *	TestUnit of XML DOM XPath.
@@ -30,7 +35,7 @@ class XPathQueryTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->xmlFile	= dirname( __FILE__ ).'/books.xml';
+		$this->xmlFile	= dirname( __FILE__ ).'/assets/books.xml';
 		$this->xPath	= new XPathQuery();
 	}
 
@@ -56,8 +61,8 @@ class XPathQueryTest extends BaseCase
 	 */
 	public function testLoadFileException()
 	{
-		$this->expectException( '\\RuntimeException' );
-		$entries	= $this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
+		$this->expectException( 'RuntimeException' );
+		$this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
 	}
 
 	/**
@@ -189,19 +194,13 @@ class XPathQueryTest extends BaseCase
 		$this->xPath->loadFile( $this->xmlFile );
 
 		$doc	= $this->xPath->getDocument();
-		$assertion	= true;
-		$creation	= is_a( $doc, 'DOMDocument' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertInstanceOf( DOMDocument::class, $doc );
 
 		$bookList	= $doc->getElementsByTagName( "book" );
-		$assertion	= true;
-		$creation	= is_a( $bookList, 'DOMNodeList' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertInstanceOf( DOMNodeList::class, $bookList );
 
 		$book		= $bookList->item( 0 );
-		$assertion	= true;
-		$creation	= is_a( $book, 'DOMNode' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertInstanceOf( DOMNode::class, $book );
 	}
 
 	/**

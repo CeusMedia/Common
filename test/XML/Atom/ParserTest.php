@@ -3,8 +3,6 @@
  *	TestUnit of XML_Atom_Parser.
  *	@package		Tests.xml.atom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.05.2008
- *
  */
 declare( strict_types = 1 );
 
@@ -18,8 +16,6 @@ use Exception;
  *	TestUnit of XML_Atom_Parser.
  *	@package		Tests.xml.atom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.05.2008
- *
  */
 class ParserTest extends BaseCase
 {

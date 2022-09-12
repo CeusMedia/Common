@@ -1,23 +1,25 @@
 <?php
-/**
- *	TestUnit of Net_HTTP_Request_QueryParser.
- *	@package		Tests.net.http.request
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.11.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of Net_HTTP_Request_QueryParser.
+ *	@package		Tests.net.http.request
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *
+ */
+
+namespace CeusMedia\Common\Test\Net\HTTP;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Net\HTTP\Request\QueryParser;
 
 /**
  *	TestUnit of Net_HTTP_Request_QueryParser.
  *	@package		Tests.net.http.request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.11.2008
  *
  */
-class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
+class QueryParserTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -42,10 +44,10 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testToArrayException1()
+	public function test_toArray_withInvalid_expectInvalidArgumentException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		Net_HTTP_Request_QueryParser::toArray( "=" );
+		QueryParser::toArray( "=" );
 	}
 
 	/**
@@ -56,7 +58,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 	public function testToArrayException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		Net_HTTP_Request_QueryParser::toArray( "&a=123&=" );
+		QueryParser::toArray( "&a=123&=" );
 	}
 
 	/**
@@ -67,7 +69,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 	public function testToArrayException3()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		Net_HTTP_Request_QueryParser::toArray( "&a=321&=123" );
+		QueryParser::toArray( "&a=321&=123" );
 	}
 
 	/**
@@ -78,7 +80,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 	public function testToArrayException4()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		Net_HTTP_Request_QueryParser::toArray( "a,321;,123", ";", "," );
+		QueryParser::toArray( "a,321;,123", ";", "," );
 	}
 
 	/**
@@ -90,12 +92,12 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 	{
 		$query		= "";
 		$assertion	= array();
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query );
+		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 
 		$query		= "&&&";
 		$assertion	= array();
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query );
+		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -113,7 +115,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 			'c'	=> "",
 			'd'	=> NULL,
 		);
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query );
+		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -131,7 +133,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 			'c'	=> "",
 			'd'	=> NULL,
 		);
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query, ";", "," );
+		$creation	= QueryParser::toArray( $query, ";", "," );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -148,7 +150,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 			'short'	=> "*",
 			'long'	=> "a-z0-9._:#",
 		);
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query );
+		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -167,7 +169,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 				""
 			),
 		);
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query );
+		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -186,7 +188,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 				NULL,
 			)
 		);
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query );
+		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -206,7 +208,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 				"",
 			)
 		);
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query, ";", "," );
+		$creation	= QueryParser::toArray( $query, ";", "," );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -224,7 +226,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends BaseCase
 			'--key3'	=> "test",
 			'::key4'	=> "123",
 		);
-		$creation	= Net_HTTP_Request_QueryParser::toArray( $query );
+		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

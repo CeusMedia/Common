@@ -52,6 +52,7 @@ class BuilderTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
+		$this->markTestIncomplete();
 	}
 
 	/**
@@ -61,6 +62,7 @@ class BuilderTest extends BaseCase
 	 */
 	public function testAddOutline()
 	{
+		$this->markTestIncomplete();
 	}
 
 	/**
@@ -85,6 +87,7 @@ class BuilderTest extends BaseCase
 	 */
 	public function testBuildException()
 	{
+		$this->markTestIncomplete();
 	}
 
 	/**
@@ -94,6 +97,7 @@ class BuilderTest extends BaseCase
 	 */
 	public function testSetHeader()
 	{
+		$this->markTestIncomplete();
 	}
 }
 /*

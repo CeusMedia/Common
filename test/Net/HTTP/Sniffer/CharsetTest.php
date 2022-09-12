@@ -1,23 +1,24 @@
 <?php
-/**
- *	TestUnit of Charset Sniffer.
- *	@package		Tests.net.http
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of Charset Sniffer.
+ *	@package		Tests.net.http
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *
+ */
+
+namespace CeusMedia\Common\Test\Net\HTTP\Sniffer;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Net\HTTP\Sniffer\Charset;
 
 /**
  *	TestUnit of Charset Sniffer.
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
  */
-class Test_Net_HTTP_Sniffer_CharsetTest extends BaseCase
+class CharsetTest extends BaseCase
 {
 	private $session;
 	private $allowed	= array(
@@ -32,12 +33,12 @@ class Test_Net_HTTP_Sniffer_CharsetTest extends BaseCase
 	{
 		$accept		= "iso-8859-5, unicode-1-1;q=0.8";
 		$assertion	= "iso-8859-5";
-		$creation	= Net_HTTP_Sniffer_Charset::getCharsetFromString( $accept, $this->allowed, $this->default );
+		$creation	= Charset::getCharsetFromString( $accept, $this->allowed, $this->default );
 		$this->assertEquals( $assertion, $creation );
 
 		$accept		= "ISO-8859-1,utf-8;q=0.7,*;q=0.7";
 		$assertion	= "iso-8859-1";
-		$creation	= Net_HTTP_Sniffer_Charset::getCharsetFromString( $accept, $this->allowed, $this->default );
+		$creation	= Charset::getCharsetFromString( $accept, $this->allowed, $this->default );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

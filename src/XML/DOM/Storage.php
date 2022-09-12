@@ -198,6 +198,8 @@ class Storage extends OptionObject
 			$parts	= explode( ".", $path );
 			$step	= array_shift( $parts );
 			$path	= implode( ".", $parts );
+			if( !isset( $array[$step] ) )
+				$array[$step] = [];
 			return $this->setRecursive( $path, $value, $array[$step] );
 		}
 		else if( !(isset( $array[$path] ) && $array[$path] == $value ) ){
