@@ -1,15 +1,21 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of XSL Transformator.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\XML\XSL;
+namespace CeusMedia\CommonTest\XML\XSL;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\XSL\Transformator;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XSL Transformator.

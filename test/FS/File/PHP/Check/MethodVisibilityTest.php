@@ -6,11 +6,11 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File\PHP\Check;
+namespace CeusMedia\CommonTest\FS\File\PHP\Check;
 
 use CeusMedia\Common\FS\File\PHP\Check\MethodVisibility;
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\MockAntiProtection;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.

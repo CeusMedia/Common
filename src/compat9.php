@@ -3,6 +3,7 @@
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
 /** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection All */
 
 namespace CeusMedia\Common{
 	class Loader extends \Loader{}

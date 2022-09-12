@@ -1,15 +1,21 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\Net;
+namespace CeusMedia\CommonTest\Net;
 
 use CeusMedia\Common\Net\CURL as Net_CURL;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_CURL.

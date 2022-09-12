@@ -1,28 +1,38 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
  */
 
-namespace CeusMedia\Common\Test\Alg\Parcel;
+namespace CeusMedia\CommonTest\Alg\Parcel;
 
 use CeusMedia\Common\Alg\Parcel\Factory as ParcelFactory;
 use CeusMedia\Common\Alg\Parcel\Packet as ParcelPacket;
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\MockAntiProtection;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 use Exception;
 
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
  */
 class FactoryTest extends BaseCase
 {
+	protected $articles;
+
+	protected $packets;
+
+	protected $volumes;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

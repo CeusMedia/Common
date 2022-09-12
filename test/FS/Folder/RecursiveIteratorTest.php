@@ -1,15 +1,20 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of recursive Folder Iterator.
  *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
 use CeusMedia\Common\FS\Folder\RecursiveIterator;
-use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of recursive Folder Iterator.
@@ -67,7 +72,7 @@ class RecursiveIteratorTest extends TestCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new RecursiveIterator( "not_existing" );
+		new RecursiveIterator( "not_existing" );
 	}
 
 	/**

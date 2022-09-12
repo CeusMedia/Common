@@ -1,15 +1,20 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
 use CeusMedia\Common\FS\Folder\Editor;
-use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of Folder Editor.
@@ -18,6 +23,8 @@ use CeusMedia\Common\Test\FS\Folder\TestCase;
  */
 class EditorTest extends TestCase
 {
+	protected $editor;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -54,13 +61,11 @@ class EditorTest extends TestCase
 	 */
 	public function testCreateFolder()
 	{
-		$assertion	= TRUE;
 		$creation	= Editor::createFolder( $this->path."created" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= Editor::createFolder( $this->path."created/sub1/sub1sub2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -125,7 +130,6 @@ class EditorTest extends TestCase
 		$this->expectException( 'RuntimeException' );
 		Editor::copyFolder( $this->path."folder", $this->path."copy" );
 		Editor::copyFolder( $this->path."folder", $this->path."copy" );
-		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -138,9 +142,8 @@ class EditorTest extends TestCase
 		$this->editor->copy( $this->path."copy" );
 		$editor	= new Editor( $this->path."copy" );
 
-		$assertion	= TRUE;
 		$creation	= $editor->move( $this->path."moved", FALSE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= $this->path."moved";
 		$creation	= $editor->getFolderName();
@@ -151,22 +154,19 @@ class EditorTest extends TestCase
 		$this->editor->copy( $this->path."copy" );
 		$editor	= new Editor( $this->path."copy" );
 
-		$assertion	= TRUE;
 		$creation	= $editor->move( $this->path."moved", TRUE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= $this->path."moved";
 		$creation	= $editor->getFolderName();
 		$this->assertEquals( $assertion, $creation );
 
-
 		$this->removeFolder( $this->path."moved", TRUE );
 		$this->editor->copy( $this->path."copy" );
 		$editor	= new Editor( $this->path."copy" );
 
-		$assertion	= FALSE;
 		$creation	= $editor->move( $this->path."copy", TRUE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -178,13 +178,11 @@ class EditorTest extends TestCase
 	{
 		$this->editor->createFolder( $this->path."copy" );
 
-		$assertion	= TRUE;
 		$creation	= Editor::moveFolder( $this->path."copy", $this->path."test" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= Editor::moveFolder( $this->path."test", $this->path."test" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -212,30 +210,21 @@ class EditorTest extends TestCase
 		$this->editor->copy( $this->path."rename" );
 		$editor	= new Editor( $this->path."rename" );
 
-		$assertion	= TRUE;
 		$creation	= $editor->rename( $this->path."renamed" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->path."renamed" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->path."renamed" );
 
 		$assertion	= $this->path."renamed";
 		$creation	= $editor->getFolderName();
 		$this->assertEquals( $assertion, $creation );
 
-
 		$this->removeFolder( $this->path."renamed", TRUE );
 		$this->editor->copy( $this->path."rename" );
 		$editor	= new Editor( $this->path."rename" );
 
-		$assertion	= TRUE;
 		$creation	= $editor->rename( "renamed" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->path."renamed" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->path."renamed" );
 
 		$assertion	= $this->path."renamed";
 		$creation	= $editor->getFolderName();
@@ -251,17 +240,12 @@ class EditorTest extends TestCase
 	{
 		$this->editor->createFolder( $this->path."test1" );
 
-		$assertion	= TRUE;
 		$creation	= Editor::renameFolder( $this->path."test1", "test2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->path."test2" );
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->path."test2" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
 		$creation	= Editor::renameFolder( $this->path."folder", $this->path."folder" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		rmDir( $this->path."test2" );
 	}
@@ -311,15 +295,12 @@ class EditorTest extends TestCase
 	{
 		Editor::copyFolder( $this->path."folder", $this->path."remove" );
 
-		$editor	= new Editor( $this->path."remove" );
+		$editor		= new Editor( $this->path."remove" );
 
 		$assertion	= 16;
 		$creation	= $editor->remove( TRUE );
 		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->path."remove" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileDoesNotExist( $this->path."remove" );
 	}
 
 	/**
@@ -335,8 +316,7 @@ class EditorTest extends TestCase
 		$assertion	= 16;
 		$creation	= Editor::removeFolder( $this->path."remove", TRUE );
 		$this->assertEquals( $assertion, $creation );
-
-		$this->assertFalse( file_exists( $this->path."remove" ) );
+		$this->assertFileDoesNotExist( $this->path."remove" );
 	}
 
 	/**

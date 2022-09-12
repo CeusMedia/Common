@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Unit Formater.
  *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg;
+namespace CeusMedia\CommonTest\Alg;
 
 use CeusMedia\Common\Alg\UnitFormater;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Unit Formater.

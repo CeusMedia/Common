@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT\Collection;
+namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\SectionList;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
 *	TestUnit of ADT\Collection\SectionList.

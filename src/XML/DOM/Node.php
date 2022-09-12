@@ -106,11 +106,11 @@ class Node
 	 *	@param		string		$key			Key of Attribute
 	 *	@return		string
 	 */
-	public function getAttribute( string $key ): string
+	public function getAttribute( string $key ): ?string
 	{
 		if( $this->hasAttribute( $key ) )
 			return $this->attributes[$key];
-		return '';
+		return NULL;
 	}
 
 	/**

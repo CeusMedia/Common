@@ -6,10 +6,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File\JSON;
+namespace CeusMedia\CommonTest\FS\File\JSON;
 
 use CeusMedia\Common\FS\File\Log\Writer;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_Log_Writer.

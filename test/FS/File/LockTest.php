@@ -6,10 +6,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File;
+namespace CeusMedia\CommonTest\FS\File;
 
 use CeusMedia\Common\FS\File\Lock;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_Lock.

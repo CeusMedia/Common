@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Rot13.
  *	@package		Tests.Alg.Crypt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test;
+namespace CeusMedia\CommonTest\Alg\Crypt;
 
 use CeusMedia\Common\Alg\Crypt\Rot13;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Rot13.

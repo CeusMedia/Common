@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Alg\Text\CamelCase.
  *	@package		Tests.Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg\Text;
+namespace CeusMedia\CommonTest\Alg\Text;
 
 use CeusMedia\Common\Alg\Text\CamelCase;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg\Text\CamelCase.
@@ -122,7 +128,7 @@ class CamelCaseTest extends BaseCase
 		$string1	= "testAlphaTestRdfString";
 
 		$assertion	= "test_alpha_test_rdf_string";
-		$creation	= CamelCase::toSnakeCase( $string1, '_' );
+		$creation	= CamelCase::toSnakeCase( $string1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 

@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_HTML_Paging.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\HTML;
+namespace CeusMedia\CommonTest\UI\HTML;
 
 use CeusMedia\Common\UI\HTML\Paging;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Paging.
@@ -29,7 +35,7 @@ class PagingTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->path		= dirname( __FILE__ )."/";
+		$this->path		= dirname( __FILE__ )."/assets/";
 		$this->paging	= new Paging();
 		$this->paging->setOption( 'text_next', 		"[next]" );
 		$this->paging->setOption( 'text_previous',	"[prev]" );

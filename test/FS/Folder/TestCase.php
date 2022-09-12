@@ -1,14 +1,19 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.FS.Folder
- *
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
-use CeusMedia\Common\Test\BaseCase as BaseTestCase;
+use CeusMedia\CommonTest\BaseCase as BaseTestCase;
 
 /**
  *	TestUnit of Folder Editor.
@@ -50,6 +55,9 @@ use CeusMedia\Common\Test\BaseCase as BaseTestCase;
  */
 class TestCase extends BaseTestCase
 {
+	protected $folder;
+
+	protected $path;
 
 	public function __construct()
 	{
@@ -140,7 +148,7 @@ class TestCase extends BaseTestCase
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
 	 */
-	protected static function removeFolder( $path, $force = false )
+	protected static function removeFolder( string $path, bool $force = FALSE )
 	{
 		$list	= array();
 		$path	= str_replace( "\\", "/", $path );

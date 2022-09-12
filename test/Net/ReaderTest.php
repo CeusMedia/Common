@@ -1,17 +1,22 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\Net;
+namespace CeusMedia\CommonTest\Net;
 
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Net\Reader as NetReader;
 use CeusMedia\Common\Net\CURL as NetCURL;
+use CeusMedia\Common\Net\Reader as NetReader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net Reader.
@@ -34,8 +39,8 @@ class ReaderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->url		= "https://www.example.com";
-		$this->needle	= "@RFC\s+2606@i";
+//		$this->url		= "https://www.example.com";
+//		$this->needle	= "@RFC\s+2606@i";
 
 		$this->url		= "https://ceusmedia.de/";
 		$this->needle	= "@ceus media@i";
@@ -58,9 +63,8 @@ class ReaderTest extends BaseCase
 		$creation	= $this->reader->getInfo( NetCURL::INFO_HTTP_CODE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
 		$creation	= (bool) count( $this->reader->getInfo() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -106,9 +110,9 @@ class ReaderTest extends BaseCase
 	public function testRead()
 	{
 		$response	= $this->reader->read();
-		$assertion	= true;
+
 		$creation	= (bool) preg_match( $this->needle, $response );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -131,9 +135,9 @@ class ReaderTest extends BaseCase
 	public function testReadUrl()
 	{
 		$response	= NetReader::readUrl( $this->url );
-		$assertion	= true;
+
 		$creation	= (bool) preg_match( $this->needle, $response );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**

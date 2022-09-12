@@ -6,11 +6,11 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File;
+namespace CeusMedia\CommonTest\FS\File;
 
 use CeusMedia\Common\FS\File\Cache;
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\MockAntiProtection;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 
 /**
  *	TestUnit of FS_File_Cache.

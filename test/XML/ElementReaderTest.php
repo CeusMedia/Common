@@ -1,15 +1,21 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of XML Element Reader.
  *	@package		Tests.xml
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\XML;
+namespace CeusMedia\CommonTest\XML;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\ElementReader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML Element Reader.
@@ -18,8 +24,8 @@ use CeusMedia\Common\XML\ElementReader;
  */
 class ElementReaderTest extends BaseCase
 {
-
 	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
+
 	protected $file;
 
 	public function setUp(): void

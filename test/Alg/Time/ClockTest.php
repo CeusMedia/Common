@@ -1,17 +1,23 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Clock.
  *	@package		Tests.Alg.Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg\Time;
+namespace CeusMedia\CommonTest\Alg\Time;
 
 use CeusMedia\Common\Alg\Time\Clock;
-use CeusMedia\Common\Test\Alg\Time\ClockMockAntiProtection as Mock;
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\MockAntiProtection;
+use CeusMedia\CommonTest\Alg\Time\ClockMockAntiProtection as Mock;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 
 /**
  *	TestUnit of Clock.

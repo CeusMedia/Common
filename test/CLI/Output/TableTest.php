@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of CLI_Output_Table.
  *	@package		Tests.CLI.Output
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\CLI\Output;
+namespace CeusMedia\CommonTest\CLI\Output;
 
 use CeusMedia\Common\CLI\Output\Table;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of CLI_Output_Table.

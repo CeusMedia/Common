@@ -1,15 +1,21 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\HTML;
+namespace CeusMedia\CommonTest\UI\HTML;
 
 use CeusMedia\Common\UI\HTML\Indicator;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Indicator.
@@ -31,7 +37,7 @@ class IndicatorTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 		$this->indicator	= new Indicator();
 	}
 
@@ -53,13 +59,11 @@ class IndicatorTest extends BaseCase
 	{
 		$indicator	= new Indicator();
 
-		$assertion	= TRUE;
 		$creation	= $indicator->getOption( 'useColor' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $indicator->getOption( 'useRatio' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -198,17 +202,14 @@ class IndicatorTest extends BaseCase
 	 */
 	public function testSetOption()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->indicator->setOption( 'useColor', FALSE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->indicator->setOption( 'useColor', TRUE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->indicator->setOption( 'useColor', TRUE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -219,7 +220,7 @@ class IndicatorTest extends BaseCase
 	public function testSetOptionException()
 	{
 		$this->expectException( 'OutOfRangeException' );
-		$creation	= $this->indicator->setOption( 'not_existing', 'not_relevant' );
+		$this->indicator->setOption( 'not_existing', 'not_relevant' );
 	}
 
 	/**

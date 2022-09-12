@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 use CeusMedia\Common\FS;
 use CeusMedia\Common\FS\Folder;
 use CeusMedia\Common\CLI;

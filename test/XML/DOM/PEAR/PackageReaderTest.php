@@ -11,7 +11,7 @@ declare( strict_types = 1 );
 
 namespace CeusMedia\Common\XML\DOM\PEAR;
 
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use  CeusMedia\Common\XML\DOM\PEAR\PackageReader;
 
 /**

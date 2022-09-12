@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of CLI_Command_BackgroundProcess.
  *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\CLI;
+namespace CeusMedia\CommonTest\CLI;
 
 use CeusMedia\Common\CLI\Command\BackgroundProcess;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use Exception;
 use InvalidArgumentException;
 
@@ -20,6 +26,8 @@ use InvalidArgumentException;
  */
 class BackgroundProcessTest extends BaseCase
 {
+	protected $process;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

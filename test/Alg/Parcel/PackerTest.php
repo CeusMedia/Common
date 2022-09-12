@@ -1,25 +1,33 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Alg_Parcel_Packer.
  *	@package		Tests.alg.parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
  */
 
-namespace CeusMedia\Common\Test\Alg\Parcel;
+namespace CeusMedia\CommonTest\Alg\Parcel;
 
 use CeusMedia\Common\Alg\Parcel\Packer as ParcelPacker;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg_Parcel_Packer.
  *	@package		Tests.alg.parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
  */
 class PackerTest extends BaseCase
 {
+	protected $articles;
+	protected $packets;
+	protected $volumes;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

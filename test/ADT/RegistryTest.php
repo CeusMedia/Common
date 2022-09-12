@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Registry
  *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
- namespace CeusMedia\Common\Test;
+ namespace CeusMedia\CommonTest\ADT;
 
 use CeusMedia\Common\ADT\Registry;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Registry
@@ -18,6 +24,8 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class RegistryTest extends BaseCase
 {
+	protected $registry;
+
 	public function setUp(): void
 	{
 		$this->registry	= Registry::getInstance();
@@ -57,9 +65,9 @@ class RegistryTest extends BaseCase
 	public function testHas()
 	{
 		$GLOBALS['REFERENCES']['key1']	= "value1";
-		$assertion	= true;
+
 		$creation	= $this->registry->has( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -72,9 +80,9 @@ class RegistryTest extends BaseCase
 		$GLOBALS['REFERENCES']	= array();
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 		$this->registry->remove( 'key1' );
-		$assertion	= false;
+
 		$creation	= $this->registry->has( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**

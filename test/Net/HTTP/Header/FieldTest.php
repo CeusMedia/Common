@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Net\HTTP\Header;
+namespace CeusMedia\CommonTest\Net\HTTP\Header;
 
 use CeusMedia\Common\Net\HTTP\Header\Field;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	UnitTest for Request Header Field.
@@ -22,9 +27,9 @@ class FieldTest extends BaseCase
 	public function testConstruct()
 	{
 		$header	= new Field( "key", "value" );
-		$assertion	= true;
+
 		$creation	= (bool) strlen( $header->toString() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	public function testToString()

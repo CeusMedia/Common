@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Test_ADT_Tree_Node.
  *	@package		Tests.ADT.Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT\Tree;
+namespace CeusMedia\CommonTest\ADT\Tree;
 
 use CeusMedia\Common\ADT\Tree\Node;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Test_ADT_Tree_Node.
@@ -18,6 +24,8 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class NodeTest extends BaseCase
 {
+	protected $node;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -134,13 +142,11 @@ class NodeTest extends BaseCase
 	{
 		$this->node->addChild( 'string', "testString" );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->node->hasChild( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -150,15 +156,13 @@ class NodeTest extends BaseCase
 	 */
 	public function testHasChildren()
 	{
-		$assertion	= FALSE;
 		$creation	= $this->node->hasChildren();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		$this->node->addChild( 'string', "testString" );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->hasChildren( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -170,20 +174,16 @@ class NodeTest extends BaseCase
 	{
 		$this->node->addChild( 'string', "testString" );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->removeChild( 'string' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->node->removeChild( 'string' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 }

@@ -1,26 +1,35 @@
-<?php
+<?php /** @noinspection HtmlUnknownTarget */
+/** @noinspection HtmlRequiredLangAttribute */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of HtmlParser.
  *	@package		Tests.alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.08.2008
  */
 
-namespace CeusMedia\Common\Test\Alg;
+namespace CeusMedia\CommonTest\Alg;
 
 use CeusMedia\Common\Alg\HtmlParser;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use DOMDocument;
 
 /**
  *	TestUnit of HtmlParser.
  *	@package		Tests.alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.08.2008
  */
 class HtmlParserTest extends BaseCase
 {
+	protected $fileName;
+	protected $path;
+	protected $parser;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -51,10 +60,9 @@ class HtmlParserTest extends BaseCase
 	public function test__construct()
 	{
 		$document	= new HtmlParser();
-		$assertion	= new DOMDocument();
 		$creation	= $document->getDocument();
 
-		$this->assertEquals( 'DOMDocument', get_class( $creation ) );
+		$this->assertInstanceOf( DOMDocument::class, $creation );
 	}
 
 	/**
@@ -439,9 +447,8 @@ class HtmlParserTest extends BaseCase
 	{
 		$tag		= $this->parser->getTagById( 'test' );
 
-		$assertion	= TRUE;
 		$creation	= (bool) $tag;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "ul";
 		$creation	= $tag->tagName;
@@ -515,13 +522,11 @@ class HtmlParserTest extends BaseCase
 	 */
 	public function testHasTagById()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->parser->hasTagById( 'test' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->parser->hasTagById( 'not_existing' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**

@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Definition Validator.
  *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg\Validation;
+namespace CeusMedia\CommonTest\Alg\Validation;
 
 use CeusMedia\Common\Alg\Validation\DefinitionValidator;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Definition Validator.
@@ -39,6 +45,8 @@ class DefinitionValidatorTest extends BaseCase
 		),
 	);
 
+	protected $validator;
+
 	protected $labels	= array(
 		'test1'	=> 'Test Field 1'
 	);
@@ -56,13 +64,11 @@ class DefinitionValidatorTest extends BaseCase
 		var_dump( $validator );
 		$dump	= ob_get_clean();
 
-		$assertion	= 1;
 		$creation	= substr_count( $dump, "PredicateValidator" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 1, $creation );
 
-		$assertion	= 1;
 		$creation	= substr_count( $dump, "Predicates" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 1, $creation );
 	}
 /*
 	public function testSetLabels()

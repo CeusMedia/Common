@@ -1,26 +1,26 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *
  */
 
-namespace CeusMedia\Common\XML\DOM;
+namespace CeusMedia\CommonTest\XML\DOM;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\DOM\GoogleSitemapWriter;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *
  */
 class GoogleSitemapWriterTest extends BaseCase
 {

@@ -58,7 +58,7 @@
   "autoload-dev": {
     "psr-4": {
       "CeusMedia\\Common\\": "src",
-      "CeusMedia\\Common\\Test\\": "test"
+      "CeusMedia\\CommonTest\\": "test"
     }
   },
   "scripts": {

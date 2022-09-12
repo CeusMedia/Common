@@ -7,10 +7,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\UI;
+namespace CeusMedia\CommonTest\UI;
 
 use CeusMedia\Common\UI\DevOutput;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of UI_DevOutput.

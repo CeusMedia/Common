@@ -1,14 +1,20 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\HTML;
+namespace CeusMedia\CommonTest\UI\HTML;
 
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\UI\Image\Watermark;
 use Exception;
 use InvalidArgumentException;

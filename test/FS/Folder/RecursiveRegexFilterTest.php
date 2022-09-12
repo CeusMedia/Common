@@ -1,15 +1,20 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of recursive RegexFilter for Folders.
  *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
 use CeusMedia\Common\FS\Folder\RecursiveRegexFilter;
-use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of recursive RegexFilter for Folders.
@@ -79,7 +84,7 @@ class RecursiveRegexFilterTest extends TestCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new RecursiveRegexFilter( "not_existing", "not_relevant" );
+		new RecursiveRegexFilter( "not_existing", "not_relevant" );
 	}
 
 	/**

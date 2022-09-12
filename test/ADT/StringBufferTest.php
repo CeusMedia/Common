@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Test_ADT_StringBuffer.
  *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test;
+namespace CeusMedia\CommonTest\ADT;
 
 use CeusMedia\Common\ADT\StringBuffer;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Test_ADT_StringBuffer.
@@ -18,6 +24,8 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class StringBufferTest extends BaseCase
 {
+	protected $buffer;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

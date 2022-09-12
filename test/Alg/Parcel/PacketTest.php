@@ -1,23 +1,31 @@
 <?php
-/**
- *	TestUnit of Alg_Parcel_Packet.
- *	@package		Tests.alg.parcel
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of Alg_Parcel_Packet.
+ *	@package		Tests.alg.parcel
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Alg\Parcel;
+
 use CeusMedia\Common\Alg\Parcel\Packet as ParcelPacket;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg_Parcel_Packet.
  *	@package		Tests.alg.parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
  */
 class PacketTest extends BaseCase
 {
+	protected $packet;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -82,15 +90,13 @@ class PacketTest extends BaseCase
 
 		$packet->addArticle( 'testArticle1', 0.1 );
 
-		$assertion	= 1;
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 1, $creation );
 
 		$packet->addArticle( 'testArticle1', 0.1 );
 
-		$assertion	= 1;
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 1, $creation );
 
 		$packet->addArticle( 'testArticle2', 0.2 );
 
@@ -152,16 +158,13 @@ class PacketTest extends BaseCase
 	 */
 	public function testHasVolumeLeft()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->packet->hasVolumeLeft( 0.05 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->packet->hasVolumeLeft( 0.1 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->packet->hasVolumeLeft( 0.2 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 }

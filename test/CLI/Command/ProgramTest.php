@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of CLI_Command_Program.
  *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\CLI;
+namespace CeusMedia\CommonTest\CLI;
 
 use CeusMedia\Common\CLI\Command\Program;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of CLI_Command_Program.
@@ -79,17 +85,17 @@ class TestProgram extends Program
 		parent::__construct( $options, $shortcuts, 1 );
 	}
 
-	protected function main()
+	protected function main(): int
 	{
 		return 2;
 	}
 
-	public function getArguments()
+	public function getArguments(): ?array
 	{
 		return $this->arguments;
 	}
 
-	public function getOptions()
+	public function getOptions(): ?array
 	{
 		return $this->options;
 	}

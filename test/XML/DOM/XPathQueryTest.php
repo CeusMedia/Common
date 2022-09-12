@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
 
 declare( strict_types = 1 );
 
@@ -9,9 +12,9 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\XML\DOM;
+namespace CeusMedia\CommonTest\XML\DOM;
 
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\XML\DOM\XPathQuery;
 use DOMDocument;
 use DOMNode;
@@ -180,7 +183,7 @@ class XPathQueryTest extends BaseCase
 	public function testEvaluateException()
 	{
 		$this->expectException( '\\RuntimeException' );
-		$entries	= $this->xPath->evaluate( "//book" );
+		$this->xPath->evaluate( "//book" );
 	}
 
 
@@ -211,7 +214,7 @@ class XPathQueryTest extends BaseCase
 	public function testGetDocumentException()
 	{
 		$this->expectException( '\\RuntimeException' );
-		$entries	= $this->xPath->getDocument();
+		$this->xPath->getDocument();
 	}
 
 	/**
@@ -259,6 +262,6 @@ class XPathQueryTest extends BaseCase
 	public function testQueryException()
 	{
 		$this->expectException( '\\RuntimeException' );
-		$entries	= $this->xPath->query( "//book" );
+		$this->xPath->query( "//book" );
 	}
 }

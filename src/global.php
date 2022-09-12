@@ -1,4 +1,7 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
 
 use CeusMedia\Common\UI\DevOutput;
 
@@ -77,7 +80,7 @@ function print_j( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $retur
 	if( $return )
 		return $o->printJson( $mixed, $sign, $factor, TRUE );
 	echo $break;
-	$o->printJson( $mixed, 0, $sign, $factor );
+	$o->printJson( $mixed, $sign, $factor );
 	return NULL;
 }
 
@@ -89,9 +92,9 @@ function print_j( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $retur
  *	@param		int|NULL		$factor		Space Factor
  *	@param		boolean			$return		Flag: Return output instead of printing it
  *	@param		string|NULL		$channel	...
- *	@return		void
+ *	@return		string|NULL
  */
-function print_m( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE, ?string $channel = NULL )
+function print_m( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE, ?string $channel = NULL ): ?string
 {
 	$o		= new DevOutput();
 	if( $channel )
@@ -101,6 +104,7 @@ function print_m( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $retur
 		return $break.$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
 	echo $break;
 	$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
+	return NULL;
 }
 
 /**

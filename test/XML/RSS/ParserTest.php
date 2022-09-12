@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\XML\RSS;
+namespace CeusMedia\CommonTest\XML\RSS;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\RSS\Parser;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML RSS 2 Parser.
@@ -19,6 +24,9 @@ use CeusMedia\Common\XML\RSS\Parser;
  */
 class ParserTest extends BaseCase
 {
+	protected $file;
+
+	protected $serial;
 
 	/**
 	 *	Tests Method 'parse'.
@@ -27,8 +35,8 @@ class ParserTest extends BaseCase
 	 */
 	public function testParse()
 	{
-		$this->file		= dirname( __FILE__ )."/parser.xml";
-		$this->serial	= dirname( __FILE__ )."/parser.serial";
+		$this->file		= dirname( __FILE__ )."/assets/parser.xml";
+		$this->serial	= dirname( __FILE__ )."/assets/parser.serial";
 
 		$xml		= file_get_contents( $this->file );
 

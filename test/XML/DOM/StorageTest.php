@@ -1,25 +1,26 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
  *	TestUnit of XML DOM Storage.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			13.12.2007
- *
  */
 
-namespace CeusMedia\Common\XML\DOM;
+namespace CeusMedia\CommonTest\XML\DOM;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\DOM\Storage;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML DOM Storage.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			13.12.2007
- *
  */
 class StorageTest extends BaseCase
 {
@@ -94,7 +95,6 @@ class StorageTest extends BaseCase
 		$this->assertTrue( $creation );
 
 		//  remove Value and write
-		$assertion	= 0;
 		$creation	= substr_count( file_get_contents( $this->fileName ), "value11" );
 		$this->assertEquals( 0, $creation );
 

@@ -7,10 +7,10 @@ declare( strict_types = 1 );
  *
  */
 
-namespace CeusMedia\Common\Test\FS\File\YAML;
+namespace CeusMedia\CommonTest\FS\File\YAML;
 
 use CeusMedia\Common\FS\File\YAML\Reader;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of YAML Reader.

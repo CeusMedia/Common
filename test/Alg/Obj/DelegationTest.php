@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
 
 declare( strict_types = 1 );
 
@@ -9,11 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg\Obj;
+namespace CeusMedia\CommonTest\Alg\Obj;
 
 use CeusMedia\Common\Alg\Obj\Delegation;
-use CeusMedia\Common\Alg\Obj\MethodFactory;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Delegation.
@@ -56,6 +58,7 @@ final class DelegationTest extends BaseCase
 		$this->expectExceptionMessage( 'Method "notExisting" is not existing in added objects');
 		$delegation	= new Delegation();
 		$delegation->addClass( DelegationTestClass::class, [3] );
+		/** @noinspection PhpUndefinedMethodInspection */
 		$delegation->notExisting( 6 );
 	}
 

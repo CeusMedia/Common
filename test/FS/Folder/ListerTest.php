@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Folder Indexer.
  *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
 use CeusMedia\Common\FS\Folder\Lister;
-use CeusMedia\Common\Test\FS\Folder\TestCase;
+use CeusMedia\CommonTest\FS\Folder\TestCase;
 
 /**
  *	TestUnit of Folder Indexer.
@@ -18,6 +24,10 @@ use CeusMedia\Common\Test\FS\Folder\TestCase;
  */
 class ListerTest extends TestCase
 {
+	protected $lister1;
+
+	protected $lister2;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -256,7 +266,7 @@ class ListerTest extends TestCase
 	public function testGetMixedListException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= Lister::getMixedList( "not_existing" );
+		Lister::getMixedList( "not_existing" );
 	}
 
 	/**

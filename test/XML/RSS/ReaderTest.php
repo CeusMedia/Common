@@ -1,13 +1,19 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\RSS\Reader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML RSS Reader.
@@ -28,8 +34,8 @@ class ReaderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->file		= dirname( __FILE__ )."/reader.xml";
-		$this->serial	= dirname( __FILE__ )."/reader.serial";
+		$this->file		= dirname( __FILE__ )."/assets/reader.xml";
+		$this->serial	= dirname( __FILE__ )."/assets/reader.serial";
 		$this->reader	= new Reader();
 	}
 

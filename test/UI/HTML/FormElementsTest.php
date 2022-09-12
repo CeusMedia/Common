@@ -1,24 +1,26 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of Tag.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.04.2008
- *
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\HTML;
+namespace CeusMedia\CommonTest\UI\HTML;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\UI\HTML\FormElements;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Gauss Blur.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.04.2008
- *
  */
 class FormElementsTest extends BaseCase
 {

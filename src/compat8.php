@@ -2,6 +2,7 @@
 /** @noinspection PhpIllegalPsrClassPathInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpMultipleClassesDeclarationsInOneFile */
+/** @noinspection All */
 
 class ADT_Bitmask extends CeusMedia\Common\ADT\Bitmask{}
 class ADT_CSS_Property extends CeusMedia\Common\ADT\CSS\Property{}

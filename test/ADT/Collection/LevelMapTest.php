@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT\Collection;
+namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\LevelMap;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Level Map.
@@ -19,6 +24,9 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class LevelMapTest extends BaseCase
 {
+	/** @var LevelMap $map */
+	protected $map;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -111,29 +119,23 @@ class LevelMapTest extends BaseCase
 	 */
 	public function testHas()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->map->has( 'level1.key2' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->map->has( 'level1.level2.key2' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->map->has( 'level1.level2.level3.key2' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->map->has( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->map->has( "level1.not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->map->has( 'level1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -155,18 +157,16 @@ class LevelMapTest extends BaseCase
 	public function testRemove()
 	{
 		$this->map->remove( 'level1.key2' );
-		$assertion	= FALSE;
 		$creation	= $this->map->has( 'level1.key2' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		$this->map->remove( 'level1.level2.level3' );
-		$assertion	= FALSE;
-		$creation	= $this->map->has( 'level1.level2.level3' );
-		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= FALSE;
+		$creation	= $this->map->has( 'level1.level2.level3' );
+		$this->assertFalse( $creation );
+
 		$creation	= $this->map->has( 'level1.level2.level3.key1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		$assertion	= array(
 			'level1.key1'			=> "value_11",
@@ -197,9 +197,8 @@ class LevelMapTest extends BaseCase
 	{
 		$this->map->set( 'level1.key3', "value_13" );
 
-		$assertion	= TRUE;
 		$creation	= $this->map->has( 'level1.key3' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "value_13";
 		$creation	= $this->map->get( 'level1.key3' );
@@ -207,9 +206,8 @@ class LevelMapTest extends BaseCase
 
 		$this->map->set( 'level1.level2.level3.level4.key1', "value_12341" );
 
-		$assertion	= TRUE;
 		$creation	= $this->map->has( 'level1.level2.level3.level4.key1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "value_12341";
 		$creation	= $this->map->get( 'level1.level2.level3.level4.key1' );
@@ -223,16 +221,22 @@ class LevelMapTest extends BaseCase
 	 */
 	public function testSetSortArray()
 	{
-		$map	= new LevelMap();
 		$data	= array(
+			'key2' => "value2",
 			'key1' => "value1",
-			'key1' => "value2",
 		);
 
-		$this->map->set( 'array', $data );
-		$assertion	= $data;
+		$this->map->set( 'array', $data, FALSE );
 		$creation	= $this->map->get( 'array' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertSame( $data, $creation );
+
+		$this->map->set( 'array', $data );
+		$assertion	= array(
+			'key1' => "value1",
+			'key2' => "value2",
+		);
+		$creation	= $this->map->get( 'array' );
+		$this->assertSame( $assertion, $creation );
 
 	}
 

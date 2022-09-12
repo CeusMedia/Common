@@ -1,6 +1,12 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
 
-namespace CeusMedia\Common\Test;
+declare( strict_types = 1 );
+
+namespace CeusMedia\CommonTest;
 
 use Exception;
 

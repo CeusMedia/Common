@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -8,12 +12,12 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\XML\DOM;
+namespace CeusMedia\CommonTest\XML\DOM;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\DOM\Builder;
 use CeusMedia\Common\XML\DOM\Node;
 use CeusMedia\Common\XML\DOM\Parser;
+use CeusMedia\CommonTest\BaseCase;
 use DOMDocument;
 
 /**

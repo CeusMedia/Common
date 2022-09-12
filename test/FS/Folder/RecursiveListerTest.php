@@ -1,15 +1,20 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of recursive Folder Indexer.
  *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
 use CeusMedia\Common\FS\Folder\RecursiveLister;
-use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of recursive Folder Indexer.
@@ -18,6 +23,10 @@ use CeusMedia\Common\Test\FS\Folder\TestCase;
  */
 class RecursiveListerTest extends TestCase
 {
+	protected $lister1;
+
+	protected $lister2;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -164,7 +173,7 @@ class RecursiveListerTest extends TestCase
 	public function testGetFileListException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= RecursiveLister::getFileList( "not_existing" );
+		RecursiveLister::getFileList( "not_existing" );
 	}
 
 	/**
@@ -227,7 +236,7 @@ class RecursiveListerTest extends TestCase
 	public function testGetFolderListException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= RecursiveLister::getFolderList( "not_existing" );
+		RecursiveLister::getFolderList( "not_existing" );
 	}
 
 	/**
@@ -316,7 +325,7 @@ class RecursiveListerTest extends TestCase
 	public function testGetMixedListException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= RecursiveLister::getMixedList( "not_existing" );
+		RecursiveLister::getMixedList( "not_existing" );
 	}
 
 	/**

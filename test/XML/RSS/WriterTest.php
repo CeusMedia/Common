@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,12 +12,12 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\XML\RSS;
+namespace CeusMedia\CommonTest\XML\RSS;
 
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\MockAntiProtection;
 use CeusMedia\Common\XML\RSS\Writer;
-use CeusMedia\Common\Test\XML\RSS\WriterMockAntiProtection as Mock;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
+use CeusMedia\CommonTest\XML\RSS\WriterMockAntiProtection as Mock;
 
 /**
  *	TestUnit of XML RSS Writer.
@@ -22,6 +27,10 @@ use CeusMedia\Common\Test\XML\RSS\WriterMockAntiProtection as Mock;
 class WriterTest extends BaseCase
 {
 	protected $writer;
+	protected $path;
+	protected $assert;
+	protected $serial;
+	protected $file;
 
 	/**
 	 *	Constructor.
@@ -41,8 +50,9 @@ class WriterTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
+		/** @noinspection PhpUndefinedClassInspection */
 		$this->writer	= new Mock();
-		$this->path		= dirname( __FILE__ )."/";
+		$this->path		= dirname( __FILE__ )."/assets/";
 		$this->assert	= $this->path."reader.xml";
 		$this->file		= $this->path."writer.xml";
 		$this->serial	= $this->path."reader.serial";
@@ -72,7 +82,7 @@ class WriterTest extends BaseCase
 		$data	= array( 'key1' => 'value2' );
 		$this->writer->addItem( $data );
 		$itemList	= $this->writer->getProtectedVar( 'itemList' );
-		$this->assertEquals( 1, count( $itemList ) );
+		$this->assertCount( 1, $itemList );
 		$this->assertEquals( $data, current( $itemList ) );
 	}
 
@@ -144,9 +154,9 @@ class WriterTest extends BaseCase
 		foreach( $data['itemList'] as $item )
 			$writer->addItem( $item );
 
-#		$assertion	= 2469;
+		$assertion	= 2545;
 		$creation	= $writer->write( $this->file );
-#		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $assertion, $creation );
 
 		$this->assertXmlFileEqualsXmlFile( $this->assert, $this->file );
 	}

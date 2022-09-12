@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Net\HTTP;
+namespace CeusMedia\CommonTest\Net\HTTP;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\Net\HTTP\Session;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Session.
@@ -56,7 +61,7 @@ class SessionTest extends BaseCase
 	{
 		$_SESSION['key1']	= "value1";
 		$_SESSION['key2']	= "value2";
-		$assertion	= (array) $_SESSION;
+		$assertion	= $_SESSION;
 		$creation	= $this->session->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -72,9 +77,9 @@ class SessionTest extends BaseCase
 	public function testOffsetExists()
 	{
 		$_SESSION['key4']	= "value4";
-		$assertion	= true;
+
 		$creation	= isset( $this->session['key4'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 	}
 
@@ -98,18 +103,18 @@ class SessionTest extends BaseCase
 	{
 		$_SESSION['key7']	= "value7";
 		unset( $this->session['key7'] );
-		$assertion	= false;
+
 		$creation	= isset( $_SESSION['key7'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	public function testRemove()
 	{
 		$_SESSION['key8']	= "value8";
 		$this->session->remove( 'key8' );
-		$assertion	= false;
+
 		$creation	= isset( $_SESSION['key8'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	public function testSet()

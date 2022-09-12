@@ -1,14 +1,20 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_Image_Captcha.
  *	@package		Tests.ui
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\Image;
+namespace CeusMedia\CommonTest\UI\Image;
 
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\UI\Image\Captcha;
 
 /**
@@ -93,9 +99,8 @@ class CaptchaTest extends BaseCase
 		$this->assertIsInt( $result );
 		$this->assertGreaterThan( 0, $result );
 
-		$assertion	= TRUE;
 		$creation	= $newImage	!= $oldImage;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -121,9 +126,8 @@ class CaptchaTest extends BaseCase
 		$this->assertIsInt( $result );
 		$this->assertGreaterThan( 0, $result );
 
-		$assertion	= TRUE;
 		$creation	= $newImage	== $oldImage;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**

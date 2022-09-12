@@ -1,15 +1,20 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Folder Reader.
  *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
 use CeusMedia\Common\FS\Folder\Reader;
-use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of Folder Reader.
@@ -18,6 +23,10 @@ use CeusMedia\Common\Test\FS\Folder\TestCase;
  */
 class ReaderTest extends TestCase
 {
+	protected $reader1;
+
+	protected $reader2;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -52,13 +61,11 @@ class ReaderTest extends TestCase
 	 */
 	public function testExists()
 	{
-		$assertion	= true;
 		$creation	= $this->reader1->exists();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= false;
 		$creation	= $this->reader2->exists();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -116,7 +123,7 @@ class ReaderTest extends TestCase
 	public function testGetFileCountException()
 	{
 		$this->expectException( "RuntimeException" );
-		$creation	= $this->reader2->getFileCount();
+		$this->reader2->getFileCount();
 	}
 
 	/**
@@ -145,7 +152,7 @@ class ReaderTest extends TestCase
 	public function testGetFileListException()
 	{
 		$this->expectException( "RuntimeException" );
-		$index	= $this->reader2->getFileList();
+		$this->reader2->getFileList();
 	}
 
 	/**

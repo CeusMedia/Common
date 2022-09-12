@@ -6,10 +6,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File\ICal;
+namespace CeusMedia\CommonTest\FS\File\ICal;
 
 use CeusMedia\Common\FS\File\ICal\Parser;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_ICal_Parser.

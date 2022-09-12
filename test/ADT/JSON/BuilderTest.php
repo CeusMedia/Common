@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,11 +12,11 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT\JSON;
+namespace CeusMedia\CommonTest\ADT\JSON;
 
 use CeusMedia\Common\ADT\JSON\Builder;
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\Object_;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\Object_;
 use InvalidArgumentException;
 
 /**
@@ -21,6 +26,8 @@ use InvalidArgumentException;
  */
 class BuilderTest extends BaseCase
 {
+	protected $object;
+
 	/**
 	 *	Setup.
 	 *	@access		public

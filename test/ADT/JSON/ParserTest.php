@@ -1,14 +1,20 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
 
 /**
  *	@package		Tests.adt.json
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT\JSON;
+namespace CeusMedia\CommonTest\ADT\JSON;
 
 use CeusMedia\Common\ADT\JSON\Parser;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use Exception;
 
 /**
@@ -27,7 +33,7 @@ class ParserTest extends BaseCase
 			'constant'	=> 'JSON_ERROR_NONE',
 			'message'	=> 'No error',
 		);
-		$this->assertEquals( $parser->getInfo(), $info );
+		$this->assertEquals( $info, $parser->getInfo() );
 
 		$json	= '"a"';
 		$info	= (object) array(
@@ -36,8 +42,8 @@ class ParserTest extends BaseCase
 			'constant'	=> 'JSON_ERROR_NONE',
 			'message'	=> 'No error',
 		);
-		$this->assertEquals( $parser->parse( $json ), 'a' );
-		$this->assertEquals( $parser->getInfo(), $info );
+		$this->assertEquals( 'a', $parser->parse( $json ) );
+		$this->assertEquals( $info, $parser->getInfo() );
 	}
 
 	/**

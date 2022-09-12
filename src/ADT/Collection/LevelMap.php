@@ -199,9 +199,9 @@ class LevelMap extends Dictionary
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
-	 *	@param		string		$key		Key in Dictionary
-	 *	@param		string		$value		Value of Key
-	 *	@param		bool		$sort		Flag: sort by Keys after Insertion
+	 *	@param		string			$key		Key in Dictionary
+	 *	@param		string|array	$value		Value of Key
+	 *	@param		bool			$sort		Flag: sort by Keys after Insertion
 	 *	@return		bool
 	 */
 	public function set(string $key, $value, bool $sort = TRUE ): bool

@@ -8,9 +8,9 @@ declare( strict_types = 1 );
  *
  */
 
-namespace CeusMedia\Common\Test\Net\HTTP;
+namespace CeusMedia\CommonTest\Net\HTTP;
 
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\Net\HTTP\Request\Receiver;
 
 /**

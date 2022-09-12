@@ -6,10 +6,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File\Collection;
+namespace CeusMedia\CommonTest\FS\File\Collection;
 
 use CeusMedia\Common\FS\File\Collection\Reader;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Collection Reader.

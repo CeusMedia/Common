@@ -1,16 +1,22 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of Net_FTP_Reader.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\Net\FTP;
+namespace CeusMedia\CommonTest\Net\FTP;
 
-use CeusMedia\Common\Net\FTP\Reader;
 use CeusMedia\Common\Net\FTP\Connection;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Net\FTP\Reader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_FTP_Reader.

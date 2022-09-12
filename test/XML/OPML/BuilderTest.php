@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
 
 declare( strict_types = 1 );
 
@@ -8,9 +12,9 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\XML\OPML;
+namespace CeusMedia\CommonTest\XML\OPML;
 
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\XML\OPML\Builder as OpmlBuilder;
 use CeusMedia\Common\XML\OPML\Outline as OpmlOutline;
 

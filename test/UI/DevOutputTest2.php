@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace CeusMedia\Common\Test\UI;
+namespace CeusMedia\CommonTest\UI;
 
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 class Test_UI_DevOutput extends TestCase
 {

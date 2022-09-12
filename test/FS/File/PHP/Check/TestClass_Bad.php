@@ -1,5 +1,5 @@
 <?php
-namespace CeusMedia\Common\Test\FS\File\PHP\Check;
+namespace CeusMedia\CommonTest\FS\File\PHP\Check;
 
 class TestClass_Bad
 {

@@ -1,17 +1,23 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Alg_Time_Duration.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg\Time;
+namespace CeusMedia\CommonTest\Alg\Time;
 
 use CeusMedia\Common\Alg\Time\Duration;
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\MockAntiProtection;
-use CeusMedia\Common\Test\Alg_Time_Duration_MockAntiProtection as Mock;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
+use CeusMedia\CommonTest\Alg\Time\DurationMockAntiProtection as Mock;
 
 /**
  *	TestUnit of Alg_Time_Duration.
@@ -20,6 +26,8 @@ use CeusMedia\Common\Test\Alg_Time_Duration_MockAntiProtection as Mock;
  */
 final class DurationTest extends BaseCase
 {
+	protected $durations;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

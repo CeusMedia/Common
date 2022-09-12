@@ -6,10 +6,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File\INI;
+namespace CeusMedia\CommonTest\FS\File\INI;
 
 use CeusMedia\Common\FS\File\INI\SectionReader;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Section INI Reader.

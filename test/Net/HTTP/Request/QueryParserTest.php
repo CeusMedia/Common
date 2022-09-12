@@ -1,23 +1,26 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
  *	TestUnit of Net_HTTP_Request_QueryParser.
  *	@package		Tests.net.http.request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *
  */
 
-namespace CeusMedia\Common\Test\Net\HTTP;
+namespace CeusMedia\CommonTest\Net\HTTP;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\Net\HTTP\Request\QueryParser;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_HTTP_Request_QueryParser.
  *	@package		Tests.net.http.request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *
  */
 class QueryParserTest extends BaseCase
 {

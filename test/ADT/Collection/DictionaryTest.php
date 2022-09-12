@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT\Collection;
+namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Dictionary
@@ -286,9 +291,8 @@ class DictionaryTest extends BaseCase
 	//  --  TESTS OF ARRAY ACCESS INTERFACE  --  //
 	public function testOffsetExists()
 	{
-		$assertion	= true;
 		$creation	= isset( $this->dictionary['key2'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	public function testOffsetGet()
@@ -380,9 +384,8 @@ class DictionaryTest extends BaseCase
 		$creation	= $this->dictionary->current();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= NULL;
 		$creation	= $this->dictionary->next();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertNull( $creation );
 
 		$assertion	= 'value1';
 		$creation	= $this->dictionary->current();

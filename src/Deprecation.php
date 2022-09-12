@@ -1,4 +1,7 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
 
 /**
  *	Indicator for deprecated methods.

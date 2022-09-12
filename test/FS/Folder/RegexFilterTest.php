@@ -6,10 +6,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\Folder;
+namespace CeusMedia\CommonTest\FS\Folder;
 
 use CeusMedia\Common\FS\Folder\RegexFilter;
-use CeusMedia\Common\Test\FS\Folder\TestCase;
+use CeusMedia\CommonTest\FS\Folder\TestCase;
 
 /**
  *	TestUnit of RegexFilter for Folders.

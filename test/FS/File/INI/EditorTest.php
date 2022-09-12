@@ -6,11 +6,11 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File\INI;
+namespace CeusMedia\CommonTest\FS\File\INI;
 
 use CeusMedia\Common\FS\File\INI\Editor;
 use CeusMedia\Common\FS\File\Reader as FileReader;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_INI_Editor.

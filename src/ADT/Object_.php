@@ -1,4 +1,11 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	Base Class for other Classes to inherit.
  *
@@ -42,7 +49,7 @@ class Object_
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getClass()
+	public function getClass(): string
 	{
 		return get_class( $this );
 	}
@@ -52,7 +59,7 @@ class Object_
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getMethods()
+	public function getMethods(): array
 	{
 		return get_class_methods( $this );
 	}
@@ -62,15 +69,14 @@ class Object_
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getObjectInfo()
+	public function getObjectInfo(): array
 	{
-		$info	= [
+		return [
 			'name'		=> $this->getClass(),
 			'parent'	=> $this->getParent(),
 			'methods'	=> $this->getMethods(),
 			'vars'		=> $this->getVars(),
 		];
-		return $info;
 	}
 
 	/**
@@ -78,9 +84,9 @@ class Object_
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getParent()
+	public function getParent(): ?string
 	{
-		return get_parent_class( $this );
+		return get_parent_class( $this ) ?: NULL;
 	}
 
 	/**
@@ -88,7 +94,7 @@ class Object_
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getVars()
+	public function getVars(): array
 	{
 		return get_object_vars( $this );
 	}
@@ -100,7 +106,7 @@ class Object_
 	 *	@param		bool		$callableOnly	Flag: also check if Method is callable
 	 *	@return		bool
 	 */
-	public function hasMethod( $methodName, $callableOnly = TRUE )
+	public function hasMethod( string $methodName, bool $callableOnly = TRUE ): bool
 	{
 		if( $callableOnly )
 			return method_exists( $this, $methodName ) && is_callable( [$this, $methodName] );
@@ -112,9 +118,9 @@ class Object_
 	 *	Indicates whether current Object is an Instance or Inheritance of a Class.
 	 *	@access		public
 	 *	@param		string		$className		Name of Class
-	 *	@return		string
+	 *	@return		bool
 	 */
-	public function isInstanceOf( $className )
+	public function isInstanceOf( string $className ): bool
 	{
 		return is_a( $this, $className );
 	}
@@ -125,7 +131,7 @@ class Object_
 	 *	@param		string		$className		Name of parent Class
 	 *	@return		bool
 	 */
-	public function isSubclassOf( $className )
+	public function isSubclassOf( string $className ): bool
 	{
 		return is_subclass_of( $this, $className );
 	}
@@ -135,7 +141,7 @@ class Object_
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function serialize()
+	public function serialize(): string
 	{
 		return serialize( $this );
 	}

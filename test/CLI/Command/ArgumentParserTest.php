@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of CLI_Command_ArgumentParser.
  *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\CLI;
+namespace CeusMedia\CommonTest\CLI;
 
 use CeusMedia\Common\CLI\Command\ArgumentParser;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 use Exception;
 
 /**
@@ -19,6 +25,8 @@ use Exception;
  */
 class ArgumentParserTest extends BaseCase
 {
+	protected $parser;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
 
 declare( strict_types = 1 );
 
@@ -9,11 +12,11 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg\Obj;
+namespace CeusMedia\CommonTest\Alg\Obj;
 
 use CeusMedia\Common\Alg\Obj\Constant;
 use CeusMedia\Common\Exception\Data\Ambiguous as AmbiguousDataException;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 
 /**

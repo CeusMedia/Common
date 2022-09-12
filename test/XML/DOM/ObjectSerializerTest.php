@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -8,11 +13,11 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\XML\DOM;
+namespace CeusMedia\CommonTest\XML\DOM;
 
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\Object_ as TestObject;
 use CeusMedia\Common\XML\DOM\ObjectSerializer;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\Object_ as TestObject;
 
 /**
  *	TestUnit of XML DOM Object Serializer.

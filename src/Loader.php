@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
@@ -28,11 +29,17 @@ class Loader
 		'php5',
 		'inc'
 	];
+
 	protected $logFile		= NULL;
+
 	protected $path			= NULL;
+
 	protected $prefix		= NULL;
+
 	protected $lowerPath	= FALSE;
+
 	protected $verbose		= 0;
+
 	protected $lineBreak	= NULL;
 
 	/**
@@ -181,22 +188,27 @@ class Loader
 		return $this;
 	}
 
-	public function setLowerPath( $bool ): self
+	public function setLowerPath( bool $bool ): self
 	{
-		$this->lowerPath	= (bool) $bool;
+		$this->lowerPath	= $bool;
 		return $this;
 	}
 
-	public function setVerbose( $verbosity ): self
+	/**
+	 *	Set verbosity level.
+	 *	@param		int			$verbosity
+	 *	@return		$this
+	 */
+	public function setVerbose( int $verbosity ): self
 	{
-		$this->verbose	= (int) $verbosity;
+		$this->verbose	= $verbosity;
 		return $this;
 	}
 
 	/**
 	 *	Sets Log File Name.
 	 *	@access		public
-	 *	@param		string			$pathName			Path Name of Log File
+	 *	@param		string		$pathName		Path Name of Log File
 	 *	@return		self
 	 */
 	public function setLogFile( string $pathName ): self
@@ -208,9 +220,9 @@ class Loader
 	/**
 	 *	Sets Path to load Files from to force absolute File Names.
 	 *	@access		public
-	 *	@param		string			$path				Path to load Files from, empty to remove set Path
+	 *	@param		string		$path		Path to load Files from, empty to remove set Path
 	 *	@return		self
-	 *	@throws		RuntimeException if Path is not existing
+	 *	@throws		RuntimeException		if Path is not existing
 	 */
 	public function setPath( string $path ): self
 	{
@@ -224,7 +236,7 @@ class Loader
 
 	/**
 	 *	@access		public
-	 *	@param		string			$prefix				Allowed Class Name Prefix
+	 *	@param		string		$prefix			Allowed Class Name Prefix
 	 *	@return		self
 	 */
 	public function setPrefix( string $prefix ): self

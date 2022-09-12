@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -8,12 +13,12 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\UI;
+namespace CeusMedia\CommonTest\UI;
 
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\MockAntiProtection;
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\UI\Template;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 
 use ArrayObject;
 
@@ -26,11 +31,14 @@ use ArrayObject;
 class TemplateTest extends BaseCase
 {
 	private $template;
+	protected $mock;
+	protected $mockElements;
+	protected $path;
 
 	public function setUp(): void
 	{
 		$this->mock			= MockAntiProtection::getInstance( Template::class );
-		$this->path			= dirname( __FILE__ )."/";
+		$this->path			= dirname( __FILE__ )."/assets/";
 		$this->template		= new Template( $this->path.'template_testcase1.html' );
 		$this->mockElements	= array(
 			'user'	=> "Welt",
@@ -61,7 +69,7 @@ class TemplateTest extends BaseCase
 
 	}
 
-	public function testInitialyNoElements()
+	public function testInitiallyNoElements()
 	{
 		$size	= sizeof( $this->template->getElements() );
 		$this->assertEquals( 0, $size );
@@ -239,10 +247,12 @@ class TemplateTestDataObject
 {
 	public $public		= "test";
 	protected $data1	= NULL;
+
 	public function getData1()
 	{
 		return $this->data1;
 	}
+
 	public function setData1( $value )
 	{
 		$this->data1	= $value;

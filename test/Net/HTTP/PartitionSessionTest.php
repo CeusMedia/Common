@@ -1,19 +1,24 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
- *	TestUnit of partioned Session.
+ *	TestUnit of partitioned Session.
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Net\HTTP;
+namespace CeusMedia\CommonTest\Net\HTTP;
 
 use CeusMedia\Common\Net\HTTP\PartitionSession;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
- *	TestUnit of partioned Session.
+ *	TestUnit of partitioned Session.
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
@@ -80,9 +85,9 @@ class PartitionSessionTest extends BaseCase
 	public function testOffsetExists()
 	{
 		$this->session->set( 'key4', "value4" );
-		$assertion	= true;
+
 		$creation	= isset( $this->session['key4'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 	}
 
@@ -106,18 +111,18 @@ class PartitionSessionTest extends BaseCase
 	{
 		$this->session->set( 'key7', "value7" );
 		unset( $this->session['key7'] );
-		$assertion	= FALSE;
+
 		$creation	= $this->session->has( 'key7' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	public function testRemove()
 	{
 		$this->session->set( 'key8', "value8" );
 		$this->session->remove( 'key8' );
-		$assertion	= FALSE;
+
 		$creation	= $this->session->has( 'key8' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	public function testSet()

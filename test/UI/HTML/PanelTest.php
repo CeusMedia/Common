@@ -1,24 +1,27 @@
 <?php
-/**
- *	TestUnit of UI_HTML_Panel.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			07.09.2008
- *
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\HTML;
+/**
+ *	TestUnit of UI_HTML_Panel.
+ *	@package		Tests.
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use CeusMedia\Common\Test\BaseCase;
+namespace CeusMedia\CommonTest\UI\HTML;
+
 use CeusMedia\Common\UI\HTML\Panel;
+use CeusMedia\CommonTest\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			07.09.2008
- *
  */
 class PanelTest extends BaseCase
 {

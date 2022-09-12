@@ -1,26 +1,32 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
  *	TestUnit of ADT\Collection\Queue.
  *	@package		Tests.adt.list
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			04.06.2008
  */
 
-namespace CeusMedia\Common\Test\ADT\Collection;
+namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\Queue;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
 *	TestUnit of ADT\Collection\Queue.
  *	@package		Tests.adt.list
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			04.06.2008
  */
 class QueueTest extends BaseCase
 {
+	protected $array;
+	protected $queue;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -79,11 +85,11 @@ class QueueTest extends BaseCase
 	 */
 	public function testBottomException()
 	{
-		$creation	= $this->queue->bottom();
-		$creation	= $this->queue->bottom();
-		$creation	= $this->queue->bottom();
 		$this->expectException( "RuntimeException" );
-		$creation	= $this->queue->bottom();
+		$this->queue->bottom();
+		$this->queue->bottom();
+		$this->queue->bottom();
+		$this->queue->bottom();
 	}
 
 	/**
@@ -126,11 +132,11 @@ class QueueTest extends BaseCase
 	 */
 	public function testPopException()
 	{
-		$creation	= $this->queue->pop();
-		$creation	= $this->queue->pop();
-		$creation	= $this->queue->pop();
 		$this->expectException( "RuntimeException" );
-		$creation	= $this->queue->pop();
+		$this->queue->pop();
+		$this->queue->pop();
+		$this->queue->pop();
+		$this->queue->pop();
 	}
 
 	/**
@@ -157,13 +163,11 @@ class QueueTest extends BaseCase
 	 */
 	public function testHas()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->queue->has( 1 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->queue->has( 4 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -173,14 +177,12 @@ class QueueTest extends BaseCase
 	 */
 	public function testIsEmpty()
 	{
-		$assertion	= FALSE;
 		$creation	= $this->queue->isEmpty();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		$queue		= new Queue();
-		$assertion	= TRUE;
 		$creation	= $queue->isEmpty();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**

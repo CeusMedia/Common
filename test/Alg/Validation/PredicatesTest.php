@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Predicates.
  *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg\Validation;
+namespace CeusMedia\CommonTest\Alg\Validation;
 
 use CeusMedia\Common\Alg\Validation\Predicates;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Predicates.
@@ -18,6 +24,8 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class PredicatesTest extends BaseCase
 {
+	protected $point;
+
 	function setUp(): void
 	{
 		$this->point	= time();
@@ -393,6 +401,7 @@ class PredicatesTest extends BaseCase
 		$this->assertTrue( $creation );
 
 		$creation	= Predicates::isBefore( "01.01.2001 01:02:03", $this->point );
+		$this->assertTrue( $creation );
 
 		$creation	= Predicates::isBefore( "2001-01", $this->point );
 		$this->assertTrue( $creation );
@@ -704,7 +713,7 @@ class PredicatesTest extends BaseCase
 	public function testIsFutureException()
 	{
 		$this->expectException( "InvalidArgumentException" );
-		Predicates::isFuture( "01.71.2008", $this->point );
+		Predicates::isFuture( "01.71.2008" );
 	}
 
 	/**
@@ -1030,7 +1039,7 @@ class PredicatesTest extends BaseCase
 	 */
 	public function testIsUrl()
 	{
-		$creation	= Predicates::isUrl( "http://ceus-media.de/references.html" );
+		$creation	= Predicates::isUrl( "https://ceus-media.de/references.html" );
 		$this->assertTrue( $creation );
 
 		$creation	= Predicates::isUrl( "ftp://google.de/public/" );

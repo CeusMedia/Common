@@ -1,16 +1,22 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_Image_Creator.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\Image;
+namespace CeusMedia\CommonTest\UI\Image;
 
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\UI\Image\Creator;
 use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\UI\Image\Creator;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Inverter.

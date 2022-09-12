@@ -1,16 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of ADT\Object_.
  *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test;
+namespace CeusMedia\CommonTest\ADT;
 
 use CeusMedia\Common\ADT\Object_;
-use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\Object_ as TestObject;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of ADT\Object_.
@@ -19,6 +24,10 @@ use CeusMedia\Common\Test\Object_ as TestObject;
  */
 class ObjectTest extends BaseCase
 {
+	protected $object;
+	protected $methods;
+	protected $vars;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -28,19 +37,19 @@ class ObjectTest extends BaseCase
 	{
 		$this->object	= new TestObjectClass;
 		$this->methods	= array(
-					'publicMethod',
-					'protectedMethod',
-#					'privateMethod',
-					'getClass',
-					'getMethods',
-					'getObjectInfo',
-					'getParent',
-					'getVars',
-					'hasMethod',
-					'isInstanceOf',
-					'isSubclassOf',
-					'serialize',
-				);
+			'publicMethod',
+			'protectedMethod',
+#			'privateMethod',
+			'getClass',
+			'getMethods',
+			'getObjectInfo',
+			'getParent',
+			'getVars',
+			'hasMethod',
+			'isInstanceOf',
+			'isSubclassOf',
+			'serialize',
+		);
 		$this->vars	= array(
 			'publicVar'		=> FALSE,
 			'protectedVar'	=> FALSE,
@@ -55,7 +64,7 @@ class ObjectTest extends BaseCase
 	 */
 	public function testGetClass()
 	{
-		$assertion	= 'CeusMedia\\Common\\Test\\TestObjectClass';
+		$assertion	= 'CeusMedia\\CommonTest\\ADT\\TestObjectClass';
 		$creation	= $this->object->getClass();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -80,7 +89,7 @@ class ObjectTest extends BaseCase
 	public function testGetObjectInfo()
 	{
 		$assertion	= array(
-			'name'		=> 'CeusMedia\\Common\\Test\\TestObjectClass',
+			'name'		=> 'CeusMedia\\CommonTest\\ADT\\TestObjectClass',
 			'parent'	=> 'CeusMedia\\Common\\ADT\\Object_',
 			'methods'	=> $this->methods,
 			'vars'		=> $this->vars,
@@ -120,25 +129,20 @@ class ObjectTest extends BaseCase
 	 */
 	public function testHasMethod()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'getClass' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'publicMethod' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'protectedMethod' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'privateMethod', FALSE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->object->hasMethod( 'privateMethod' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -148,17 +152,14 @@ class ObjectTest extends BaseCase
 	 */
 	public function testIsInstanceOf()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\Object_' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->object->isInstanceOf( "NOT_A_PARENT_CLASS" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -168,17 +169,14 @@ class ObjectTest extends BaseCase
 	 */
 	public function testIsSubclassOf()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\Object_' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->object->isSubclassOf( "NOT_A_PARENT_CLASS" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**

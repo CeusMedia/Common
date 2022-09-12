@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT\Collection;
+namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\Stack;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
 *	TestUnit of ADT\Collection\Stack.
@@ -19,6 +24,9 @@ use CeusMedia\Common\Test\BaseCase;
  */
 class StackTest extends BaseCase
 {
+	protected $array;
+	protected $stack;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -77,11 +85,11 @@ class StackTest extends BaseCase
 	 */
 	public function testBottomException()
 	{
-		$creation	= $this->stack->bottom();
-		$creation	= $this->stack->bottom();
-		$creation	= $this->stack->bottom();
 		$this->expectException( "RuntimeException" );
-		$creation	= $this->stack->bottom();
+		$this->stack->bottom();
+		$this->stack->bottom();
+		$this->stack->bottom();
+		$this->stack->bottom();
 	}
 
 	/**
@@ -108,13 +116,11 @@ class StackTest extends BaseCase
 	 */
 	public function testHas()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->stack->has( 1 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->stack->has( 5 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -124,14 +130,12 @@ class StackTest extends BaseCase
 	 */
 	public function testIsEmpty()
 	{
-		$assertion	= FALSE;
 		$creation	= $this->stack->isEmpty();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		$stack		= new Stack();
-		$assertion	= TRUE;
 		$creation	= $stack->isEmpty();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**

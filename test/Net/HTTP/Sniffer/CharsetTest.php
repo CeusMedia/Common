@@ -1,17 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
  *	TestUnit of Charset Sniffer.
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *
  */
 
-namespace CeusMedia\Common\Test\Net\HTTP\Sniffer;
+namespace CeusMedia\CommonTest\Net\HTTP\Sniffer;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\Net\HTTP\Sniffer\Charset;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Charset Sniffer.

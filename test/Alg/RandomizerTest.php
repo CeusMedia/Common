@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
 
 declare( strict_types = 1 );
 
@@ -9,10 +12,10 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\Alg;
+namespace CeusMedia\CommonTest\Alg;
 
 use CeusMedia\Common\Alg\Randomizer;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg_Randomizer.
@@ -91,7 +94,7 @@ class RandomizerTest extends BaseCase
 		$this->randomizer->unique	= TRUE;
 		$random		= $this->randomizer->get( 45 );
 		$unique		= join( array_keys( array_flip( str_split( $random ) ) ) );
-		$this->assertEquals( $unique, $random );;
+		$this->assertEquals( $unique, $random );
 	}
 
 	/**
@@ -165,6 +168,7 @@ class RandomizerTest extends BaseCase
 	public function test_get_withStrengthFromString_expectTypeError()
 	{
 		$this->expectException( 'TypeError' );
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->randomizer->get( 6, "not_an_integer" );
 	}
 
@@ -197,7 +201,7 @@ class RandomizerTest extends BaseCase
 	 */
 	public function testGetStrengthException4()
 	{
-		$this->randomizer->turns	= 10;
+		$this->randomizer->maxTurns	= 10;
 
 		$this->expectException( 'RuntimeException' );
 		$this->randomizer->get( 5, 30 );

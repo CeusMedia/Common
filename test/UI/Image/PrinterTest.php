@@ -1,16 +1,22 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_Image_Printer.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-namespace CeusMedia\Common\Test\UI\Image;
+namespace CeusMedia\CommonTest\UI\Image;
 
 use CeusMedia\Common\FS\File\Reader;
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\UI\Image\Printer;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Inverter.
@@ -78,9 +84,8 @@ class PrinterTest extends BaseCase
 		$printer->show( IMAGETYPE_GIF, 0, FALSE );
 		$creation	= ob_get_clean();
 
-		$assertion	= TRUE;
 		$creation	= file_get_contents( $this->path."sourceCreator.gif" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	public function testShowException()

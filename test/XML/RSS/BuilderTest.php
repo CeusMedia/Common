@@ -1,4 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
 /**
@@ -7,11 +12,12 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\XML\RSS;
+namespace CeusMedia\CommonTest\XML\RSS;
 
-use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\XML\DOM\Builder as XmlDomBuilder;
 use CeusMedia\Common\XML\RSS\Builder;
+use CeusMedia\CommonTest\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of XML_RSS_Builder.
@@ -22,6 +28,9 @@ class BuilderTest extends BaseCase
 {
 	protected $file;
 	protected $serial;
+	protected $path;
+	protected $builder;
+	protected $setup;
 
 	/**
 	 *	Setup for every Test.
@@ -30,7 +39,7 @@ class BuilderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->path		= dirname( __FILE__ )."/";
+		$this->path		= dirname( __FILE__ )."/assets/";
 		$this->file		= $this->path."builder.xml";
 		$this->builder	= new TestBuilderInstance();
 		$this->setup	= array(
@@ -74,8 +83,6 @@ class BuilderTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$builder	= new TestBuilderInstance();
-
 		$assertion	= new XmlDomBuilder();
 		$creation	= $this->builder->getProtectedVar( 'builder' );
 		$this->assertEquals( $assertion, $creation );
@@ -120,8 +127,7 @@ class BuilderTest extends BaseCase
 		$this->builder->setChannelData( $this->setup['channel'] );
 		$this->builder->setItemList( $this->setup['items'] );
 
-		$assertion	= file_get_contents( $this->file );
-		$creation	= $this->builder->build();
+		$this->builder->build();
 		$this->assertXmlFileEqualsXmlFile( $this->file, $this->path."builder2.xml" );
 	}
 
@@ -199,7 +205,7 @@ class TestBuilderInstance extends Builder
 	public function getProtectedVar( $varName )
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-			throw new \Exception( 'Var "'.$varName.'" is not declared.' );
+			throw new Exception( 'Var "'.$varName.'" is not declared.' );
 		return $this->$varName;
 	}
 }

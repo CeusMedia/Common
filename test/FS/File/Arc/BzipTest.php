@@ -1,15 +1,21 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Bzip File.
  *	@package		Tests.FS.File.Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\FS\File\Arc;
+namespace CeusMedia\CommonTest\FS\File\Arc;
 
 use CeusMedia\Common\FS\File\Arc\Bzip;
-use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Bzip File.
@@ -20,6 +26,8 @@ class BzipTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
+
+	protected $path;
 
 	public function setUp(): void
 	{
@@ -40,9 +48,7 @@ class BzipTest extends BaseCase
 		$arc	= new Bzip( $this->fileName );
 		$arc->writeString( "test" );
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 
 		$assertion	= bzcompress( "test" );
 		$creation	= file_get_contents( $this->fileName );
