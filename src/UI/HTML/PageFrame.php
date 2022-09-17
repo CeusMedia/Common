@@ -103,7 +103,7 @@ class PageFrame
 	 */
 	public function addBody( $string ): self
 	{
-		$this->body[]	= is_string( $string ) ?: $string->render();
+		$this->body[]	= $string instanceof Renderable ? $string->render() : $string;
 		return $this;
 	}
 
@@ -115,7 +115,7 @@ class PageFrame
 	 */
 	public function addFavouriteIcon( $url ): self
 	{
-		$url	= !$url instanceof URL ?: $url->get();
+		$url	= $url instanceof URL ? $url->get() : $url;
 		$ext	= strtolower( pathinfo( $url, PATHINFO_EXTENSION ) );
 		$type	= "image/x-icon";
 		if( $ext === 'png' )
@@ -138,7 +138,7 @@ class PageFrame
 	 */
 	public function addHead( $string ): self
 	{
-		$this->head[]	= !$string instanceof Renderable ?: $string->render();
+		$this->head[]	= $string instanceof Renderable ? $string->render() : $string;
 		return $this;
 	}
 
@@ -158,7 +158,7 @@ class PageFrame
 		$scriptData	= [
 			'type'		=> $type ?: $typeDefault,
 			'charset'	=> $charset ?: NULL,
-			'src'		=> !$uri instanceof URL ?: $uri->get(),
+			'src'		=> $uri instanceof URL ? $uri->get() : $uri,
 		];
 		$this->scripts[]	= $scriptData;
 		return $this;
@@ -175,7 +175,7 @@ class PageFrame
 	public function addLink( $uri, string $relation, ?string $type = NULL ): self
 	{
 		$this->links[]	= [
-			'uri'		=> !$uri instanceof URL ?: $uri->get(),
+			'uri'		=> $uri instanceof URL ? $uri->get() : $uri,
 			'rel'		=> $relation,
 			'type'		=> $type
 		];
@@ -202,7 +202,7 @@ class PageFrame
 
 	public function addPrefix( string $prefix, string $namespace ): self
 	{
-		$this->prefixes[$prefix]	= !$namespace instanceof URL ?: $namespace->get();
+		$this->prefixes[$prefix]	= $namespace instanceof URL ? $namespace->get() : $namespace;
 		return $this;
 	}
 
@@ -230,7 +230,7 @@ class PageFrame
 			'rel'		=> "stylesheet",
 			'type'		=> $type ?: $typeDefault,
 			'media'		=> $media,
-			'href'		=> !$uri instanceof URL ?: $uri->get(),
+			'href'		=> $uri instanceof URL ? $uri->get() : $uri,
 		];
 		$this->links[]	= $styleData;
 		return $this;
@@ -341,7 +341,7 @@ class PageFrame
 	 */
 	public function setBaseHref( $uri ): self
 	{
-		$this->baseHref	= !$uri instanceof URL ?: $uri->get();
+		$this->baseHref	= $uri instanceof URL ? $uri->get() : $uri;
 		return $this;
 	}
 
@@ -353,7 +353,7 @@ class PageFrame
 	 */
 	public function setBody( $string ): self
 	{
-		$this->body		= [!$string instanceof Renderable ?: $string->render()];
+		$this->body		= [$string instanceof Renderable ? $string->render() : $string];
 		return $this;
 	}
 
@@ -366,7 +366,7 @@ class PageFrame
 	 */
 	public function setCanonicalLink( $url ): self
 	{
-		$url	= !$url instanceof URL ?: $url->get();
+		$url	= $url instanceof URL ? $url->get() : $url;
 		foreach( $this->links as $nr => $link )
 			if( $link['rel'] === 'canonical' )
 				unset( $this->links[$nr] );
@@ -401,13 +401,13 @@ class PageFrame
 	 */
 	public function setHeading( $heading ): self
 	{
-		$this->heading	= !$heading instanceof Renderable ?: $heading->render();
+		$this->heading	= $heading instanceof Renderable ? $heading->render() : $heading;
 		return $this;
 	}
 
 	public function setHeadProfileUrl( $url ): self
 	{
-		$this->profile	= !$url instanceof URL ?: $url->get();
+		$this->profile	= $url instanceof URL ? $url->get() : $url;
 		return $this;
 	}
 
