@@ -143,7 +143,13 @@ class Reader
 		return $this->curlInfo[$key];
 	}
 
-	public function getResponseHeader( string $key ):
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		string		$key
+	 *	@return		mixed|NULL
+	 */
+	public function getResponseHeader( string $key )
 	{
 		return $this->responseHeaders[$key] ?? NULL;
 	}
