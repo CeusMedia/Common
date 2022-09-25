@@ -49,10 +49,12 @@ class Reader
 {
 	protected $curl;
 
-	protected $curlInfo		= [];
+	protected $curlInfo			= [];
+
+	protected $responseHeaders	= [];
 
 	//  default user agent to report to server, can be overridden by constructor or given CURL options on get or post
-	protected $userAgent	= "CeusMediaCommon:Net.HTTP.Reader/0.9";
+	protected $userAgent		= "CeusMediaCommon:Net.HTTP.Reader/0.9";
 
 	/**
 	 *	Constructor, sets up cURL.
@@ -109,8 +111,9 @@ class Reader
 			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
-		$response		= $curl->exec( TRUE, FALSE );
+		$response		= $curl->exec( TRUE, TRUE );
 		$this->curlInfo	= $curl->getInfo();
+		$this->headers	= $curl->getHeaders();
 		$response		= ResponseParser::fromString( $response );
 /*		$encodings	= $response->headers->getField( 'content-encoding' );
 		while( $encoding = array_pop( $encodings ) )
@@ -138,6 +141,11 @@ class Reader
 		if( !array_key_exists( $key, $this->curlInfo ) )
 			throw new InvalidArgumentException( 'Status Key "'.$key.'" is invalid.' );
 		return $this->curlInfo[$key];
+	}
+
+	public function getResponseHeader( string $key ):
+	{
+		return $this->responseHeaders[$key] ?? NULL;
 	}
 
 	/**

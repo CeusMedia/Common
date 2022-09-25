@@ -67,7 +67,8 @@ class Cookie
 	{
 		$this->data		=& $_COOKIE;
 		$this->setPath( $path );
-		$this->setDomain( $domain );
+		if (NULL !== $domain )
+			$this->setDomain( $domain );
 		$this->setSecure( $secure );
 		$this->setHttpOnly( $httpOnly );
 	}
