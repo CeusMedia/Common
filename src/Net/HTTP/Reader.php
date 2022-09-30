@@ -29,7 +29,7 @@
 namespace CeusMedia\Common\Net\HTTP;
 
 use CeusMedia\Common\Net\CURL;
-use CeusMedia\Common\Net\HTTP\Header\Renderer;
+use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Response\Decompressor as ResponseDecompressor;
 use CeusMedia\Common\Net\HTTP\Response\Parser as ResponseParser;
@@ -107,13 +107,15 @@ class Reader
 		$curl->setOption( CURLOPT_URL, $url );
 		if( $headers ){
 			if( $headers instanceof HeaderSection )
-				$headers	= Renderer::render( $headers );
-			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
+				$header	= $headers;
+			else
+				$header	= HeaderSection::getInstance()->addFieldPairs( $headers );
+			$curlOptions[CURLOPT_HTTPHEADER]	= HeaderRenderer::render( $header );
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 		$response		= $curl->exec( TRUE, TRUE );
 		$this->curlInfo	= $curl->getInfo();
-		$this->headers	= $curl->getHeaders();
+		$this->responseHeaders	= $curl->getHeaders();
 		$response		= ResponseParser::fromString( $response );
 /*		$encodings	= $response->headers->getField( 'content-encoding' );
 		while( $encoding = array_pop( $encodings ) )
@@ -169,8 +171,10 @@ class Reader
 		$curl->setOption( CURLOPT_URL, $url );
 		if( $headers ){
 			if( $headers instanceof HeaderSection )
-				$headers	= Renderer::render( $headers );
-			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
+				$header	= $headers;
+			else
+				$header	= HeaderSection::getInstance()->addFieldPairs( $headers );
+			$curlOptions[CURLOPT_HTTPHEADER]	= HeaderRenderer::render( $header );
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 

@@ -230,7 +230,7 @@ class Section
 		return [];
 	}
 
-	public static function instantiate(): self
+	public static function getInstance(): self
 	{
 		return new self();
 	}
