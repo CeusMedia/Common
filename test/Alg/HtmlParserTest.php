@@ -208,7 +208,7 @@ class HtmlParserTest extends BaseCase
 		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getJavaScriptUrls();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -230,7 +230,7 @@ class HtmlParserTest extends BaseCase
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getKeyWords( FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -305,7 +305,7 @@ class HtmlParserTest extends BaseCase
 
 		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getMetaTags();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -352,7 +352,7 @@ class HtmlParserTest extends BaseCase
 		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getStyleSheetUrls();
 		$this->assertEquals( $assertion, $creation );
 

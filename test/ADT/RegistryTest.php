@@ -77,7 +77,7 @@ class RegistryTest extends BaseCase
 	 */
 	public function testRemove()
 	{
-		$GLOBALS['REFERENCES']	= array();
+		$GLOBALS['REFERENCES']	= [];
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 		$this->registry->remove( 'key1' );
 

@@ -67,7 +67,7 @@ class IteratorTest extends TestCase
 		$index	= new Iterator( $path, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -94,7 +94,7 @@ class IteratorTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -121,7 +121,7 @@ class IteratorTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -148,7 +148,7 @@ class IteratorTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );

@@ -6,7 +6,7 @@ use CeusMedia\Common\CLI;
 
 class Tool_Migration_Applier
 {
-	protected $modifiers	= array();
+	protected $modifiers	= [];
 	protected $folder;
 
 	public function apply(): object
@@ -78,7 +78,7 @@ class Tool_Migration_Applier
 	}
 
 	private function diff($old, $new){
-		$matrix = array();
+		$matrix = [];
 		$maxlen = 0;
 		foreach($old as $oindex => $ovalue){
 		$nkeys = array_keys($new, $ovalue);

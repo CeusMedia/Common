@@ -124,8 +124,8 @@ class TestCase extends BaseTestCase
 	 */
 	protected function getListFromIndex( $index )
 	{
-		$folders	= array();
-		$files		= array();
+		$folders	= [];
+		$files		= [];
 		foreach( $index as $entry )
 		{
 			if( $entry->getFilename() == "." || $entry->getFilename() == ".." )
@@ -150,7 +150,7 @@ class TestCase extends BaseTestCase
 	 */
 	protected static function removeFolder( string $path, bool $force = FALSE )
 	{
-		$list	= array();
+		$list	= [];
 		$path	= str_replace( "\\", "/", $path );
 		//  index Folder
 		$dir	= dir( $path );

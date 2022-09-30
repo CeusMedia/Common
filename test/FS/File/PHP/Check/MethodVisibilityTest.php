@@ -105,7 +105,7 @@ class MethodVisibilityTest extends BaseCase
 	{
 		$checker	= new MethodVisibility( $this->fileTemp1 );
 		$checker->check();
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $checker->getMethods();
 		$this->assertEquals( $assertion, $creation );
 	}

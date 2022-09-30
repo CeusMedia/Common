@@ -66,7 +66,7 @@ class PagingTest extends BaseCase
 		$creation	= $paging->getOption( 'uri' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $paging->getOption( 'param' );
 		$this->assertEquals( $assertion, $creation );
 

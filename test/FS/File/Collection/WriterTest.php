@@ -132,7 +132,7 @@ class WriterTest extends BaseCase
 		$creation	= $this->writer->removeIndex( 0 );
 		$this->assertEquals( 0, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}

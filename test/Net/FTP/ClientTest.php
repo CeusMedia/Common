@@ -295,7 +295,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetList()
 	{
-		$files		= array();
+		$files		= [];
 		$list		= $this->client->getList();
 		foreach( $list as $entry )
 			if( $entry['isfile'] )
@@ -304,7 +304,7 @@ class ClientTest extends BaseCase
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
-		$files		= array();
+		$files		= [];
 		$list		= $this->client->getList();
 		foreach( $list as $entry )
 			$files[]	= $entry['name'];
@@ -312,7 +312,7 @@ class ClientTest extends BaseCase
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
-		$files		= array();
+		$files		= [];
 		$list		= $this->client->getList( "folder" );
 		foreach( $list as $entry )
 			$files[]	= $entry['name'];
@@ -488,7 +488,7 @@ class ClientTest extends BaseCase
 		$creation	= count( $folders );
 		$this->assertEquals( $assertion, $creation );
 
-		$names		= array();
+		$names		= [];
 		foreach( $folders as $folder )
 			$names[]	= $folder['name'];
 		$assertion	= array( "folder", "folder/nested" );;

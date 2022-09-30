@@ -84,7 +84,7 @@ class DefinitionValidatorTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 
-		$this->validator->setLabels( array() );
+		$this->validator->setLabels( [] );
 		$assertion	= array(
 			"Field 'test1' is mandatory.",
 		);
@@ -107,7 +107,7 @@ class DefinitionValidatorTest extends BaseCase
 
 	public function testValidatePass1()
 	{
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->validator->validate( $this->definition['test1'], "abc123" );
 		$this->assertEquals( $assertion, $creation );
 	}

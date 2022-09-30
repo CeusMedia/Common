@@ -41,8 +41,8 @@ class RecursiveRegexFilterTest extends TestCase
 	 */
 	public function testConstruct()
 	{
-		$folders	= array();
-		$files		= array();
+		$folders	= [];
+		$files		= [];
 		$path		= $this->path."folder";
 		$index	= new RecursiveRegexFilter( $path, "@.*@" );
 		extract( $this->getListFromIndex( $index ) );
@@ -98,7 +98,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$index	= new RecursiveRegexFilter( $path, "@\.txt$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -132,7 +132,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$index	= new RecursiveRegexFilter( $path, "@file@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -166,11 +166,11 @@ class RecursiveRegexFilterTest extends TestCase
 		$index		= new RecursiveRegexFilter( $path, "@\.php$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -197,7 +197,7 @@ class RecursiveRegexFilterTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -222,7 +222,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$creation	= $folders;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -248,7 +248,7 @@ class RecursiveRegexFilterTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

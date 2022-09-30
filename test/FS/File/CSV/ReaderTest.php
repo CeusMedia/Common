@@ -70,7 +70,7 @@ class ReaderTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$reader		= new Reader( $this->filePath, FALSE, ';' );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $reader->getHeaders();
 		$this->assertEquals( $assertion, $creation );
 	}

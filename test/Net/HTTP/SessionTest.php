@@ -36,7 +36,7 @@ class SessionTest extends BaseCase
 	{
 		$_SESSION['key1']	= "value1";
 		$this->session->clear();
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $_SESSION;
 		$this->assertEquals( $assertion, $creation );
 	}

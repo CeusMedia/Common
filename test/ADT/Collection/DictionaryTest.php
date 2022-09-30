@@ -45,7 +45,7 @@ class DictionaryTest extends BaseCase
 		$creation	= $dictionary->count();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $dictionary->getAll();
 		$this->assertEquals( $assertion, $creation );
 
@@ -102,7 +102,7 @@ class DictionaryTest extends BaseCase
 	public function testCastException3()
 	{
 		$this->expectException( 'UnexpectedValueException' );
-		$this->dictionary->cast( array(), 'key1' );
+		$this->dictionary->cast( [], 'key1' );
 	}
 
 	public function testCount()
@@ -259,7 +259,7 @@ class DictionaryTest extends BaseCase
 
 	public function testIterator()
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->dictionary as $key => $value )
 			$list[$key]	= $value;
 		$this->assertEquals( $list, $this->dictionary->getAll() );

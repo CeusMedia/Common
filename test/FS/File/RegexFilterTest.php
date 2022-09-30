@@ -58,7 +58,7 @@ class RegexFilterTest extends BaseCase
 		$search	= "@^RegexFilterTest@";
 		$filter	= new RegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -69,11 +69,11 @@ class RegexFilterTest extends BaseCase
 		$search	= "@not_existing_file@";
 		$filter	= new RegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -89,7 +89,7 @@ class RegexFilterTest extends BaseCase
 		$incode	= "@RegexFilterTest extends@";
 		$filter	= new RegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -100,11 +100,11 @@ class RegexFilterTest extends BaseCase
 		$search	= "@".time()."@";
 		$filter	= new RegexFilter( $this->path, "@\.php3$@", $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

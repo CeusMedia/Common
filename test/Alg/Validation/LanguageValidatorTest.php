@@ -62,7 +62,7 @@ class LanguageValidatorTest extends BaseCase
 	public function testConstructException2()
 	{
 		$this->expectException( 'RangeException' );
-		new LanguageValidator( array() );
+		new LanguageValidator( [] );
 	}
 
 	/**

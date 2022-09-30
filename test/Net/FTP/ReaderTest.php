@@ -187,7 +187,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetList()
 	{
-		$files		= array();
+		$files		= [];
 		$list		= $this->reader->getList();
 		foreach( $list as $entry )
 			if( $entry['isfile'] )
@@ -196,7 +196,7 @@ class ReaderTest extends BaseCase
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
-		$files		= array();
+		$files		= [];
 		$list		= $this->reader->getList();
 		foreach( $list as $entry )
 			$files[]	= $entry['name'];
@@ -204,7 +204,7 @@ class ReaderTest extends BaseCase
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
-		$files		= array();
+		$files		= [];
 		$list		= $this->reader->getList( "folder" );
 		foreach( $list as $entry )
 			$files[]	= $entry['name'];

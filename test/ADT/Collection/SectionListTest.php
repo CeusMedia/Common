@@ -262,7 +262,7 @@ class SectionListTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$this->list->removeEntry( "entry12" );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->list->getEntries( "section1" );
 		$this->assertEquals( $assertion, $creation );
 	}

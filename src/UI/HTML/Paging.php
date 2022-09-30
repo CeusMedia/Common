@@ -51,7 +51,7 @@ class Paging extends OptionObject
 	{
 		parent::__construct();
 		$this->setOption( 'uri',			"./" );
-		$this->setOption( 'param',			array() );
+		$this->setOption( 'param',			[] );
 		$this->setOption( 'coverage',		"2" );
 		$this->setOption( 'extreme',		"1" );
 		$this->setOption( 'more',			"1" );
@@ -174,7 +174,7 @@ class Paging extends OptionObject
 		$label	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
 		if( empty( $label ) )
 			throw new InvalidArgumentException( 'Button Label cannot be empty.' );
-		$spanClass	= $this->getOption( $spanClass ) ? $this->getOption( $spanClass ) : "";
+		$spanClass	= $this->getOption( $spanClass ) ?: '';
 		if( $offset !== NULL ){
 			$linkClass	= (string) $this->getOption( $linkClass );
 			$url		= $this->buildLinkUrl( $offset );

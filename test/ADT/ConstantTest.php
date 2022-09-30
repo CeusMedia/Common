@@ -26,7 +26,7 @@ class ConstantTest extends BaseCase
 {
 	public function testGetAll()
 	{
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= Constant::getAll( 'INVALID_PREFIX_' );
 		$this->assertEquals( $assertion, $creation );
 

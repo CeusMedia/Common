@@ -36,8 +36,8 @@ class RegexFilterTest extends TestCase
 	 */
 	public function testConstruct()
 	{
-		$folders	= array();
-		$files		= array();
+		$folders	= [];
+		$files		= [];
 		$path		= $this->path."folder";
 		$index		= new RegexFilter( $path, "@.*@" );
 		extract( $this->getListFromIndex( $index ) );
@@ -81,7 +81,7 @@ class RegexFilterTest extends TestCase
 		$index		= new RegexFilter( $path, "@\.txt$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -106,7 +106,7 @@ class RegexFilterTest extends TestCase
 		$index		= new RegexFilter( $path, "@file@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -131,11 +131,11 @@ class RegexFilterTest extends TestCase
 		$index		= new RegexFilter( $path, "@\.php$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -156,7 +156,7 @@ class RegexFilterTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -178,7 +178,7 @@ class RegexFilterTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -205,7 +205,7 @@ class RegexFilterTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );

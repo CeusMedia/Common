@@ -86,7 +86,7 @@ class ReaderTest extends BaseCase
 	{
 		Reader::$iniQuickLoad	= TRUE;
 		$reader		= new Reader( $this->path."test.ini" );
-		$stringData	= array();
+		$stringData	= [];
 		foreach( $this->data as $key => $value )
 			$stringData[$key]	= (string) $value;
 		$assertion	= $stringData;

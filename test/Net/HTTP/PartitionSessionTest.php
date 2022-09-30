@@ -44,7 +44,7 @@ class PartitionSessionTest extends BaseCase
 	{
 		$this->session->set( 'key1', "value1" );
 		$this->session->clear();
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->session->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}

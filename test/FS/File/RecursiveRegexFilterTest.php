@@ -71,7 +71,7 @@ class RecursiveRegexFilterTest extends BaseCase
 		$search	= "@^test@";
 		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -89,7 +89,7 @@ class RecursiveRegexFilterTest extends BaseCase
 		$search	= "@^test1@";
 		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -101,11 +101,11 @@ class RecursiveRegexFilterTest extends BaseCase
 		$search	= "@not_existing_file@";
 		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -121,7 +121,7 @@ class RecursiveRegexFilterTest extends BaseCase
 		$incode	= "@test2@";
 		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -134,7 +134,7 @@ class RecursiveRegexFilterTest extends BaseCase
 		$incode	= "@test@";
 		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -149,11 +149,11 @@ class RecursiveRegexFilterTest extends BaseCase
 		$incode	= "@test5@";
 		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

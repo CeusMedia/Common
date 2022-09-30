@@ -58,7 +58,7 @@ class NameFilterTest extends BaseCase
 		$search	= "NameFilterTest.php";
 		$filter	= new NameFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -69,11 +69,11 @@ class NameFilterTest extends BaseCase
 		$search	= "not_existing_file";
 		$filter	= new NameFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

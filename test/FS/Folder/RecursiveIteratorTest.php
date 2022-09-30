@@ -86,7 +86,7 @@ class RecursiveIteratorTest extends TestCase
 		$index	= new RecursiveIterator( $path, TRUE, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		$this->assertEquals( $assertion, $creation );
 
@@ -130,7 +130,7 @@ class RecursiveIteratorTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -175,7 +175,7 @@ class RecursiveIteratorTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -207,7 +207,7 @@ class RecursiveIteratorTest extends TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 	}

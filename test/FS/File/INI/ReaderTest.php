@@ -257,7 +257,7 @@ class ReaderTest extends BaseCase
 		$creation	= $this->sections->getComments( 'section1' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->sections->getComments( 'section2' );
 		$this->assertEquals( $assertion, $creation );
 

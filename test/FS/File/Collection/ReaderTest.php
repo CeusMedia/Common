@@ -118,7 +118,7 @@ class ReaderTest extends BaseCase
 
 		$fileName	= dirname( $this->fileName )."/empty.list";
 		file_put_contents( $fileName, "" );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= Reader::read( $fileName );
 		unlink( $fileName );
 	}

@@ -88,7 +88,7 @@ final class ConstantTest extends BaseCase
 		$creation		= $this->object->getAll( 'C_' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion		= array();
+		$assertion		= [];
 		$creation		= $this->object->getAll( 'D' );
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -94,12 +94,12 @@ class QueryParserTest extends BaseCase
 	public function testToArray0()
 	{
 		$query		= "";
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 
 		$query		= "&&&";
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= QueryParser::toArray( $query );
 		$this->assertEquals( $assertion, $creation );
 	}

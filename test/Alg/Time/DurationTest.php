@@ -85,7 +85,7 @@ final class DurationTest extends BaseCase
 		$hour	= 3600;
 		$day	= 24 * $hour;
 		$week	= 7 * $day;
-		$durations	= array();
+		$durations	= [];
 		foreach( $durations as $duration => $assertion ){
 			$creation	= $obj->convertDurationToSeconds( $duration );
 			$this->assertEquals( $assertion, $creation );
@@ -108,7 +108,7 @@ final class DurationTest extends BaseCase
 		$hour	= 3600;
 		$day	= 24 * $hour;
 		$week	= 7 * $day;
-		$durations	= array();
+		$durations	= [];
 		foreach( $durations as $assertion => $seconds ){
 			$creation	= $obj->convertSecondsToDuration( $seconds, ' ' );
 			$this->assertEquals( $assertion, $creation );

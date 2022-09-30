@@ -85,7 +85,7 @@ class BackupTest extends BaseCase
 	}
 
 	public function testGetVersions1(){
-		$this->assertEquals( array(), $this->file->getVersions() );
+		$this->assertEquals( [], $this->file->getVersions() );
 	}
 
 	public function testGetVersions2(){

@@ -43,7 +43,7 @@ class OptionObjectTest extends BaseCase
 	public function testConstruct()
 	{
 		$object		= new OptionObject();
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $object->getOptions();
 		$this->assertEquals( $assertion, $creation );
 
@@ -79,14 +79,14 @@ class OptionObjectTest extends BaseCase
 		$creation	= $this->object->clearOptions();
 		$this->assertTrue( $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->object->getOptions();
 		$this->assertEquals( $assertion, $creation );
 
 		$creation	= $this->object->clearOptions();
 		$this->assertFalse( $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->object->getOptions();
 		$this->assertEquals( $assertion, $creation );
 	}

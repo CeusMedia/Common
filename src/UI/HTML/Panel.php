@@ -88,7 +88,7 @@ class Panel
 	 */
 	public function build( string $id, string $theme = "default" ): string
 	{
-		return $this->create( $id, $this->content, $this->header, $this->abstract, $this->footer, $theme, $this->attributes );
+		return static::create( $id, $this->content, $this->header, $this->abstract, $this->footer, $theme, $this->attributes );
 	}
 
 	/**

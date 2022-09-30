@@ -174,7 +174,7 @@ class ReaderTest extends TestCase
 
 		$index	= $this->reader1->getFileListByExtensions( array( 'php' ) );
 		$list	= $this->getListFromIndex( $index );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -286,12 +286,12 @@ class ReaderTest extends TestCase
 		$index	= $this->reader1->getList( "@xyz@" );
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -445,7 +445,7 @@ class ReaderTest extends TestCase
 
 		$index	= $this->reader1->getNestedFileList( "@not_existing@" );
 		$list	= $this->getListFromIndex( $index );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -510,7 +510,7 @@ class ReaderTest extends TestCase
 
 		$index	= $this->reader1->getNestedFolderList( "@not_existing@" );
 		$list	= $this->getListFromIndex( $index );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
