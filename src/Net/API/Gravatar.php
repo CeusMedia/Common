@@ -171,7 +171,7 @@ class Gravatar
 	 *	Sets default image set used if not Gravatar is available.
 	 *	@access		public
 	 *	@param		string		$default	Default set to use if no Gravatar is available (404 | mm | identicon | monsterid | wavatar)
-	 *	@return		void
+	 *	@return		self
 	 */
 	public function setDefault( string $default ): self
 	{

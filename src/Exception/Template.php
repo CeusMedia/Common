@@ -62,9 +62,10 @@ class Template extends RuntimeException
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int			$code			Exception Code
-	 *	@param		string		$fileName		File Name of Template
-	 *	@param		mixed		$data			Some additional data
+	 *	@param		int				$code			Exception Code
+	 *	@param		string			$fileName		File Name of Template
+	 *	@param		array			$data			Some additional data
+	 *	@param		Throwable|NULL	$previous
 	 *	@return		void
 	 */
 	public function __construct( int $code, string $fileName, array $data = [], ?Throwable $previous = null )

@@ -26,6 +26,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.ietf.org/rfc/rfc2141.txt
  */
+
 namespace CeusMedia\Common\ADT;
 
 use InvalidArgumentException;

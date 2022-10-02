@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.03.2006
  */
 
 namespace CeusMedia\Common\Net\HTTP\Request;
@@ -42,7 +41,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.03.2006
  */
 class Receiver extends Dictionary
 {
@@ -144,7 +142,6 @@ class Receiver extends Dictionary
 	 *	Returns Object collected HTTP Headers.
 	 *	@access		public
 	 *	@return		HeaderSection		List of Header Objects
-	 *	@since		0.8.3.4
 	 */
 	public function getHeader(): HeaderSection
 	{
@@ -155,7 +152,6 @@ class Receiver extends Dictionary
 	 *	Returns List collected HTTP Headers.
 	 *	@access		public
 	 *	@return		array		List of Header Objects
-	 *	@since		0.6.8
 	 */
 	public function getHeaders(): array
 	{
@@ -169,7 +165,6 @@ class Receiver extends Dictionary
 	 *	@param		string		$name		Header Name
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
 	 *	@return		array|NULL	List of collected HTTP Header Fields with given Header Name
-	 *	@since		0.6.8
 	 */
 	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
 	{
@@ -190,7 +185,6 @@ class Receiver extends Dictionary
 	 *	Returns received raw POST Data.
 	 *	@access		public
 	 *	@return		string
-	 *	@since		0.6.8
 	 */
 	public function getRawPostData(): string
 	{
@@ -202,7 +196,6 @@ class Receiver extends Dictionary
 	 *	@access		public
 	 *	@param		string		$name		Header Name
 	 *	@return		bool
-	 *	@since		0.6.8
 	 */
 	public function hasHeader( string $name ): bool
 	{
@@ -227,7 +220,6 @@ class Receiver extends Dictionary
 	 *	It seems only jQery is supporting this at the moment.
 	 *	@access		public
 	 *	@return		bool
-	 *	@since		0.6.7
 	 */
 	public function isAjax(): bool
 	{
@@ -239,7 +231,6 @@ class Receiver extends Dictionary
 	 *	@access		public
 	 *	@param		string		$method		HTTP method to check for (GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH)
 	 *	@return		bool
-	 *	@since		0.6.7
 	 */
 	public function isMethod( string $method ): bool
 	{

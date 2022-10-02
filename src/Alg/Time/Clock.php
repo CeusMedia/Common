@@ -39,13 +39,13 @@ namespace CeusMedia\Common\Alg\Time;
  */
 class Clock
 {
-	/**	@var	string		$microTimeStart		Microtime at the Start */
+	/**	@var	float		$microTimeStart		Microtime at the Start */
 	protected $microTimeStart;
 
-	/**	@var	string		$microTimeLap		Time in micro at the end of the last since start */
+	/**	@var	float		$microTimeLap		Time in micro at the end of the last since start */
 	protected $microTimeLap;
 
-	/**	@var	string		$microTimeStop		Microtime at the End */
+	/**	@var	float		$microTimeStop		Microtime at the End */
 	protected $microTimeStop;
 
 	/**	@var	array		$laps				Array of Lap Times */

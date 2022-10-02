@@ -45,19 +45,6 @@ use CeusMedia\Common\Net\HTTP\Header\Field\Parser as HeaderFieldParser;
 class Parser
 {
 	/**
-	 *	Sends given Request and returns resulting Response Object.
-	 *	@access		public
-	 *	@param		Request			$request	Request Object
-	 *	@return		Response		Response Object
-	 *	@todo		fix this: broken - request has no send method anymore
-	 */
-	public static function fromRequest( Request $request ): Response
-	{
-		$response	= $request->send();
-		return self::fromString( $response );
-	}
-
-	/**
 	 *	Parses Response String and returns resulting Response Object.
 	 *	@access		public
 	 *	@param		string			$string	Request String

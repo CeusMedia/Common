@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
 
 namespace CeusMedia\Common\Alg\Validation;
@@ -40,7 +39,6 @@ use RangeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
 class LanguageValidator
 {

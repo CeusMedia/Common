@@ -92,14 +92,14 @@ class Parser
 	 *	Returns timestamp from GNU Date.
 	 *	@access		protected
 	 *	@param		string		$date
-	 *	@return		string
+	 *	@return		int|NULL
 	 */
-	protected function getDate( string $date ): string
+	protected function getDate( string $date ): ?int
 	{
 		$timestamp	= strtotime( $date );
-		if( $timestamp > 0 )
+		if( FALSE !== $timestamp && $timestamp > 0 )
 			return $timestamp;
-		return FALSE;
+		return NULL;
 	}
 
 	/**

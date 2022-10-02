@@ -23,7 +23,6 @@
  *	@copyright		2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.2.5
  */
 
 namespace CeusMedia\Common\Net\HTTP\Header;
@@ -39,7 +38,6 @@ use CeusMedia\Common\Net\HTTP\Header\Field\Parser as FieldParser;
  *	@copyright		2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.2.5
  */
 class Parser
 {
@@ -47,10 +45,10 @@ class Parser
 	 *	Parses block of HTTP headers and returns list of HTTP header field objects.
 	 *	@static
 	 *	@access		public
-	 *	@param		$string			HTTP headers encoded as string
+	 *	@param		string      $string			HTTP headers encoded as string
 	 *	@return		HeaderSection
 	 */
-	static public function parse( $string )
+	public static function parse( string $string ): HeaderSection
 	{
 		$section	= new HeaderSection();
 		$lines		= explode( PHP_EOL, trim( $string ) );

@@ -26,6 +26,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
+
 namespace CeusMedia\Common\ADT;
 
 use CeusMedia\Common\FS\File\VCard\Builder as VCardFileBuilder;

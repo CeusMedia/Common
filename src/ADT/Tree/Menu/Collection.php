@@ -72,7 +72,7 @@ class Collection
 	/**
 	 *	Adds a nested Tree Menu Item to this Tree Menu List.
 	 *	@access		public
-	 *	@param		Item		$child		Nested Tree Menu Item Data Object
+	 *	@param		Collection	$child		Nested Tree Menu Item Data Object
 	 *	@return		void
 	 */
 	public function addChild( Collection $child )

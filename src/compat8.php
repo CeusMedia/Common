@@ -8,8 +8,6 @@ class ADT_Bitmask extends CeusMedia\Common\ADT\Bitmask{}
 class ADT_CSS_Property extends CeusMedia\Common\ADT\CSS\Property{}
 class ADT_CSS_Rule extends CeusMedia\Common\ADT\CSS\Rule{}
 class ADT_CSS_Sheet extends CeusMedia\Common\ADT\CSS\Sheet{}
-abstract class ADT_Cache_StaticStore extends CeusMedia\Common\ADT\Cache\StaticStore{}
-abstract class ADT_Cache_Store extends CeusMedia\Common\ADT\Cache\Store{}
 class ADT_Constant extends CeusMedia\Common\ADT\Constant{}
 class ADT_Event_Callback extends CeusMedia\Common\ADT\Event\Callback{}
 class ADT_Event_Data extends CeusMedia\Common\ADT\Event\Data{}
@@ -168,7 +166,6 @@ class FS_File_CSS_Writer extends CeusMedia\Common\FS\File\CSS\Writer{}
 class FS_File_CSV_Iterator extends CeusMedia\Common\FS\File\CSV\Iterator{}
 class FS_File_CSV_Reader extends CeusMedia\Common\FS\File\CSV\Reader{}
 class FS_File_CSV_Writer extends CeusMedia\Common\FS\File\CSV\Writer{}
-class FS_File_Cache extends CeusMedia\Common\FS\File\Cache{}
 class FS_File_CodeLineCounter extends CeusMedia\Common\FS\File\CodeLineCounter{}
 class FS_File_Configuration_Converter extends CeusMedia\Common\FS\File\Configuration\Converter{}
 class FS_File_Configuration_Reader extends CeusMedia\Common\FS\File\Configuration\Reader{}
@@ -217,7 +214,6 @@ class FS_File_RecursiveNameFilter extends CeusMedia\Common\FS\File\RecursiveName
 class FS_File_RecursiveRegexFilter extends CeusMedia\Common\FS\File\RecursiveRegexFilter{}
 class FS_File_RecursiveTodoLister extends CeusMedia\Common\FS\File\RecursiveTodoLister{}
 class FS_File_RegexFilter extends CeusMedia\Common\FS\File\RegexFilter{}
-class FS_File_StaticCache extends CeusMedia\Common\FS\File\StaticCache{}
 class FS_File_SyntaxChecker extends CeusMedia\Common\FS\File\SyntaxChecker{}
 class FS_File_TodoLister extends CeusMedia\Common\FS\File\TodoLister{}
 class FS_File_Unicoder extends CeusMedia\Common\FS\File\Unicoder{}
@@ -293,8 +289,6 @@ class Net_HTTP_Sniffer_MimeType extends CeusMedia\Common\Net\HTTP\Sniffer\MimeTy
 class Net_HTTP_Sniffer_OS extends CeusMedia\Common\Net\HTTP\Sniffer\OS{}
 class Net_HTTP_Status extends CeusMedia\Common\Net\HTTP\Status{}
 class Net_HTTP_UploadErrorHandler extends CeusMedia\Common\Net\HTTP\UploadErrorHandler{}
-class Net_Memory_Cache extends CeusMedia\Common\Net\Memory\Cache{}
-class Net_Memory_StaticCache extends CeusMedia\Common\Net\Memory\StaticCache{}
 class Net_Reader extends CeusMedia\Common\Net\Reader{}
 class Net_SVN extends CeusMedia\Common\Net\SVN{}
 class Net_SVN_Client extends CeusMedia\Common\Net\SVN\Client{}

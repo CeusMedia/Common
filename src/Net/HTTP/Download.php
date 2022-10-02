@@ -113,7 +113,7 @@ class Download
 	 *	@static
 	 *	@access		public
 	 *	@param		string			$string			String to send
-	 *	@param		string|NULL		$filename		Filename of Download
+	 *	@param		string  		$filename		Filename of Download
 	 *	@param		boolean			$andExit		Flag: quit execution afterwards, default: yes
 	 *	@return		void
 	 */

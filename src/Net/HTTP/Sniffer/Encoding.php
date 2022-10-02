@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
@@ -31,14 +30,13 @@ namespace CeusMedia\Common\Net\HTTP\Sniffer;
 use InvalidArgumentException;
 
 /**
- *	Sniffer for Encoding Methods accepted by a HTTP Request.
+ *	Sniffer for Encoding Methods accepted by an HTTP Request.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
 class Encoding
 {

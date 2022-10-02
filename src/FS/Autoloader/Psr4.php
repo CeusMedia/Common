@@ -146,7 +146,7 @@ class Psr4
 	 *	@return		string|FALSE	The mapped file name on success, or boolean false on
 	 * failure.
 	 */
-	public function loadClass( string $class ): string
+	public function loadClass( string $class )
 	{
 		if( 0 === count($this->prefixes ) )
 			return FALSE;
@@ -187,7 +187,7 @@ class Psr4
 	 *	@return		string|FALSE	Boolean false if no mapped file can be loaded, or the
 	 * name of the mapped file that was loaded.
 	 */
-	protected function loadMappedFile( string $prefix, string $relativeClass ): string
+	protected function loadMappedFile( string $prefix, string $relativeClass )
 	{
 		// are there any base directories for this namespace prefix?
 		if( isset( $this->prefixes[$prefix]) === FALSE ){

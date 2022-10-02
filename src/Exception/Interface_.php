@@ -23,7 +23,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\Exception;
@@ -36,7 +35,6 @@ namespace CeusMedia\Common\Exception;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  *	@todo			test and write unit tests, remove see-link later
  *	@deprecated		not needed anymore since base Exception implements Throwable interface
  *	@todo			remove in 0.9

@@ -41,11 +41,11 @@ use DOMDocument;
  */
 class SyntaxValidator
 {
-	/**	@var	DOMDocument			$document	DOM Document of Syntax is valid */
+	/**	@var	DOMDocument|NULL		$document	DOM Document of Syntax is valid */
 	protected $document	= NULL;
 
-	/**	@var	string|FALSE|NULL	$errors		Parsing Errors if Syntax is invalid */
-	protected $errors	= [];
+	/**	@var	string|NULL				$errors		Parsing Errors if Syntax is invalid */
+	protected $errors	= '';
 
 	/**
 	 *	Returns DOM Document Object of XML Document if Syntax is valid.
@@ -79,7 +79,7 @@ class SyntaxValidator
 		ob_start();
 		$this->document->validateOnParse	= TRUE;
 		$this->document->loadXML( $xml );
-		$this->errors	= ob_get_contents();
+		$this->errors	= ob_get_contents() ?: NULL;
 		ob_end_clean();
 		if( !$this->errors )
 			return TRUE;

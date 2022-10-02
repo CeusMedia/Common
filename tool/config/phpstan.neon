@@ -1,6 +1,6 @@
 includes:
 #	- ../../vendor/phpstan/phpstan-strict-rules/rules.neon
-#	- phpstan-baseline.neon
+	- phpstan-baseline.neon
 
 #reachedLevels:
 #	ADT: 1
@@ -13,8 +13,8 @@ includes:
 #	XML: 2
 
 parameters:
-	phpVersion: 70300
-	level: 1
+	phpVersion: 70400
+	level: 3
 	paths:
 		- ../../src
 	excludePaths:

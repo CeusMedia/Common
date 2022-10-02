@@ -24,7 +24,6 @@
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.09.2011
  *	@see			http://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
  */
 
@@ -41,7 +40,6 @@ use Serializable as SerializableInterface;
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.09.2011
  */
 class Serializable extends Exception implements SerializableInterface
 {

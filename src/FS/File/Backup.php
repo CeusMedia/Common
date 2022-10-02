@@ -70,7 +70,7 @@ class Backup
 	 *	@param		integer		$version
 	 *	@return		string|FALSE
 	 */
-	public function getContent( int $version ): string
+	public function getContent( int $version )
 	{
 		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );

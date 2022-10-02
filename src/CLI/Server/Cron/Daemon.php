@@ -25,6 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\CLI\Server\Cron;
 
 use CeusMedia\Common\FS\File\Log\Writer as LogWriter;
@@ -42,7 +43,7 @@ class Daemon
 {
 	/**	@var		string		$cronTab		Cron Tab File */
 	protected $cronTab;
-	/**	@var		string		$logFile		Message Log File */
+	/**	@var		LogWriter	$logFile		Message Log File */
 	protected $logFile;
 
 	/**

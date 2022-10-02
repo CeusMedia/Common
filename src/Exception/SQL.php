@@ -51,9 +51,9 @@ class SQL extends RuntimeException
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int			$sqlCode		SQL Error Code
-	 *	@param		string		$sqlMessage		SQL Error Message
-	 *	@param		int			$SQLSTATE 		SQLSTATE Code
+	 *	@param		string			$message		SQL Error Message
+	 *	@param		int				$code			SQL Error Code
+	 *	@param		string|NULL		$SQLSTATE 		SQLSTATE Code
 	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */

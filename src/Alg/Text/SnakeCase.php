@@ -27,7 +27,6 @@
  *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  *	@see			https://en.wikipedia.org/wiki/Snake_case
  */
 
@@ -41,7 +40,6 @@ namespace CeusMedia\Common\Alg\Text;
  *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
 class SnakeCase
 {

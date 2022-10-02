@@ -70,7 +70,7 @@ class ShortWriter
 	 *	@param		string|array	$line		Entry to add to Log File
 	 *	@return		bool
 	 */
-	public function note( $line = FALSE ): bool
+	public function note( $line ): bool
 	{
 		if( is_array( $line ) )
 			$line	= implode( "|", $line );

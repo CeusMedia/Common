@@ -24,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  */
 
 namespace CeusMedia\Common\FS\File\Collection;
@@ -40,7 +39,6 @@ use DomainException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  */
 class Editor extends Reader
 {

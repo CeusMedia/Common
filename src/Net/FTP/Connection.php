@@ -85,7 +85,8 @@ class Connection
 	 *	@access		public
 	 *	@param		boolean		$checkResource			Flag: Check Connection
 	 *	@param		boolean		$checkAuthentication	Flag: Check Authentication
-	 *	@return		void
+     *	@param		boolean		$strict             	Flag: throw exceptions or return FALSE, default: yes (=throw!)
+	 *	@return		bool
 	 *	@throws		RuntimeException					if connection is not established (strict mode, only)
 	 *	@throws		RuntimeException					if connection is not authenticated (strict mode, only)
 	 */

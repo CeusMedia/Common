@@ -44,7 +44,7 @@ use Exception;
  */
 class Parser extends OptionObject
 {
-	/**	@var	DOMDocument		$document		DOM Document */
+	/**	@var	DOMDocument|NULL		$document		DOM Document */
 	protected $document			= NULL;
 
 	/**	@var	array			$attributes		List of DOM Document Options */

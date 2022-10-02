@@ -23,7 +23,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\Alg\Text;
@@ -39,10 +38,29 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class EncodingConverter
 {
+	/**
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string			String to be converted
+	 *	@param		string		$charsetIn		Charset to convert from
+	 *	@param		string		$charsetOut		Charset to convert to
+	 *	@return		string
+	 */
+	public static function convert( string $string, string $charsetIn, string $charsetOut ): string
+	{
+		self::checkIconv();
+		ob_start();
+		/** @noinspection PhpComposerExtensionStubsInspection */
+		$string	= iconv( $charsetIn, $charsetOut, $string );
+		$buffer = ob_get_clean();
+		if( !$buffer )
+			return $string;
+		throw new InvalidArgumentException( 'String cannot be converted from '.$charsetIn.' to '.$charsetOut );
+	}
+
 	/**
 	 *	Checks whether PHP Module 'iconv' is installed or not.
 	 *	@access		protected
@@ -53,24 +71,5 @@ class EncodingConverter
 	{
 		if( !function_exists( 'iconv' ) )
 			throw new RuntimeException( 'PHP module "iconv" is not installed' );
-	}
-
-	/**
-	 *	@access		public
-	 *	@static
-	 *	@param		string		String to be converted
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
-	 *	@return		string
-	 */
-	public static function convert( $string, $charsetIn, $charsetOut )
-	{
-		self::checkIconv();
-		ob_start();
-		$string	= iconv( $charsetIn, $charsetOut, $string );
-		$buffer = ob_get_clean();
-		if( !$buffer )
-			return $string;
-		throw new InvalidArgumentException( 'String cannot be converted from '.$charsetIn.' to '.$charsetOut );
 	}
 }

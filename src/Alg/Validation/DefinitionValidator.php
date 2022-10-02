@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			28.08.2006
  */
 
 namespace CeusMedia\Common\Alg\Validation;
@@ -39,7 +38,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			28.08.2006
  */
 class DefinitionValidator
 {
@@ -63,23 +61,17 @@ class DefinitionValidator
 	/**
 	 *	Validates Syntax against Field Definition and generates Messages.
 	 *	@access		public
-	 *	@param		string		$fieldKey	Field Key in Definition
-	 *	@param		string		$data		Field Definition
-	 *	@param		string		$value		Value to validate
-	 *	@param		string		$fieldName	Field Name in Form
+	 *	@param		array		$definition		Field Definition
+	 *	@param		string		$value			Value to validate
 	 *	@return		array
 	 */
-	public function validate( $definition, $value )
+	public function validate( array $definition, string $value ): array
 	{
-		if( !is_array( $definition ) )
-			throw new InvalidArgumentException( 'Definition must be an array, '.gettype( $definition ).' given' );
 		$errors		= [];
-		if( !empty( $definition['syntax'] ) )
-		{
+		if( !empty( $definition['syntax'] ) ){
 			$syntax		= new ArrayObject( $definition['syntax'] );
 
-			if( !strlen( $value ) )
-			{
+			if( !strlen( $value ) ){
 				if( $syntax['mandatory'] )
 					$errors[]	= ['isMandatory', NULL];
 				return $errors;
@@ -99,10 +91,8 @@ class DefinitionValidator
 						$errors[]	= [$predicate, $syntax[$key]];
 		}
 
-		if( !empty( $definition['semantic'] ) )
-		{
-			foreach( $definition['semantic'] as $semantic )
-			{
+		if( !empty( $definition['semantic'] ) ){
+			foreach( $definition['semantic'] as $semantic ){
 				$semantic	= new ArrayObject( $semantic );
 				$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
 				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )

@@ -28,7 +28,6 @@
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
 
 namespace CeusMedia\Common\FS\File\CSS;

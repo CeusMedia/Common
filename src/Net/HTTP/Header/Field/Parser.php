@@ -23,7 +23,6 @@
  *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
 
 namespace CeusMedia\Common\Net\HTTP\Header\Field;
@@ -39,7 +38,6 @@ use InvalidArgumentException;
  *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
 class Parser
 {
@@ -48,13 +46,13 @@ class Parser
 	 *
 	 *	@static
 	 *	@access		public
-	 *	@param		string		$string			String of qualified values to decode
+	 *	@param		string		$qualifiedValues			String of qualified values to decode
 	 *	@param		boolean		$sortByLength	Flag: assume longer key as more qualified for keys with same quality (default: FALSE)
 	 *	@return		array		Map of qualified values ordered by quality
 	 */
-	static public function decodeQualifiedValues( $qualifiedValues, $sortByLength = FALSE )
+	public static function decodeQualifiedValues( string $qualifiedValues, bool $sortByLength = FALSE ): array
 	{
-		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/iU';
+		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.\d{1,3})?|1(?:\.0{1,3})?))?$/iU';
 		$parts		= preg_split( '/,\s*/', $qualifiedValues );
 		$codes		= [];
 		foreach( $parts as $part )
@@ -89,7 +87,7 @@ class Parser
 	 *	@return		HeaderField							Header field object
 	 *	@throws		InvalidArgumentException			If given string is not a valid header field
 	 */
-	static public function parse( $headerFieldString, $decodeQualifiedValues = FALSE )
+	public static function parse( string $headerFieldString, bool $decodeQualifiedValues = FALSE ): HeaderField
 	{
 		if( !preg_match( '/^\S+:\s*.+$/', trim( $headerFieldString ) ) )
 		 	throw new InvalidArgumentException( 'Given string is not an HTTP header' );

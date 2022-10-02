@@ -136,7 +136,7 @@ class Parser
 				);
 				break;
 			case 'fn':
-				$vcard->setFormatedName( $values[0] );
+				$vcard->setFormattedName( $values[0] );
 				break;
 			case 'email':
 				$vcard->addEmail( $values[0], $attributes );

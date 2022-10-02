@@ -45,24 +45,24 @@ dev-create-docs: composer-install-dev
 
 # --  DEV: QUALITY--------------------------------------------------------
 dev-phpstan:
-#	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --xdebug || true
-	$composer dev:phpstan
+	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --xdebug || true
+#	@composer dev:phpstan
 
 dev-phpstan-clear-cache:
 #	@vendor/bin/phpstan clear-cache
-	$composer dev:phpstan-clear
+	@composer dev:phpstan-clear
 
 dev-phpstan-save-baseline:
 #	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --generate-baseline tool/config/phpstan-baseline.neon || true
-	$composer dev:phpstan-save
+	@composer dev:phpstan-save
 
 dev-rector:
 #	@vendor/bin/rector process --config=tool/config/rector.php --dry-run
-	$composer dev:rector
+	@composer dev:rector
 
 dev-rector-fix:
 #	@vendor/bin/rector process --config=tool/config/rector.php --no-diffs
-	$composer dev:phpstan-fix
+	@composer dev:phpstan-fix
 
 # --  GIT  ----------------------------------------------------------------
 git-show-status:

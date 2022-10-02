@@ -360,7 +360,6 @@ class ColorConverter
 #	 *	@param		array	$xyz		XYZ-Color as array
 #	 *	@return		array
 #	 *	@author		Christian Würker <christian.wuerker@ceusmedia.de>
-#	 *	@since		23.09.2005
 ##	 */
 #	public function xyz2luv( array $xyz ): array
 #	{
@@ -375,7 +374,6 @@ class ColorConverter
 #	 *	@param		array	$luv		LUV-Color as array
 #	 *	@return		array
 #	 *	@author		Christian Würker <christian.wuerker@ceusmedia.de>
-#	 *	@since		23.09.2005
 #	 */
 #	public function luv2xyz( array $luv ): array
 #	{
@@ -390,7 +388,6 @@ class ColorConverter
 #	 *	@param		array	$xyz		XYZ-Color as array
 #	 *	@return		array
 #	 *	@author		Christian Würker <christian.wuerker@ceusmedia.de>
-#	 *	@since		23.09.2005
 #	 */
 #	public function xyz2lab( array $xyz ): array
 #	{
@@ -405,7 +402,6 @@ class ColorConverter
 #	 *	@param		array	$lab		LAB-Color as array
 #	 *	@return		array
 #	 *	@author		Christian Würker <christian.wuerker@ceusmedia.de>
-#	 *	@since		23.09.2005
 #	 */
 #	public function lab2xyz( array $lab ): array
 #	{
@@ -420,7 +416,6 @@ class ColorConverter
 #	 *	@param		array	$lab		LAB-Color as array
 #	 *	@return		array
 #	 *	@author		Christian Würker <christian.wuerker@ceusmedia.de>
-#	 *	@since		23.09.2005
 #	 */
 #	public function lab2luv( array $lab ): array
 #	{
@@ -435,7 +430,6 @@ class ColorConverter
 #	 *	@param		array	$luv		LUV-Color as array
 #	 *	@return		array
 #	 *	@author		Christian Würker <christian.wuerker@ceusmedia.de>
-#	 *	@since		23.09.2005
 #	 */
 #	public function luv2lab( array $luv ): array
 #	{

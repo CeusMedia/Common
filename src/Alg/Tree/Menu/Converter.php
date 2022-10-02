@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.12.2008
  */
 
 namespace CeusMedia\Common\Alg\Tree\Menu;
@@ -40,7 +39,6 @@ use CeusMedia\Common\XML\OPML\Parser as OpmlParser;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.12.2008
  */
 class Converter
 {
@@ -48,16 +46,14 @@ class Converter
 	 *	Adds Tree Menu Items from OPML Outlines into a given Tree Menu List recursively.
 	 *	@access		public
 	 *	@static
-	 *	@param		array			$outlines		Outline Array from OPML Parser
+	 *	@param		array			$lines			Outline Array from OPML Parser
 	 *	@param		Collection		$container		Current working Menu Container, a Tree Menu List initially.
 	 *	@return		void
 	 */
-	protected static function buildMenuListFromOutlines( $lines, &$container )
+	protected static function buildMenuListFromOutlines( array $lines, Collection $container )
 	{
-		foreach( $lines as $line )
-		{
-			if( isset( $line['outlines'] ) && count( $line['outlines'] ) )
-			{
+		foreach( $lines as $line ){
+			if( isset( $line['outlines'] ) && count( $line['outlines'] ) ){
 				if( isset ( $line['url'] ) )
 					$item	= new Item( $line['url'], $line['text'] );
 				else
@@ -65,8 +61,7 @@ class Converter
 				self::buildMenuListFromOutlines( $line['outlines'], $item );
 				$container->addChild( $item );
 			}
-			else
-			{
+			else{
 				$item	= new Item( $line['url'], $line['text'] );
 				$container->addChild( $item );
 			}
@@ -77,12 +72,12 @@ class Converter
 	 *	Converts an OPML String to a Tree Menu List.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$opml			OPML String
-	 *	@param		string		$labelRoot		Label of Top Tree Menu List
-	 *	@param		string		$rootClass		CSS Class of root node
+	 *	@param		string			$opml			OPML String
+	 *	@param		string			$labelRoot		Label of Top Tree Menu List
+	 *	@param		string|NULL		$rootClass		CSS Class of root node
 	 *	@return		Collection
 	 */
-	public static function convertFromOpml( $opml, $labelRoot, $rootClass = NULL )
+	public static function convertFromOpml( string $opml, string $labelRoot, string $rootClass = NULL )
 	{
 		$parser		= new OpmlParser();
 		$parser->parse( $opml );
@@ -97,12 +92,12 @@ class Converter
 	 *	Converts an OPML File to a Tree Menu List.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of OPML File
-	 *	@param		string		$labelRoot		Label of Top Tree Menu List
-	 *	@param		string		$rootClass		CSS Class of root node
+	 *	@param		string			$fileName		File Name of OPML File
+	 *	@param		string			$labelRoot		Label of Top Tree Menu List
+	 *	@param		string|NULL		$rootClass		CSS Class of root node
 	 *	@return		Collection
 	 */
-	public static function convertFromOpmlFile( $fileName, $labelRoot, $rootClass = NULL )
+	public static function convertFromOpmlFile( string $fileName, string $labelRoot, ?string $rootClass = NULL ): Collection
 	{
 		$opml		= FileReader::load( $fileName );
 		return self::convertFromOpml( $opml, $labelRoot, $rootClass );

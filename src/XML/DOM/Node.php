@@ -41,13 +41,13 @@ use InvalidArgumentException;
  */
 class Node
 {
-	/**	@var		string		$nodeName		Name of XML Node */
+	/**	@var	string			$nodeName		Name of XML Node */
 	protected $nodeName;
-	/**	@var		array		$attributes		Map of XML Node Attributes */
+	/**	@var	array			$attributes		Map of XML Node Attributes */
 	protected $attributes		= [];
-	/**	@var		array		$children		List of Child Nodes  */
+	/**	@var	array			$children		List of Child Nodes  */
 	protected $children			= [];
-	/**	@var		string		$content		Content of XML Node */
+	/**	@var	string|NULL		$content		Content of XML Node */
 	protected $content			= NULL;
 
 	/**

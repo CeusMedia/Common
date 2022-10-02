@@ -23,7 +23,6 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 
 namespace CeusMedia\Common\Net\HTTP\Header;
@@ -39,7 +38,6 @@ use InvalidArgumentException;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 class Field
 {
@@ -56,7 +54,7 @@ class Field
 	 *	@param		string		$value		Value of Header
 	 *	@return		void
 	 */
-	public function __construct( $name, $value )
+	public function __construct( string $name, string $value )
 	{
 		$this->setName( $name );
 		$this->setValue( $value );
@@ -67,11 +65,11 @@ class Field
 	 *	Alias for Net_HTTP_Header_Field_Parser::decodeQualifiedValues.
 	 *	@static
 	 *	@access		public
-	 *	@param		string		$string			String of qualified values to decode
+	 *	@param		string		$values			String of qualified values to decode
 	 *	@param		boolean		$sortByLength	Flag: assume longer key as more qualified for keys with same quality (default: FALSE)
 	 *	@return		array		Map of qualified values ordered by quality
 	 */
-	static public function decodeQualifiedValues( $values, $sortByLength = TRUE )
+	public static function decodeQualifiedValues( string $values, bool $sortByLength = TRUE ): array
 	{
 		return FieldParser::decodeQualifiedValues( $values, $sortByLength );
 	}
@@ -81,7 +79,7 @@ class Field
 	 *	@access		public
 	 *	@return		string		Header Name
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -98,16 +96,18 @@ class Field
 		return $this->value;
 	}
 
-	public function setName( $name )
+	public function setName( string $name ): self
 	{
 		if( !trim( $name ) )
 			throw new InvalidArgumentException( 'Field name cannot be empty' );
 		$this->name	= strtolower( $name );
+        return $this;
 	}
 
-	public function setValue( $value )
+	public function setValue( string $value ): self
 	{
 		$this->value	= $value;
+        return $this;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Field
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toString()
+	public function toString(): string
 	{
 		if( function_exists( 'mb_convert_case' ) )
 			$name	= mb_convert_case( $this->name, MB_CASE_TITLE );

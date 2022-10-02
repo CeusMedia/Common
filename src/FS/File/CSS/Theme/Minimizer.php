@@ -199,7 +199,7 @@ class Minimizer
 	/**
 	 *	Sets Suffix of combined File Name.
 	 *	@access		public
-	 *	@param		string		$prefix			Suffix of combined File Name
+	 *	@param		string		$suffix			Suffix of combined File Name
 	 *	@return		self
 	 */
 	public function setCombinerSuffix( string $suffix ): self
@@ -260,7 +260,7 @@ class Minimizer
 	/**
 	 *	Sets Medium Name (within CSS Path (within Theme Path)) within Themes Path.
 	 *	@access		public
-	 *	@param		string		$prefix			Medium Name (within CSS Folder)
+	 *	@param		string		$medium			Medium Name (within CSS Folder)
 	 *	@return		self
 	 */
 	public function setMedium( string $medium ): self

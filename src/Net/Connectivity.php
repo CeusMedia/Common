@@ -147,9 +147,9 @@ class Connectivity
 	/**
 	 *	Register callback function to be executed after status has changed.
 	 *	@access		public
-	 * 	@param		callback	$callback	Function to be executed after status has changed
+	 * 	@param		mixed	    $callback	Function to be executed after status has changed
 	 *	@return 	self					for method chaining
-	 * @noinspection PhpMissingParamTypeInspection
+	 *  @noinspection           PhpMissingParamTypeInspection
 	 */
 	public function setCallbackOnChange( $callback ): self
 	{

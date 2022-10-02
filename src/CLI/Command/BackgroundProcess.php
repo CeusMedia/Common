@@ -25,6 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\CLI\Command;
 
 use CeusMedia\Common\FS\File\Reader as FileReader;

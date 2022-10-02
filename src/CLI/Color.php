@@ -4,7 +4,7 @@ namespace CeusMedia\Common\CLI;
 
 class Color
 {
-	private static $foregroundColors	= [
+	protected static $foregroundColors	= [
 		'black'			=> '0;30',
 		'dark_gray'		=> '1;30',
 		'red'			=> '0;31',
@@ -23,7 +23,7 @@ class Color
 		'white'			=> '1;37',
 	];
 
-	private static $backgroundColors	= [
+	protected static $backgroundColors	= [
 		'black'			=> '40',
 		'red'			=> '41',
 		'green'			=> '42',

@@ -212,7 +212,7 @@ class Reader
 	 *	@access		public
 	 *	@param		integer		$key		Constant Value of cURL Option
 	 *	@param		mixed		$value		Option Value
-	 *	@return		void
+	 *	@return		self
 	 *	@link		http://www.php.net/manual/en/function.curl-setopt.php
 	 */
 	public function setCurlOption( int $key, $value ): self
@@ -272,7 +272,7 @@ class Reader
 	 *	@param		integer			$peer		Flag: verify Peer
 	 *	@param		string|NULL		$caPath		Path to certificates
 	 *	@param		string|NULL		$caInfo		Certificate File Name
-	 *	@return		void
+	 *	@return		self
 	 */
 	public function setVerify( bool $host = FALSE, int $peer = 0, ?string $caPath = NULL, ?string $caInfo = NULL ): self
 	{

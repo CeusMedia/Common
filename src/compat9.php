@@ -30,9 +30,6 @@ namespace CeusMedia\Common\ADT\CSS{
 	class Rule extends \ADT_CSS_Rule{}
 	class Property extends \ADT_CSS_Property{}
 	class Sheet extends \ADT_CSS_Sheet{}}
-namespace CeusMedia\Common\ADT\Cache{
-	abstract class Store extends \ADT_Cache_Store{}
-	abstract class StaticStore extends \ADT_Cache_StaticStore{}}
 namespace CeusMedia\Common\ADT\Collection{
 	class Stack extends \ADT_List_Stack{}
 	class SectionList extends \ADT_List_SectionList{}
@@ -204,10 +201,8 @@ namespace CeusMedia\Common\FS\File{
 	class RecursiveNameFilter extends \FS_File_RecursiveNameFilter{}
 	class PdfToImage extends \FS_File_PdfToImage{}
 	class Lock extends \FS_File_Lock{}
-	class StaticCache extends \FS_File_StaticCache{}
 	class SyntaxChecker extends \FS_File_SyntaxChecker{}
 	class RecursiveTodoLister extends \FS_File_RecursiveTodoLister{}
-	class Cache extends \FS_File_Cache{}
 	class Unicoder extends \FS_File_Unicoder{}}
 namespace CeusMedia\Common\FS\File\Arc{
 	class Gzip extends \FS_File_Arc_Gzip{}
@@ -368,9 +363,6 @@ namespace CeusMedia\Common\Net\HTTP\Sniffer{
 	class Encoding extends \Net_HTTP_Sniffer_Encoding{}
 	class Browser extends \Net_HTTP_Sniffer_Browser{}
 	class Language extends \Net_HTTP_Sniffer_Language{}}
-namespace CeusMedia\Common\Net\Memory{
-	class StaticCache extends \Net_Memory_StaticCache{}
-	class Cache extends \Net_Memory_Cache{}}
 namespace CeusMedia\Common\Net\SVN{
 	class Client extends \Net_SVN_Client{}}
 namespace CeusMedia\Common\Net\Site{

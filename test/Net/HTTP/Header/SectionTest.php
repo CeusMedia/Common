@@ -29,7 +29,7 @@ class SectionTest extends BaseCase
 
 	public function setUp(): void
 	{
-		$this->section	= Section::instantiate()
+		$this->section	= Section::getInstance()
 			->addFieldPair( 'expires', time() + 60 )
 			->addFieldPair( 'key', 'value' )
 			->addFieldPair( 'date', date( 'r' ) );

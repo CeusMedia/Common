@@ -23,7 +23,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
 
 namespace CeusMedia\Common\Net\HTTP\Header;
@@ -41,7 +40,6 @@ use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  *	@see			http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 RFC 2616 HTTP Message Headers
  *
  *	GENERAL

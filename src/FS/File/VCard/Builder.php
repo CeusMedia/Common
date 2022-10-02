@@ -72,7 +72,7 @@ class Builder
 			$lines[]	= self::renderLine( "adr", $address, $address['types'] );
 
 		//  FORMATTED NAME
-		if( $name	= $card->getFormatedName() )
+		if( $name	= $card->getFormattedName() )
 			$lines[]	= self::renderLine( "fn", $name );
 
 		//  NICKNAMES

@@ -23,7 +23,6 @@
  *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
 
 namespace CeusMedia\Common\Net\HTTP\Header;
@@ -38,20 +37,19 @@ use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
  *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
 class Renderer
 {
-	static public function render( HeaderSection $section )
+	public static function render( HeaderSection $section ): string
 	{
 		$fields	= $section->getFields();
-		if( !$fields )
-			return;
+        // @todo prove to remove, idea was: "empty headers" list should also return at least a line break
+//		if( !$fields )
+//			return '';
 		$list	= [];
 		foreach( $fields as $field ){
 			$list[]	= $field->toString();
 		}
-		$string	= join( "\r\n", $list )."\r\n";
-		return $string;
+        return join( "\r\n", $list )."\r\n";
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- *	Sniffer for Character Sets accepted by a HTTP Request.
+ *	Sniffer for Character Sets accepted by an HTTP Request.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -23,35 +23,33 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
 /**
- *	Sniffer for Character Sets accepted by a HTTP Request.
+ *	Sniffer for Character Sets accepted by an HTTP Request.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
 class Charset
 {
-	/**	@var		$pattern	Reg Ex Pattern */
+	/**	@var		string		$pattern	Reg Ex Pattern */
 	protected static $pattern	= '/^([0-9a-z-]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 
 	/**
 	 *	Returns preferred allowed and accepted Character Set from HTTP_ACCEPT_CHARSET.
 	 *	@access		public
 	 *	@static
-	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
-	 *	@param		string	$default		Default Character Sets supported and allowed by the Application
-	 *	@return		string
+	 *	@param		array			$allowed		Array of Character Sets supported and allowed by the Application
+	 *	@param		string|NULL		$default		Default Character Sets supported and allowed by the Application
+	 *	@return		string|NULL
 	 */
-	public static function getCharset( $allowed, $default = false )
+	public static function getCharset( array $allowed, ?string $default = NULL ): ?string
 	{
 		$accepted	= getEnv( 'HTTP_ACCEPT_CHARSET' );
 		return self::getCharsetFromString( $accepted, $allowed, $default );
@@ -61,12 +59,12 @@ class Charset
 	 *	Returns preferred allowed and accepted Character Set from String.
 	 *	@access		public
 	 *	@static
-	 *	@param		string	$string			String to process
-	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
-	 *	@param		string	$default		Default Character Sets supported and allowed by the Application
-	 *	@return		string
+	 *	@param		string			$string			String to process
+	 *	@param		array			$allowed		Array of Character Sets supported and allowed by the Application
+	 *	@param		string|NULL		$default		Default Character Sets supported and allowed by the Application
+	 *	@return		string|NULL
 	 */
-	public static function getCharsetFromString( $string, $allowed, $default = FALSE )
+	public static function getCharsetFromString( string $string, array $allowed, ?string $default = NULL ): ?string
 	{
 		if( !$default)
 			$default = $allowed[0];

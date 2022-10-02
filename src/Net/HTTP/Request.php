@@ -100,7 +100,7 @@ class Request extends Dictionary
 	 *	@access		public
 	 *	@param		string			$name		HTTP header name
 	 *	@param		string			$value		HTTP header value
-	 *	@return		void
+	 *	@return		self
 	 */
 	public function addHeaderPair( string $name, string $value ): self
 	{

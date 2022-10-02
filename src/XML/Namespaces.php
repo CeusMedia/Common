@@ -29,7 +29,7 @@
 namespace CeusMedia\Common\XML;
 
 use DOMDocument;
-use SimpleXmlElement;
+use SimpleXMLElement;
 use Exception;
 
 /**
@@ -75,10 +75,10 @@ class Namespaces
 	/**
 	 *	Detects Namespaces from a Simple XML Element and returns number of found namespaces.
 	 *	@access		public
-	 *	@param		SimpleXmlElement	$element		Simple XML Element
+	 *	@param		SimpleXMLElement	$element		Simple XML Element
 	 *	@return		integer
 	 */
-	public function detectNamespacesFromSimpleXmlElement( SimpleXmlElement $element ): int
+	public function detectNamespacesFromSimpleXmlElement( SimpleXMLElement $element ): int
 	{
 		$namespaces	= self::getNamespacesFromSimpleXmlElement( $element );
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
@@ -128,11 +128,11 @@ class Namespaces
 	 *	Detects and returns map of namespaces found in a Simple XML Element.
 	 *	@access		public
 	 *	@static
-	 *	@param		SimpleXmlElement	$element		Simple XML Element
+	 *	@param		SimpleXMLElement	$element		Simple XML Element
 	 *	@param		boolean				$recursive		Flag: search with recursion, default: yes
 	 *	@return		array
 	 */
-	public static function getNamespacesFromSimpleXmlElement( SimpleXmlElement $element, bool $recursive = TRUE ): array
+	public static function getNamespacesFromSimpleXmlElement( SimpleXMLElement $element, bool $recursive = TRUE ): array
 	{
 		return $element->getDocNamespaces( $recursive );
 	}

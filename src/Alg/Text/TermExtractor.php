@@ -23,7 +23,6 @@
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 
 namespace CeusMedia\Common\Alg\Text;
@@ -38,7 +37,6 @@ use CeusMedia\Common\FS\File\Editor as FileEditor;
  *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@todo			Code Doc
  */
 class TermExtractor

@@ -24,8 +24,8 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
+
 namespace CeusMedia\Common\CLI\Fork\Server;
 
 /**
@@ -37,7 +37,6 @@ namespace CeusMedia\Common\CLI\Fork\Server;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
 class Dynamic extends Abstraction
 {

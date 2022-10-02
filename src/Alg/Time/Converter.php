@@ -103,12 +103,13 @@ class Converter
 	 *	Converts Unix Timestamp to a human time format.
 	 *	@access		public
 	 *	@static
-	 *	@param		string	$timestamp		Unix Timestamp
-	 *	@param		string	$format			Format of human time (date|monthdate|datetime|duration|custom format)
+	 *	@param		integer|string	$timestamp		Unix Timestamp
+	 *	@param		string			$format			Format of human time (date|monthdate|datetime|duration|custom format)
 	 *	@return		string|NULL
 	 */
 	public static function convertToHuman( $timestamp, string $format ): ?string
 	{
+		$timestamp	= (int) $timestamp;
 		$human = "";
 		if( $format == "date" )
 			$human = date( "d.m.Y", (int) $timestamp );
@@ -120,9 +121,9 @@ class Converter
 			$human = date( "d.m.Y - H:i:s", (int) $timestamp );
 		else if( $format == "duration" ){
 			$hours	= str_pad( floor( $timestamp / 3600 ), 2, 0, STR_PAD_LEFT );
-			$timestamp -= $hours * 3600;
+			$timestamp -= (int) $hours * 3600;
 			$mins	= str_pad( floor( $timestamp / 60 ), 2, 0, STR_PAD_LEFT );
-			$timestamp -= $mins * 60;
+			$timestamp -= (int) $mins * 60;
 			$secs	= str_pad( $timestamp, 2, 0, STR_PAD_LEFT );
 			$human	= $hours.":".$mins.":".$secs;
 		}
@@ -172,7 +173,7 @@ class Converter
 				if( substr_count( $string, ":" ) < 2 )
 					$string = "0:".$string;
 				$parts = explode( ":", $string );
-				$timestamp = $parts[0]*3600 + $parts[1]*60 + $parts[2];
+				$timestamp = ( (int) $parts[0] * 3600 ) + ( (int) $parts[1] * 60 ) + (int) $parts[2];
 			}
 			else if( $format ){
 				$pattern1	= "@^([a-z])(.)([a-z])(.)([a-z])(.)?([a-z])?(.)?([a-z])?(.)?([a-z])?$@iu";

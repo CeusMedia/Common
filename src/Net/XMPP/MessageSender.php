@@ -146,7 +146,7 @@ class MessageSender
 	 */
 	public function sendMessage( string $message )
 	{
-		if( $this->receiver !== NULL )
+		if( NULL === $this->receiver )
 			throw new RuntimeException( 'No Receiver set.' );
 		$this->sendMessageTo( $message, $this->receiver->get() );
 	}
@@ -246,7 +246,7 @@ class MessageSender
 	 *	Sets Client Resource Name.
 	 *	@access		public
 	 *	@param		string		$resource		Client Resource Name
-	 *	@return		void
+	 *	@return		self
 	 */
 	public function setResource( string $resource ): self
 	{

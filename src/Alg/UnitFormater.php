@@ -25,6 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\Alg;
 
 use CeusMedia\Common\Deprecation;
@@ -270,16 +271,15 @@ class UnitFormater
 	 *	@param		float		$float			Number to format
 	 *	@param		int			$unit			Number of Digits for dot to move to left
 	 *	@param		int			$precision		Number of Digits after dot
-	 *	@return		void
+	 *	@return		int|float
 	 *	@deprecated	incomplete method, please remove
 	 */
-	public static function formatNumber( $float, int $unit = 1, int $precision = 0 ): string
+	public static function formatNumber( $float, int $unit = 1, int $precision = 0 )
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
 		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message(  'Use one of the other methods instead' );
-		if( (int) $unit )
-		{
+		if( $unit ){
 			$float	= $float / $unit;
 			if( is_int( $precision ) )
 				$float	= round( $float, $precision );
@@ -301,7 +301,7 @@ class UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatPixels( $number, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
+	public static function formatPixels( float $number, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		//  step to first Unit
 		$unitKey	= 0;
@@ -329,7 +329,7 @@ class UnitFormater
 		if( is_string( $indent ) )
 			//  append Unit
 			$number	= $number.$indent.self::$unitPixels[$unitKey];
-		//  return resultung Value
+		//  return resulting Value
 		return $number;
 	}
 
