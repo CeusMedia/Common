@@ -78,7 +78,10 @@ class Writer
 			$this->create();
 		if( !$this->isWritable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
-		return error_log( $string, 3, $this->fileName );
+		$fp	= fopen( $this->fileName, 'a' );
+		fputs( $fp, $string );
+		fclose( $fp );
+		return strlen( $string );
 	}
 
 	/**

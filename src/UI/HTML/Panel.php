@@ -38,47 +38,47 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Panel
 {
-	/**	@var		string		$classAbstract		CSS Class of Abstract DIV */
-	public static $classAbstract					= "panelAbstract";
+	/**	@var	string			$classAbstract		CSS Class of Abstract DIV */
+	public static string $classAbstract				= "panelAbstract";
 
-	/**	@var		string		$classAbstractInner	CSS Class of inner Abstract DIV */
-	public static $classAbstractInner				= "panelAbstractInner";
+	/**	@var	string			$classAbstractInner	CSS Class of inner Abstract DIV */
+	public static string $classAbstractInner		= "panelAbstractInner";
 
-	/**	@var		string		$classContent		CSS Class of Content DIV */
-	public static $classContent						= "panelContent";
+	/**	@var	string			$classContent		CSS Class of Content DIV */
+	public static string $classContent				= "panelContent";
 
-	/**	@var		string		$classContentInner	CSS Class of inner Content DIV */
-	public static $classContentInner				= "panelContentInner";
+	/**	@var	string			$classContentInner	CSS Class of inner Content DIV */
+	public static string $classContentInner			= "panelContentInner";
 
-	/**	@var		string		$classFooter		CSS Class of Footer DIV */
-	public static $classFooter						= "panelFoot";
+	/**	@var	string			$classFooter		CSS Class of Footer DIV */
+	public static string $classFooter				= "panelFoot";
 
-	/**	@var		string		$classFooterInner	CSS Class of inner Footer DIV */
-	public static $classFooterInner					= "panelFootInner";
+	/**	@var	string			$classFooterInner	CSS Class of inner Footer DIV */
+	public static string $classFooterInner			= "panelFootInner";
 
-	/**	@var		string		$classHeader		CSS Class of Header DIV */
-	public static $classHeader						= "panelHead";
+	/**	@var	string			$classHeader		CSS Class of Header DIV */
+	public static string $classHeader				= "panelHead";
 
-	/**	@var		string		$classHeaderInner	CSS Class of inner Header DIV */
-	public static $classHeaderInner					= "panelHeadInner";
+	/**	@var	string			$classHeaderInner	CSS Class of inner Header DIV */
+	public static string $classHeaderInner			= "panelHeadInner";
 
-	/**	@var		string		$classPanel			CSS Class of Panel DIV */
-	public static $classPanel						= "panel";
+	/**	@var	string			$classPanel			CSS Class of Panel DIV */
+	public static string $classPanel				= "panel";
 
-	/** @var		string		$abstract			Abstract of Panel */
-	protected $abstract			= NULL;
+	/** @var	string|NULL		$abstract			Abstract of Panel */
+	protected ?string $abstract						= NULL;
 
-	/** @var		array		$attributes			Map of Attributes of Panel DIV */
-	protected $attributes		= [];
+	/** @var	array			$attributes			Map of Attributes of Panel DIV */
+	protected array $attributes						= [];
 
-	/** @var		string		$content			Content of Panel */
-	protected $content			= NULL;
+	/** @var	string|NULL		$content			Content of Panel */
+	protected ?string $content						= NULL;
 
-	/** @var		string		$footer				Footer of Panel */
-	protected $footer			= NULL;
+	/** @var	string|NULL		$footer				Footer of Panel */
+	protected ?string $footer						= NULL;
 
-	/** @var		string		$header				Header of Panel */
-	protected $header			= NULL;
+	/** @var	string|NULL		$header				Header of Panel */
+	protected ?string $header						= NULL;
 
 	/**
 	 *	Builds HTML Code of Panel after settings Contents using the set methods.
@@ -86,7 +86,7 @@ class Panel
 	 *	@param		string		$theme			Theme / additional CSS Class of Panel
 	 *	@return		string
 	 */
-	public function build( string $id, string $theme = "default" ): string
+	public function build( string $id, string $theme = 'default' ): string
 	{
 		return static::create( $id, $this->content, $this->header, $this->abstract, $this->footer, $theme, $this->attributes );
 	}
@@ -104,13 +104,13 @@ class Panel
 	 *	@param		array			$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( string $id, $content, $header = NULL, $abstract = NULL, $footer = NULL, string $theme= "default", array $attributes = [] ): string
+	public static function create( string $id, $content, $header = NULL, $abstract = NULL, $footer = NULL, string $theme= 'default', array $attributes = [] ): string
 	{
 		$divContInner	= self::wrap( (string) $content, self::$classContentInner );
 		$divCont		= self::wrap( $divContInner, self::$classContent );
-		$divAbstract	= "";
-		$divHead		= "";
-		$divFoot		= "";
+		$divAbstract	= '';
+		$divHead		= '';
+		$divFoot		= '';
 
 		if( !is_null( $abstract ) ){
 			$divAbstractInner	= self::wrap( $abstract, self::$classAbstractInner );
@@ -126,7 +126,7 @@ class Panel
 		}
 
 		$classes		= $theme ? self::$classPanel." ".$theme : self::$classPanel;
-		$attributes		= array_merge( ["id" => $id], $attributes );
+		$attributes		= array_merge( ['id' => $id], $attributes );
 		return self::wrap( $divHead.$divAbstract.$divCont.$divFoot, $classes, $attributes );
 	}
 
@@ -216,6 +216,6 @@ class Panel
 	protected static function wrap( $content, string $class, array $attributes = [] ): string
 	{
 		$attributes	= array_merge( $attributes, ['class' => $class] );
-		return Tag::create( "div", $content, $attributes );
+		return Tag::create( 'div', $content, $attributes );
 	}
 }

@@ -111,9 +111,9 @@ class Captcha
 	 *	@access		public
 	 *	@param		string			$word		Captcha Word
 	 *	@param		string|NULL		$fileName	File Name to write Captcha Image to
-	 *	@return		int
+	 *	@return		int|string
 	 */
-	public function generateImage( string $word, ?string $fileName = NULL ): int
+	public function generateImage( string $word, ?string $fileName = NULL )
 	{
 		if( !$this->font )
 			throw new RuntimeException( 'No font defined' );
@@ -165,9 +165,12 @@ class Captcha
 		}
 		ob_start();
 		imagejpeg( $image, NULL, $this->quality );
+		$content	= ob_get_clean();
+		if( FALSE === $content )
+			throw new RuntimeException( 'Generating image failed' );
 		if( $fileName )
-			return FileWriter::save( $fileName, ob_get_clean() );
-		return ob_get_clean();
+			return FileWriter::save( $fileName, $content );
+		return $content;
 	}
 
 	/**

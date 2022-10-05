@@ -52,11 +52,11 @@ class TransparentWatermark
 	 *
 	 *	@access		public
 	 *	@param		string		$stampFile		Filename of stamp image
-	 *	@return		boolean
+	 *	@return		void
 	 */
 	public function __construct( string $stampFile = '' )
 	{
-		return $this->setStamp( $stampFile );
+		$this->setStamp( $stampFile );
 	}
 
 	/**
@@ -209,7 +209,7 @@ class TransparentWatermark
 	 *	@access		protected
 	 *	@param		string		$file		image file (JPEG or PNG)
 	 *	@param		int			$type		file type (2:JPEG or 3:PNG)
-	 *	@return		resource
+	 *	@return		resource|NULL
 	 */
 	public function readImage( string $file, int $type )
     {
@@ -220,7 +220,7 @@ class TransparentWatermark
 				return ImageCreateFromPNG( $file );
 			default:
 				$this->errorMsg = 'File format not supported.';
-				return FALSE;
+				return NULL;
 		}
 	}
 

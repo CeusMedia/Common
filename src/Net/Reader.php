@@ -45,41 +45,41 @@ use RuntimeException;
  */
 class Reader
 {
-	/**	@var		string		$body			Result content of response */
-	protected $body				= NULL;
+	/**	@var		string|NULL		$body			Result content of response */
+	protected ?string $body			= NULL;
 
-	/**	@var		array		$headers		Map of response headers */
-	protected $headers			= [];
+	/**	@var		array			$headers		Map of response headers */
+	protected array $headers		= [];
 
-	/**	@var		array		$info			Map of information of last request */
-	protected $info				= [];
+	/**	@var		array			$info			Map of information of last request */
+	protected array $info			= [];
 
-	/**	@var		string		$url			URL to read */
-	protected $url;
+	/**	@var		string			$url			URL to read */
+	protected string $url;
 
-	/**	@var		string		$agent			User Agent */
-	protected static $userAgent	= "cmClasses:Net_Reader/0.7";
+	/**	@var		string			$agent			User Agent */
+	protected static $userAgent		= "cmClasses:Net_Reader/0.7";
 
-	/**	@var		string		$username		Username for Basic Authentication */
-	protected $username			= "";
+	/**	@var		string			$username		Username for Basic Authentication */
+	protected string $username		= "";
 
-	/**	@var		string		$password		Password for Basic Authentication */
-	protected $password			= "";
+	/**	@var		string			$password		Password for Basic Authentication */
+	protected string $password		= "";
 
-	/**	@var		boolean		$verifyHost		Flag: verify Host */
-	protected $verifyHost 		= FALSE;
+	/**	@var		boolean			$verifyHost		Flag: verify Host */
+	protected bool $verifyHost 		= FALSE;
 
-	/**	@var		boolean		$verifyPeer		Flag: verify Peer */
-	protected $verifyPeer		= FALSE;
+	/**	@var		boolean			$verifyPeer		Flag: verify Peer */
+	protected bool $verifyPeer		= FALSE;
 
-	/**	@var		string		$proxyAddress	Domain or IP (and port) of proxy server */
-	protected $proxyAddress		= NULL;
+	/**	@var		string|NULL		$proxyAddress	Domain or IP (and port) of proxy server */
+	protected ?string $proxyAddress	= NULL;
 
-	/**	@var		string		$proxyAuth		Username and password for proxy server authentication */
-	protected $proxyAuth		= 80;
+	/**	@var		string|NULL		$proxyAuth		Username and password for proxy server authentication */
+	protected ?string $proxyAuth	= NULL;
 
-	/**	@var		integer		$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
-	protected $proxyType		= 0;
+	/**	@var		integer			$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
+	protected int $proxyType		= 0;
 
 	/**
 	 *	Constructor.

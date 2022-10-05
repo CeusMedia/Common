@@ -48,11 +48,11 @@ use InvalidArgumentException;
 class Submit
 {
 
-	/**	@var		string		$baseUrl		Base URL to Google webmaster tools */
-	static public $baseUrl		= "https://www.google.com/webmasters/tools/ping?sitemap=";
+	/**	@var		string			$baseUrl		Base URL to Google webmaster tools */
+	public static $baseUrl			= "https://www.google.com/webmasters/tools/ping?sitemap=";
 
-	/**	@var		string		$lastError		Last error message if request went wrong */
-	static protected $lastError	= NULL;
+	/**	@var		string|NULL		$lastError		Last error message if request went wrong */
+	protected static $lastError		= NULL;
 
 	/**
 	 *	Returns error message of latest failed submit request.

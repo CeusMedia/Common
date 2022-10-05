@@ -71,7 +71,7 @@ class OS
 	/**
 	 *	Returns Operating System and Version.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		string
 	 */
 	public function getSystem()
 	{
@@ -81,7 +81,7 @@ class OS
 	/**
 	 *	Returns Operating System Version.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		string
 	 */
 	public function getVersion()
 	{

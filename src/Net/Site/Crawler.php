@@ -353,8 +353,10 @@ class Crawler
 	 */
 	protected function handleRecoveredLink( string $url, ?string $content = NULL )
 	{
-		if( array_key_exists( $url, $this->links ) )
-			return $this->links[$url]['references']++;
+		if( array_key_exists( $url, $this->links ) ){
+			$this->links[$url]['references']++;
+			return;
+		}
 		$this->links[base64_encode( $url )] = [
 			'url'			=> $url,
 			'references'	=> 1,

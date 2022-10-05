@@ -39,7 +39,7 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class CollapsePanel extends Panel
 {
-	public static $classPanel	= "collapsable";
+	public static string $classPanel	= "collapsable";
 
 	/**
 	 *	Builds HTML Code of Panel.

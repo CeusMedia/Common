@@ -152,13 +152,25 @@ class Reader
 		return $this->fileName;
 	}
 
-	public function getGroup(): string
+	/**
+	 *	Returns group name or ID of file.
+	 *
+	 *	@access		public
+	 *	@return		string|int
+	 */
+	public function getGroup( $resolveName = TRUE )
 	{
 		$this->check();
-		$group	= filegroup( $this->fileName );
-		if( FALSE === $group )
+		$groupId	= filegroup( $this->fileName );
+		if( FALSE === $groupId )
 			throw new RuntimeException( 'Could not get group of file "'.$this->fileName.'"' );
-		return $group;
+		if( $resolveName ){
+			/** @noinspection PhpComposerExtensionStubsInspection */
+			$group	= posix_getgrgid( $groupId );
+			if( is_array( $group ) )
+				return $group['name'];
+		}
+		return $groupId;
 	}
 
 	/**
@@ -189,13 +201,24 @@ class Reader
 		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
 	}
 
-	public function getOwner(): string
+	/**
+	 *	Returns owner name or ID of file.
+	 *
+	 *	@access		public
+	 *	@return		string|int
+	 */
+	public function getOwner( $resolveName = TRUE )
 	{
 		$this->check();
-		$user	= fileowner( $this->fileName );
-		if( FALSE === $user )
+		$userId	= fileowner( $this->fileName );
+		if( FALSE === $userId )
 			throw new RuntimeException( 'Could not get owner of file "'.$this->fileName.'"' );
-		return $user;
+		if( $resolveName ){
+			$user = posix_getpwuid( $userId );
+			if( is_array( $user ) )
+				return $user['name'];
+		}
+		return $userId;
 	}
 
 	/**
