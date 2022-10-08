@@ -22,23 +22,23 @@ namespace CeusMedia\Common\FS\File\CSS;
  */
 class Relocator
 {
-	/**	@var		string			$debugText		rewrite() and rewriteRelative() append debugging information here */
-	public static $debugText		= '';
+	/**	@var		string					$debugText		rewrite() and rewriteRelative() append debugging information here */
+	public static string $debugText			= '';
 
-	/**	@var		string			$className		Defines which class to call as part of callbacks, change this if you extend FS_File_CSS_Relocator */
-	protected static $className		= Relocator::class;
+	/**	@var		string					$className		Defines which class to call as part of callbacks, change this if you extend FS_File_CSS_Relocator */
+	protected static string $className		= Relocator::class;
 
-	/**	@var		string			$_currentDir	Directory of this stylesheet */
-	private static $_currentDir		= '';
+	/**	@var		string					$_currentDir	Directory of this stylesheet */
+	private static string $_currentDir		= '';
 
-	/**	@var		string			$_docRoot		DOC_ROOT */
-	private static $_docRoot		= '';
+	/**	@var		string					$_docRoot		DOC_ROOT */
+	private static string $_docRoot			= '';
 
-	/**	@var		array			$_symlinks		directory replacements to map symlink targets back to their source (within the document root) E.g. '/var/www/symlink' => '/var/realpath' */
-	private static $_symlinks		= [];
+	/**	@var		array					$_symlinks		directory replacements to map symlink targets back to their source (within the document root) E.g. '/var/www/symlink' => '/var/realpath' */
+	private static array $_symlinks			= [];
 
-	/**	@var		string			$_prependPath	Path to prepend */
-	private static $_prependPath	= NULL;
+	/**	@var		string|NULL				$_prependPath	Path to prepend */
+	private static ?string $_prependPath	= NULL;
 
 	/**
 	 *	In CSS content, prepend a path to relative URIs
@@ -232,7 +232,7 @@ class Relocator
 					$root = '';
 					$rootRelative = $uri;
 					$uri = $root . self::removeDots($rootRelative);
-				} elseif (preg_match('@^((https?\:)?//([^/]+))/@', $uri, $m) && (false !== strpos($m[3], '.'))) {
+				} elseif (preg_match('@^((https?:)?//([^/]+))/@', $uri, $m) && (false !== strpos($m[3], '.'))) {
 					$root = $m[1];
 					$rootRelative = substr($uri, strlen($root));
 					$uri = $root . self::removeDots($rootRelative);

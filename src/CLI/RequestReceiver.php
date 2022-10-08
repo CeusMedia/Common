@@ -42,9 +42,7 @@ use RuntimeException;
  */
 class RequestReceiver extends Dictionary
 {
-	public static $delimiterAssign	= "=";
-
-	protected $pairs				= [];
+	public static string $delimiterAssign	= "=";
 
 	/**
 	 *	Constructor, receives Console Arguments.

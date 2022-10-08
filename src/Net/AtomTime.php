@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Connects Server to request Atom Time.
@@ -46,11 +47,11 @@ use DateTimeZone;
  */
 class AtomTime
 {
-	/**	@var		string		$url			URL for Server Request */
-	protected static $hostName		= 'ptbtime1.ptb.de';
+	/**	@var		string				$url			URL for Server Request */
+	protected static string $hostName	= 'ptbtime1.ptb.de';
 
-	/**	@var		string		$url			Port for Server Request */
-	protected static $hostPort		= 123;
+	/**	@var		integer				$url			Port for Server Request */
+	protected static int $hostPort		= 123;
 
 	/**
 	 *	@param		DateTimeZone|NULL		$dateTimeZone
@@ -86,7 +87,7 @@ class AtomTime
 	public static function getTimestamp( ?DateTimeZone $dateTimeZone = NULL ): int
 	{
 		$dateTime	= self::get( $dateTimeZone );
-		return $dateTime->format( 'U' );
+		return (int) $dateTime->format( 'U' );
 	}
 
 	/**
@@ -100,6 +101,6 @@ class AtomTime
 	 */
 	public static function getDate( string $format = "d.m.Y - H:i:s", ?DateTimeZone $dateTimeZone = NULL ): string
 	{
-		return date( $format, self::getTimestamp() );
+		return date( $format, self::getTimestamp( $dateTimeZone )  );
 	}
 }

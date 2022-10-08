@@ -42,20 +42,21 @@ use RuntimeException;
  */
 class Connection
 {
-	/**	@var		boolean		$auth			Indicator of Authentication */
-	protected $auth				= FALSE;
+	/**	@var		integer			$mode			FTP Transfer Mode */
+	public int $mode				= FTP_BINARY;
 
-	/**	@var		resource	$resource		Resource ID of Connection (Stream in PHP5) */
-	protected $resource			= NULL;
+	/**	@var		boolean			$auth			Indicator of Authentication */
+	protected bool $auth				= FALSE;
 
-	/**	@var		string		$host			Host Name */
-	protected $host				= "";
+	/**	@var		resource|NULL	$resource		Resource ID of Connection (Stream in PHP5) */
+	protected $resource				= NULL;
 
-	/**	@var		integer		$port			Protocol Port */
-	protected $port				= 21;
+	/**	@var		string			$host			Host Name */
+	protected string $host			= '';
 
-	/**	@var		integer		$mode			FTP Transfer Mode */
-	public $mode				= FTP_BINARY;
+	/**	@var		integer			$port			Protocol Port */
+	protected int $port				= 21;
+
 
 	/**
 	 *	Constructor, connects to FTP Server.

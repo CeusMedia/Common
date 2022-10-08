@@ -24,6 +24,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class LanguageValidatorTest extends BaseCase
 {
+	protected LanguageValidator $validator;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -41,17 +43,6 @@ class LanguageValidatorTest extends BaseCase
 	 */
 	public function tearDown(): void
 	{
-	}
-
-	/**
-	 *	Tests Exception of Method '__construct'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConstructException1()
-	{
-		$this->expectException( 'InvalidArgumentException' );
-		new LanguageValidator( "string" );
 	}
 
 	/**

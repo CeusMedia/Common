@@ -46,18 +46,18 @@ class Template extends RuntimeException
 	public const FILE_LABELS_MISSING	= 1;
 	public const LABELS_MISSING			= 2;
 
-	/**	@var		string		$messages		Map of Exception Messages, can be overwritten statically */
-	public static $messages	= [
+	/**	@var		array			$messages		Map of Exception Messages, can be overwritten statically */
+	public static array $messages	= [
 		self::FILE_NOT_FOUND		=> 'Template File "%1$s" is missing',
 		self::FILE_LABELS_MISSING	=> 'Template "%1$s" is missing %2$s',
 		self::LABELS_MISSING		=> 'Template is missing %1$s',
 	];
 
-	/**	@var		array		$labels			Holds all not used and non-optional labels */
-	protected $labels			= [];
+	/**	@var		array			$labels			Holds all not used and non-optional labels */
+	protected array $labels			= [];
 
-	/**	@var		string		$filePath		File Path of Template, set only if not found */
-	protected $filePath			= NULL;
+	/**	@var		string|NULL		$filePath		File Path of Template, set only if not found */
+	protected ?string $filePath		= NULL;
 
 	/**
 	 *	Constructor.
@@ -70,11 +70,10 @@ class Template extends RuntimeException
 	 */
 	public function __construct( int $code, string $fileName, array $data = [], ?Throwable $previous = null )
 	{
-		$tagList	= '"'.implode( '", "', $data ).'"';
-		switch( $code )
-		{
+		$tagList		= '"'.implode( '", "', $data ).'"';
+		$this->filePath	= $fileName;
+		switch( $code ){
 			case self::FILE_NOT_FOUND:
-				$this->filePath	= $data;
 				$message		= self::$messages[self::FILE_NOT_FOUND];
 				$message		= sprintf( $message, $fileName );
 				parent::__construct( $message, self::FILE_NOT_FOUND, $previous );

@@ -48,7 +48,7 @@ class Daemon extends Application
 	 *	@param		int		$timeLimit		Run Time Limitation in Seconds (for Development), default=10s, set 0 for unlimited Run Time
 	 *	@return		void
 	 */
-	public function __construct( int $timeLimit = 10)
+	public function __construct( int $timeLimit = 10 )
 	{
 		set_time_limit( $timeLimit );
 		ob_implicit_flush( 1 );
@@ -67,16 +67,6 @@ class Daemon extends Application
 			ob_flush();
 			$this->sleep();
 		}
-	}
-
-	/**
-	 *	Stops Daemon.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function quit( $return )
-	{
-		return $return;
 	}
 
 	/**

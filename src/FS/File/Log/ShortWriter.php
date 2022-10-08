@@ -39,11 +39,11 @@ namespace CeusMedia\Common\FS\File\Log;
  */
 class ShortWriter
 {
-	/**	@var		string		$patterns	Pattern Array filled with Logging Information */
-	protected $patterns			= [];
+	/**	@var		array		$patterns	Pattern Array filled with Logging Information */
+	protected array $patterns	= [];
 
 	/**	@var		string		$uri		URI of Log File */
-	protected $uri;
+	protected string $uri;
 
 	/**
 	 *	Constructor.
@@ -54,14 +54,13 @@ class ShortWriter
 	public function __construct( string $uri )
 	{
 		$this->uri	= $uri;
-		$patterns	= [
+		$this->setPatterns( [
 			time(),
 			getEnv( 'REMOTE_ADDR'),
 			getEnv( 'REQUEST_URI' ),
 			getEnv( 'HTTP_REFERER' ),
 			getEnv( 'HTTP_USER_AGENT' )
-		];
-		$this->setPatterns( $patterns );
+		] );
 	}
 
 	/**

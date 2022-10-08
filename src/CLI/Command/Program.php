@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
@@ -42,26 +43,26 @@ use Exception;
  */
 abstract class Program
 {
-	public const EXIT_NO			= -1;
-	public const EXIT_OK			= 0;
-	public const EXIT_INIT			= 1;
+	public const EXIT_NO		= -1;
+	public const EXIT_OK		= 0;
+	public const EXIT_INIT		= 1;
 	public const EXIT_PARSE		= 2;
-	public const EXIT_RUN			= 4;
+	public const EXIT_RUN		= 4;
 
-	/**	@var	array		$arguments		Map of given Arguments */
-	protected $arguments	= NULL;
+	/**	@var	array			$arguments		Map of given Arguments */
+	protected array $arguments	= [];
 
-	/**	@var	array		$arguments		Map of given Options */
-	protected $options		= NULL;
+	/**	@var	array			$options		Map of given Options */
+	protected array $options	= [];
 
-	/**	@var	int			$exitCode		Exit Code of Main Application */
-	protected $exitCode		= NULL;
+	/**	@var	int				$exitCode		Exit Code of Main Application */
+	protected int $exitCode		= self::EXIT_NO;
 
-	protected $parser;
+	protected ArgumentParser $parser;
 
 	/**
 	 *	Constructor, parses Console Call String against given Options and calls Main Method.
-	 *	If this class is going to be extended, the constructor must be extended too and the parents constructor must be called
+	 *	If this class is going to be extended, the constructor must be extended too and the parent's constructor must be called
 	 *
 	 *	<code>
 	 *  public function __construct()
@@ -104,9 +105,9 @@ abstract class Program
 	 */
 	protected function getArgumentString(): string
 	{
-		//  get Console Arguments from PHP
+		//  get console arguments from PHP
 		$arguments	= $_SERVER['argv'];
-		//  remove Programm Call itself
+		//  remove Program call itself
 		array_shift( $arguments );
 		//  build Argument String
 		return implode( " ", $arguments );
@@ -127,11 +128,11 @@ abstract class Program
 	 *	Program, to be implemented by you.
 	 *	@abstract
 	 *	@access		protected
-	 *	@return		mixed			can return a String or an Integer Exit Code.
+	 *	@return		int			Exit code, 0 on success
 	 */
-	abstract protected function main();
+	abstract protected function main(): int;
 
-	public function run( ?string $argumentString = NULL )
+	public function run( ?string $argumentString = NULL ): int
 	{
 		if( is_null( $argumentString ) )
 			//  get Argument String

@@ -53,10 +53,11 @@ use RuntimeException;
  */
 class Reader extends Dictionary
 {
-	/**	@var		bool		$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
-	public static $iniQuickLoad		= FALSE;
+	/**	@var		bool				$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
+	public static bool $iniQuickLoad	= FALSE;
 
-	protected $source;
+	/** @var		string				$source */
+	protected string $source;
 
 	/**
 	 *	Constructor.
@@ -310,7 +311,7 @@ class Reader extends Dictionary
 			//  remove Pair
 			unset( $this->pairs[$key] );
 			//  return Success
-			return 1;
+			return TRUE;
 		}
 
 		$count	= 0;

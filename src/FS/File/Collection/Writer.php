@@ -42,11 +42,11 @@ use DomainException;
  */
 class Writer
 {
-	/**	@var		array		$list			List **/
-	protected $list				= [];
+	/**	@var		array			$list			List **/
+	protected array $list			= [];
 
-	/**	@var		string		$fileName		File Name of List, absolute or relative URI **/
-	protected $fileName;
+	/**	@var		string			$fileName		File Name of List, absolute or relative URI **/
+	protected string $fileName;
 
 	/**
 	 *	Constructor.
@@ -109,8 +109,8 @@ class Writer
 	 *	@static
 	 *	@param		string			$fileName		File Name of List, absolute or relative URI
 	 *	@param		array			$list			List to save
-	 *	@param		string			$mode			UNIX rights for chmod()
-	 *	@param		string|NULL		$user			User Name for chown()
+	 *	@param		integer			$mode			UNIX rights for chmod()
+	 *	@param		string|NULL		$user			Username for chown()
 	 *	@param		string|NULL		$group			Group Name for chgrp()
 	 *	@return		int				Number of written bytes
 	 */
@@ -124,11 +124,11 @@ class Writer
 	 *	Writes the current List to File.
 	 *	@access		protected
 	 *	@param		integer			$mode			UNIX rights for chmod() as octal integer
-	 *	@param		string|NULL		$user			User Name for chown()
+	 *	@param		string|NULL		$user			Username for chown()
 	 *	@param		string|NULL		$group			Group Name for chgrp()
-	 *	@return		bool
+	 *	@return		int				Number of written bytes
 	 */
-	protected function write( int $mode = 0755, ?string $user = NULL, ?string $group = NULL ): bool
+	protected function write( int $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		return static::save($this->fileName, $this->list, $mode, $user, $group);
 	}

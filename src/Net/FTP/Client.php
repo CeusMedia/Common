@@ -44,13 +44,13 @@ use RuntimeException;
 class Client
 {
 	/**	@var		Connection		$connection		FTP Connection Object */
-	protected $connection;
+	protected Connection $connection;
 
 	/**	@var		Reader			$reader			FTP Reader Object */
-	protected $reader;
+	protected Reader $reader;
 
 	/**	@var		Writer			$writer			FTP Writer Object */
-	protected $writer;
+	protected Writer $writer;
 
 	/**
 	 *	Constructor, opens FTP Connection.
@@ -105,7 +105,8 @@ class Client
 	 */
 	public function changeRights( string $fileName, int $mode ): bool
 	{
-		return $this->writer->changeRights( $fileName, $mode );
+		$this->writer->changeRights( $fileName, $mode );
+		return TRUE;
 	}
 
 	/**

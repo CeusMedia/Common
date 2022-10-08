@@ -39,20 +39,20 @@ namespace CeusMedia\Common\Net\HTTP;
  */
 class Cookie
 {
-	/**	@var		array		$data			Reference to cookie data */
-	protected $data;
+	/**	@var		array			$data			Reference to cookie data */
+	protected array $data;
 
-	/** @var		string		$path			Default path of cookie */
-	protected $path;
+	/** @var		string			$path			Default path of cookie */
+	protected string $path;
 
-	/** @var		string		$domain			Domain of cookie */
-	protected $domain			= NULL;
+	/** @var		string|NULL		$domain			Domain of cookie */
+	protected ?string $domain		= NULL;
 
-	/** @var		boolean		$secure			Flag: only with secured HTTPS connection */
-	protected $secure			= FALSE;
+	/** @var		boolean			$secure			Flag: only with secured HTTPS connection */
+	protected bool $secure			= FALSE;
 
-	/** @var		boolean		$httpOnly		Flag: allow access via HTTP protocol only */
-	protected $httpOnly			= FALSE;
+	/** @var		boolean			$httpOnly		Flag: allow access via HTTP protocol only */
+	protected bool $httpOnly		= FALSE;
 
 	/**
 	 *	Constructor.

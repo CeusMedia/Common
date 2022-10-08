@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /**
  *	...
  *
@@ -27,7 +28,6 @@
 
 namespace CeusMedia\Common\Net\HTTP\Header;
 
-use CeusMedia\Common\Deprecation;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
 
@@ -103,7 +103,7 @@ use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
  */
 class Section
 {
-	protected $fields	= [
+	protected array $fields	= [
 		'general'	=> [
 			'cache-control'			=> [],
 			'connection'			=> [],
@@ -205,8 +205,8 @@ class Section
 	public function getFields(): array
 	{
 		$list	= [];
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			foreach( $sectionPairs as $name => $fieldList )
+		foreach( $this->fields as $sectionPairs )
+			foreach( $sectionPairs as $fieldList )
 				if( count( $fieldList ) )
 					foreach( $fieldList as $field )
 						$list[]	= $field;
@@ -216,7 +216,7 @@ class Section
 	public function getFieldsByName( string $name, bool $latestOnly = FALSE )
 	{
 		$name	= strtolower( $name );
-		foreach( $this->fields as $sectionName => $sectionPairs ){
+		foreach( $this->fields as $sectionPairs ){
 			if( array_key_exists( $name, $sectionPairs ) ){
 				if( $latestOnly )
 					return end( $sectionPairs[$name] );

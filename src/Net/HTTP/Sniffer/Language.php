@@ -38,8 +38,8 @@ namespace CeusMedia\Common\Net\HTTP\Sniffer;
  */
 class Language
 {
-	/**	@var		string		$pattern	Reg Ex Pattern */
-	protected static $pattern	= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
+	/**	@var		string				$pattern	Reg Ex Pattern */
+	protected static string $pattern	= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 
 	/**
 	 *	Returns preferred allowed and accepted Language from HTTP_ACCEPT_LANGUAGE.

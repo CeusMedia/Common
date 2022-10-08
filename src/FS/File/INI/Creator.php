@@ -42,14 +42,14 @@ use InvalidArgumentException;
  */
 class Creator
 {
-	/**	@var	array			$data			Data of Ini File */
-	protected $data				= [];
+	/**	@var	array					$data			Data of Ini File */
+	protected array $data				= [];
 
-	/**	@var	string			$currentSection	Current working Section */
-	protected $currentSection	= NULL;
+	/**	@var	string|NULL				$currentSection	Current working Section */
+	protected ?string $currentSection	= NULL;
 
-	/**	@var	bool			$useSections	Flag: use Sections within Ini File */
-	protected $useSections		= FALSE;
+	/**	@var	bool					$useSections	Flag: use Sections within Ini File */
+	protected bool $useSections			= FALSE;
 
 	/**
 	 *	Constructor.
@@ -120,7 +120,7 @@ class Creator
 	 *	@param		string|NULL	$comment		Comment of Property
 	 *	@return		string
 	 */
-	protected function buildLine( string $key, string $value, ?string $comment = NULL )
+	protected function buildLine( string $key, string $value, ?string $comment = NULL ): string
 	{
 		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
 		$breaksValue	= 4 - floor( strlen( $value ) / 8 );

@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
@@ -46,14 +47,14 @@ use UnexpectedValueException;
  */
 class Dictionary implements ArrayAccess, Countable, Iterator
 {
-	/**	@var		array		$pairs			Associative Array of Pairs */
-	protected $pairs			= [];
+	/**	@var		array			$pairs			Associative Array of Pairs */
+	protected array $pairs;
 
-	/**	@var		int			$position		Iterator Position */
-	private $position			= 0;
+	/**	@var		int				$position		Iterator Position */
+	private int $position			= 0;
 
-	/**	@var		boolean		$caseSensitive	Flag: be case-sensitive on pair keys */
-	protected $caseSensitive	= TRUE;
+	/**	@var		boolean			$caseSensitive	Flag: be case-sensitive on pair keys */
+	protected bool $caseSensitive	= TRUE;
 
 	/**
 	 *	Constructor.
@@ -64,8 +65,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	public function __construct( array $array = [], bool $caseSensitive = TRUE )
 	{
 		$this->caseSensitive	= $caseSensitive;
-		foreach( $array as $key => $value )
-			$this->set( $key, $value );
+		$this->pairs			= $array;
 	}
 
 	/**
@@ -182,8 +182,6 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		return new self( $list );
 	}
 
-
-
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
@@ -243,7 +241,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Returns corresponding Key of a Value if Value is in Dictionary, otherwise NULL.
 	 *	@access		public
 	 *	@param		mixed		$value		Value to get Key of
-	 *	@return		mixed|NULL				Key of value if found, otherwise NULL
+	 *	@return		int|string|NULL			Key of value if found, otherwise NULL
 	 */
 	public function getKeyOf( $value )
 	{
@@ -265,9 +263,17 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
+	 *	@return		bool
+	 */
+	public function isCaseSensitive(): bool
+	{
+		return $this->caseSensitive;
+	}
+
+	/**
 	 *	Returns current Key.
 	 *	@access		public
-	 *	@return		mixed|NULL
+	 *	@return		int|string|NULL
 	 */
 	public function key()
 	{

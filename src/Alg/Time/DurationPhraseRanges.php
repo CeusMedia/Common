@@ -42,8 +42,8 @@ use Exception;
  */
 class DurationPhraseRanges implements Countable
 {
-	protected $ranges	= [];
-	protected $regExp	= '@^([0-9]+)(s|m|h|D|W|M|Y)$@';
+	protected array $ranges		= [];
+	protected string $regExp	= '@^([0-9]+)(s|m|h|D|W|M|Y)$@';
 
 	/**
 	 *	Constructor.
@@ -62,13 +62,14 @@ class DurationPhraseRanges implements Countable
 	 *	@access		public
 	 *	@param		int			$from		Start of Range, eg. 0
 	 *	@param		string		$label		Range Label, eg. "{s} seconds"
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addRange( int $from, string $label )
+	public function addRange( int $from, string $label ): self
 	{
 		$from	= preg_replace_callback( $this->regExp, [$this, 'calculateSeconds'], $from );
 		$this->ranges[(int) $from]	= $label;
 		ksort( $this->ranges );
+		return $this;
 	}
 
 	/**
@@ -98,8 +99,8 @@ class DurationPhraseRanges implements Countable
 			case 'h': 	return $value * 60 * 60;
 			case 'D': 	return $value * 60 * 60 * 24;
 			case 'W': 	return $value * 60 * 60 * 24 * 7;
-			case 'M': 	return $value * 60 * 60 * 24 * 30.4375;
-			case 'Y': 	return $value * 60 * 60 * 24 * 365.25;
+			case 'M': 	return (int) floor( $value * 60 * 60 * 24 * 30.4375 );
+			case 'Y': 	return (int) floor( $value * 60 * 60 * 24 * 365.25 );
 		}
 		throw new Exception( 'Unknown date format "'.$format.'"' );
 	}

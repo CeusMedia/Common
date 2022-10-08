@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /**
  *	Collects and Manages Request Data.
  *
@@ -45,22 +46,22 @@ use InvalidArgumentException;
 class Receiver extends Dictionary
 {
 	/** @var		HeaderSection		$headers		Object of collected HTTP Headers */
-	protected $headers					= NULL;
+	protected HeaderSection $headers;
 
 	/**	@var		string				$ip				IP of Request */
-	protected $ip;
+	protected string $ip;
 
 	/** @var		Method				$method			Object of HTTP request method */
-	protected $method					= NULL;
+	protected Method $method;
 
 	/** @var		string				$path			Requested path */
-	protected $path						= NULL;
+	protected string $path;
 
 	/**	@var		array				$sources		Array of Sources of Request Data */
-	protected $sources;
+	protected array $sources;
 
 	/** @var		string				$root			Detected web root */
-	protected $root;
+	protected string $root;
 
 	/**
 	 *	Constructor, reads and stores Data from Sources to internal Dictionary.
@@ -82,14 +83,13 @@ class Receiver extends Dictionary
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
 
+		parent::__construct( array_merge( ...array_values( $this->sources ) ) );
+
 		//  store HTTP method
 		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
 		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( strpos( $this->path, '?' ) !== FALSE )
 			$this->path	= substr( $this->path, 0, strpos( $this->path, '?' ) );
-
-		foreach( $this->sources as $key => $values )
-			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
 		$this->headers		= new HeaderSection;
@@ -164,7 +164,7 @@ class Receiver extends Dictionary
 	 *	@access		public
 	 *	@param		string		$name		Header Name
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
-	 *	@return		array|NULL	List of collected HTTP Header Fields with given Header Name
+	 *	@return		array|mixed|FALSE|NULL	List of collected HTTP Header Fields with given Header Name
 	 */
 	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
 	{
@@ -192,7 +192,7 @@ class Receiver extends Dictionary
 	}
 
 	/**
-	 *	Indicates whether atleast one HTTP Header with given Header Name is set.
+	 *	Indicates whether at least one HTTP Header with given Header Name is set.
 	 *	@access		public
 	 *	@param		string		$name		Header Name
 	 *	@return		bool
@@ -203,7 +203,7 @@ class Receiver extends Dictionary
 	}
 
 	/**
-	 *	Indicates wheter a pair is existing in a request source by its key.
+	 *	Indicates whether a pair is existing in a request source by its key.
 	 *	@access		public
 	 *	@param		string		$key		...
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
@@ -217,7 +217,7 @@ class Receiver extends Dictionary
 
 	/**
 	 *	Indicates whether this Request came by AJAX.
-	 *	It seems only jQery is supporting this at the moment.
+	 *	It seems only jQuery is supporting this at the moment.
 	 *	@access		public
 	 *	@return		bool
 	 */

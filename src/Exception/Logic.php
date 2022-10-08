@@ -42,7 +42,7 @@ use Throwable;
 class Logic extends Runtime
 {
 	/**	@var		string		$subject		Subject on which this logic exception happened */
-	protected $subject	= NULL;
+	protected string $subject;
 
 	/**
 	 *	Constructor.

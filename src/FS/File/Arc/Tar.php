@@ -150,9 +150,9 @@ class Tar
 	 *	Computes the unsigned Checksum of a File's header to try to ensure valid File.
 	 *	@access		private
 	 *	@param		string		$byteString			String of Bytes
-	 *	@return		string
+	 *	@return		integer
 	 */
-	private function computeUnsignedChecksum( string $byteString ): string
+	private function computeUnsignedChecksum( string $byteString ): int
 	{
 		$unsignedChecksum	= 0;
 		for( $i=0; $i<512; $i++ )

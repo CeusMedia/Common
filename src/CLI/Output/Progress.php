@@ -53,20 +53,20 @@ class Progress
 	protected const STATUS_STARTED	= 2;
 	protected const STATUS_FINISHED	= 3;
 
-	protected const STATUSES			= [
+	protected const STATUSES		= [
 		self::STATUS_NONE,
 		self::STATUS_READY,
 		self::STATUS_STARTED,
 		self::STATUS_FINISHED,
 	];
 
-	protected $status		= 0;
-	protected $startTime	= 0;
-	protected $total		= 0;
-	protected $barBlocks	= ['_', '░', '▓', '█'];
-	protected $barTemplate	= '%1$s%2$s%3$s%4$s';
-	protected $width		= 80;
-	protected $output;
+	protected int $status			= 0;
+	protected float $startTime		= .0;
+	protected int $total			= 0;
+	protected array $barBlocks		= ['_', '░', '▓', '█'];
+	protected string $barTemplate	= '%1$s%2$s%3$s%4$s';
+	protected int $width			= 80;
+	protected Output $output;
 
 	/**
 	 *	Constructor.
@@ -178,7 +178,7 @@ class Progress
 
 	/*  --  PROTECTED  --  */
 
-	protected function estimateTimeLeft( int $count ): string
+	protected function estimateTimeLeft( int $count ): int
 	{
 		if( $count === 0 )
 			return 0;
@@ -190,7 +190,7 @@ class Progress
 			return 0;
 
 		$ratio		= $this->total / $count;
-		return ceil( $timeDiff * $ratio - $timeDiff );
+		return (int) ceil( $timeDiff * $ratio - $timeDiff );
 	}
 
 	protected function formatTime( int $seconds, int $nrParts = 2 ): string

@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Converting Unix Timestamps to Human Time in different formats and backwards.
@@ -55,13 +56,13 @@ class Converter
 	public static function complementMonthDate( string $string, int $mode = 0 ): string
 	{
 		$string	= trim( $string );
-		if( preg_match( "@^[0-9]{1,2}\.([0-9]{2}){1,2}$@", $string ) ){
+		if( preg_match( "@^\d{1,2}\.(\d{2}){1,2}$@", $string ) ){
 			$string	= "01.".$string;
 		}
-		else if( preg_match( "@^([0-9]{2}){1,2}-[0-9]{1,2}$@", $string ) ){
+		else if( preg_match( "@^(\d{2}){1,2}-\d{1,2}$@", $string ) ){
 			$string	.= "-01";
 		}
-		else if( preg_match( "@^[0-9]{1,2}/([0-9]{2}){1,2}$@", $string ) ){
+		else if( preg_match( "@^\d{1,2}/(\d{2}){1,2}$@", $string ) ){
 			$pos	= strpos( $string, "/" );
 			$string	= substr( $string, 0, $pos )."/01".substr( $string, $pos );
 		}
@@ -148,20 +149,20 @@ class Converter
 		$timestamp	= 0;
 		if( $string ){
 			if( $format == "date" ){
-				if( substr_count( $string, "." ) != 2 )
-					return false;
 				$parts = explode( ".", $string );
+				if( count( $parts ) != 3 )
+					throw new InvalidArgumentException( 'Invalid format, must be: [DD.MM.YY]');
 				$timestamp = mktime( 0, 0, 0, $parts[1], $parts[0], $parts[2] );
 			}
 			else if( $format == "monthdate" ){
 				if( substr_count( $string, "." ) != 1 )
-					return false;
+					throw new InvalidArgumentException( 'Invalid format, must be: [MM.YY]');
 				$parts = explode( ".", $string );
 				$timestamp = mktime( 0, 0, 0, $parts[0], 1, $parts[1] );
 			}
 			else if( $format == "time" ){
 				if( !substr_count( $string, ":" ) )
-					return false;
+					throw new InvalidArgumentException( 'Invalid format, must be: [hh.mm.ss]');
 				$parts = explode( ":", $string );
 				$timestamp = mktime( $parts[0], $parts[1], $parts[2], 1, 1, 0 );
 			}
@@ -169,7 +170,8 @@ class Converter
 				$timestamp = mktime( 0, 0, 0, 1, 1, (int)$string );
 			}
 			else if( $format == "duration" ){
-				if( !substr_count( $string, ":" ) ) return false;
+				if( !substr_count( $string, ":" ) )
+					throw new InvalidArgumentException( 'Invalid format, must be: [(hh:)mm:ss]');
 				if( substr_count( $string, ":" ) < 2 )
 					$string = "0:".$string;
 				$parts = explode( ":", $string );
@@ -177,7 +179,7 @@ class Converter
 			}
 			else if( $format ){
 				$pattern1	= "@^([a-z])(.)([a-z])(.)([a-z])(.)?([a-z])?(.)?([a-z])?(.)?([a-z])?$@iu";
-				$pattern2	= "@^([0-9]+)(.)([0-9]+)(.)([0-9]+)(.)?([0-9]+)?(.)?([0-9]+)?$@";
+				$pattern2	= "@^(\d+)(.)(\d+)(.)(\d+)(.)?(\d+)?(.)?(\d+)?$@";
 				$matches1 = [];
 				$matches2 = [];
 				preg_match_all( $pattern1, $format, $matches1 );

@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	cURL Wrapper
@@ -69,12 +71,12 @@ class CURL
 	 *	@access private
 	 *	@var array
 	 */
-	private $caseless;
+	private array $caseless;
 
 	/**
 	 *	Current cURL session.
 	 *	@access private
-	 *	@var resource
+	 *	@var resource|NULL
 	 */
 	private $handle;
 
@@ -97,24 +99,14 @@ class CURL
 	 *	@access private
 	 *	@var array
 	 */
-	private $info;
-
-	/**
-	 *	Latest Request Status information.
-	 *	@link http://www.php.net/curl_getinfo
-	 *	@link http://www.php.net/curl_errno
-	 *	@link http://www.php.net/curl_error
-	 *	@access private
-	 *	@var mixed
-	 */
-	private $status;
+	private array $info;
 
 	/**
 	 *	Time out in Seconds.
 	 *	@access private
 	 *	@var int
 	 */
-	private static $timeOut		= 0;
+	private static int $timeOut		= 0;
 
 	/**
 	 *	cURL class constructor
@@ -128,9 +120,8 @@ class CURL
 		if( !extension_loaded( 'curl' ) )
 			throw new RuntimeException( "Support for cURL is missing" );
 		$this->handle	= curl_init();
-		$this->caseless	= NULL;
+		$this->caseless	= [];
 		$this->header	= NULL;
-		$this->info		= NULL;
 		$this->options	= [];
 		if( !empty( $url ) )
 			$this->setUrl( $url );
@@ -159,19 +150,22 @@ class CURL
 	/**
 	 *	Execute the cURL request and return the result.
 	 *	@access		public
-	 *	@param		bool		$breakOnError		Flag: throw an Exception if an Error has occurred
+	 *	@param		bool		$breakOnError		Flag: throw an Exception if an error has occurred, default: no
+	 *	@param		bool		$parseHeaders		Flag: parse response HTTP header, default: yes
 	 *	@return		string
 	 *	@link		http://www.php.net/curl_exec
 	 *	@link		http://www.php.net/curl_getinfo
 	 *	@link		http://www.php.net/curl_errno
 	 *	@link		http://www.php.net/curl_error
+	 *	@throws		RuntimeException	if protocol of URL is invalid
+	 *	@throws		RuntimeException	if request failed, having breakOnError enabled
 	 */
-	public function exec( bool $breakOnError = FALSE, bool $parseHeaders = TRUE )
+	public function exec( bool $breakOnError = FALSE, bool $parseHeaders = TRUE ): string
 	{
 		$url	= $this->getOption( CURLOPT_URL );
 		if( empty( $url ) )
 			throw new RuntimeException( 'No URL set.' );
-		if( !preg_match( "@[a-z]+://[a-z0-9]+.+@i", $url ) )
+		if( !preg_match( "@[a-z]+://[a-z\d]+.+@i", $url ) )
 			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid protocol' );
 
 		$result 	= curl_exec( $this->handle );
@@ -181,8 +175,7 @@ class CURL
 
 		if( $breakOnError && $this->info['errno'] )
 			throw new RuntimeException( $this->info['error'], $this->info['errno'] );
-		if( $this->getOption( CURLOPT_HEADER ) && $parseHeaders )
-		{
+		if( $this->getOption( CURLOPT_HEADER ) && $parseHeaders ){
 //  Hack: remove "100 Continue"
 #			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );
 			$header	= mb_substr( $result, 0, $this->info['header_size'] );

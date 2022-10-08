@@ -43,47 +43,44 @@ use RuntimeException;
  */
 class Reader extends FileReader
 {
-	/**	@var		string			$fileName				URI of Ini File */
-	protected $fileName				= [];
+	/**	@var		array					$comments				List of collected Comments */
+	protected array $comments				= [];
 
-	/**	@var		array			$comments				List of collected Comments */
-	protected $comments				= [];
+	/**	@var		array					$lines					List of collected Lines */
+	protected array $lines					= [];
 
-	/**	@var		array			$lines					List of collected Lines */
-	protected $lines				= [];
+	/**	@var		array					$properties				List of collected Properties */
+	protected array $properties				= [];
 
-	/**	@var		array			$properties				List of collected Properties */
-	protected $properties			= [];
+	/**	@var		array					$sections				List of collected Sections */
+	protected array $sections				= [];
 
-	/**	@var		array			$sections				List of collected Sections */
-	protected $sections				= [];
+	/**	@var		array					$disabled				List of disabled Properties */
+	protected array $disabled				= [];
 
-	/**	@var		array			$disabled				List of disabled Properties */
-	protected $disabled				= [];
+	/**	@var		bool					$usesSections			Flag: use Sections */
+	protected bool $usesSections			= FALSE;
 
-	/**	@var		bool			$usesSections			Flag: use Sections */
-	protected $usesSections			= FALSE;
+	/**	@var		boolean					$reservedWords			Flag: use reserved words */
+	protected bool $reservedWords			= TRUE;
 
-	/**	@var		boolean			$reservedWords			Flag: use reserved words */
-	protected $reservedWords		= TRUE;
+	/**	@var		string					$signDisabled			Sign( string) of disabled Properties */
+	protected string $signDisabled			= ';';
 
-	/**	@var		string			$signDisabled			Sign( string) of disabled Properties */
-	protected $signDisabled			= ';';
+	/**	@var		string					$patternDisabled		Pattern( regex) of disabled Properties */
+	protected string $patternDisabled 		= '/^;/';
 
-	/**	@var		string			$patternDisabled		Pattern( regex) of disabled Properties */
-	protected $patternDisabled 		= '/^;/';
+	/**	@var		string					$patternProperty		Pattern( regex) of Properties */
+	protected string $patternProperty		= '/^(;|[a-z\d-])+([a-z\d#.:@\/\\|_-]*[ |\t]*=)/i';
 
-	/**	@var		string			$patternProperty		Pattern( regex) of Properties */
-	protected $patternProperty		= '/^(;|[a-z0-9-])+([a-z0-9#.:@\/\\|_-]*[ |\t]*=)/i';
+	/**	@var		string					$patternDescription		Pattern( regex) of Descriptions */
+	protected string $patternDescription	= '/^[;|#|:|\/|=]{1,2}/';
 
-	/**	@var		string			$patternDescription		Pattern( regex) of Descriptions */
-	protected $patternDescription	= '/^[;|#|:|\/|=]{1,2}/';
+	/**	@var		string					$patternSection			Pattern( regex) of Sections */
+	protected string $patternSection		= '/^\s*\[([a-z\d_=.,:;#@-]+)\]\s*$/i';
 
-	/**	@var		string			$patternSection			Pattern( regex) of Sections */
-	protected $patternSection		= '/^\s*\[([a-z0-9_=.,:;#@-]+)\]\s*$/i';
-
-	/**	@var		string			$patternLineComment		Pattern( regex) of Line Comments */
-	protected $patternLineComment	= '/([\t| ]+(\/{2}|;)+[\t| ]*)/';
+	/**	@var		string					$patternLineComment		Pattern( regex) of Line Comments */
+	protected string $patternLineComment	= '/([\t| ]+(\/{2}|;)+[\t| ]*)/';
 
 	/**
 	 *	Constructor, reads Property File.

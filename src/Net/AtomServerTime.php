@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
@@ -43,17 +44,17 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  */
 class AtomServerTime
 {
-	/**	@var		string		$syncFile		URI of File with synchronized atom time */
-	protected $syncFile			= "";
+	/**	@var		string			$syncFile		URI of File with synchronized atom time */
+	protected string $syncFile		= "";
 
-	/**	@var		string		$syncTime		Timestamp of last synchronisation */
-	protected $syncTime			= "";
+	/**	@var		int				$syncTime		Timestamp of last synchronisation */
+	protected int $syncTime			 = 0;
 
-	/**	@var		int			$syncDiff		Time difference between server time and atom time */
-	protected $syncDiff			= 0;
+	/**	@var		int				$syncDiff		Time difference between server time and atom time */
+	protected int $syncDiff			= 0;
 
-	/**	@var		int			$refreshTime		Time distance in seconds for synchronisation update */
-	protected $refreshTime		= 86400;
+	/**	@var		int				$refreshTime	Time distance in seconds for synchronisation update */
+	protected int $refreshTime		= 86400;
 
 	/**
 	 *	Constructor.
@@ -83,7 +84,7 @@ class AtomServerTime
 			$time	= filemtime( $this->syncFile );
 			if( ( time() - $time ) < $this->refreshTime ){
 				$this->syncTime	= $time;
-				$this->syncDiff	= FileReader::load( $this->syncFile );
+				$this->syncDiff	= (int) FileReader::load( $this->syncFile );
 				return;
 			}
 		}

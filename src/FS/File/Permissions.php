@@ -43,7 +43,7 @@ use RuntimeException;
 class Permissions
 {
 	/**	@var	string		$pathName			Path name of current file */
-	protected $pathName		= NULL;
+	protected string $pathName;
 
 	/**
 	 *	Constructor.
