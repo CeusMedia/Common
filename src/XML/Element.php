@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	XML element based on SimpleXMLElement with improved attribute and content handling.
@@ -29,7 +30,6 @@
 namespace CeusMedia\Common\XML;
 
 use CeusMedia\Common\FS\File\Writer as FileWriter;
-use InvalidArgumentException;
 use RuntimeException;
 use SimpleXMLElement;
 
@@ -45,21 +45,22 @@ use SimpleXMLElement;
  */
 class Element extends SimpleXMLElement
 {
-	protected $attributes	= [];
+	protected array $attributes	= [];
 
 	/**
 	 *	Adds an attributes.
 	 *	@access		public
-	 *	@param		string			$qualifiedName		Name of attribute
-	 *	@param		string			$value				Value of attribute
-	 *	@param		string|NULL		$namespace			Namespace prefix of attribute
-	 *	@param		string|NULL		$nsURI				Namespace URI of attribute
+	 *	@param		string					$qualifiedName		Name of attribute
+	 *	@param		string|int|float|NULL	$value				Value of attribute
+	 *	@param		string|NULL				$namespace			Namespace prefix of attribute
+	 *	@param		string|NULL				$nsURI				Namespace URI of attribute
 	 *	@return		void
 	 *	@throws		RuntimeException		if attribute is already set
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
 //	public function addAttribute( string $qualifiedName, string $value, $namespace = NULL, ?string $nsURI = NULL ): void
-	public function addAttribute( $qualifiedName, $value = NULL, $namespace = NULL, $nsURI = NULL )
+//	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
+	public function addAttribute( $qualifiedName, $value = NULL, $namespace = NULL, string $nsURI = NULL )
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();
@@ -103,7 +104,8 @@ class Element extends SimpleXMLElement
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
 //	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
-	public function addChild( $qualifiedName, $value = NULL, $namespace = NULL, $nsURI = NULL ): self
+//	public function addChild( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
+	public function addChild( $qualifiedName, $value = NULL, $namespace = NULL, ?string $nsURI = NULL ): self
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();
@@ -319,9 +321,6 @@ class Element extends SimpleXMLElement
 	 */
 	public function setValue( ?string $value, bool $cdata = FALSE ): self
 	{
-		if( !is_string( $value ) && $value !== NULL )
-			throw new InvalidArgumentException( 'Value must be a string or NULL' );
-
 		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value );
 		//  string is known or detected to be CDATA
 		if( $cdata || preg_match( '/[&<]/', $value ) ) {

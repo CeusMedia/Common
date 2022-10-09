@@ -1,0 +1,36 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Default value of the parameter \\#1 \\$mode \\(int\\) of method CeusMedia\\\\Common\\\\FS\\\\File\\\\Collection\\\\Editor\\:\\:write\\(\\) is incompatible with type string\\.$#"
+			count: 1
+			path: ../../src/FS/File/Collection/Editor.php
+
+		-
+			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:getFilename\\(\\)\\.$#"
+			count: 1
+			path: ../../src/FS/File/Iterator.php
+
+		-
+			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:isDir\\(\\)\\.$#"
+			count: 1
+			path: ../../src/FS/File/Iterator.php
+
+		-
+			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:isDot\\(\\)\\.$#"
+			count: 1
+			path: ../../src/FS/File/Iterator.php
+
+		-
+			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:getFilename\\(\\)\\.$#"
+			count: 1
+			path: ../../src/FS/Folder/Iterator.php
+
+		-
+			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:isDir\\(\\)\\.$#"
+			count: 1
+			path: ../../src/FS/Folder/Iterator.php
+
+		-
+			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:isDot\\(\\)\\.$#"
+			count: 1
+			path: ../../src/FS/Folder/Iterator.php

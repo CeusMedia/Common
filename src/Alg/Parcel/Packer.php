@@ -41,20 +41,20 @@ use OutOfRangeException;
  */
 class Packer
 {
-	/**	@var		object		$factory			Packet Factory */
-	protected $factory		= [];
+	/**	@var		Factory		$factory			Packet Factory */
+	protected Factory $factory;
 
 	/**	@var		array		$articles			Array if possible Articles */
-	protected $articles		= [];
+	protected array$articles	= [];
 
 	/**	@var		array		$packets			Array of Packet Types and their Prices */
-	protected $packets		= [];
+	protected array $packets	= [];
 
 	/**	@var		array		$packetList			Array of Packets need to pack Articles */
-	protected $packetList	= [];
+	protected array $packetList	= [];
 
 	/**	@var		array		$volumes		Array of Packets and the Volumes the Articles would need */
-	protected $volumes;
+	protected array $volumes;
 
 	/**
 	 *	Constructor.

@@ -75,24 +75,24 @@ use ReflectionObject;
  */
 class Template
 {
-	public static $removeComments	= FALSE;
+	public static bool $removeComments	= FALSE;
 
-	public static $removeOptional	= FALSE;
+	public static bool $removeOptional	= FALSE;
 
-	/**	@var		string		$className		Name of template class */
-	protected $className;
+	/**	@var		string				$className		Name of template class */
+	protected string $className;
 
-	/**	@var		array		the first dimension holds all added labels, the second dimension holds elements for each label */
-	protected $elements;
+	/**	@var		array				$elements		the first dimension holds all added labels, the second dimension holds elements for each label */
+	protected array $elements;
 
-	/**	@var		string		content of a specified template file */
-	protected $fileName;
+	/**	@var		string				$fileName		content of a specified template file */
+	protected string $fileName;
 
-	/**	@var		string		content of a specified template file */
-	protected $template;
+	/**	@var		string				$template		content of a specified template file */
+	protected string $template;
 
-	/**	@var		array		$plugins		List of Template Plugin Instances */
-	protected $plugins			= [];
+	/**	@var		array				$plugins		List of Template Plugin Instances */
+	protected array $plugins			= [];
 
 	/**
 	 *	Constructor
@@ -134,8 +134,9 @@ class Template
 	{
 		$number	= 0;
 		foreach( $elements as $key => $value ){
-			if( !( is_string( $key ) || is_int( $key ) || is_float( $key ) ) )
-				throw new InvalidArgumentException( 'Invalid key type "'.gettype( $key ).'"' );
+			$keyType	= gettype( $key );
+			if( !in_array( $keyType, ['string', 'integer', 'double'] ) )
+				throw new InvalidArgumentException( 'Invalid key type "'.$keyType.'"' );
 			if( !strlen( trim( $key ) ) )
 				throw new InvalidArgumentException( 'Key cannot be empty' );
 

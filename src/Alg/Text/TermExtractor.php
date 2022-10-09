@@ -68,12 +68,9 @@ class TermExtractor
 				if( in_array( $search, $blacklist ) )
 					continue;
 
-				if( $word )
-				{
-					if( !isset( $list[$word] ) )
-						$list[$word]	= 0;
-					$list[$word]++;
-				}
+				if( !isset( $list[$word] ) )
+					$list[$word]	= 0;
+				$list[$word]++;
 			}
 		}
 //		ksort( $list );

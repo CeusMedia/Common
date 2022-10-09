@@ -88,7 +88,13 @@ class Object_
 	 */
 	public function getParent(): ?string
 	{
-		return get_parent_class( $this ) ?: NULL;
+		if( static::class == self::class ){
+			/** @var string $parentClass */
+			$parentClass = get_parent_class( $this );
+			if( $parentClass !== self::class )
+				return $parentClass;
+		}
+		return NULL;
 	}
 
 	/**
@@ -102,7 +108,7 @@ class Object_
 	}
 
 	/**
-	 *	Indicates whether an Method is existing within current Object.
+	 *	Indicates whether a Method is existing within current Object.
 	 *	@access		public
 	 *	@param		string		$methodName		Name of Method to check
 	 *	@param		bool		$callableOnly	Flag: also check if Method is callable

@@ -130,7 +130,7 @@ class Builder
 			$type	= 'object';
 		elseif( is_array( $value ) )
 			$type	= self::isAssoc( $value ) ? 'object' : 'array';
-		elseif( is_int( $value ) || is_float( $value ) || is_double( $value ) )
+		elseif( is_int( $value ) || is_float( $value ) )
 			$type	= 'number';
 		elseif( is_string( $value ) )
 			$type	= 'string';

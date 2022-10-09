@@ -40,7 +40,7 @@ namespace CeusMedia\Common\Alg\Search;
 class Strange
 {
 	/**	@var		int			$counter		internal counter of steps */
-	protected $counter;
+	protected int $counter;
 
 	/**
 	 *	Searches in List and returns position if found.
@@ -53,22 +53,21 @@ class Strange
 	 */
 	public function search( array $array, $key, int $left = 0, int $right = 0 ): int
 	{
-		if( !$right )
-		{
+		if( !$right ){
 			$left	= 0;
 			$right	= sizeof( $array ) - 1;
 			$this->counter = 0;
 		}
 		$this->counter++;
-		$index1	= round( $left + ( $right - $left ) / 3, 0 );
-		$index2	= round( $left + ( ( $right-$left ) / 3 ) * 2, 0 );
+		$index1	= (int) round( $left + ( $right - $left ) / 3, 0 );
+		$index2	= (int) round( $left + ( ( $right-$left ) / 3 ) * 2, 0 );
 		//echo "searching from $left to $right [$index1 - $index2]<br>";
 		if( $key == $array[$index1] )
-			return ":".$index1;
+			return $index1;
 		if( $key == $array[$index2] )
-			return ":".$index2;
+			return $index2;
 		if( $left == $right )
-			return false;
+			return -1;
 		if( $key < $array[$index1] )
 			return $this->search( $array, $key, $left, $index1 );
 		else if( $key >= $array[$index2] )

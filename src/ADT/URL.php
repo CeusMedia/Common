@@ -68,7 +68,7 @@ class URL
 		}
 		if( 0 === strlen( trim( $url ) ) )
 			throw new InvalidArgumentException( 'No URL given' );
-		return $this->set( $url );
+		$this->set( $url );
 	}
 
 	public function __toString(): string

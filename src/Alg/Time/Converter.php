@@ -88,16 +88,16 @@ class Converter
 		$_day	= 24 * $_hour;
 		$_year	= 365.25 * $_day;
 
-		$years	= floor( $seconds / $_year );
+		$years		= floor( $seconds / $_year );
 		$seconds	= $seconds - $years * $_year;
-		$days	= floor( $seconds / $_day );
+		$days		= floor( $seconds / $_day );
 		$seconds	= $seconds - $days * $_day;
-		$hours	= floor( $seconds / $_hour );
+		$hours		= floor( $seconds / $_hour );
 		$seconds	= $seconds - $hours * $_hour;
-		$mins	= floor( $seconds / $_min );
-		$seconds	= $seconds - $mins * $_min;
+		$minutes	= floor( $seconds / $_min );
+		$seconds	= $seconds - $minutes * $_min;
 
-		return $years."a ".$days."d ".$hours."h ".$mins."m ".$seconds."s";
+		return $years."a ".$days."d ".$hours."h ".$minutes."m ".$seconds."s";
 	}
 
 	/**
@@ -111,27 +111,24 @@ class Converter
 	public static function convertToHuman( $timestamp, string $format ): ?string
 	{
 		$timestamp	= (int) $timestamp;
-		$human = "";
 		if( $format == "date" )
-			$human = date( "d.m.Y", (int) $timestamp );
+			return date( "d.m.Y", (int) $timestamp );
 		else if( $format == "monthdate" )
-			$human = date( "m.Y", (int) $timestamp );
+			return date( "m.Y", (int) $timestamp );
 		else if( $format == "time" )
-			$human = date( "H:i:s", (int) $timestamp );
+			return date( "H:i:s", (int) $timestamp );
 		else if( $format == "datetime" )
-			$human = date( "d.m.Y - H:i:s", (int) $timestamp );
+			return date( "d.m.Y - H:i:s", (int) $timestamp );
 		else if( $format == "duration" ){
-			$hours	= str_pad( floor( $timestamp / 3600 ), 2, 0, STR_PAD_LEFT );
+			$hours		= str_pad( floor( $timestamp / 3600 ), 2, 0, STR_PAD_LEFT );
 			$timestamp -= (int) $hours * 3600;
-			$mins	= str_pad( floor( $timestamp / 60 ), 2, 0, STR_PAD_LEFT );
-			$timestamp -= (int) $mins * 60;
-			$secs	= str_pad( $timestamp, 2, 0, STR_PAD_LEFT );
-			$human	= $hours.":".$mins.":".$secs;
+			$minutes	= str_pad( floor( $timestamp / 60 ), 2, 0, STR_PAD_LEFT );
+			$timestamp -= (int) $minutes * 60;
+			$secs		= str_pad( $timestamp, 2, 0, STR_PAD_LEFT );
+			return $hours.":".$minutes.":".$secs;
 		}
 		else if( $format )
-			$human = date( $format, (int)$timestamp );
-		if( $human !== FALSE )
-			return $human;
+			return date( $format, (int)$timestamp );
 		return NULL;
 	}
 

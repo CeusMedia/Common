@@ -121,14 +121,15 @@ class DirectedWeighted extends Weighted
 		if( $this->isEdge( $source, $target ) ){
 			if( !is_null( $stack ) )
 				$way = $stack;
-			else $way = new Stack();
+			else
+				$way = new Stack();
 			$way->push( $target );
 			return $way;
 		}
 		$nodes = $this->getTargetNodes( $source );
 		foreach( $nodes as $node ){
 			$way = $this->getPath( $node, $target, $stack );
-			if( $way ){
+			if( !$way->isEmpty() ){
 				$way->push( $node );
 				return $way;
 			}
@@ -148,8 +149,7 @@ class DirectedWeighted extends Weighted
 		foreach( $nodes as $node ) {
 			$value	= $this->getEdgeValue( $source, $node );
 			$way	= $this->getPathValue( $node, $target, $hadNodes );
-			if( $way )
-				return $value + $way;
+			return $value + $way;
 		}
 		return -1;
 	}
@@ -162,7 +162,7 @@ class DirectedWeighted extends Weighted
 	public function hasCycle(): bool
 	{
 		if( $this->hasLoop() )
-			return true;
+			return TRUE;
 		else {
 			foreach( $this->getNodes() as $node )
 				if( $this->isPath($node, $node ) )

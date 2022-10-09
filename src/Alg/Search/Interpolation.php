@@ -44,16 +44,16 @@ class Interpolation
 	 *	@access		protected
 	 *	@param		array		$list			List to search in
 	 *	@param		mixed		$search			Element to search
-	 *	@param		int			$lowbound		Last lower bound
-	 *	@param		int			$highbound		Last higher bound
+	 *	@param		int			$lowerBound		Last lower bound
+	 *	@param		int			$upperBound		Last higher bound
 	 *	@return 	int
 	 */
-	protected function calculateIndex( array $list, $search, int $lowbound, int $highbound ): int
+	protected function calculateIndex(array $list, $search, int $lowerBound, int $upperBound ): int
 	{
-		$spanIndex	= $list[$highbound] - $list[$lowbound];
-		$spanValues	= $highbound - $lowbound;
-		$spanDiff	= $search - $list[$lowbound];
-		return $lowbound + round( $spanValues * ( $spanDiff / $spanIndex ) );
+		$spanIndex	= $list[$upperBound] - $list[$lowerBound];
+		$spanValues	= $upperBound - $lowerBound;
+		$spanDiff	= $search - $list[$lowerBound];
+		return $lowerBound + (int) round( $spanValues * ( $spanDiff / $spanIndex ) );
 	}
 
 	/**
@@ -65,24 +65,20 @@ class Interpolation
 	 */
 	public function search( array $list, $search ): int
 	{
-		// lowbound - untergrenze
-		$lowbound	= 0;
-		// highbound - obergrenze
-		$highbound	= sizeof( $list ) - 1;
-		do
-		{
-			$index = $this->calculateIndex( $list, $search, $lowbound, $highbound );
-//			echo "[".$lowbound."|".$highbound."]  search_index: ".$index.": ".$list[$index]."<br>";
-			if( $index < $lowbound || $index > $highbound )
+		$lowerBound	= 0;
+		$upperBound	= sizeof( $list ) - 1;
+		do{
+			$index = $this->calculateIndex( $list, $search, $lowerBound, $upperBound );
+//			echo "[".$lowerBound."|".$upperBound."]  search_index: ".$index.": ".$list[$index]."<br>";
+			if( $index < $lowerBound || $index > $upperBound )
 				return -1;
 			if( $list[$index] == $search )
 				return $index;
 			if( $list[$index] < $search )
-				$lowbound	= $index+1;
+				$lowerBound	= $index+1;
 			else
-				$highbound	= $index-1;
-		}
-		while( $lowbound < $highbound );
+				$upperBound	= $index-1;
+		} while( $lowerBound < $upperBound );
 		return -1;
 	}
 }

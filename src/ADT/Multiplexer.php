@@ -42,13 +42,13 @@ use RangeException;
 class Multiplexer
 {
 	/**	@var		int			$type			Type (1,2,4) */
-	protected $type;
+	protected int $type;
 
 	/**	@var		array		$controls		Controls */
-	protected $controls			= [];
+	protected array $controls;
 
-	/**	@var		int			$inputs			Inputs */
-	protected $inputs			= [];
+	/**	@var		array		$inputs			Inputs */
+	protected array $inputs;
 
 	/**
 	 *	Constructor.

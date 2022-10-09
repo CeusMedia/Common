@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
@@ -44,21 +46,20 @@ use OutOfRangeException;
  */
 class PageFrame
 {
-	protected $title		= NULL;
-	protected $heading		= NULL;
-	protected $scripts		= [];
-	protected $metaTags		= [];
-	protected $links		= [];
-	protected $baseHref		= NULL;
-	protected $head			= [];
-	protected $body			= [];
-	protected $prefixes		= [];
-	protected $profile		= NULL;
-	public $indent			= "  ";
-	protected $charset		= NULL;
-	protected $language		= NULL;
-	protected $doctype		= 'XHTML_10_STRICT';
-	protected $doctypes		= [
+	public string $indent			= "  ";
+
+	protected ?string $title		= NULL;
+	protected ?string $heading		= NULL;
+	protected array $scripts		= [];
+	protected array $metaTags		= [];
+	protected array $links			= [];
+	protected ?string $baseHref		= NULL;
+	protected array $head			= [];
+	protected array $body			= [];
+	protected string $charset;
+	protected string $language;
+	protected string $docType		= 'XHTML_10_STRICT';
+	protected array $docTypes		= [
 		'HTML_5'					=> '<!DOCTYPE html>',
 		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
 		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
@@ -68,6 +69,8 @@ class PageFrame
 		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
 		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
 	];
+	protected array $prefixes		= [];
+	protected ?string $profile		= NULL;
 
 	/**
 	 *	Constructor.
@@ -145,7 +148,7 @@ class PageFrame
 	/**
 	 *	Adds a JavaScript Link to Head.
 	 *	@access		public
-	 *	@param		string|URL		$uri			URI to Script
+	 *	@param		URL|string		$uri			URI to Script
 	 *	@param		string|NULL		$type			MIME Type of Script
 	 *	@param		string|NULL		$charset		Charset of Script
 	 *	@return		self
@@ -167,7 +170,7 @@ class PageFrame
 	/**
 	 *	Adds link to head.
 	 *	@access		public
-	 *	@param		string|URL		$uri			URI to linked resource
+	 *	@param		URL|string		$uri			URI to linked resource
 	 *	@param		string			$relation		Relation to resource like stylesheet, canonical etc.
 	 *	@param		string|NULL		$type			Type of resource
 	 *	@return		self
@@ -200,7 +203,12 @@ class PageFrame
 		return $this;
 	}
 
-	public function addPrefix( string $prefix, string $namespace ): self
+	/**
+	 *	@param		string			$prefix
+	 *	@param		URL|string		$namespace
+	 *	@return		self
+	 */
+	public function addPrefix( string $prefix, $namespace ): self
 	{
 		$this->prefixes[$prefix]	= $namespace instanceof URL ? $namespace->get() : $namespace;
 		return $this;
@@ -215,7 +223,7 @@ class PageFrame
 	/**
 	 *	Adds a Stylesheet Link to Head.
 	 *	@access		public
-	 *	@param		string|URL		$uri			URI to CSS File
+	 *	@param		URL|string		$uri			URI to CSS File
 	 *	@param		string			$media			Media Type (all|screen|print|...), default: screen
 	 *	@param		string|NULL		$type			Content Type, by default 'text/css'
 	 *	@return		self
@@ -284,9 +292,9 @@ class PageFrame
 		$head		= Tag::create( "head", $tagsHead, $headAttributes );
 		$body		= Tag::create( "body", $tagsBody, $bodyAttributes );
 
-		$doctype	= $this->doctypes[$this->doctype];
+		$docType	= $this->docTypes[$this->docType];
 		$attributes	= ['lang' => $this->language];
-		if( is_int( strpos( $doctype, 'xhtml' ) )/* || $this->doctype == 'HTML_5'*/ ){
+		if( is_int( strpos( $docType, 'xhtml' ) )/* || $this->docType == 'HTML_5'*/ ){
 			$attributes	= ['xml:lang' => $this->language] + $attributes;
 			$attributes	= ['xmlns' => "http://www.w3.org/1999/xhtml"] + $attributes;
 		}
@@ -304,7 +312,7 @@ class PageFrame
 		}
 		$content	= "\n".$this->indent.$head."\n".$this->indent.$body."\n";
 		$html		= Tag::create( "html", $content, $attributes );
-		return $doctype."\n".$html;
+		return $docType."\n".$html;
 	}
 
 	/**
@@ -336,7 +344,7 @@ class PageFrame
 	/**
 	 *	Sets base URI for all referencing resources.
 	 *	@access		public
-	 *	@param		string|URL		$uri			Base URI for all referencing resources
+	 *	@param		URL|string		$uri			Base URI for all referencing resources
 	 *	@return		self
 	 */
 	public function setBaseHref( $uri ): self
@@ -361,7 +369,7 @@ class PageFrame
 	 *	Sets canonical link.
 	 *	Removes link having been set before.
 	 *	@access		public
-	 *	@param		string|URL		$url			URL of canonical link
+	 *	@param		URL|string		$url			URL of canonical link
 	 *	@return		self
 	 */
 	public function setCanonicalLink( $url ): self
@@ -377,19 +385,19 @@ class PageFrame
 	/**
 	 *	Sets document type of page.
 	 *	@access		public
-	 *	@param		string		$doctype		Document type to set
+	 *	@param		string		$docType		Document type to set
 	 *	@return		self
 	 *	@see		http://www.w3.org/QA/2002/04/valid-dtd-list.html
 	 */
-	public function setDocType( string $doctype ): self
+	public function setDocType( string $docType ): self
 	{
-		$key		= str_replace( [' ', '-'], '_', trim( $doctype ) );
-		$key		= preg_replace( "/[^A-Z0-9_]/", '', strtoupper( $key ) );
+		$key		= str_replace( [' ', '-'], '_', trim( $docType ) );
+		$key		= preg_replace( "/[^A-Z\d_]/", '', strtoupper( $key ) );
 		if( !strlen( trim( $key ) ) )
 			throw new InvalidArgumentException( 'No doctype given' );
-		if( !array_key_exists( $key, $this->doctypes ) )
-			throw new OutOfRangeException( 'Doctype "'.$doctype.'" (understood as '.$key.') is invalid' );
-		$this->doctype	= $key;
+		if( !array_key_exists( $key, $this->docTypes ) )
+			throw new OutOfRangeException( 'Doctype "'.$docType.'" (understood as '.$key.') is invalid' );
+		$this->docType	= $key;
 		return $this;
 	}
 
@@ -405,6 +413,10 @@ class PageFrame
 		return $this;
 	}
 
+	/**
+	 *	@param		URL|string		$url
+	 *	@return		self
+	 */
 	public function setHeadProfileUrl( $url ): self
 	{
 		$this->profile	= $url instanceof URL ? $url->get() : $url;

@@ -412,7 +412,7 @@ class DevOutput
 			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
 		if( $channel === self::CHANNEL_AUTO ){
 			$channel	= self::CHANNEL_HTML;
-			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
+			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) )
 				$channel	= self::CHANNEL_TEXT;
 		}
 		$this->channel	= $channel;

@@ -169,8 +169,6 @@ class Graph
 
 	protected function renderOptions( array $options = [], array $overrideOptions = [], string $delimiter = ' ' ): string
 	{
-		if( is_null( $options ) )
-			return '';
 		if( is_array( $overrideOptions ) )
 			$options	= array_merge( $options, $overrideOptions );
 		$list	= [];

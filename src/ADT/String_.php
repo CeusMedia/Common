@@ -43,7 +43,7 @@ use OutOfBoundsException;
  */
 class String_
 {
-	protected $string;
+	protected string $string;
 
 	/**
 	 *	Constructor.
@@ -160,19 +160,19 @@ class String_
 	 *	Extends this string with another and returns number of added characters.
 	 *	If left and right is set,
 	 *	@access		public
-	 *	@param		int			$length			Length of resulting string
-	 *	@param		string		$string			String to extend with
-	 *	@param		bool		$left			Extend left side
-	 *	@param		bool		$right			Extend right side
+	 *	@param		int				$length			Length of resulting string
+	 *	@param		string|String_	$string			String to extend with
+	 *	@param		bool			$left			Extend left side
+	 *	@param		bool			$right			Extend right side
 	 *	@return		int
 	 */
-	public function extend( int $length, string $string = " ", bool $left = FALSE, bool $right = TRUE ): int
+	public function extend( int $length, $string = " ", bool $left = FALSE, bool $right = TRUE ): int
 	{
 		if( $length < $this->getLength() )
 			throw new InvalidArgumentException( 'Length cannot be lower than string length' );
 		if( !is_string( $string ) && !( $string instanceof String_ ) )
 			throw new InvalidArgumentException( 'Padding string must be of string' );
-		if( 0 === strlen( trim( $string ) ) )
+		if( 0 === strlen( trim( (string) $string ) ) )
 			throw new InvalidArgumentException( 'Padding string cannot be empty' );
 
 		$oldLength	= $this->getLength();
@@ -250,9 +250,9 @@ class String_
 	 *	@access		public
 	 *	@param		array		$characters		List of characters to replace by hyphen
 	 *	@param		string		$hyphen			Hyphen character to replace given characters with
-	 *	@return		bool		string
+	 *	@return		string
 	 */
-	public function hyphenate( array $characters = [' '], string $hyphen = '-' ): bool
+	public function hyphenate( array $characters = [' '], string $hyphen = '-' ): string
 	{
 		$string	= $this->string;
 		foreach( $characters as $character ){

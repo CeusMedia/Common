@@ -114,8 +114,6 @@ class Table
 	public function addColumns( array $columns = [] ): self
 	{
 		$this->columns[]	= [];
-		if( is_string( $columns ) )
-			$columns	= explode( ",", $columns );
 		foreach( $columns as $value )
 			$this->addColumn( $value );
 		return $this;

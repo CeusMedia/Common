@@ -41,14 +41,14 @@ use InvalidArgumentException;
  */
 class Node
 {
-	/**	@var	string			$nodeName		Name of XML Node */
-	protected $nodeName;
-	/**	@var	array			$attributes		Map of XML Node Attributes */
-	protected $attributes		= [];
-	/**	@var	array			$children		List of Child Nodes  */
-	protected $children			= [];
-	/**	@var	string|NULL		$content		Content of XML Node */
-	protected $content			= NULL;
+	/**	@var	string				$nodeName		Name of XML Node */
+	protected string $nodeName;
+	/**	@var	array				$attributes		Map of XML Node Attributes */
+	protected array $attributes		= [];
+	/**	@var	array				$children		List of Child Nodes  */
+	protected array $children		= [];
+	/**	@var	string|NULL			$content		Content of XML Node */
+	protected ?string $content		= NULL;
 
 	/**
 	 *	Constructor.
@@ -127,6 +127,7 @@ class Node
 	 *	Returns a Child Nodes by its name.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of Child Node
+	 *	@throws		InvalidArgumentException	if child node is not existing
 	 *	@return		Node
 	 */
 	public function getChild( string $nodeName ): Node
@@ -134,7 +135,7 @@ class Node
 		for( $i=0; $i<count( $this->children ); $i++ )
 			if( $this->children[$i]->getNodeName() == $nodeName )
 				return $this->children[$i];
-		throw new InvalidArgumentException( 'Child Node with Node Name "'.$nodeName.'" is not existing.' );
+		throw new InvalidArgumentException( 'Child Node with Node Name "'.$nodeName.'" is not existing' );
 	}
 
 	/**

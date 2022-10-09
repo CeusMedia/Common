@@ -42,15 +42,15 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
 class Collection
 {
 	/**	@var		string			$label			Label of Item Link */
-	public $label					= NULL;
+	public string $label;
 
 	/**	@var		Dictionary		$attributes		Array of Item Attributes (classItem,classLink,classList) */
-	public $attributes				= NULL;
+	public Dictionary $attributes;
 
 	/**	@var		array			$children		List of nested Tree Menu Items */
-	public $children				= [];
+	public array $children			= [];
 
-	public $defaultAttributes		= [
+	public array $defaultAttributes		= [
 		'class'		=> "option",
 		'default'	=> FALSE,
 	];

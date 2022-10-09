@@ -43,11 +43,11 @@ use InvalidArgumentException;
 class Handler
 {
 
-	/**	@var	array		$stopped		List of bound events */
-	protected $events		= [];
+	/**	@var	Dictionary		$events		List of bound events */
+	protected Dictionary $events;
 
-	/**	@var	array		$stopped		List of currently running events not to propagate anymore */
-	protected $stopped		= [];
+	/**	@var	array			$stopped		List of currently running events not to propagate anymore */
+	protected array $stopped	= [];
 
 	/**
 	 *	Constructor.
@@ -126,15 +126,15 @@ class Handler
 	/**
 	 *	Builds event data object and handles call of triggered event.
 	 *	@access		public
-	 *	@param		string		$key		Event trigger key
-	 *	@param		object		$caller		Object which triggered event
-	 *	@param		mixed		$arguments	Data for event on trigger
+	 *	@param		string			$key		Event trigger key
+	 *	@param		object|NULL		$caller		Object which triggered event
+	 *	@param		array			$arguments	Data for event on trigger
 	 *	@return		boolean
 	 */
-	public function trigger( string $key, $caller = NULL, $arguments = NULL )
+	public function trigger( string $key, ?object $caller = NULL, array $arguments = [] ): bool
 	{
 		if( !( $events = $this->getBoundEvents( $key, TRUE ) ) )
-			return NULL;
+			return FALSE;
 		$this->removeStopMark( $key );
 		foreach( $events as $callback ){
 			if( in_array( $key, $this->stopped, TRUE ) )
@@ -145,7 +145,7 @@ class Handler
 			$event->caller		= $caller;
 			$event->data		= $callback[1]->getData();
 			$event->arguments	= $arguments;
-			$result			= call_user_func( $callback[1]->getCallback(), $event );
+			$result		= call_user_func( $callback[1]->getCallback(), $event );
 			if( $result === FALSE )
 				return FALSE;
 		}

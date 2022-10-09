@@ -206,8 +206,11 @@ class Gravatar
 	public function removeImage( string $email, string $password, string $imageId, $rating = 0 )
 	{
 		throw new RuntimeException( 'Not tested yet' );
-		$data		= ['password' => $password, 'userimage' => $imageId, 'rating'	=> $rating];
-		$response	= $this->callXmlRpc( $email, 'deleteUserImage', $data );
+		$response	= $this->callXmlRpc( $email, 'deleteUserImage', [
+			'password'	=> $password,
+			'userimage'	=> $imageId,
+			'rating'	=> $rating
+		] );
 		return $response[0];
 	}
 

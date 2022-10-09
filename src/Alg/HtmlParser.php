@@ -46,10 +46,11 @@ use RuntimeException;
  */
 class HtmlParser
 {
+	/** @var		string|NULL		$errors				DOM Document from HTML */
+	public ?string $errors			= NULL;
+
 	/** @var		DOMDocument		$document			DOM Document from HTML */
-	protected $document;
-	/** @var		array			$errors				DOM Document from HTML */
-	public $errors	= [];
+	protected DOMDocument $document;
 
 	/**
 	 *	Constructor.

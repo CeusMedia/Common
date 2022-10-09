@@ -48,10 +48,10 @@ use CeusMedia\Common\ADT\CSS\Property as CssProperty;
  */
 class Editor
 {
-	/** @var		CssSheet		$sheet */
-	protected $sheet;
+	/** @var		CssSheet|NULL		$sheet */
+	protected ?CssSheet $sheet			= NULL;
 
-	protected $fileName;
+	protected ?string $fileName			= NULL;
 
 	/**
 	 *	Constructor.
@@ -99,7 +99,7 @@ class Editor
 
 	protected function checkIsLoaded()
 	{
-		if( !$this->sheet )
+		if( NULL === $this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 	}
 

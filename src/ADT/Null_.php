@@ -43,8 +43,8 @@ use Countable;
  */
 class Null_ implements Countable, Renderable, ArrayAccess
 {
-	/**	@var	Null_		$instance		Singleton instance of Null_ */
-	protected static $instance	= NULL;
+	/**	@var	Null_|NULL		$instance		Singleton instance of Null_ */
+	protected static ?Null_ $instance			= NULL;
 
 	/**
 	 *	Answers all undefined method calls by returning this null object again.

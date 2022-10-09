@@ -40,7 +40,7 @@ namespace CeusMedia\Common\ADT\Tree\Menu;
 class Item extends Collection
 {
 	/**	@var		string		$url			URL of Item Link */
-	public $url			= NULL;
+	public string $url;
 
 	/**
 	 *	Constructor.

@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Editor for XML Files.
@@ -31,6 +33,7 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use DOMException;
 use InvalidArgumentException;
 
 
@@ -49,10 +52,10 @@ use InvalidArgumentException;
 class FileEditor
 {
 	/** @var		string		$fileName		File Name of XML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/** @var		Node		$xmlTree		... */
-	protected $xmlTree;
+	protected Node $xmlTree;
 
 	/**
 	 *	Constructor.
@@ -74,6 +77,7 @@ class FileEditor
 	 *	@param		string		$content		Content of new Node
 	 *	@param		array		$attributes		Array of Attribute of new Content
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
 	public function addNode( string $nodePath, string $name, string $content = '', array $attributes = [] ): bool
 	{
@@ -90,13 +94,13 @@ class FileEditor
 	 *	@param		string		$key			Attribute Key
 	 *	@param		mixed		$value			Attribute Value
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
 	public function editNodeAttribute( string $nodePath, string $key, $value ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		if( $node->setAttribute( $key, $value ) )
-			return (bool) $this->write();
-		return FALSE;
+		$node->setAttribute( $key, $value );
+		return (bool) $this->write();
 	}
 
 	/**
@@ -105,19 +109,20 @@ class FileEditor
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@param		string		$content		Content to set to Node
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
 	public function editNodeContent( string $nodePath, string $content ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		if( $node->setContent( $content ) )
-			return (bool) $this->write();
-		return FALSE;
+		$node->setContent( $content );
+		return (bool) $this->write();
 	}
 
 	/**
 	 *	Returns Node Object for a Node Path.
 	 *	@access		public
 	 *	@param		string		$nodePath		Path to Node in XML Tree
+	 *	@throws		InvalidArgumentException	if node is not existing
 	 *	@return		Node
 	 */
 	protected function getNode( string $nodePath ): Node
@@ -132,11 +137,11 @@ class FileEditor
 				$itemNumber	= $matches[2][0];
 				$nodes		= $xmlNode->getChildren( $pathNode );
 				if( !isset( $nodes[$itemNumber] ) )
-					throw new InvalidArgumentException( 'Node not existing.' );
+					throw new InvalidArgumentException( 'Node is not existing' );
 				$xmlNode	=& $nodes[$itemNumber];
 				continue;
 			}
-			$xmlNode	=& $xmlNode->getChild( $pathNode );
+			$xmlNode	= $xmlNode->getChild( $pathNode );
 		}
 		return $xmlNode;
 	}
@@ -146,6 +151,7 @@ class FileEditor
 	 *	@access		public
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
 	public function removeNode( string $nodePath ): bool
 	{
@@ -178,19 +184,20 @@ class FileEditor
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@param		string		$key			Attribute Key
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
 	public function removeNodeAttribute( string $nodePath, string $key ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		if( $node->removeAttribute( $key ) )
-			return (bool) $this->write();
-		return FALSE;
+		$node->removeAttribute( $key );
+		return (bool) $this->write();
 	}
 
 	/**
 	 *	Writes changes XML Tree to File and returns Number of written Bytes.
 	 *	@access		protected
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
 	protected function write(): int
 	{

@@ -48,7 +48,7 @@ use Serializable;
 class VCard implements Serializable
 {
 	/**	@var		array		$types					Array of VCard Types (Entities) */
-	private $types;
+	private array $types;
 
 	/**
 	 *	Constructor.
@@ -118,8 +118,6 @@ class VCard implements Serializable
 	 */
 	public function addEmail( string $address, array $types = [] ): self
 	{
-		if( is_string( $types ) )
-			$types	= explode( ",", $types );
 		$this->types['email'][$address]	= $types;
 		return $this;
 	}
@@ -134,8 +132,6 @@ class VCard implements Serializable
 	 */
 	public function addGeoTag( string $latitude, string $longitude, array $types = [] ): self
 	{
-		if( is_string( $types ) )
-			$types	= explode( ",", $types );
 		$this->types['geo'][]	= [
 			'latitude'	=> $latitude,
 			'longitude'	=> $longitude,
