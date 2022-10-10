@@ -1,0 +1,13 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PhpMultipleClassDeclarationsInspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="DONT_INSPECT_DOCS" value="true" />
+    </inspection_tool>
+    <inspection_tool class="PhpStanGlobal" enabled="true" level="WARNING" enabled_by_default="true" editorAttributes="WARNING_ATTRIBUTES">
+      <option name="level" value="1" />
+      <option name="config" value="$PROJECT_DIR$/tool/config/phpstan.neon" />
+      <option name="autoload" value="$PROJECT_DIR$/vendor/autoload.php" />
+    </inspection_tool>
+  </profile>
+</component>
