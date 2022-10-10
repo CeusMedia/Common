@@ -159,19 +159,42 @@ class URL
 	}
 
 	/**
-	 *	... (to be implemented)
 	 *	@access		public
 	 *	@param		URL|string	$referenceUrl		Reference URL to apply to absolute URL
-	 *	@return		URL		... (to be implemented)
-	 * @todo        implement
-	 * @noinspection PhpUnusedParameterInspection
+	 *	@return		string
 	 */
-	public function getRelativeTo( $referenceUrl ): URL
+	public function getRelativeTo( $referenceUrl ): string
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		throw new Exception( 'No implemented, yet' );
-		/** @noinspection PhpUnreachableStatementInspection */
-		return $referenceUrl;
+		if( is_string( $referenceUrl ) )
+			$reference	= new self( $referenceUrl );
+		else
+			$reference	= $referenceUrl;
+
+		if( $this->getScheme() !== $reference->getScheme() )
+			throw new InvalidArgumentException( 'Schema not matching' );
+		if( $this->getHost() !== $reference->getHost() )
+			throw new InvalidArgumentException( 'Host not matching' );
+		if( $this->getPort() !== $reference->getPort() )
+			throw new InvalidArgumentException( 'Port not matching' );
+
+		$query			= $this->getQuery() ? '?'.$this->getQuery() : '';
+		$fragment		= $this->getFragment() ? '#'.$this->getFragment() : '';
+		$referencePath	= $reference->getPath();
+		if( substr( $this->getPath(), 0, strlen( $referencePath ) ) === $referencePath )
+			return substr( $this->getPath(), strlen( $referencePath ) ).$query.$fragment;
+
+		$parts			= [];
+		$pathParts		= explode( '/', ltrim( $this->getPath(), '/' ) );
+		foreach( explode( '/', trim( $referencePath, '/' ) ) as $nr => $referencePathPart ){
+			$part	= array_shift( $pathParts );
+			if( $referencePathPart === $part )
+				continue;
+			array_unshift( $parts, '..' );
+			$parts[]	= $part;
+		}
+		foreach( $pathParts as $part )
+			$parts[]	= $part;
+		return join( '/', $parts ).$query.$fragment;
 	}
 
 	public function getFragment(): string

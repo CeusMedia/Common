@@ -178,10 +178,20 @@ class URLTest extends BaseCase
 	 */
 	public function testGetRelativeTo()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= URL::getRelativeTo();
-		$this->assertEquals( $assertion, $creation );
+		$url1	= new URL( 'http://abc.de/path/' );
+		$url2	= new URL( 'http://abc.de/path/nested/abc' );
+
+		$expected	= 'nested/abc';
+		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
+
+		$url2	= new URL( 'http://abc.de/abc' );
+		$expected	= '../abc';
+		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
+
+		$url1	= new URL( 'http://abc.de/a/b/c/' );
+		$url2	= new URL( 'http://abc.de/d/e/f/g?p=1' );
+		$expected	= '../../../d/e/f/g?p=1';
+		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
 	}
 
 	/**

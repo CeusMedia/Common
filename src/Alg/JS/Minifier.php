@@ -248,11 +248,12 @@ class Minifier{
 	/**
 	 * Perform minification, return result
 	 *
-	 * @uses action()
-	 * @uses isAlphaNum()
+	 * @return string
+	 * @throws MinifierException
 	 * @uses get()
 	 * @uses peek()
-	 * @return string
+	 * @uses action()
+	 * @uses isAlphaNum()
 	 */
 	protected function min(): string
 	{
@@ -265,7 +266,7 @@ class Minifier{
 		$this->a = "\n";
 		$this->action(self::ACTION_DELETE_A_B);
 
-		while ($this->a !== null) {
+		while ($this->a !== NULL) {
 			switch ($this->a) {
 				case ' ':
 					if ($this->isAlphaNum($this->b)) {
