@@ -4,11 +4,11 @@ namespace CeusMedia\Common\CLI;
 
 class Dimensions
 {
-	protected static $colors	= 0;
+	protected static int $colors	= 0;
 
-	protected static $width		= 0;
+	protected static int $width		= 0;
 
-	protected static $height	= 0;
+	protected static int $height	= 0;
 
 	/**
 	 *	Returns number of available colors.

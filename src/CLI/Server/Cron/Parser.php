@@ -42,7 +42,7 @@ use Exception;
 class Parser
 {
 	/**	@var		array		$jobs			Array of parse Cron Jobs */
-	protected $jobs				= [];
+	protected array $jobs		= [];
 
 	/**
 	 *	Constructor.
@@ -65,10 +65,8 @@ class Parser
 	 */
 	protected function fill( string $value, int $length ): string
 	{
-		if( $length && $value != "*" )
-		{
-			if( strlen( $value ) < $length )
-			{
+		if( $length && $value != "*" ){
+			if( strlen( $value ) < $length ){
 				$diff	= $length - strlen( $value );
 				for( $i=0; $i<$diff; $i++ )
 					$value	= "0".$value;
@@ -97,16 +95,14 @@ class Parser
 	protected function getValues( string $value, int $fill = 0 ): array
 	{
 		$values	= [];
-		if( substr_count( $value, "-" ) )
-		{
+		if( substr_count( $value, "-" ) ){
 			$parts	= explode( "-", $value );
 			$min	= trim( min( $parts ) );
 			$max	= trim( max( $parts ) );
 			for( $i=$min; $i<=$max; $i++ )
 				$values[] = $this->fill( $i, $fill );
 		}
-		else if( substr_count( $value, "," ) )
-		{
+		else if( substr_count( $value, "," ) ){
 			$parts	= explode( ",", $value );
 			foreach( $parts as $part )
 				$values[]	= $this->fill( $part, $fill );
@@ -139,9 +135,8 @@ class Parser
 	 */
 	protected function parseJob( string $string )
 	{
-		$pattern	= "@^( |\t)*(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(.*)(\r)?\n$@si";
-		if( preg_match( $pattern, $string ) )
-		{
+		$pattern	= "@^( |\t)*(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(.*)(\r)?\n$@si";
+		if( preg_match( $pattern, $string ) ){
 			$match	= preg_replace( $pattern, "\\2|||\\4|||\\6|||\\8|||\\10|||\\12", $string );
 			$match	= explode( "|||", $match );
 			$job	= new Job( $match[5] );

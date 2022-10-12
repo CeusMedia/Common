@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Downloads a File from a URL while showing Progress in Console.
@@ -46,51 +47,51 @@ use RuntimeException;
  */
 class Downloader
 {
-	/**	@var		bool			$showFileName		Flag: show File Name */
-	public $redirected				= FALSE;
+	/**	@var		bool				$showFileName		Flag: show File Name */
+	public bool $redirected				= FALSE;
 
-	/**	@var		bool			$showHeaders		Flag: show Headers */
-	public $showFileName			= TRUE;
+	/**	@var		bool				$showHeaders		Flag: show Headers */
+	public bool $showFileName			= TRUE;
 
-	/**	@var		bool			$showHeaders		Flag: show Headers */
-	public $showHeaders				= FALSE;
+	/**	@var		bool				$showHeaders		Flag: show Headers */
+	public bool $showHeaders			= FALSE;
 
-	/**	@var		bool			$showProgress		Flag: show Progress */
-	public $showProgress			= TRUE;
+	/**	@var		bool				$showProgress		Flag: show Progress */
+	public bool $showProgress			= TRUE;
 
-	/**	@var		string			$templateBodyDone	Template for Progress Line after having finished File Download */
-	public $templateBodyDone		= "\rLoaded %1\$s (%2\$s) with %3\$s.\n";
+	/**	@var		string				$templateBodyDone	Template for Progress Line after having finished File Download */
+	public string $templateBodyDone		= "\rLoaded %1\$s (%2\$s) with %3\$s.\n";
 
-	/**	@var		string			$templateBodyRatio	Template for Progress Line with Ratio (File Size must be known) */
-	public $templateBodyRatio		= "\r[%3\$s%%] %1\$s loaded (%2\$s)   ";
+	/**	@var		string				$templateBodyRatio	Template for Progress Line with Ratio (File Size must be known) */
+	public string $templateBodyRatio	= "\r[%3\$s%%] %1\$s loaded (%2\$s)   ";
 
-	/**	@var		string			$templateBody		Template for Progress Line without Ratio */
-	public $templateBody			= "\r%1\$s loaded (%2\$s)   ";
+	/**	@var		string				$templateBody		Template for Progress Line without Ratio */
+	public string $templateBody			= "\r%1\$s loaded (%2\$s)   ";
 
-	/**	@var		string			$templateFileName	Template for File Name Line */
-	public $templateFileName		= "Downloading File \"%s\":\n";
+	/**	@var		string				$templateFileName	Template for File Name Line */
+	public string $templateFileName		= "Downloading File \"%s\":\n";
 
-	/**	@var		string			$templateHeader		Template for Header Line */
-	public $templateHeader			= "%s: %s\n";
+	/**	@var		string				$templateHeader		Template for Header Line */
+	public string $templateHeader		= "%s: %s\n";
 
-	/**	@var		string			$templateHeader		Template for Header Line */
-	public $templateRedirect		= "Redirected to \"%s\"\n";
+	/**	@var		string				$templateHeader		Template for Header Line */
+	public string $templateRedirect		= "Redirected to \"%s\"\n";
+
+	/**	@var		int					$fileSize			Length of File to download, extracted from Response Headers */
+	protected int $fileSize				= 0;
+
+	/**	@var		int					$loadSize			Length of current Load */
+	protected int $loadSize				= 0;
+
+	/**	@var		array				$headers			Collected Response Headers, already split */
+	protected array $headers			= [];
+
+	protected ?string $fileUri;
+
+	protected ?string $tempUri;
 
 	/**	@var		Clock			$clock				Clock Instance */
-	private $clock;
-
-	/**	@var		int				$fileSize			Length of File to download, extracted from Response Headers */
-	protected $fileSize				= 0;
-
-	/**	@var		int				$loadSize			Length of current Load */
-	protected $loadSize				= 0;
-
-	/**	@var		array			$headers			Collected Response Headers, already split */
-	protected $headers				= [];
-
-	protected $fileUri;
-
-	protected $tempUri;
+	private Clock $clock;
 
 	/**
 	 *	Loads a File from a URL, saves it using Callback Methods and returns Number of loaded Bytes.

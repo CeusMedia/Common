@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	...
@@ -45,7 +46,7 @@ abstract class Abstraction
 	protected $isWindows	= NULL;
 
 	/**
-	 *	Constructor, checks Server Operation System.
+	 *	Constructor, checks Server Operating System.
 	 *	@access		public
 	 *	@return		void
 	 */

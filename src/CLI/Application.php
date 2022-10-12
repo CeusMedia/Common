@@ -42,7 +42,7 @@ use CeusMedia\Common\CLI;
 class Application
 {
 	/** @var	ArgumentParser		$arguments  */
-	protected $arguments;
+	protected ArgumentParser $arguments;
 
 	/**
 	 *	Constructor.

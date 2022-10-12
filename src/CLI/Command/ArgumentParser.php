@@ -55,14 +55,17 @@ class ArgumentParser
 		self::STATUS_READ_ARGUMENT,
 	];
 
-	protected $parsed				= FALSE;
+	protected bool $parsed				= FALSE;
 
-	protected $foundArguments		= [];
-	protected $foundOptions			= [];
+	protected array $foundArguments		= [];
+	protected array $foundOptions		= [];
 
-	protected $numberArguments		= 0;
-	protected $possibleOptions		= [];
-	protected $shortcuts			= [];
+	protected int $numberArguments		= 0;
+	protected array $possibleOptions	= [];
+	protected array $shortcuts			= [];
+
+	protected int $status;
+	protected string $buffer			= '';
 
 	/**
 	 *	Returns List of parsed Arguments.
@@ -105,9 +108,9 @@ class ArgumentParser
 		//  initiate Sign Pointer
 		$position	= 0;
 		//  initiate Status
-		$status		= self::STATUS_START;
+		$this->status		= self::STATUS_START;
 		//  initiate Argument Buffer
-		$buffer		= "";
+		$this->buffer		= "";
 		//  initiate Option Buffer
 		$option		= "";
 
@@ -119,31 +122,31 @@ class ArgumentParser
 			$position ++;
 
 			//  handle Sign depending on Status
-			switch( $status ){
+			switch( $this->status ){
 				//  open for all Signs
 				case self::STATUS_START:
 					//  handle Sign
-					$this->onReady( $sign, $status, $buffer, $option );
+					$this->onReady( $sign, $option );
 					break;
 				//  open for Option Key Signs
 				case self::STATUS_READ_OPTION_KEY:
 					//  handle Sign
-					$this->onReadOptionKey( $sign, $status, $buffer, $option );
+					$this->onReadOptionKey( $sign, $option );
 					break;
 				//  open for Option Value Signs
 				case self::STATUS_READ_OPTION_VALUE:
 					//  handle Sign
-					$this->onReadOptionValue( $sign, $status, $buffer, $option );
+					$this->onReadOptionValue( $sign, $option );
 					break;
 				//  open for Argument Signs
 				case self::STATUS_READ_ARGUMENT:
 					//  handle Sign
-					$this->onReadArgument( $sign, $status, $buffer );
+					$this->onReadArgument( $sign );
 					break;
 			}
 		}
 		//  close open States
-		$this->onEndOfLine( $status, $buffer, $option );
+		$this->onEndOfLine( $option );
 	}
 
 	/**
@@ -244,20 +247,18 @@ class ArgumentParser
 	/**
 	 *	Handles open Argument or Option at the End of the Argument String.
 	 *	@access		protected
-	 *	@param		int			$status		Status Reference
-	 *	@param		string		$buffer		Argument Buffer Reference
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onEndOfLine( int &$status, string &$buffer, string &$option )
+	protected function onEndOfLine( string $option )
 	{
-		if( $status == self::STATUS_READ_ARGUMENT )
-			$this->foundArguments[]	= $buffer;
+		if( $this->status == self::STATUS_READ_ARGUMENT )
+			$this->foundArguments[]	= $this->buffer;
 		//  still reading an option value
-		else if( $status == self::STATUS_READ_OPTION_VALUE )
+		else if( $this->status == self::STATUS_READ_OPTION_VALUE )
 			//  close reading and save last option
-			$this->onReadOptionValue( ' ', $status, $buffer, $option );
-		else if( $status == self::STATUS_READ_OPTION_KEY ){
+			$this->onReadOptionValue( ' ', $option );
+		else if( $this->status == self::STATUS_READ_OPTION_KEY ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
 				throw new InvalidArgumentException( 'Invalid option: '.$option.'.' );
 			if( $this->possibleOptions[$option] )
@@ -274,31 +275,27 @@ class ArgumentParser
 	 *	Handles current Sign in STATUS_READ_ARGUMENT.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
-	 *	@param		int			$status		Status Reference
-	 *	@param		string		$buffer		Argument Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadArgument( string $sign, int &$status, string &$buffer )
+	protected function onReadArgument( string $sign )
 	{
 		if( $sign == " " ){
-			$this->foundArguments[]	= $buffer;
-			$buffer		= "";
-			$status		= self::STATUS_START;
+			$this->foundArguments[]	= $this->buffer;
+			$this->buffer		= "";
+			$this->status		= self::STATUS_START;
 			return;
 		}
-		$buffer	.= $sign;
+		$this->buffer	.= $sign;
 	}
 
 	/**
 	 *	Handles current Sign in STATUS_READ_OPTION_KEY.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
-	 *	@param		int			$status		Status Reference
-	 *	@param		string		$buffer		Argument Buffer Reference
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionKey( string $sign, int &$status, string &$buffer, string &$option )
+	protected function onReadOptionKey( string $sign, string &$option )
 	{
 		if( in_array( $sign, [" ", ":", "="], TRUE ) ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
@@ -307,11 +304,11 @@ class ArgumentParser
 				if( $sign !== " " )
 					throw new InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
 				$this->foundOptions[$option]	= TRUE;
-				$status	= self::STATUS_START;
+				$this->status	= self::STATUS_START;
 			}
 			else{
-				$buffer	= "";
-				$status	= self::STATUS_READ_OPTION_VALUE;
+				$this->buffer	= "";
+				$this->status	= self::STATUS_READ_OPTION_VALUE;
 			}
 		}
 		else if( $sign !== "-" )
@@ -322,12 +319,10 @@ class ArgumentParser
 	 *	Handles current Sign in STATUS_READ_OPTION_VALUE.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
-	 *	@param		int			$status		Status Reference
-	 *	@param		string		$buffer		Argument Buffer Reference
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionValue( string $sign, int &$status, string &$buffer, string &$option )
+	protected function onReadOptionValue( string $sign, string $option )
 	{
 		//  illegal Option following
 //		if( $sign === "-" )
@@ -335,7 +330,7 @@ class ArgumentParser
 		//  closing value...
 		if( $sign === " " ){
 			//  no value
-			if( !$buffer ){
+			if( !$this->buffer ){
 				//  no value required/defined
 				if( !$this->possibleOptions[$option] )
 					//  assign true for existence
@@ -345,35 +340,33 @@ class ArgumentParser
 			//  must match regexp
 			if( $this->possibleOptions[$option] !== TRUE ){
 				//  not matching
-				if( !preg_match( $this->possibleOptions[$option], $buffer ) )
+				if( !preg_match( $this->possibleOptions[$option], $this->buffer ) )
 					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value (not matching regexp: '.$this->possibleOptions[$option].')' );
 			}
-			$this->foundOptions[$option]	= $buffer;
-			$buffer	= "";
-			$status	= self::STATUS_START;
+			$this->foundOptions[$option]	= $this->buffer;
+			$this->buffer	= "";
+			$this->status	= self::STATUS_START;
 			return;
 		}
-		$buffer	.= $sign;
+		$this->buffer	.= $sign;
 	}
 
 	/**
 	 *	Handles current Sign in STATUS_READY.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
-	 *	@param		int			$status		Status Reference
-	 *	@param		string		$buffer		Argument Buffer Reference
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReady( string $sign, int &$status, string &$buffer, string &$option )
+	protected function onReady( string $sign, string &$option )
 	{
 		if( $sign == "-" ){
 			$option	= "";
-			$status	= self::STATUS_READ_OPTION_KEY;
+			$this->status	= self::STATUS_READ_OPTION_KEY;
 		}
-		else if( preg_match( "@[a-z0-9]@i", $sign ) ){
-			$buffer	.= $sign;
-			$status	= self::STATUS_READ_ARGUMENT;
+		else if( preg_match( "@[a-z\d]@i", $sign ) ){
+			$this->buffer	.= $sign;
+			$this->status	= self::STATUS_READ_ARGUMENT;
 		}
 	}
 }

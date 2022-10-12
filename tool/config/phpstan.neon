@@ -3,14 +3,14 @@ includes:
 	- phpstan-baseline.neon
 
 #reachedLevels:
-#	ADT: 1
-#	Alg: 1
-#	CLI: 1
-#	Exception: 1
-#	FS: 1
-#	Net: 1
-#	UI: 2
-#	XML: 2
+#	ADT: 5-
+#	Alg: 4-
+#	CLI: 4-
+#	Exception: 5
+#	FS: 4
+#	Net: 3
+#	UI: 4
+#	XML: 4
 
 parameters:
 	phpVersion: 70400

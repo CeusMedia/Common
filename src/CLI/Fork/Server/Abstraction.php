@@ -48,21 +48,21 @@ abstract class Abstraction
 	public const E_LISTEN_FAILED		= 'No sense in creating socket';
 	public const E_ACCEPT_FAILED		= 'Miscommunicating';
 	public const E_READ_FAILED			= 'Misread';
-	public const E_WRITE_FAILED		= 'Miswritten';
+	public const E_WRITE_FAILED			= 'Miswritten';
 
-	protected $childrenMap		= [];
-	protected $childrenMax		= 30;
-	protected $childrenOpen		= 0;
-	protected $listenExcept		= NULL;
-	protected $listenWrite		= null;
-	protected $statSeenMax		= 0;
-	protected $statSeenTotal	= 0;
-	protected $signalTerm		= FALSE;
-	protected $signalHangup		= FALSE;
-	protected $sizeBuffer		= 2048;
-	protected $socketPort		= 8000;
-	protected $timeStarted		= NULL;
-	protected $filePid			= "pid";
+	protected array $childrenMap		= [];
+	protected int $childrenMax			= 30;
+	protected int $childrenOpen			= 0;
+	protected ?array $listenExcept		= NULL;
+	protected ?array $listenWrite		= null;
+	protected int $statSeenMax			= 0;
+	protected int $statSeenTotal		= 0;
+	protected bool $signalTerm			= FALSE;
+	protected bool $signalHangup		= FALSE;
+	protected int $sizeBuffer			= 2048;
+	protected int $socketPort			= 8000;
+	protected ?int $timeStarted			= NULL;
+	protected string $filePid			= "pid";
 
 	public function __construct( ?int $port = NULL, bool $force = FALSE )
 	{
@@ -174,7 +174,7 @@ abstract class Abstraction
 			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
 			/** @noinspection PhpConditionAlreadyCheckedInspection */
 			while( !$this->signalHangup && !$this->signalTerm ){
-				while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 ){
+				while( pcntl_wait( $status, WNOHANG | WUNTRACED ) > 0 ){
 					usleep( 5000 );
 				}
 				foreach( $this->childrenMap as $key => $val ){
@@ -225,34 +225,32 @@ abstract class Abstraction
 				//	This is a child. It dies, hopefully.
 				else{
 					socket_close( $sock );
-					while( TRUE ){
-						//	Happy buffer reading!
+
+					//	Happy buffer reading!
+					/** @noinspection PhpRedundantOptionalArgumentInspection */
+					$tbuf = socket_read( $conn, $this->sizeBuffer, PHP_BINARY_READ );
+					if( $tbuf === FALSE ){
+						$errNo	= socket_last_error();
+						throw new ForkServerSocketException( self::E_READ_FAILED, $errNo );
+					}
+					$rbuf = $tbuf;
+					while( strlen( $tbuf ) == $this->sizeBuffer ){
 						/** @noinspection PhpRedundantOptionalArgumentInspection */
 						$tbuf = socket_read( $conn, $this->sizeBuffer, PHP_BINARY_READ );
 						if( $tbuf === FALSE ){
 							$errNo	= socket_last_error();
 							throw new ForkServerSocketException( self::E_READ_FAILED, $errNo );
 						}
-						$rbuf = $tbuf;
-						while( strlen( $tbuf ) == $this->sizeBuffer ){
-							/** @noinspection PhpRedundantOptionalArgumentInspection */
-							$tbuf = socket_read( $conn, $this->sizeBuffer, PHP_BINARY_READ );
-							if( $tbuf === FALSE ){
-								$errNo	= socket_last_error();
-								throw new ForkServerSocketException( self::E_READ_FAILED, $errNo );
-							}
-							$rbuf .= $tbuf;
-						}
+						$rbuf .= $tbuf;
+					}
 
-						//	Formulating answer
-						$wbuf	= $this->handleRequest( $rbuf );
+					//	Formulating answer
+					$wbuf	= $this->handleRequest( $rbuf );
 
-						//	Going postal!
-						if( socket_write( $conn, $wbuf ) === FALSE ){
-							$errNo	= socket_last_error();
-							throw new ForkServerSocketException( self::E_WRITE_FAILED, $errNo );
-						}
-						break;
+					//	Going postal!
+					if( socket_write( $conn, $wbuf ) === FALSE ){
+						$errNo	= socket_last_error();
+						throw new ForkServerSocketException( self::E_WRITE_FAILED, $errNo );
 					}
 
 					//	Let's die!
@@ -262,7 +260,7 @@ abstract class Abstraction
 			}
 
 			//	Patiently wait until all our children die.
-			while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 ){
+			while( pcntl_wait( $status, WNOHANG | WUNTRACED ) > 0 ){
 				usleep( 5000 );
 			}
 

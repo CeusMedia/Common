@@ -45,13 +45,13 @@ use RuntimeException;
  */
 class BackgroundProcess
 {
-	protected static $pidMin	= 2;
+	protected static int $pidMin	= 2;
 
-	protected static $pidMax	= 32768;
+	protected static int $pidMax	= 32768;
 
-	protected $pid				= 0;
+	protected int $pid				= 0;
 
-	protected $command;
+	protected ?string $command;
 
 	/**
 	 *	Constructor.
@@ -62,7 +62,7 @@ class BackgroundProcess
 	public function __construct()
 	{
 		try{
-			self::$pidMax	= FileReader::load( '/proc/sys/kernel/pid_max' );
+			self::$pidMax	= (int) FileReader::load( '/proc/sys/kernel/pid_max' );
 		}
 		catch( Exception $e ){}
 	}

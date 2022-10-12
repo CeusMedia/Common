@@ -47,18 +47,18 @@ use RuntimeException;
  */
 abstract class Abstraction
 {
-	protected $pids			= [];
+	protected array $pids			= [];
 
-	protected $isBlocking;
+	protected bool $isBlocking;
 
 	public function __construct( bool $blocking = FALSE )
 	{
-		$this->isBlocking	= (int) $blocking;
+		$this->isBlocking	= $blocking;
 	}
 
 	protected function cleanUpForks()
 	{
-		if( pcntl_wait( $status, WNOHANG OR WUNTRACED ) < 1 ){
+		if( pcntl_wait( $status, WNOHANG | WUNTRACED ) < 1 ){
 			foreach( $this->pids as $nr => $pid ){
 				// This detects if the child is still running or not
 				if( !posix_kill( $pid, 0 ) ){

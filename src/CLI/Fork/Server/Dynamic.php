@@ -40,7 +40,7 @@ namespace CeusMedia\Common\CLI\Fork\Server;
  */
 class Dynamic extends Abstraction
 {
-	protected $scriptFile;
+	protected string $scriptFile;
 
 	protected function handleRequest( $request )
 	{

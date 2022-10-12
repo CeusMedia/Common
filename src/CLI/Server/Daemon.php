@@ -62,7 +62,7 @@ class Daemon extends Application
 	 */
 	public function main()
 	{
-		while( 1 ){
+		while( TRUE ){
 			$this->serve();
 			ob_flush();
 			$this->sleep();

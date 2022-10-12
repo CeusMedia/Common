@@ -42,9 +42,9 @@ use CeusMedia\Common\FS\File\Log\Writer as LogWriter;
 class Daemon
 {
 	/**	@var		string		$cronTab		Cron Tab File */
-	protected $cronTab;
+	protected string $cronTab;
 	/**	@var		LogWriter	$logFile		Message Log File */
-	protected $logFile;
+	protected LogWriter $logFile;
 
 	/**
 	 *	Constructor.

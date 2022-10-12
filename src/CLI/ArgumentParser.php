@@ -42,7 +42,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
 class ArgumentParser extends Dictionary
 {
 	/**	@var	array		shortcuts		Associative Array of Shortcuts */
-	private $shortcuts	= [];
+	private array $shortcuts	= [];
 
 	//  --  PUBLIC METHODS  --  //
 

@@ -13,7 +13,7 @@ class Question
 	public const TYPE_NUMBER			= 3;
 	public const TYPE_STRING			= 4;
 
-	public const TYPES					= [
+	public const TYPES			= [
 		self::TYPE_UNKNOWN,
 		self::TYPE_BOOLEAN,
 		self::TYPE_INTEGER,
@@ -21,19 +21,27 @@ class Question
 		self::TYPE_STRING,
 	];
 
-	protected $message;
-	protected $type				= 0;
-	protected $default			= NULL;
-	protected $options			= [];
-	protected $break			= TRUE;
-	protected $rangeFrom		= 0;
-	protected $rangeTo			= 0;
-	protected $strictOptions	= TRUE;
-
-	public static $defaultBooleanOptions	= [
+	public static array $defaultBooleanOptions	= [
 		'y'		=> 'yes',
 		'n'		=> 'no',
 	];
+
+	protected string $message;
+
+	protected int $type				= 0;
+
+	/** @var string|int|float|NULL $default  */
+	protected $default				= NULL;
+
+	protected array $options		= [];
+
+	protected bool $break			= TRUE;
+
+	protected int $rangeFrom		= 0;
+
+	protected int $rangeTo			= 0;
+
+	protected bool $strictOptions	= TRUE;
 
 	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE )
 	{
@@ -128,7 +136,7 @@ class Question
 			}
 		}
 		if( $this->type === self::TYPE_INTEGER ){
-			if( !preg_match( '/^[0-9]+$/', $input ) )
+			if( !preg_match( '/^\d+$/', $input ) )
 				return FALSE;
 			$input	= (int) $input;
 			if( $this->strictOptions ){
@@ -140,7 +148,7 @@ class Question
 			}
 		}
 		if( $this->type === self::TYPE_NUMBER ){
-			if( !preg_match( '/^[0-9.]+$/', $input ) )
+			if( !preg_match( '/^[\d.]+$/', $input ) )
 				return FALSE;
 			$input	= (float) $input;
 			if( $this->strictOptions ){

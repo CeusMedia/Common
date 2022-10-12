@@ -7,7 +7,7 @@ class Table
 	public const SIZE_MODE_MIN			= 0;
 	public const SIZE_MODE_MAX			= 1;
 
-	public const SIZE_MODES			= [
+	public const SIZE_MODES				= [
 		self::SIZE_MODE_MIN,
 		self::SIZE_MODE_MAX,
 	];
@@ -15,7 +15,7 @@ class Table
 	public const BORDER_STYLE_NONE		= 0;
 	public const BORDER_STYLE_SINGLE	= 1;
 	public const BORDER_STYLE_DOUBLE	= 2;
-	public const BORDER_STYLE_MIXED	= 3;
+	public const BORDER_STYLE_MIXED		= 3;
 
 	public const BORDER_STYLES			= [
 		self::BORDER_STYLE_NONE,
@@ -24,17 +24,17 @@ class Table
 		self::BORDER_STYLE_MIXED,
 	];
 
-	protected $sizeMax			= 76;
+	protected int $sizeMax				= 76;
 
-	protected $sizeMin			= 5;
+	protected int $sizeMin				= 5;
 
-	protected $columns			= [];
+	protected array $columns			= [];
 
-	protected $data				= [];
+	protected array $data				= [];
 
-	protected $sizeMode			= 0;
+	protected int $sizeMode				= 0;
 
-	protected static $borderStyles	= [
+	protected static array $borderStyles	= [
 		self::BORDER_STYLE_NONE	=> [
 			'otl'	=> '', 'ot'	=> '', 'otj'	=> '', 'otr'	=> '',
 			'ol'	=> '', 'olj'	=> '', 'or'	=> '', 'orj'	=> '',
@@ -61,9 +61,9 @@ class Table
 		],
 	];
 
-	protected $borderStyle;
+	protected int $borderStyle;
 
-	protected $borders		= [];
+	protected array $borders		= [];
 
 	public function __construct()
 	{

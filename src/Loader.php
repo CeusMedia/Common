@@ -24,23 +24,23 @@ use RuntimeException;
 
 class Loader
 {
-	protected $extensions	= [
+	protected array $extensions	= [
 		'php',
 		'php5',
 		'inc'
 	];
 
-	protected $logFile		= NULL;
+	protected ?string $logFile	= NULL;
 
-	protected $path			= NULL;
+	protected ?string $path		= NULL;
 
-	protected $prefix		= NULL;
+	protected ?string $prefix	= NULL;
 
-	protected $lowerPath	= FALSE;
+	protected bool $lowerPath	= FALSE;
 
-	protected $verbose		= 0;
+	protected int $verbose		= 0;
 
-	protected $lineBreak	= NULL;
+	protected string $lineBreak;
 
 	/**
 	 *	Constructor.
@@ -90,14 +90,14 @@ class Loader
 	 *	Try to load a Class by its Class Name.
 	 *	@access		public
 	 *	@param		string			$className			Class Name with encoded Path
-	 *	@return		bool
+	 *	@return		void
 	 */
-	public function loadClass( string $className ): bool
+	public function loadClass( string $className ): void
 	{
 		if( $this->prefix ){
 			$prefix	= strtolower( substr( $className, 0, strlen( $this->prefix ) ) );
 			if( $prefix != $this->prefix )
-				return FALSE;
+				return;
 			$className	= str_ireplace( $this->prefix, '', $className );
 		}
 		$basePath		= $this->path ?: '';
@@ -121,9 +121,8 @@ class Loader
 #			if( !is_readable( $filePath ) )
 				continue;
 			$this->loadFile( $filePath, TRUE );
-			return TRUE;
+			return;
 		}
-		return FALSE;
 	}
 
 	/**

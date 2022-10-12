@@ -43,9 +43,9 @@ use CeusMedia\Common\CLI;
  */
 class Output
 {
-	protected $lastLine			= '';
+	protected string $lastLine			= '';
 
-	protected $maxLineLength	= 0;
+	protected int $maxLineLength	= 0;
 
 	/**
 	 *	Adds text to current line.

@@ -40,7 +40,7 @@ namespace CeusMedia\Common\CLI;
 class Shell
 {
 	/**	@var	array	$skip	Commands to skip */
-	protected $skip	= [
+	protected array $skip	= [
 		"class",
 		"declare",
 		"die",
@@ -62,8 +62,8 @@ class Shell
 		"while",
 	];
 
-	/**	@var	array	$okeq	Valide equation operators */
-	protected $okeq = [
+	/**	@var	array	$okeq	Valid equation operators */
+	protected array $okeq = [
 		"===",
 		"!==",
 		"==",
@@ -125,7 +125,7 @@ class Shell
 		$code = str_replace( $this->okeq, '', $code );
 		if( strcspn( $code, ";{=" ) != strlen( $code ) )
 			return FALSE;
-		$kw = preg_split( "/[^A-Za-z0-9_]/", $code );
+		$kw = preg_split( "/[^a-z\d_]/i", $code );
 		foreach( $kw as $i )
 			if( in_array( $i, $this->skip, TRUE ) )
 				return FALSE;
