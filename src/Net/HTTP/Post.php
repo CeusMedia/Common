@@ -67,7 +67,7 @@ class Post
 	public function send( string $url, array $data = [], array $curlOptions = [] ): string
 	{
 		if( is_array( $data ) )
-			$data	= http_build_query( $data, NULL, '&' );
+			$data	= http_build_query( $data, '', '&' );
 		if( $this->dataMaxLength && strlen( $data ) > $this->dataMaxLength )
 			throw new OutOfBoundsException( 'POST content larger than '.$this->dataMaxLength.' bytes' );
 		$contentType	= 'Content-type: application/x-www-form-urlencoded';

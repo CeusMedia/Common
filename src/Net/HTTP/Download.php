@@ -62,7 +62,7 @@ class Download
 		if( (int) $size > 0 )
 			header( "Content-Length: ".( (int) $size ) );
 		$timestamp	= ( (float) $timestamp ) > 1 ? $timestamp : time();
-		header( "Last-Modified: ".date( 'r', (float) $timestamp ) );
+		header( "Last-Modified: ".date( 'r', $timestamp ) );
 
 	}
 

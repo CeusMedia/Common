@@ -43,53 +43,54 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@todo			apply background color
  */
 class Captcha
 {
 	/**	@var		bool		$useDigits		Flag: use Digits */
-	public $useDigits			= FALSE;
+	public bool $useDigits		= FALSE;
 
 	/**	@var		bool		$useLarges		Flag: use large Letters */
-	public $useLarges			= FALSE;
+	public bool $useLarges		= FALSE;
 
 	/**	@var		bool		$useSmalls		Flag: use small Letters */
-	public $useSmalls			= TRUE;
+	public bool $useSmalls		= TRUE;
 
 	/**	@var		bool		$unique			Flag: every Sign may only appear once in randomized String */
-	public $unique				= FALSE;
+	public bool $unique			= FALSE;
 
 	/**	@var		int			$length			Number of CAPTCHA Signs */
-	public $length				= 4;
+	public int $length			= 4;
 
 	/**	@var		string		$font			File Path of True Type Font to use */
-	public $font				= "";
+	public string $font			= '';
 
 	/**	@var		int			$fontSize		Font Size */
-	public $fontSize			= 14;
+	public int $fontSize		= 14;
 
 	/**	@var		int			$width			Width of CAPTCHA Image */
-	public $width				= 100;
+	public int $width			= 100;
 
-    /**	@var		int			$height			Height of CAPTCHA Image */
-	public $height				= 40;
+	/**	@var		int			$height			Height of CAPTCHA Image */
+	public int $height			= 40;
 
 	/**	@var		int			$angle			Angle of maximal Rotation in ° */
-	public $angle				= 50;
+	public int $angle			= 50;
 
 	/**	@var		int			$offsetX		Maximum Offset in X-Axis */
-	public $offsetX				= 5;
+	public int $offsetX			= 5;
 
 	/**	@var		int			$offsetY		Maximum Offset in Y-Axis */
-	public $offsetY				= 10;
+	public int $offsetY			= 10;
 
 	/**	@var		array		$textColor		List of RGB Values of Text */
-	public $textColor			= [0, 0, 0];
+	public array $textColor		= [0, 0, 0];
 
 	/**	@var		array		$background		List of RGB Values of Background */
-	public $background			= [255, 255, 255];
+	public array $background	= [255, 255, 255];
 
 	/**	@var		int			$quality		Quality of JPEG Image in % */
-	public $quality				= 90;
+	public int $quality			= 90;
 
 	/**
 	 *	Generates CAPTCHA image file and returns generated and used CAPTCHA word.
@@ -98,7 +99,7 @@ class Captcha
 	 *	@return		string		CAPTCHA word rendered in image file
 	 */
 	public function generate( string $fileName ): string
-    {
+	{
 		$word	= $this->generateWord();
 		$this->generateImage( $word, $fileName );
 		return $word;
@@ -117,48 +118,44 @@ class Captcha
 	{
 		if( !$this->font )
 			throw new RuntimeException( 'No font defined' );
-		if( !( is_array( $this->textColor ) && count( $this->textColor ) == 3 ) )
+		if( count( $this->textColor ) !== 3 )
 			throw new InvalidArgumentException( 'Text Color must be an Array of 3 decimal Values.' );
-		if( !( is_array( $this->background ) && count( $this->background ) == 3 ) )
+		if( count( $this->background ) !== 3 )
 			throw new InvalidArgumentException( 'Background Color must be an Array of 3 decimal Values.' );
 
 		$image		= imagecreate( $this->width, $this->height );
 		$backColor	= imagecolorallocate( $image, $this->background[0], $this->background[1], $this->background[2] );
 		$frontColor	= imagecolorallocate( $image, $this->textColor[0], $this->textColor[1], $this->textColor[2] );
 
-		for( $i=0; $i<strlen( $word ); $i++ )
-		{
+		for( $i=0; $i<strlen( $word ); $i++ ){
 			//  --  ANGLE  --  //
 			$angle	= 0;
-			if( $this->angle )
-			{
+			if( $this->angle ){
 				//  randomize Float between -1 and 1
 				$rand	= 2 * rand() / getrandmax() - 1;
 				//  calculate rounded Angle
-				$angle	= round( $rand * $this->angle, 0 );
+				$angle	= round( $rand * $this->angle);
 			}
 
 			//  --  POSITION X  --  //
 			$offset	= 0;
-			if( $this->offsetX )
-			{
+			if( $this->offsetX ){
 				//  randomize Float between -1 and 1
 				$rand	= 2 * rand() / getrandmax() - 1;
 				//  calculate rounded Offset
-				$offset	= round( $rand * $this->offsetX, 0 );
+				$offset	= round( $rand * $this->offsetX );
 			}
 			$posX	= $i * 20 + $offset + 10;
 
 			//  --  POSITION Y  --  //
 			$offset	= 0;
-			if( $this->offsetY )
-			{
+			if( $this->offsetY ){
 				//  randomize Float between -1 and 1
 				$rand	= 2 * rand() / getrandmax() - 1;
 				//  calculate rounded Offset
-				$offset	= round( $rand * $this->offsetY, 0 );
+				$offset	= (int) round( $rand * $this->offsetY );
 			}
-			$posY	= $offset + round( $this->height / 2, 0 ) + 5;
+			$posY	= $offset + (int) round( $this->height / 2 ) + 5;
 
 			$char	= $word[$i];
 			imagettftext( $image, $this->fontSize, $angle, $posX, $posY, $frontColor, $this->font, $char );

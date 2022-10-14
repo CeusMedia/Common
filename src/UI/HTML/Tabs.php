@@ -171,7 +171,7 @@ class Tabs
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );
 
-		$belowV3	= version_compare( 3, self::$version );
+		$belowV3	= version_compare( "3", (string) self::$version );
 		$urlPrefix	= ( $belowV3 && getEnv( 'REDIRECT_URL' ) ) ? getEnv( 'REDIRECT_URL' ) : '';
 		$tabs		= [];
 		$divs		= [];

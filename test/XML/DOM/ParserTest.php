@@ -98,4 +98,15 @@ class ParserTest extends BaseCase
 		$creation	= $this->parser->parse( $xml );
 		$this->assertEquals( $assertion, $creation );
 	}
+
+	public function testParse2()
+	{
+		$xml	= file_get_contents( __DIR__.'/assets/books.xml' );
+		$root	= $this->parser->parse( $xml );
+		$actual	= $root->getChildByIndex(1)->getNodeName();
+		$this->assertEquals('book', $actual);
+
+		$actual	= $root->getChildByIndex(2)->getChild('price')->getContent();
+		$this->assertEquals('49.99', $actual);
+	}
 }

@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b0c68bc5-4b12-4e7b-a9e3-375a77de30c9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Updated unit tests heavily.">
+      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/URL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/URL.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alg/JS/Minifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/JS/Minifier.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ADT/URLTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/ADT/URLTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tool/config/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan.neon" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Object_.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Object_.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Progress.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Progress.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Template.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/CrossDomainProxy.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/CrossDomainProxy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Download.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Download.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/PartitionCookie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/PartitionCookie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Compressor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Compressor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Sender.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Sender.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/SVN/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/SVN/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Site/Crawler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Site/Crawler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/Log.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/Log.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMLStream.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMLStream.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMPP.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMPP.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/DevOutput.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/DevOutput.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Elements.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Elements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/TraceViewer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/TraceViewer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Indicator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Indicator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Pagination.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Paging.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Paging.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tabs.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tabs.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tag.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Captcha.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Captcha.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Filter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Histogram.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Histogram.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Node.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/ObjectSerializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/ObjectSerializer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Net/ReaderTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/ReaderTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/UI/Image/CaptchaTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/UI/Image/CaptchaTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/XML/DOM/ParserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/XML/DOM/ParserTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,7 +52,7 @@
   <component name="ComposerSettings" doNotAsk="true" synchronizationState="DONT_SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
-      <interpreter composer="composer" />
+      <executable path="composer" />
     </execution>
   </component>
   <component name="Git.Settings">
@@ -114,7 +148,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
+    "last_opened_file_path": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/XML",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "php.test.frameworks.configurable",
     "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
@@ -123,6 +157,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/test/XML" />
       <recent name="$PROJECT_DIR$/test/Alg/Obj" />
       <recent name="$PROJECT_DIR$/tool/Compatibility" />
       <recent name="$PROJECT_DIR$" />
@@ -136,53 +171,56 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.URLTest.testGetRelativeTo">
-    <configuration name="ADT" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/ADT" />
+  <component name="RunManager" selected="PHPUnit.test">
+    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan" />
       <method v="2" />
     </configuration>
-    <configuration name="Alg" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/Alg" />
+    <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpunit" />
       <method v="2" />
     </configuration>
-    <configuration name="LevelMapTest.testSetSortArray" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\ADT\Collection\LevelMapTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/Collection/LevelMapTest.php" method="testSetSortArray" scope="Method" />
+    <configuration name="dev:test-syntax" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:test-syntax" />
       <method v="2" />
     </configuration>
-    <configuration name="ObjectTest.testGetClass" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\ADT\ObjectTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/ObjectTest.php" method="testGetClass" scope="Method" />
-      <method v="2" />
-    </configuration>
-    <configuration name="URLTest.testGetRelativeTo" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\ADT\URLTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/URLTest.php" method="testGetRelativeTo" scope="Method" />
+    <configuration name="HTTP" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/Net/HTTP" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test" />
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Composer Script.dev:phpunit" />
+      <item itemvalue="Composer Script.dev:test-syntax" />
+      <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="PHPUnit.phpunit.xml" />
-      <item itemvalue="PHPUnit.URLTest.testGetRelativeTo" />
-      <item itemvalue="PHPUnit.ADT" />
-      <item itemvalue="PHPUnit.Alg" />
-      <item itemvalue="PHPUnit.LevelMapTest.testSetSortArray" />
-      <item itemvalue="PHPUnit.ObjectTest.testGetClass" />
+      <item itemvalue="PHPUnit.HTTP" />
+      <item itemvalue="PHPUnit.test" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHPUnit.URLTest.testGetRelativeTo" />
-        <item itemvalue="PHPUnit.Alg" />
-        <item itemvalue="PHPUnit.ADT" />
-        <item itemvalue="PHPUnit.ObjectTest.testGetClass" />
-        <item itemvalue="PHPUnit.LevelMapTest.testSetSortArray" />
+        <item itemvalue="PHPUnit.test" />
+        <item itemvalue="Composer Script.dev:phpstan" />
+        <item itemvalue="PHPUnit.HTTP" />
+        <item itemvalue="Composer Script.dev:phpunit" />
+        <item itemvalue="Composer Script.dev:test-syntax" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="b0c68bc5-4b12-4e7b-a9e3-375a77de30c9" name="Changes" comment="" />
+      <changelist id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="" />
       <created>1653174128187</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -209,6 +247,7 @@
       <workItem from="1662845320549" duration="46243000" />
       <workItem from="1665364010277" duration="79000" />
       <workItem from="1665417837238" duration="6678000" />
+      <workItem from="1665699603644" duration="13147000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -490,7 +529,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/FS/File/Backup.php</url>
-          <line>75</line>
+          <line>100</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -500,37 +539,32 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/FS/File/Writer.php</url>
-          <line>60</line>
+          <line>67</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/test/ADT/JSON/BuilderTest.php</url>
-          <line>51</line>
+          <line>60</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/ADT/JSON/Converter.php</url>
-          <line>70</line>
+          <line>71</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/ADT/JSON/Converter.php</url>
-          <line>58</line>
+          <line>60</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/test/FS/File/BackupTest.php</url>
-          <line>55</line>
+          <line>58</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/FS/File/Backup.php</url>
-          <line>211</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/test/FS/File/BackupTest.php</url>
-          <line>51</line>
+          <line>54</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
       </breakpoints>

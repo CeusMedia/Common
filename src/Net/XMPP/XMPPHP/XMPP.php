@@ -105,18 +105,18 @@ class XMPP extends XMLStream
 	 * @param string  $user
 	 * @param string  $password
 	 * @param string  $resource
-	 * @param string  $server
+	 * @param string|NULL  $server
 	 * @param boolean $printlog
-	 * @param string  $loglevel
+	 * @param integer|NULL $loglevel
 	 */
-	public function __construct($host, $port, $user, $password, $resource, $server = null, $printlog = false, $loglevel = null)
+	public function __construct(string $host, int $port, string $user, string $password, $resource, ?string $server = null, bool $printlog = false, ?int $loglevel = null)
 	{
 		parent::__construct($host, $port, $printlog, $loglevel);
 
 		$this->user	 = $user;
 		$this->password = $password;
 		$this->resource = $resource;
-		if(!$server) $server = $host;
+		$server ??= $host;
 		$this->basejid = $this->user . '@' . $this->host;
 
 		$this->roster = new Roster();

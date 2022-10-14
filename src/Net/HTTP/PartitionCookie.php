@@ -94,7 +94,7 @@ class PartitionCookie extends Cookie
 		if( !isset( $this->data[$key] ) )
 			return FALSE;
 		unset( $this->data[$key] );
-		return $this->save( $path, $domain, $secure, $httpOnly );
+		return $this->save( 0, $path, $domain, $secure, $httpOnly );
 	}
 
 	/**

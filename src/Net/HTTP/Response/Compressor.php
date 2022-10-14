@@ -61,7 +61,7 @@ class Compressor
 		$response->addHeaderPair( 'Vary', "Accept-Encoding", TRUE );
 		if( $sendLengthHeader )
 			//  send Content-Length Header
-			$response->addHeaderPair( 'Content-Length', strlen( $response->getBody() ), TRUE );
+			$response->addHeaderPair( 'Content-Length', (string) strlen( $response->getBody() ), TRUE );
 	}
 
 	/**

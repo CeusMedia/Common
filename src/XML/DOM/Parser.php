@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Parses an XML Document to a Tree of XML_DOM_Nodes.
@@ -31,6 +32,7 @@ namespace CeusMedia\Common\XML\DOM;
 use CeusMedia\Common\ADT\OptionObject;
 use DOMDocument;
 use DOMElement;
+use DOMNode;
 use Exception;
 
 /**
@@ -78,7 +80,7 @@ class Parser extends OptionObject
 	{
 		$xsv	= new SyntaxValidator;
 		if( !$xsv->validate( $xml ) )
-			throw new Exception( "XML Document is not valid:".join( ', ', $xsv->getErrors() ) );
+			throw new Exception( "XML Document is not valid: ".$xsv->getErrors() );
 		$this->document	= $xsv->getDocument();
 		$this->clearOptions();
 		foreach( $this->attributes as $attribute )
@@ -97,7 +99,7 @@ class Parser extends OptionObject
 	{
 		$this->loadXml( $xml );
 		$root	= $this->document->firstChild;
-		while( $root->nodeType == XML_COMMENT_NODE )
+		while( $root->nodeType === XML_COMMENT_NODE )
 			$root	= $root->nextSibling;
 
 		$tree	= new Node( $root->nodeName );
@@ -113,11 +115,11 @@ class Parser extends OptionObject
 	/**
 	 *	Parses XML File to XML Tree recursive.
 	 *	@access		protected
-	 *	@param		DOMElement		$root		DOM Node Element
+	 *	@param		DOMNode			$root		DOM Node Element
 	 *	@param		Node			$tree		Parent XML Node
 	 *	@return		bool
 	 */
-	protected function parseRecursive( DOMElement  $root, Node $tree ): bool
+	protected function parseRecursive( DOMNode  $root, Node $tree ): bool
 	{
 		if( $child = $root->firstChild ){
 			while( $child ){

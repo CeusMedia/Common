@@ -123,7 +123,7 @@ class TraceViewer
 		$indent		= " ";
 		$break		= "";
 		if( $breakMode == 2 ){
-			$indent		= str_repeat( "&nbsp;", 2 + strlen( $stepNr ) );
+			$indent		= str_repeat( "&nbsp;", 2 + strlen( (string) $stepNr ) );
 			$break		= "<br/>".$indent;
 		}
 		if( $breakMode == 3 ){

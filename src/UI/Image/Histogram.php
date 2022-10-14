@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -61,11 +62,14 @@ class Histogram
 		$max	*= 1.05;
 		for( $i=0; $i<256; $i++ ){
 			$x1	= $i;
-			if( $b = floor( $data['b'][$i] / $max * 100 ) )
+			$b	= (int) floor( $data['b'][$i] / $max * 100 );
+			$g	= (int) floor( $data['g'][$i] / $max * 100 );
+			$r	= (int) floor( $data['r'][$i] / $max * 100 );
+			if( $b !== 0 )
 				$drawer->drawLine( $i, 0, $x1, $b, $blue );
-			if( $g = floor( $data['g'][$i] / $max * 100 ) )
+			if( $g !== 0 )
 				$drawer->drawLine( $i, $b, $x1, $b + $g, $green );
-			if( $r = floor( $data['r'][$i] / $max * 100 ) )
+			if( $r !== 0 )
 				$drawer->drawLine( $i, $g + $b, $x1, $r + $g + $b, $red );
 		}
 		$processor	= new Processing( $image );
@@ -73,8 +77,16 @@ class Histogram
 		return $image;
 	}
 
-	static public function drawHistrogram( array $data, int $colorR = 0, int $colorG = 0, int $colorB = 0 ): Image
-    {
+	/**
+	 *	@param		array		$data
+	 *	@param		int			$colorR
+	 *	@param		int			$colorG
+	 *	@param		int			$colorB
+	 *	@return		Image
+	 *	@throws		Exception
+	 */
+	public static function drawHistogram( array $data, int $colorR = 0, int $colorG = 0, int $colorB = 0 ): Image
+	{
 		$max	= max( $data );
 		if( !$max )
 			throw new Exception( "Error: max 0" );
@@ -96,6 +108,11 @@ class Histogram
 		return $image;
 	}
 
+	/**
+	 *	@param		Image		$image
+	 *	@return		array
+	 *	@throws		Exception
+	 */
 	public static function getData( Image $image ): array
 	{
 		$pixels		= $image->getWidth() * $image->getHeight();
@@ -104,7 +121,6 @@ class Histogram
 			$thumb	= new ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
 			$thumb->thumbizeByLimit( 1000, 1000 );
 			$image	= new Image( $tempFile );
-			$pixels		= $image->getWidth() * $image->getHeight();
 			unlink( $tempFile );
 		}
 		$values		= array(

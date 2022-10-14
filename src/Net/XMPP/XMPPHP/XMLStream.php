@@ -193,13 +193,13 @@ class XMLStream
 	/**
 	 * Constructor
 	 *
-	 * @param string  $host
-	 * @param string  $port
+	 * @param string|NULL  $host
+	 * @param integer|NULL  $port
 	 * @param boolean $printlog
-	 * @param string  $loglevel
+	 * @param integer|NULL  $loglevel
 	 * @param boolean $is_server
 	 */
-	public function __construct($host = null, $port = null, $printlog = false, $loglevel = null, $is_server = false)
+	public function __construct(?string $host = null, ?int $port = null, bool $printlog = false, ?int $loglevel = null, bool $is_server = false)
 	{
 		$this->reconnect = FALSE;#!$is_server;
 		$this->is_server = $is_server;

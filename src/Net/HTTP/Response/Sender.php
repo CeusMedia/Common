@@ -85,7 +85,7 @@ class Sender
 				$sendLengthHeader
 			);
 		else if( $sendLengthHeader )
-			$response->addHeaderPair( 'Content-Length', $length, TRUE );
+			$response->addHeaderPair( 'Content-Length', (string) $length, TRUE );
 
 		/*  --  HTTP BASIC INFORMATION  --  */
 		$status	= $response->getStatus();

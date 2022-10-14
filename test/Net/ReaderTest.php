@@ -122,7 +122,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testReadException()
 	{
-		$this->expectException( "RuntimeException" );
+		$this->expectException( "InvalidArgumentException" );
 		$reader		= new NetReader( "" );
 		$reader->read();
 	}

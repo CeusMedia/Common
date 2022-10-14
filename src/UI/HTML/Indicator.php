@@ -216,7 +216,7 @@ class Indicator extends OptionObject
 
 		$attributes	= ['class' => $this->getOption( 'classOuter' )];
 		if( $length !== 100 )
-			$cssSpan['width']	= preg_match( "/%$/", $length ) ? $length : $length.'px';
+			$cssSpan['width']	= preg_match( "/%$/", (string) $length ) ? $length : $length.'px';
 		$attributes['style']	= $cssSpan;
 		return Tag::create( "span", $bar, $attributes );
 	}
@@ -280,7 +280,7 @@ class Indicator extends OptionObject
 	 *	Sets Option.
 	 *	@access		public
 	 *	@param		string		$key		Option Key (useColor|usePercentage|useRatio)
-	 *	@param		bool		$value		Flag: switch Option
+	 *	@param		mixed		$value		Flag: switch Option
 	 *	@return		bool
 	 */
 	public function setOption( string $key, $value ): bool

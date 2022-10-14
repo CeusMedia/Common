@@ -46,36 +46,40 @@ class Log
 	const LEVEL_DEBUG   = 3;
 	const LEVEL_VERBOSE = 4;
 
-	/**
-	 * @var array
-	 */
-	protected $data = [];
+	const LEVEL_NAMES	= [
+		self::LEVEL_ERROR	=> 'ERROR',
+		self::LEVEL_WARNING	=> 'WARNING',
+		self::LEVEL_INFO	=> 'INFO',
+		self::LEVEL_DEBUG	=> 'DEBUG',
+		self::LEVEL_VERBOSE	=> 'VERBOSE'
+	];
 
 	/**
 	 * @var array
 	 */
-	protected $names = array('ERROR', 'WARNING', 'INFO', 'DEBUG', 'VERBOSE');
+	protected array $data = [];
+
 
 	/**
 	 * @var integer
 	 */
-	protected $runlevel;
+	protected int $runlevel;
 
 	/**
 	 * @var boolean
 	 */
-	protected $printout;
+	protected bool $printout;
 
 	/**
 	 * Constructor
 	 *
 	 * @param boolean $printout
-	 * @param string  $runlevel
+	 * @param int  $runlevel
 	 */
-	public function __construct($printout = false, $runlevel = self::LEVEL_INFO)
+	public function __construct(bool $printout = false, int $runlevel = self::LEVEL_INFO)
 	{
-		$this->printout = (boolean)$printout;
-		$this->runlevel = (int)$runlevel;
+		$this->printout = $printout;
+		$this->runlevel = $runlevel;
 	}
 
 	/**
@@ -85,7 +89,7 @@ class Log
 	 * @param string  $msg
 	 * @param integer $runlevel
 	 */
-	public function log($msg, $runlevel = self::LEVEL_INFO)
+	public function log(string $msg, int $runlevel = self::LEVEL_INFO)
 	{
 		$time = time();
 		#$this->data[] = array($this->runlevel, $msg, $time);
@@ -99,9 +103,9 @@ class Log
 	 * Log will be cleared if $clear = true
 	 *
 	 * @param boolean $clear
-	 * @param integer $runlevel
+	 * @param integer|NULL $runlevel
 	 */
-	public function printout($clear = true, $runlevel = null)
+	public function printout(bool $clear = true, int $runlevel = null)
 	{
 		if($runlevel === null) {
 			$runlevel = $this->runlevel;
@@ -116,10 +120,10 @@ class Log
 		}
 	}
 
-	protected function writeLine($msg, $runlevel, $time)
+	protected function writeLine(string $msg, int $runlevel, $time)
 	{
-		//echo date('Y-m-d H:i:s', $time)." [".$this->names[$runlevel]."]: ".$msg."\n";
-		echo $time." [".$this->names[$runlevel]."]: ".$msg."\n";
+		//echo date('Y-m-d H:i:s', $time)." [".self::LEVEL_NAMES[$runlevel]."]: ".$msg."\n";
+		echo $time." [".self::LEVEL_NAMES[$runlevel]."]: ".$msg."\n";
 		flush();
 	}
 }

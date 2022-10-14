@@ -364,7 +364,7 @@ class DevOutput
 		$space = $this->indentSign( $offset, $sign, $factor );
 		if( $settings->lineBreak !== "\n" )
 			$string	= htmlspecialchars( $string );
-		if( strlen( $string > $settings->stringMaxLength ) )
+		if( strlen( $string ) > $settings->stringMaxLength )
 			$string	= TextTrimmer::trimCentric( $string, $settings->stringMaxLength, $settings->stringTrimMask );
 		echo $space."[S] ".$key.$string.$settings->lineBreak;
 	}

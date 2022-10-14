@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Serializer for Data Object into XML.
@@ -78,7 +79,7 @@ class ObjectSerializer
 					$node->addChild( $child );
 					break;
 				case 'boolean':
-					$child	= new Node( "boolean", (int) $value );
+					$child	= new Node( "boolean", (string)(int) $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
@@ -88,12 +89,12 @@ class ObjectSerializer
 					$node->addChild( $child );
 					break;
 				case 'integer':
-					$child	= new Node( "integer", $value );
+					$child	= new Node( "integer", (string) $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'double':
-					$child	= new Node( "double", $value );
+					$child	= new Node( "double", (string) $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;

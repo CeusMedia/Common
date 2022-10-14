@@ -35,6 +35,7 @@
     "ext-posix": "*",
     "ext-simplexml": "*",
     "ext-sockets": "*",
+    "ext-svn": "*",
     "ext-xml": "*",
     "ext-xsl": "*",
     "ext-zip": "*",
@@ -62,8 +63,8 @@
     }
   },
   "scripts": {
-    "dev:install": "composer install --dev --quiet",
-    "dev:update": "composer install --dev",
+    "dev:install": "composer install --quiet",
+    "dev:update": "composer update",
     "incomplete:dev:create-docs": [
       "@dev:install",
       "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"

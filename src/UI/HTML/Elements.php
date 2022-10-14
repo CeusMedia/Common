@@ -115,7 +115,7 @@ class Elements extends FormElements
 		$field		= Elements::FieldCell( '', $radio );
 		$label		= Elements::LabelCell( '', $label, $class );
 		$content	= '<tr>'.$field.$label.'</tr>';
-		$code		= Elements::Table( $content, false, false );
+		$code		= Elements::Table( $content, '', '' );
 		return $code;
 	}
 

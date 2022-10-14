@@ -54,8 +54,8 @@ class Reader
 	/**	@var		array			$info			Map of information of last request */
 	protected array $info			= [];
 
-	/**	@var		string			$url			URL to read */
-	protected string $url;
+	/**	@var		string|NULL		$url			URL to read */
+	protected ?string $url;
 
 	/**	@var		string			$agent			User Agent */
 	protected static $userAgent		= "cmClasses:Net_Reader/0.7";
@@ -89,7 +89,7 @@ class Reader
 	 */
 	public function __construct( ?string $url = NULL )
 	{
-		if( $url )
+		if( $url !== NULL )
 			$this->setUrl( $url );
 	}
 

@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Parses XML String and returns Array or Object Structure.
@@ -39,18 +40,63 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@todo			Unit Test
+ *	@todo			implement reading from stream + Unit Test
  */
 class Parser
 {
-	/**	@var		resource		$xml		Resource of XML Parser */
-	protected $xml;
+	/**	@var		array			$last			Last Node while parsing */
+	protected array $last			= [];
 
-	/**	@var		array			$last		Last Node while parsing */
-	protected $last	= [];
+	/**	@var		array			$options		Map of parser options */
+	protected array $options		= [
+		XML_OPTION_CASE_FOLDING		=> 0,
+	];
 
-	/**	@var		mixed			$data		Parsed XML Data as Array or Object Structure */
-	protected $data	= [];
+	/**
+	 *	Returns an Array Structure from XML String.
+	 *	@access		public
+	 *	@param		string		$xml
+	 *	@return		array
+	 *	@throws		RuntimeException
+	 */
+	public function toArray( string $xml ): array
+	{
+		$data	= [];
+		$parser = $this->createParser();
+		xml_set_element_handler( $parser, [$this, 'handleTagOpenForArray'], [$this, 'handleTagCloseForArray'] );
+		xml_set_character_data_handler( $parser, [$this, 'handleCDataForArray'] );
+		return $this->parse( $data, $parser, $xml );
+	}
+
+	/**
+	 *	Returns an Object Tree as XML_DOM_Node from XML String.
+	 *	@access		public
+	 *	@param		string		$xml
+	 *	@return		Node
+	 *	@throws		RuntimeException
+	 */
+	public function toObject( string $xml ): Node
+	{
+		$data	= new Node( "root" );
+		$parser = $this->createParser();
+		xml_set_element_handler( $parser, [$this, 'handleTagOpenForObject'], [$this, 'handleTagCloseForObject'] );
+		xml_set_character_data_handler( $parser, [$this, 'handleCDataForObject'] );
+		$object = $this->parse( $data, $parser, $xml );
+		return $object->getChildByIndex( 0 );
+	}
+
+	/**
+	 *	@access		protected
+	 *	@return		resource
+	 */
+	protected function createParser()
+	{
+		$parser		= xml_parser_create();
+		xml_set_object( $parser, $this );
+		foreach( $this->options as $key => $value )
+			xml_parser_set_option( $parser, $key, $value );
+		return $parser;
+	}
 
 	/**
 	 *	Callback Method for Character Data.
@@ -58,6 +104,7 @@ class Parser
 	 *	@param		resource	$parser		Resource of XML Parser
 	 *	@param		string		$cdata		Data of parsed tag
 	 *	@return		void
+	 *	@noinspection PhpUnusedParameterInspection
 	 */
 	protected function handleCDataForArray( $parser, string $cdata )
 	{
@@ -75,6 +122,7 @@ class Parser
 	 *	@param		resource	$parser		Resource of XML Parser
 	 *	@param		string		$cdata		Data of parsed tag
 	 *	@return		void
+	 *	@noinspection PhpUnusedParameterInspection
 	 */
 	protected function handleCDataForObject( $parser, string $cdata )
 	{
@@ -90,11 +138,26 @@ class Parser
 	}
 
 	/**
+	 *	@access		protected
+	 *	@param		resource		$parser
+	 *	@return		void
+	 *	@throws		RuntimeException
+	 */
+	protected function handleError( $parser ): void
+	{
+		$msg	= "XML error: %s at line %d";
+		$error	= xml_error_string( xml_get_error_code( $parser ) );
+		$line	= xml_get_current_line_number( $parser );
+		throw new RuntimeException( sprintf( $msg, $error, $line ) );
+	}
+
+	/**
 	 *	Callback Method for closing Tags on Array Collection.
 	 *	@access		protected
 	 *	@param		resource	$parser		Resource of XML Parser
 	 *	@param		string		$tag		Name of parsed tag
 	 *	@return		void
+	 *	@noinspection PhpUnusedParameterInspection
 	 */
 	protected function handleTagCloseForArray( $parser, string $tag )
 	{
@@ -107,6 +170,7 @@ class Parser
 	 *	@param		resource	$parser		Resource of XML Parser
 	 *	@param		string		$tag		Name of parsed tag
 	 *	@return		void
+	 *	@noinspection PhpUnusedParameterInspection
 	 */
 	protected function handleTagCloseForObject( $parser, string $tag )
 	{
@@ -120,12 +184,13 @@ class Parser
 	 *	@param		string		$tag		Name of parsed Tag
 	 *	@param		array		$attributes	Array of parsed Attributes
 	 *	@return		void
+	 *	@noinspection PhpUnusedParameterInspection
 	 */
 	protected function handleTagOpenForArray( $parser, string $tag, array $attributes )
 	{
 		$count	= count( $this->last ) - 1;
 		$this->last[$count][]	= [
-			"tag"			=> $tag,
+			"nodeName"		=> $tag,
 			"attributes"	=> $attributes,
 			"content"		=> '',
 			"children"		=> [],
@@ -141,6 +206,7 @@ class Parser
 	 *	@param		string		$tag		Name of parsed Tag
 	 *	@param		array		$attributes	Array of parsed Attributes
 	 *	@return		void
+	 *	@noinspection PhpUnusedParameterInspection
 	 */
 	protected function handleTagOpenForObject( $parser, string $tag, array $attributes )
 	{
@@ -152,48 +218,19 @@ class Parser
 	}
 
 	/**
-	 *	Returns an Array Structure from XML String.
-	 *	@access		public
-	 *	@return		array
+	 *	@access		protected
+	 *	@param		Node|array		$data
+	 *	@param		$parser
+	 *	@param		string $xml
+	 *	@return		array|mixed
+	 *	@throws		RuntimeException
 	 */
-	public function toArray( string $xml ): array
+	protected function parse( $data, $parser, string $xml )
 	{
-		$this->data	= [];
-		$this->xml	= xml_parser_create();
-		xml_set_object( $this->xml, $this );
-		xml_set_element_handler( $this->xml, 'handleTagOpenForArray', 'handleTagCloseForArray' );
-		xml_set_character_data_handler( $this->xml, 'handleCDataForArray' );
-		$this->last	= [&$this->data];
-		if( !xml_parse( $this->xml, $xml ) ){
-			$msg	= "XML error: %s at line %d";
-			$error	= xml_error_string( xml_get_error_code( $this->xml ) );
-			$line	= xml_get_current_line_number( $this->xml );
-			throw new RuntimeException( sprintf( $msg, $error, $line ) );
-		}
-		xml_parser_free( $this->xml );
-		return $this->data;
-	}
-
-	/**
-	 *	Returns an Object Tree as XML_DOM_Node from XML String.
-	 *	@access		public
-	 *	@return		Node
-	 */
-	public function toObject( string $xml ): Node
-	{
-		$this->data	= new Node( "root" );
-		$this->xml	= xml_parser_create();
-		xml_set_object( $this->xml, $this );
-		xml_set_element_handler( $this->xml, 'handleTagOpenForObject', 'handleTagCloseForObject' );
-		xml_set_character_data_handler( $this->xml, 'handleCDataForObject' );
-		$this->last	= [&$this->data];
-		if( !xml_parse( $this->xml, $xml ) ){
-			$msg	= "XML error: %s at line %d";
-			$error	= xml_error_string( xml_get_error_code( $this->xml ) );
-			$line	= xml_get_current_line_number( $this->xml );
-			throw new RuntimeException( sprintf( $msg, $error, $line ) );
-		}
-		xml_parser_free( $this->xml );
-		return $this->data->getChildByIndex( 0 );
+		$this->last = [&$data];
+		if( xml_parse( $parser, $xml ) !== 1 )
+			$this->handleError( $parser );
+		xml_parser_free( $parser );
+		return $data;
 	}
 }

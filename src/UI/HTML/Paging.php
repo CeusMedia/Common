@@ -94,15 +94,14 @@ class Paging extends OptionObject
 			//  reset invalid negative offsets
 			$offset		= ( $offset >= 0 ) ? $offset : 0;
 			//  synchronise invalid offsets
-			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;
+			$offset		= ( 0 !== $offset % $limit ) ? (int) ceil( $offset / $limit ) * $limit : $offset;
 			//  current page
-			$here		= ceil( $offset / $limit );
+			$here		= (int) ceil( $offset / $limit );
 			//  pages before
-			$before		= $offset / $limit;
-			if( $before ){
+			if( $here !== 0 ){
 				//  --  FIRST PAGE --  //
 				//  first page
-				if( $extreme && $before > $extreme )
+				if( $extreme && $here > $extreme )
 					$pages[]	= $this->buildButton( 'text_first', 'class_link', 'class_link', 0 );
 
 				//  --  PREVIOUS PAGE --  //
@@ -112,13 +111,15 @@ class Paging extends OptionObject
 
 				//  --  MORE PAGES  --  //
 				//  more previous pages
-				if( $more && $before > $cover )
+				if( $more && $here > $cover )
 					$pages[]	= $this->buildButton( 'text_more', 'class_text' );
 
 				//  --  PREVIOUS PAGES --  //
 				//  previous pages
-				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )
-					$pages[]	= $this->buildButton( $i + 1, 'class_link', 'class_link', $i * $limit );
+				for( $i=max( 0, $here - $cover ); $i<$here; $i++ ){
+					$label		= sprintf( "%s", $i + 1 );
+					$pages[]	= $this->buildButton( $label, 'class_link', 'class_link', $i * $limit );
+				}
 /*				if( $this->getOption( 'key_previous' ) ){
 					$latest	= count( $pages ) - 1;
 					$button	= $this->buildButton( $i, 'class_link', 'class_link', ($i-1) * $limit, 'previous' );
@@ -127,15 +128,18 @@ class Paging extends OptionObject
 			}
 
 			//  page here
-			$pages[]	= $this->buildButton( $here + 1, 'class_text' );
+			$label		= sprintf( "%s", $here + 1 );
+			$pages[]	= $this->buildButton( $label, 'class_text' );
+
 			//  pages after
-			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );
+			$after	= (int) ceil( ( ( $amount - $limit ) / $limit ) - $here );
 			if( $after ){
 				//  --  NEXT PAGES --  //
 				//  after pages
 				for( $i=0; $i<min( $cover, $after ); $i++ ){
 					$offset		= ( $here + $i + 1 ) * $limit;
-					$pages[]	= $this->buildButton( $here + $i + 2, 'class_link', 'class_link', $offset );
+					$label		= sprintf( "%s", $here + $i + 2 );
+					$pages[]	= $this->buildButton( $label, 'class_link', 'class_link', $offset );
 				}
 
 				//  --  MORE PAGES --  //

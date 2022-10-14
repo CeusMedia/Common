@@ -99,109 +99,106 @@ class Pagination extends OptionObject
 	 */
 	public function build( int $amount, int $limit, int $offset = 0 ): string
 	{
+		//  reset invalid negative values
+		$amount	= max( 0, $amount );
+		$limit	= max( 0, $limit );
+		$offset	= max( 0, $offset );
+
+		if( $limit === 0 || $limit > $amount )
+			return '';
+
+		//  synchronise invalid offsets
+		if( 0 !== $offset % $limit )
+			$offset		= (int) ceil( $offset / $limit ) * $limit;
+
+		//  current page
+		$here		= (int) ceil( $offset / $limit );
+		//  pages before
+		$before		= $offset / $limit;
+
 		$pages	= [];
-		if( $limit && $amount > $limit )
-		{
-			$cover		= $this->getOption( 'coverage' );
-			$showMore		= $this->getOption( 'showMore' );
-			$showFirstLast	= $this->getOption( 'showFirstLast' );
-			$showPrevNext	= $this->getOption( 'showFirstLast' );
-			//  reset invalid negative offsets
-			$offset		= ( $offset >= 0 ) ? $offset : 0;
-			//  synchronise invalid offsets
-			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;
-			//  current page
-			$here		= ceil( $offset / $limit );
-			//  pages before
-			$before		= $offset / $limit;
+		$cover			= $this->getOption( 'coverage' );
+		$showMore		= $this->getOption( 'showMore' );
+		$showFirstLast	= $this->getOption( 'showFirstLast' );
+		$showPrevNext	= $this->getOption( 'showFirstLast' );
 
-				//  --  FIRST PAGE --  //
-			//  show first link
-			if( $showFirstLast )
-			{
-				//  first link if not at first page
-				if( $before )
-					$pages[]	= $this->buildButton( 'textFirst', 'classExtreme', 0 );
-				else
-					//  first link disabled if at first page
-					$pages[]	= $this->buildButton( 'textFirst', 'classExtreme classDisabled' );
-			}
-
-				//  --  PREVIOUS PAGE --  //
-			if( $showPrevNext )
-			{
-				$previous	= ( $here - 1 ) * $limit;
-				if( $before )
-					//  previous page
-					$pages[]	= $this->buildButton( 'textPrevious', 'classSkip', $previous );
-				else
-					//  previous page
-					$pages[]	= $this->buildButton( 'textPrevious', 'classSkip classDisabled' );
-			}
-
+		//  --  FIRST PAGE --  //
+		//  show first link
+		if( $showFirstLast ){
+			//  first link if not at first page
 			if( $before )
-			{
-				//  --  MORE PAGES  --  //
-				//  more previous pages
-				if( $showMore && $before > $cover )
-					$pages[]	= $this->buildButton( 'textMore', 'classMore' );
+				$pages[]	= $this->buildButton( 'textFirst', 'classExtreme', 0 );
+			else
+				//  first link disabled if at first page
+				$pages[]	= $this->buildButton( 'textFirst', 'classExtreme classDisabled' );
+		}
 
-				//  --  PREVIOUS PAGES --  //
-				//  previous pages
-				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )
-					$pages[]	= $this->buildButton( $i + 1, 'classPage', $i * $limit );
-/*				if( $this->getOption( 'keyPrevious' ) )
-				{
-					$latest	= count( $pages ) - 1;
-					$button	= $this->buildButton( $i, 'classLink', ($i-1) * $limit, 'previous' );
-					$pages[$latest]	= $button;
-				}*/
+			//  --  PREVIOUS PAGE --  //
+		if( $showPrevNext ){
+			$previous	= ( $here - 1 ) * $limit;
+			if( $before )
+				//  previous page
+				$pages[]	= $this->buildButton( 'textPrevious', 'classSkip', $previous );
+			else
+				//  previous page
+				$pages[]	= $this->buildButton( 'textPrevious', 'classSkip classDisabled' );
+		}
+
+		if( $before ){
+			//  --  MORE PAGES  --  //
+			//  more previous pages
+			if( $showMore && $before > $cover )
+				$pages[]	= $this->buildButton( 'textMore', 'classMore' );
+
+			//  --  PREVIOUS PAGES --  //
+			//  previous pages
+			for( $i=max( 0, $before - $cover ); $i<$here; $i++ )
+				$pages[]	= $this->buildButton( (string) ( $i + 1 ), 'classPage', $i * $limit );
+/*				if( $this->getOption( 'keyPrevious' ) ){
+				$latest	= count( $pages ) - 1;
+				$button	= $this->buildButton( $i, 'classLink', ($i-1) * $limit, 'previous' );
+				$pages[$latest]	= $button;
+			}*/
+		}
+
+		//  page here
+		$pages[]	= $this->buildButton( (string) ( $here + 1 ), 'classCurrent' );
+		//  pages after
+		$after	= (int) ceil( ( ( $amount - $limit ) / $limit ) - $here );
+		if( $after ){
+			//  --  NEXT PAGES --  //
+			//  after pages
+			for( $i=0; $i<min( $cover, $after ); $i++ ){
+				$offset		= ( $here + $i + 1 ) * $limit;
+				$pages[]	= $this->buildButton( (string) ( $here + $i + 2 ), 'classPage', $offset );
 			}
 
+			//  --  MORE PAGES --  //
+			//  more after pages
+			if( $showMore && $after > $cover )
+				$pages[]	= $this->buildButton( 'textMore', 'classMore' );
+		}
 
-			//  page here
-			$pages[]	= $this->buildButton( $here + 1, 'classCurrent' );
-			//  pages after
-			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );
+		//  --  NEXT PAGE --  //
+		if( $showPrevNext ){
+			$offset		= ( $here + 1 ) * $limit;
 			if( $after )
-			{
-				//  --  NEXT PAGES --  //
-				//  after pages
-				for( $i=0; $i<min( $cover, $after ); $i++ )
-				{
-					$offset		= ( $here + $i + 1 ) * $limit;
-					$pages[]	= $this->buildButton( $here + $i + 2, 'classPage', $offset );
-				}
+				//  next link if not at last page
+				$pages[]	= $this->buildButton( 'textNext', 'classSkip', $offset );
+			else
+				//  next link disabled it at last page
+				$pages[]	= $this->buildButton( 'textNext', 'classSkip disabled' );
+		}
 
-				//  --  MORE PAGES --  //
-				//  more after pages
-				if( $showMore && $after > $cover )
-					$pages[]	= $this->buildButton( 'textMore', 'classMore' );
-			}
-
-				//  --  NEXT PAGE --  //
-			if( $showPrevNext )
-			{
-				$offset		= ( $here + 1 ) * $limit;
-				if( $after )
-					//  next link if not at last page
-					$pages[]	= $this->buildButton( 'textNext', 'classSkip', $offset );
-				else
-					//  next link disabled it at last page
-					$pages[]	= $this->buildButton( 'textNext', 'classSkip disabled' );
-			}
-
-				//  --  LAST PAGE --  //
-			if( $showFirstLast )
-			{
-				$offset		= ( $here + $after ) * $limit;
-				//  last page
-				if( $after )
-					$pages[]	= $this->buildButton( 'textLast', 'classExtreme', $offset );
-				else
-					//  last link disabled if at last page
-					$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );
-			}
+		//  --  LAST PAGE --  //
+		if( $showFirstLast ){
+			$offset		= ( $here + $after ) * $limit;
+			//  last page
+			if( $after )
+				$pages[]	= $this->buildButton( 'textLast', 'classExtreme', $offset );
+			else
+				//  last link disabled if at last page
+				$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );
 		}
 		return Elements::unorderedList( $pages, 0, ['class' => $this->getOption( 'classList' )] );
 	}

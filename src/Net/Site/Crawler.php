@@ -168,7 +168,7 @@ class Crawler
 			if( substr( $url, 0, strlen( $this->baseUrl ) ) !== $this->baseUrl )
 				if( !$followExternalLinks )
 					continue;
-			$url		= $this->buildUrl( $parts );
+			$url		= $this->buildUrl( $parts->getAll() );
 			if( array_key_exists( base64_encode( $url ), $this->links ) )
 				continue;
 

@@ -43,10 +43,13 @@ class Node
 {
 	/**	@var	string				$nodeName		Name of XML Node */
 	protected string $nodeName;
+
 	/**	@var	array				$attributes		Map of XML Node Attributes */
 	protected array $attributes		= [];
+
 	/**	@var	array				$children		List of Child Nodes  */
 	protected array $children		= [];
+
 	/**	@var	string|NULL			$content		Content of XML Node */
 	protected ?string $content		= NULL;
 
@@ -60,7 +63,7 @@ class Node
 	 */
 	public function __construct( string $nodeName, ?string $content = NULL, array $attributes = [] )
 	{
-		$this->setNodeName( $nodeName );
+		$this->nodeName = $nodeName;
 		if( $content !== NULL )
 			$this->setContent( $content );
 		if( !is_array( $attributes ) )

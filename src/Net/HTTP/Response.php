@@ -122,7 +122,7 @@ class Response
 			//  return first header field
 			return $fields[0];
 		//  otherwise: return empty fake header field
-		return new HeaderField( $key, NULL );
+		return new HeaderField( $key, '' );
 	}
 
 	/**
@@ -186,7 +186,7 @@ class Response
 		return $this->headers->hasField( $key );
 	}
 
-	public function send( bool $compression = NULL, bool $sendLengthHeader = TRUE, bool $exit = TRUE ): int
+	public function send( string $compression = NULL, bool $sendLengthHeader = TRUE, bool $exit = TRUE ): int
 	{
 		$sender	= new ResponseSender( $this );
 		$sender->setCompression( $compression );

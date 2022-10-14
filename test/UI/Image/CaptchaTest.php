@@ -137,8 +137,9 @@ class CaptchaTest extends BaseCase
 	 */
 	public function testGenerateImageException1()
 	{
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 		$this->captcha->textColor	= "not_an_array";
-		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -161,8 +162,9 @@ class CaptchaTest extends BaseCase
 	 */
 	public function testGenerateImageException3()
 	{
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 		$this->captcha->background	= "not_an_array";
-		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 

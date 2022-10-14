@@ -186,7 +186,7 @@ class Reader
 				$data[$key]	= "\\".$value;
 
 		$curl->setOption( CURLOPT_POST, TRUE );
-		$curl->setOption( CURLOPT_POSTFIELDS, http_build_query( $data, NULL, "&" ) );
+		$curl->setOption( CURLOPT_POSTFIELDS, http_build_query( $data, '', "&" ) );
 
 		$response		= $curl->exec( TRUE, FALSE );
 		$this->curlInfo	= $curl->getInfo();

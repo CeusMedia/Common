@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Simple Subversion client.
  *
@@ -67,12 +68,12 @@ class Client
 	}
 
 	public function authenticate( $username, $password ){
-		svn_auth_set_parameter( SVN_AUTH_PARAM_NON_INTERACTIVE, true);
+		svn_auth_set_parameter( SVN_AUTH_PARAM_NON_INTERACTIVE, 'true');
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_USERNAME, $username );
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_PASSWORD, $password );
 		// <--- Important for certificate issues!
-		svn_auth_set_parameter( PHP_SVN_AUTH_PARAM_IGNORE_SSL_VERIFY_ERRORS, true);
-		svn_auth_set_parameter( SVN_AUTH_PARAM_NO_AUTH_CACHE, true);
+		svn_auth_set_parameter( PHP_SVN_AUTH_PARAM_IGNORE_SSL_VERIFY_ERRORS, 'true');
+		svn_auth_set_parameter( SVN_AUTH_PARAM_NO_AUTH_CACHE, 'true');
 	}
 
 	public function commit( $msg, $list ){

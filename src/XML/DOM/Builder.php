@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Builder for XML Strings with DOM.
@@ -59,6 +60,7 @@ class Builder
 		$root		= $document->createElement( $tree->getNodename() );
 		foreach( $namespaces as $prefix => $namespace )
 			$root->setAttribute( "xmlns:".$prefix, $namespace );
+		/** @var DOMElement $root */
 		$root		= $document->appendChild( $root );
 		self::buildRecursive( $document, $root, $tree, $encoding );
 		return $document->saveXML();
@@ -85,13 +87,13 @@ class Builder
 			foreach( $children as $child ){
 				$element = $document->createElement( $child->getNodename() );
 				self::buildRecursive( $document, $element, $child, $encoding );
-				$element = $root->appendChild( $element );
+				$root->appendChild( $element );
 			}
 		}
 		else if( $tree->hasContent() ){
 			$text	= $tree->getContent();
 			$text	= $document->createTextNode( $text );
-			$text	= $root->appendChild( $text );
+			$root->appendChild( $text );
 		}
 	}
 }

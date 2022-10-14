@@ -50,11 +50,11 @@ class Field
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$name		Name of Header
-	 *	@param		string		$value		Value of Header
+	 *	@param		string				$name		Name of Header
+	 *	@param		string|int|float	$value		Value of Header
 	 *	@return		void
 	 */
-	public function __construct( string $name, string $value )
+	public function __construct( string $name, $value )
 	{
 		$this->setName( $name );
 		$this->setValue( $value );
@@ -101,13 +101,20 @@ class Field
 		if( !trim( $name ) )
 			throw new InvalidArgumentException( 'Field name cannot be empty' );
 		$this->name	= strtolower( $name );
-        return $this;
+		return $this;
 	}
 
-	public function setValue( string $value ): self
+	/**
+	 *	Converts to string, internally.
+	 *	@param		string|int|float	$value
+	 *	@return		self
+	 */
+	public function setValue( $value ): self
 	{
-		$this->value	= $value;
-        return $this;
+		if( !is_scalar( $value ) )
+			throw new InvalidArgumentException( 'Header value must be scalar (string, integer or float)' );
+		$this->value	= (string) $value;
+		return $this;
 	}
 
 	/**

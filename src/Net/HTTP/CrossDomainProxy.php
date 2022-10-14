@@ -120,7 +120,7 @@ class CrossDomainProxy
 		if( $method == "POST" )
 		{
 			//  build POST Parameters
-			$data	= http_build_query( $_POST, NULL, "&" );
+			$data	= http_build_query( $_POST, '', "&" );
 			//  set POST Request on cURL Handler
 			curl_setopt( $curl, CURLOPT_POST, TRUE );
 			//  set POST Parameters

@@ -124,9 +124,9 @@ class Tag implements Renderable
 		catch( InvalidArgumentException $e ) {
 			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
 				//  throw exception and transport inner exception
-				throw new RuntimeException( 'Invalid attributes', NULL, $e );
+				throw new RuntimeException( 'Invalid attributes', 0, $e );
 			//  throw exception
-			throw new RuntimeException( 'Invalid attributes', NULL );
+			throw new RuntimeException( 'Invalid attributes', 0 );
 		}
 		//  no node content defined, not even an empty string
 		if( $content === NULL || $content === FALSE )

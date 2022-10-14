@@ -162,7 +162,7 @@ class Filter
 	 */
 	public function pixelate( int $size, bool $effect = FALSE ): bool
 	{
-		return imagefilter( $this->image->getResource(), IMG_FILTER_PIXELATE, $size, $effect );
+		return imagefilter( $this->image->getResource(), IMG_FILTER_PIXELATE, $size, (int) $effect );
 	}
 
 	/**
