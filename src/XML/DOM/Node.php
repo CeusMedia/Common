@@ -326,8 +326,7 @@ class Node
 	 */
 	public function setNodeName( string $name ): self
 	{
-		if( $this->nodeName !== $name )
-			$this->nodeName = $name;
+		$this->nodeName = $name;
 		return $this;
 	}
 }

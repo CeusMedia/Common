@@ -291,7 +291,7 @@ class Tar
 				$header[154] = chr(0);
 				$header[155] = chr(32);
 				// Pad file contents to byte count divisible by 512
-				$fileContents = str_pad($information['file'],(ceil($information['size'] / 512) * 512),chr(0));
+				$fileContents = str_pad($information['file'],((int) ceil($information['size'] / 512) * 512),chr(0));
 				// Add new tar formatted data to tar file contents
 				$this->content .= $header . $fileContents;
 			}

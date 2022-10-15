@@ -84,7 +84,7 @@ class Object_
 	/**
 	 *	Returns Class Name of Parent Class of current Object.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
 	public function getParent(): ?string
 	{

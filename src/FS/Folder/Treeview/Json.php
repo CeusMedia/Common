@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	...
@@ -31,6 +32,7 @@ namespace CeusMedia\Common\FS\Folder\Treeview;
 use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\Common\UI\HTML\Tag;
 use DirectoryIterator;
+use JsonException;
 
 /**
  *	...
@@ -44,15 +46,14 @@ use DirectoryIterator;
  */
 class Json
 {
-	protected $basePath;
-	protected $logFile;
-	protected $path;
+	protected string $basePath;
+	protected ?string $logFile;
 
-	public $classLeaf		= "file";
-	public $classNode		= "folder";
+	public string $classLeaf		= "file";
+	public string $classNode		= "folder";
 
-	public $fileUrl			= "./?file=";
-	public $fileTarget		= NULL;
+	public string $fileUrl			= "./?file=";
+	public ?string $fileTarget		= NULL;
 
 	public function __construct( string $basePath, ?string $logFile = NULL )
 	{
@@ -65,6 +66,7 @@ class Json
 	 *	@param			string		$path
 	 *	@return			string
 	 *	@noinspection	PhpUnused
+	 *	@throws			JsonException
 	 */
 	public function buildJson( string $path = '' ): string
 	{
@@ -83,7 +85,7 @@ class Json
 		$list	= array_merge( $folders, $files );
 		$json	= json_encode( $list, JSON_THROW_ON_ERROR );
 		if( $this->logFile )
-			$this->log( $path, count( $list ), strlen( $json ), $clock->stop( 6, 0 ) );
+			$this->log( $path, count( $list ), strlen( $json ), (int) $clock->stop( 6, 0 ) );
 		return $json;
 	}
 

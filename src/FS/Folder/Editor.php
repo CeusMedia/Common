@@ -43,7 +43,7 @@ use RuntimeException;
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
  *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
- *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
+ *	By default, copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
@@ -59,7 +59,7 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@param		string		$folderName		Folder Name, relative or absolute
 	 *	@param		string|NULL	$creationMode	UNIX rights for chmod()
-	 *	@param		string|NULL	$creationUser	User Name for chown()
+	 *	@param		string|NULL	$creationUser	Username for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */

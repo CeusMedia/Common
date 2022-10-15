@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Reader for Contents from the Net.
@@ -38,48 +39,48 @@ use RuntimeException;
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>IoException
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Reader
 {
-	/**	@var		string|NULL		$body			Result content of response */
-	protected ?string $body			= NULL;
+	/**	@var		string|NULL			$body			Result content of response */
+	protected ?string $body				= NULL;
 
-	/**	@var		array			$headers		Map of response headers */
-	protected array $headers		= [];
+	/**	@var		array				$headers		Map of response headers */
+	protected array $headers			= [];
 
-	/**	@var		array			$info			Map of information of last request */
-	protected array $info			= [];
+	/**	@var		array				$info			Map of information of last request */
+	protected array $info				= [];
 
-	/**	@var		string|NULL		$url			URL to read */
+	/**	@var		string|NULL			$url			URL to read */
 	protected ?string $url;
 
-	/**	@var		string			$agent			User Agent */
-	protected static $userAgent		= "cmClasses:Net_Reader/0.7";
+	/**	@var		string				$agent			User Agent */
+	protected static string $userAgent	= "cmClasses:Net_Reader/0.7";
 
-	/**	@var		string			$username		Username for Basic Authentication */
-	protected string $username		= "";
+	/**	@var		string				$username		Username for Basic Authentication */
+	protected string $username			= "";
 
-	/**	@var		string			$password		Password for Basic Authentication */
-	protected string $password		= "";
+	/**	@var		string				$password		Password for Basic Authentication */
+	protected string $password			= "";
 
-	/**	@var		boolean			$verifyHost		Flag: verify Host */
-	protected bool $verifyHost 		= FALSE;
+	/**	@var		boolean				$verifyHost		Flag: verify Host */
+	protected bool $verifyHost 			= FALSE;
 
-	/**	@var		boolean			$verifyPeer		Flag: verify Peer */
-	protected bool $verifyPeer		= FALSE;
+	/**	@var		boolean				$verifyPeer		Flag: verify Peer */
+	protected bool $verifyPeer			= FALSE;
 
-	/**	@var		string|NULL		$proxyAddress	Domain or IP (and port) of proxy server */
-	protected ?string $proxyAddress	= NULL;
+	/**	@var		string|NULL			$proxyAddress	Domain or IP (and port) of proxy server */
+	protected ?string $proxyAddress		= NULL;
 
-	/**	@var		string|NULL		$proxyAuth		Username and password for proxy server authentication */
-	protected ?string $proxyAuth	= NULL;
+	/**	@var		string|NULL			$proxyAuth		Username and password for proxy server authentication */
+	protected ?string $proxyAuth		= NULL;
 
-	/**	@var		integer			$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
-	protected int $proxyType		= 0;
+	/**	@var		integer				$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
+	protected int $proxyType			= 0;
 
 	/**
 	 *	Constructor.

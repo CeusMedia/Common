@@ -52,6 +52,17 @@ class ReaderTest extends BaseCase
 	}
 
 	/**
+	 *	Tests Exception of Method 'read'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstructException()
+	{
+		$this->expectException( "InvalidArgumentException" );
+		$reader		= new NetReader( "" );
+	}
+
+	/**
 	 *	Tests Method 'getInfo'.
 	 *	@access		public
 	 *	@return		void
@@ -123,7 +134,7 @@ class ReaderTest extends BaseCase
 	public function testReadException()
 	{
 		$this->expectException( "InvalidArgumentException" );
-		$reader		= new NetReader( "" );
+		$reader		= new NetReader( "invalidUrl" );
 		$reader->read();
 	}
 

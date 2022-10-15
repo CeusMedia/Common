@@ -64,7 +64,7 @@ class ObjectTest extends BaseCase
 	 */
 	public function testGetClass()
 	{
-		$assertion	= 'CeusMedia\\CommonTest\\ADT\\TestObjectClass';
+		$assertion	= TestObjectClass::class;
 		$creation	= $this->object->getClass();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -105,9 +105,13 @@ class ObjectTest extends BaseCase
 	 */
 	public function testGetParent()
 	{
-		$assertion	= 'CeusMedia\\Common\\ADT\\Object_';
-		$creation	= $this->object->getParent();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( Object_::class, $this->object->getParent() );
+
+		$object		= new Object_();
+		$this->assertEquals( NULL, $object->getParent() );
+
+		$object		= new ChildTestObjectClass();
+		$this->assertEquals( TestObjectClass::class, $object->getParent() );
 	}
 
 	/**
@@ -199,4 +203,8 @@ class TestObjectClass extends Object_
 	public		function publicMethod(){}
 	protected	function protectedMethod(){}
 	private		function privateMethod(){}
+}
+
+class ChildTestObjectClass extends TestObjectClass
+{
 }

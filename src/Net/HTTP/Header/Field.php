@@ -42,9 +42,9 @@ use InvalidArgumentException;
 class Field
 {
 	/**	@var		string		$name		Name of Header */
-	protected $name;
+	protected string $name;
 
-	/**	@var		string		$value		Value of Header */
+	/**	@var		string|int	$value		Value of Header */
 	protected $value;
 
 	/**
@@ -87,12 +87,12 @@ class Field
 	/**
 	 *	Returns set Header Value.
 	 *	@access		public
-	 *	@return		string|array	Header Value or Array of qualified Values
+	 *	@return		string|int|array	Header Value or Array of qualified Values
 	 */
 	public function getValue( $qualified = FALSE )
 	{
-		if( $qualified )
-			return static::decodeQualifiedValues($this->value);
+		if( $qualified && is_string( $this->value ) )
+			return static::decodeQualifiedValues( $this->value);
 		return $this->value;
 	}
 

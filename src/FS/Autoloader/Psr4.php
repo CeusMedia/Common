@@ -64,7 +64,7 @@ class Psr4
 	 *
 	 *	@var		array
 	 */
-	protected $prefixes = [];
+	protected array $prefixes = [];
 
 	/**
 	 *	Creates loader instance statically.
@@ -143,13 +143,13 @@ class Psr4
 	 *	Loads the class file for a given class name.
 	 *
 	 *	@param		string			$class The fully-qualified class name.
-	 *	@return		string|FALSE	The mapped file name on success, or boolean false on
+	 *	@return		void
 	 * failure.
 	 */
-	public function loadClass( string $class )
+	public function loadClass( string $class ): void
 	{
 		if( 0 === count($this->prefixes ) )
-			return FALSE;
+			return;
 
 		// the current namespace prefix
 		$prefix = $class;
@@ -167,16 +167,13 @@ class Psr4
 			// try to load a mapped file for the prefix and relative class
 			$mappedFile = $this->loadMappedFile( $prefix, $relativeClass );
 			if( $mappedFile ){
-				return $mappedFile;
+				return;
 			}
 
 			// remove the trailing namespace separator for the next iteration
 			// of strrpos()
 			$prefix = rtrim( $prefix, '\\' );
 		}
-
-		// never found a mapped file
-		return FALSE;
 	}
 
 	/**
