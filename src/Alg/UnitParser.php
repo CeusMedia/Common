@@ -44,7 +44,7 @@ use InvalidArgumentException;
  */
 class UnitParser
 {
-	public static $rules	= [
+	public static array $rules	= [
 		'/^([0-9.,]+)$/'		=> 1,
 		'/^([0-9.,]+)B$/'		=> 1,
 		'/^([0-9.,]+)k$/'		=> 1000,

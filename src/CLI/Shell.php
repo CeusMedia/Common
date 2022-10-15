@@ -82,7 +82,7 @@ class Shell
 		if( getenv( 'HTTP_HOST' ) )
 			die( "usage in console only." );
 		ob_implicit_flush();
-		ini_set( "html_errors", 0 );
+		ini_set( "html_errors", '0' );
 		error_reporting( 7 );
 		set_time_limit( 0 );
 		if( !defined( 'STDIN' ) ){

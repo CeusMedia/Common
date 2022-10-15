@@ -14,7 +14,7 @@ use RuntimeException;
 
 class CLI
 {
-	protected $base;
+	protected string $base;
 
 	protected $logger;
 
@@ -91,7 +91,7 @@ class CLI
 				}
 			}
 			else{
-				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, TRUE );
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE );
 				$isCli ? fwrite( STDERR, $message ) : print( $message );
 			}
 		}
@@ -113,7 +113,7 @@ class CLI
 				}
 			}
 			else{
-				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, TRUE );
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE );
 				$isCli ? fwrite( STDOUT, $message ) : print( $message );
 			}
 		}

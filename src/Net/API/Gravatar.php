@@ -53,12 +53,12 @@ use RuntimeException;
  */
 class Gravatar
 {
-	protected $url		= 'https://secure.gravatar.com/avatar/';
-	protected $urlRpc	= 'https://secure.gravatar.com/xmlrpc';
-	protected $size		= 80;
-	protected $default	= 'mm';
-	protected $rate		= 'g';
-	protected $defaults	= ['404', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro', 'blank'];
+	protected string $url		= 'https://secure.gravatar.com/avatar/';
+	protected string $urlRpc	= 'https://secure.gravatar.com/xmlrpc';
+	protected int $size			= 80;
+	protected string $default	= 'mm';
+	protected string $rate		= 'g';
+	protected array $defaults	= ['404', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro', 'blank'];
 
 	/**
 	 *	Constructor.
@@ -116,7 +116,7 @@ class Gravatar
 			'd'	=> $this->default,
 			'r'	=> $this->rate,
 		];
-		return $this->url.$hash.'?'.http_build_query( $query, NULL, '&amp;' );
+		return $this->url.$hash.'?'.http_build_query( $query, '', '&amp;' );
 	}
 
 	public function listAddresses( string $email, string $password ): array

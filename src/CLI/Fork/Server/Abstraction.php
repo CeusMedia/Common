@@ -122,7 +122,7 @@ abstract class Abstraction
 
 	protected function handleServerSocketException( ForkServerSocketException $e )
 	{
-		$key		= md5( time() );
+		$key		= md5( (string) time() );
 		$dump		= serialize( $e );
 		$code		= $e->getCode();
 		$error		= socket_strerror( $code );

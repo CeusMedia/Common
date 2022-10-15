@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Premailer API PHP class.
@@ -31,6 +33,7 @@
 
 namespace CeusMedia\Common\Net\API;
 
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Net\HTTP\Post;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
@@ -60,11 +63,11 @@ class Premailer
 {
 	protected const ENDPOINT = 'https://premailer.dialect.ca/api/0.1/documents';
 
-	protected $cache;
+	protected ?SimpleCacheInterface $cache;
 
 	protected $response;
 
-	public static $options = [
+	public static array $options = [
 		//  string  - Which document handler to use (hpricot (default) or nokigiri)
 		'adaptor'			=> 'hpricot',
 		//  string  - Base URL for converting relative links
@@ -112,8 +115,9 @@ class Premailer
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return json_decode( $this->cache->get( $cacheKey ) );
 
-		$request	= new Post();
-		$response	= json_decode( $request->send( self::ENDPOINT, $params, [
+		$request	= new Post( self::ENDPOINT );
+		$request->setContent( Post::convertArrayToFormData( $params ) );
+		$response	= json_decode( $request->send( [
 			CURLOPT_TIMEOUT			=> 15,
 			CURLOPT_USERAGENT		=> 'PHP Premailer',
 			CURLOPT_SSL_VERIFYHOST	=> 0,
@@ -173,6 +177,7 @@ class Premailer
 	 *	Returns converted HTML.
 	 *	@access		public
 	 *	@return		string		Converted HTML
+	 *	@throws		IoException
 	 */
 	public function getHtml(): string
 	{
@@ -190,6 +195,7 @@ class Premailer
 	 *	Returns converted plain text.
 	 *	@access		public
 	 *	@return		string		Converted HTML
+	 *	@throws		IoException
 	 */
 	public function getPlainText(): string
 	{

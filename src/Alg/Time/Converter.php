@@ -120,11 +120,11 @@ class Converter
 		else if( $format == "datetime" )
 			return date( "d.m.Y - H:i:s", (int) $timestamp );
 		else if( $format == "duration" ){
-			$hours		= str_pad( floor( $timestamp / 3600 ), 2, 0, STR_PAD_LEFT );
+			$hours		= str_pad( (string) floor( $timestamp / 3600 ), 2, '0', STR_PAD_LEFT );
 			$timestamp -= (int) $hours * 3600;
-			$minutes	= str_pad( floor( $timestamp / 60 ), 2, 0, STR_PAD_LEFT );
+			$minutes	= str_pad( (string) floor( $timestamp / 60 ), 2, '0', STR_PAD_LEFT );
 			$timestamp -= (int) $minutes * 60;
-			$secs		= str_pad( $timestamp, 2, 0, STR_PAD_LEFT );
+			$secs		= str_pad( (string) $timestamp, 2, '0', STR_PAD_LEFT );
 			return $hours.":".$minutes.":".$secs;
 		}
 		else if( $format )
@@ -149,19 +149,19 @@ class Converter
 				$parts = explode( ".", $string );
 				if( count( $parts ) != 3 )
 					throw new InvalidArgumentException( 'Invalid format, must be: [DD.MM.YY]');
-				$timestamp = mktime( 0, 0, 0, $parts[1], $parts[0], $parts[2] );
+				$timestamp = mktime( 0, 0, 0, (int) $parts[1], (int) $parts[0], (int) $parts[2] );
 			}
 			else if( $format == "monthdate" ){
 				if( substr_count( $string, "." ) != 1 )
 					throw new InvalidArgumentException( 'Invalid format, must be: [MM.YY]');
 				$parts = explode( ".", $string );
-				$timestamp = mktime( 0, 0, 0, $parts[0], 1, $parts[1] );
+				$timestamp = mktime( 0, 0, 0, (int) $parts[0], 1, (int) $parts[1] );
 			}
 			else if( $format == "time" ){
 				if( !substr_count( $string, ":" ) )
 					throw new InvalidArgumentException( 'Invalid format, must be: [hh.mm.ss]');
 				$parts = explode( ":", $string );
-				$timestamp = mktime( $parts[0], $parts[1], $parts[2], 1, 1, 0 );
+				$timestamp = mktime( (int) $parts[0], (int) $parts[1], (int) $parts[2], 1, 1, 0 );
 			}
 			else if( $format == "year" ){
 				$timestamp = mktime( 0, 0, 0, 1, 1, (int)$string );

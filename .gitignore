@@ -1,6 +1,7 @@
 /vendor
 /composer.lock
 /Test/results.*
-/doc/*
 /tool/config/.phpunit.result.cache
+/.phpunit.result.cache
+/doc/*
 ;/.idea

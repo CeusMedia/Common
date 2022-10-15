@@ -210,7 +210,7 @@ class Downloader
 				//  calculate Ratio in %
 				$ratio	= $this->loadSize / $this->fileSize * 100;
 				//  fill Ratio with Spaces
-				$ratio	= str_pad( round( $ratio ), 3, " ", STR_PAD_LEFT );
+				$ratio	= str_pad( (string) round( $ratio ), 3, " ", STR_PAD_LEFT );
 				//  format current Load Size
 				$size	= UnitFormater::formatBytes( $this->loadSize, 1 );
 				//  use Template
@@ -295,7 +295,7 @@ class Downloader
 		{
 			//  Header Key is first Part
 			$header		= trim( array_shift( $parts ) );
-			//  Header Content are all other Parts
+			//  Header Content are all other parts
 			$content	= trim( join( ": ", $parts ) );
 			//  store split Header
 			$this->headers[$header]	= $content;
