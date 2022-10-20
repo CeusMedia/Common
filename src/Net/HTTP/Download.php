@@ -75,7 +75,7 @@ class Download
 	protected static function disableCompression()
 	{
 		if( function_exists( 'apache_setenv' ) )
-			@apache_setenv( 'no-gzip', 1 );
+			@apache_setenv( 'no-gzip', '1' );
 		@ini_set( 'zlib.output_compression', 'Off' );
 	}
 

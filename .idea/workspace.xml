@@ -1,48 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Updated unit tests heavily.">
-      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Object_.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Object_.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Progress.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Progress.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Template.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Template.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/CrossDomainProxy.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/CrossDomainProxy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Premailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Premailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/AtomServerTime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/AtomServerTime.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Connection.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Download.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Download.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/PartitionCookie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/PartitionCookie.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Compressor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Compressor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Sender.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Sender.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/SVN/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/SVN/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/Site/Crawler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Site/Crawler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/Log.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/Log.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMLStream.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMLStream.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMPP.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/XMPPHP/XMPP.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/DevOutput.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/DevOutput.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Elements.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Elements.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/TraceViewer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/TraceViewer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Indicator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Indicator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Pagination.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Paging.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Paging.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tabs.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tabs.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tag.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Captcha.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Captcha.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Filter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Histogram.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Histogram.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Node.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/DOM/ObjectSerializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/ObjectSerializer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Parser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Parser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Net/ReaderTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/ReaderTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/UI/Image/CaptchaTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/UI/Image/CaptchaTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/XML/DOM/ParserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/XML/DOM/ParserTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/config/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan.neon" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +136,12 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.test">
+  <component name="RunManager" selected="Composer Script.dev:phpstan">
+    <configuration name="dev:phpstan-clear" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan-clear" />
+      <method v="2" />
+    </configuration>
     <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpstan" />
@@ -180,11 +150,6 @@
     <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpunit" />
-      <method v="2" />
-    </configuration>
-    <configuration name="dev:test-syntax" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:test-syntax" />
       <method v="2" />
     </configuration>
     <configuration name="HTTP" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
@@ -200,8 +165,8 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Composer Script.dev:phpstan-clear" />
       <item itemvalue="Composer Script.dev:phpunit" />
-      <item itemvalue="Composer Script.dev:test-syntax" />
       <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="PHPUnit.phpunit.xml" />
       <item itemvalue="PHPUnit.HTTP" />
@@ -209,11 +174,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHPUnit.test" />
         <item itemvalue="Composer Script.dev:phpstan" />
+        <item itemvalue="Composer Script.dev:phpstan-clear" />
+        <item itemvalue="PHPUnit.test" />
         <item itemvalue="PHPUnit.HTTP" />
         <item itemvalue="Composer Script.dev:phpunit" />
-        <item itemvalue="Composer Script.dev:test-syntax" />
       </list>
     </recent_temporary>
   </component>
@@ -247,7 +212,9 @@
       <workItem from="1662845320549" duration="46243000" />
       <workItem from="1665364010277" duration="79000" />
       <workItem from="1665417837238" duration="6678000" />
-      <workItem from="1665699603644" duration="13147000" />
+      <workItem from="1665699603644" duration="13283000" />
+      <workItem from="1665805366153" duration="1240000" />
+      <workItem from="1666288994393" duration="149000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -480,7 +447,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662996613584</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Go for PHPStan level 5.">
+      <created>1665713317298</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1665713317298</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -522,7 +496,8 @@
     <MESSAGE value="Adjust unit tests." />
     <MESSAGE value="Adjust unit tests and fix (migration) bugs according to tests." />
     <MESSAGE value="Updated unit tests heavily." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated unit tests heavily." />
+    <MESSAGE value="Go for PHPStan level 5." />
+    <option name="LAST_COMMIT_MESSAGE" value="Go for PHPStan level 5." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

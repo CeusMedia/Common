@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Basic FTP Connection.
@@ -86,7 +87,7 @@ class Connection
 	 *	@access		public
 	 *	@param		boolean		$checkResource			Flag: Check Connection
 	 *	@param		boolean		$checkAuthentication	Flag: Check Authentication
-     *	@param		boolean		$strict             	Flag: throw exceptions or return FALSE, default: yes (=throw!)
+	 *	@param		boolean		$strict             	Flag: throw exceptions or return FALSE, default: yes (=throw!)
 	 *	@return		bool
 	 *	@throws		RuntimeException					if connection is not established (strict mode, only)
 	 *	@throws		RuntimeException					if connection is not authenticated (strict mode, only)
@@ -116,10 +117,12 @@ class Connection
 	{
 		if( !$quit )
 			$this->checkConnection( TRUE, FALSE, FALSE );
-		if( !@ftp_quit( $this->resource ) )
-			return FALSE;
-		$this->auth		= FALSE;
-		$this->resource	= NULL;
+		if( $this->resource !== NULL ){
+			if( !ftp_quit( $this->resource ) )
+				return FALSE;
+			$this->auth		= FALSE;
+			$this->resource	= NULL;
+		}
 		return TRUE;
 	}
 
