@@ -42,24 +42,24 @@ use Throwable;
  */
 class SQL extends RuntimeException
 {
-	/**	@var		string		$defaultMessage		Default Message if SQL Info Message is empty */
-	public static $default		= "Unknown SQL Error.";
+	/**	@var		string			$defaultMessage		Default Message if SQL Info Message is empty */
+	public static string $default	= "Unknown SQL Error.";
 
-	/**	@var		string		$SQLSTATE			SQLSTATE Code */
-	protected $SQLSTATE;
+	/**	@var		string|NULL		$SQLSTATE			SQLSTATE Code */
+	protected ?string $SQLSTATE		= NULL;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$message		SQL Error Message
+	 *	@param		string|NULL		$message		SQL Error Message
 	 *	@param		int				$code			SQL Error Code
 	 *	@param		string|NULL		$SQLSTATE 		SQLSTATE Code
 	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */
-	public function __construct( string $message, int $code = 0, ?string $SQLSTATE  = NULL, ?Throwable $previous = null )
+	public function __construct( ?string $message, int $code = 0, ?string $SQLSTATE  = NULL, ?Throwable $previous = null )
 	{
-		if( !$message )
+		if( NULL === $message || 0 === strlen( trim( $message ) ) )
 			$message	= self::$default;
 		parent::__construct( $message, $code, $previous);
 		$this->SQLSTATE		= $SQLSTATE;
@@ -68,11 +68,11 @@ class SQL extends RuntimeException
 	/**
 	 *	Returns SQLSTATE Code delivered by PDO.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
 	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
 	 */
-	public function getSQLSTATE()
+	public function getSQLSTATE(): ?string
 	{
 		return $this->SQLSTATE;
 	}

@@ -62,7 +62,7 @@ class Binary
 		else
 		{
 			$this->counter++;
-			$mid = floor( $size / 2 );
+			$mid = (int) floor( $size / 2 );
 			if( $search < $list[$mid] )
 			{
 				$list = array_slice( $list, 0, $mid );

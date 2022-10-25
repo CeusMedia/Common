@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Unreachable statement \\- code above always terminates\\.$#"
-			count: 1
-			path: ../../src/ADT/URL.php
-
-		-
 			message: "#^Method CeusMedia\\\\Common\\\\Alg\\\\ColorConverter\\:\\:rgb2hsv_2\\(\\) is unused\\.$#"
 			count: 1
 			path: ../../src/Alg/ColorConverter.php

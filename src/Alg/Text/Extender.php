@@ -48,7 +48,7 @@ class Extender
 		$withStringLength	= mb_strlen( $withString, self::$encoding );
 		if( !$toLength || !$withStringLength || $toLength <= $textLength )
 			return $text;
-		$repeat	= ceil( max( 0, $textLength - $withStringLength ) + $toLength );
+		$repeat	= (int) ceil( max( 0, $textLength - $withStringLength ) + $toLength );
 		if( $fromLeft ){
 			$result	= str_repeat( $withString, $repeat );
 			$pos	= $toLength - ( ( $textLength - $withStringLength ) + $withStringLength );
@@ -70,9 +70,9 @@ class Extender
 			return $text;
 
 		$length	= ( $toLength - $textLength ) / 2;
-		$repeat	= ceil( $length / $withStringLength );
-		$left	= mb_substr( str_repeat( $withString, $repeat ), 0, floor( $length ) );
-		$right	= mb_substr( str_repeat( $withString, $repeat ), 0, ceil( $length ) );
+		$repeat	= (int) ceil( $length / $withStringLength );
+		$left	= mb_substr( str_repeat( $withString, $repeat ), 0, (int) floor( $length ) );
+		$right	= mb_substr( str_repeat( $withString, $repeat ), 0, (int) ceil( $length ) );
 		return $left.$text.$right;
 	}
 }

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Go for PHPStan level 5.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/API/Premailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Premailer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/AtomServerTime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/AtomServerTime.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Connection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Download.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Download.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Search/Binary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Search/Binary.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/Extender.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/Extender.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Clock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Clock.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/SQL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/SQL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tool/config/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan.neon" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,7 +115,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/XML&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/lib/GitHub/CeusMedia/Database&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;php.test.frameworks.configurable&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,

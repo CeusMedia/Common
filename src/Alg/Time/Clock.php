@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Clock implementation with Lap Support.
@@ -39,17 +40,17 @@ namespace CeusMedia\Common\Alg\Time;
  */
 class Clock
 {
-	/**	@var	float		$microTimeStart		Microtime at the Start */
-	protected $microTimeStart;
+	/**	@var	float		$microTimeStart		Micro-time at the Start */
+	protected float $microTimeStart;
 
 	/**	@var	float		$microTimeLap		Time in micro at the end of the last since start */
-	protected $microTimeLap;
+	protected float $microTimeLap;
 
-	/**	@var	float		$microTimeStop		Microtime at the End */
-	protected $microTimeStop;
+	/**	@var	float		$microTimeStop		Micro-time at the End */
+	protected float $microTimeStop;
 
 	/**	@var	array		$laps				Array of Lap Times */
-	protected $laps			= [];
+	protected array $laps	= [];
 
 	/**
 	 *	Constructor.
@@ -85,14 +86,18 @@ class Clock
 		return round( $time, $round );
 	}
 
+	/**
+	 * @param int|float $seconds
+	 * @return void
+	 */
 	public function sleep( $seconds )
 	{
-		$this->usleep( (float) $seconds * 1000000 );
+		$this->usleep( (int) ( $seconds * 1_000_000 ) );
 	}
 
 	public function speed( $seconds )
 	{
-		$this->uspeed( (float) $seconds * 1000000 );
+		$this->uspeed( (int) ( $seconds * 1_000_000 ) );
 	}
 
 	/**
@@ -143,13 +148,13 @@ class Clock
 
 	public function usleep( int $microseconds )
 	{
-		$seconds	= $microseconds / 1000000;
+		$seconds	= $microseconds / 1_000_000;
 		if( ( microtime( TRUE ) - $this->microTimeStart ) >= $seconds )
 			$this->microTimeStart	+= $seconds;
 	}
 
 	public function uspeed( int $microseconds )
 	{
-		$this->microTimeStart	-= $microseconds / 1000000;
+		$this->microTimeStart	-= $microseconds / 1_000_000;
 	}
 }

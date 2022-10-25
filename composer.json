@@ -75,7 +75,7 @@
     ],
     "dev:phpstan": [
       "@dev:install",
-      "vendor/bin/phpstan analyze --configuration=tool/config/phpstan.neon --memory-limit=1G --xdebug --verbose"
+      "XDEBUG_MODE=off vendor/bin/phpstan analyze --configuration=tool/config/phpstan.neon --memory-limit=1G --verbose"
     ],
     "dev:phpstan-clear": [
       "@dev:install",
