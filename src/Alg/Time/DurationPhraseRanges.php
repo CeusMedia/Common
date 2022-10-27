@@ -60,11 +60,11 @@ class DurationPhraseRanges implements Countable
 	/**
 	 *	Adds a Range.
 	 *	@access		public
-	 *	@param		int			$from		Start of Range, eg. 0
+	 *	@param		string		$from		Start of Range, eg. 0
 	 *	@param		string		$label		Range Label, eg. "{s} seconds"
 	 *	@return		self
 	 */
-	public function addRange( int $from, string $label ): self
+	public function addRange( string $from, string $label ): self
 	{
 		$from	= preg_replace_callback( $this->regExp, [$this, 'calculateSeconds'], $from );
 		$this->ranges[(int) $from]	= $label;

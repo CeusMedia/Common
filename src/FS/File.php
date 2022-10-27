@@ -43,7 +43,7 @@ class File extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !touch( $this->pathName, $mode, TRUE ) ){
+		if( !touch( $this->pathName ) ){
 			if( $strict )
 				throw new IoException( 'File creation failed', 0, $this->pathName );
 			return FALSE;

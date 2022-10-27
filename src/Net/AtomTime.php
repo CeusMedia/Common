@@ -70,7 +70,7 @@ class AtomTime
 		fclose( $resource );
 		$data = unpack( 'N12', $response );
 		$time = sprintf( '%u', $data[9] ) - 2208988800;
-		$dateTime = DateTime::createFromFormat('U', $time, new DateTimeZone('UTC'));
+		$dateTime = DateTime::createFromFormat('U', (string) $time, new DateTimeZone('UTC'));
 		if( $dateTimeZone !== NULL )
 			$dateTime->setTimezone( $dateTimeZone );
 		return $dateTime;

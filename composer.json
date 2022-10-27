@@ -35,7 +35,6 @@
     "ext-posix": "*",
     "ext-simplexml": "*",
     "ext-sockets": "*",
-    "ext-svn": "*",
     "ext-xml": "*",
     "ext-xsl": "*",
     "ext-zip": "*",

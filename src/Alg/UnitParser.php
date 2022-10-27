@@ -67,7 +67,7 @@ class UnitParser
 		if( !strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'String cannot be empty' );
 		$int	= (int) $string;
-		if( $exceptedUnit && strlen( $int ) == strlen( $string ) && $int == $string )
+		if( $exceptedUnit && strlen( (string) $int ) == strlen( $string ) && $int == $string )
 			$string	.= $exceptedUnit;
 		$string	= str_replace( ',', '.', trim( $string ) );
 		$factor	= NULL;
