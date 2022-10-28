@@ -58,12 +58,12 @@ class Editor extends Reader
 	 *	Constructor, Creates Folder if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$folderName		Folder Name, relative or absolute
-	 *	@param		string|NULL	$creationMode	UNIX rights for chmod()
+	 *	@param		integer		$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
 	 *	@param		string|NULL	$creationUser	Username for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( string $folderName, $creationMode = NULL, ?string $creationUser = NULL, ?string $creationGroup = NULL )
+	public function __construct( string $folderName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		parent::__construct( $folderName );
 		if( !self::isFolder( $folderName ) && $creationMode !== NULL )

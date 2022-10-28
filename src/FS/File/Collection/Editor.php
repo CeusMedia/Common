@@ -43,7 +43,8 @@ use DomainException;
 class Editor extends Reader
 {
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI **/
-	protected $fileName;
+	protected string $fileName;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -115,12 +116,12 @@ class Editor extends Reader
 	/**
 	 *	Saves current List to File.
 	 *	@access		protected
-	 *	@param		string			$mode			UNIX rights for chmod()
-	 *	@param		string|NULL		$user			User Name for chown()
+	 *	@param		integer			$mode			UNIX rights for chmod() as octal integer (starting with 0), default: 0640
+	 *	@param		string|NULL		$user			Username for chown()
 	 *	@param		string|NULL		$group			Group Name for chgrp()
 	 *	@return		int				Number of written bytes
 	 */
-	protected function write( $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
+	protected function write( int $mode = 0640, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		$file	= new FileWriter( $this->fileName, $mode, $user, $group );
 		return $file->writeArray( $this->list );

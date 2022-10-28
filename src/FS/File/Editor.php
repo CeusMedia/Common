@@ -44,18 +44,18 @@ use RuntimeException;
 class Editor extends Reader
 {
 	/**	@var		Writer	$writer			Instance of file writer class */
-	protected $writer;
+	protected Writer $writer;
 
 	/**
 	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name or URI of File
-	 *	@param		string		$creationMode	UNIX rights for chmod()
+	 *	@param		integer		$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
 	 *	@param		string|NULL	$creationUser	UserName for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( string $fileName, $creationMode = NULL, ?string $creationUser = NULL, ?string $creationGroup = NULL )
+	public function __construct( string $fileName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		parent::__construct( $fileName );
 		$this->writer	= new Writer( $fileName, $creationMode, $creationUser, $creationGroup );

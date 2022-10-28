@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Go for PHPStan level 5.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alg/Time/DurationPhraseRanges.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/DurationPhraseRanges.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alg/UnitParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/UnitParser.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Permissions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/AtomTime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/AtomTime.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Collection/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Collection/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Connection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,20 +139,20 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Composer Script.dev:phpstan">
+  <component name="RunManager" selected="Composer Script.dev:phpstan-save">
     <configuration name="dev:phpstan-clear" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpstan-clear" />
       <method v="2" />
     </configuration>
+    <configuration name="dev:phpstan-save" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan-save" />
+      <method v="2" />
+    </configuration>
     <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpstan" />
-      <method v="2" />
-    </configuration>
-    <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:phpunit" />
       <method v="2" />
     </configuration>
     <configuration name="HTTP" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
@@ -166,8 +168,8 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Composer Script.dev:phpstan-save" />
       <item itemvalue="Composer Script.dev:phpstan-clear" />
-      <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="PHPUnit.phpunit.xml" />
       <item itemvalue="PHPUnit.HTTP" />
@@ -175,11 +177,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Composer Script.dev:phpstan-save" />
         <item itemvalue="Composer Script.dev:phpstan" />
         <item itemvalue="Composer Script.dev:phpstan-clear" />
         <item itemvalue="PHPUnit.test" />
         <item itemvalue="PHPUnit.HTTP" />
-        <item itemvalue="Composer Script.dev:phpunit" />
       </list>
     </recent_temporary>
   </component>

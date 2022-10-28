@@ -160,7 +160,7 @@ class File extends AbstractNode
 	 */
 	public function setContent( string $content, bool $strict = TRUE ): bool
 	{
-		if( !$this->exists( $strict ) || !$this->create( $strict ) )
+		if( !$this->exists( $strict ) || !$this->create( 0777, $strict ) )
 			return FALSE;
 		file_put_contents( $this->pathName, $content );
 		return TRUE;

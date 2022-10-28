@@ -42,7 +42,7 @@ use RuntimeException;
  */
 class Writer
 {
-	public static $minFreeDiskSpace	= 10485760;
+	public static $minFreeDiskSpace	= 10_485_760;
 
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI */
 	protected $fileName;
@@ -51,12 +51,12 @@ class Writer
 	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name, absolute or relative URI
-	 *	@param		string		$creationMode	UNIX rights for chmod()
+	 *	@param		integer		$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
 	 *	@param		string|NULL	$creationUser	Username for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( string $fileName, $creationMode = NULL, ?string $creationUser = NULL, ?string $creationGroup = NULL )
+	public function __construct( string $fileName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		$this->fileName	= $fileName;
 		if( $creationMode && !file_exists( $fileName ) )
@@ -87,14 +87,14 @@ class Writer
 	/**
 	 *	Create a file and sets Rights, Owner and Group.
 	 *	@access		public
-	 *	@param		string		$mode			UNIX rights for chmod()
+	 *	@param		integer		$mode			UNIX rights for chmod() as octal integer (starting with 0), default: 0640
 	 *	@param		string|NULL	$user			Username for chown()
 	 *	@param		string|NULL	$group			Group Name for chgrp()
 	 *	@throws		RuntimeException if no space is left on file system
 	 *	@throws		RuntimeException if file could not been created
 	 *	@return		void
 	 */
-	public function create( $mode = NULL, ?string $user = NULL, ?string $group = NULL )
+	public function create( int $mode = 0640, ?string $user = NULL, ?string $group = NULL )
 	{
 		if( self::$minFreeDiskSpace && self::$minFreeDiskSpace > disk_free_space( getcwd() ) )
 			throw new RuntimeException( 'No space left' );
@@ -144,13 +144,13 @@ class Writer
 	 *	@static
 	 *	@param		string		$fileName 		URI of File
 	 *	@param		string		$content		Content to save in File
-	 *	@param		string		$mode			UNIX rights for chmod()
+	 *	@param		integer		$mode			UNIX rights for chmod() as octal integer (starting with 0), default: 0640
 	 *	@param		string|NULL	$user			Username for chown()
 	 *	@param		string|NULL	$group			Group Name for chgrp()
 	 *	@return		integer		Number of written bytes
 	 *	@throws		InvalidArgumentException if no string is given
 	 */
-	public static function save( string $fileName, string $content, $mode = NULL, ?string $user = NULL, ?string $group = NULL ): int
+	public static function save( string $fileName, string $content, int $mode = 0640, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		$writer	= new Writer( $fileName, $mode, $user, $group );
 		return $writer->writeString( $content );
@@ -218,8 +218,7 @@ class Writer
 	 */
 	public function setPermissions( int $mode ): bool
 	{
-		if( is_integer( $mode ) )
-			$mode	= decoct( (string) $mode );
+		$mode			= decoct( $mode );
 		$permissions	= new Permissions( $this->fileName );
 		return $permissions->setByOctal( $mode );
 	}

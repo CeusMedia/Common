@@ -47,7 +47,7 @@ class Connection
 	public int $mode				= FTP_BINARY;
 
 	/**	@var		boolean			$auth			Indicator of Authentication */
-	protected bool $auth				= FALSE;
+	protected bool $auth			= FALSE;
 
 	/**	@var		resource|NULL	$resource		Resource ID of Connection (Stream in PHP5) */
 	protected $resource				= NULL;

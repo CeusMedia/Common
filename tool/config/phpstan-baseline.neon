@@ -21,11 +21,6 @@ parameters:
 			path: ../../src/CLI/Server/Daemon.php
 
 		-
-			message: "#^Default value of the parameter \\#1 \\$mode \\(int\\) of method CeusMedia\\\\Common\\\\FS\\\\File\\\\Collection\\\\Editor\\:\\:write\\(\\) is incompatible with type string\\.$#"
-			count: 1
-			path: ../../src/FS/File/Collection/Editor.php
-
-		-
 			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:getFilename\\(\\)\\.$#"
 			count: 1
 			path: ../../src/FS/File/Iterator.php
@@ -59,3 +54,8 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 5
 			path: ../../src/Net/API/Gravatar.php
+
+		-
+			message: "#^Parameter \\#1 \\$ftp of function ftp_quit expects resource, resource given\\.$#"
+			count: 1
+			path: ../../src/Net/FTP/Connection.php

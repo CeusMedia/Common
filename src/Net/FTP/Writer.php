@@ -43,7 +43,7 @@ use RuntimeException;
 class Writer
 {
 	/**	@var		Connection		$connection		FTP connection object */
-	protected $connection;
+	protected Connection $connection;
 
 	/**
 	 *	Constructor
@@ -83,7 +83,7 @@ class Writer
 	public function copyFile( string $from, string $to ): bool
 	{
 		$this->connection->checkConnection();
-		$temp	= uniqid( time() ).".temp";
+		$temp	= uniqid( (string) time() ).".temp";
 		$reader	= new Reader( $this->connection );
 		$reader->setPath( $this->getPath() );
 		if( !$reader->getFile( $from, $temp ) )
