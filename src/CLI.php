@@ -155,7 +155,7 @@ class CLI
 	 */
 	public function ls( string $path = NULL, bool $mimeType = TRUE )
 	{
-		$path	= $path ?? '.';
+		$path	??= '.';
 		$path	= $this->realizePath( $path );
 		$f		= new Folder( $path );
 		UnitFormater::$unitBytes[0]	= ' B';

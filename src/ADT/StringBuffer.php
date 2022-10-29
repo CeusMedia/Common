@@ -44,10 +44,10 @@ use RangeException;
 class StringBuffer implements Countable, Iterator
 {
 	/**	@var		string		$buffer			internal String */
-	private $buffer;
+	private string $buffer;
 
 	/**	@var		int			$position		Iterator position */
-	private $position = 0;
+	private int $position		= 0;
 
 	/**
 	 *	Constructor.

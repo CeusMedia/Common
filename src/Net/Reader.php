@@ -56,7 +56,7 @@ class Reader
 	protected array $info				= [];
 
 	/**	@var		string|NULL			$url			URL to read */
-	protected ?string $url;
+	protected ?string $url				= NULL;
 
 	/**	@var		string				$agent			User Agent */
 	protected static string $userAgent	= "cmClasses:Net_Reader/0.7";

@@ -53,7 +53,7 @@ class PredicateValidator
 	 */
 	public function __construct( $predicateClassName = NULL )
 	{
-		$predicateClassName	= $predicateClassName ?? Predicates::class;
+		$predicateClassName	??= Predicates::class;
 		$this->validator	= new $predicateClassName();
 	}
 

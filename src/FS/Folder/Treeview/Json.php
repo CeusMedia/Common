@@ -82,7 +82,7 @@ class Json
 			else if( $entry->isFile() )
 				$files[]		= $this->buildFileItem( $entry );
 		}
-		$list	= array_merge( $folders, $files );
+		$list	= [...$folders, ...$files];
 		$json	= json_encode( $list, JSON_THROW_ON_ERROR );
 		if( $this->logFile )
 			$this->log( $path, count( $list ), strlen( $json ), (int) $clock->stop( 6, 0 ) );

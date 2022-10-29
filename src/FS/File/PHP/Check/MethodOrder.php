@@ -40,10 +40,10 @@ use Exception;
  */
 class MethodOrder
 {
-	private $fileName		= '';
-	private $originalList	= [];
-	private $sortedList		= [];
-	private $compared		= FALSE;
+	private string $fileName		= '';
+	private array $originalList		= [];
+	private array $sortedList		= [];
+	private bool $compared			= FALSE;
 
 	/**
 	 *	Constructor.

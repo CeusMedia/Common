@@ -52,7 +52,7 @@ class RecursiveRegexFilter extends RegexIterator
 	protected $numberScanned	= 0;
 
 	/**	@var	string			filePattern		Regular Expression to match with File Name */
-	private $filePattern;
+	private string $filePattern;
 
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
 	private $contentPattern;

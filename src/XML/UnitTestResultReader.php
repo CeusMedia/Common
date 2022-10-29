@@ -156,7 +156,7 @@ class UnitTestResultReader
 	public function getTestSuiteCount( ?Element $element = NULL ): int
 	{
 		$count		= 1;
-		$element	= $element ?? $this->tree;
+		$element	??= $this->tree;
 		foreach( $element->testsuite as $testSuite )
 			$count	+= $this->getTestSuiteCount( $testSuite );
 		return $count;
@@ -165,7 +165,7 @@ class UnitTestResultReader
 	public function getTestCaseCount( ?Element $element = NULL ): int
 	{
 		$count		= 0;
-		$element	= $element ?? $this->tree;
+		$element	??= $this->tree;
 		foreach( $element->testsuite as $testSuite )
 			$count	+= $this->getTestCaseCount( $testSuite );
 		$count	+= count( $element->testcase );

@@ -45,7 +45,7 @@ use RuntimeException;
 class NameFilter extends FilterIterator
 {
 	/**	@var	string		$fileName		Name of File to be found */
-	private $fileName;
+	private string $fileName;
 
 	/**
 	 *	Constructor.

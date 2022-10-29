@@ -86,9 +86,9 @@ class Downloader
 	/**	@var		array				$headers			Collected Response Headers, already split */
 	protected array $headers			= [];
 
-	protected ?string $fileUri;
+	protected ?string $fileUri			= NULL;
 
-	protected ?string $tempUri;
+	protected ?string $tempUri			= NULL;
 
 	/**	@var		Clock			$clock				Clock Instance */
 	private Clock $clock;
@@ -202,7 +202,7 @@ class Downloader
 			//  get current Duration
 			$time	= $this->clock->stop( 6, 0 );
 			//  calculate Rate of Bytes per Second
-			$rate	= $this->loadSize / $time * 1000000;
+			$rate	= $this->loadSize / $time * 1_000_000;
 			//  format Rate
 			$rate	= UnitFormater::formatBytes( $rate, 1 )."/s";
 			//  File Size is known
@@ -254,7 +254,7 @@ class Downloader
 				//  format Load Size
 				$size	= UnitFormater::formatBytes( $this->loadSize, 1 );
 				//  calculate Rate of Bytes per Second
-				$rate	= $this->loadSize / $time * 1000000;
+				$rate	= $this->loadSize / $time * 1_000_000;
 				//  format Rate
 				$rate	= UnitFormater::formatBytes( $rate, 1 )."/s";
 

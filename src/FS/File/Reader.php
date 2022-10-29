@@ -372,7 +372,7 @@ class Reader
 
 	protected function checkIsOwner( ?string $user = NULL ): bool
 	{
-		$user	= $user ?? get_current_user();
+		$user	??= get_current_user();
 		if( !function_exists( 'posix_getpwuid' ) )
 			return TRUE;
 		$uid	= fileowner( $this->fileName );

@@ -128,8 +128,8 @@ class Clock
 		$microTimeLast	= $this->microTimeLap ?: $this->microTimeStart;
 		$microTimeNow	= microtime( TRUE );
 
-		$totalMicro		= round( ( $microTimeNow - $this->microTimeStart ) * 1000000 );
-		$timeMicro		= round( ( $microTimeNow - $microTimeLast ) * 1000000 );
+		$totalMicro		= round( ( $microTimeNow - $this->microTimeStart ) * 1_000_000 );
+		$timeMicro		= round( ( $microTimeNow - $microTimeLast ) * 1_000_000 );
 
 		$total			= round( $totalMicro * 10 ** ($base - 6), $round );
 		$time			= round( $timeMicro * 10 ** ($base - 6), $round );

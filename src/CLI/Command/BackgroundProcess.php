@@ -51,7 +51,7 @@ class BackgroundProcess
 
 	protected int $pid				= 0;
 
-	protected ?string $command;
+	protected ?string $command		= NULL;
 
 	/**
 	 *	Constructor.

@@ -53,8 +53,8 @@ class DefinitionValidator
 	 */
 	public function __construct( $predicateClass = NULL, $validatorClass = NULL )
 	{
-		$predicateClass		= $predicateClass ?? Predicates::class;
-		$validatorClass		= $validatorClass ?? PredicateValidator::class;
+		$predicateClass		??= Predicates::class;
+		$validatorClass		??= PredicateValidator::class;
 		$this->validator	= new $validatorClass( $predicateClass );
 	}
 

@@ -63,7 +63,7 @@ class Premailer
 {
 	protected const ENDPOINT = 'https://premailer.dialect.ca/api/0.1/documents';
 
-	protected ?SimpleCacheInterface $cache;
+	protected ?SimpleCacheInterface $cache	= NULL;
 
 	protected $response;
 
