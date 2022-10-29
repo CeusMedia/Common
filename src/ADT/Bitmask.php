@@ -41,7 +41,7 @@ namespace CeusMedia\Common\ADT;
 
 class Bitmask
 {
-	protected $bits	= 0;
+	protected int $bits	= 0;
 
 	public function __construct( int $bits = 0 )
 	{

@@ -30,7 +30,6 @@
 
 namespace CeusMedia\Common\ADT;
 
-use Exception;
 use InvalidArgumentException;
 use RangeException;
 use RuntimeException;
@@ -48,9 +47,9 @@ use RuntimeException;
  */
 class URL
 {
-	protected $defaultUrl;
+	protected ?self $defaultUrl;
 
-	protected $parts;
+	protected object $parts;
 
 	/**
 	 *	Constructor.
@@ -76,7 +75,12 @@ class URL
 		return $this->get();
 	}
 
-	public static function create( string $url = NULL, string $defaultUrl = NULL ): self
+	/**
+	 * @param		string|NULL			$url
+	 * @param		URL|string|NULL		$defaultUrl
+	 * @return		self
+	 */
+	public static function create( string $url = NULL, $defaultUrl = NULL ): self
 	{
 		return new self( $url, $defaultUrl );
 	}
@@ -109,7 +113,7 @@ class URL
 		}
 		if( $this->parts->host )
 			$buffer[]	= $this->parts->host;
-		if( $this->parts->port )
+		if( NULL !== $this->parts->port && 0 !== $this->parts->port )
 			$buffer[]	= ':'.$this->parts->port;
 		if( $this->parts->path )
 			$buffer[]	= $this->parts->path;
@@ -185,7 +189,7 @@ class URL
 
 		$parts			= [];
 		$pathParts		= explode( '/', ltrim( $this->getPath(), '/' ) );
-		foreach( explode( '/', trim( $referencePath, '/' ) ) as $nr => $referencePathPart ){
+		foreach( explode( '/', trim( $referencePath, '/' ) ) as $referencePathPart ){
 			$part	= array_shift( $pathParts );
 			if( $referencePathPart === $part )
 				continue;
@@ -217,7 +221,7 @@ class URL
 		return $this->parts->path;
 	}
 
-	public function getPort(): string
+	public function getPort(): ?int
 	{
 		return $this->parts->port;
 	}
@@ -294,10 +298,10 @@ class URL
 		return $this;
 	}
 
-	public function setHost( string $host, $port = NULL, string $username = NULL, string $password = NULL ): self
+	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): self
 	{
 		$this->parts->host	= $host;
-		if( $port )
+		if( NULL !== $port )
 			$this->setPort( $port );
 		if( NULL !== $username )
 			$this->setAuth( $username, $password );
@@ -310,7 +314,7 @@ class URL
 		return $this;
 	}
 
-	public function setPort( $port ): self
+	public function setPort( ?int $port = NULL ): self
 	{
 		$this->parts->port	= $port;
 		return $this;

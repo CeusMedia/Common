@@ -44,8 +44,16 @@ namespace CeusMedia\Common\Alg;
  */
 class ID
 {
-	public static function uuid(): string{
+	public static function isUuid( string $uuid ): bool
+	{
+		$regexp	= '[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}';
+		return preg_match( '/^'.$regexp.'$/i', $uuid );
+	}
+
+	public static function uuid(): string
+	{
 		if( function_exists( 'com_create_guid' ) === TRUE )
+			/** @noinspection PhpUndefinedFunctionInspection */
 			return trim( com_create_guid(), '{}' );
 		return sprintf(
 			'%04X%04X-%04X-%04X-%04X-%04X%04X%04X',
@@ -58,11 +66,5 @@ class ID
 			random_int( 0, 65535 ),
 			random_int( 0, 65535 )
 		);
-	}
-
-	static public function isUuid( $uuid ): bool
-	{
-		$regexp	= '[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}';
-		return preg_match( '/^'.$regexp.'$/i', $uuid );
 	}
 }

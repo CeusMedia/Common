@@ -40,11 +40,11 @@ namespace CeusMedia\Common\ADT\CSS;
  */
 class Property
 {
-	protected $key;
+	protected string $key;
 
-	protected $value;
+	protected string $value;
 
-	public function __construct( $key, $value )
+	public function __construct( string $key, string $value )
 	{
 		$this->key		= $key;
 		$this->value	= $value;

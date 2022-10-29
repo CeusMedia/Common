@@ -43,10 +43,10 @@ use CeusMedia\Common\ADT\URL;
  */
 class Inference extends URL
 {
-	public $separator				= "&";
-	public static $staticAddress	= "./";
-	public static $staticScheme		= "";
-	public static $staticSeparator	= "&";
+	public string $separator				= "&";
+	public static string $staticAddress		= "./";
+	public static string $staticScheme		= "";
+	public static string $staticSeparator	= "&";
 
 	/**
 	 *	Builds URL Query String based on current URL Parameters extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).

@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	JSON Parser.
@@ -42,11 +43,11 @@ use RuntimeException;
  */
 class Parser
 {
-	public const STATUS_EMPTY			= 0;
-	public const STATUS_PARSED			= 1;
-	public const STATUS_ERROR			= 2;
+	public const STATUS_EMPTY		= 0;
+	public const STATUS_PARSED		= 1;
+	public const STATUS_ERROR		= 2;
 
-	protected $status			= 0;
+	protected int $status			= 0;
 
 	/**
 	 *	Returns constant value or key of last parse error.
@@ -124,6 +125,10 @@ class Parser
 		return $data;
 	}
 
+	/**
+	 *	@param		string|int		$code
+	 *	@return		string|int
+	 */
 	protected function getConstantFromCode( $code )
 	{
 		return Constant::getKeyByValue( 'JSON_ERROR_', $code );

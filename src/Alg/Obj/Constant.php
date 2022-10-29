@@ -12,11 +12,7 @@ use RuntimeException;
 
 class Constant
 {
-	protected $className;
-
-	protected $constants;
-
-	protected $reflection;
+	protected string $className;
 
 	public function __construct( string $className )
 	{

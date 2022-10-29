@@ -32,10 +32,10 @@ use Exception;
  */
 class Deprecation
 {
-	protected $version;
-	protected $errorVersion;
-	protected $exceptionVersion;
-	protected $phpVersion;
+	protected string $version;
+	protected string $errorVersion;
+	protected string $exceptionVersion;
+	protected string $phpVersion;
 
 	/**
 	 *	Creates a new deprecation object.
@@ -58,7 +58,7 @@ class Deprecation
 	 *	@return		void
 	 *	@throws		Exception				if set exception version reached detected library version
 	 */
-	public function message( string $message )
+	public function message( string $message ): void
 	{
 		$trace	= debug_backtrace();
 		$caller	= next( $trace );
@@ -67,23 +67,13 @@ class Deprecation
 		if( $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
 				throw new Exception( 'Deprecated: '.$message );
-		if( version_compare( $this->version, $this->errorVersion ) >= 0 ){
-			self::notify( $message );
-		}
-	}
-
-	public static function notify( string $message )
-	{
-		$message .= ', triggered';
-		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
-			trigger_error( $message, E_USER_DEPRECATED );
-		else
-			trigger_error( 'Deprecated: '.$message, E_USER_NOTICE );
+		if( version_compare( $this->version, $this->errorVersion ) >= 0 )
+			trigger_error( $message.', triggered', E_USER_DEPRECATED );
 	}
 
 	/**
 	 *	Set library version to start showing deprecation error or notice.
-	 *	Returns deprecation object for chainability.
+	 *	Returns deprecation object for method chaining.
 	 *	@access		public
 	 *	@param		string		$version	Library version to start showing deprecation error or notice
 	 *	@return		Deprecation
@@ -96,7 +86,7 @@ class Deprecation
 
 	/**
 	 *	Set library version to start throwing deprecation exception.
-	 *	Returns deprecation object for chainability.
+	 *	Returns deprecation object for method chaining.
 	 *	@access		public
 	 *	@param		string		$version	Library version to start throwing deprecation exception
 	 *	@return		Deprecation
@@ -117,7 +107,7 @@ class Deprecation
 	 */
 	protected function __construct()
 	{
-		$this->phpVersion	= phpversion();
+		$this->phpVersion	= (string) phpversion();
 		$this->onInit();
 	}
 

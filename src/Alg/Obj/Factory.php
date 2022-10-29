@@ -43,13 +43,17 @@ use RuntimeException;
  */
 class Factory
 {
-	protected $arguments		= [];
+	protected array $arguments		= [];
 
 	public function __construct( array $arguments = [] )
 	{
 		$this->setArguments( $arguments );
 	}
 
+	/**
+	 *	@param		mixed		$argument
+	 *	@return		$this
+	 */
 	public function addArgument( $argument ): self
 	{
 		$this->arguments[]	= $argument;

@@ -43,15 +43,14 @@ use InvalidArgumentException;
  */
 class URN
 {
-	public $nid;
+	public string $nid;
 
-	public $nss;
+	public string $nss;
 
 	public function __construct( string $nid, ?string $nss = NULL )
 	{
 		$nid	= preg_replace( "/^urn:/i", "", $nid );
-		if( $nss === NULL && preg_match( "/^\S+:\S+$/", $nid ) )
-		{
+		if( $nss === NULL && preg_match( "/^\S+:\S+$/", $nid ) ){
 			$parts	= explode( ":", $nid );
 			$nid	= array_shift( $parts );
 			$nss	= implode( ":", $parts );
@@ -78,14 +77,15 @@ class URN
 		return $urn;
 	}
 
-	public function setIdentifier( $nid )
+	public function setIdentifier( string $nid ): self
 	{
 		if( !preg_match( '/^[a-z0-9][a-z0-9-]{1,31}$/i', $nid ) )
 			throw new InvalidArgumentException( 'Namespace Identifier "'.$nid.'" is invalid.' );
 		$this->nid	= $nid;
+		return $this;
 	}
 
-	public function setSpecificString( $nss )
+	public function setSpecificString( string $nss ): self
 	{
 		$alpha		= 'a-z0-9';
 		$others		= '()+,-.:=@;$_!*\\';
@@ -95,6 +95,7 @@ class URN
 		if( !preg_match( '/^('.$trans.'|'.$hex.')+$/i', $nss ) )
 			throw new InvalidArgumentException( 'Namespace Specific String "'.$nss.'" is invalid.' );
 		$this->nss	= $nss;
+		return $this;
 	}
 
 	public function __toString()

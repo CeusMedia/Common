@@ -45,8 +45,8 @@ use RuntimeException;
  */
 class Delegation
 {
-	protected $delegableObjects	= [];
-	protected $delegableMethods	= [];
+	protected array $delegableObjects	= [];
+	protected array $delegableMethods	= [];
 
 	/**
 	 *	Composes an Object by its Class Name and Construction Parameters.

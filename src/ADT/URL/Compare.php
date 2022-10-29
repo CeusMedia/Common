@@ -45,9 +45,9 @@ use RuntimeException;
  */
 class Compare
 {
-	protected $url1;
+	protected ?URL $url1;
 
-	protected $url2;
+	protected ?URL $url2;
 
 	/**
 	 *	...

@@ -42,10 +42,10 @@ use RuntimeException;
  */
 class Stack implements Countable
 {
-	public $delimiter	= '|';
+	public string $delimiter	= '|';
 
 	/**	@var		array		$stack			Array to hold Stack Items */
-	protected $stack			= [];
+	protected array $stack		= [];
 
 	/**
 	 *	Constructor.

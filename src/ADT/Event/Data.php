@@ -39,23 +39,23 @@ namespace CeusMedia\Common\ADT\Event;
  */
 class Data
 {
-	/**	@var	mixed		$arguments		Data given by trigger */
+	/**	@var	mixed|NULL		$arguments		Data given by trigger */
 	public $arguments;
 
-	/**	@var	mixed		$arguments		Object which triggered bound event */
+	/**	@var	mixed|NULL		$caller			Object which triggered bound event */
 	public $caller;
 
-	/**	@var	mixed		$arguments		Data bound on event */
+	/**	@var	mixed|NULL		$data			Data bound on event */
 	public $data;
 
-	/**	@var	mixed		$arguments		Reference to event handler instance */
-	protected $handler;
+	/**	@var	Handler		$handler		Reference to event handler instance */
+	protected Handler $handler;
 
-	/**	@var	mixed		$arguments		Name bound event, eg. "start.my"  */
+	/**	@var	mixed|NULL		$key			Name bound event, eg. "start.my"  */
 	public $key;
 
-	/**	@var	string		$trigger		Name of trigger, eg. "start" */
-	public $trigger;
+	/**	@var	string|NULL		$trigger		Name of trigger, eg. "start" */
+	public ?string $trigger;
 
 	/**
 	 *	Constructor.

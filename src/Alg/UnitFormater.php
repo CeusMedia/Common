@@ -72,8 +72,8 @@ class UnitFormater
 		'YP',
 	];
 
-	/**	@var		array		$unitBytes		List of Second Units */
-	public static $unitSeconds	= [
+	/**	@var		array<string>		$unitBytes		List of Second Units */
+	public static array $unitSeconds	= [
 		'µs',
 		'ms',
 		's',

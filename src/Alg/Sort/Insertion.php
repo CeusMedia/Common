@@ -38,8 +38,8 @@ namespace CeusMedia\Common\Alg\Sort;
  */
 class Insertion
 {
-	protected $compares	= 0;
-	protected $moves	= 0;
+	protected int $compares	= 0;
+	protected int $moves	= 0;
 
 	/**
 	 *	Sorts List with Insertion Sort.
@@ -47,18 +47,15 @@ class Insertion
 	 *	@param		array		$list		List to sort
 	 *	@return		array
 	 */
-	public function sort( $list )
+	public function sort( array $list ): array
 	{
 //		echo "list: ".implode (" | ", $list)."<br>";
 		$n	= sizeof( $list );
-		for( $i=0; $i<$n; $i++ )
-		{
+		for( $i=0; $i<$n; $i++ ){
 			$temp	= $list[$i];
 			$j		= $n - 1;
-			while( $j>=0 && $this->moves < 100 )
-			{
-				if( $list[$j] > $temp )
-				{
+			while( $j>=0 && $this->moves < 100 ){
+				if( $list[$j] > $temp ){
 					$this->moves ++;
 					$list = self::swap( $list, $j + 1, $j );
 //					echo "list[$i|$j]: ".implode (" | ", $list)."<br>";
@@ -76,10 +73,10 @@ class Insertion
 	 *	@static
 	 *	@param		array		$list		List
 	 *	@param		int			$pos1		Position of first Element
-	 *	@param		int			$pos1		Position of second Element
+	 *	@param		int			$pos2		Position of second Element
 	 *	@return		array
 	 */
-	protected static function swap( $list, $pos1, $pos2 )
+	protected static function swap( array $list, int $pos1, int $pos2 ) :array
 	{
 		$memory	= $list[$pos1];
 		$list[$pos1] = $list[$pos2];

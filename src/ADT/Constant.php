@@ -100,6 +100,11 @@ class Constant
 		return $map;
 	}
 
+	/**
+	 *	@param		string|NULL		$prefix
+	 *	@param		mixed			$value
+	 *	@return		string|integer
+	 */
 	public static function getKeyByValue( ?string $prefix, $value )
 	{
 		$constants	= static::getAll( $prefix );

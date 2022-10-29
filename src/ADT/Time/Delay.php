@@ -40,10 +40,10 @@ use RuntimeException;
  */
 class Delay
 {
-	protected $seconds;
-	protected $time;
-	protected $numberRuns	= 0;
-	protected $numberChecks	= 0;
+	protected float $seconds;
+	protected float $time;
+	protected int $numberRuns	= 0;
+	protected int $numberChecks	= 0;
 
 	/**
 	 *	Constructor.
@@ -56,7 +56,7 @@ class Delay
 	{
 		if( $msec < 1 )
 			throw new RangeException( 'Delay must be at least 1 ms' );
-		$this->seconds	= $msec / 1000;
+		$this->seconds	= (float) $msec / 1000;
 		$this->restart();
 	}
 

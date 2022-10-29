@@ -54,6 +54,12 @@ class Converter
 		return $array;
 	}
 
+	/**
+	 *	@param		object|array		$node
+	 *	@param		array				$array
+	 *	@param		string|int|NULL		$name
+	 *	@return		void
+	 */
 	protected static function convertToArrayRecursive( $node, &$array, $name = NULL )
 	{
 		if( $name ){

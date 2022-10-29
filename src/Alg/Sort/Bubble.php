@@ -46,7 +46,7 @@ class Bubble
 	 *	@param		array		$list		List to sort
 	 *	@return		array
 	 */
-	public static function sort($list)
+	public static function sort( array $list ): array
 	{
 		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
 			for( $j=0; $j<$i; $j++ )
@@ -61,7 +61,7 @@ class Bubble
 	 *	@static
 	 *	@param		array		$list		Reference to List
 	 *	@param		int			$pos1		Position of first Element
-	 *	@param		int			$pos1		Position of second Element
+	 *	@param		int			$pos2		Position of second Element
 	 *	@return		void
 	 */
 	protected static function swap( &$list, $pos1, $pos2 )

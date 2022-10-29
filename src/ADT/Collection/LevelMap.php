@@ -46,7 +46,7 @@ use InvalidArgumentException;
  */
 class LevelMap extends Dictionary
 {
-	protected $divider		= ".";
+	protected string $divider		= ".";
 
 	public function __construct( array $array = [], string $divider = "." )
 	{

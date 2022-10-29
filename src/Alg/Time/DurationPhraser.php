@@ -44,9 +44,9 @@ use OutOfBoundsException;
  */
 class DurationPhraser
 {
-	protected $patternLabel	= '@(.*){(s|m|h|D|W|M|Y)}(.*)::([0-9]+)$@';
-	protected $patternData	= '@::[0-9]+$@';
-	protected $ranges		= NULL;
+	protected string $patternLabel	= '@(.*){([smhDWMY])}(.*)::([0-9]+)$@';
+	protected string $patternData	= '@::[0-9]+$@';
+	protected DurationPhraseRanges $ranges;
 
 	public function __construct( DurationPhraseRanges $ranges )
 	{
@@ -76,7 +76,7 @@ class DurationPhraser
 		throw new OutOfBoundsException( 'No range defined for '.$seconds.' seconds' );
 	}
 
-	public function getPhraseFromTimestamp( int $timestamp ): string
+	public function getPhraseFromTimestamp(int $timestamp ): string
 	{
 		$seconds	= time() - $timestamp;
 		if( $seconds < 0 )

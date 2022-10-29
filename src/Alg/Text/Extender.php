@@ -39,9 +39,10 @@ namespace CeusMedia\Common\Alg\Text;
  */
 class Extender
 {
-	static $encoding	= "UTF-8";
+	public static string $encoding	= 'UTF-8';
 
-	static public function extend( $text, $toLength, $fromLeft = FALSE, $withString = ' ' ){
+	public static function extend( string $text, int $toLength, bool $fromLeft = FALSE, string $withString = ' ' ): string
+	{
 		if( !function_exists( 'mb_strlen' ) )
 			return str_pad( $text, $toLength, $withString, $fromLeft ? STR_PAD_LEFT : STR_PAD_RIGHT );
 		$textLength			= mb_strlen( $text, self::$encoding );
@@ -61,7 +62,8 @@ class Extender
 		return $result;
 	}
 
-	static public function extendCentric( $text, $toLength, $withString = ' ' ){
+	public static function extendCentric( string $text, int $toLength, string $withString = ' ' ): string
+	{
 		if( !function_exists( 'mb_strlen' ) )
 			return str_pad( $text, $toLength, $withString, STR_PAD_BOTH );
 		$textLength			= mb_strlen( $text );

@@ -46,9 +46,11 @@ use RuntimeException;
  */
 class MethodFactory
 {
-	protected $arguments;
-	protected $method;
-	protected $object;
+	protected array $arguments;
+
+	protected ?string $method;
+
+	protected ?object $object;
 
 	/**
 	 *	Constructor.

@@ -73,11 +73,12 @@ class Collection
 	 *	Adds a nested Tree Menu Item to this Tree Menu List.
 	 *	@access		public
 	 *	@param		Collection	$child		Nested Tree Menu Item Data Object
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addChild( Collection $child )
+	public function addChild( Collection $child ): self
 	{
 		$this->children[]	= $child;
+		return $this;
 	}
 
 	/**
@@ -131,7 +132,7 @@ class Collection
 	 */
 	public function hasChildren(): bool
 	{
-		return count( $this->children ) > 0;
+		return count( $this->children ) !== 0;
 	}
 
 	/**
@@ -139,25 +140,27 @@ class Collection
 	 *	@access		public
 	 *	@param		string		$key			Attribute Key
 	 *	@param		string		$value			Attribute Value
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function setAttribute( string $key, string $value ): bool
+	public function setAttribute( string $key, string $value ): self
 	{
-		return $this->attributes->set( $key, $value );
+		$this->attributes->set( $key, $value );
+		return $this;
 	}
 
 	/**
 	 *	Sets Attributes from Map Array or Dictionary.
 	 *	@access		public
 	 *	@param		Dictionary|array	$array			Map Array or Dictionary of Attributes to set
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setAttributes( $array )
+	public function setAttributes( $array ): self
 	{
 		if( $array instanceof Dictionary )
 			$array	= $array->getAll();
 		foreach( $array as $key => $value )
 			$this->attributes->set( $key, $value );
+		return $this;
 	}
 
 	/**

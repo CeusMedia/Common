@@ -45,16 +45,14 @@ class Gnome
 	 *	@static
 	 *	@param		array		$list		Reference of list to sort
 	 */
-	public static function sort( &$list )
+	public static function sort( array &$list ): void
 	{
 		$n	= count( $list );
 		$i	= 0;
-		while( $i < $n )
-		{
+		while( $i < $n ){
 			if( $i == 0 || $list[$i-1] <= $list[$i] )
 				$i++;
-			else
-			{
+			else{
 				$tmp = $list[$i];
 				$list[$i]	= $list[$i-1];
 				$list[--$i] = $tmp;

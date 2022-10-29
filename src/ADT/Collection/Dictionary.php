@@ -132,7 +132,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		return $this->pairs[$keys[$this->position]];
 	}
 
-	public function flush()
+	public function flush(): void
 	{
 		foreach( $this->getKeys() as $key )
 			$this->remove( $key );

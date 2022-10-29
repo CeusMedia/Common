@@ -40,22 +40,6 @@ use InvalidArgumentException;
  */
 class Trimmer
 {
-	static protected function strlen( $string, $encoding = NULL )
-	{
-		if( !function_exists( 'mb_strlen' ) )
-			return strlen( utf8_decode( $string ) );
-		$encoding	= $encoding ?: mb_internal_encoding();
-		return mb_strlen( $string, $encoding );
-	}
-
-	static protected function substr( $string, $start, $length = NULL, $encoding = NULL )
-	{
-		if( !function_exists( 'mb_substr' ) )
-			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
-		$encoding	= $encoding ?: mb_internal_encoding();
-		return mb_substr( $string, $start, $length, $encoding );
-	}
-
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
@@ -67,9 +51,9 @@ class Trimmer
 	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
-	static public function trim( $string, $length = 0, $mask = "...", $fromLeft = FALSE, $encoding = "UTF-8" )
+	public static function trim( string $string, int $length = 0, string $mask = "...", bool $fromLeft = FALSE, string $encoding = "UTF-8" ): string
 	{
-		$string		= trim( (string) $string );
+		$string		= trim( $string );
 		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
 			return $string;
 		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
@@ -93,18 +77,18 @@ class Trimmer
 	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
-	static public function trimCentric( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
+	public static function trimCentric( string $string, int $length = 0, string $mask = "...", string $encoding = "UTF-8" ): string
 	{
 		$string	= trim( (string) $string );
-		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
+		if( $length === 0 || self::strlen( $string, $encoding ) <= $length )
 			return $string;
 		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
 		if( $maskLength >= $length )
-			throw new InvalidArgumentException( 'Lenght must be greater than '.$maskLength );
+			throw new InvalidArgumentException( 'Length must be greater than '.$maskLength );
 		$range	= ( $length - $maskLength ) / 2;
 		$length	= self::strlen( $string, $encoding ) - floor( $range );
-		$left	= self::substr( $string, 0, ceil( $range ), $encoding );
-		$right	= self::substr( $string, -floor( $range ), $length, $encoding );
+		$left	= self::substr( $string, 0, (int) ceil( $range ), $encoding );
+		$right	= self::substr( $string, (int) -floor( $range ), $length, $encoding );
 		return $left.$mask.$right;
 	}
 
@@ -116,8 +100,24 @@ class Trimmer
 	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
-	static public function trimLeft( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
+	public static function trimLeft( string $string, int $length = 0, string $mask = "...", string $encoding = "UTF-8" ): string
 	{
 		return self::trim( $string, $length, $mask, TRUE, $encoding );
+	}
+
+	protected static function strlen( string $string, ?string $encoding = NULL ): int
+	{
+		if( !function_exists( 'mb_strlen' ) )
+			return strlen( utf8_decode( $string ) );
+		$encoding	= $encoding ?: mb_internal_encoding();
+		return mb_strlen( $string, $encoding );
+	}
+
+	protected static function substr( string $string, int $start, ?int $length = NULL, ?string $encoding = NULL ): string
+	{
+		if( !function_exists( 'mb_substr' ) )
+			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
+		$encoding	= $encoding ?: mb_internal_encoding();
+		return mb_substr( $string, $start, $length, $encoding );
 	}
 }

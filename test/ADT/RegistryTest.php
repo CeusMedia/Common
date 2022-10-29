@@ -58,6 +58,18 @@ class RegistryTest extends BaseCase
 	}
 
 	/**
+	 *	Tests Method 'SetStatic'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetStatic()
+	{
+		$value	= 'value2';
+		Registry::setStatic( 'key2', $value );
+		$this->assertEquals( 'value2', $GLOBALS['REFERENCES']['key2'] );
+	}
+
+	/**
 	 *	Tests Method 'has'.
 	 *	@access		public
 	 *	@return		void

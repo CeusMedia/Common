@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Extracts Terms from a Text Document.
  *
@@ -41,8 +42,8 @@ use CeusMedia\Common\FS\File\Editor as FileEditor;
  */
 class TermExtractor
 {
-	public static $blacklist					= [];
-	public static $backlistCaseSensitive		= FALSE;
+	public static array $blacklist					= [];
+	public static bool $backlistCaseSensitive		= FALSE;
 
 	public static function getTerms( string $text ): array
 	{
@@ -78,7 +79,7 @@ class TermExtractor
 		return $list;
 	}
 
-	public static function loadBlacklist( $fileName )
+	public static function loadBlacklist( string $fileName ): void
 	{
 		$string	= FileEditor::load( $fileName );
 		if( !Unicoder::isUnicode( $string ) )
@@ -90,7 +91,7 @@ class TermExtractor
 		self::setBlacklist( array_unique( $list ) );
 	}
 
-	public static function setBlacklist( $list )
+	public static function setBlacklist( array $list ): void
 	{
 		self::$blacklist		= array_unique( $list );
 	}

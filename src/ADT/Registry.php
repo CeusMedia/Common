@@ -41,9 +41,55 @@ use InvalidArgumentException;
  */
 class Registry
 {
-	protected static $instance	= NULL;
+	public static string $defaultPoolKey	= "REFERENCES";
 
-	protected $poolKey	= "REFERENCES";
+	/** @var self[] $instances */
+	protected static array $instances		= [];
+
+	protected string $poolKey;
+
+	/**
+	 *	Returns registered Object statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		string			$key		Registry Key of registered Object
+	 *	@param		string|NULL		$poolKey			Default: see public static $defaultPoolKey
+	 *	@return		mixed
+	 */
+	public static function & getStatic( string $key, ?string $poolKey = NULL )
+	{
+		return self::getInstance( $poolKey )->get( $key );
+	}
+
+	/**
+	 *	Returns Instance of Registry.
+	 *	@access		public
+	 *	@static
+	 *	@param		string|NULL		$poolKey		Default: see public static $defaultPoolKey
+	 *	@return		Registry
+	 */
+	public static function getInstance( ?string $poolKey = NULL ): self
+	{
+		$poolKey	??= static::$defaultPoolKey;
+		if( !isset( self::$instances[$poolKey] ) )
+			self::$instances[$poolKey]	= new self( $poolKey );
+		return self::$instances[$poolKey];
+	}
+
+	/**
+	 *	Returns registered Object statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		string			$key			Registry Key of registered Object
+	 *	@param		mixed			$value			Object to register
+	 *	@param		bool			$overwrite		Flag: overwrite already registered Objects
+	 *	@param		string|NULL		$poolKey		Default: see public static $defaultPoolKey
+	 *	@return		mixed
+	 */
+	public static function setStatic( string $key, &$value, bool $overwrite = FALSE, ?string $poolKey = NULL )
+	{
+		self::getInstance( $poolKey )->set( $key, $value, $overwrite );
+	}
 
 	/**
 	 *	Constructor.
@@ -59,15 +105,6 @@ class Registry
 	}
 
 	/**
-	 *	Denies to clone Registry.
-	 *	@access		private
-	 *	@return		void
-	 */
-	private function __clone()
-	{
-	}
-
-	/**
 	 *	Clears registered Object.
 	 *	@access		public
 	 *	@return		void
@@ -79,20 +116,6 @@ class Registry
 	}
 
 	/**
-	 *	Returns Instance of Registry.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$poolKey
-	 *	@return		Registry
-	 */
-	public static function getInstance( string $poolKey = "REFERENCES" ): self
-	{
-		if( self::$instance === NULL )
-			self::$instance	= new self( $poolKey );
-		return self::$instance;
-	}
-
-	/**
 	 *	Returns registered Object.
 	 *	@access		public
 	 *	@param		string		$key		Registry Key of registered Object
@@ -101,21 +124,10 @@ class Registry
 	public function & get( string $key )
 	{
 		if( !isset( $GLOBALS[$this->poolKey][$key] ) )
-			throw new InvalidArgumentException( 'No Object registered with Key "'.$key.'"' );
+			throw new InvalidArgumentException( 'No object registered by key "'.$key.'"' );
 		return $GLOBALS[$this->poolKey][$key];
 	}
 
-	/**
-	 *	Returns registered Object statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$key		Registry Key of registered Object
-	 *	@return		mixed
-	 */
-	public static function & getStatic( string $key )
-	{
-		return self::getInstance()->get( $key );
-	}
 
 	/**
 	 *	Indicates whether a Key is registered.
@@ -155,5 +167,14 @@ class Registry
 			return false;
 		unset( $GLOBALS[$this->poolKey][$key] );
 		return true;
+	}
+
+	/**
+	 *	Denies to clone Registry.
+	 *	@access		private
+	 *	@return		void
+	 */
+	private function __clone()
+	{
 	}
 }

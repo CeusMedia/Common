@@ -4,13 +4,13 @@ namespace CeusMedia\Common\Alg\Time;
 
 class Duration
 {
-	protected $shortMode	= FALSE;
+	protected bool $shortMode	= FALSE;
 
 	public function __construct()
 	{
 	}
 
-	public function convertDurationToSeconds( $duration ): int
+	public function convertDurationToSeconds( string $duration ): int
 	{
 		return self::parse( $duration );
 	}

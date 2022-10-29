@@ -44,7 +44,7 @@ class Selection
 	 *	@static
 	 *	@param		array		$list		List
 	 *	@param		int			$pos1		Position of lower Bound
-	 *	@param		int			$pos1		Position of higher Bound
+	 *	@param		int			$pos2		Position of higher Bound
 	 *	@return		int
 	 */
 	protected static function getLowest( $list, $pos1, $pos2 )
@@ -83,7 +83,7 @@ class Selection
 	 *	@static
 	 *	@param		array		$list		Reference to List
 	 *	@param		int			$pos1		Position of first Element
-	 *	@param		int			$pos1		Position of second Element
+	 *	@param		int			$pos2		Position of second Element
 	 *	@return		void
 	 */
 	protected static function swap( &$list, $pos1, $pos2 )

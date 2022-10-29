@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converter for Strings using different ways of Camel Case.
  *
@@ -27,6 +28,8 @@
 
 namespace CeusMedia\Common\Alg\Text;
 
+use RuntimeException;
+
 /**
  *	Converter for Strings using different ways of Camel Case.
  *	@category		Library
@@ -38,7 +41,7 @@ namespace CeusMedia\Common\Alg\Text;
  */
 class CamelCase
 {
-	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
+	protected static string $regExp	= '/^(.*)[\-\_ ](.*)$/';
 
 	/**
 	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
@@ -57,7 +60,7 @@ class CamelCase
 	static public function decode( string $string, string $delimiter = ' ' ): string
 	{
 		if( !function_exists( 'mb_substr' ) )
-			throw new \RuntimeException( 'PHP module "mb" is not installed but needed' );
+			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
 
 		$result	= '';
 		for( $i=0; $i<strlen( $string ); $i++ ){

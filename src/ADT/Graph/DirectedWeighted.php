@@ -243,7 +243,7 @@ class DirectedWeighted extends Weighted
 	/**
 	 *	Breitendurchlauf
 	 */
-	public function traverseBreadth( $startNode ): array
+	public function traverseBreadth( Node $startNode ): array
 	{
 		$distance	= [];
 		$state		= [];

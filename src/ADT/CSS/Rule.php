@@ -43,9 +43,9 @@ use OutOfRangeException;
  */
 class Rule
 {
-	public $selector	= '';
+	public string $selector		= '';
 
-	public $properties	= [];
+	public array $properties	= [];
 
 	public function __construct( string $selector, array $properties = [] )
 	{
@@ -113,7 +113,7 @@ class Rule
 		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );
 	}
 
-	public function setPropertyByKey( string $key, $value = NULL ): bool
+	public function setPropertyByKey( string $key, ?string $value = NULL ): bool
 	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->removePropertyByKey( $key );

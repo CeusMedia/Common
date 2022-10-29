@@ -31,6 +31,7 @@ namespace CeusMedia\Common\UI;
 
 use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
 use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use DOMNode;
 use OutOfRangeException;
 
 /**
@@ -434,7 +435,7 @@ class DevOutput
 		self::$defaultChannel	= $channel;
 	}
 
-	public function showDOM( $node, int $offset = 0 )
+	public function showDOM( DOMNode $node, int $offset = 0 ): void
 	{
 	//	remark( $node->nodeType." [".$node->nodeName."]" );
 	//	remark( $node->nodeValue );
