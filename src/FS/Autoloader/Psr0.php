@@ -43,17 +43,13 @@ namespace CeusMedia\Common\FS\Autoloader;
  */
 class Psr0
 {
-	/**	@var		string		$fileExtension */
-	private $fileExtension = '.php';
+	private string $fileExtension = '.php';
 
-	/**	@var		string		$namespace */
-	private $namespace;
+	private ?string $namespace;
 
-	/**	@var		string		$includePath */
-	private $includePath;
+	private string $includePath;
 
-	/**	@var		string		$namespaceSeparator */
-	private $namespaceSeparator = '\\';
+	private string $namespaceSeparator = '\\';
 
 	/**
 	 *	Creates a new <tt>SplClassLoader</tt> that loads classes of the

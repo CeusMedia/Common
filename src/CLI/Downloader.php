@@ -86,9 +86,9 @@ class Downloader
 	/**	@var		array				$headers			Collected Response Headers, already split */
 	protected array $headers			= [];
 
-	protected ?string $fileUri;
+	protected ?string $fileUri			= NULL;
 
-	protected ?string $tempUri;
+	protected ?string $tempUri			= NULL;
 
 	/**	@var		Clock			$clock				Clock Instance */
 	private Clock $clock;

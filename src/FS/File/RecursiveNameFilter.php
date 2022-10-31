@@ -46,7 +46,7 @@ use RuntimeException;
 class RecursiveNameFilter extends FilterIterator
 {
 	/**	@var	string		$fileName		Name of File to be found */
-	private $fileName;
+	private string $fileName;
 
 	/**
 	 *	Constructor.

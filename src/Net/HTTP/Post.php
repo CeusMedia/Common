@@ -50,7 +50,7 @@ class Post
 	public const TRANSPORT_FOPEN		= 1;
 	public const TRANSPORT_CURL			= 2;
 
-	protected ?string $content;
+	protected ?string $content			= NULL;
 
 	protected string $contentType		= 'application/x-www-form-urlencoded';
 

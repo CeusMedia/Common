@@ -45,16 +45,16 @@ use RuntimeException;
  */
 class RecursiveRegexFilter extends RegexIterator
 {
-	/**	@var	int				$numberFound			Number of found Files */
-	protected $numberFound		= 0;
+	/**	@var	int					$numberFound			Number of found Files */
+	protected int $numberFound		= 0;
 
-	/**	@var	int				$numberScanned	Number of scanned Files */
-	protected $numberScanned	= 0;
+	/**	@var	int					$numberScanned	Number of scanned Files */
+	protected int $numberScanned	= 0;
 
-	/**	@var	string			filePattern		Regular Expression to match with File Name */
-	private $filePattern;
+	/**	@var	string				filePattern		Regular Expression to match with File Name */
+	private string $filePattern;
 
-	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
+	/**	@var	string				$contentPattern	Regular Expression to match with File Content */
 	private $contentPattern;
 
 	/**
