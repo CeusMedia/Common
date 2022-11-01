@@ -65,7 +65,7 @@ class Client
 	public function __construct( string $host, ?int $port = 21, ?string $path = NULL, ?string $username = NULL, ?string $password = NULL )
 	{
 		try{
-			$port	= $port ?? 21;
+			$port ??= 21;
 			$this->connection	= new Connection( $host, $port );
 			$this->connection->checkConnection( TRUE, FALSE );
 			if( $username && $password )

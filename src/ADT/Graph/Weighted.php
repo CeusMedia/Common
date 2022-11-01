@@ -219,9 +219,9 @@ class Weighted
 	 */
 	public function getPath( Node $source, Node $target, ?Stack $stack = NULL ): Stack
 	{
-		$stack	= $stack ?? new Stack();
-		$hadNodes = [];
-		$ways = $this->getWays( $source, $target, $stack, $hadNodes );
+		$stack		??= new Stack();
+		$hadNodes	= [];
+		$ways		= $this->getWays( $source, $target, $stack, $hadNodes );
 		if( sizeof( $ways ) ){
 			foreach( $ways as $way ){
 				if( !isset( $fastestWay ) )
@@ -315,15 +315,15 @@ class Weighted
 	 */
 	public function getWays( Node $source, Node $target, ?Stack $stack = NULL, array $hadNodes = [] ): array
 	{
-		$ways = $newWays = [];
-		$stack	= $stack ?? new Stack();
+		$ways	= $newWays = [];
+		$stack	??= new Stack();
 		if( $this->isEdge( $source, $target ) ){
 			$stack->push( $target );
 			return [$stack];
 		}
 		$hadNodes[] = $source->getNodeName();
-		$ways = [];
-		$nodes = $this->getTargetNodes( $source );
+		$ways		= [];
+		$nodes		= $this->getTargetNodes( $source );
 		foreach( $nodes as $node ) {
 			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) ) {
 				$ways = $this->getWays( $node, $target, $stack, $hadNodes );
