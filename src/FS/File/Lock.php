@@ -95,7 +95,7 @@ class Lock
 					return FALSE;
 				throw new RuntimeException( 'File "'.$this->fileName.'" could not been locked' );
 			}
-			usleep( $this->sleep * 1000000 );
+			usleep( $this->sleep * 1_000_000 );
 		}
 		touch( $this->fileName );
 		return TRUE;

@@ -261,7 +261,7 @@ class UnitFormater
 	 */
 	public static function formatMinutes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
-		return self::formatMicroSeconds( $float * 60000000, $precision, $indent, $edge );
+		return self::formatMicroSeconds( $float * 60_000_000, $precision, $indent, $edge );
 	}
 
 	/**
@@ -346,6 +346,6 @@ class UnitFormater
 	 */
 	public static function formatSeconds( $float, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
 	{
-		return self::formatMicroSeconds( $float * 1000000, $precision, $indent, $edge );
+		return self::formatMicroSeconds( $float * 1_000_000, $precision, $indent, $edge );
 	}
 }
