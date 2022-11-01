@@ -43,32 +43,32 @@ namespace CeusMedia\Common\Alg\Text;
  */
 class SnakeCase
 {
-	static public function apply( $string )
+	public static function apply( string $string ): string
 	{
 		return self::encode( $string );
 	}
 
-	static public function decode( $string )
+	public static function decode( string $string ): string
 	{
 		return str_replace( "_", " ", $string );
 	}
 
-	static public function encode( $string )
+	public static function encode( $string )
 	{
 		return str_replace( " ", "_", $string );
 	}
 
-	static public function toCamelCase( $string )
+	public static function toCamelCase( string $string ): string
 	{
 		return CamelCase::encode( static::decode( $string ) );
 	}
 
-	static public function toPascalCase( $string )
+	public static function toPascalCase( string $string ): string
 	{
 		return PascalCase::encode( static::decode( $string ) );
 	}
 
-	static public function validate( $string )
+	public static function validate( string $string ): bool
 	{
 		return self::apply( $string ) === $string;
 	}

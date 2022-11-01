@@ -39,7 +39,7 @@ namespace CeusMedia\Common\Alg\Text;
 class Unicoder
 {
 	/**	@var		string		$string		Unicoded String */
-	protected $string;
+	protected string $string;
 
 	/**
 	 *	Constructor.
@@ -48,7 +48,7 @@ class Unicoder
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		void
 	 */
-	public function __construct( $string, $force = FALSE )
+	public function __construct( string $string, bool $force = FALSE )
 	{
 		$this->string	= self::convertToUnicode( $string, $force );
 	}
@@ -71,7 +71,7 @@ class Unicoder
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		string
 	 */
-	public static function convertToUnicode( $string, $force = FALSE )
+	public static function convertToUnicode( string $string, bool $force = FALSE ): string
 	{
 		if( !( !$force && self::isUnicode( $string ) ) )
 			$string	= utf8_encode( $string );
@@ -83,7 +83,7 @@ class Unicoder
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getString()
+	public function getString(): string
 	{
 		return $this->string;
 	}
@@ -95,7 +95,7 @@ class Unicoder
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
-	public static function isUnicode( $string )
+	public static function isUnicode( string $string ): bool
 	{
 		if( function_exists( 'mb_convert_encoding ') )
 			return mb_check_encoding( $string, 'UTF-8' );
