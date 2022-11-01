@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for Atom Feeds.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,102 +22,112 @@
  *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.05.2008
  */
+
+namespace CeusMedia\Common\XML\Atom;
+
+use CeusMedia\Common\XML\Element as XmlElement;
+use Exception;
+
 /**
  *	Parser for Atom Feeds.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_Atom
- *	@uses			XML_Element
- *	@uses			XML_Atom_Validator
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.05.2008
  */
-class XML_Atom_Parser
+class Parser
 {
 	/**	@var		array		$channelData		Array of collect Data about Atom Feed */
 	public $channelData;
+
 	/**	@var		array		$emptyChannelData	Template of empty Category Data Structure */
-	protected $emptyCategory	= array(
-		'label'		=> "",
-		'scheme'	=> "",
-		'term'		=> "",
-	);
+	protected $emptyCategory	= [
+		'label'		=> '',
+		'scheme'	=> '',
+		'term'		=> '',
+	];
+
 	/**	@var		array		$emptyChannelData	Template of empty Channel Data Structure */
-	protected $emptyChannelData	= array(
-		'author'		=> array(),
-		'category'		=> array(),
-		'contributor'	=> array(),
+	protected $emptyChannelData	= [
+		'author'		=> [],
+		'category'		=> [],
+		'contributor'	=> [],
 		//  will be set to emptyGenerator by Parser
-		'generator' 	=> array(),
-		'icon'			=> "",
-		'id'			=> "",
-		'link'			=> array(),
-		'logo'			=> "",
-		'rights'		=> "",
-		'source'		=> "",
-		'subtitle'		=> "",
-		'title'			=> "",
-		'updated'		=> "",
-	);
+		'generator' 	=> [],
+		'icon'			=> '',
+		'id'			=> '',
+		'link'			=> [],
+		'logo'			=> '',
+		'rights'		=> '',
+		'source'		=> '',
+		'subtitle'		=> '',
+		'title'			=> '',
+		'updated'		=> '',
+	];
+
 	/**	@var		array		$emptyChannelData	Template of empty Entry Data Structure */
-	protected $emptyEntry		= array(
-		'author'		=> array(),
-		'category'		=> array(),
+	protected $emptyEntry		= [
+		'author'		=> [],
+		'category'		=> [],
 		//  will be set to emptyText by Constructor
-		'content'		=> array(),
-		'contributor'	=> array(),
-		'id'			=> "",
-		'link'			=> array(),
-		'published'		=> "",
-		'rights'		=> "",
+		'content'		=> [],
+		'contributor'	=> [],
+		'id'			=> '',
+		'link'			=> [],
+		'published'		=> '',
+		'rights'		=> '',
 		//  will be set to emptyText by Constructor
-		'source'		=> array(),
+		'source'		=> [],
 		//  will be set to emptyText by Constructor
-		'summary'		=> array(),
+		'summary'		=> [],
 		//  will be set to emptyText by Constructor
-		'title'			=> array(),
-		'updated'		=> "",
-	);
+		'title'			=> [],
+		'updated'		=> '',
+	];
+
 	/**	@var		array		$emptyChannelData	Template of empty Generator Data Structure */
-	protected $emptyGenerator	= array(
-		'uri'		=> "",
-		'version'	=> "",
-		'name'		=> "",
-	);
+	protected $emptyGenerator	= [
+		'uri'		=> '',
+		'version'	=> '',
+		'name'		=> '',
+	];
+
 	/**	@var		array		$emptyChannelData	Template of empty Link Data Structure */
-	protected $emptyLink	= array(
-		'href'			=> "",
+	protected $emptyLink	= [
+		'href'			=> '',
 		'rel'			=> NULL,
 		'type'			=> NULL,
 		'hreflang'		=> NULL,
 		'title'			=> NULL,
 		'length'		=> NULL,
-	);
+	];
+
 	/**	@var		array		$emptyChannelData	Template of empty Person Data Structure */
-	protected $emptyPerson	= array(
-		'name'	=> "",
-		'uri'	=> "",
-		'email'	=> "",
-	);
+	protected $emptyPerson	= [
+		'name'	=> '',
+		'uri'	=> '',
+		'email'	=> '',
+	];
+
 	/**	@var		array		$emptyChannelData	Template of empty Text Data Structure */
-	protected $emptyText		= array(
-		'base'		=> "",
-		'content'	=> "",
-		'lang'		=> "",
+	protected $emptyText		= [
+		'base'		=> '',
+		'content'	=> '',
+		'lang'		=> '',
 		'type'		=> "text",
-	);
+	];
+
 	/**	@var		array		$entries			Array of Entries in Atom Feed */
 	public $entries;
 
-	protected $language;
+	public $language;
 
 	/**
 	 *	Constructor.
@@ -134,13 +145,13 @@ class XML_Atom_Parser
 	}
 
 	/**
-	 *	Creates a Data Structure with Attributes with a Tempate for a Node.
+	 *	Creates a Data Structure with Attributes with a Template for a Node.
 	 *	@access		protected
-	 *	@param		XML_Element	$node				Node to build Data Structure for
-	 *	@param		array							Template Data Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
+	 *	@param		XmlElement	$node				Node to build Data Structure for
+	 *	@param		array		$template			Template Data Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
 	 *	@return		array
 	 */
-	protected function createAttributeNode( $node, $template = array() )
+	protected function createAttributeNode( XmlElement $node, array $template = [] ): array
 	{
 		$text	= $template;
 		foreach( $node->getAttributes() as $key => $value )
@@ -155,17 +166,17 @@ class XML_Atom_Parser
 	 *	@param		string		$xml				XML String to parse
 	 *	@param		bool		$validateRules		Validate Atom Feed against Atom Rules.
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function parse( $xml, $validateRules = TRUE )
+	public function parse( string $xml, bool $validateRules = TRUE )
 	{
 		$this->language		= "en";
 		$this->channelData	= $this->emptyChannelData;
-		$this->entries		= array();
+		$this->entries		= [];
 
-		$root		= new XML_Element( $xml );
-		if( $validateRules )
-		{
-			$validator	= new XML_Atom_Validator();
+		$root		= new XmlElement( $xml );
+		if( $validateRules ){
+			$validator	= new Validator();
 			if( !$validator->isValid( $root ) )
 				throw new Exception( $validator->getFirstError() );
 		}
@@ -177,20 +188,18 @@ class XML_Atom_Parser
 	/**
 	 *	Parses Nodes and returns Array Structure.
 	 *	@access		protected
-	 *	@param		XML_Element		$nodes			XML_Element containing Child Nodes to parse
+	 *	@param		XmlElement		$nodes			XML_Element containing Child Nodes to parse
 	 *	@param		array			$template		Template of new Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
 	 *	@return		array
 	 */
-	protected function parseNodes( $nodes, $template = array() )
+	protected function parseNodes( XmlElement $nodes, array $template = [] ): array
 	{
 		$target	= $template;
-		foreach( $nodes as $nodeName => $node )
-		{
-			$language	= $this->getNodeLanguage( $node );
-			switch( $nodeName )
-			{
+		foreach( $nodes as $nodeName => $node ){
+//			$language	= $this->getNodeLanguage( $node );
+			switch( $nodeName ){
 				case 'author':
-				case 'constributor':
+				case 'contributor':
 					$target[$nodeName][]	= $this->parseNodes( $node, $this->emptyPerson );
 					break;
 				case 'entry':
@@ -225,14 +234,13 @@ class XML_Atom_Parser
 	/**
 	 *	Returns Language Attributes and returns evaluate Language.
 	 *	@access		protected
-	 *	@param		XML_Element		$node			XML_Element
+	 *	@param		XmlElement		$node			XML_Element
 	 *	@param		string			$attributeName	Name of Language Attribute
 	 *	@return		string
 	 */
-	protected function getNodeLanguage( $node, $attributeName = "xml:lang" )
+	protected function getNodeLanguage( XmlElement $node, string $attributeName = "xml:lang" ): string
 	{
-		if( strpos( $attributeName, ":" ) )
-		{
+		if( strpos( $attributeName, ":" ) ){
 			$parts	= explode( ":", $attributeName );
 			if( $node->hasAttribute( $parts[1], $parts[0] ) )
 				return $node->getAttribute( $parts[1], $parts[0] );

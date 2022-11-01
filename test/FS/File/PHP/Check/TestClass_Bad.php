@@ -1,4 +1,6 @@
 <?php
+namespace CeusMedia\CommonTest\FS\File\PHP\Check;
+
 class TestClass_Bad
 {
 	function alpha()

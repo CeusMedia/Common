@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -6,7 +7,7 @@
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -24,11 +25,15 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use FilterIterator;
+
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -37,18 +42,15 @@
  *	Folders starting with a Dot can be stripped from the List.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@uses			FS_Folder_RegexFilter
- *	@uses			FS_Folder_Iterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
-class FS_Folder_Lister
+class Lister
 {
 	/**	@var		string		$path				Path to Folder */
-	protected $path				= NULL;
+	protected $path;
 
 	/**	@var		string|NULL	$pattern			Regular Expression to match with File Name */
 	protected $pattern			= NULL;
@@ -83,7 +85,7 @@ class FS_Folder_Lister
 	 */
 	public static function getFileList( string $path, string $pattern = NULL ): FilterIterator
 	{
-		$index	= new FS_Folder_Lister( $path );
+		$index	= new Lister( $path );
 		if( $pattern !== NULL )
 			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
@@ -102,7 +104,7 @@ class FS_Folder_Lister
 	 */
 	public static function getFolderList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
-		$index	= new FS_Folder_Lister( $path );
+		$index	= new Lister( $path );
 		if( $pattern !== NULL )
 			$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
@@ -119,14 +121,14 @@ class FS_Folder_Lister
 	public function getList(): FilterIterator
 	{
 		if( $this->pattern )
-			return new FS_Folder_RegexFilter(
+			return new RegexFilter(
 				$this->path,
 				$this->pattern,
 				$this->showFiles,
 				$this->showFolders,
 				$this->stripDotEntries
 			);
-		return new FS_Folder_Iterator(
+		return new Iterator(
 			$this->path,
 			$this->showFiles,
 			$this->showFolders,
@@ -145,7 +147,7 @@ class FS_Folder_Lister
 	 */
 	public static function getMixedList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
-		$index	= new FS_Folder_Lister( $path );
+		$index	= new Lister( $path );
 		if( $pattern !== NULL )
 			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
@@ -162,7 +164,7 @@ class FS_Folder_Lister
 	 *	@param		array		$extensions			List of allowed File Extensions.
 	 *	@return		self
 	 */
-	public function setExtensions( array $extensions = array() ): self
+	public function setExtensions( array $extensions = [] ): self
 	{
 		$pattern	= "";
 		if( count( $extensions ) !== 0 ){

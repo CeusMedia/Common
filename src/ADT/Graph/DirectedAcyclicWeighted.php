@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Directed Acyclic Graph.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +21,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Graph;
+
+use Exception;
+
 /**
  *	Directed Acyclic Graph.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
- *	@extends		ADT_Graph_DirectedWeighted
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Graph_DirectedAcyclicWeighted extends ADT_Graph_DirectedWeighted
+class DirectedAcyclicWeighted extends DirectedWeighted
 {
 	/**
 	 *	Adds an Edge and returns the reference on the new Edge.
@@ -42,15 +47,16 @@ class ADT_Graph_DirectedAcyclicWeighted extends ADT_Graph_DirectedWeighted
 	 *	@param		Node		$source		Source Node of this Edge
 	 *	@param		Node		$target		Target Node of this Edge
 	 *	@param		int			$value		Value of this Edge
+	 *	@param		bool		$allowCycle	Flag: allow cycle or quit with exception
 	 *	@return		Edge
+	 *	@throws		Exception
 	 */
-	public function addEdge( $source, $target, $value = 1 )
+	public function addEdge( Node $source, Node $target, int $value = 1, bool $allowCycle = FALSE ): Edge
 	{
 		$edge	= $this->edgeSet->addEdge( $source, $target, $value );
-		if( $this->hasCycle() )
-		{
+		if( !$allowCycle && $this->hasCycle() ){
 			$this->edgeSet->removeEdge( $source, $target );
-			return false;
+			throw new Exception( 'Graph would have a cycle' );
 		}
 		return $edge;
 	}
@@ -61,8 +67,9 @@ class ADT_Graph_DirectedAcyclicWeighted extends ADT_Graph_DirectedWeighted
 	 *	@param		Node		$source		Source Node of this Edge
 	 *	@param		Node		$target		Target Node of this Edge
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function removeEdge( $source, $target )
+ 	public function removeEdge( Node $source, Node $target )
 	{
 		$value	= $this->getEdgeValue( $source, $target );
 		$this->edgeSet->removeEdge( $source, $target );

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Handler for Console Requests.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use RuntimeException;
+
 /**
  *	Handler for Console Requests.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
- *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_RequestReceiver extends ADT_List_Dictionary
+class RequestReceiver extends Dictionary
 {
-	public static $delimiterAssign	= "=";
-
-	protected $pairs				= array();
+	public static string $delimiterAssign	= "=";
 
 	/**
 	 *	Constructor, receives Console Arguments.

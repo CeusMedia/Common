@@ -2,7 +2,7 @@
 /**
  *	Checks order of methods within a PHP File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +20,30 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP_Check
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.09.2008
  */
+
+namespace CeusMedia\Common\FS\File\PHP\Check;
+
+use Exception;
+
 /**
  *	Checks order of methods within a PHP File.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP_Check
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.09.2008
  */
-class FS_File_PHP_Check_MethodOrder
+class MethodOrder
 {
-	private $fileName		= "";
-	private $originalList	= array();
-	private $sortedList		= array();
-	private $compared		= FALSE;
+	private string $fileName		= '';
+	private array $originalList		= [];
+	private array $sortedList		= [];
+	private bool $compared			= FALSE;
 
 	/**
 	 *	Constructor.
@@ -48,7 +51,7 @@ class FS_File_PHP_Check_MethodOrder
 	 *	@param		string		$fileName		URL of PHP File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( "File '".$fileName."' is not existing." );
@@ -60,7 +63,7 @@ class FS_File_PHP_Check_MethodOrder
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function compare()
+	public function compare(): bool
 	{
 		$this->compared	= TRUE;
 		$content	= file_get_contents( $this->fileName );
@@ -70,7 +73,7 @@ class FS_File_PHP_Check_MethodOrder
 		{
 			if( preg_match( "@^(#|//)@", trim( $line ) ) )
 				continue;
-			$matches	= array();
+			$matches	= [];
 			preg_match_all( "@function\s*([a-z]\S+)\s*\(@i", $line, $matches, PREG_SET_ORDER );
 			foreach( $matches as $match )
 				$this->originalList[] = $match[1];
@@ -85,7 +88,7 @@ class FS_File_PHP_Check_MethodOrder
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getOriginalList()
+	public function getOriginalList(): array
 	{
 		if( !$this->compared )
 			throw new Exception( "Not compared yet." );
@@ -97,7 +100,7 @@ class FS_File_PHP_Check_MethodOrder
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSortedList()
+	public function getSortedList(): array
 	{
 		if( !$this->compared )
 			throw new Exception( "Not compared yet." );

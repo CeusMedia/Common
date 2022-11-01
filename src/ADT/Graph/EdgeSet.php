@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	EdgeSet to store and manipulate edges in a graph.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,45 +21,51 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Graph;
+
+use Countable;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	EdgeSet to store and manipulate edges in a graph.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
- *	@implements		Countable
- *	@uses			ADT_Graph_Edge
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Graph_EdgeSet implements Countable
+class EdgeSet implements Countable
 {
-	/**	@var		array				$edges			Array of all Edges */
-	protected $edges = array();
+	/**	@var		Edge[]				$edges			Array of all Edges */
+	protected $edges = [];
 
 	/**
 	 *	Adds a new Edge and returns reference of this Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
-	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
-	 *	@param		int					$value			Value of this Edge
-	 *	@return 	ADT_Graph_Node
+	 *	@param		Node		$sourceNode		Source Node of this Edge
+	 *	@param		Node		$targetNode		Target Node of this Edge
+	 *	@param		int			$value			Value of this Edge
+	 *	@return		Edge
+	 *	@throws		Exception
+	 *	@throws		InvalidArgumentException
 	 */
-	public function addEdge( $sourceNode, $targetNode, $value = NULL )
+	public function addEdge( Node $sourceNode, Node $targetNode, int $value = 0 ): Edge
 	{
-		if( $this->isEdge( $sourceNode, $targetNode ) )
-		{
+		if( $this->isEdge( $sourceNode, $targetNode ) ) {
 			$edge	= $this->getEdge( $sourceNode, $targetNode );
- 			if( $value == $edge->getEdgeValue( $sourceNode, $targetNode ) )
+ 			if( $value == $edge->getEdgeValue() )
 				throw new InvalidArgumentException( 'Edge is already set.' );
 			else
 				$this->removeEdge( $sourceNode, $targetNode );
 		}
-		$newEdge = new ADT_Graph_Edge( $sourceNode, $targetNode, $value );
+		$newEdge = new Edge( $sourceNode, $targetNode, $value );
 		$this->edges[] = $newEdge;
 		return $newEdge;
 	}
@@ -68,7 +75,7 @@ class ADT_Graph_EdgeSet implements Countable
 	 *	@access		public
 	 *	@return 	int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->edges );
 	}
@@ -76,30 +83,31 @@ class ADT_Graph_EdgeSet implements Countable
 	/**
 	 *	Returns an Edge existing in this EdgeSet.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
-	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
-	 *	@return 	int
+	 *	@param		Node		$sourceNode		Source Node of this Edge
+	 *	@param		Node		$targetNode		Target Node of this Edge
+	 *	@return 	Edge|NULL
 	 */
-	public function getEdge( $sourceNode, $targetNode )
+	public function getEdge( Node $sourceNode, Node $targetNode ): ?Edge
 	{
 		$index = $this->getEdgeIndex( $sourceNode, $targetNode );
-		return $this->edges[$index];
+		if( $index !== -1 )
+			return $this->edges[$index];
+		return NULL;
 	}
 
 	/**
 	 *	Returns Index of an Edge in this EdgeSet.
 	 *	@access		private
-	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
-	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
+	 *	@param		Node		$sourceNode		Source Node of this Edge
+	 *	@param		Node		$targetNode		Target Node of this Edge
 	 *	@return 	int
 	 */
-	private function getEdgeIndex( $sourceNode, $targetNode )
+	private function getEdgeIndex( Node $sourceNode, Node $targetNode ): int
 	{
-		for( $i=0; $i<sizeof( $this->edges ); $i++ )
-		{
+		for( $i=0; $i<sizeof( $this->edges ); $i++ ) {
 			$edge = $this->edges[$i];
-			$isSource = $edge->getSourceNode() == $sourceNode;
-			$isTarget = $edge->getTargetNode() == $targetNode;
+			$isSource = $edge->getSourceNode() === $sourceNode;
+			$isTarget = $edge->getTargetNode() === $targetNode;
 			if( $isSource && $isTarget )
 				return $i;
 		}
@@ -109,9 +117,9 @@ class ADT_Graph_EdgeSet implements Countable
 	/**
 	 *	Returns an Array of all Edges in this EdgeSet.
 	 *	@access		public
-	 *	@return 	ADT_Graph_Node
+	 *	@return 	Edge[]
 	 */
-	public function getEdges()
+	public function getEdges(): array
 	{
 		return $this->edges;
 	}
@@ -119,16 +127,15 @@ class ADT_Graph_EdgeSet implements Countable
 	/**
 	 *	Indicates whether an Edge is existing in this EdgeSet.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
-	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
+	 *	@param		Node		$sourceNode		Source Node of this Edge
+	 *	@param		Node		$targetNode		Target Node of this Edge
 	 *	@return 	bool
 	 */
-	public function isEdge( $sourceNode, $targetNode )
+	public function isEdge( Node $sourceNode, Node $targetNode ): bool
 	{
-		foreach( $this->edges as $edge )
-		{
-			$isSource = $edge->getSourceNode() == $sourceNode;
-			$isTarget = $edge->getTargetNode() == $targetNode;
+		foreach( $this->edges as $edge ) {
+			$isSource = $edge->getSourceNode() === $sourceNode;
+			$isTarget = $edge->getTargetNode() === $targetNode;
 			if( $isSource && $isTarget )
 				return TRUE;
 		}
@@ -138,11 +145,12 @@ class ADT_Graph_EdgeSet implements Countable
 	/**
 	 *	Removing an Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
-	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
-	 *	@return 	void
+	 *	@param		Node		$sourceNode		Source Node of this Edge
+	 *	@param		Node		$targetNode		Target Node of this Edge
+	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function removeEdge( $sourceNode, $targetNode )
+	public function removeEdge( Node $sourceNode, Node $targetNode )
 	{
 		if( !$this->isEdge( $sourceNode, $targetNode ) )
 			throw new Exception( 'Edge is not existing.' );

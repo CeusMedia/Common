@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for HTTP Response containing Headers and Body.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,91 +21,73 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Response
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\Net\HTTP\Response;
+
+use CeusMedia\Common\Net\HTTP\Request as Request;
+use CeusMedia\Common\Net\HTTP\Response as Response;
+use CeusMedia\Common\Net\HTTP\Response\Decompressor as ResponseDecompressor;
+use CeusMedia\Common\Net\HTTP\Header\Field\Parser as HeaderFieldParser;
+
 /**
  *	Parser for HTTP Response containing Headers and Body.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Response
- *	@uses			Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
-class Net_HTTP_Response_Parser
+class Parser
 {
-	/**
-	 *	Sends given Request and returns resulting Response Object.
-	 *	@access		public
-	 *	@param		Net_HTTP_Request	$request	Request Object
-	 *	@return		Net_HTTP_Response	Response Object
-	 */
-	public static function fromRequest( Net_HTTP_Request $request )
-	{
-		$response	= $request->send();
-		return self::fromString( $response );
-	}
-
 	/**
 	 *	Parses Response String and returns resulting Response Object.
 	 *	@access		public
-	 *	@param		string				$request	Request String
-	 *	@return		Net_HTTP_Response	Response Object
+	 *	@param		string			$string	Request String
+	 *	@return		Response		Response Object
 	 */
-	public static function fromString( $string )
+	public static function fromString( string $string ): Response
 	{
 #		$string		= trim( $string );
 		$parts		= explode( "\r\n\r\n", $string );
-		$response	= new Net_HTTP_Response;
-		while( $part = array_shift( $parts ) )
-		{
+		$response	= new Response();
+		while( $part = array_shift( $parts ) ){
 			$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
-			if( !preg_match( $pattern, $part ) )
-			{
+			if( !preg_match( $pattern, $part ) ){
 				array_unshift( $parts, $part );
 				break;
 			}
 			if( !$response->headers->getFields() )
 				$response	= self::parseHeadersFromString( $part );
-		};
+		}
 		$body	= implode( "\r\n\r\n", $parts );
 
 /*		$encodings	= $response->headers->getField( 'content-encoding' );
-		while( $encoding = array_pop( $encodings ) )
-		{
+		while( $encoding = array_pop( $encodings ) ){
 			$method	= $encoding->getValue();
-			$body	= Net_HTTP_Response_Decompressor::decompressString( $body, $method );
+			$body	= ResponseDecompressor::decompressString( $body, $method );
 		}*/
 		$response->setBody( $body );
 		return $response;
 	}
 
-	public static function parseHeadersFromString( $string )
+	public static function parseHeadersFromString( string $string ): Response
 	{
 		$lines	= explode( "\r\n", $string );
-		$state	= 0;
-		foreach( $lines as $line )
-		{
-			if( !$state )
-			{
-				$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
-				$matches	= array();
-				preg_match_all( $pattern, $line, $matches );
-				$response	= new Net_HTTP_Response( $matches[1][0], $matches[2][0] );
-				$response->setStatus( $matches[3][0] );
-				$state	= 1;
-			}
-			else if( $state == 1 )
-			{
-				if( !strlen( trim( $line ) ) )
-					continue;
-				$response->headers->addField( Net_HTTP_Header_Field_Parser::parse( $line ) );
-			}
+		$firstLine	= array_shift( $lines );
+		$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
+		$matches	= [];
+		preg_match_all( $pattern, $firstLine, $matches );
+		$response	= new Response( $matches[1][0], $matches[2][0] );
+		$response->setStatus( $matches[3][0] );
+
+		foreach( $lines as $line ){
+			if( strlen( trim( $line ) ) !== 0 )
+				$response->headers->addField( HeaderFieldParser::parse( $line ) );
 		}
 		return $response;
 	}

@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,43 +22,55 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			06.05.2008
  */
+
+namespace CeusMedia\Common\FS\File\Configuration;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\ADT\JSON\Converter as JsonConverter;
+use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\FS\File\YAML\Reader as YamlFileReader;
+use CeusMedia\Common\XML\Element as XmlElement;
+use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
- *	@extends		ADT_List_LevelMap
- *	@uses			ADT_JSON_Converter
- *	@uses			FS_File_Writer
- *	@uses			FS_File_INI_Reader
- *	@uses			FS_File_YAML_Reader
- *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			06.05.2008
  */
-#class FS_File_Configuration_Reader extends ADT_List_LevelMap
-class FS_File_Configuration_Reader extends ADT_List_Dictionary
+class Reader extends Dictionary
 {
-	/**	@var		bool		$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
-	public static $iniQuickLoad		= FALSE;
+	/**	@var		bool				$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
+	public static bool $iniQuickLoad	= FALSE;
+
+	/** @var		string				$source */
+	protected string $source;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Configuration File
-	 *	@param		string		$cachePath		Path to Cache File
+	 *	@param		string			$fileName		File Name of Configuration File
+	 *	@param		string|NULL		$cachePath		Path to Cache File
 	 *	@return		void
+	 *	@throws		Exception
+	 *	@throws		InvalidArgumentException
 	 */
-	public function __construct( $fileName, $cachePath = NULL )
+	public function __construct( string $fileName, ?String $cachePath = NULL )
 	{
+		parent::__construct();
 		$this->source	= $this->loadFile( $fileName, $cachePath );
 	}
 
@@ -69,7 +82,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( $key, $default = NULL )
+	public function get( string $key, $default = NULL )
 	{
 		//  no Key given
 		if( empty( $key ) )
@@ -80,20 +93,17 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			//  return Value
 			return $this->pairs[$key];
 		//  Key has not been found
-		else
-		{
-			//  prepare Prefix Key to seach for
+		else{
+			//  prepare Prefix Key to search for
 			$key		.= ".";
 			//  define empty Map
-			$list		= array();
+			$list		= [];
 			//  get Length of Prefix Key outside the Loop
 			$length		= strlen( $key );
 			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
-				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-				{
+			foreach( $this->pairs as $pairKey => $pairValue ){
+				//  pre-check for Performance
+				if( $pairKey[0] !== $key[0] ){
 					//  Pairs with Prefix Keys are passed
 					if( count( $list ) )
 						//  break Loop -> big Performance Boost
@@ -118,17 +128,19 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Loads Configuration File directly or from Cache and returns Source (cache|ini|conf|xml|...).
 	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
-	 *	@param		string		$cachePath		Path to Cache File
+	 *	@param		string			$fileName		File Name of Configuration File
+	 *	@param		string|NULL		$cachePath		Path to Cache File
 	 *	@return		string
+	 *	@throws		Exception
+	 *	@throws		InvalidArgumentException
+	 *	@throws		RuntimeException
 	 */
-	protected function loadFile( $fileName, $cachePath = NULL )
+	protected function loadFile( string $fileName, ?string $cachePath = NULL ): string
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'Configuration File "'.$fileName.'" is not existing.' );
 
-		if( is_string( $cachePath ) )
-		{
+		if( is_string( $cachePath ) ){
 			$cachePath	= preg_replace( "@([^/])$@", "\\1/", $cachePath );
 			$cacheFile	= $cachePath.basename( $fileName ).".cache";
 			if( $this->tryToLoadFromCache( $cacheFile, filemtime( $fileName ) ) )
@@ -136,8 +148,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		}
 
 		$info	= pathinfo( $fileName );
-		switch( $info['extension'] )
-		{
+		switch( $info['extension'] ){
 			case 'ini':
 			case 'conf':
 				$this->loadIniFile( $fileName );
@@ -157,10 +168,8 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 				throw new InvalidArgumentException( 'File Type "'.$info['extension'].'" is not supported.' );
 		}
 		ksort( $this->pairs );
-		if( !empty( $cachePath ) )
-		{
-			FS_File_Writer::save( $cacheFile, serialize( $this->pairs ), 0640 );
-		}
+		if( is_string( $cachePath ) && isset( $cacheFile ) )
+			FileWriter::save( $cacheFile, serialize( $this->pairs ), 0640 );
 		return $info['extension'];
 	}
 
@@ -170,29 +179,23 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 *	@param		string		$fileName		File Name of Configuration File
 	 *	@return		void
 	 */
-	protected function loadIniFile( $fileName )
+	protected function loadIniFile( string $fileName )
 	{
-		if( self::$iniQuickLoad )
-		{
+		if( self::$iniQuickLoad ){
 			$array	= parse_ini_file( $fileName, TRUE );
 			foreach( $array as $sectionName => $sectionData )
 				foreach( $sectionData as $key => $value )
 					$this->pairs[$sectionName.".".$key]	= $value;
 		}
-		else
-		{
+		else{
 			$pattern	= '@^(string|integer|int|double|boolean|bool).*$@';
-			$reader		= new FS_File_INI_Reader( $fileName, TRUE );
+			$reader		= new IniFileReader( $fileName, TRUE );
 			$comments	= $reader->getComments();
-			foreach( $reader->getProperties() as $sectionName => $sectionData )
-			{
-				foreach( $sectionData as $key => $value )
-				{
-					if( isset( $comments[$sectionName][$key] ) )
-					{
-						$matches	= array();
-						if( preg_match_all( $pattern, $comments[$sectionName][$key], $matches ) )
-						{
+			foreach( $reader->getProperties() as $sectionName => $sectionData ){
+				foreach( $sectionData as $key => $value ){
+					if( isset( $comments[$sectionName][$key] ) ){
+						$matches	= [];
+						if( preg_match_all( $pattern, $comments[$sectionName][$key], $matches ) ){
 							$type		= $matches[1][0];
 							settype( $value, $type );
 						}
@@ -209,27 +212,13 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 *	@param		string		$fileName		File Name of Configuration File
 	 *	@return		void
 	 */
-	protected function loadJsonFile( $fileName )
+	protected function loadJsonFile( string $fileName )
 	{
-		$json	= FS_File_Reader::load( $fileName );
-		$array	= ADT_JSON_Converter::convertToArray( $json );
+		$json	= FileReader::load( $fileName );
+		$array	= JsonConverter::convertToArray( $json );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $item )
 				$this->pairs[$sectionName.".".$key]	= $item['value'];
-	}
-
-	/**
-	 *	Loads Configuration from WDDX File.
-	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
-	 *	@return		void
-	 */
-	protected function loadWddxFile( $fileName )
-	{
-		$array	= XML_WDDX_FileReader::load( $fileName );
-		foreach( $array as $sectionName => $sectionData )
-			foreach( $sectionData as $key => $value )
-				$this->pairs[$sectionName.".".$key]	= $value;
 	}
 
 	/**
@@ -237,15 +226,16 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 *	@access		protected
 	 *	@param		string		$fileName		File Name of Configuration File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	protected function loadXmlFile( $fileName )
+	protected function loadXmlFile( string $fileName )
 	{
 		//  get root element of XML file
-		$root	= XML_ElementReader::readFile( $fileName );
-		$this->pairs	= array();
+		$root	= XmlElementReader::readFile( $fileName );
+		$this->pairs	= [];
 		//  iterate sections
-		foreach( $root as $sectionNode )
-		{
+		/** @var XmlElement $sectionNode */
+		foreach( $root as $sectionNode ){
 			//  get section name
 			$sectionName	= $sectionNode->getAttribute( 'name' );
 			//  read section
@@ -256,19 +246,18 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Reads sections and values of a XML file node, recursivly, and stores pairs in-situ.
+	 *	Reads sections and values of an XML file node, recursively, and stores pairs in-situ.
 	 *	@access		protected
-	 *	@param		XML_Element	$node			Section XML node to read
-	 *	@param		string		$path			Path to this section
+	 *	@param		XmlElement		$node			Section XML node to read
+	 *	@param		string|NULL		$path			Path to this section
 	 *	@return		void
 	 */
-	protected function loadXmlSection( $node, $path = NULL )
+	protected function loadXmlSection( XmlElement $node, ?string $path = NULL )
 	{
 		//  extend path by delimiter
 		$path	.= $path ? '.' : '';
 		//  iterate node children
-		foreach( $node as $child )
-		{
+		foreach( $node as $child ){
 			//  get node name of child
 			$name	= $child->getAttribute( 'name' );
 			//  dispatch on node name
@@ -303,9 +292,9 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 *	@param		string		$fileName		File Name of Configuration File
 	 *	@return		void
 	 */
-	protected function loadYamlFile( $fileName )
+	protected function loadYamlFile( string $fileName )
 	{
-		$array	= FS_File_YAML_Reader::load( $fileName );
+		$array	= YamlFileReader::load( $fileName );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;
@@ -318,25 +307,20 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			//  throw Exception
 			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
-		if( isset( $this->pairs[$key] ) )
-		{
+		if( isset( $this->pairs[$key] ) ){
 			//  remove Pair
 			unset( $this->pairs[$key] );
 			//  return Success
-			return 1;
+			return TRUE;
 		}
 
 		$count	= 0;
-		//  prepare Prefix Key to seach for
+		//  prepare Prefix Key to search for
 		$key		.= ".";
-		//  get Length of Prefix Key outside the Loop
-		$length		= strlen( $key );
 		//  iterate all stores Pairs
-		foreach( $this->pairs as $pairKey => $pairValue )
-		{
-			//  precheck for Performance
-			if( $pairKey[0] !== $key[0] )
-			{
+		foreach( $this->pairs as $pairKey => $pairValue ){
+			//  pre-check for Performance
+			if( $pairKey[0] !== $key[0] ){
 				//  Pairs with Prefix Keys are passed
 				if( $count )
 					//  break Loop -> big Performance Boost
@@ -345,8 +329,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 				continue;
 			}
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 )
-			{
+			if( strpos( $pairKey, $key ) === 0 ){
 				//  remove Pair
 				unset( $this->pairs[$pairKey] );
 				//  count removed Pairs
@@ -358,24 +341,22 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Gernates Cache File Name and tries to load Configuration from Cache File.
+	 *	Generates Cache File Name and tries to load Configuration from Cache File.
 	 *	@access		protected
 	 *	@param		string		$cacheFile		File Name of Cache File
 	 *	@param		int			$lastChange		Last Change of Configuration File
 	 *	@return		bool
 	 */
-	protected function tryToLoadFromCache( $cacheFile, $lastChange )
+	protected function tryToLoadFromCache( string $cacheFile, int $lastChange ): bool
 	{
 		if( !file_exists( $cacheFile ) )
 			return FALSE;
 
 		$lastCache	= @filemtime( $cacheFile );
-		if( $lastCache && $lastChange <= $lastCache )
-		{
+		if( $lastCache && $lastChange <= $lastCache ){
 			$content	= file_get_contents( $cacheFile );
 			$array		= @unserialize( $content );
-			if( is_array( $array ) )
-			{
+			if( is_array( $array ) ){
 				$this->pairs	= $array;
 				return TRUE;
 			}

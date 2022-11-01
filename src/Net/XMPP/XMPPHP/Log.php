@@ -3,17 +3,17 @@
  * XMPPHP: The PHP XMPP Library
  * Copyright (C) 2008  Nathanael C. Fritz
  * This file is part of SleekXMPP.
- * 
+ *
  * XMPPHP is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * XMPPHP is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with XMPPHP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -25,9 +25,12 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
+
+namespace CeusMedia\Common\Net\XMPP\XMPPHP;
+
 /**
  * XMPPHP Log
- * 
+ *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP_XMPPHP
  *	@author			Nathanael C. Fritz <JID: fritzy@netflint.net>
@@ -35,43 +38,48 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
-class Net_XMPP_XMPPHP_Log {
-
+class Log
+{
 	const LEVEL_ERROR   = 0;
 	const LEVEL_WARNING = 1;
 	const LEVEL_INFO	= 2;
 	const LEVEL_DEBUG   = 3;
 	const LEVEL_VERBOSE = 4;
 
-	/**
-	 * @var array
-	 */
-	protected $data = array();
+	const LEVEL_NAMES	= [
+		self::LEVEL_ERROR	=> 'ERROR',
+		self::LEVEL_WARNING	=> 'WARNING',
+		self::LEVEL_INFO	=> 'INFO',
+		self::LEVEL_DEBUG	=> 'DEBUG',
+		self::LEVEL_VERBOSE	=> 'VERBOSE'
+	];
 
 	/**
 	 * @var array
 	 */
-	protected $names = array('ERROR', 'WARNING', 'INFO', 'DEBUG', 'VERBOSE');
+	protected array $data = [];
+
 
 	/**
 	 * @var integer
 	 */
-	protected $runlevel;
+	protected int $runlevel;
 
 	/**
 	 * @var boolean
 	 */
-	protected $printout;
+	protected bool $printout;
 
 	/**
 	 * Constructor
 	 *
 	 * @param boolean $printout
-	 * @param string  $runlevel
+	 * @param int  $runlevel
 	 */
-	public function __construct($printout = false, $runlevel = self::LEVEL_INFO) {
-		$this->printout = (boolean)$printout;
-		$this->runlevel = (int)$runlevel;
+	public function __construct(bool $printout = false, int $runlevel = self::LEVEL_INFO)
+	{
+		$this->printout = $printout;
+		$this->runlevel = $runlevel;
 	}
 
 	/**
@@ -81,7 +89,8 @@ class Net_XMPP_XMPPHP_Log {
 	 * @param string  $msg
 	 * @param integer $runlevel
 	 */
-	public function log($msg, $runlevel = self::LEVEL_INFO) {
+	public function log(string $msg, int $runlevel = self::LEVEL_INFO)
+	{
 		$time = time();
 		#$this->data[] = array($this->runlevel, $msg, $time);
 		if($this->printout and $runlevel <= $this->runlevel) {
@@ -94,9 +103,10 @@ class Net_XMPP_XMPPHP_Log {
 	 * Log will be cleared if $clear = true
 	 *
 	 * @param boolean $clear
-	 * @param integer $runlevel
+	 * @param integer|NULL $runlevel
 	 */
-	public function printout($clear = true, $runlevel = null) {
+	public function printout(bool $clear = true, int $runlevel = null)
+	{
 		if($runlevel === null) {
 			$runlevel = $this->runlevel;
 		}
@@ -106,13 +116,14 @@ class Net_XMPP_XMPPHP_Log {
 			}
 		}
 		if($clear) {
-			$this->data = array();
+			$this->data = [];
 		}
 	}
 
-	protected function writeLine($msg, $runlevel, $time) {
-		//echo date('Y-m-d H:i:s', $time)." [".$this->names[$runlevel]."]: ".$msg."\n";
-		echo $time." [".$this->names[$runlevel]."]: ".$msg."\n";
+	protected function writeLine(string $msg, int $runlevel, $time)
+	{
+		//echo date('Y-m-d H:i:s', $time)." [".self::LEVEL_NAMES[$runlevel]."]: ".$msg."\n";
+		echo $time." [".self::LEVEL_NAMES[$runlevel]."]: ".$msg."\n";
 		flush();
 	}
 }

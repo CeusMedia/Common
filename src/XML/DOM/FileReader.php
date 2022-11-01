@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
+ *	Loads and parses an XML File to a Tree of XML_DOM_Nodes.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +21,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\FS\File\Reader as RawFileReader;
+use RuntimeException;
+
 /**
- *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
+ *	Loads and parses an XML File to a Tree of XML_DOM_Nodes.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			XML_DOM_Parser
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_DOM_FileReader
+class FileReader
 {
 	/**	@var		string			$fileName		URI of XML File */
 	protected $fileName;
@@ -46,33 +51,32 @@ class XML_DOM_FileReader
 	 *	@param		string			$fileName		URI of XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
 
 	/**
-	 *	Loads a XML File statically and returns parsed Tree.
+	 *	Loads an XML File statically and returns parsed Tree.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		URI of XML File
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 *	@throws		RuntimeException			if file is not existing or not readable
 	 */
-	public static function load( $fileName )
+	public static function load( string $fileName ): Node
 	{
-		$parser	= new XML_DOM_Parser();
-		$xml	= FS_File_Reader::load( $fileName );
-		$tree	= $parser->parse( $xml );
-		return $tree;
+		$parser	= new Parser();
+		$xml	= RawFileReader::load( $fileName );
+		return $parser->parse( $xml );
 	}
 
 	/**
 	 *	Reads XML File and returns parsed Tree.
 	 *	@access		public
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 */
-	public function read()
+	public function read(): Node
 	{
 		return self::load( $this->fileName );
 	}

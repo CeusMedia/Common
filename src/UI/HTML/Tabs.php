@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,38 +22,41 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.11.2008
- *	@version		0.1
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\JQuery as JQuery;
+use Exception;
+
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
- *	@uses			UI_HTML_Tag
- *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.11.2008
- *	@version		0.1
  */
-class UI_HTML_Tabs
+class Tabs
 {
 	/**	@var		int			$counter	Internal Tab Counter for creating unique IDs for Tabs and Contents */
 	protected static $counter	= 0;
+
 	/**	@var		array		$pairs		List of Content Divs */
-	protected $divs	= array();
+	protected $divs	= [];
+
 	/**	@var		array		$options	Array of Options for the jQuery Plugin Call */
-	protected $options	= array(
+	protected $options	= [
 		'navClass'	=> "tabs-nav"
-	);
+	];
+
 	/**	@var		array		$tabs		List of Tab Labels */
-	protected $tabs	= array();
+	protected $tabs	= [];
 
 	public static $version	= 2;
 
@@ -62,7 +66,7 @@ class UI_HTML_Tabs
 	 *	@param		array		$tabs		Array of Labels and Contents
 	 *	@return		void
 	 */
-	public function __construct( $tabs = array(), $class = NULL )
+	public function __construct( array $tabs = [], ?string $class = NULL )
 	{
 		if( $tabs )
 			$this->addTabs( $tabs );
@@ -73,23 +77,23 @@ class UI_HTML_Tabs
 	/**
 	 *	Adds a new Tab by its Label and Content.
 	 *	@access		public
-	 *	@param		string		$label		Label of Tab
-	 *	@param		string		$content	Content related to Tab
+	 *	@param		string			$label			Label of Tab
+	 *	@param		string			$content		Content related to Tab
+	 *	@param		string|NULL		$fragmentId	...
 	 *	@return		void
+	 *	@throws		Exception		if fragment ID is set, already
 	 */
-	public function addTab( $label, $content, $fragmentKey = NULL )
+	public function addTab( string $label, string $content, ?string $fragmentId = NULL )
 	{
-		if( is_null( $fragmentKey ) )
-		{
+		if( is_null( $fragmentId ) ){
 			$this->tabs[]	= $label;
 			$this->divs[]	= $content;
 		}
-		else
-		{
-			if( isset( $this->tabs[$fragmentKey] ) )
-				throw new Exception( 'Tab with Fragment ID "'.$fragmentKey.'" is already set' );
-			$this->tabs[$fragmentKey]	= $label;
-			$this->divs[$fragmentKey]	= $content;
+		else{
+			if( isset( $this->tabs[$fragmentId] ) )
+				throw new Exception( 'Tab with Fragment ID "'.$fragmentId.'" is already set' );
+			$this->tabs[$fragmentId]	= $label;
+			$this->divs[$fragmentId]	= $content;
 		}
 	}
 
@@ -97,25 +101,26 @@ class UI_HTML_Tabs
 	 *	Constructor, can set Tabs.
 	 *	@access		public
 	 *	@param		array		$tabs		Array of Labels and Contents
-	 *	@return		void
+	 *	@return		self
+	 * @noinspection PhpDocMissingThrowsInspection
 	 */
-	public function addTabs( $tabs = array() )
+	public function addTabs( array $tabs = [] ): self
 	{
-		if( !is_array( $tabs ) )
-			throw new InvalidArgumentException( 'Tabs must be given as array of labels and contents.' );
 		foreach( $tabs as $label => $content )
+			/** @noinspection PhpUnhandledExceptionInspection */
 			$this->addTab( $label, $content );
+		return $this;
 	}
 
 	/**
-	 *	Creates JavaScript Call, applying afore set Options and given Options.
+	 *	Creates JavaScript Call, applying before set Options and given Options.
 	 *	@access		public
 	 *	@param		string		$selector		jQuery Selector of Tabs DIV (mostly '#' + ID)
-	 *	@param		array		$options		Tabs Options Array, additional to afore set Options
+	 *	@param		array		$options		Tabs Options Array, additional to before set Options
 	 *	@return 	string
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public function buildScript( $selector, $options = array() )
+	public function buildScript( string $selector, array $options = [] ): string
 	{
 		$options	= array_merge( $this->options, $options );
 		return self::createScript( $selector, $options );
@@ -124,11 +129,12 @@ class UI_HTML_Tabs
 	/**
 	 *	Builds HTML Code of Tabbed Content.
 	 *	@access		public
-	 *	@param		string		$id			ID of whole Tabbed Content Block
-	 *	@param		string		$class		CSS Class of Tabs DIV (main container)
+	 *	@param		string			$id			ID of whole Tabbed Content Block
+	 *	@param		string|NULL		$class		CSS Class of Tabs DIV (main container)
 	 *	@return		string
+	 *	@throws		Exception		if number of labels and contents does not match
 	 */
-	public function buildTabs( $id, $class = NULL )
+	public function buildTabs( string $id, ?string $class = NULL ): string
 	{
 		if( empty( $class ) && !empty( $this->options['navClass'] ) )
 			$class	= $this->options['navClass'];
@@ -144,75 +150,74 @@ class UI_HTML_Tabs
 	 *	@return 	string
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public static function createScript( $selector, $options = array() )
+	public static function createScript( string $selector, array $options = [] ): string
 	{
-		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $options );	
+		return JQuery::buildPluginCall( "tabs", $selector, $options );
 	}
 
 	/**
 	 *	Builds HTML Code of Tabbed Content statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id			ID of whole Tabbed Content Block
-	 *	@param		array		$label		List of Tab Labels
-	 *	@param		array		$contents	List of Contents related to the Tabs
-	 *	@param		string		$class		CSS Class of Tabs DIV (main container)
+	 *	@param		string			$id			ID of whole Tabbed Content Block
+	 *	@param		array			$labels		List of Tab Labels
+	 *	@param		array			$contents	List of Contents related to the Tabs
+	 *	@param		string|NULL		$class		CSS Class of Tabs DIV (main container)
 	 *	@return		string
+	 *	@throws		Exception		if number of labels and contents does not match
 	 */
-	public static function createTabs( $id, $labels = array(), $contents = array(), $class = NULL )
+	public static function createTabs( string $id, array $labels = [], array $contents = [], ?string $class = NULL ): string
 	{
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );
 
-		$belowV3	= version_compare( 3, self::$version );
+		$belowV3	= version_compare( "3", (string) self::$version );
 		$urlPrefix	= ( $belowV3 && getEnv( 'REDIRECT_URL' ) ) ? getEnv( 'REDIRECT_URL' ) : '';
-		$tabs		= array();
-		$divs		= array();
-		$labels		= $labels;
-		$contents	= $contents;
-		foreach( $labels as $index => $label )
-		{
+		$tabs		= [];
+		$divs		= [];
+		foreach( $labels as $index => $label ) {
 			$tabKey		= is_int( $index ) ? 'tab-'.$index : $index;
 			$divKey		= $index."-container";
 			$url		= $urlPrefix."#".$divKey;
-			$label		= UI_HTML_Tag::create( 'span', $label );
-			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => $url ) );
-			$tabs[]		= UI_HTML_Tag::create( 'li', $link, array( 'id' => $tabKey ) );
+			$label		= Tag::create( 'span', $label );
+			$link		= Tag::create( 'a', $label, ['href' => $url] );
+			$tabs[]		= Tag::create( 'li', $link, ['id' => $tabKey] );
 
 			$divClass	= $class ? $class."-container" : NULL;
-			$attributes	= array( 'id' => $divKey, 'class' => $divClass );
-			$divs[]		= UI_HTML_Tag::create( 'div', $contents[$index], $attributes );
+			$attributes	= ['id' => $divKey, 'class' => $divClass];
+			$divs[]		= Tag::create( 'div', $contents[$index], $attributes );
 			self::$counter++;
 		}
-		$tabs		= UI_HTML_Tag::create( 'ul', implode( "\n", $tabs ), array( 'class' => $class ) );
+		$tabs		= Tag::create( 'ul', implode( "\n", $tabs ), ['class' => $class] );
 		$divs		= implode( "\n", $divs );
-		$content	= UI_HTML_Tag::create( 'div', $tabs.$divs, array( 'id' => $id ) );
-		return $content;
+		return Tag::create( 'div', $tabs.$divs, ['id' => $id] );
 	}
 
 	/**
 	 *	Sets an Option for the jQuery Tabs Plugin Call.
 	 *	Attention: To set a String it must be quoted, iE setOption( 'stringKey', '"stringValue"' ).
 	 *	Numbers (Integer, Double, Float) and Booleans can be set directly.
-	 *	It is also possible to set Array and Objects by using json_encode, iE setOption( 'key', json_encode( array( 1, 2 ) ) ).
+	 *	It is also possible to set Array and Objects by using json_encode, iE setOption( 'key', json_encode( [1, 2] ) ).
 	 *	JavaScript Callback Functions will be given as a simple String (without mentioned quotes).
 	 *
 	 *	@access		public
 	 *	@param		string		$key
 	 *	@param		mixed		$value			Option Value (Strings must be quoted)
-	 *	@return		string
+	 *	@return		self
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public function setOption( $key, $value )
+	public function setOption( string $key, $value ): self
 	{
 		if( is_null( $value ) )
 			unset( $this->options[$key] );
 		else
 			$this->options[$key]	= $value;
+		return $this;
 	}
 
-	public function setVersion( $version )
+	public function setVersion( int $version ): self
 	{
 		self::$version	= $version;
+		return $this;
 	}
 }

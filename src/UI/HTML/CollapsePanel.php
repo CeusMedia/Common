@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,41 +21,40 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
- *	@extends		UI_HTML_Panel
- *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6
  */
-class UI_HTML_CollapsePanel extends UI_HTML_Panel
+class CollapsePanel extends Panel
 {
-	public static $classPanel	= "collapsable";
+	public static string $classPanel	= "collapsable";
 
 	/**
 	 *	Builds HTML Code of Panel.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id					Tag ID of Panel
-	 *	@param		string		$content			Content of Panel
-	 *	@param		string		$header				Content of Header
-	 *	@param		string		$abstract			Content of Abstract
-	 *	@param		string		$footer				Content of Footer
-	 *	@param		string		$class				CSS Class of Panel
-	 *	@param		array		$attributes			Map of Attributes of Panel DIV
+	 *	@param		string			$id					Tag ID of Panel
+	 *	@param		mixed			$content			Content of Panel
+	 *	@param		mixed|NULL		$header				Content of Header
+	 *	@param		mixed|NULL		$abstract			Content of Abstract
+	 *	@param		mixed|NULL		$footer				Content of Footer
+	 *	@param		string			$theme				Theme to apply, default: default
+	 *	@param		array			$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme = "default", $attributes = array() )
+	public static function create( string $id, $content, $header = NULL, $abstract = NULL, $footer = NULL, string $theme = "default", array $attributes = [] ): string
 	{
 		$classes	= $theme ? self::$classPanel." ".$theme : self::$classPanel;
 		return parent::create( $id, $content, $header, $abstract, $footer, $classes, $attributes );
@@ -69,8 +69,8 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	 *	@return		string
 	 *	@todo		change selector to id
 	 */
-	public static function createScript( $selector, $options = array() )
+	public static function createScript( string $selector, array $options = [] ): string
 	{
-		return UI_HTML_JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );
+		return JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );
 	}
 }

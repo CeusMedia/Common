@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,30 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.04.2014
  */
+
+namespace CeusMedia\Common\Alg;
+
+use DomainException;
+use InvalidArgumentException;
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.04.2014
  *	@todo			code doc
  */
-class Alg_UnitParser{
-
-	static public $rules	= array(
+class UnitParser
+{
+	public static array $rules	= [
 		'/^([0-9.,]+)$/'		=> 1,
 		'/^([0-9.,]+)B$/'		=> 1,
 		'/^([0-9.,]+)k$/'		=> 1000,
@@ -47,21 +52,22 @@ class Alg_UnitParser{
 		'/^([0-9.,]+)kiB$/'		=> 1000,
 		'/^([0-9.,]+)K$/'		=> 1024,
 		'/^([0-9.,]+)KB$/i'		=> 1024,
-		'/^([0-9.,]+)m$/'		=> 1000000,
-		'/^([0-9.,]+)M$/'		=> 1048576,
-		'/^([0-9.,]+)MB$/i'		=> 1048576,
-		'/^([0-9.,]+)MiB$/i'	=> 1000000,
-		'/^([0-9.,]+)g$/'		=> 1000000000,
-		'/^([0-9.,]+)G$/'		=> 1073741824,
-		'/^([0-9.,]+)GB$/i'		=> 1073741824,
-		'/^([0-9.,]+)GiB$/i'	=> 1000000000,
-	);
+		'/^([0-9.,]+)m$/'		=> 1_000_000,
+		'/^([0-9.,]+)M$/'		=> 1_048_576,
+		'/^([0-9.,]+)MB$/i'		=> 1_048_576,
+		'/^([0-9.,]+)MiB$/i'	=> 1_000_000,
+		'/^([0-9.,]+)g$/'		=> 1_000_000_000,
+		'/^([0-9.,]+)G$/'		=> 1_073_741_824,
+		'/^([0-9.,]+)GB$/i'		=> 1_073_741_824,
+		'/^([0-9.,]+)GiB$/i'	=> 1_000_000_000,
+	];
 
-	static public function parse( $string, $exceptedUnit = NULL ){
+	public static function parse( string $string, ?string $exceptedUnit = NULL ): float
+	{
 		if( !strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'String cannot be empty' );
 		$int	= (int) $string;
-		if( $exceptedUnit && strlen( $int ) == strlen( $string ) && $int == $string )
+		if( $exceptedUnit && strlen( (string) $int ) == strlen( $string ) && $int == $string )
 			$string	.= $exceptedUnit;
 		$string	= str_replace( ',', '.', trim( $string ) );
 		$factor	= NULL;

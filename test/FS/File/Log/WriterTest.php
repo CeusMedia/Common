@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of FS_File_Log_Writer.
- *	@package		Tests.file.log
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *	@version		0.1
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_Log_Writer.
+ *	@package		Tests.FS.File.Log
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File\JSON;
+
+use CeusMedia\Common\FS\File\Log\Writer;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_Log_Writer.
- *	@package		Tests.file.log
- *	@extends		Test_Case
- *	@uses			FS_File_Log_Writer
+ *	@package		Tests.FS.File.Log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *	@version		0.1
  */
-class Test_FS_File_Log_WriterTest extends Test_Case
+class WriterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -49,12 +46,10 @@ class Test_FS_File_Log_WriterTest extends Test_Case
 	 */
 	public function test__construct()
 	{
-		$writer	= new FS_File_Log_Writer( $this->fileName );
-		$writer->note( 1 );
+		$writer	= new Writer( $this->fileName );
+		$writer->note( "1" );
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 	}
 
 	/**
@@ -64,31 +59,24 @@ class Test_FS_File_Log_WriterTest extends Test_Case
 	 */
 	public function testNote()
 	{
-		$writer	= new FS_File_Log_Writer( $this->fileName );
+		$writer	= new Writer( $this->fileName );
 
-		$assertion	= TRUE;
-		$creation	= $writer->note( 1 );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $writer->note( "1" );
+		$this->assertTrue( $creation );
+		$this->assertFileExists( $this->fileName );
 
 		$content	= file_get_contents( $this->fileName );
 		$pattern	= "@^[0-9]+ \[([0-9]|[.: -])+\] 1\\n@s";
-		$assertion	= TRUE;
 		$creation	= preg_match( "@^[0-9]+ \[([0-9]|[.: -])+\] 1\\n@s", file_get_contents( $this->fileName ) );
 		$creation	= (bool) preg_match( $pattern, $content );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
-		$creation	= $writer->note( 2 );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $writer->note( "2" );
+		$this->assertTrue( $creation );
 
 		$content	= file_get_contents( $this->fileName );
 		$pattern	= "@^[0-9]+ \[([0-9]|[.: -])+\] 1\\n[0-9]+ \[([0-9]|[.: -])+\] 2\\n@s";
-		$assertion	= TRUE;
 		$creation	= (bool) preg_match( $pattern, $content );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 }

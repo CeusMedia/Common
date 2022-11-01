@@ -1,26 +1,31 @@
 <?php
-/**
- *	TestUnit of Test_ADT_Tree_Node.
- *	@package		Tests.adt.tree
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Test_ADT_Tree_Node.
+ *	@package		Tests.ADT.Tree
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\ADT\Tree;
+
+use CeusMedia\Common\ADT\Tree\Node;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Test_ADT_Tree_Node.
- *	@package		Tests.adt.tree
- *	@extends		Test_Case
- *	@uses			Test_ADT_Tree_Node
+ *	@package		Tests.ADT.Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.07.2008
- *	@version		0.1
  */
-class Test_ADT_Tree_NodeTest extends Test_Case
+class NodeTest extends BaseCase
 {
+	protected $node;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,7 +33,7 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->node	= new ADT_Tree_Node();
+		$this->node	= new Node();
 	}
 
 	/**
@@ -137,13 +142,11 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	{
 		$this->node->addChild( 'string', "testString" );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->node->hasChild( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -153,15 +156,13 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	 */
 	public function testHasChildren()
 	{
-		$assertion	= FALSE;
 		$creation	= $this->node->hasChildren();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		$this->node->addChild( 'string', "testString" );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->hasChildren( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -173,20 +174,16 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	{
 		$this->node->addChild( 'string', "testString" );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->node->removeChild( 'string' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->node->removeChild( 'string' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 }

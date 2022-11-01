@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Class to find all Files with ToDos inside.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use RegexIterator;
+
 /**
  *	Class to find all Files with ToDos inside.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
- *	@extends		FS_File_TodoLister
- *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
-class FS_File_RecursiveTodoLister extends FS_File_TodoLister
+class RecursiveTodoLister extends TodoLister
 {
-	protected function getIndexIterator( $path, $filePattern, $contentPattern = NULL )
+	protected function getIndexIterator( string $path, string $filePattern, ?string $contentPattern = NULL ): RegexIterator
 	{
-		return new FS_File_RecursiveRegexFilter( $path, $filePattern, $contentPattern );
+		return new RecursiveRegexFilter( $path, $filePattern, $contentPattern );
 	}
 }

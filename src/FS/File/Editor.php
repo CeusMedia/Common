@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,59 +21,59 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
- *	@version		$Id$a
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Editor for Files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
- *	@extends		FS_File_Reader
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
- *	@version		$Id$a
  *	@todo			finish Writer Methods (create, isWritable)
  */
-class FS_File_Editor extends FS_File_Reader
+class Editor extends Reader
 {
-	/**	@var		FS_File_Writer	$writer			Instance of file writer class */
-	protected $writer;
+	/**	@var		Writer	$writer			Instance of file writer class */
+	protected Writer $writer;
 
 	/**
 	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name or URI of File
-	 *	@param		string		$creationMode	UNIX rights for chmod()
-	 *	@param		string		$creationUser	User Name for chown()
-	 *	@param		string		$creationGroup	Group Name for chgrp()
+	 *	@param		integer		$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
+	 *	@param		string|NULL	$creationUser	UserName for chown()
+	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $creationMode = NULL, $creationUser = NULL, $creationGroup = NULL )
+	public function __construct( string $fileName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		parent::__construct( $fileName );
-		$this->writer	= new FS_File_Writer( $fileName, $creationMode, $creationUser, $creationGroup );
+		$this->writer	= new Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 
-	public function appendString( $string )
+	public function appendString( string $string ): int
 	{
-		$this->writer->appendString( $string );
+		return $this->writer->appendString( $string );
 	}
 
-	public function copy( $fileName )
+	public function copy( string $fileName ): bool
 	{
 		return @copy( $this->fileName, $fileName );
 	}
 
-	public static function delete( $fileName )
+	public static function delete( string $fileName ): bool
 	{
-		return FS_File_Writer::delete( $fileName );
+		return Writer::delete( $fileName );
 	}
 
 	/**
@@ -80,7 +81,7 @@ class FS_File_Editor extends FS_File_Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isWritable()
+	public function isWritable(): bool
 	{
 		return $this->writer->isWritable();
 	}
@@ -90,7 +91,7 @@ class FS_File_Editor extends FS_File_Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function remove()
+	public function remove(): bool
 	{
 		return $this->writer->remove();
 	}
@@ -101,7 +102,7 @@ class FS_File_Editor extends FS_File_Reader
 	 *	@param		string		$fileName		File Name to rename to
 	 *	@return		bool
 	 */
-	public function rename( $fileName )
+	public function rename( string $fileName ): bool
 	{
 		if( !$fileName )
 			throw new InvalidArgumentException( 'No File Name given.' );
@@ -116,57 +117,58 @@ class FS_File_Editor extends FS_File_Reader
 	 *	Saves a String into the File statically and returns Length.
 	 *	@access		public
 	 *	@static
+	 *	@param		string		$fileName		File Name to write to
 	 *	@param		string		$string			List of String to write to File
-	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
 	 */
-	public static function save( $fileName, $string )
+	public static function save( string $fileName, string $string ): int
 	{
-		return FS_File_Writer::save( $fileName, $string );
+		return Writer::save( $fileName, $string );
 	}
 
 	/**
 	 *	Writes an Array into the File statically and returns Length.
 	 *	@access		public
 	 *	@static
+	 *	@param		string		$fileName		File Name to write to
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
 	 */
-	public static  function saveArray( $fileName, $array, $lineBreak = "\n" )
+	public static  function saveArray( string $fileName, array $array, string $lineBreak = "\n" ): int
 	{
-		return FS_File_Writer::saveArray( $fileName, $array, $lineBreak );
+		return Writer::saveArray( $fileName, $array, $lineBreak );
 	}
 
 	/**
 	 *	Sets Group of current File.
 	 *	@access		public
 	 *	@param		string		$groupName		OS Group Name of new File Owner
-	 *	@return		bool
+	 *	@return		void
 	 */
-	public function setGroup( $groupName )
+	public function setGroup( string $groupName ): void
 	{
-		return $this->writer->setGroup( $groupName );
+		$this->writer->setGroup( $groupName );
 	}
 
 	/**
 	 *	Sets Owner of current File.
 	 *	@access		public
-	 *	@param		string		$userName		OS User Name of new File Owner
-	 *	@return		bool
+	 *	@param		string		$userName		OS UserName of new File Owner
+	 *	@return		void
 	 */
-	public function setOwner( $userName )
+	public function setOwner( string $userName ): void
 	{
-		return $this->writer->setOwner( $userName );
+		$this->writer->setOwner( $userName );
 	}
 
 	/**
 	 *	Sets permissions of current File.
 	 *	@access		public
-	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
+	 *	@param		integer		$mode			OCTAL value of new rights (e.g. 0750)
 	 *	@return		bool
 	 */
-	public function setPermissions( $mode )
+	public function setPermissions( int $mode ): bool
 	{
 		return $this->writer->setPermissions( $mode );
 	}
@@ -178,7 +180,7 @@ class FS_File_Editor extends FS_File_Reader
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
 	 */
-	public function writeArray( $array, $lineBreak = "\n" )
+	public function writeArray( array $array, string $lineBreak = "\n" ): int
 	{
 		return $this->writer->writeArray( $array, $lineBreak );
 	}
@@ -186,10 +188,10 @@ class FS_File_Editor extends FS_File_Reader
 	/**
 	 *	Writes a String into the File and returns Length.
 	 *	@access		public
-	 *	@param		string		string		string to write to file
+	 *	@param		string		$string		string to write to file
 	 *	@return		int
 	 */
-	public function writeString( $string )
+	public function writeString( string $string ): int
 	{
 		return $this->writer->writeString( $string );
 	}

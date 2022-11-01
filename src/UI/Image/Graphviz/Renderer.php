@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
+
 /**
  *	Renderer graphs in DOT language (Graphviz).
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,56 +22,68 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\UI\Image\Graphviz;
+
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use OutOfBoundsException;
+use RuntimeException;
+
 /**
- *	Renderer graphs in DOT language (Graphviz).
+ *	Renders graphs in DOT language (Graphviz).
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  *	@todo			implement support for other image formats than PNG
  *	@todo			implement support for SVG and PDF
  */
-class UI_Image_Graphviz_Renderer{
-
+class Renderer
+{
 	protected $layoutEngine			= "dot";
+
 	protected $graph;
+
 	protected $gvInstalled			= NULL;
 
-
-	static public function checkGraphvizSupport(){
+	public static function checkGraphvizSupport(): bool
+	{
 		exec( 'dot -V', $results, $code );
 		if( $code == 127 )
 			return FALSE;
 		return TRUE;
 	}
 
-	public function __construct( UI_Image_Graphviz_Graph $graph, $layoutEngine = "dot" ){
+	public function __construct( Graph $graph, string $layoutEngine = 'dot' )
+	{
 		$this->setGraph( $graph );
 		$this->setLayoutEngine( $layoutEngine );
 		$this->gvInstalled	= $this->checkGraphvizSupport();
 	}
 
-	public function getGraph(){
+	public function getGraph(): ?Graph
+	{
 		return $this->graph;
 	}
 
-	public function getLayoutEngines(){
-		return array( "circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi" );	
+	public function getLayoutEngines(): array
+	{
+		return ["circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi"];
 	}
 
-	public function getMap( $type = "cmapx_np", $graphOptions = array() ){
+	public function getMap( string $type = "cmapx_np", array $graphOptions = [] ): string
+	{
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
-		if( !in_array( $type, array( "ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np" ) ) )
+		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		$this->graph->save( $tempFile, $graphOptions );
@@ -78,17 +92,18 @@ class UI_Image_Graphviz_Renderer{
 		$mapFile	= $tempFile.".".$type;
 		if( !file_exists( $mapFile ) )
 			throw new RuntimeException( 'Map file could not been created' );
-		$map	= FS_File_Reader::load( $mapFile );
+		$map	= FileReader::load( $mapFile );
 		unlink( $mapFile );
 		return $map;
 	}
 
-	public function printGraph( $type = "png", $graphOptions = array() ){
+	public function printGraph( string $type = "png", array $graphOptions = [] )
+	{
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		$this->saveAsImage( $tempFile, $type, $graphOptions );
-		$image		= FS_File_Reader::load( $tempFile );
+		$image		= FileReader::load( $tempFile );
 		@unlink( $tempFile );
 		$mimeType	= "image/png";
 		if( $type == "jpg" )
@@ -100,10 +115,11 @@ class UI_Image_Graphviz_Renderer{
 		exit;
 	}
 
-	public function saveAsImage( $fileName, $type = "png", $graphOptions = array() ){
+	public function saveAsImage( string $fileName, string $type = "png", array $graphOptions = [] ): bool
+	{
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
-#		if( !in_array( $type, array( "ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np" ) ) )
+#		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 #			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		$this->graph->save( $tempFile, $graphOptions );
@@ -111,17 +127,21 @@ class UI_Image_Graphviz_Renderer{
 		unlink( $tempFile );
 		if( !file_exists( $tempFile.".".$type ) )
 			throw new RuntimeException( 'Image file could not been created' );
-		$file	= new FS_File_Editor( $tempFile.".".$type );
+		$file	= new FileEditor( $tempFile.".".$type );
 		return $file->rename( $fileName );
 	}
 
-	public function setGraph( UI_Image_Graphviz_Graph $graph ){
+	public function setGraph( Graph $graph ): self
+	{
 		$this->graph	= $graph;
+		return $this;
 	}
 
-	public function setLayoutEngine( $layoutEngine ){
+	public function setLayoutEngine( string $layoutEngine ): self
+	{
 		if( !in_array( $layoutEngine, $this->getLayoutEngines() ) )
 			throw new OutOfBoundsException( 'Invalid layout engine "'.$layoutEngine.'"' );
 		$this->layoutEngine	= $layoutEngine;
+		return $this;
 	}
 }

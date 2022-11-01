@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Progress bar for console output.
  *
- *	Copyright (c) 2019-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2019-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,41 +22,52 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Output
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2019-2020 Christian Würker
+ *	@copyright		2019-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\CLI\Output;
+
+use CeusMedia\Common\CLI;
+use CeusMedia\Common\CLI\Dimensions;
+use CeusMedia\Common\CLI\Output;
+
+use InvalidArgumentException;
+use RangeException;
+use RuntimeException;
+
 /**
  *	Console Output.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Output
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2019-2020 Christian Würker
+ *	@copyright		2019-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_Output_Progress
+class Progress
 {
-	const STATUS_NONE		= 0;
-	const STATUS_READY		= 1;
-	const STATUS_STARTED	= 2;
-	const STATUS_FINISHED	= 3;
+	protected const STATUS_NONE		= 0;
+	protected const STATUS_READY	= 1;
+	protected const STATUS_STARTED	= 2;
+	protected const STATUS_FINISHED	= 3;
 
-	const STATUSES			= array(
+	protected const STATUSES		= [
 		self::STATUS_NONE,
 		self::STATUS_READY,
 		self::STATUS_STARTED,
 		self::STATUS_FINISHED,
-	);
+	];
 
-	protected $status		= 0;
-	protected $startTime	= 0;
-	protected $total		= 0;
-	protected $barBlocks	= array( '_', '░', '▓', '█' );
-	protected $barTemplate	= '%1$s%2$s%3$s%4$s';
-	protected $width		= 80;
-	protected $output;
+	protected int $status			= 0;
+	protected float $startTime		= .0;
+	protected int $total			= 0;
+	protected array $barBlocks		= ['_', '░', '▓', '█'];
+	protected string $barTemplate	= '%1$s%2$s%3$s%4$s';
+	protected int $width			= 80;
+	protected Output $output;
 
 	/**
 	 *	Constructor.
@@ -63,9 +76,9 @@ class CLI_Output_Progress
 	public function __construct()
 	{
 		if( !CLI::checkIsHeadless( FALSE ) )
-			$this->width	= CLI_Dimensions::getWidth();
+			$this->width	= Dimensions::getWidth();
 		$this->width	= $this->width - 3;
-		$this->output	= new CLI_Output();
+		$this->output	= new Output();
 		$this->output->setMaxLineLength( $this->width );
 	}
 
@@ -109,7 +122,7 @@ class CLI_Output_Progress
 	 *	@param		string		$barTemplate	Bar template of placeholders
 	 *	@return		self
 	 */
-	public function setBarTemplate( $barTemplate ): self
+	public function setBarTemplate( string $barTemplate ): self
 	{
 		$this->barTemplate	= $barTemplate;
 		return $this;
@@ -166,7 +179,7 @@ class CLI_Output_Progress
 
 	/*  --  PROTECTED  --  */
 
-	protected function estimateTimeLeft( int $count ): string
+	protected function estimateTimeLeft( int $count ): int
 	{
 		if( $count === 0 )
 			return 0;
@@ -178,8 +191,7 @@ class CLI_Output_Progress
 			return 0;
 
 		$ratio		= $this->total / $count;
-		$timeLeft	= ceil( $timeDiff * $ratio - $timeDiff );
-		return $timeLeft;
+		return (int) ceil( $timeDiff * $ratio - $timeDiff );
 	}
 
 	protected function formatTime( int $seconds, int $nrParts = 2 ): string
@@ -189,36 +201,47 @@ class CLI_Output_Progress
 		$days		= 0;
 		$hours		= 0;
 		$minutes	= 0;
-		$parts		= array();
+		$parts		= [];
 		if( $seconds > 86400 ){
-			$days		= floor( $seconds / 86400 );
+			$days		= (int) floor( $seconds / 86400 );
 			$seconds	-= $days * 86400;
 			$parts[]	= $days.'d';
 		}
 		if( $seconds > 3600 ){
-			$hours		= floor( $seconds / 3600 );
+			$hours		= (int) floor( $seconds / 3600 );
 			$seconds	-= $hours * 3600;
 			if( $days )
-				$parts[]	= str_pad( $hours, 2, 0, STR_PAD_LEFT ).'h';
+				$parts[]	= $this->padLeft( $hours, 2, 0 ).'h';
 			else
 				$parts[]	= $hours.'h';
 		}
 		if( $seconds > 60 ){
-			$minutes	= floor( $seconds / 60 );
+			$minutes	= (int) floor( $seconds / 60 );
 			$seconds	-= $minutes * 60;
 			if( $days || $hours )
-				$parts[]	= str_pad( $minutes, 2, 0, STR_PAD_LEFT ).'m';
+				$parts[]	= $this->padLeft( $minutes, 2, 0 ).'m';
 			else
 				$parts[]	= $minutes.'m';
 		}
 		if( $days || $hours || $minutes )
-			$parts[]	= str_pad( $seconds, 2, 0, STR_PAD_LEFT ).'s';
+			$parts[]	= $this->padLeft( $seconds, 2, 0 ).'s';
 		else
 			$parts[]	= $seconds.'s';
 
 		if( $nrParts )
 			$parts		= array_slice( $parts, 0, $nrParts );
 		return implode( ' ', $parts );
+	}
+
+	/**
+	 *	@param		string|int|float	$input
+	 *	@param		int					$length
+	 *	@param		string|int			$with
+	 *	@return		string
+	 */
+	protected function padLeft( $input, int $length, $with ): string
+	{
+		return str_pad( (string) $input, $length, (string) $with, STR_PAD_LEFT );
 	}
 
 	/**
@@ -235,15 +258,15 @@ class CLI_Output_Progress
 		$timeLeft	= ceil( microtime( TRUE ) - $this->startTime );
 		if( $count !== $this->total )
 			$timeLeft	= $this->estimateTimeLeft( $count );
-		$timeLeft	= str_pad( $this->formatTime( $timeLeft ), 8, ' ', STR_PAD_LEFT );
-		$ratio		= str_pad( floor( $count / $this->total * 100 ), 4, ' ', STR_PAD_LEFT ).'%';
-		$numbers	= str_pad( $count.'/'.$this->total, strlen( $this->total ) * 2 + 2, ' ', STR_PAD_LEFT );
+		$timeLeft	= $this->padLeft( $this->formatTime( $timeLeft ), 8, ' ' );
+		$ratio		= $this->padLeft( floor( $count / $this->total * 100 ), 4, ' ' ).'%';
+		$numbers	= $this->padLeft( $count.'/'.$this->total, strlen( (string) $this->total ) * 2 + 2, ' ' );
 		$barWidth	= $this->width - strlen( $timeLeft ) - strlen( $ratio ) - strlen( $numbers );
-		$length1	= floor( $count / $this->total * $barWidth );
+		$length1	= (int) floor( $count / $this->total * $barWidth );
 		$barPart1	= str_repeat( $this->barBlocks[3], $length1 );
 		$bar		= $barPart1;
 		if( $length1 < $barWidth ){
-			$next		= floor( ( ( $count / $this->total * $barWidth ) - $length1 ) * 100 );
+			$next		= (int) floor( ( ( $count / $this->total * $barWidth ) - $length1 ) * 100 );
 			$block		= $this->barBlocks[0];
 			if( $next >= 66 )
 				$block	= $this->barBlocks[2];
@@ -252,12 +275,11 @@ class CLI_Output_Progress
 			$barPart2	= str_repeat( $this->barBlocks[0], $barWidth - $length1 - 1 );
 			$bar		= $barPart1.$block.$barPart2;
 		}
-		$line	= vsprintf( $this->barTemplate, array(
+		return vsprintf( $this->barTemplate, [
 			$bar,
 			$numbers,
 			$ratio,
-			$timeLeft
-		) );
-		return $line;
+			$timeLeft,
+		] );
 	}
 }

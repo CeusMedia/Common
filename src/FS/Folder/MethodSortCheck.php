@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Checks order of methods in a several PHP Files within a Folder.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +21,37 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.09.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\FS\File\PHP\Check\MethodOrder as FilePhpMethodOrderCheck;
+use CeusMedia\Common\FS\File\RecursiveRegexFilter as FileRecursiveRegexFilter;
+use FilterIterator;
+
 /**
  *	Checks order of methods in a several PHP Files within a Folder.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@uses			FS_File_PHP_MethodSortCheck
- *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.09.2008
  */
-class FS_Folder_MethodSortCheck
+class MethodSortCheck
 {
-	protected $count	= 0;
-	protected $found	= 0;
-	protected $files	= array();
+	protected $count		= 0;
+
+	protected $found		= 0;
+
+	protected $files		= [];
+
+	protected $path;
+
+	protected $extensions	= [];
 
 	/**
 	 *	Constructor.
@@ -50,7 +60,7 @@ class FS_Folder_MethodSortCheck
 	 *	@param		array		$extensions		List of allowed Extensions
 	 *	@return		void
 	 */
-	public function __construct( $path, $extensions = array( "php5", "php" ) )
+	public function __construct( string $path, array $extensions = ['php5', 'php'] )
 	{
 		$this->path			= $path;
 		$this->extensions	= $extensions;
@@ -61,20 +71,20 @@ class FS_Folder_MethodSortCheck
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function checkOrder()
+	public function checkOrder(): bool
 	{
 		$this->count	= 0;
 		$this->found	= 0;
-		$this->files	= array();
+		$this->files	= [];
 		$extensions		= implode( "|", $this->extensions );
 		$pattern		= "@^[A-Z].*\.(".$extensions.")$@";
-		$filter			=  new FS_File_RecursiveRegexFilter( $this->path, $pattern );
+		$filter			=  new FileRecursiveRegexFilter( $this->path, $pattern );
 		foreach( $filter as $entry )
 		{
 			if( preg_match( "@^(_|\.)@", $entry->getFilename() ) )
 				continue;
 			$this->count++;
-			$check	= new FS_File_PHP_MethodSortCheck( $entry->getPathname() );
+			$check	= new FilePhpMethodOrderCheck( $entry->getPathname() );
 			if( $check->compare() )
 				continue;
 			$this->found++;
@@ -88,12 +98,12 @@ class FS_Folder_MethodSortCheck
 			}
 			while( count( $list1 ) && count( $list2 ) );
 			$fileName	= substr( $entry->getPathname(), strlen( $this->path ) + 1 );
-			$this->files[$entry->getPathname()]	= array(
+			$this->files[$entry->getPathname()]	= [
 				'fileName'	=> $fileName,
 				'pathName'	=> $entry->getPathname(),
 				'original'	=> $line1,
 				'sorted'	=> $line2,
-			);
+			];
 		}
 		return !$this->found;
 	}
@@ -103,7 +113,7 @@ class FS_Folder_MethodSortCheck
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getCount()
+	public function getCount(): int
 	{
 		return $this->count;
 	}
@@ -113,7 +123,7 @@ class FS_Folder_MethodSortCheck
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getDeviations()
+	public function getDeviations(): array
 	{
 		return $this->files;
 	}
@@ -123,7 +133,7 @@ class FS_Folder_MethodSortCheck
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getFound()
+	public function getFound(): int
 	{
 		return $this->found;
 	}
@@ -134,7 +144,7 @@ class FS_Folder_MethodSortCheck
 	 *	@param		int			$accuracy		Number of Digits after Dot
 	 *	@return		float
 	 */
-	public function getPercentage( $accuracy = 0 )
+	public function getPercentage( int $accuracy = 0 ): float
 	{
 		if( !$this->count )
 			return 0;
@@ -146,7 +156,7 @@ class FS_Folder_MethodSortCheck
 	 *	@access		public
 	 *	@return		float
 	 */
-	public function getRatio()
+	public function getRatio(): float
 	{
 		if( !$this->count )
 			return 0;

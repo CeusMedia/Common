@@ -1,19 +1,19 @@
-<?php 
+<?php
 /**
  * XMPPHP: The PHP XMPP Library
  * Copyright (C) 2008  Nathanael C. Fritz
  * This file is part of SleekXMPP.
- * 
+ *
  * XMPPHP is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * XMPPHP is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with XMPPHP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -25,9 +25,12 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
+
+namespace CeusMedia\Common\Net\XMPP\XMPPHP;
+
 /**
  * XMPPHP XML Object
- * 
+ *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP_XMPPHP
  *	@author			Nathanael C. Fritz <JID: fritzy@netflint.net>
@@ -35,7 +38,8 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
-class Net_XMPP_XMPPHP_XMLObj {
+class XMLObj
+{
 	/**
 	 * Tag name
 	 *
@@ -55,18 +59,18 @@ class Net_XMPP_XMPPHP_XMLObj {
 	 *
 	 * @var array
 	 */
-	public $attrs = array();
+	public $attrs = [];
 
 	/**
 	 * Subs?
 	 *
 	 * @var array
 	 */
-	public $subs = array();
+	public $subs = [];
 
 	/**
 	 * Node data
-	 * 
+	 *
 	 * @var string
 	 */
 	public $data = '';
@@ -79,7 +83,8 @@ class Net_XMPP_XMPPHP_XMLObj {
 	 * @param array  $attrs
 	 * @param string $data
 	 */
-	public function __construct($name, $ns = '', $attrs = array(), $data = '') {
+	public function __construct($name, $ns = '', $attrs = [], $data = '')
+	{
 		$this->name = strtolower($name);
 		$this->ns   = $ns;
 		if(is_array($attrs) && count($attrs)) {
@@ -95,7 +100,8 @@ class Net_XMPP_XMPPHP_XMLObj {
 	 *
 	 * @param integer $depth
 	 */
-	public function printObj($depth = 0) {
+	public function printObj($depth = 0)
+	{
 		print str_repeat("\t", $depth) . $this->name . " " . $this->ns . ' ' . $this->data;
 		print "\n";
 		foreach($this->subs as $sub) {
@@ -108,7 +114,8 @@ class Net_XMPP_XMPPHP_XMLObj {
 	 *
 	 * @param string $str
 	 */
-	public function toString($str = '') {
+	public function toString($str = '')
+	{
 		$str .= "<{$this->name} xmlns='{$this->ns}' ";
 		foreach($this->attrs as $key => $value) {
 			if($key != 'xmlns') {
@@ -127,11 +134,12 @@ class Net_XMPP_XMPPHP_XMLObj {
 
 	/**
 	 * Has this XML Object the given sub?
-	 * 
+	 *
 	 * @param string $name
 	 * @return boolean
 	 */
-	public function hasSub($name, $ns = null) {
+	public function hasSub($name, $ns = null)
+	{
 		foreach($this->subs as $sub) {
 			if(($name == "*" or $sub->name == $name) and ($ns == null or $sub->ns == $ns)) return true;
 		}
@@ -145,7 +153,8 @@ class Net_XMPP_XMPPHP_XMLObj {
 	 * @param string $attrs
 	 * @param string $ns
 	 */
-	public function sub($name, $attrs = null, $ns = null) {
+	public function sub($name, $attrs = null, $ns = null)
+	{
 		#TODO attrs is ignored
 		foreach($this->subs as $sub) {
 			if($sub->name == $name and ($ns == null or $sub->ns == $ns)) {

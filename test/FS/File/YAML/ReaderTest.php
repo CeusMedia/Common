@@ -1,23 +1,24 @@
 <?php
-/**
- *	TestUnit of YAML Reader.
- *	@package		Test.File.YAML
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of YAML Reader.
+ *	@package		Test.FS.File.YAML
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File\YAML;
+
+use CeusMedia\Common\FS\File\YAML\Reader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of YAML Reader.
- *	@package		Test.File.YAML
- *	@extends		Test_Case
- *	@uses			FS_File_YAML_Reader
+ *	@package		Test.FS.File.YAML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
+ *
  */
-class Test_FS_File_YAML_ReaderTest extends Test_Case
+class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -39,7 +40,7 @@ class Test_FS_File_YAML_ReaderTest extends Test_Case
 	 */
 	public function testLoad()
 	{
-		$creation	= FS_File_YAML_Reader::load( $this->fileName );
+		$creation	= Reader::load( $this->fileName );
 		$assertion	= array(
 			"title" => "test",
 			"list"	=> array(
@@ -57,7 +58,7 @@ class Test_FS_File_YAML_ReaderTest extends Test_Case
 	 */
 	public function testRead()
 	{
-		$reader		= new FS_File_YAML_Reader( $this->fileName );
+		$reader		= new Reader( $this->fileName );
 		$creation	= $reader->read();
 		$assertion	= array(
 			"title" => "test",

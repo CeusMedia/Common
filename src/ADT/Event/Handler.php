@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Collects event bindings and handles calls of triggered events.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +21,33 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\ADT\Event;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use InvalidArgumentException;
+
 /**
  *	Collects event bindings and handles calls of triggered events.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
-class ADT_Event_Handler
+class Handler
 {
-	/**	@var	array		$stopped		List of bound events */
-	protected $events	= array();
 
-	/**	@var	array		$stopped		List of currently runung events not to propagate anymore */
-	protected $stopped	= array();
+	/**	@var	Dictionary		$events		List of bound events */
+	protected Dictionary $events;
+
+	/**	@var	array			$stopped		List of currently running events not to propagate anymore */
+	protected array $stopped	= [];
 
 	/**
 	 *	Constructor.
@@ -50,25 +56,25 @@ class ADT_Event_Handler
 	 */
 	public function __construct()
 	{
-		$this->events	= new ADT_List_Dictionary();
+		$this->events	= new Dictionary();
 	}
 
 	/**
 	 *	Bind event.
 	 *	@access		public
-	 *	@param		string						$key		Event key, eg. "start.my"
-	 *	@param		function|ADT_Event_Callback	$callback	Callback function or object
+	 *	@param		string		$key		Event key, eg. "start.my"
+	 *	@param		mixed		$callback	Callback function or object
 	 *	@return		void
 	 */
 	public function bind( string $key, $callback )
 	{
 		if( is_callable( $callback ) )
-			$callback	= new ADT_Event_Callback( $callback );
-		if( !( $callback instanceof ADT_Event_Callback ) )
-			throw new InvalidArgumentException( 'Callback must be function or instance of ADT_Event_Callback' );
+			$callback	= new Callback( $callback );
+		if( !( $callback instanceof Callback ) )
+			throw new InvalidArgumentException( 'Callback must be function or instance of '.Callback::class );
 		if( !is_array( $list = $this->events->get( $key ) ) )
-			$list	= array();
-		$list[]	= array( $key, $callback );
+			$list	= [];
+		$list[]	= [$key, $callback];
 		$this->events->set( $key, $list );
 	}
 
@@ -81,7 +87,7 @@ class ADT_Event_Handler
 	 */
 	public function getBoundEvents( string $key, bool $nested = FALSE ): array
 	{
-		$events	= array();
+		$events	= [];
 		if( $this->events->get( $key ) )
 			foreach( $this->events->get( $key) as $event )
 				$events[]	= $event;
@@ -120,26 +126,26 @@ class ADT_Event_Handler
 	/**
 	 *	Builds event data object and handles call of triggered event.
 	 *	@access		public
-	 *	@param		string		$key		Event trigger key
-	 *	@param		object		$caller		Object which triggered event
-	 *	@param		mixed		$arguments	Data for event on trigger
+	 *	@param		string			$key		Event trigger key
+	 *	@param		object|NULL		$caller		Object which triggered event
+	 *	@param		array			$arguments	Data for event on trigger
 	 *	@return		boolean
 	 */
-	public function trigger( string $key, $caller = NULL, $arguments = NULL )
+	public function trigger( string $key, ?object $caller = NULL, array $arguments = [] ): bool
 	{
 		if( !( $events = $this->getBoundEvents( $key, TRUE ) ) )
-			return NULL;
+			return FALSE;
 		$this->removeStopMark( $key );
 		foreach( $events as $callback ){
 			if( in_array( $key, $this->stopped, TRUE ) )
 				continue;
-			$event	= new ADT_Event_Data( $this );
+			$event	= new Data( $this );
 			$event->key			= $callback[0];
 			$event->trigger		= $key;
 			$event->caller		= $caller;
 			$event->data		= $callback[1]->getData();
 			$event->arguments	= $arguments;
-			$result			= call_user_func( $callback[1]->getCallback(), $event );
+			$result		= call_user_func( $callback[1]->getCallback(), $event );
 			if( $result === FALSE )
 				return FALSE;
 		}

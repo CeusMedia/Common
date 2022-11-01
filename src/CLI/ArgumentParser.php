@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Argument Parser for Console Applications.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+
 /**
  *	Argument Parser for Console Applications.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
- *	@extends		ADT_List_Dictionary
- *	@uses			CLI_RequestReceiver
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_ArgumentParser extends ADT_List_Dictionary
+class ArgumentParser extends Dictionary
 {
 	/**	@var	array		shortcuts		Associative Array of Shortcuts */
-	private $shortcuts	= array();
+	private array $shortcuts	= [];
 
 	//  --  PUBLIC METHODS  --  //
 
@@ -64,10 +68,9 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 	 */
 	public function parseArguments( bool $fallBackOnEmptyPair = FALSE )
 	{
-		$request	= new CLI_RequestReceiver( $fallBackOnEmptyPair );
-		$arguments	= $request->getAll();
-		$commands	= array();
-		$parameters	= array();
+		$request	= new RequestReceiver( $fallBackOnEmptyPair );
+		$commands	= [];
+		$parameters	= [];
 		foreach( $request->getAll() as $key => $value ){
 			if( is_numeric( $key ) )
 				$commands[]	= $value;
@@ -75,10 +78,9 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 				$parameters[$key]	= $value;
 		}
 		$script		= array_shift( $commands );
-		$list	= array();
+		$list		= [];
 		foreach( $parameters as $key => $value ){
-			$reverse	= array_flip( $this->shortcuts );
-			if( in_array( $key, array_keys( $this->shortcuts ), TRUE ) )
+			if( array_key_exists( $key, $this->shortcuts ) )
 				$key	= $this->shortcuts[$key];
 			$list[$key]	= $value;
 		}

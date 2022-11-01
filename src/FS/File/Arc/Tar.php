@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,42 +21,47 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$.7
  */
+
+namespace CeusMedia\Common\FS\File\Arc;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\FS\Folder\Editor as FolderEditor;
+use Exception;
+
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
- *	@uses			FS_File_Reader
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$.7
  */
-class FS_File_Arc_Tar
+class Tar
 {
 	// Unprocessed Archive Information
 	protected $fileName;
 	protected $content		= "";
 
 	// Processed Archive Information
-	protected $files		= array();
-	protected $folders		= array();
+	protected $files		= [];
+	protected $folders		= [];
 	protected $numFiles		= 0;
 	protected $numFolders	= 0;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName			Name of TAR File
+	 *	@param		string|NULL		$fileName			Name of TAR File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $fileName = NULL )
+	public function __construct( ?string $fileName = NULL )
 	{
 		if( $fileName )
 			$this->open( $fileName );
@@ -64,10 +70,11 @@ class FS_File_Arc_Tar
 	/**
 	 *	Adds a File to the TAR Archive by its Path, depending on current working Directory.
 	 *	@access		public
-	 *	@param		stromg		$fileName			Path of File to add
+	 *	@param		string		$fileName			Path of File to add
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public function addFile( $fileName )
+	public function addFile( string $fileName ): bool
 	{
 		// Make sure the file we are adding exists!
 		if( !file_exists( $fileName ) )
@@ -80,7 +87,7 @@ class FS_File_Arc_Tar
 		$fileName	= str_replace( "./", "", $fileName );
 		// Get file information
 		$fileInfo	= stat( $fileName );
-		$file		= new FS_File_Reader( $fileName );
+		$file		= new FileReader( $fileName );
 
 		// Add file to processed data
 		$this->numFiles++;
@@ -105,7 +112,7 @@ class FS_File_Arc_Tar
 	 *	@param		string		$dirName			Path of Folder to add
 	 *	@return		bool
 	 */
-	public function addFolder( $dirName )
+	public function addFolder( string $dirName ): bool
 	{
 		if( !file_exists( $dirName ) )
 			return FALSE;
@@ -128,8 +135,9 @@ class FS_File_Arc_Tar
 	 *	@access		public
 	 *	@param		string		$fileName			TAR File to add to current TAR File
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public function appendTar( $fileName )
+	public function appendTar( string $fileName ): bool
 	{
 		// If the tar file doesn't exist...
 		if( !file_exists( $fileName ) )
@@ -141,18 +149,18 @@ class FS_File_Arc_Tar
 	/**
 	 *	Computes the unsigned Checksum of a File's header to try to ensure valid File.
 	 *	@access		private
-	 *	@param		string		$bytestring			String of Bytes
-	 *	@return		string
+	 *	@param		string		$byteString			String of Bytes
+	 *	@return		integer
 	 */
-	private function computeUnsignedChecksum( $bytestring )
+	private function computeUnsignedChecksum( string $byteString ): int
 	{
-		$unsigned_chksum	= 0;
+		$unsignedChecksum	= 0;
 		for( $i=0; $i<512; $i++ )
-			$unsigned_chksum += ord( $bytestring[$i] );
+			$unsignedChecksum += ord( $byteString[$i] );
 		for( $i=0; $i<8; $i++ )
-			$unsigned_chksum -= ord( $bytestring[148 + $i]) ;
-		$unsigned_chksum += ord( " " ) * 8;
-		return $unsigned_chksum;
+			$unsignedChecksum -= ord( $byteString[148 + $i]) ;
+		$unsignedChecksum += ord( " " ) * 8;
+		return $unsignedChecksum;
 	}
 
 	/**
@@ -161,13 +169,12 @@ class FS_File_Arc_Tar
 	 *	@param		string		$fileName			Name of File to check
 	 *	@return		bool
 	 */
-	public function containsFile( $fileName )
+	public function containsFile( string $fileName ): bool
 	{
-		if( !$this->numFiles )
-			return FALSE;
-		foreach( $this->files as $key => $information )
+		foreach( $this->files as $information )
 			if( $information['name'] == $fileName )
 				return TRUE;
+		return FALSE;
 	}
 
 	/**
@@ -176,37 +183,34 @@ class FS_File_Arc_Tar
 	 *	@param		string		$dirName			Name of Folder to check
 	 *	@return		bool
 	 */
-	public function containsFolder( $dirName )
+	public function containsFolder( string $dirName ): bool
 	{
-		if( !$this->numFolders )
-			return FALSE;
-		foreach( $this->folders as $key => $information )
+		foreach( $this->folders as $information )
 			if( $information['name'] == $dirName )
 				return TRUE;
+		return FALSE;
 	}
 
 	/**
 	 *	Extracts all Folders and Files to a Path and returns Number of extracted Files.
 	 *	@access		public
-	 *	@param		string		$targetPath			Path to extract to
-	 *	@return		int			Number of extracted Files
+	 *	@param		string|NULL		$targetPath			Path to extract to
+	 *	@return		int				Number of extracted Files
 	 */
-	public function extract( $targetPath = NULL )
+	public function extract( ?string $targetPath = NULL ): int
 	{
 		$counter	= 0;
-		if( $targetPath )
-		{
+		if( $targetPath ){
 			$cwd	= getCwd();
-			FS_Folder_Editor::createFolder( $targetPath );
+			FolderEditor::createFolder( $targetPath );
 			chdir( $targetPath );
 		}
 		foreach( $this->folders as $folder )
-			FS_Folder_Editor::createFolder( $folder['name'] );
-		foreach( $this->files as $file )
-		{
+			FolderEditor::createFolder( $folder['name'] );
+		foreach( $this->files as $file ){
 			if( $folder = dirname( $file['name'] ) )
-				FS_Folder_Editor::createFolder( $folder );
-			$counter	+= (int)(bool) FS_File_Writer::save( $file['name'], $file['file'] );
+				FolderEditor::createFolder( $folder );
+			$counter	+= (int)(bool) FileWriter::save( $file['name'], $file['file'] );
 		}
 		if( $targetPath )
 			chDir( $cwd );
@@ -218,16 +222,13 @@ class FS_File_Arc_Tar
 	 *	@access		protected
 	 *	@return		bool
 	 */
-	protected function generateTar()
+	protected function generateTar(): bool
 	{
-		// Clear any data currently in $this->content	
+		// Clear any data currently in $this->content
 		$this->content		= "";
-		if( $this->numFolders > 0 )
+		if( $this->numFolders > 0 ){
 		// Generate Records for each folder, if we have directories
-		{	
-			foreach( $this->folders as $key => $information )
-			{
-				unset( $header );
+			foreach( $this->folders as $information ){
 				// Generate tar header for this folder
 				// Filename, Permissions, UID, GID, size, Time, checksum, typeflag, linkname, magic, version, user name, group name, devmajor, devminor, prefix, end
 				$header	= '';
@@ -259,11 +260,8 @@ class FS_File_Arc_Tar
 			}
 		}
 		// Generate Records for each file, if we have files( We should...)
-		if( $this->numFiles > 0 )
-		{
-			foreach( $this->files as $key => $information )
-			{
-				unset($header);
+		if( $this->numFiles > 0 ){
+			foreach( $this->files as $key => $information ){
 				// Generate the TAR header for this file
 				// Filename, Permissions, UID, GID, size, Time, checksum, typeflag, linkname, magic, version, user name, group name, devmajor, devminor, prefix, end
 				$header	= '';
@@ -278,7 +276,7 @@ class FS_File_Arc_Tar
 				$header .= str_repeat(chr(0),100);
 				$header .= str_pad('ustar',6,chr(32));
 				$header .= chr(32) . chr(0);
-				// How do I get a file's user name from PHP?
+				// How do I get a file's username from PHP?
 				$header .= str_pad($information['user_name'],32,chr(0));
 				// How do I get a file's group name from PHP?
 				$header .= str_pad($information['group_name'],32,chr(0));
@@ -293,29 +291,28 @@ class FS_File_Arc_Tar
 				$header[154] = chr(0);
 				$header[155] = chr(32);
 				// Pad file contents to byte count divisible by 512
-				$filecontents = str_pad($information['file'],(ceil($information['size'] / 512) * 512),chr(0));
+				$fileContents = str_pad($information['file'],((int) ceil($information['size'] / 512) * 512),chr(0));
 				// Add new tar formatted data to tar file contents
-				$this->content .= $header . $filecontents;
+				$this->content .= $header . $fileContents;
 			}
 		}
 		// Add 512 bytes of NULLs to designate EOF
 		$this->content .= str_repeat(chr(0),512);
-		return true;
+		return TRUE;
 	}
 
 	/**
 	 *	Retrieves information about a File in the current TAR Archive.
 	 *	@access		public
 	 *	@param		string		$fileName			File Name to get Information for
-	 *	@return		array
+	 *	@return		array|NULL
 	 */
-	public function getFile( $fileName )
+	public function getFile( string $fileName ): ?array
 	{
-		if( !$this->numFiles )
-			return NULL;
-		foreach( $this->files as $key => $information )
+		foreach( $this->files as $information )
 			if( $information['name'] == $fileName )
 				return $information;
+		return NULL;
 	}
 
 	/**
@@ -323,9 +320,9 @@ class FS_File_Arc_Tar
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getFileList()
+	public function getFileList(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->files as $file )
 			$list[$file['name']]	= $file['size'];
 		return $list;
@@ -335,15 +332,14 @@ class FS_File_Arc_Tar
 	 *	Retrieves information about a Folder in the current TAR Archive.
 	 *	@access		public
 	 *	@param		string		$dirName			Folder Name to get Information for
-	 *	@return		array
+	 *	@return		array|NULL
 	 */
-	public function getFolder( $dirName )
+	public function getFolder( string $dirName ): ?array
 	{
-		if( !$this->numFolders )
-			return NULL;
-		foreach( $this->folders as $key => $information )
+		foreach( $this->folders as $information )
 			if( $information['name'] == $dirName )
 				return $information;
+		return NULL;
 	}
 
 	/**
@@ -351,9 +347,9 @@ class FS_File_Arc_Tar
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getFolderList()
+	public function getFolderList(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->folders as $folder )
 			$list[]	= $folder['name'];
 		return $list;
@@ -364,15 +360,16 @@ class FS_File_Arc_Tar
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of TAR Archive
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public function open( $fileName )
+	public function open( string $fileName ): bool
 	{
 		// If the tar file doesn't exist...
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'TAR File "'.$fileName.'" is not existing' );
 		$this->content		= "";
-		$this->files		= array();
-		$this->folders		= array();
+		$this->files		= [];
+		$this->folders		= [];
 		$this->numFiles		= 0;
 		$this->numFolders	= 0;
 		$this->fileName		= $fileName;
@@ -385,7 +382,7 @@ class FS_File_Arc_Tar
 	 *	@param		string		$string				String to clear
 	 *	@return		string
 	 */
-	private function parseNullPaddedString( $string )
+	private function parseNullPaddedString( string $string ): string
 	{
 		$position = strpos( $string, chr( 0 ) );
 		return substr( $string, 0, $position );
@@ -396,13 +393,12 @@ class FS_File_Arc_Tar
 	 *	@access		private
 	 *	@return		bool
 	 */
-	protected function parseTar()
+	protected function parseTar(): bool
 	{
 		// Read Files from archive
 		$tarLength = strlen( $this->content );
 		$mainOffset = 0;
-		while( $mainOffset < $tarLength )
-		{
+		while( $mainOffset < $tarLength ){
 			// If we read a block of 512 nulls, we are at the end of the archive
 			if(substr($this->content,$mainOffset,512) == str_repeat(chr(0),512))
 				break;
@@ -420,7 +416,7 @@ class FS_File_Arc_Tar
 			$fileTime		= octdec(substr($this->content,$mainOffset + 136,12));
 			// Parse Checksum
 			$fileChksum	= octdec(substr($this->content,$mainOffset + 148,6));
-			// Parse user name
+			// Parse username
 			$fileUname		= $this->parseNullPaddedString(substr($this->content,$mainOffset + 265,32));
 			// Parse Group name
 			$fileGname		= $this->parseNullPaddedString(substr($this->content,$mainOffset + 297,32));
@@ -428,16 +424,14 @@ class FS_File_Arc_Tar
 			if($this->computeUnsignedChecksum(substr($this->content,$mainOffset,512)) != $fileChksum)
 				return false;
 			// Parse File Contents
-			$filecontents		= substr($this->content,$mainOffset + 512,$fileSize);
-			if( $fileSize > 0 )
-			{
-				if(!$this->containsFile( $fileName ) )
-				{
+			$fileContents		= substr($this->content,$mainOffset + 512,$fileSize);
+			if( $fileSize > 0 ){
+				if(!$this->containsFile( $fileName ) ){
 					// Increment number of files
 					$this->numFiles++;
 					// Create us a new file in our array
 					$activeFile = &$this->files[];
-					// Asign Values
+					// Assign Values
 					$activeFile['name']			= $fileName;
 					$activeFile['mode']			= $fileMode;
 					$activeFile['size']			= $fileSize;
@@ -447,13 +441,11 @@ class FS_File_Arc_Tar
 					$activeFile['user_name']	= $fileUname;
 					$activeFile['group_name']	= $fileGname;
 					$activeFile['checksum']		= $fileChksum;
-					$activeFile['file']			= $filecontents;
+					$activeFile['file']			= $fileContents;
 				}
 			}
-			else
-			{
-				if( !$this->containsFolder( $fileName ) )
-				{
+			else{
+				if( !$this->containsFolder( $fileName ) ){
 					// Increment number of directories
 					$this->numFolders++;
 					// Create a new folder in our array
@@ -481,10 +473,10 @@ class FS_File_Arc_Tar
 	 *	@param		string		$fileName		Reads TAR Archive
 	 *	@return		bool
 	 */
-	protected function readTar( $fileName )
+	protected function readTar( string $fileName ): bool
 	{
- 		$file	= new FS_File_Reader( $fileName );
-		$this->content = $file->readString(); 		
+ 		$file	= new FileReader( $fileName );
+		$this->content = $file->readString();
 		// Parse the TAR file
 		return $this->parseTar();
 	}
@@ -495,18 +487,16 @@ class FS_File_Arc_Tar
 	 *	@param		string		$fileName		Name of File to remove
 	 *	@return		bool
 	 */
-	public function removeFile( $fileName )
+	public function removeFile( string $fileName ): bool
 	{
-		if( !$this->numFiles )
-			return FALSE;
-		foreach( $this->files as $key => $information )
-		{
+		foreach( $this->files as $key => $information ){
 			if( $information['name'] !== $fileName )
 				continue;
 			$this->numFiles--;
 			unset( $this->files[$key] );
 			return TRUE;
 		}
+		return FALSE;
 	}
 
 	/**
@@ -515,30 +505,28 @@ class FS_File_Arc_Tar
 	 *	@param		string		$dirName		Name of Folder to remove
 	 *	@return		bool
 	 */
-	public function removeFolder( $dirName )
+	public function removeFolder( string $dirName ): bool
 	{
-		if( !$this->numFolders )
-			return FALSE;
-		foreach( $this->folders as $key => $information )
-		{
+		foreach( $this->folders as $key => $information ){
 			if( $information['name'] !== $dirName )
 				continue;
 			$this->numFolders--;
 			unset( $this->folders[$key] );
 			return TRUE;
 		}
+		return FALSE;
 	}
 
 	/**
 	 *	Write down the currently loaded Tar Archive.
 	 *	@access		public
-	 *	@param		string	$fileName 	Name of Tar Archive to save
-	 *	@return		int					Number of written bytes
+	 *	@param		string|NULL		$fileName 	Name of Tar Archive to save
+	 *	@return		int				Number of written bytes
+	 *	@throws		Exception
 	 */
-	public function save( $fileName = NULL )
+	public function save( ?string $fileName = NULL ): int
 	{
-		if( empty( $fileName ) )
-		{
+		if( empty( $fileName ) ){
 			if( empty( $this->fileName ) )
 				throw new Exception( 'No TAR file name for saving given' );
 			$fileName = $this->fileName;
@@ -546,6 +534,6 @@ class FS_File_Arc_Tar
 		// Encode processed files into TAR file format
 		$this->generateTar();
 		//  write archive file
-		return FS_File_Writer::save( $fileName, $this->content );
+		return FileWriter::save( $fileName, $this->content );
 	}
 }

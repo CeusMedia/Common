@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base Tree implementation.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Tree;
+
+use InvalidArgumentException;
+
 /**
  *	Base Tree implementation.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Tree_Node
+class Node
 {
 	/**	@var	array		$children		Array of Children */
-	protected $children		= array();
+	protected $children		= [];
 
 	/**
 	 *	Adds a child to Tree.
@@ -44,8 +50,9 @@ class ADT_Tree_Node
 	 *	@param		string		$name		Child name
 	 *	@param		mixed		$child		Child to add
 	 *	@return		void
+	 *	@throws		InvalidArgumentException
 	 */
-	public function addChild( $name, $child )
+	public function addChild( string $name, $child )
 	{
 		if( isset( $this->children[$name] ) )
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is already existing.' );
@@ -59,7 +66,7 @@ class ADT_Tree_Node
 	 */
 	public function clearChildren()
 	{
-		$this->children = array();
+		$this->children = [];
 	}
 
 	/**
@@ -68,7 +75,7 @@ class ADT_Tree_Node
 	 *	@param		string		$name		Child name
 	 *	@return		mixed
 	 */
-	public function getChild( $name )
+	public function getChild( string $name )
 	{
 		if( !array_key_exists( $name, $this->children ) )
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is not existing.' );
@@ -80,7 +87,7 @@ class ADT_Tree_Node
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getChildren()
+	public function getChildren(): array
 	{
 		return $this->children;
 	}
@@ -91,7 +98,7 @@ class ADT_Tree_Node
 	 *	@param		string		$name		Child name
 	 *	@return		bool
 	 */
-	public function hasChild( $name )
+	public function hasChild( string $name ): bool
 	{
 		return array_key_exists( $name, $this->children );
 	}
@@ -101,9 +108,9 @@ class ADT_Tree_Node
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function hasChildren()
+	public function hasChildren(): bool
 	{
-		return (bool) count( $this->children );
+		return count( $this->children ) > 0;
 	}
 
 	/**
@@ -112,7 +119,7 @@ class ADT_Tree_Node
 	 *	@param		string		$name		Child name
 	 *	@return		bool
 	 */
-	public function removeChild( $name )
+	public function removeChild( string $name ): bool
 	{
 		if( !array_key_exists( $name, $this->children ) )
 			return FALSE;

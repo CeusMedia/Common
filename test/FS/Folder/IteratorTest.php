@@ -1,25 +1,27 @@
 <?php
-/**
- *	TestUnit of Folder Iterator.
- *	@package		Tests.folder
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Folder Iterator.
+ *	@package		Tests.FS.Folder
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\FS\Folder;
+
+use CeusMedia\Common\FS\Folder\Iterator;
 
 /**
  *	TestUnit of Folder Iterator.
- *	@package		Tests.folder
- *	@extends		Test_FS_Folder_TestCase
- *	@uses			FS_Folder_Iterator
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *	@version		0.1
  */
-class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
+class IteratorTest extends TestCase
 {
 	/**
 	 *	Tests Method '__construct'.
@@ -29,7 +31,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	public function testConstruct()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_Iterator( $path );
+		$index	= new Iterator( $path );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -51,7 +53,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_Folder_Iterator( "not_existing" );
+		$index	= new Iterator( "not_existing" );
 	}
 
 	/**
@@ -62,10 +64,10 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructFilesOnly()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_Iterator( $path, TRUE, FALSE );
+		$index	= new Iterator( $path, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -84,7 +86,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructFoldersOnly()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_Iterator( $path, FALSE, TRUE );
+		$index	= new Iterator( $path, FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -92,7 +94,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -106,7 +108,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructShowHiddenFiles()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_Iterator( $path, TRUE, FALSE, FALSE );
+		$index	= new Iterator( $path, TRUE, FALSE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -119,7 +121,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -133,7 +135,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructShowHiddenFolders()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_Iterator( $path, FALSE, TRUE, FALSE );
+		$index	= new Iterator( $path, FALSE, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -146,7 +148,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );

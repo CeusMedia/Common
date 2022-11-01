@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Access to Dyn (dyn.com) API.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,31 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://dyn.com/support/developers/api/
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\Net\API;
+
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\Net\Reader as NetReader;
+
 /**
  *  Access to Dyn (dyn.com) API.
  *
  *  @category       Library
  *  @package        CeusMedia_Common_Net_API
  *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
- *  @copyright      2015-2020 Christian Würker
+ *  @copyright      2015-2022 Christian Würker
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *  @link           https://github.com/CeusMedia/Common
  *  @see            http://dyn.com/support/developers/api/
- *  @since          0.7.6
  */
-class Net_API_Dyn
+class Dyn
 {
 	protected $cacheFile	= NULL;
 	protected $lastIp;
@@ -48,20 +55,20 @@ class Net_API_Dyn
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$cacheFile		Name of cache file
+	 *	@param		string|NULL		$cacheFile		Name of cache file
 	 *	@return		void
 	 */
-	public function __construct( $cacheFile = NULL )
+	public function __construct( ?string $cacheFile = NULL )
 	{
 		if( is_string( $cacheFile ) ){
 			$this->cacheFile	= $cacheFile;
 			if( file_exists( $cacheFile ) ){
-				$data	= json_decode( FS_File_Reader::load( $cacheFile ) );
+				$data	= json_decode( FileReader::load( $cacheFile ) );
 				$this->lastIp		= $data->ip;
 				$this->lastCheck	= $data->timestamp;
 			}
 		}
-		$this->reader	= new Net_Reader();
+		$this->reader	= new NetReader();
 		$this->reader->setUserAgent( "CeusMedia - DynUpdateBot - 0.1" );
 	}
 
@@ -69,16 +76,17 @@ class Net_API_Dyn
 	 *	Returns external IP of this server identified by Dyn service.
 	 *	@access		public
 	 *	@return		string		IP address to be identified
+	 *	@throws		IoException
 	 */
-	public function getIp()
+	public function getIp(): string
 	{
 		if( (int) $this->lastCheck > 0 && time() - $this->lastCheck < 10 * 60 )
 			return $this->lastIp;
-		$this->reader->setUrl( 'http://checkip.dyndns.org' );
+		$this->reader->setUrl( 'https://checkip.dyndns.org' );
 		$html	= $this->reader->read();
 		$parts	= explode( ": ", strip_tags( $html ) );
 		$ip		= trim( array_pop( $parts ) );
-		$this->save( array( 'ip' => $ip, 'timestamp' => time() ) );
+		$this->save( ['ip' => $ip, 'timestamp' => time()] );
 		return $ip;
 	}
 
@@ -88,16 +96,16 @@ class Net_API_Dyn
 	 *	@param		array		$data			Map of IP and timestamp
 	 *	@return		integer		Number of bytes written to cache file
 	 */
-	protected function save( $data )
+	protected function save( array $data ): int
 	{
 		if( !$this->cacheFile )
-			return;
-		$last	= array(
+			return 0;
+		$last	= [
 			'ip'		=> $this->lastIp,
 			'timestamp'	=> $this->lastCheck
-		);
+		];
 		$data	= array_merge( $last,  $data );
-		return FS_File_Writer::save( $this->cacheFile, json_encode( $data ) );
+		return FileWriter::save( $this->cacheFile, json_encode( $data ) );
 	}
 
 	/**
@@ -108,12 +116,13 @@ class Net_API_Dyn
 	 *	@param		string		$host			Dyn registered host
 	 *	@param		string		$ip				Ip address to set for host
 	 *	@return		string		Update code string returned by Dyn service
+	 *	@throws		IoException
 	 */
-	public function update( $username, $password, $host, $ip )
+	public function update( string $username, string $password, string $host, string $ip ): string
 	{
 		if( (int) $this->lastCheck > 0 && time() - $this->lastCheck < 10 * 60 )
 			return "noop";
-		$url	= "http://%s:%s@members.dyndns.org/nic/update?hostname=%s&myip=%s&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";
+		$url	= "https://%s:%s@members.dyndns.org/nic/update?hostname=%s&myip=%s&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";
 		$url	= sprintf( $url, $username, $password, $host, $ip );
 		$this->reader->setUrl( $url );
 		$parts	= explode( " ", $this->reader->read() );

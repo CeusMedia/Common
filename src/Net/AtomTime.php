@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Connects Server to request Atom Time.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,59 +21,86 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net
- *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.07.2005
  */
+
+namespace CeusMedia\Common\Net;
+
+use CeusMedia\Common\Exception\IO as IoException;
+use DateTime;
+use DateTimeZone;
+
 /**
  *	Connects Server to request Atom Time.
  *	@category		Library
  *	@package		CeusMedia_Common_Net
- *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.07.2005
+ *	@see			https://www.ntp-server.de/ntp-server-deutschland/
+ *	@see			https://timetoolsltd.com/information/public-ntp-server/
+ *	@see			https://github.com/bt51/ntp
  */
-class Net_AtomTime
+class AtomTime
 {
-	/**	@var		string		$url			URL for Server Request */
-	protected static $url		= "http://www.uni-leipzig.de/cgi-bin/date/index.htm";
+	/**	@var		string				$url			URL for Server Request */
+	protected static string $hostName	= 'ptbtime1.ptb.de';
+
+	/**	@var		integer				$url			Port for Server Request */
+	protected static int $hostPort		= 123;
+
+	/**
+	 *	@param		DateTimeZone|NULL		$dateTimeZone
+	 *	@return		DateTime
+	 *	@throws		IoException
+	 */
+	public static function get( ?DateTimeZone $dateTimeZone = NULL ): DateTime
+	{
+		$hostIp		= 'udp://' . gethostbyname( self::$hostName );
+		$resource	= fsockopen( $hostIp, self::$hostPort, $errNumber, $errMessage, 5 );
+		if( !$resource )
+			throw new IoException( $errMessage );
+
+		fwrite( $resource, chr( 0x1B ) . str_repeat( chr( 0x00 ), 47 ) );
+		$response = fread( $resource, 48 );
+		fclose( $resource );
+		$data = unpack( 'N12', $response );
+		$time = sprintf( '%u', $data[9] ) - 2_208_988_800;
+		$dateTime = DateTime::createFromFormat('U', (string) $time, new DateTimeZone('UTC'));
+		if( $dateTimeZone !== NULL )
+			$dateTime->setTimezone( $dateTimeZone );
+		return $dateTime;
+	}
 
 	/**
 	 *	Returns timestamp.
 	 *	@access		public
 	 *	@static
+	 *	@param		DateTimeZone|NULL		$dateTimeZone
 	 *	@return		int
-	 *	@link		http://www.php.net/time
+	 *	@throws		IoException
 	 */
-	public static function getTimestamp()
+	public static function getTimestamp( ?DateTimeZone $dateTimeZone = NULL ): int
 	{
-		$curl	= new Net_CURL( self::$url );
-		$result	= $curl->exec();
-		$status	= $curl->getStatus();
-		if( $status['http_code'] != 200 )
-			throw new Exception( "Service URL is not reachable." );
-		$parts	= explode( "\n", $result );
-		$date	= trim( $parts[2] );
-		$time	= strtotime( $date );
-		return $time;
+		$dateTime	= self::get( $dateTimeZone );
+		return (int) $dateTime->format( 'U' );
 	}
 
 	/**
 	 *	Returns date as formatted string.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$format			Date format
+	 *	@param		string				$format			Date format
+	 *	@param		DateTimeZone|NULL	$dateTimeZone
 	 *	@return		string
-	 *	@link		http://www.php.net/date
+	 *	@throws		IoException
 	 */
-	public static function getDate( $format = "d.m.Y - H:i:s" )
+	public static function getDate( string $format = "d.m.Y - H:i:s", ?DateTimeZone $dateTimeZone = NULL ): string
 	{
-		return date( $format, self::getTimestamp() );
+		return date( $format, self::getTimestamp( $dateTimeZone )  );
 	}
 }

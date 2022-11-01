@@ -1,26 +1,37 @@
 <?php
-/**
- *	TestUnit of Net Reader.
- *	@package		Tests.net
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Net Reader.
+ *	@package		Tests.net
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Net;
+
+use CeusMedia\Common\Net\CURL as NetCURL;
+use CeusMedia\Common\Net\Reader as NetReader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
- *	@extends		Test_Case
- *	@uses			Net_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.02.2008
- *	@version		0.1
+ *
  */
-class Test_Net_ReaderTest extends Test_Case
+class ReaderTest extends BaseCase
 {
+	protected $url;
+	protected $needle;
+
+	/** @var NetReader  */
+	protected $reader;
+
 	/**
 	 *	Sets up Reader.
 	 *	@access		public
@@ -28,16 +39,27 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->url		= "http://www.example.com";
-		$this->needle	= "@RFC\s+2606@i";
+//		$this->url		= "https://www.example.com";
+//		$this->needle	= "@RFC\s+2606@i";
 
-		$this->url		= "http://ceusmedia.de/";
+		$this->url		= "https://ceusmedia.de/";
 		$this->needle	= "@ceus media@i";
 
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'Missing cURL support' );
-		$this->reader	= new Net_Reader( $this->url );
+		$this->reader	= new NetReader( $this->url );
 		$this->reader->setUserAgent( "cmClasses:UnitTest/0.1" );
+	}
+
+	/**
+	 *	Tests Exception of Method 'read'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstructException()
+	{
+		$this->expectException( "InvalidArgumentException" );
+		$reader		= new NetReader( "" );
 	}
 
 	/**
@@ -49,12 +71,11 @@ class Test_Net_ReaderTest extends Test_Case
 	{
 		$response	= $this->reader->read();
 		$assertion	= "200";
-		$creation	= $this->reader->getInfo( Net_CURL::INFO_HTTP_CODE );
+		$creation	= $this->reader->getInfo( NetCURL::INFO_HTTP_CODE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
 		$creation	= (bool) count( $this->reader->getInfo() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -100,9 +121,9 @@ class Test_Net_ReaderTest extends Test_Case
 	public function testRead()
 	{
 		$response	= $this->reader->read();
-		$assertion	= true;
+
 		$creation	= (bool) preg_match( $this->needle, $response );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -112,8 +133,8 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testReadException()
 	{
-		$this->expectException( "RuntimeException" );
-		$reader		= new Net_Reader( "" );
+		$this->expectException( "InvalidArgumentException" );
+		$reader		= new NetReader( "invalidUrl" );
 		$reader->read();
 	}
 
@@ -124,10 +145,10 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testReadUrl()
 	{
-		$response	= Net_Reader::readUrl( $this->url );
-		$assertion	= true;
+		$response	= NetReader::readUrl( $this->url );
+
 		$creation	= (bool) preg_match( $this->needle, $response );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Iterates all Folders and Files within a Folder.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +21,34 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use DirectoryIterator;
+use FilterIterator;
+use RuntimeException;
+
 /**
  *	Iterates all Folders and Files within a Folder.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@extends		FilterIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
-class FS_Folder_Iterator extends FilterIterator
+class Iterator extends FilterIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
+
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
+
 	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
 	protected $stripDotEntries;
 
@@ -54,7 +61,7 @@ class FS_Folder_Iterator extends FilterIterator
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE )
+	public function __construct( string $path, bool $showFiles = TRUE, bool $showFolders = TRUE, bool $stripDotEntries = TRUE )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -69,14 +76,14 @@ class FS_Folder_Iterator extends FilterIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
 		if( $this->getInnerIterator()->isDot() )
 			return FALSE;
 		$isDir	= $this->getInnerIterator()->isDir();
-		if( !$this->showFolders && $isDir ) 
+		if( !$this->showFolders && $isDir )
 			return FALSE;
-		if( !$this->showFiles && !$isDir ) 
+		if( !$this->showFiles && !$isDir )
 			return FALSE;
 
 		if( $this->stripDotEntries )

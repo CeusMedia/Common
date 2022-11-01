@@ -2,7 +2,7 @@
 /**
  *	Validator for Predicates on Strings.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,27 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2007
  */
+
+namespace CeusMedia\Common\Alg\Validation;
+
+use BadMethodCallException;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	Validator for Predicates on Strings.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2007
  */
-class Alg_Validation_PredicateValidator
+class PredicateValidator
 {
 	/**	@var		Object		Predicate Class Instance */
 	protected $validator;
@@ -46,8 +51,9 @@ class Alg_Validation_PredicateValidator
 	 *	@param		string		$predicateClassName		Class Name of Predicate Class
 	 *	@return		void
 	 */
-	public function __construct( $predicateClassName = "Alg_Validation_Predicates" )
+	public function __construct( $predicateClassName = NULL )
 	{
+		$predicateClassName	??= Predicates::class;
 		$this->validator	= new $predicateClassName();
 	}
 

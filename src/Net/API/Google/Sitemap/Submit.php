@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Submits sitemap URL to Google webmaster tools.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,32 +21,38 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google_Sitemap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\Net\API\Google\Sitemap;
+
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Net\Reader as NetReader;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	Submits sitemap URL to Google webmaster tools.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google_Sitemap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
-class Net_API_Google_Sitemap_Submit
+class Submit
 {
 
-	/**	@var		string		$baseUrl		Base URL to Google webmaster tools */
-	static public $baseUrl		= "http://www.google.com/webmasters/tools/ping?sitemap=";
+	/**	@var		string			$baseUrl		Base URL to Google webmaster tools */
+	public static $baseUrl			= "https://www.google.com/webmasters/tools/ping?sitemap=";
 
-	/**	@var		string		$lastError		Last error message if request went wrong */
-	static protected $lastError	= NULL;
+	/**	@var		string|NULL		$lastError		Last error message if request went wrong */
+	protected static $lastError		= NULL;
 
 	/**
 	 *	Returns error message of latest failed submit request.
@@ -53,7 +60,7 @@ class Net_API_Google_Sitemap_Submit
 	 *	@access		public
 	 *	@return		string|NULL	Latest error message or NULL if none stored
 	 */
-	static public function getLastError()
+	static public function getLastError(): ?string
 	{
 		return self::$lastError;
 	}
@@ -63,21 +70,19 @@ class Net_API_Google_Sitemap_Submit
 	 *	Stores error message if request went wrong.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$url			URL of sitemap to submit
+	 *	@param		URL|string		$url			URL of sitemap to submit
 	 *	@return		boolean		Result of request
 	 */
-	static public function submit( $url )
+	static public function submit( $url ): bool
 	{
-		if( $url instanceof ADT_URL )
+		if( $url instanceof URL )
 			$url	= (string) $url;
 		if( !is_string( $url ) )
-			throw new InvalidArgumentException( 'URL must be string or instance of ADT_URL' );
-		try
-		{
-			Net_Reader::readUrl( self::$baseUrl.urlencode( $url ) );
+			throw new InvalidArgumentException( 'URL must be string or instance of ADT\\URL' );
+		try{
+			NetReader::readUrl( self::$baseUrl.urlencode( $url ) );
 		}
-		catch( Exception $e )
-		{
+		catch( Exception $e ){
 			self::$lastError	= $e->getMessage();
 			return FALSE;
 		}

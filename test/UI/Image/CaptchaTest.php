@@ -1,26 +1,35 @@
 <?php
-/**
- *	TestUnit of UI_Image_Captcha.
- *	@package		Tests.ui
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of UI_Image_Captcha.
+ *	@package		Tests.ui
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\UI\Image;
+
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\Common\UI\Image\Captcha;
 
 /**
  *	TestUnit of UI_Image_Captcha.
  *	@package		Tests.ui
- *	@extends		Test_Case
- *	@uses			UI_Image_Captcha
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
- *	@version		0.1
  */
-class Test_UI_Image_CaptchaTest extends Test_Case
+class CaptchaTest extends BaseCase
 {
+	/** @var Captcha  */
+	protected $captcha;
+
+	/** @var string  */
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -30,8 +39,8 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
-		$this->path		= dirname( __FILE__ )."/";
-		$this->captcha	= new UI_Image_Captcha();
+		$this->path		= dirname( __FILE__ )."/assets/";
+		$this->captcha	= new Captcha();
 		$this->captcha->font	= $this->path."tahoma.ttf";
 		$this->captcha->width	= 150;
 		$this->captcha->angle	= 45;
@@ -56,32 +65,19 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	{
 		$word		= $this->captcha->generateWord();
 
-		$assertion	= TRUE;
-		$creation	= is_string( $word );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $word );
+		$this->assertDoesNotMatchRegularExpression( "@[0-9]@", $word );
+		$this->assertDoesNotMatchRegularExpression( "@[A-Z]@", $word );
 
-		$assertion	= FALSE;
-		$creation	= (bool) preg_match( "@[0-9]@", $word );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= (bool) preg_match( "@[A-Z]@", $word );
-		$this->assertEquals( $assertion, $creation );
-
-		$captcha	= new UI_Image_Captcha();
+		$captcha	= new Captcha();
 		$captcha->useLarges	= TRUE;
 		$captcha->useDigits	= TRUE;
 		$captcha->length	= 50;
 		$captcha->font		= $this->path."tahoma.ttf";
 		$word		= $captcha->generateWord();
 
-		$assertion	= TRUE;
-		$creation	= is_string( $word );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= (bool) preg_match( "@[A-Z]|[0-9]@", $word );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $word );
+		$this->assertMatchesRegularExpression( "@[A-Z]|[0-9]@", $word );
 	}
 
 	/**
@@ -93,29 +89,18 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	{
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
 		$oldImage	= file_get_contents( $this->path."captcha.created.jpg" );
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 		$newImage	= file_get_contents( $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
 		$creation	= $newImage	!= $oldImage;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -131,29 +116,18 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
 		$oldImage	= file_get_contents( $this->path."captcha.created.jpg" );
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 		$newImage	= file_get_contents( $this->path."captcha.created.jpg" );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $result );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $result );
+		$this->assertGreaterThan( 0, $result );
 
-		$assertion	= TRUE;
-		$creation	= $result > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
 		$creation	= $newImage	== $oldImage;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -163,8 +137,9 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	 */
 	public function testGenerateImageException1()
 	{
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 		$this->captcha->textColor	= "not_an_array";
-		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -187,8 +162,9 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	 */
 	public function testGenerateImageException3()
 	{
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpFieldAssignmentTypeMismatchInspection */
 		$this->captcha->background	= "not_an_array";
-		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 

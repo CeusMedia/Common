@@ -2,7 +2,7 @@
 /**
  *	Checks visibility of methods within a PHP file.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +20,32 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP_Check
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
+
+namespace CeusMedia\Common\FS\File\PHP\Check;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
+use RuntimeException;
+
 /**
  *	Checks visibility of methods within a PHP file.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP_Check
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
-class FS_File_PHP_Check_MethodVisibility
+class MethodVisibility
 {
 	protected $fileName		= "";
-	protected $methods		= array();
+
+	protected $methods		= [];
+
 	protected $checked		= FALSE;
 
 	/**
@@ -48,7 +54,7 @@ class FS_File_PHP_Check_MethodVisibility
 	 *	@param		string		$fileName		URL of PHP File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
@@ -61,12 +67,12 @@ class FS_File_PHP_Check_MethodVisibility
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function check()
+	public function check(): bool
 	{
 		$this->checked	= TRUE;
-		$this->methods	= array();
-		$matches		= array();
-		$content		= FS_File_Reader::load( $this->fileName );
+		$this->methods	= [];
+		$matches		= [];
+		$content		= FileReader::load( $this->fileName );
 		if( preg_match( "@class @i", $content ) )
 			if( preg_match_all( "@\tfunction (& *)?([a-z][a-z0-9]+)@i", $content, $matches ) )
 				foreach( $matches[2] as $match )
@@ -79,7 +85,7 @@ class FS_File_PHP_Check_MethodVisibility
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getMethods()
+	public function getMethods(): array
 	{
 		if( !$this->checked )
 			throw new Exception( 'Not checked yet' );

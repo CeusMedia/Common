@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader and Parser for Tracker Log File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,40 +21,44 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log_Tracker
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.09.2006
  */
+
+namespace CeusMedia\Common\FS\File\Log\Tracker;
+
+use CeusMedia\Common\FS\File\Log\Reader as LogReader;
+
 /**
  *	Reader and Parser for Tracker Log File.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log_Tracker
- *	@extends		FS_File_Log_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.09.2006
  */
-class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
+class Reader extends LogReader
 {
 	/*	@var		string		$patterns		RegEx Patterns to parse Line */
 	protected $patterns;
+
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
 	protected $skip;
+
 	/*	@var		array		$data			Array of Data from parsed Lines */
-	protected $data	= array();
+	protected $data	= [];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$logfile		File Name of LogFile to parse
+	 *	@param		string		$logFile		File Name of LogFile to parse
 	 *	@param		string		$skip			Remote Address to skip (own Requests)
-	 *	@param		bool		$auto_parse		Flag: parse LogFile automaticly
+	 *	@param		bool		$autoParse		Flag: parse LogFile automatically
 	 *	@return		void
 	 */
-	public function __construct( $logFile, $skip, $autoParse = false )
+	public function __construct( string $logFile, string $skip, bool $autoParse = FALSE )
 	{
 		parent::__construct( $logFile );
 		$this->patterns	= "@^([0-9]+) \[([0-9:. -]+)\] ([a-z0-9:.-]+) (.*) (.*) \"(.*)\"$@si";
@@ -65,19 +70,20 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 	/**
 	 *	Callback for Line Parser.
 	 *	@access		protected
+	 *	@param		array		$matches		...
 	 *	@return		string
 	 */
-	protected function callback( $matches )
+	protected function callback( array $matches ): string
 	{
 //		print_m( $matches );
-		$data	= array(
+		$data	= [
 			'timestamp'		=> $matches[1],
 			'datetime'		=> $matches[2],
 			'remote_addr'	=> $matches[3],
 			'request_uri'	=> $matches[4],
 			'referer_uri'	=> $matches[5],
 			'useragent'		=> $matches[6],
-		);
+		];
 		return serialize( $data );
 	}
 
@@ -85,19 +91,16 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 	 *	Returns used Browsers of unique Visitors.
 	 *	@access		public
 	 *	@return 	array
+	 *	@noinspection	PhpUnused
 	 */
-	public function getBrowsers()
+	public function getBrowsers(): array
 	{
-		$remote_addrs	= array();	
-		$browsers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip && $entry['useragent'] )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-					{
+		$remote_addrs	= [];
+		$browsers		= [];
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip && $entry['useragent'] ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 ){
 						if( isset( $browsers[$entry['useragent']] ) )
 							$browsers[$entry['useragent']] ++;
 						else
@@ -105,8 +108,7 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 					}
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
-				else
-				{
+				else{
 					if( isset( $browsers[$entry['useragent']] ) )
 						$browsers[$entry['useragent']] ++;
 					else
@@ -116,11 +118,7 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 			}
 		}
 		arsort( $browsers );
-		foreach( $browsers as $browser => $count )
-			$lines[]	= "<tr><td>".$browser."</td><td>".$count."</td></tr>";
-		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		return $browsers;
 	}
 
 	/**
@@ -128,7 +126,7 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getData()
+	public function getData(): array
 	{
 		return $this->data;
 	}
@@ -137,83 +135,73 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 	 *	Calculates Page View Average of unique Visitors.
 	 *	@access		public
 	 *	@return 	float
+	 *	@noinspection	PhpUnused
 	 */
-	public function getPagesPerVisitor()
+	public function getPagesPerVisitor(): float
 	{
-		$remote_addrs	= array();	
-		$visitors		= array();
+		$remote_addrs	= [];
+		$visitors		= [];
 		$visitor		= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-					{
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 ){
 						$visitor++;
 						$visitors[$visitor]	= 0;
 					}
 					$visitors[$visitor] ++;
 				}
-				else
-				{
+				else{
 					$visitor++;
 					$visitors[$visitor]	= 1;
 					$remote_addrs[$entry['remote_addr']] = $entry['timestamp'];
 				}
 			}
 		}
-		$total	= 0;
-		foreach( $visitors as $visitor => $pages )
-			$total	+= $pages;
-		$pages	= round( $total / count( $visitors ), 1 );
-		return $pages;
+		return round( array_sum( $visitors ) / count( $visitors ), 1 );
 	}
 
 	/**
-	 *	Returns Referers of unique Visitors.
+	 *	Returns Referrers of unique Visitors.
 	 *	@access		public
+	 *	@param		string|NULL		$skip			Remote Address to skip (own Requests)
 	 *	@return 	array
+	 *	@noinspection	PhpUnused
 	 */
-	public function getReferers( $skip )
+	public function getReferrers( ?string $skip ): array
 	{
-		$referers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( $entry['referer_uri'] && !preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
-				{
-					if( isset( $referers[$entry['referer_uri']] ) )
-						$referers[$entry['referer_uri']] ++;
+		$referrers		= [];
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( $entry['referer_uri'] ){
+					if( $skip && preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
+						continue;
+					if( isset( $referrers[$entry['referer_uri']] ) )
+						$referrers[$entry['referer_uri']] ++;
 					else
-						$referers[$entry['referer_uri']]	= 1;
+						$referrers[$entry['referer_uri']]	= 1;
 				}
 			}
 		}
-		arsort( $referers );
-		foreach( $referers as $referer => $count )
-			$lines[]	= "<tr><td>".$referer."</td><td>".$count."</td></tr>";
-		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		arsort( $referrers );
+		return $referrers;
 	}
 
 	/**
 	 *	Returns HTML of all tracked Requests.
 	 *	@access		public
 	 *	@param		int			$max		List Entries (0-all)
-	 *	@return 	array
+	 *	@return 	string
+	 *	@noinspection	PhpUnused
 	 */
-	public function getTable( $max = 0)
+	public function getTable( int $max = 0): string
 	{
+		$lines	= [];
 		$data	= $this->data;
 		if( $max )
 			$data	= array_reverse( $data );
 		foreach( $data as $entry )
-			if( $entry['remote_addr'] != $this->skip )
-			{
+			if( $entry['remote_addr'] != $this->skip ){
 				$lines[]	= "<tr><td>".$entry['datetime']."</td><td>".$entry['remote_addr']."</td><td>".$entry['request_uri']."</td><!--<td>".$entry['referer_uri']."</td>--><td>".$entry['useragent']."</td></tr>";
 				if( $max && count( $lines ) >= $max )
 					break;
@@ -221,31 +209,27 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 		if( $max )
 			$lines	= array_reverse( $lines );
 		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		return "<table>".$lines."</table>";
 	}
 
 	/**
 	 *	Counts tracked unique Visitors.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
-	public function getVisitors()
+	public function getVisitors(): int
 	{
-		$remote_addrs	= array();	
+		$remote_addrs	= [];
 		$counter	= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
+		foreach( $this->data as $entry ){
+			if( $entry['remote_addr'] != $this->skip ){
+				if( isset( $remote_addrs[$entry['remote_addr']] ) ){
 					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
 						$counter ++;
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
-				else
-				{
+				else{
 					$counter ++;
 					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
@@ -258,8 +242,9 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 	 *	Counts tracked Visits.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
-	public function getVisits()
+	public function getVisits(): int
 	{
 		return count( $this->data );
 	}
@@ -267,11 +252,10 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 	/**
 	 *	Parses Log File.
 	 *	@access		public
-	 *	@return		void	 
+	 *	@return		void
 	 */
 	public function parse()
 	{
-		$i=0;
 		$lines	= $this->read();
 		foreach( $lines as $line )
 			$this->data[]	= $this->parseLine( $line );
@@ -280,22 +264,24 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 	/**
 	 *	Parses Log File.
 	 *	@access		protected
+	 *	@param		string		$line			Line to parse
 	 *	@return		array
 	 */
-	protected function parseLine( $line )
+	protected function parseLine( string $line ): array
 	{
-		$data	= preg_replace_callback( $this->patterns, array( $this, 'callback' ), $line );
+		$data	= preg_replace_callback( $this->patterns, [$this, 'callback'], $line );
 		return unserialize( $data );
 	}
 
 	/**
 	 *	Set already parsed Log Data (i.E. from serialized Cache File).
 	 *	@access		public
-	 *	@param		array		data			Parsed Log Data
-	 *	@return		void
+	 *	@param		array		$data			Parsed Log Data
+	 *	@return		self
 	 */
-	public function setData( $data )
+	public function setData( array $data ): self
 	{
 		$this->data	= $data;
+		return $this;
 	}
 }

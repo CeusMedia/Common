@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for File in .ini-Format.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,30 +21,35 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
+
+namespace CeusMedia\Common\FS\File\INI;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use InvalidArgumentException;
+
 /**
  *	Builder for File in .ini-Format.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
-class FS_File_INI_Creator
+class Creator
 {
-	/**	@var	array			$data			Data of Ini File */
-	protected $data				= array();
-	/**	@var	string			$currentSection	Current working Section */
-	protected $currentSection	= NULL;
-	/**	@var	bool			$useSections	Flag: use Sections within Ini File */
-	protected $useSections		= FALSE;
+	/**	@var	array					$data			Data of Ini File */
+	protected array $data				= [];
+
+	/**	@var	string|NULL				$currentSection	Current working Section */
+	protected ?string $currentSection	= NULL;
+
+	/**	@var	bool					$useSections	Flag: use Sections within Ini File */
+	protected bool $useSections			= FALSE;
 
 	/**
 	 *	Constructor.
@@ -51,7 +57,7 @@ class FS_File_INI_Creator
 	 *	@param		bool		$useSections	Flag: use Sections within Ini File
 	 *	@return		void
 	 */
-	public function __construct( $useSections = FALSE )
+	public function __construct( bool $useSections = FALSE )
 	{
 		$this->useSections = $useSections;
 	}
@@ -61,14 +67,12 @@ class FS_File_INI_Creator
 	 *	@access		public
 	 *	@param		string		$key			Key of new Property
 	 *	@param		string		$value			Value of new Property
-	 *	@param		string		$comment		Comment of Property (optional)
-	 *	@param		string		$section		Name of new Section
+	 *	@param		string|NULL	$comment		Comment of Property (optional)
 	 *	@return		void
 	 */
-	public function addProperty( $key, $value, $comment = NULL )
+	public function addProperty( string $key, string $value, ?string $comment = NULL )
 	{
-		if( !$this->useSections )
-		{
+		if( !$this->useSections ){
 			$this->data[$key]['key']		= $key;
 			$this->data[$key]['value']		= $value;
 			$this->data[$key]['comment']	= $comment;
@@ -84,11 +88,11 @@ class FS_File_INI_Creator
 	 *	@access		public
 	 *	@param		string		$key			Key of new Property
 	 *	@param		string		$value			Value of new Property
-	 *	@param		string		$comment		Comment of Property (optional)
 	 *	@param		string		$section		Name of new Section
+	 *	@param		string|NULL	$comment		Comment of Property (optional)
 	 *	@return		void
 	 */
-	public function addPropertyToSection( $key, $value, $section, $comment = NULL )
+	public function addPropertyToSection( string $key, string $value, string $section, ?string $comment = NULL )
 	{
 		$this->data[$section][$key]['key']		= $key;
 		$this->data[$section][$key]['value']	= $value;
@@ -101,10 +105,10 @@ class FS_File_INI_Creator
 	 *	@param		string		$section		Name of new Section
 	 *	@return		void
 	 */
-	public function addSection( $section )
+	public function addSection( string $section )
 	{
 		if ( !( isset( $this->data[$section] ) && is_array( $this->data[$section] ) ) )
-			$this->data[$section]	= array();
+			$this->data[$section]	= [];
 		$this->currentSection	= $section;
 	}
 
@@ -113,10 +117,10 @@ class FS_File_INI_Creator
 	 *	@access		protected
 	 *	@param		string		$key			Key of  Property
 	 *	@param		string		$value			Value of Property
-	 *	@param		string		$comment		Comment of Property
+	 *	@param		string|NULL	$comment		Comment of Property
 	 *	@return		string
 	 */
-	protected function buildLine( $key, $value, $comment )
+	protected function buildLine( string $key, string $value, ?string $comment = NULL ): string
 	{
 		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
 		$breaksValue	= 4 - floor( strlen( $value ) / 8 );
@@ -134,18 +138,15 @@ class FS_File_INI_Creator
 	 *	Creates and writes Settings to File.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of new Ini File
-	 *	@return		bool
+	 *	@return		integer
 	 */
-	public function write( $fileName )
+	public function write( string $fileName ): int
 	{
-		$lines	= array();
-		if( $this->useSections )
-		{
-			foreach( $this->data as $section => $sectionPairs )
-			{
+		$lines	= [];
+		if( $this->useSections ){
+			foreach( $this->data as $section => $sectionPairs ){
 				$lines[]	= "[".$section."]";
-				foreach ( $sectionPairs as $key => $data )
-				{
+				foreach ( $sectionPairs as $key => $data ){
 					$value		= $data['value'];
 					$comment	= $data['comment'];
 					$lines[]	= $this->buildLine( $key, $value, $comment);
@@ -153,17 +154,15 @@ class FS_File_INI_Creator
 				$lines[]	= "";
 			}
 		}
-		else
-		{
-			foreach( $this->data as $key => $data )
-			{
+		else{
+			foreach( $this->data as $key => $data ){
 				$value		= $data['value'];
 				$comment	= $data['comment'];
 				$lines[]	= $this->buildLine( $key, $value, $comment);
 			}
 			$lines[]	= "";
 		}
-		$file		= new FS_File_Writer( $fileName, 0664 );
+		$file		= new FileWriter( $fileName, 0664 );
 		return $file->writeArray( $lines );
 	}
 }

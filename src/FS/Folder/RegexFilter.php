@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +21,35 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use DirectoryIterator;
+use RegexIterator;
+use RuntimeException;
+
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@extends		RegexIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class FS_Folder_RegexFilter extends RegexIterator
+class RegexFilter extends RegexIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
+
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
+
 	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
 	protected $stripDotEntries;
 
@@ -50,22 +57,22 @@ class FS_Folder_RegexFilter extends RegexIterator
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$path				Path to seach in
+	 *	@param		string		$path				Path to search in
 	 *	@param		string		$pattern			Regular Expression to match with File Name
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE  )
+	public function __construct( string $path, string $pattern, bool $showFiles = TRUE, bool $showFolders = TRUE, bool $stripDotEntries = TRUE  )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-    	$this->showFiles		= $showFiles;
-    	$this->showFolders		= $showFolders;
-    	$this->stripDotEntries	= $stripDotEntries;
+		$this->showFiles		= $showFiles;
+		$this->showFolders		= $showFolders;
+		$this->stripDotEntries	= $stripDotEntries;
 		parent::__construct(
-			new DirectoryIterator( $path  ),
+			new DirectoryIterator( $path ),
 			$pattern
 		);
 	}
@@ -75,18 +82,21 @@ class FS_Folder_RegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
-		if( $this->isDot() )
+		/** @var DirectoryIterator $innerIterator */
+		$innerIterator	= $this->getInnerIterator();
+
+		if( $innerIterator->isDot() )
 			return FALSE;
-		$isDir	= $this->isDir();
+		$isDir	= $innerIterator->isDir();
 		if( !$this->showFiles && !$isDir )
 			return FALSE;
 		if( !$this->showFolders && $isDir )
 			return FALSE;
 		if( $this->stripDotEntries )
 		{
-			if( preg_match( "@^\.\w@", $this->getFilename() ) )
+			if( preg_match( "@^\.\w@", $innerIterator->getFilename() ) )
 				return FALSE;
 		}
 		return parent::accept();

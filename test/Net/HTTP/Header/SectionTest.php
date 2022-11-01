@@ -1,30 +1,35 @@
 <?php
-/**
- *	UnitTest for Request Header Field.
- *	@package		net.http.request
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.6
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	UnitTest for Request Header Field.
+ *	@package		net.http.request
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Net\HTTP\Header;
+
+use CeusMedia\Common\Net\HTTP\Header\Field;
+use CeusMedia\Common\Net\HTTP\Header\Section;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	UnitTest for Request Header Field.
  *	@package		net.http.request
- *	@uses			Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.6
  */
-class Test_Net_HTTP_Header_SectionTest extends Test_Case
+class SectionTest extends BaseCase
 {
 	protected $section;
 
 	public function setUp(): void
 	{
-		$this->section	= Net_HTTP_Header_Section::instantiate()
+		$this->section	= Section::getInstance()
 			->addFieldPair( 'expires', time() + 60 )
 			->addFieldPair( 'key', 'value' )
 			->addFieldPair( 'date', date( 'r' ) );
@@ -40,26 +45,26 @@ class Test_Net_HTTP_Header_SectionTest extends Test_Case
 		$expires1	= time() + 60;
 		$expires2	= time() + 120;
 		$date		= date( 'r' );
-		$section	= new Net_HTTP_Header_Section();
+		$section	= new Section();
 
-		$section->addField( new Net_HTTP_Header_Field( 'expires', $expires1 ) );
+		$section->addField( new Field( 'expires', $expires1 ) );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
+			new Field( 'expires', $expires1 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 
-		$section->addField( new Net_HTTP_Header_Field( 'expires', $expires2 ) );
+		$section->addField( new Field( 'expires', $expires2 ) );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
-			new Net_HTTP_Header_Field( 'expires', $expires2 ),
+			new Field( 'expires', $expires1 ),
+			new Field( 'expires', $expires2 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 
-		$section->addField( new Net_HTTP_Header_Field( 'date', $date ) );
+		$section->addField( new Field( 'date', $date ) );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'date', $date ),
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
-			new Net_HTTP_Header_Field( 'expires', $expires2 ),
+			new Field( 'date', $date ),
+			new Field( 'expires', $expires1 ),
+			new Field( 'expires', $expires2 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 	}
@@ -69,26 +74,26 @@ class Test_Net_HTTP_Header_SectionTest extends Test_Case
 		$expires1	= time() + 60;
 		$expires2	= time() + 120;
 		$date		= date( 'r' );
-		$section	= new Net_HTTP_Header_Section();
+		$section	= new Section();
 
 		$section->addFieldPair( 'expires', $expires1 );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
+			new Field( 'expires', $expires1 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 
 		$section->addFieldPair( 'expires', $expires2 );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
-			new Net_HTTP_Header_Field( 'expires', $expires2 ),
+			new Field( 'expires', $expires1 ),
+			new Field( 'expires', $expires2 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 
 		$section->addFieldPair( 'date', $date );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'date', $date ),
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
-			new Net_HTTP_Header_Field( 'expires', $expires2 ),
+			new Field( 'date', $date ),
+			new Field( 'expires', $expires1 ),
+			new Field( 'expires', $expires2 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 	}
@@ -99,27 +104,27 @@ class Test_Net_HTTP_Header_SectionTest extends Test_Case
 		$expires2	= time() + 120;
 		$date1		= date( 'r' );
 		$date2		= date( 'c' );
-		$section	= new Net_HTTP_Header_Section();
+		$section	= new Section();
 
 		$section->addFields( array(
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
-			new Net_HTTP_Header_Field( 'date', $date1 ),
+			new Field( 'expires', $expires1 ),
+			new Field( 'date', $date1 ),
 		) );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'date', $date1 ),
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
+			new Field( 'date', $date1 ),
+			new Field( 'expires', $expires1 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 
 		$section->addFields( array(
-			new Net_HTTP_Header_Field( 'expires', $expires2 ),
-			new Net_HTTP_Header_Field( 'date', $date2 ),
+			new Field( 'expires', $expires2 ),
+			new Field( 'date', $date2 ),
 		) );
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'date', $date1 ),
-			new Net_HTTP_Header_Field( 'date', $date2 ),
-			new Net_HTTP_Header_Field( 'expires', $expires1 ),
-			new Net_HTTP_Header_Field( 'expires', $expires2 ),
+			new Field( 'date', $date1 ),
+			new Field( 'date', $date2 ),
+			new Field( 'expires', $expires1 ),
+			new Field( 'expires', $expires2 ),
 		);
 		$this->assertEquals( $assertion, $section->getFields() );
 	}
@@ -127,13 +132,13 @@ class Test_Net_HTTP_Header_SectionTest extends Test_Case
 	public function testGetField()
 	{
 		$expires	= time() + 60;
-		$section	= new Net_HTTP_Header_Section();
+		$section	= new Section();
 		$section->addFieldPair( 'expires', $expires );
 		$section->addFieldPair( 'key', 'value' );
 
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'expires', $expires ),
-			new Net_HTTP_Header_Field( 'key', 'value' ),
+			new Field( 'expires', $expires ),
+			new Field( 'key', 'value' ),
 		);
 		$creation	= $section->getFields();
 		$this->assertEquals( $assertion, $creation );
@@ -142,13 +147,13 @@ class Test_Net_HTTP_Header_SectionTest extends Test_Case
 	public function testGetFields()
 	{
 		$expires	= time() + 60;
-		$section	= new Net_HTTP_Header_Section();
+		$section	= new Section();
 		$section->addFieldPair( 'expires', $expires );
 		$section->addFieldPair( 'key', 'value' );
 
 		$assertion	= array(
-			new Net_HTTP_Header_Field( 'expires', $expires ),
-			new Net_HTTP_Header_Field( 'key', 'value' ),
+			new Field( 'expires', $expires ),
+			new Field( 'key', 'value' ),
 		);
 		$creation	= $section->getFields();
 		$this->assertEquals( $assertion, $creation );

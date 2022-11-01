@@ -1,26 +1,30 @@
 <?php
-/**
- *	TestUnit of FS_File_Configuration_Converter.
- *	@package		Tests.file.configuration
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *	@version		0.1
- */
+/** @noinspection PhpDocMissingThrowsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of FS_File_Configuration_Converter.
+ *	@package		Tests.FS.File.Configuration
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\FS\Configuration;
+
+use CeusMedia\Common\FS\File\Configuration\Converter;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_Configuration_Converter.
- *	@package		Tests.file.configuration
- *	@extends		Test_Case
- *	@uses			FS_File_Configuration_Converter
+ *	@package		Tests.FS.File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *	@version		0.1
  */
-class Test_FS_File_Configuration_ConverterTest extends Test_Case
+class ConverterTest extends BaseCase
 {
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -57,15 +61,10 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 		$targetFile	= $this->path."test.ini.json";
 		$assertFile	= $this->path."test.json";
 
-		$length		= FS_File_Configuration_Converter::convertIniToJson( $sourceFile, $targetFile );
+		$length		= Converter::convertIniToJson( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThanOrEqual( 0, $length );
 
 		$assertion	= file_get_contents( $assertFile );
 		$creation	= file_get_contents( $targetFile );
@@ -83,19 +82,11 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 		$targetFile	= $this->path."test.ini.xml";
 		$assertFile	= $this->path."test.xml";
 
-		$length		= FS_File_Configuration_Converter::convertIniToXml( $sourceFile, $targetFile );
+		$length		= Converter::convertIniToXml( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -109,19 +100,11 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 		$targetFile	= $this->path."test.json.ini";
 		$assertFile	= $this->path."test.ini";
 
-		$length		= FS_File_Configuration_Converter::convertJsonToIni( $sourceFile, $targetFile );
+		$length		= Converter::convertJsonToIni( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -135,19 +118,11 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 		$targetFile	= $this->path."test.json.xml";
 		$assertFile	= $this->path."test.xml";
 
-		$length		= FS_File_Configuration_Converter::convertJsonToXml( $sourceFile, $targetFile );
+		$length		= Converter::convertJsonToXml( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -161,19 +136,11 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 		$targetFile	= $this->path."test.xml.ini";
 		$assertFile	= $this->path."test.ini";
 
-		$length		= FS_File_Configuration_Converter::convertXmlToIni( $sourceFile, $targetFile );
+		$length		= Converter::convertXmlToIni( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -187,18 +154,10 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 		$targetFile	= $this->path."test.xml.json";
 		$assertFile	= $this->path."test.json";
 
-		$length		= FS_File_Configuration_Converter::convertXmlToJson( $sourceFile, $targetFile );
+		$length		= Converter::convertXmlToJson( $sourceFile, $targetFile );
 
-		$assertion	= TRUE;
-		$creation	= is_int( $length );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $length > 0;
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsInt( $length );
+		$this->assertGreaterThan( 0, $length );
+		$this->assertFileEquals( $assertFile, $targetFile );
 	}
 }

@@ -1,26 +1,36 @@
 <?php
-/**
- *	TestUnit of UI_Image_Watermark.
- *	@package		Tests.ui.image
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of UI_Image_Watermark.
+ *	@package		Tests.ui.image
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\UI\HTML;
+
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\Common\UI\Image\Watermark;
+use Exception;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
- *	@extends		Test_Case
- *	@uses			UI_Image_Watermark
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *	@version		0.1
  */
-class Test_UI_Image_WatermarkTest extends Test_Case
+class WatermarkTest extends BaseCase
 {
+	/** @var WatermarkInstance  */
+	protected $mark;
+
+	/** @var string  */
+	protected $path;
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,10 +38,10 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
-		$this->mark	= new Test_UI_Image_WatermarkInstance( $this->path."mark.png" );
+		$this->mark	= new WatermarkInstance( $this->path."mark.png" );
 	}
 
 	/**
@@ -51,7 +61,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$mark	= new Test_UI_Image_WatermarkInstance( $this->path."sourceWatermark.png", 99, 98 );
+		$mark	= new WatermarkInstance( $this->path."sourceWatermark.png", 99, 98 );
 
 		$assertion	= 99;
 		$creation	= $mark->getProtectedVar( 'alpha' );
@@ -73,8 +83,8 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function testMarkImage()
 	{
-		$this->markTestSkipped( 'No image tests.' );
-		$mark	= new UI_Image_Watermark( $this->path."mark.png", 50, 100 );
+//		$this->markTestSkipped( 'No image tests.' );
+		$mark	= new Watermark( $this->path."mark.png", 50, 100 );
 		$mark->setMargin( 10, 10 );
 		$mark->markImage( $this->path."sourceWatermark.png", $this->path."targetWatermark.png" );
 		$this->assertFileEquals( $this->path."targetWatermark.png", $this->path."assertWatermark.png", "Watermark file not identical." );
@@ -189,15 +199,30 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_UI_Image_WatermarkInstance extends UI_Image_Watermark
+
+/**
+ *
+ */
+class WatermarkInstance extends Watermark
 {
-	public function getProtectedVar( $varName )
+	/**
+	 * @param $varName
+	 * @return mixed
+	 * @throws Exception
+	 */
+	public function getProtectedVar($varName )
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );
 		return $this->$varName;
 	}
 
+	/**
+	 * @param $varName
+	 * @param $varValue
+	 * @return void
+	 * @throws Exception
+	 */
 	public function setProtectedVar( $varName, $varValue )
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )

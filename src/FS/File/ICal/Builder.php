@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for iCalendar File from XML Tree.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,29 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_ICal
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2006
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
+
+namespace CeusMedia\Common\FS\File\ICal;
+
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	Builder for iCalendar File from XML Tree.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_ICal
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2006
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-class FS_File_Ical_Builder
+class Builder
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;
@@ -50,7 +54,7 @@ class FS_File_Ical_Builder
 	 *	@param		string		$lineBreak		Line Break String
 	 *	@return 	void
 	 */
-	public function __construct( $lineBreak = "\r\n" )
+	public function __construct( string $lineBreak = "\r\n" )
 	{
 		self::$lineBreak	= $lineBreak;
 	}
@@ -58,12 +62,12 @@ class FS_File_Ical_Builder
 	/**
 	 *	Builds Array of iCal Lines from XML Tree.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	$tree		XML Tree
-	 *	@return 	array
+	 *	@param		Node		$tree		XML Tree
+	 *	@return 	string
 	 */
-	public function build( $tree )
+	public function build( Node $tree ): string
 	{
-		$lines	= array();
+		$lines	= [];
 		$children	= $tree->getChildren();
 		foreach( $children as $child )
 			foreach( self::buildRecursive( $child ) as $line )
@@ -75,26 +79,23 @@ class FS_File_Ical_Builder
 	 *	Builds iCal Line.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		name		Line Name
-	 *	@param		array		param		Line Parameters
-	 *	@param		string		content		Line Value
+	 *	@param		string		$name		Line Name
+	 *	@param		array		$param		Line Parameters
+	 *	@param		string		$content	Line Value
 	 *	@return 	string
 	 */
-	protected static function buildLine( $name, $param, $content )
+	protected static function buildLine( string $name, array $param, string $content ): string
 	{
-		$params	= array();
+		$params	= [];
 		foreach( $param as $key => $value )
 			$params[]	= strtoupper( trim( $key ) )."=".$value;
 		$param	= implode( ",", $params );
-		if( $param )
-		{
+		if( $param ){
 			$param	= " ;".$param;
-			if( strlen( $param ) > 75 )
-			{
+			if( strlen( $param ) > 75 ){
 				$rest	= $param;
 				$param	= "";
-				while( strlen( $rest ) > 75 )
-				{
+				while( strlen( $rest ) > 75 ){
 					$param	.= substr( $rest, 0, 74 ).self::$lineBreak;
 					$rest	= " ".substr( $rest, 74 );
 				}
@@ -103,37 +104,32 @@ class FS_File_Ical_Builder
 		}
 
 		$content	= ":".$content;
-		if( strlen( $content ) > 75 )
-		{
+		if( strlen( $content ) > 75 ){
 			$rest	= $content;
 			$content	= "";
-			while( strlen( $rest ) > 75 )
-			{
+			while( strlen( $rest ) > 75 ){
 				$content	.= substr( $rest, 0, 74 ).self::$lineBreak;
 				$rest	= " ".substr( $rest, 74 );
 			}
 		}
 
-		$line	= strtoupper( $name ).$param.$content;
-		$line	= $line;
-		return $line;
+		return strtoupper( $name ).$param.$content;
 	}
 
 	/**
 	 *	Builds Array of iCal Lines from XML Tree recursive.
 	 *	@access		protected
 	 *	@static
-	 *	@param		XML_DOM_Node	node	XML Node
+	 *	@param		Node		$node		XML Node
 	 *	@return 	array
 	 */
-	protected static function buildRecursive( $node  )
+	protected static function buildRecursive( Node $node  ): array
 	{
-		$lines	= array();
+		$lines	= [];
 		$name	= $node->getNodeName();
 		$value	= $node->getContent();
 		$param	= $node->getAttributes();
-		if( NULL === $value )
-		{
+		if( NULL === $value ){
 			$lines[]	= "BEGIN:".strtoupper( $name );
 			$children	= $node->getChildren();
 			foreach( $children as $child )

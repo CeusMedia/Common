@@ -1,26 +1,31 @@
 <?php
-/**
- *	TestUnit of Test_ADT_String.
- *	@package		Tests.adt
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of ADT\\String.
+ *	@package		Tests.adt
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\ADT;
+
+use CeusMedia\Common\ADT\String_;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Test_ADT_String.
  *	@package		Tests.adt
- *	@extends		Test_Case
- *	@uses			ADT_String
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *	@version		0.1
  */
-class Test_ADT_StringTest extends Test_Case
+class StringTest extends BaseCase
 {
+	protected $string;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,7 +33,7 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->string	= new ADT_String( "some content" );
+		$this->string	= new String_( "some content" );
 	}
 
 	/**
@@ -47,7 +52,7 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$string		= new ADT_String( "construct" );
+		$string		= new String_( "construct" );
 		$assertion	= "construct";
 		$creation	= (string) $string;
 		$this->assertEquals( $assertion, $creation );
@@ -73,7 +78,7 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function testCapitalize_Default_NoChange()
 	{
-		$string		= new ADT_String( "Some Content" );
+		$string		= new String_( "Some Content" );
 		$assertion	= "Some Content";
 		$creation	= $string->capitalize();
 		$this->assertEquals( $assertion, (string) $string );
@@ -100,13 +105,13 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function testCapitalize_Delimiter1()
 	{
-		$string		= new ADT_String( "some-content" );
+		$string		= new String_( "some-content" );
 		$assertion	= "Some-Content";
 		$creation	= $string->capitalize( "-" );
 		$this->assertEquals( $assertion, (string) $string );
 		$this->assertEquals( TRUE, $creation );
 
-		$string		= new ADT_String( "some-content" );
+		$string		= new String_( "some-content" );
 		$assertion	= "Some-content";
 		$creation	= $string->capitalize( "#" );
 		$this->assertEquals( $assertion, (string) $string );
@@ -120,13 +125,13 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function testCapitalize_Delimiter2()
 	{
-		$string		= new ADT_String( "some-content some-how" );
+		$string		= new String_( "some-content some-how" );
 		$assertion	= "Some-Content some-How";
 		$creation	= $string->capitalize( "-" );
 		$this->assertEquals( $assertion, (string) $string );
 		$this->assertEquals( TRUE, $creation );
 
-		$string		= new ADT_String( "some-content some-how" );
+		$string		= new String_( "some-content some-how" );
 		$assertion	= "Some-content some-how";
 		$creation	= $string->capitalize( "#" );
 		$this->assertEquals( $assertion, (string) $string );
@@ -166,7 +171,7 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function testCapitalizeWords_Default3()
 	{
-		$string		= new ADT_String( "some  content" );
+		$string		= new String_( "some  content" );
 		$assertion	= "Some  Content";
 		$creation	= $string->capitalizeWords( " " );
 		$this->assertEquals( $assertion, (string) $string );
@@ -180,7 +185,7 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function testCapitalizeWords_NoChange1()
 	{
-		$string		= new ADT_String( "Some content" );
+		$string		= new String_( "Some content" );
 		$assertion	= "Some content";
 		$creation	= $string->capitalizeWords( "-" );
 		$this->assertEquals( $assertion, (string) $string );
@@ -194,7 +199,7 @@ class Test_ADT_StringTest extends Test_Case
 	 */
 	public function testCapitalizeWords_NoChange2()
 	{
-		$string		= new ADT_String( "Some-content" );
+		$string		= new String_( "Some-content" );
 		$assertion	= "Some-content";
 		$creation	= $string->capitalizeWords( " " );
 		$this->assertEquals( $assertion, (string) $string );

@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Serializer for Data Object into XML.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +22,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use DOMException;
+
 /**
  *	Serializer for Data Object into XML.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
-class XML_DOM_ObjectSerializer
+class ObjectSerializer
 {
 	/**
 	 *	Builds XML String from an Object.
@@ -46,67 +49,65 @@ class XML_DOM_ObjectSerializer
 	 *	@param		mixed		$object		Object to serialize
 	 *	@param		string		$encoding	Encoding Type
 	 *	@return		string
+	 *	@throws		DOMException
 	 */
-	public static function serialize( $object, $encoding = "utf-8" )
+	public static function serialize( $object, string $encoding = "utf-8" ): string
 	{
-		$root	= new XML_DOM_Node( "object" );
-		$root->setAttribute( 'class', get_class( $object ) );
+		$root	= new Node( "object" );
+		$root->setAttribute( 'class', addslashes( get_class( $object ) ) );
 		$vars	= get_object_vars( $object );
 		self::serializeVarsRec( $vars, $root );
-		$builder	= new XML_DOM_Builder();
-		$serial		= $builder->build( $root, $encoding );
-		return $serial;
+		$builder	= new Builder();
+		return $builder->build( $root, $encoding );
 	}
 
 	/**
-	 *	Adds XML Nodes to a XML Tree by their Type while supporting nested Arrays.
+	 *	Adds XML Nodes to an XML Tree by their Type while supporting nested Arrays.
 	 *	@access		protected
 	 *	@static
-	 *	@param		array			$array		Array of Vars to add
-	 *	@param		XML_DOM_Node	$node		current XML Tree Node
-	 *	@return		string
+	 *	@param		array		$array		Array of Vars to add
+	 *	@param		Node		$node		current XML Tree Node
+	 *	@return		void
 	 */
-	protected static function serializeVarsRec( $array, &$node )
+	protected static function serializeVarsRec( array $array, Node $node )
 	{
-		foreach( $array as $key => $value)
-		{
-			switch( gettype( $value ) )
-			{
+		foreach( $array as $key => $value ){
+			switch( gettype( $value ) ){
 				case 'NULL':
-					$child	= new XML_DOM_Node( "null" );
+					$child	= new Node( "null" );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'boolean':
-					$child	= new XML_DOM_Node( "boolean", (int) $value );
+					$child	= new Node( "boolean", (string)(int) $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'string':
-					$child	= new XML_DOM_Node( "string", $value );
+					$child	= new Node( "string", $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'integer':
-					$child	= new XML_DOM_Node( "integer", $value );
+					$child	= new Node( "integer", (string) $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'double':
-					$child	= new XML_DOM_Node( "double", $value );
+					$child	= new Node( "double", (string) $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'array':
-					$child	= new XML_DOM_Node( "array" );
+					$child	= new Node( "array" );
 					$child->setAttribute( "name", $key );
 					self::serializeVarsRec( $value, $child );
 					$node->addChild( $child );
 					break;
 				case 'object':
-					$child	= new XML_DOM_Node( "object" );
+					$child	= new Node( "object" );
 					$child->setAttribute( "name", $key );
-					$child->setAttribute( "class", get_class( $value ) );
+					$child->setAttribute( "class", addslashes( get_class( $value ) ) );
 					$vars	= get_object_vars( $value );
 					self::serializeVarsRec( $vars, $child );
 					$node->addChild( $child );

@@ -1,8 +1,8 @@
 <?php
 /**
- *	Sniffer for Languages accepted by a HTTP Request.
+ *	Sniffer for Languages accepted by an HTTP Request.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,49 +20,51 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
- *	Sniffer for Languages accepted by a HTTP Request.
+ *	Sniffer for Languages accepted by an HTTP Request.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
-class Net_HTTP_Sniffer_Language
+class Language
 {
-	/**	@var		$pattern	Reg Ex Pattern */
-	protected static $pattern	= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
+	/**	@var		string				$pattern	Reg Ex Pattern */
+	protected static string $pattern	= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 
 	/**
-	 *	Returns prefered allowed and accepted Language from HTTP_ACCEPT_LANGUAGE.
+	 *	Returns preferred allowed and accepted Language from HTTP_ACCEPT_LANGUAGE.
 	 *	@access		public
 	 *	@static
-	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application
-	 *	@param		string	$default		Default Languages supported and allowed by the Application
-	 *	@return		string
+	 *	@param		array			$allowed		Array of Languages supported and allowed by the Application
+	 *	@param		string|NULL		$default		Default Languages supported and allowed by the Application
+	 *	@return		string|NULL
 	 */
-	public static function getLanguage( $allowed, $default = FALSE )
+	public static function getLanguage( array $allowed, ?string $default = NULL ): ?string
 	{
 		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' );
 		return self::getLanguageFromString( $accept, $allowed, $default );
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Language from String.
+	 *	Returns preferred allowed and accepted Language from String.
 	 *	@access		public
 	 *	@static
-	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application
-	 *	@param		string	$default		Default Languages supported and allowed by the Application
-	 *	@return		string
+	 *	@param		string			$string		Array of Languages supported and allowed by the Application
+	 *	@param		array			$allowed		Array of Languages supported and allowed by the Application
+	 *	@param		string|NULL		$default		Default Languages supported and allowed by the Application
+	 *	@return		string|NULL
 	 */
-	public static function getLanguageFromString( $string, $allowed, $default = FALSE )
+	public static function getLanguageFromString( string $string, array $allowed, ?string $default = NULL ): ?string
 	{
 		if( !$default)
 			$default = $allowed[0];

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for HTML Documents.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,30 +21,36 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.2008
- *	@version 		0.2
  */
+
+namespace CeusMedia\Common\Alg;
+
+use DOMDocument;
+use DOMElement;
+use DomXPath;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Parser for HTML Documents.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.2008
- *	@version 		0.2
  *	@todo			implement getErrors() and hide $errors;
  */
-class Alg_HtmlParser
+class HtmlParser
 {
+	/** @var		string|NULL		$errors				DOM Document from HTML */
+	public ?string $errors			= NULL;
+
 	/** @var		DOMDocument		$document			DOM Document from HTML */
-	protected $document;
-	/** @var		array			$errors				DOM Document from HTML */
-	public $errors	= array();
+	protected DOMDocument $document;
 
 	/**
 	 *	Constructor.
@@ -60,11 +67,11 @@ class Alg_HtmlParser
 	 *	Returns List of Attributes from a DOM Element.
 	 *	@access		public
 	 *	@param		DOMElement		$element			DOM Element
-	 *	@return		list
+	 *	@return		array
 	 */
-	public function getAttributesFromElement( $element )
+	public function getAttributesFromElement( DOMElement $element ): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $element->attributes as $key => $value )
 			$list[$key]	= $value->textContent;
 		return $list;
@@ -77,7 +84,7 @@ class Alg_HtmlParser
 	 *	@return		string
 	 *	@throws		RuntimeException
 	 */
-	public function getDescription( $throwException = TRUE )
+	public function getDescription( bool $throwException = TRUE ): string
 	{
 		$tags	= $this->getMetaTags( TRUE );
 		if( isset( $tags['description'] ) )
@@ -94,7 +101,7 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@return		DOMDocument
 	 */
-	public function getDocument()
+	public function getDocument(): DOMDocument
 	{
 		return $this->document;
 	}
@@ -106,18 +113,17 @@ class Alg_HtmlParser
 	 *	@return		string
 	 *	@throws		RuntimeException
 	 */
-	public function getFavoriteIcon( $throwException = TRUE )
+	public function getFavoriteIcon( bool $throwException = TRUE ): string
 	{
-		$values	= array(
+		$values	= [
 			'apple-touch-icon',
 			'APPLE-TOUCH-ICON',
 			'shortcut icon',
 			'SHORTCUT ICON',
 			'icon',
 			'ICON',
-		);
-		foreach( $values as $value )
-		{
+		];
+		foreach( $values as $value ){
 			$tags	= $this->getTags( 'link', 'rel', $value );
 			if( count( $tags ) )
 				return $tags[0]->getAttribute( 'href' );
@@ -132,9 +138,9 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getJavaScripts()
+	public function getJavaScripts(): array
 	{
-		$list	= array();
+		$list	= [];
 		$query	= "//script[not(@src)]";
 		$tags	= $this->getTagsByXPath( $query );
 		foreach( $tags as $tag )
@@ -147,23 +153,21 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getJavaScriptUrls()
+	public function getJavaScriptUrls(): array
 	{
-		$query	= "//script/@src";
-		$tags	= $this->getTagsByXPath( $query );
-		return $tags;
+		return $this->getTagsByXPath( "//script/@src" );
 	}
 
 	/**
-	 *	Returns List of Key Words or throws Exception.
+	 *	Returns List of Keywords or throws Exception.
 	 *	@access		public
 	 *	@param		bool			$throwException		Flag: throw Exception if not found, otherwise return empty String
 	 *	@return		array
 	 *	@throws		RuntimeException
 	 */
-	public function getKeyWords( $throwException = TRUE )
+	public function getKeywords( bool $throwException = TRUE ): array
 	{
-		$list	= array();
+		$list	= [];
 		$tags	= $this->getMetaTags( TRUE );
 		if( isset( $tags['keywords'] ) )
 		{
@@ -184,7 +188,7 @@ class Alg_HtmlParser
 	 *	@return		string
 	 *	@throws		RuntimeException
 	 */
-	public function getLanguage( $throwException = TRUE )
+	public function getLanguage( bool $throwException = TRUE ): string
 	{
 		$tags	= $this->getMetaTags( TRUE );
 		if( isset( $tags['content-language'] ) )
@@ -199,12 +203,11 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getMetaTags( $lowerCaseKeys = FALSE )
+	public function getMetaTags( bool $lowerCaseKeys = FALSE ): array
 	{
-		$list	= array();
+		$list	= [];
 		$tags	= $this->document->getElementsByTagName( "meta" );
-		foreach( $tags as $tag )
-		{
+		foreach( $tags as $tag ){
 			if( !$tag->hasAttribute( 'content' ) )
 				continue;
 			$content	= $tag->getAttribute( 'content' );
@@ -222,11 +225,10 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getStyles()
+	public function getStyles(): array
 	{
-		$list	= array();
-		$query	= "//style";
-		$tags	= $this->getTagsByXPath( $query );
+		$list	= [];
+		$tags	= $this->getTagsByXPath( "//style" );
 		foreach( $tags as $tag )
 			$list[]	= $tag->textContent;
 		return $list;
@@ -237,11 +239,9 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getStyleSheetUrls()
+	public function getStyleSheetUrls(): array
 	{
-		$query	= "//link[@rel='stylesheet']/@href";
-		$tags	= $this->getTagsByXPath( $query );
-		return $tags;
+		return $this->getTagsByXPath( "//link[@rel='stylesheet']/@href" );
 	}
 
 	/**
@@ -249,13 +249,11 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@param		string			$id					ID of Tag to return
 	 *	@param		bool			$throwException		Flag: throw Exception if not found, otherwise return empty String
-	 *	@return		DOMElement
+	 *	@return		DOMElement|NULL
 	 */
-	public function getTagById( $id, $throwException = TRUE )
+	public function getTagById( string $id, bool $throwException = TRUE ): ?DOMElement
 	{
-		$xpath	= new DomXPath( $this->document );
-		$query	= "//*[@id = '$id']";
-		$tags	= $this->getTagsByXPath( $query );
+		$tags	= $this->getTagsByXPath( "//*[@id = '$id']" );
 		if( $tags )
 			return $tags[0];
 		if( $throwException )
@@ -266,18 +264,17 @@ class Alg_HtmlParser
 	/**
 	 *	Returns List of HTML Tags with Tag Name, existing Attribute Key or exact Attribute Value.
 	 *	@access		public
-	 *	@param		string			$tagName			Tag Name of Tags to return
-	 *	@param		string			$attributeKey		Attribute Key
-	 *	@param		string			$attributeValue		Attribute Value
+	 *	@param		string|NULL		$tagName			Tag Name of Tags to return
+	 *	@param		string|NULL		$attributeKey		Attribute Key
+	 *	@param		string|NULL		$attributeValue		Attribute Value
 	 *	@param		string			$attributeOperator	Attribute Operator (=|!=)
 	 *	@return		array
 	 *	@throws		InvalidArgumentException
 	 */
-	public function getTags( $tagName = NULL, $attributeKey = NULL, $attributeValue = NULL, $attributeOperator = "=" )
+	public function getTags( ?string $tagName = NULL, ?string $attributeKey = NULL, ?string $attributeValue = NULL, string $attributeOperator = "=" ): array
 	{
 		$query	= $tagName ? "//".$tagName : "//*";
-		if( $attributeKey )
-		{
+		if( $attributeKey ){
 			$attributeValue	= $attributeValue ? $attributeOperator."'".addslashes( $attributeValue )."'" : "";
 			$query	.= "[@".$attributeKey.$attributeValue."]";
 		}
@@ -288,11 +285,11 @@ class Alg_HtmlParser
 	 *	Returns List of HTML Tags by Node Name.
 	 *	@access		public
 	 *	@param		string			$key				Attribute Key
-	 *	@param		string			$value				Attribute Value
+	 *	@param		string|NULL		$value				Attribute Value
 	 *	@param		string			$operator			Attribute Operator (=|!=)
 	 *	@return		array
 	 */
-	public function getTagsByAttribute( $key, $value = NULL, $operator = "=" )
+	public function getTagsByAttribute( string $key, ?string $value = NULL, string $operator = "=" ): array
 	{
 		return $this->getTags( "*", $key, $value, $operator );
 	}
@@ -303,9 +300,9 @@ class Alg_HtmlParser
 	 *	@param		string			$tagName			Tag Name of Tags to return
 	 *	@return		array
 	 */
-	public function getTagsByTagName( $tagName )
+	public function getTagsByTagName( string $tagName ): array
 	{
-		$list	= array();
+		$list	= [];
 		$nodes	= $this->document->getElementsByTagName( $tagName );
 		foreach( $nodes as $node )
 			$list[]	= $node;
@@ -318,13 +315,12 @@ class Alg_HtmlParser
 	 *	@param		string			$query				XPath Query
 	 *	@return		array
 	 */
-	public function getTagsByXPath( $query )
+	public function getTagsByXPath( string $query ): array
 	{
-		$list	= array();
+		$list	= [];
 		$xpath	= new DomXPath( $this->document );
 		$nodes	= $xpath->query( $query );
-		foreach( $nodes as $node )
-		{
+		foreach( $nodes as $node ){
 			if( preg_match( "#/@[a-z]+$#i", $query ) )
 				$node	= $node->textContent;
 			$list[]	= $node;
@@ -339,7 +335,7 @@ class Alg_HtmlParser
 	 *	@return		string
 	 *	@throws		RuntimeException
 	 */
-	public function getTitle( $throwException = TRUE )
+	public function getTitle( bool $throwException = TRUE ): string
 	{
 		$nodes	= $this->document->getElementsByTagName( "title" );
 		if( $nodes->length )
@@ -353,12 +349,12 @@ class Alg_HtmlParser
 	}
 
 	/**
-	 *	Indicates whether a  HTML Tag is existing by its ID.
+	 *	Indicates whether an HTML Tag is existing by its ID.
 	 *	@access		public
 	 *	@param		string			$id					ID of Tag to return
 	 *	@return		bool
 	 */
-	public function hasTagById( $id )
+	public function hasTagById( string $id ): bool
 	{
 		$xpath	= new DomXPath( $this->document );
 		$query	= "//*[@id = '$id']";
@@ -370,9 +366,9 @@ class Alg_HtmlParser
 	 *	Creates DOM Document and reads HTML String.
 	 *	@access		public
 	 *	@param		string			$string				HTML String
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function parseHtml( $string )
+	public function parseHtml( string $string ): self
 	{
 		$this->document = new DOMDocument();
 		ob_start();
@@ -380,17 +376,19 @@ class Alg_HtmlParser
 		$content	= ob_get_clean();
 		if( $content )
 			$this->errors	= $content;
+		return $this;
 	}
 
 	/**
 	 *	Loads HTML File and prepares DOM Document.
 	 *	@access		public
 	 *	@param		string			$fileName			File Name of HTML Document
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function parseHtmlFile( $fileName )
+	public function parseHtmlFile( string $fileName ): self
 	{
 		$html	= file_get_contents( $fileName );
 		$this->parseHtml( $html );
+		return $this;
 	}
 }

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +21,33 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.ietf.org/rfc/rfc2141.txt
  */
+
+namespace CeusMedia\Common\ADT;
+
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.ietf.org/rfc/rfc2141.txt
  */
-class ADT_URN
+class URN
 {
 	public $nid;
+
 	public $nss;
 
-	public function __construct( $nid, $nss = NULL )
+	public function __construct( string $nid, ?string $nss = NULL )
 	{
 		$nid	= preg_replace( "/^urn:/i", "", $nid );
 		if( $nss === NULL && preg_match( "/^\S+:\S+$/", $nid ) )
@@ -53,17 +60,17 @@ class ADT_URN
 		$this->setSpecificString( $nss );
 	}
 
-	public function getIdentifier()
+	public function getIdentifier(): string
 	{
 		return $this->nid;
 	}
 
-	public function getSpecificString()
+	public function getSpecificString(): string
 	{
 		return $this->nss;
 	}
 
-	public function getUrn( $withoutPrefix = FALSE )
+	public function getUrn( bool $withoutPrefix = FALSE ): string
 	{
 		$urn	= (string) $this;
 		if( $withoutPrefix )

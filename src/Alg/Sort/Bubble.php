@@ -2,7 +2,7 @@
 /**
  *	Bubble Sort.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,20 +20,23 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Sort;
+
 /**
  *	Bubble Sort.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Sort_Bubble
+class Bubble
 {
 
 	/**
@@ -47,7 +50,7 @@ class Alg_Sort_Bubble
 	{
 		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
 			for( $j=0; $j<$i; $j++ )
-				if( $list[$j] > $list[$j+1] ) 
+				if( $list[$j] > $list[$j+1] )
 					self::swap( $list, $j, $j + 1 );
 		return $list;
 	}

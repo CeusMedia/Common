@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Access to DDNSS (ddnss.de) API.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,42 +21,47 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.7
  */
+
+namespace CeusMedia\Common\Net\API;
+
+use CeusMedia\Common\Net\Reader as NetReader;
+use Exception;
+
 /**
  *	Access to DDNSS (ddnss.de) API.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.7
  */
-class Net_API_DDNSS{
-
+class DDNSS
+{
 	/**	@var		string		Base URL for update */
-	public static $urlUpdate	= "http://ddnss.de/upd.php?key=%s&host=%s";
+	public static $urlUpdate	= "https://ddnss.de/upd.php?key=%s&host=%s";
 
 	/**
 	 *	Updated host or hosts.
 	 *	@static
-	 *	@param		string		$key		Auth key from DDNSS
+	 *	@param		string			$key		Auth key from DDNSS
 	 *	@param		string|array	$hosts		Host or list of hosts
-	 *	@return		integer		Number of updated hosts
+	 *	@return		integer			Number of updated hosts
 	 *	@todo		parse response header DDNSS-Response
 	 *	@todo		and handle update errors
 	 */
-	static public function update( $key, $hosts ){
+	public static function update( string $key, $hosts ): int
+	{
 		if( is_array( $hosts ) )
 			$hosts	= implode( ",", $hosts );
 		$url	= sprintf( self::$urlUpdate, $key, $hosts );
 		try{
-			$reader		= new Net_Reader( $url );
+			$reader		= new NetReader( $url );
 			$reader->setUserAgent( "cURL" );
 			$response	= strip_tags( $reader->read() );
 			if( !preg_match( "/Updated [0-9]+ /", $response ) )

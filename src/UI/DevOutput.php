@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Output Methods for Developement.
+ *	Output Methods for Development.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,39 +22,46 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI;
+
+use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
+use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use OutOfRangeException;
+
 /**
- *	Output Methods for Developement.
+ *	Output Methods for Development.
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_DevOutput
+class DevOutput
 {
 	public const CHANNEL_AUTO		= 'auto';
 	public const CHANNEL_HTML		= 'html';
 	public const CHANNEL_TEXT		= 'text';
 	public const CHANNEL_CONSOLE	= 'text';
 
-	public const CHANNELS			= array(
+	public const CHANNELS			= [
 		self::CHANNEL_AUTO,
 		self::CHANNEL_HTML,
 		self::CHANNEL_TEXT,
 		self::CHANNEL_CONSOLE
-	);
+	];
 
 	public $channel;
 
 	public static $defaultChannel	= self::CHANNEL_AUTO;
 
-	public static $channelSettings	= array(
-		self::CHANNEL_HTML	=> array(
+	public static $channelSettings	= [
+		self::CHANNEL_HTML	=> [
 			// Sign for Line Break
 			'lineBreak'			=> "<br/>",
 			// Sign for Spaces
@@ -73,8 +82,8 @@ class UI_DevOutput
 			'indentFactor'		=> 6,
 			'stringTrimMask'	=> '&hellip;',
 			'stringMaxLength'	=> 1500
-		),
-		self::CHANNEL_TEXT	=> array(
+		],
+		self::CHANNEL_TEXT	=> [
 			// Sign for Line Break
 			'lineBreak'			=> PHP_EOL,
 			// Sign for Spaces
@@ -95,20 +104,20 @@ class UI_DevOutput
 			'indentFactor'		=> 2,
 			'stringTrimMask'	=> '...',
 			'stringMaxLength'	=> 50
-		)
-	);
+		]
+	];
 
 	protected $settings;
 
 	/**
-	 *	Constructur.
+	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$channel		Selector for Channel of Output
+	 *	@param		string|NULL		$channel		Selector for Channel of Output
 	 *	@return		void
 	 */
-	public function __construct( $channel = NULL )
+	public function __construct( string $channel = NULL )
 	{
-		$channel	= $channel ? $channel : self::$defaultChannel;
+		$channel	= $channel ?? self::$defaultChannel;
 		$this->setChannel( $channel );
 	}
 
@@ -121,15 +130,15 @@ class UI_DevOutput
 	 *	Returns whitespaces.
 	 *	@access		public
 	 *	@param		int			$offset		amount of space
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		string
 	 */
-	public function indentSign( $offset, $sign = NULL, $factor = NULL )
+	public function indentSign( int $offset, ?string $sign = NULL, ?int $factor = NULL ): string
 	{
-		extract( $this->getSettings() );
-		$sign	= $sign ? $sign : $indentSign;
-		$factor	= $factor ? $factor : $indentFactor;
+		$settings	= (object) $this->getSettings();
+		$sign		= $sign ?? $settings->indentSign;
+		$factor		= $factor ?? $settings->indentFactor;
 		return str_repeat( $sign, $offset * $factor );
 	}
 
@@ -138,29 +147,23 @@ class UI_DevOutput
 	 *	@access		public
 	 *	@param		array		$array		Array variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printArray( $array, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printArray( array $array, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( is_array( $array ) )
-		{
-			extract( $this->getSettings() );
-			$space = $this->indentSign( $offset, $sign, $factor );
-			if( $key !== NULL )
-				echo $space."[A] ".$key.$lineBreak;
-			foreach( $array as $key => $value )
-			{
-				if( is_array( $value ) && count( $value ) )
-					$this->printArray( $value, $offset + 1, $key, $sign, $factor );
-				else
-					$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
-			}
+		$settings	= (object) $this->getSettings();
+		$space		= $this->indentSign( $offset, $sign, $factor );
+		if( $key !== NULL )
+			echo $space."[A] ".$key.$settings->lineBreak;
+		foreach( $array as $key => $value ){
+			if( is_array( $value ) && count( $value ) )
+				$this->printArray( $value, $offset + 1, $key, $sign, $factor );
+			else
+				$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
 		}
-		else
-			$this->printMixed( $array, $offset, $key, $sign, $factor );
 	}
 
 	/**
@@ -168,37 +171,17 @@ class UI_DevOutput
 	 *	@access		public
 	 *	@param		bool		$bool		boolean variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printBoolean( $bool, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printBoolean( bool $bool, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( is_bool( $bool ) )
-		{
-			extract( $this->getSettings() );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[B] ".$key.$booleanOpen.( $bool ? "TRUE" : "FALSE" ).$booleanClose.$lineBreak;
-		}
-		else
-			$this->printMixed( $bool, $offset, $key, $sign, $factor );
-	}
-
-	/**
-	 *	Prints out an Double variable.
-	 *	@access		public
-	 *	@param		double		$double		double variable to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@return		void
-	 */
-	public function printDouble( $double, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
-	{
-		return $this->printFloat( $double, $offset, $key, $sign,$factor );
+		$settings	= (object) $this->getSettings();
+		$key = ( $key !== NULL ) ? $key." => " : "";
+		$space = $this->indentSign( $offset, $sign, $factor );
+		echo $space."[B] ".$key.$settings->booleanOpen.( $bool ? "TRUE" : "FALSE" ).$settings->booleanClose.$settings->lineBreak;
 	}
 
 	/**
@@ -206,22 +189,17 @@ class UI_DevOutput
 	 *	@access		public
 	 *	@param		float		$float		float variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printFloat( $float, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printFloat( float $float, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( is_float( $float ) )
-		{
-			extract( $this->getSettings() );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[F] ".$key.$float.$lineBreak;
-		}
-		else
-			$this->printMixed( $float, $offset, $key, $sign, $factor );
+		$settings	= (object) $this->getSettings();
+		$key = ( $key !== NULL ) ? $key." => " : "";
+		$space = $this->indentSign( $offset, $sign, $factor );
+		echo $space."[F] ".$key.$float.$settings->lineBreak;
 	}
 
 	/**
@@ -229,62 +207,58 @@ class UI_DevOutput
 	 *	@access		public
 	 *	@param		int			$integer	Integer variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printInteger( $integer, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printInteger( int $integer, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( is_int( $integer ) )
-		{
-			extract( $this->getSettings() );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[I] ".$key.$integer.$lineBreak;
-		}
-		else
-			$this->printMixed( $integer, $offset, $key, $sign, $factor );
+		$settings	= (object) $this->getSettings();
+		$key = ( $key !== NULL ) ? $key." => " : "";
+		$space = $this->indentSign( $offset, $sign, $factor );
+		echo $space."[I] ".$key.$integer.$settings->lineBreak;
 	}
 
 	/**
 	 *	Prints out a variable as JSON.
 	 *	@access		public
-	 *	@param		mixed		$mixed		variable of every kind to print out
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@param		boolean		$return		Flag: Return output instead of printing it
-	 *	@return		void
+	 *	@param		mixed			$mixed		variable of every kind to print out
+	 *	@param		string|NULL		$sign		Space Sign
+	 *	@param		int|NULL		$factor		Space Factor
+	 *	@param		boolean			$return		Flag: Return output instead of printing it
+	 *	@return		string|NULL
 	 */
-	public function printJson( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
+	public function printJson( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
 	{
 		if( $return )
 			ob_start();
-		extract( $this->getSettings() );
-		$o	= new UI_DevOutput();
-		echo $lineBreak;
+		$settings	= (object) $this->getSettings();
+		echo $settings->lineBreak;
 		$space	= $this->indentSign( 1, $sign, $factor );
-		$json	= ADT_JSON_Formater::format( $mixed );
-		$json	= str_replace( "\n", $lineBreak, $json );
+		$json	= JsonPretty::print( $mixed );
+		$json	= str_replace( "\n", $settings->lineBreak, $json );
 		$json	= str_replace( "  ", $space, $json );
 		echo $json;
 		if( $return )
 			return ob_get_clean();
+		return NULL;
 	}
 
 	/**
 	 *	Prints out a variable by getting Type and using a suitable Method.
 	 *	@access		public
-	 *	@param		mixed		$mixed		variable of every kind to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@param		boolean		$return		Flag: Return output instead of printing it
-	 *	@return		void
+	 *	@param		mixed			$mixed		variable of every kind to print out
+	 *	@param		int|NULL		$offset		Intent Offset Level
+	 *	@param		string|NULL		$key		Element Key Name
+	 *	@param		string|NULL		$sign		Space Sign
+	 *	@param		int|NULL		$factor		Space Factor
+	 *	@param		boolean			$return		Flag: Return output instead of printing it
+	 *	@return		string|NULL
 	 */
-	public function printMixed( $mixed, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL, $return = FALSE )
+	public function printMixed( $mixed, ?int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
 	{
+		$offset	= $offset ?? 0;
 		if( $return )
 			ob_start();
 		if( is_object( $mixed ) || gettype( $mixed ) == "object" )
@@ -297,8 +271,6 @@ class UI_DevOutput
 			$this->printInteger( $mixed, $offset, $key, $sign, $factor );
 		else if( is_float($mixed ) )
 			$this->printFloat( $mixed, $offset, $key, $sign, $factor );
-		else if( is_double( $mixed ) )
-			$this->printDouble( $mixed, $offset, $key, $sign, $factor );
 		else if( is_resource( $mixed ) )
 			$this->printResource( $mixed, $offset, $key, $sign, $factor );
 		else if( is_bool($mixed ) )
@@ -307,6 +279,7 @@ class UI_DevOutput
 			$this->printNull( $mixed, $offset, $key, $sign, $factor );
 		if( $return )
 			return ob_get_clean();
+		return NULL;
 	}
 
 	/**
@@ -314,78 +287,64 @@ class UI_DevOutput
 	 *	@access		public
 	 *	@param		NULL		$null		boolean variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printNull( $null, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printNull( $null, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( $null === NULL )
-		{
-			extract( $this->getSettings() );
+		if( $null === NULL ){
+			$settings	= (object) $this->getSettings();
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[N] ".$key.$booleanOpen."NULL".$booleanClose.$lineBreak;
+			echo $space."[N] ".$key.$settings->booleanOpen."NULL".$settings->booleanClose.$settings->lineBreak;
 		}
 		else
 			$this->printMixed( $null, $offset, $key, $sign, $factor );
 	}
 
 	/**
-	 *	Prints out a Object.
+	 *	Prints out an object.
 	 *	@access		public
-	 *	@param		mixed		$object		Object variable to print out
+	 *	@param		object		$object		Object variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printObject( $object, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printObject( object $object, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( is_object( $object ) || gettype( $object ) == "object" )
-		{
-			extract( $this->getSettings() );
-			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
-			$space		= $this->indentSign( $offset, $sign, $factor );
-			echo $space."[O] ".$ins_key."".$highlightOpen.get_class( $object ).$highlightClose.$lineBreak;
-			$vars		= get_object_vars( $object );
-			foreach( $vars as $key => $value )
-			{
-				if( is_object( $value ) )
-					$this->printObject( $value, $offset + 1, $key, $sign, $factor );
-				else if( is_array( $value ) )
-					$this->printArray( $value, $offset + 1, $key, $sign, $factor );
-				else
-					$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
-			}
-		}
-		else
-			$this->printMixed( $object, $offset, $key, $sign, $factor );
+		$settings	= (object) $this->getSettings();
+		$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
+		$space		= $this->indentSign( $offset, $sign, $factor );
+		echo $space."[O] ".$ins_key.$settings->highlightOpen.get_class( $object ).$settings->highlightClose.$settings->lineBreak;
+		$vars		= get_object_vars( $object );
+		foreach( $vars as $key => $value )
+			$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
 	}
 
 	/**
 	 *	Prints out a Resource.
 	 *	@access		public
-	 *	@param		mixed		$object		Object variable to print out
+	 *	@param		resource	$resource	Object variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printResource( $resource, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printResource( $resource, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( is_resource( $resource ) )
-		{
-			extract( $this->getSettings() );
+		if( is_resource( $resource ) ){
+			$settings	= (object) $this->getSettings();
 			$key	= ( $key !== NULL ) ? $key." => " : "";
 			$space	= $this->indentSign( $offset, $sign, $factor );
-			echo $space."[R] ".$key.$resource.$lineBreak;
+			echo $space."[R] ".$key.$resource.$settings->lineBreak;
 		}
 		else
-			$this->printMixed( $object, $offset, $key, $sign, $factor );
+			$this->printMixed( $resource, $offset, $key, $sign, $factor );
 	}
 
 	/**
@@ -393,26 +352,21 @@ class UI_DevOutput
 	 *	@access		public
 	 *	@param		string		$string		String variable to print out
 	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
+	 *	@param		string|NULL	$key		Element Key Name
+	 *	@param		string|NULL	$sign		Space Sign
+	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printString( $string, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printString( string $string, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
 	{
-		if( is_string( $string ) )
-		{
-			extract( $this->getSettings() );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			if( $lineBreak != "\n" )
-				$string	= htmlspecialchars( $string );
-			if( strlen( $string > $stringMaxLength ) )
-				$string	= Alg_Text_Trimmer::trimCentric( $string, $stringMaxLength, $stringTrimMask );
-			echo $space."[S] ".$key.$string.$lineBreak;
-		}
-		else
-			$this->printMixed( $string, $offset, $key, $sign, $factor );
+		$settings	= (object) $this->getSettings();
+		$key = ( $key !== NULL ) ? $key." => " : "";
+		$space = $this->indentSign( $offset, $sign, $factor );
+		if( $settings->lineBreak !== "\n" )
+			$string	= htmlspecialchars( $string );
+		if( strlen( $string ) > $settings->stringMaxLength )
+			$string	= TextTrimmer::trimCentric( $string, $settings->stringMaxLength, $settings->stringTrimMask );
+		echo $space."[S] ".$key.$string.$settings->lineBreak;
 	}
 
 	/**
@@ -422,14 +376,12 @@ class UI_DevOutput
 	 *	@param		array		$parameters	Associative Array of Parameters to append
 	 *	@return		void
 	 */
-	public function remark( $text, $parameters = array() )
+	public function remark( string $text, array $parameters = [] )
 	{
 		$param	= "";
-		if( is_array( $parameters ) && count( $parameters ) )
-		{
-			$param	= array();
-			foreach( $parameters as $key => $value )
-			{
+		if( is_array( $parameters ) && count( $parameters ) ){
+			$param	= [];
+			foreach( $parameters as $key => $value ){
 				if( is_int( $key ) )
 					$param[]	= $value;
 				else
@@ -449,39 +401,45 @@ class UI_DevOutput
 	 *	Sets output channel type.
 	 *	Auto mode assumes HTML at first and will fall back to Console if detected.
 	 *	@access		public
-	 *	@param		string		$channel		Type of channel (auto, console, html);
-	 *	@return		void
+	 *	@param		string			$channel		Type of channel (auto, console, html);
+	 *	@return		self
 	 *	@throws		OutOfRangeException			if an invalid channel type is to be set
 	 */
-	public function setChannel( $channel = NULL )
+	public function setChannel( string $channel ): self
 	{
-		if( !is_string( $channel ) )
-			$channel	= self::CHANNEL_AUTO;
 		$channel	= strtolower( $channel );
 		if( !in_array( $channel, self::CHANNELS ) )
 			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
 		if( $channel === self::CHANNEL_AUTO ){
 			$channel	= self::CHANNEL_HTML;
-			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
+			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) )
 				$channel	= self::CHANNEL_TEXT;
 		}
 		$this->channel	= $channel;
+		return $this;
 	}
 
-	public static function setDefaultChannel( $channel )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$channel
+	 *	@return		void
+	 *	@throws		OutOfRangeException		if given channel name is not supported
+	 */
+	public static function setDefaultChannel( string $channel )
 	{
 		if( !in_array( $channel, self::CHANNELS ) )
 			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
 		self::$defaultChannel	= $channel;
 	}
 
-	public function showDOM( $node, $offset = 0 )
+	public function showDOM( $node, int $offset = 0 )
 	{
 	//	remark( $node->nodeType." [".$node->nodeName."]" );
 	//	remark( $node->nodeValue );
 		$o	= str_repeat( "&nbsp;", $offset * 2 );
-		switch( $node->nodeType )
-		{
+		switch( $node->nodeType ){
 			case XML_ELEMENT_NODE:
 				remark( $o."[".$node->nodeName."]" );
 				foreach( $node->attributes as $map )
@@ -500,166 +458,3 @@ class UI_DevOutput
 	}
 }
 
-/**
- *	Prints out Code formatted with Tag CODE
- *	@access		public
- *	@param		string		$string	Code to print out
- *	@return		void
- */
-function code( $string )
-{
-	echo "<code>".$string."</code>";
-}
-
-/**
- *	Prints given content only if flag CM_SHOW_DEV is on (or if forced).
- *	@access		public
- *	@param		string		$content	Dev Info to show
- *	@param		bool		$force		Flag: force display
- *	@return		void
- */
-function dev( $content, $force = FALSE, $flagKey = 'CM_SHOW_DEV' )
-{
-	if( !( !$force && !( defined( $flagKey ) && constant( $flagKey ) ) ) )
-		echo $content;
-}
-
-/**
- *	Prints out any variable with print_r in xmp.
- *  Old function name "dump" has been rename in order to use Rector.
- *	@access		public
- *	@param		mixed		$variable	Variable to print dump of
- *	@param		boolean		$return		Flag: Return output instead of printing it
- *	@return		void
- */
-function print_rx( $variable, $return = FALSE )
-{
-	ob_start();
-	print_r( $variable );
-	if( $return )
-		ob_start();
-	xmp( ob_get_clean() );
-	if( $return )
-		return ob_get_clean();
-}
-
-/**
- *	Prints out Code formatted with Tag "pre".
- *	@access		public
- *	@param		string		$string		Code to print out
- *	@return		mixed		String for Dump Mode or void
- */
-function pre( $string, $dump = FALSE )
-{
-	ob_start();
-	echo "<pre>".htmlentities( $string, ENT_QUOTES, 'UTF-8' )."</pre>";
-	return $dump ? ob_get_clean() : print( ob_get_clean() );
-}
-
-/**
- *	Global function for UI_DevOutput::printJson.
- *	@access		public
- *	@param		mixed		$mixed		variable to print out
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
- *	@param		boolean		$return		Flag: Return output instead of printing it
- *	@return		void
- */
-function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
-{
-	$o		= new UI_DevOutput();
-	$break	= UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
-	if( $return )
-		return $o->printJson( $mixed, $sign, $factor, TRUE );
-	echo $break;
-	$o->printJson( $mixed, 0, $sign, $factor );
-}
-
-/**
- *	Global function for UI_DevOutput::printMixed.
- *	@access		public
- *	@param		mixed		$mixed		variable to print out
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
- *	@param		boolean		$return		Flag: Return output instead of printing it
- *	@return		void
- */
-function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channel = NULL )
-{
-	$o		= new UI_DevOutput();
-	if( $channel )
-		$o->setChannel( $channel );
-	$break	= UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
-	if( $return )
-		return $break.$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
-	echo $break;
-	$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
-}
-
-/**
- *	Prints out all global registered variables with UI_DevOutput::print_m
- *	@access		public
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
- *	@return		void
- */
-function print_globals( $sign = NULL, $factor = NULL )
-{
-	$globals	= $GLOBALS;
-	unset( $globals['GLOBALS'] );
-	print_m( $globals, $sign, $factor );
-}
-
-/**
- *	Prints out a String after Line Break.
- *	@access		public
- *	@param		string		$text		String to print out
- *	@param		array		$parameters	Associative Array of Parameters to append
- *	@param		bool		$break		Flag: break Line before Print
- *	@return		void
- */
-function remark( $text = "", $parameters = array(), $break = TRUE )
-{
-	$o = new UI_DevOutput();
-	if( $break )
-		echo UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
-	$o->remark( $text, $parameters );
-}
-
-/**
- *	Prints out a variable with UI_DevOutput::print_m
- *	@access		public
- *	@param		mixed		$mixed		variable to print out
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
- *	@return		void
- */
-function show( $mixed, $sign = NULL, $factor = NULL )
-{
-	print_m( $mixed, $sign, $factor );
-}
-
-function showDOM( $node )
-{
-	$o = new UI_DevOutput();
-	$o->showDOM( $node );
-}
-
-/**
- *	Prints out Code formatted with Tag XMP
- *	@access		public
- *	@param		string		$string		Code to print out
- *	@return		mixed		String for Dump Mode or void
- */
-function xmp( $string, $dump = FALSE )
-{
-	$dev	= new UI_DevOutput();
-	if( $dump )
-		ob_start();
-	if( $dev->channel === UI_DevOutput::CHANNEL_TEXT )
-		echo $string."\n";
-	else
-		echo "<xmp>".$string."</xmp>";
-	if( $dump )
-		return ob_get_clean();
-}

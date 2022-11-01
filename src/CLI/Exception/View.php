@@ -1,5 +1,11 @@
-<?php
-class CLI_Exception_View
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+namespace CeusMedia\Common\CLI\Exception;
+
+use Exception;
+use InvalidArgumentException;
+
+class View
 {
 	protected $exception;
 
@@ -16,7 +22,7 @@ class CLI_Exception_View
 
 	public function render(): string
 	{
-		if( !$this->exception || !$this->exception instanceof Exception )
+		if( !$this->exception instanceof Exception )
 			throw new InvalidArgumentException( 'No exception set' );
 		$e	= $this->exception;
 		$lines	= [

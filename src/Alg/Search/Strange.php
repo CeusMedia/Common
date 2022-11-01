@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Strange Search Algorithm.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,51 +21,53 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Search
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Search;
+
 /**
  *	Strange Search Algorithm.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Search
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Search_Strange
+class Strange
 {
 	/**	@var		int			$counter		internal counter of steps */
-	protected $counter;
+	protected int $counter;
 
 	/**
 	 *	Searches in List and returns position if found.
 	 *	@access		public
-	 *	@param		array		$ist			List to search in
-	 *	@param		mixed		$search			Element to search
+	 *	@param		array		$array			List to search in
+	 *	@param		mixed		$key			Element to search
 	 *	@param		int			$left			Left bound
 	 *	@param		int			$right			Right bound
 	 *	@return 	int
 	 */
-	public function search( $array, $key, $left = FALSE, $right = FALSE )
+	public function search( array $array, $key, int $left = 0, int $right = 0 ): int
 	{
-		if( !$right )
-		{
+		if( !$right ){
 			$left	= 0;
 			$right	= sizeof( $array ) - 1;
 			$this->counter = 0;
 		}
 		$this->counter++;
-		$index1	= round( $left + ( $right - $left ) / 3, 0 );
-		$index2	= round( $left + ( ( $right-$left ) / 3 ) * 2, 0 );
+		$index1	= (int) round( $left + ( $right - $left ) / 3, 0 );
+		$index2	= (int) round( $left + ( ( $right-$left ) / 3 ) * 2, 0 );
 		//echo "searching from $left to $right [$index1 - $index2]<br>";
 		if( $key == $array[$index1] )
-			return ":".$index1;
+			return $index1;
 		if( $key == $array[$index2] )
-			return ":".$index2;
+			return $index2;
 		if( $left == $right )
-			return false;
+			return -1;
 		if( $key < $array[$index1] )
 			return $this->search( $array, $key, $left, $index1 );
 		else if( $key >= $array[$index2] )

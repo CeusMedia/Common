@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parses vCard String to vCard Data Object.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,49 +21,51 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_VCard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
+
+namespace CeusMedia\Common\FS\File\VCard;
+
+use CeusMedia\Common\ADT\VCard;
+use CeusMedia\Common\Alg\Text\EncodingConverter;
+use InvalidArgumentException;
+
 /**
  *	Parses vCard String to vCard Data Object.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_VCard
- *	@uses			ADT_VCard
- *	@uses			Alg_Text_EncodingConverter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
  */
-class FS_File_VCard_Parser
+class Parser
 {
 	/**
 	 *	Parses vCard String to new vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$string			VCard String
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
-	 *	@return		string
+	 *	@param		string			$string			VCard String
+	 *	@param		string|NULL		$charsetIn		Charset to convert from
+	 *	@param		string|NULL		$charsetOut		Charset to convert to
+	 *	@return		VCard
 	 */
-	public static function parse( $string, $charsetIn = NULL, $charsetOut = NULL )
+	public static function parse( string $string, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): VCard
 	{
-		$vcard	= new ADT_VCard;
+		$vcard	= new VCard;
 		return self::parseInto( $string, $vcard, $charsetIn, $charsetOut );
 	}
 
-	protected static function parseAttributes( $string )
+	protected static function parseAttributes( string $string ): array
 	{
-		$parts	= explode( ";", $string );
-		foreach( $parts as $part )
-		{
+		$list	= [];
+		foreach( explode( ";", $string ) as $part ){
 			$parts1	= explode( "=", $part );
 			$key	= array_shift( $parts1 );
 			$values	= explode( ",", array_shift( $parts1 ) );
@@ -76,19 +79,18 @@ class FS_File_VCard_Parser
 	 *	Parses vCard String to an given vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$string			VCard String
-	 *	@param		ADT_VCard	$vcard			VCard Data Object
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
-	 *	@return		string
+	 *	@param		string			$string			VCard String
+	 *	@param		VCard			$vcard			VCard Data Object
+	 *	@param		string|NULL		$charsetIn		Charset to convert from
+	 *	@param		string|NULL		$charsetOut		Charset to convert to
+	 *	@return		VCard
 	 */
-	public static function parseInto( $string, ADT_VCard $vcard, $charsetIn = NULL, $charsetOut = NULL )
+	public static function parseInto( string $string, VCard $vcard, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): VCard
 	{
 		if( !$string )
 			throw new InvalidArgumentException( 'String is empty ' );
-		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
-		{
-			$string	= Alg_Text_EncodingConverter::convert( $string, $charsetIn, $charsetOut );
+		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) ){
+			$string	= EncodingConverter::convert( $string, $charsetIn, $charsetOut );
 		}
 
 		$lines	= explode( "\n", $string );
@@ -97,7 +99,7 @@ class FS_File_VCard_Parser
 		return $vcard;
 	}
 
-	protected static function parseLine( $vcard, $line )
+	protected static function parseLine( VCard $vcard, string $line )
 	{
 		$partsLine	= explode( ":", $line );
 		$keyFull	= array_shift( $partsLine );
@@ -108,14 +110,14 @@ class FS_File_VCard_Parser
 
 		//  --  GET KEY ATTRIBUTES  --  //
 		$attributes	= implode( ";", $partsKey );
-		$attributes	= self::parseAttributes( $attributes );	
+		$attributes	= self::parseAttributes( $attributes );
 
 		//  --  GET VALUES  --  //
 		$values		= implode( ":", $partsLine );
-		$values		= explode( ";", $values );	
+		$values		= explode( ";", $values );
 
 		//  --  BUILD ARRAY(10) FOR VALUE FIELDS  --  //
-		$list	= array();
+		$list	= [];
 		for( $i=0; $i<10; $i++ )
 			$list[$i]	= NULL;
 		for( $i=0; $i<count( $values); $i++ )
@@ -123,19 +125,18 @@ class FS_File_VCard_Parser
 		$values	= $list;
 
 		//  --  FILL VCARD OBJECT  --  //
-		switch( strtolower( $key ) )
-		{
+		switch( strtolower( $key ) ){
 			case 'n':
 				$vcard->setName(
 					$values[0],
 					$values[1],
 					$values[2],
 					$values[3],
-					$values[4]
+					$values[4],
 				);
 				break;
 			case 'fn':
-				$vcard->setFormatedName( $values[0] );
+				$vcard->setFormattedName( $values[0] );
 				break;
 			case 'email':
 				$vcard->addEmail( $values[0], $attributes );
@@ -173,7 +174,6 @@ class FS_File_VCard_Parser
 					$attributes
 				);
 				break;
-
 		}
 	}
 }

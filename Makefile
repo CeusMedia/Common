@@ -11,13 +11,13 @@ help:
 
 # --  COMPOSER  -----------------------------------------------------------
 composer-install-dev:
-	@composer install --dev
+	@composer dev:install
 
 composer-install-nodev:
 	@composer install --no-dev
 
 composer-update-dev:
-	@composer update --dev
+	@composer dev:update
 
 composer-update-nodev:
 	@composer update --no--dev
@@ -27,31 +27,42 @@ dev-test-self:
 	@php tool/go.php test self
 
 dev-test-syntax:
-	@php tool/go.php test syntax
-#	@find src -type f -print0 | xargs -0 -n1 xargs php -l
+##	@php tool/go.php test syntax
+##	@find src -type f -print0 | xargs -0 -n1 xargs php -l
+#	@php test/syntax.php
+	@composer dev:test-syntax
 
 dev-test-unit: composer-install-dev
-#	@php tool/go.php test units
-	@vendor/bin/phpunit test
+##	@php tool/go.php test units
+#	@vendor/bin/phpunit --configuration tool/config/phpunit9.xml --testsuite units
+	@composer dev:phpunit
 
 # --  DEV: Docs  ---------------------------------------------------------
 dev-create-docs: composer-install-dev
-#	@php tool/go.php create doc
-	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
+##	@php tool/go.php create doc
+#	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml
+	@composer dev:create-docs
 
 # --  DEV: QUALITY--------------------------------------------------------
 dev-phpstan:
-	@vendor/bin/phpstan analyse --configuration phpstan.neon --xdebug || true
+	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --xdebug || true
+#	@composer dev:phpstan
+
+dev-phpstan-clear-cache:
+#	@vendor/bin/phpstan clear-cache
+	@composer dev:phpstan-clear
 
 dev-phpstan-save-baseline:
-	@vendor/bin/phpstan analyse --configuration phpstan.neon --generate-baseline phpstan-baseline.neon || true
+#	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --generate-baseline tool/config/phpstan-baseline.neon || true
+	@composer dev:phpstan-save
 
-dev-rector-apply:
-	@vendor/bin/rector process src
+dev-rector:
+#	@vendor/bin/rector process --config=tool/config/rector.php --dry-run
+	@composer dev:rector
 
-dev-rector-dry:
-	@vendor/bin/rector process src --dry-run
-
+dev-rector-fix:
+#	@vendor/bin/rector process --config=tool/config/rector.php --no-diffs
+	@composer dev:phpstan-fix
 
 # --  GIT  ----------------------------------------------------------------
 git-show-status:

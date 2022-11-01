@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds vCard String from vCard Data Object.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +21,31 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_VCard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.09.2008
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
+
+namespace CeusMedia\Common\FS\File\VCard;
+
+use CeusMedia\Common\ADT\VCard;
+use CeusMedia\Common\Alg\Text\EncodingConverter;
+
 /**
  *	Builds vCard String from vCard Data Object.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_VCard
- *	@uses			Alg_Text_EncodingConverter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.09.2008
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
  */
-class FS_File_VCard_Builder
+class Builder
 {
 	public static $version	= "3.0";
 	public static $prodId	= "";
@@ -50,14 +54,14 @@ class FS_File_VCard_Builder
 	 *	Builds vCard String from vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		ADT_VCard	$card			VCard Data Object
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
+	 *	@param		VCard		$card			VCard Data Object
+	 *	@param		string|NULL	$charsetIn		Charset to convert from
+	 *	@param		string|NULL	$charsetOut		Charset to convert to
 	 *	@return		string
 	 */
-	public static function build( ADT_VCard $card, $charsetIn = NULL, $charsetOut = NULL )
+	public static function build( VCard $card, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): string
 	{
-		$lines		= array();
+		$lines		= [];
 
 		//  NAME FIELDS
 		if( $fields	= $card->getNameFields() )
@@ -67,17 +71,17 @@ class FS_File_VCard_Builder
 		foreach( $card->getAddresses() as $address )
 			$lines[]	= self::renderLine( "adr", $address, $address['types'] );
 
-		//  FORMATED NAME
-		if( $name	= $card->getFormatedName() )
+		//  FORMATTED NAME
+		if( $name	= $card->getFormattedName() )
 			$lines[]	= self::renderLine( "fn", $name );
 
 		//  NICKNAMES
 		if( $nicknames = $card->getNicknames() )
-			$lines[]	= self::renderLine( "nickname", $nicknames, NULL, TRUE, "," );
+			$lines[]	= self::renderLine( "nickname", $nicknames, [], TRUE, "," );
 
 		//  ORGANISATION
 		if( $fields	= $card->getOrganisationFields() )
-			$lines[]	= self::renderLine( "org", $fields, NULL, TRUE );
+			$lines[]	= self::renderLine( "org", $fields, [], TRUE );
 
 		//  TITLE
 		if( $title	= $card->getTitle() )
@@ -108,32 +112,27 @@ class FS_File_VCard_Builder
 		if( self::$version )
 			array_unshift( $lines, "VERSION:".self::$version );
 		array_unshift( $lines, "BEGIN:VCARD" );
-		array_push( $lines, "END:VCARD" );
-		$lines	= implode( "\n", $lines );
+		$lines[]	= "END:VCARD";
+		$lines		= implode( "\n", $lines );
 		if( $charsetIn && $charsetOut )
-		{
-			$lines	= Alg_Text_EncodingConverter::convert( $lines, $charsetIn, $charsetOut );
-		}
+			$lines	= EncodingConverter::convert( $lines, $charsetIn, $charsetOut );
 		return $lines;
 	}
 
-	protected static function escape( $value )
+	protected static function escape( string $value ): string
 	{
 		$value	= str_replace( ",", "\,", $value );
 		$value	= str_replace( ";", "\;", $value );
-		$value	= str_replace( ":", "\:", $value );
-		return $value;
+		return str_replace( ":", "\:", $value );
 	}
 
-	protected static function renderLine( $name, $values, $types = NULL, $escape = TRUE, $delimiter = ";" )
+	protected static function renderLine( string $name, $values, array $types = [], bool $escape = TRUE, string $delimiter = ";" ): string
 	{
 		$type	= $types ? ";TYPE=".implode( ",", $types ) : "";
 		$name	= strtoupper( $name );
-		if( is_array( $values ) )
-		{
-			if( $escape )
-			{
-				$list	= array();
+		if( is_array( $values ) ){
+			if( $escape ){
+				$list	= [];
 				foreach( $values as $key => $value )
 					if( $key !== "types" )
 						$list[]	= self::escape( $value );
@@ -143,7 +142,6 @@ class FS_File_VCard_Builder
 		}
 		else if( $escape )
 			$values	= self::escape( $values );
-		$line	= $name.$type.":".$values;
-		return $line;
+		return $name.$type.":".$values;
 	}
 }

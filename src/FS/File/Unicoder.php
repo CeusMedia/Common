@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converts a File into UTF-8.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.10.2007
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\Alg\Text\Unicoder as TextUnicoder;
+use Exception;
+
 /**
  *	Converts a File into UTF-8.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
- *	@uses			Alg_Text_Unicoder
- *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.10.2007
  */
-class FS_File_Unicoder
+class Unicoder
 {
 	/**
 	 *	Constructor.
@@ -45,10 +48,11 @@ class FS_File_Unicoder
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $fileName, $force = FALSE )
+	public function __construct( string $fileName, bool $force = FALSE )
 	{
-		return self::convertToUnicode( $fileName, $force = FALSE );
+		self::convertToUnicode( $fileName, $force = FALSE );
 	}
 
 	/**
@@ -58,14 +62,14 @@ class FS_File_Unicoder
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public static function convertToUnicode( $fileName, $force = FALSE )
+	public static function convertToUnicode( string $fileName, bool $force = FALSE ): bool
 	{
-		if( !(!$force && self::isUnicode( $fileName ) ) )
-		{
-			$string		= FS_File_Editor::load( $fileName );
-			$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
-			return (bool) FS_File_Editor::save( $fileName, $unicoded );
+		if( !(!$force && self::isUnicode( $fileName ) ) ){
+			$string		= Editor::load( $fileName );
+			$encoded	= TextUnicoder::convertToUnicode( $string );
+			return (bool) Editor::save( $fileName, $encoded );
 		}
 		return FALSE;
 	}
@@ -76,13 +80,14 @@ class FS_File_Unicoder
 	 *	@static
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public static function isUnicode( $fileName )
+	public static function isUnicode( string $fileName ): bool
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-		$string		= FS_File_Editor::load( $fileName );
-		$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
-		return $unicoded == $string;
+		$string		= Editor::load( $fileName );
+		$encoded	= TextUnicoder::convertToUnicode( $string );
+		return $encoded === $string;
 	}
 }

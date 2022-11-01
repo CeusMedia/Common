@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Edge in a graph
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,34 +21,37 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Graph;
+
 /**
  *	Edge in a graph
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Graph_Edge
+class Edge
 {
-	/**	@var		ADT_Graph_Node		$sourceNode		Source Node of Edge */
+	/**	@var		Node		$sourceNode		Source Node of Edge */
  	protected $sourceNode;
-	/**	@var		ADT_Graph_Node		$targetNode		Target Node of Edge */
+	/**	@var		Node		$targetNode		Target Node of Edge */
 	protected $targetNode;
-	/**	@var		int					$edgeValue		Value of Edge */
-	protected $edgeValue				= 1;
+	/**	@var		int			$edgeValue		Value of Edge */
+	protected $edgeValue		= 1;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $sourceNode, $targetNode, $edgeValue = false )
+	public function __construct( Node $sourceNode, Node $targetNode, int $edgeValue = 0 )
 	{
 		$this->setSourceNode( $sourceNode );
 		$this->setTargetNode( $targetNode );
@@ -59,7 +63,7 @@ class ADT_Graph_Edge
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getEdgeValue()
+	public function getEdgeValue(): int
 	{
 		return $this->edgeValue;
 	}
@@ -67,9 +71,9 @@ class ADT_Graph_Edge
 	/**
 	 *	Returns the Source Node of this Edge.
 	 *	@access		public
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
-	public function getSourceNode()
+	public function getSourceNode(): Node
 	{
 		return $this->sourceNode;
 	}
@@ -77,9 +81,9 @@ class ADT_Graph_Edge
 	/**
 	 *	Returns the Target Node of this Edge.
 	 *	@access		public
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
-	public function getTargetNode()
+	public function getTargetNode(): Node
 	{
 		return $this->targetNode;
 	}
@@ -90,7 +94,7 @@ class ADT_Graph_Edge
 	 *	@param		int					$edgeValue		Value of this Edge
 	 *	@return		void
 	 */
-	public function setEdgeValue( $edgeValue )
+	public function setEdgeValue( int $edgeValue )
 	{
 		$this->edgeValue = $edgeValue;
 	}
@@ -98,10 +102,10 @@ class ADT_Graph_Edge
 	/**
 	 *	Setting the Source Node of this Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
+	 *	@param		Node		$sourceNode		Source Node of this Edge
 	 *	@return		void
 	 */
-	public function setSourceNode( $sourceNode )
+	public function setSourceNode( Node $sourceNode )
 	{
 		$this->sourceNode = $sourceNode;
 	}
@@ -109,10 +113,10 @@ class ADT_Graph_Edge
 	/**
 	 *	Setting the Target Node of this Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
+	 *	@param		Node		$targetNode		Target Node of this Edge
 	 *	@return		void
 	 */
-	public function setTargetNode( $targetNode )
+	public function setTargetNode( Node $targetNode )
 	{
 		$this->targetNode = $targetNode;
 	}

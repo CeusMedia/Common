@@ -2,7 +2,7 @@
 /**
  *	Class for encoding PHP File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,34 +20,44 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.10.2006
  */
+
+namespace CeusMedia\Common\FS\File\PHP;
+
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use RuntimeException;
+
 /**
  *	Class for encoding PHP File.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
- *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.10.2006
  */
-class FS_File_PHP_Encoder
+class Encoder
 {
 	/**	@var		string		$incodePrefix		Prefix of inner Code Wrapper */
 	protected $incodePrefix		= "";
+
 	/**	@var		string		$incodeSuffix		Suffix of inner Code Wrapper */
 	protected $incodeSuffix		= "";
+
 	/**	@var		string		$outcodePrefix		Prefix of outer Code Wrapper */
 	protected $outcodePrefix	= "";
+
 	/**	@var		string		$outcodeSuffix		Suffix of outer Code Wrapper */
 	protected $outcodeSuffix	= "";
+
 	/**	@var		string		$filePrefix			Prefix of compressed PHP File */
 	public $filePrefix			= "code.";
+
 	/**	@var		string		$fileSuffix			Suffix of compressed PHP File */
 	public $fileSuffix			= "";
 
@@ -71,7 +81,7 @@ class FS_File_PHP_Encoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	public function decode( $php )
+	public function decode( string $php ): string
 	{
 		$code	= substr( $php, strlen( $this->outcodePrefix) , -strlen( $this->outcodeSuffix ) );
 		$php 	= $this->decodeHash( $code );
@@ -81,15 +91,15 @@ class FS_File_PHP_Encoder
 	/**
 	 *	Decodes an encoded PHP File.
 	 *	@access		public
-	 * 	@return		void
+	 *	@param		string		$fileName		...
+	 *	@param		boolean		$overwrite		...
+	 * 	@return		boolean
 	 */
-	public function decodeFile( $fileName, $overwrite = FALSE )
+	public function decodeFile( string $fileName, bool $overwrite = FALSE ): bool
 	{
-		if( file_exists( $fileName ) )
-		{
-			if( $this->isEncoded( $fileName ) )
-			{
-				$file	= new FS_File_Editor( $fileName );
+		if( file_exists( $fileName ) ){
+			if( $this->isEncoded( $fileName ) ){
+				$file	= new FileEditor( $fileName );
 				$php	= $file->readString();
 				$code	= $this->encode( $php );
 				$dirname	= dirname( $fileName );
@@ -101,20 +111,20 @@ class FS_File_PHP_Encoder
 				return TRUE;
 			}
 		}
-		return FALSE;	
+		return FALSE;
 	}
 
 	/**
 	 *	Returns Hash decoded PHP Content.
-	 *	@access		protected 
-	 *	@param		string		$php		Encoded PHP Content
+	 *	@access		protected
+	 *	@param		string		$code		Encoded PHP Content
 	 * 	@return		string
 	 */
-	protected function decodeHash( $code )
+	protected function decodeHash( string $code ): string
 	{
 		$php	= gzinflate( base64_decode( $code ) );
 		$php	= substr( $php, strlen( $this->incodePrefix) , -strlen( $this->incodeSuffix ) );
-		return 	$php;
+		return $php;
 	}
 
 	/**
@@ -123,7 +133,7 @@ class FS_File_PHP_Encoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	public function encode( $php )
+	public function encode( string $php ): string
 	{
 		$code	= $this->encodeHash( $php );
 		$php	= $this->outcodePrefix.$code.$this->outcodeSuffix;
@@ -133,15 +143,17 @@ class FS_File_PHP_Encoder
 	/**
 	 *	Encodes a PHP File.
 	 *	@access		public
-	 * 	@return		void
+	 *	@param		string		$fileName		...
+	 *	@param		boolean		$overwrite		...
+	 * 	@return		bool
 	 */
-	public function encodeFile( $fileName, $overwrite = FALSE )
+	public function encodeFile( string $fileName, bool $overwrite = FALSE ): bool
 	{
 		if( !file_exists( $fileName ) )
 			return FALSE;
 		if( $this->isEncoded( $fileName ) )
 			return TRUE;
-		$php		= FS_File_Reader::load( $fileName );
+		$php		= FileReader::load( $fileName );
 		$code		= $this->encode( $php );
 		$dirname	= dirname( $fileName );
 		$basename	= basename( $fileName );
@@ -149,7 +161,7 @@ class FS_File_PHP_Encoder
 		if( $fileName == $target && !$overwrite )
 			throw new RuntimeException( 'File cannot be overwritten, use Parameter "overwrite".' );
 //		copy( $fileName, "#".$fileName );
-		return (bool) FS_File_Writer::save( $target, $code );
+		return (bool) FileWriter::save( $target, $code );
 	}
 
 	/**
@@ -158,9 +170,9 @@ class FS_File_PHP_Encoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	protected function encodeHash( $php )
+	protected function encodeHash( string $php ): string
 	{
-		return base64_encode( gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix ) );	
+		return base64_encode( gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix ) );
 	}
 
 	/**
@@ -169,10 +181,9 @@ class FS_File_PHP_Encoder
 	 *	@param		string		$fileName		File Name of PHP File to be checked
 	 * 	@return		bool
 	 */
-	public function isEncoded( $fileName )
+	public function isEncoded( string $fileName ): bool
 	{
-		if( file_exists( $fileName ) )
-		{
+		if( file_exists( $fileName ) ){
 			$fp	= fopen( $fileName, "r" );
 			$code	= fgets( $fp, strlen( $this->outcodePrefix ) );
 			if( $code == $this->outcodePrefix )

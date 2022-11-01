@@ -1,35 +1,46 @@
-<?php
-class PdfToImage{
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+namespace CeusMedia\Common\FS\File;
+
+use Imagick;
+
+class PdfToImage
+{
 	protected $im;
 	protected $outputFormat	= 'png';
 
-	public function __construct( $fileName = NULL ){
+	public function __construct( ?string $fileName = NULL )
+	{
 		if( $fileName )
 			$this->read( $fileName );
 	}
 
-	public function read( $fileName, $page = 0 ){
+	public function read( string $fileName, int $page = 0 )
+	{
 		$this->im = new Imagick();
 		$this->im->readImage( $fileName.'['.$page.']' );
 		$this->im->setImageFormat( $this->outputFormat );
 	}
 
-	public function setOutputFormat( $format = 'png' ){
+	public function setOutputFormat( string $format = 'png' )
+	{
 		$this->im->setImageFormat( $format );
 		$this->outputFormat	= $format;
 	}
 
 	//set the resolution of the resulting jpg
-	public function setSize( $width, $height ){
+	public function setSize( int $width, int $height )
+	{
 		$this->im->thumbnailImage( $width, $height );
 	}
 
-	public function write( $fileName = NULL ){
+	public function write( string $fileName )
+	{
 		$this->im->writeImage( $fileName );
 	}
 
-	static public function convert( $sourceFile, $targetFile, $width, $height, $format = NULL ){
+	public static function convert( string $sourceFile, string $targetFile, int $width, int $height, ?string $format = NULL )
+	{
 		$instance	= new self( $sourceFile );
 		$instance->setSize( $width, $height );
 		if( $format )

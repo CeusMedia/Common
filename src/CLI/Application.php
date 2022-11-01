@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Generic Console Application.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.01.2006
  */
+
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\CLI;
+
 /**
  *	Generic Console Application.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
- *	@extends		CLI_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.01.2006
  */
-class CLI_Application
+class Application
 {
-	protected $arguments;
+	/** @var	ArgumentParser		$arguments  */
+	protected ArgumentParser $arguments;
 
 	/**
 	 *	Constructor.
@@ -46,10 +50,10 @@ class CLI_Application
 	 *	@param		array		$shortcuts		Array of Shortcuts to be set
 	 *	@return		void
 	 */
-	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE, $handleNoneCLI = TRUE )
+	public function __construct( array $shortcuts = [], bool $fallBackOnEmptyPair = FALSE, bool $handleNoneCLI = TRUE )
 	{
-		\CLI::checkIsCLi( $handleNoneCLI );
-		$this->arguments	= new \CLI_ArgumentParser();
+		CLI::checkIsCLi( $handleNoneCLI );
+		$this->arguments	= new ArgumentParser();
 		foreach( $shortcuts as $key => $value )
 			$this->arguments->addShortCut( $key, $value );
 		$this->arguments->parseArguments( $fallBackOnEmptyPair );
@@ -61,7 +65,8 @@ class CLI_Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function main(){
+	protected function main()
+	{
 		if( join( $this->arguments->get( 'commands' ) ) === 'help' )
 			$this->showUsage();
 	}
@@ -74,8 +79,9 @@ class CLI_Application
 	 *	@param		string		$message		Error Message to print to Console
 	 *	@return		void
 	 */
-	protected function showError( $message, $abort = TRUE ){
-		\CLI::error( $message );
+	protected function showError( string $message, bool $abort = TRUE )
+	{
+		CLI::error( $message );
 		if( $abort )
 			die( $message );
 	}
@@ -83,18 +89,19 @@ class CLI_Application
 	/**
 	 *	Prints Usage Message to Console and exits Script, to be overridden.
 	 *	@access		protected
-	 *	@param		string		$message		Message to show below usage lines
+	 *	@param		string|NULL		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL ){
-		\CLI::out();
-		\CLI::out( 'Console Application' );
-		\CLI::out();
-		\CLI::out( 'Usage: ./cli_app.php a [b]' );
-		\CLI::out( 'Options:' );
-		\CLI::out( '  a			Mandatory Option' );
-		\CLI::out( '    help		show help' );
-		\CLI::out( '  b			Optional Option' );
+	protected function showUsage( ?string $message = NULL )
+	{
+		CLI::out();
+		CLI::out( 'Console Application' );
+		CLI::out();
+		CLI::out( 'Usage: ./cli_app.php a [b]' );
+		CLI::out( 'Options:' );
+		CLI::out( '  a			Mandatory Option' );
+		CLI::out( '    help		show help' );
+		CLI::out( '  b			Optional Option' );
 		if( $message )
 			$this->showError( $message );
 	}
@@ -104,7 +111,8 @@ class CLI_Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function showUsageLink(){
-		\CLI::out( 'Use command "help" for usage information.' );
+	protected function showUsageLink()
+	{
+		CLI::out( 'Use command "help" for usage information.' );
 	}
 }

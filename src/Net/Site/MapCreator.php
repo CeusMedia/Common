@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
+ *	Google Sitemap XML Creator, crawls a Website and writes a Sitemap XML File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +21,36 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
+
+namespace CeusMedia\Common\Net\Site;
+
+use CeusMedia\Common\FS\File\Block\Writer as BlockFileWriter;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
- *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
+ *	Google Sitemap XML Creator, crawls a Website and writes a Sitemap XML File.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
- *	@uses			Net_Site_MapapWriter
- *	@uses			Net_Site_Crawler
- *	@uses			FS_File_Block_Writer
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
-class Net_Site_MapCreator
+class MapCreator
 {
-	/**	@var		Net_Site_Crawler	$crawler	Instance of Site Crawler */
+	/**	@var		Crawler			$crawler	Instance of Site Crawler */
 	protected $crawler;
-	/**	@var		array				$errors		List of Errors */
-	protected $errors					= array();
+
+	/**	@var		array			$errors		List of Errors */
+	protected $errors				= [];
+
+	protected $depth;
+
+	protected $links				= [];
 
 	/**
 	 *	Constructor.
@@ -52,33 +58,32 @@ class Net_Site_MapCreator
 	 *	@param		int			$depth			Number of Links followed in a Row
 	 *	@return		void
 	 */
-	public function __construct( $depth = 10 )
+	public function __construct( int $depth = 10 )
 	{
 		$this->depth	= $depth;
 	}
 
 	/**
-	 *	Crawls a Web Site, writes Sitemap XML File, logs Errors and URLs and returns Number of written Bytes.
+	 *	Crawls a Website, writes Sitemap XML File, logs Errors and URLs and returns Number of written Bytes.
 	 *	@access		public
-	 *	@param		string		$url			URL of Web Site
-	 *	@param		string		$sitemapUri		File Name of Sitemap XML File
-	 *	@param		string		$errorsLogUri	File Name of Error Log File
-	 *	@param		string		$urlLogUri		File Name of URL Log File
-	 *	@param		boolean		$verbose		Flag: show crawled URLs 
+	 *	@param		string			$url			URL of Website
+	 *	@param		string			$sitemapUri		File Name of Sitemap XML File
+	 *	@param		string|NULL		$errorsLogUri	File Name of Error Log File
+	 *	@param		string|NULL		$urlListUri		File Name of URL Log File
+	 *	@param		boolean			$verbose		Flag: show crawled URLs
 	 *	@return		int
 	 */
-	public function createSitemap( $url, $sitemapUri, $errorsLogUri = NULL, $urlListUri = NULL, $verbose = FALSE )
+	public function createSitemap( string $url, string $sitemapUri, ?string $errorsLogUri = NULL, ?string $urlListUri = NULL, bool $verbose = FALSE ): int
 	{
-		$crawler	= new Net_Site_Crawler( $url, $this->depth );
+		$crawler	= new Crawler( $url, $this->depth );
 		$crawler->crawl( $url, FALSE, $verbose );
 		$this->errors	= $crawler->getErrors();
 		$this->links	= $crawler->getLinks();
-		$list	= array();
+		$list	= [];
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
-		$writtenBytes	= Net_Site_MapWriter::save( $sitemapUri, $list );
-		if( $errorsLogUri )
-		{
+		$writtenBytes	= MapWriter::save( $sitemapUri, $list );
+		if( $errorsLogUri ){
 			@unlink( $errorsLogUri );
 			if( count( $this->errors ) )
 				$this->saveErrors( $errorsLogUri );
@@ -93,9 +98,9 @@ class Net_Site_MapCreator
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
-		return $this->errors();
+		return $this->errors;
 	}
 
 	/**
@@ -103,9 +108,9 @@ class Net_Site_MapCreator
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
-		return $this->links();
+		return $this->links;
 	}
 
 	/**
@@ -114,9 +119,9 @@ class Net_Site_MapCreator
 	 *	@param		string		$uri		File Name of Block Log File
 	 *	@return		int
 	 */
-	public function saveErrors( $uri )
+	public function saveErrors( string $uri ): int
 	{
-		$writer	= new FS_File_Block_Writer( $uri );
+		$writer	= new BlockFileWriter( $uri );
 		return $writer->writeBlocks( $this->errors );
 	}
 
@@ -126,12 +131,12 @@ class Net_Site_MapCreator
 	 *	@param		string		$uri		File Name of Block Log File
 	 *	@return		int
 	 */
-	public function saveUrls( $uri )
+	public function saveUrls( string $uri ): int
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
-		$writer	= new FS_File_Writer( $uri );
-		$writer->writeArray( $list );
+		$writer	= new FileWriter( $uri );
+		return $writer->writeArray( $list );
 	}
 }

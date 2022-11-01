@@ -1,27 +1,41 @@
 <?php
-/**
- *	TestUnit of Net_FTP_Reader.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			01.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Net_FTP_Reader.
+ *	@package		Tests.
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Net\FTP;
+
+use CeusMedia\Common\Net\FTP\Connection;
+use CeusMedia\Common\Net\FTP\Reader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_FTP_Reader.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			Net_FTP_Connection
- *	@uses			Net_FTP_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			01.07.2008
- *	@version		0.1
  */
-class Test_Net_FTP_ReaderTest extends Test_Case
+class ReaderTest extends BaseCase
 {
+	/** @var Connection  */
+	protected $connection;
+
+	protected $local;
+
+	protected $path;
+
+	protected $reader;
+
+	protected $writer;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -29,19 +43,19 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->config	= self::$_config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
+		$config	= self::$_config['unitTest-FTP'];
+		$host		= $config['host'];
+		$port		= $config['port'];
+		$username	= $config['user'];
+		$password	= $config['pass'];
+		$this->path		= $config['path'];
+		$this->local	= $config['local'];
 
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in Common.ini' );
 
-		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
-		$this->connection->login( $this->username, $this->password );
+		$this->connection	= new Connection( $host, $port );
+		$this->connection->login( $username, $password );
 
 		@unlink( $this->local."test1.txt" );
 		@unlink( $this->local."test2.txt" );
@@ -62,7 +76,7 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 		if( $this->path )
 			$this->connection->setPath( $this->path );
 
-		$this->reader	= new Net_FTP_Reader( $this->connection );
+		$this->reader	= new Reader( $this->connection );
 	}
 
 	/**
@@ -91,25 +105,22 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 	 */
 	public function testGetFile()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->reader->getFile( "test1.txt", "test_getFile" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "test1";
 		$creation	= file_get_contents( "test_getFile" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->reader->getFile( "folder/test3.txt", "test_getFile" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "test3";
 		$creation	= file_get_contents( "test_getFile" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->reader->getFile( "not_existing", "test_getFile" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -176,7 +187,7 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 	 */
 	public function testGetList()
 	{
-		$files		= array();
+		$files		= [];
 		$list		= $this->reader->getList();
 		foreach( $list as $entry )
 			if( $entry['isfile'] )
@@ -185,7 +196,7 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
-		$files		= array();
+		$files		= [];
 		$list		= $this->reader->getList();
 		foreach( $list as $entry )
 			$files[]	= $entry['name'];
@@ -193,7 +204,7 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
-		$files		= array();
+		$files		= [];
 		$list		= $this->reader->getList( "folder" );
 		foreach( $list as $entry )
 			$files[]	= $entry['name'];
@@ -287,7 +298,7 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 		$creation	= count( $folders );
 		$this->assertEquals( $assertion, $creation );
 
-		$names		= array();
+		$names		= [];
 		foreach( $folders as $folder )
 			$names[]	= $folder['name'];
 		$assertion	= array( "folder", "folder/nested" );;
@@ -302,29 +313,25 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 	 */
 	public function testSetPath()
 	{
-		$assertion	= FALSE;
 		$creation	= $this->reader->setPath( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->reader->setPath( "folder" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->reader->setPath( "/".$this->path."folder" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->reader->setPath( "/".$this->path."folder/nested" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder/nested";
 		$creation	= $this->reader->getPath();

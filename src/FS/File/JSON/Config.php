@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Configuration using JSON file and structure of magic nodes.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +21,36 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\JSON;
+
+use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
+use CeusMedia\Common\ADT\Tree\MagicNode;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Configuration using JSON file and structure of magic nodes.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_JSON_Config{
-
-	/**	@var		string				$fileName		Name of JSON file */
+class Config
+{
+	/**	@var		string			$fileName		Name of JSON file */
 	protected $fileName;
 
-	/**	@var		ADT_Tree_MagicNode	$data			Node structure */
+	/**	@var		MagicNode		$data			Node structure */
 	protected $data;
 
-	/**	@var		boolean				$format			Flag: format JSON on save */
+	/**	@var		boolean			$format			Flag: format JSON on save */
 	protected $format;
 
 	/**
@@ -51,21 +60,23 @@ class FS_File_JSON_Config{
 	 *	@param		boolean		$format			Flag: format JSON on save
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $format = TRUE ){
+	public function __construct( string $fileName, bool $format = TRUE )
+	{
 		$this->fileName	= $fileName;
-		$this->data		= new ADT_Tree_MagicNode();
+		$this->data		= new MagicNode();
 		$this->format	= $format;
 		if( file_exists( $fileName ) )
-			$this->data->fromJson( FS_File_Reader::load( $fileName ) );
+			$this->data->fromJson( FileReader::load( $fileName ) );
 	}
 
 	/**
 	 *	Magic function get value.
 	 *	@access		public
 	 *	@param		string		$key		Key of node to get value for
-	 *	@return		ADT_Tree_MagicNode
+	 *	@return		MagicNode
 	 */
-	public function __get( $key ){
+	public function __get( string $key ): MagicNode
+	{
 		return $this->data->__get( $key );
 	}
 
@@ -74,9 +85,10 @@ class FS_File_JSON_Config{
 	 *	@access		public
 	 *	@param		string		$key		Key of to set value for
 	 *	@param		string		$value		Value to set
-	 *	@return		ADT_Tree_MagicNode
+	 *	@return		void
 	 */
-	public function __set( $key, $value ){
+	public function __set( string $key, string $value ): void
+	{
 		$this->data->__set( $key, $value );
 	}
 
@@ -85,11 +97,12 @@ class FS_File_JSON_Config{
 	 *	@access		public
 	 *	@return		integer		Number of saved bytes
 	 */
-	public function save(){
+	public function save(): int
+	{
 		$json	= $this->data->toJson();
 		if( $this->format )
-			$json	= ADT_JSON_Formater::format( $json );
-		return FS_File_Writer::save( $this->fileName, $json );
+			$json	= JsonPretty::print( $json );
+		return FileWriter::save( $this->fileName, $json );
 	}
 
 	/**
@@ -97,7 +110,8 @@ class FS_File_JSON_Config{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray(){
+	public function toArray(): array
+	{
 		return $this->data->toArray();
 	}
 }

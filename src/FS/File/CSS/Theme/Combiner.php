@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,51 +20,53 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS_Theme
- *	@uses			FS_File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\CSS\Theme;
+
+use CeusMedia\Common\FS\File\CSS\Combiner as CssCombiner;
+
 /**
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS_Theme
- *	@uses			FS_File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSS_Theme_Combiner extends FS_File_CSS_Combiner
+class Combiner extends CssCombiner
 {
-	const PROTOCOL_NONE		= 0;
-	const PROTOCOL_HTTP		= 1;
-	const PROTOCOL_HTTPS	= 2;
+	public const PROTOCOL_NONE		= 0;
+	public const PROTOCOL_HTTP		= 1;
+	public const PROTOCOL_HTTPS		= 2;
 
 	protected $protocol;
 
 	/**
-	 *	Callback Method for additional Modifikations before Combination.
+	 *	Callback Method for additional Modifications before Combination.
 	 *	@access		protected
 	 *	@param		string		$content		Content of Style File
 	 *	@return		string		Revised Content of Style File
 	 */
-	protected function reviseStyle( $content )
+	protected function reviseStyle( string $content ): string
 	{
-		if( $this->protocol == self::PROTOCOL_HTTP )
-		{
+		if( $this->protocol == self::PROTOCOL_HTTP ){
 			$content	= str_ireplace( "https://", "http://", $content );
 		}
-		else if( $this->protocol == self::PROTOCOL_HTTPS )
-		{
+		else if( $this->protocol == self::PROTOCOL_HTTPS ){
 			$content	= str_ireplace( "http://", "https://", $content );
 		}
 		return $content;
 	}
 
-	public function setProtocol( $integer )
+	public function setProtocol( int $integer ): self
 	{
 		$this->protocol	= $integer;
+		return $this;
 	}
 }

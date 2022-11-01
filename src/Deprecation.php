@@ -1,6 +1,8 @@
 <?php
-/*
-*/
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /**
  *	Indicator for deprecated methods.
  *	@category		Library
@@ -8,19 +10,25 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common;
+
+use Exception;
+
 /**
  *	Indicator for deprecated methods.
  *
  *	Example:
  *		Deprecation::getInstance()
  *			->setErrorVersion( '0.9' )
- *			->ExceptionVersion( '0.9' )
+ *			->setExceptionVersion( '0.9.1' )
  *			->message(  'Use method ... instead' );
  *
  *	@category		Library
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@phpstan-consistent-constructor
  */
 class Deprecation
 {
@@ -30,12 +38,12 @@ class Deprecation
 	protected $phpVersion;
 
 	/**
-	 *	Creates a new deprection object.
+	 *	Creates a new deprecation object.
 	 *	@access		public
 	 *	@static
 	 *	@return		Deprecation
 	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		return new static();
 	}
@@ -46,15 +54,16 @@ class Deprecation
 	 *	Will throw a deprecation error if set error version reached detected library version using PHP 5.3+.
 	 *	Will throw a deprecation notice if set error version reached detected library version using PHP lower 5.3.
 	 *	@access		public
-	 *	@param		string		$version	Library version to start showing deprecation error or notice
+	 *	@param		string		$message	Message to show
 	 *	@return		void
 	 *	@throws		Exception				if set exception version reached detected library version
 	 */
-	public function message( $message )
+	public function message( string $message )
 	{
 		$trace	= debug_backtrace();
-		$caller = next( $trace );
-		$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
+		$caller	= next( $trace );
+		if( isset( $caller['file'] ) )
+			$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
 		if( $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
 				throw new Exception( 'Deprecated: '.$message );
@@ -63,7 +72,7 @@ class Deprecation
 		}
 	}
 
-	public static function notify( $message )
+	public static function notify( string $message )
 	{
 		$message .= ', triggered';
 		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
@@ -79,7 +88,7 @@ class Deprecation
 	 *	@param		string		$version	Library version to start showing deprecation error or notice
 	 *	@return		Deprecation
 	 */
-	public function setErrorVersion( $version )
+	public function setErrorVersion( string $version ): self
 	{
 		$this->errorVersion		= $version;
 		return $this;
@@ -92,7 +101,7 @@ class Deprecation
 	 *	@param		string		$version	Library version to start throwing deprecation exception
 	 *	@return		Deprecation
 	 */
-	public function setExceptionVersion( $version )
+	public function setExceptionVersion( string $version ): self
 	{
 		$this->exceptionVersion		= $version;
 		return $this;
@@ -101,7 +110,7 @@ class Deprecation
 	//  --  PROTECTED  --  //
 
 	/**
-	 *	Contructor, needs to be called statically by getInstance.
+	 *	Constructor, needs to be called statically by getInstance.
 	 *	Will call onInit at the end to handle self detection.
 	 *	@access		protected
 	 *	@return		void
@@ -117,7 +126,7 @@ class Deprecation
 	 *	ATTENTION: Must be set in inheriting classes, at least as an empty method!
 	 *
 	 *	Will detect library version.
-	 *	Will set error version to curent library version by default.
+	 *	Will set error version to current library version by default.
 	 *	Will not set an exception version.
 	 *	@access		protected
 	 *	@return		void

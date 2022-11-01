@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Sender for Messages via Jabber.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,49 +21,59 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  */
+
+namespace CeusMedia\Common\Net\XMPP;
+
+use CeusMedia\Common\Net\XMPP\XMPPHP\Log;
+use CeusMedia\Common\Net\XMPP\XMPPHP\XMPP;
+use RuntimeException;
+
 /**
  *	Sender for Messages via Jabber.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP
- *	@uses			Net_XMPP_XMPPHP_XMPP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  */
-class Net_XMPP_MessageSender
+class MessageSender
 {
-	/**	@var	bool		$encryption				Flag: use TLS Encryption */
-	protected $encryption	= TRUE;
-	/**	@var	int			$logLevel				Log Level */
-	protected $logLevel		= Net_XMPP_XMPPHP_Log::LEVEL_INFO;
-	/**	@var	int			$port					Server Port */
-	protected $port			= 5222;
-	/**	@var	bool		$printLog				Flag: use Logging */
-	protected $printLog		= FALSE;
-	/**	@var	string		$receiver				Receiver JID */
-	protected $receiver		= NULL;
-	/**	@var	Net_XMPP_XMPPHP_XMPP	$xmpp		XMPP Instance */
-	protected $resource		= "xmpphp";
-	/**	@var	Net_XMPP_XMPPHP_XMPP	$xmpp		XMPP Instance */
-	public $xmpp			= NULL;
+	/**	@var	bool			$encryption				Flag: use TLS Encryption */
+	protected $encryption		= TRUE;
+
+	/**	@var	int				$logLevel				Log Level */
+	protected $logLevel			= Log::LEVEL_INFO;
+
+	/**	@var	int				$port					Server Port */
+	protected $port				= 5222;
+
+	/**	@var	bool			$printLog				Flag: use Logging */
+	protected $printLog			= FALSE;
+
+	/**	@var	JID|string|NULL	$receiver				Receiver JID */
+	protected $receiver			= NULL;
+
+	/**	@var	string			$resource				??? */
+	protected $resource			= "xmpphp";
+
+	/**	@var	XMPP|NULL		$xmpp					XMPP Instance */
+	public $xmpp				= NULL;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int			$port			Server Port
-	 *	@param		bool		$encryption		Flag: use TLS Encryption
-	 *	@param		bool		$printLog		Flag: use Logging
-	 *	@param		int			$logLevel		Log Level (Net_XMPP_XMPPHP_Log::LEVEL_ERROR|Net_XMPP_XMPPHP_Log::LEVEL_WARNING|Net_XMPP_XMPPHP_Log::LEVEL_INFO|Net_XMPP_XMPPHP_Log::LEVEL_DEBUG|Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE)
+	 *	@param		int|NULL		$port			Server Port
+	 *	@param		bool|NULL		$encryption		Flag: use TLS Encryption
+	 *	@param		bool|NULL		$printLog		Flag: use Logging
+	 *	@param		int|NULL		$logLevel		Log Level (Log::LEVEL_ERROR|Log::LEVEL_WARNING|Log::LEVEL_INFO|Log::LEVEL_DEBUG|Log::LEVEL_VERBOSE)
 	 *	@return		void
 	 */
-	public function __construct( $port = NULL, $encryption = NULL, $printLog = NULL, $logLevel = NULL )
+	public function __construct( ?int $port = NULL, ?bool $encryption = NULL, ?bool $printLog = NULL, ?int $logLevel = NULL )
 	{
 		if( $port !== NULL )
 			$this->setPort( $port );
@@ -85,26 +96,26 @@ class Net_XMPP_MessageSender
 	}
 
 	/**
-	 *	Establishs Connection to XMPP Server.
+	 *	Establishes Connection to XMPP Server.
 	 *	@access		public
-	 *	@param		Net_XMPP_JID	$sender		JID of sender
-	 *	@param		string			$password		Password of Sender
-	 *	@param		int				$port			Port of XMPP Server
+	 *	@param		JID			$sender			JID of sender
+	 *	@param		string		$password		Password of Sender
 	 *	@return		void
+	 *	@throws		XMPPHP\Exception
 	 */
-	public function connect( Net_XMPP_JID $sender, $password )
+	public function connect( JID $sender, string $password )
 	{
-		$this->xmpp		= new Net_XMPP_XMPPHP_XMPP(
+		$this->xmpp		= new XMPP(
 			$sender->getDomain(),
 			$this->port,
 			$sender->getNode(),
 			$password,
-			$sender->getResource() ? $sender->getResource() : $this->resource,
+			$sender->getResource() ?: $this->resource,
 			$sender->getDomain(),
 			$this->printLog,
 			$this->logLevel
 		);
-		$this->xmpp->use_encyption	= $this->encryption;
+		$this->xmpp->useEncryption( $this->encryption );
 		$this->xmpp->connect();
 		$this->xmpp->processUntil( 'session_start' );
 	}
@@ -114,12 +125,11 @@ class Net_XMPP_MessageSender
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function disconnect()
+	public function disconnect(): bool
 	{
-		if( $this->xmpp )
-		{
+		if( $this->xmpp ){
 			if( $this->printLog )
-				echo $this->xmpp->log->printout();
+				$this->xmpp->getLog()->printout();
 			$this->xmpp->disconnect();
 			$this->xmpp = NULL;
 			return TRUE;
@@ -134,9 +144,9 @@ class Net_XMPP_MessageSender
 	 *	@return		void
 	 *	@throws		RuntimeException			if no receiver has been set
 	 */
-	public function sendMessage( $message )
+	public function sendMessage( string $message )
 	{
-		if( !$this->receiver )
+		if( NULL === $this->receiver )
 			throw new RuntimeException( 'No Receiver set.' );
 		$this->sendMessageTo( $message, $this->receiver->get() );
 	}
@@ -144,15 +154,15 @@ class Net_XMPP_MessageSender
 	/**
 	 *	Sends Message to a Receiver.
 	 *	@access		public
-	 *	@param		string		$message		Message to send to Receiver
-	 *	@param		string		$receiver		JID of Receiver
+	 *	@param		string			$message		Message to send to Receiver
+	 *	@param		JID|string		$receiver		JID of Receiver
 	 *	@return		void
 	 *	@throws		RuntimeException			if XMPP connection is not established
 	 */
-	public function sendMessageTo( $message, $receiver )
+	public function sendMessageTo( string $message, $receiver )
 	{
 		if( is_string( $receiver ) )
-			$receiver	= new Net_XMPP_JID( $receiver );
+			$receiver	= new JID( $receiver );
 		if( !$this->xmpp )
 			throw new RuntimeException( 'Not connected to Server.' );
 		$this->xmpp->message( $receiver->get(), $message );
@@ -162,83 +172,91 @@ class Net_XMPP_MessageSender
 	 *	Sets Encryption
 	 *	@access		public
 	 *	@param		bool		$bool			Flag: set Encryption
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		RuntimeException			if XMPP connection is already established
 	 */
-	public function setEncryption( $bool )
+	public function setEncryption( bool $bool ): self
 	{
 		if( $this->xmpp )
 			throw new RuntimeException( 'Already connected' );
 		$this->encryption	= $bool;
+		return $this;
 	}
 
 	/**
 	 *	Sets Log Level.
 	 *	@access		public
-	 *	@param		int			$logLevel		Log Level (Net_XMPP_XMPPHP_Log::LEVEL_ERROR|Net_XMPP_XMPPHP_Log::LEVEL_WARNING|Net_XMPP_XMPPHP_Log::LEVEL_INFO|Net_XMPP_XMPPHP_Log::LEVEL_DEBUG|Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE)
-	 *	@return		void
-	 *	@throws		RuntimeException			if XMPP connection is already established
+	 *	@param		int			$level		Log Level (Log::LEVEL_ERROR|Log::LEVEL_WARNING|Log::LEVEL_INFO|Log::LEVEL_DEBUG|Log::LEVEL_VERBOSE)
+	 *	@return		self
+	 *	@throws		RuntimeException		if XMPP connection is already established
 	 */
-	public function setLogLevel( $level )
+	public function setLogLevel( int $level ): self
 	{
 		if( $this->xmpp )
 			throw new RuntimeException( 'Already connected' );
 		$this->logLevel	= $level;
+		return $this;
 	}
 
 	/**
 	 *	Sets Port for XMPP Server of Sender.
 	 *	@access		public
 	 *	@param		int			$port			XMPP Server Port
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		RuntimeException			if XMPP connection is already established
 	 */
-	public function setPort( $port )
+	public function setPort( int $port ): self
 	{
 		if( $this->xmpp )
 			throw new RuntimeException( 'Already connected' );
 		$this->port	= $port;
+		return $this;
 	}
 
 	/**
 	 *	Sets Logging.
 	 *	@access		public
 	 *	@param		bool		$bool			Flag: use Logging
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		RuntimeException			if XMPP connection is already established
 	 */
-	public function setPrintLog( $bool )
+	public function setPrintLog( bool $bool ): self
 	{
 		if( $this->xmpp )
 			throw new RuntimeException( 'Already connected' );
 		$this->printLog	= $bool;
+		return $this;
 	}
 
 	/**
 	 *	Sets Receiver by its JID.
 	 *	@access		public
-	 *	@param		string		$receiver		JID of Receiver
-	 *	@return		void
+	 *	@param		JID|string		$receiver		JID of Receiver
+	 *	@return		self
 	 */
-	public function setReceiver( $receiver )
+	public function setReceiver( $receiver ): self
 	{
 		if( is_string( $receiver ) )
-			$receiver	= new Net_XMPP_JID( $receiver );
+			$receiver	= new JID( $receiver );
 		$this->receiver	= $receiver;
+		return $this;
 	}
 
 	/**
 	 *	Sets Client Resource Name.
 	 *	@access		public
 	 *	@param		string		$resource		Client Resource Name
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setResource( $resource )
+	public function setResource( string $resource ): self
 	{
 		$this->resource	= $resource;
+		return $this;
 	}
 
-	public function setStatus( $status ){
+	public function setStatus( $status ): self
+	{
 		$this->xmpp->presence( $status );
+		return $this;
 	}
 }

@@ -1,27 +1,36 @@
 <?php
-/**
- *	TestUnit of XML RSS Writer.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML RSS Writer.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\RSS;
+
+use CeusMedia\Common\XML\RSS\Writer;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
+use CeusMedia\CommonTest\XML\RSS\WriterMockAntiProtection as Mock;
 
 /**
  *	TestUnit of XML RSS Writer.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_RSS_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *	@version		0.1
  */
-class Test_XML_RSS_WriterTest extends Test_Case
+class WriterTest extends BaseCase
 {
 	protected $writer;
+	protected $path;
+	protected $assert;
+	protected $serial;
+	protected $file;
 
 	/**
 	 *	Constructor.
@@ -31,7 +40,7 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	public function __construct()
 	{
 		parent::__construct();
-		Test_MockAntiProtection::createMockClass( 'XML_RSS_Writer' );
+		MockAntiProtection::createMockClass( Writer::class );
 	}
 
 	/**
@@ -41,8 +50,9 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->writer	= new Test_XML_RSS_Writer_MockAntiProtection();
-		$this->path		= dirname( __FILE__ )."/";
+		/** @noinspection PhpUndefinedClassInspection */
+		$this->writer	= new Mock();
+		$this->path		= dirname( __FILE__ )."/assets/";
 		$this->assert	= $this->path."reader.xml";
 		$this->file		= $this->path."writer.xml";
 		$this->serial	= $this->path."reader.serial";
@@ -72,7 +82,7 @@ class Test_XML_RSS_WriterTest extends Test_Case
 		$data	= array( 'key1' => 'value2' );
 		$this->writer->addItem( $data );
 		$itemList	= $this->writer->getProtectedVar( 'itemList' );
-		$this->assertEquals( 1, count( $itemList ) );
+		$this->assertCount( 1, $itemList );
 		$this->assertEquals( $data, current( $itemList ) );
 	}
 
@@ -126,7 +136,7 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	 */
 	public function testWrite()
 	{
-		$writer	= new XML_RSS_Writer();
+		$writer	= new Writer();
 		$data	= unserialize( file_get_contents( $this->serial ) );
 		foreach( $data['channelData'] as $key => $value  )
 		{
@@ -144,9 +154,9 @@ class Test_XML_RSS_WriterTest extends Test_Case
 		foreach( $data['itemList'] as $item )
 			$writer->addItem( $item );
 
-#		$assertion	= 2469;
+		$assertion	= 2545;
 		$creation	= $writer->write( $this->file );
-#		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $assertion, $creation );
 
 		$this->assertXmlFileEqualsXmlFile( $this->assert, $this->file );
 	}

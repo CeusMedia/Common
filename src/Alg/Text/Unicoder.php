@@ -2,7 +2,7 @@
 /**
  *	Converts a String into UTF-8.
  *
- *	Copyright (c) 2009-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +20,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2020 Christian Würker
+ *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Converts a String into UTF-8.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2020 Christian Würker
+ *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
-class Alg_Text_Unicoder
+class Unicoder
 {
 	/**	@var		string		$string		Unicoded String */
-	protected $string;
+	protected string $string;
 
 	/**
 	 *	Constructor.
@@ -47,7 +48,7 @@ class Alg_Text_Unicoder
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		void
 	 */
-	public function __construct( $string, $force = FALSE )
+	public function __construct( string $string, bool $force = FALSE )
 	{
 		$this->string	= self::convertToUnicode( $string, $force );
 	}
@@ -70,7 +71,7 @@ class Alg_Text_Unicoder
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		string
 	 */
-	public static function convertToUnicode( $string, $force = FALSE )
+	public static function convertToUnicode( string $string, bool $force = FALSE ): string
 	{
 		if( !( !$force && self::isUnicode( $string ) ) )
 			$string	= utf8_encode( $string );
@@ -82,7 +83,7 @@ class Alg_Text_Unicoder
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getString()
+	public function getString(): string
 	{
 		return $this->string;
 	}
@@ -94,7 +95,7 @@ class Alg_Text_Unicoder
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
-	public static function isUnicode( $string )
+	public static function isUnicode( string $string ): bool
 	{
 		if( function_exists( 'mb_convert_encoding ') )
 			return mb_check_encoding( $string, 'UTF-8' );

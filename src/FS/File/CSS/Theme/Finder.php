@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Finds Web Application Themes in cmFrameworks.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +21,30 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS_Theme
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\CSS\Theme;
+
+use DirectoryIterator;
+
 /**
  *	Finds Web Application Themes in cmFrameworks.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS_Theme
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSS_Theme_Finder
+class Finder
 {
+	protected $themePath;
+
+	protected $cssPath;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -42,7 +52,7 @@ class FS_File_CSS_Theme_Finder
 	 *	@param		string			$cssPath			Path to Stylesheets within Themes
 	 *	@return		void
 	 */
-	public function __construct( $themePath, $cssPath = "css/screen/" )
+	public function __construct( string $themePath, string $cssPath = "css/screen/" )
 	{
 		$this->themePath	= $themePath;
 		$this->cssPath		= $cssPath;
@@ -54,23 +64,20 @@ class FS_File_CSS_Theme_Finder
 	 *	@param		bool			$withBrowsers		Flag: Stylesheets with Browser Folders
 	 *	@return		array
 	 */
-	public function getThemes( $withBrowsers = FALSE )
+	public function getThemes( bool $withBrowsers = FALSE ): array
 	{
-		$list	= array();
+		$list	= [];
 		$dir	= new DirectoryIterator( $this->themePath );
-		foreach( $dir as $entry )
-		{
+		foreach( $dir as $entry ){
 			if( !$entry->isDir() )
 				continue;
 			if( substr( $entry->getFilename(), 0, 1 ) == "." )
 				continue;
 			$themeName		= $entry->getFilename();
-			if( $withBrowsers )
-			{
+			if( $withBrowsers ){
 				$cssPath	= $this->themePath.$entry->getFilename()."/".$this->cssPath;
 				$subdir	= new DirectoryIterator( $cssPath );
-				foreach( $subdir as $browser )
-				{
+				foreach( $subdir as $browser ){
 					if( !$browser->isDir() )
 						continue;
 					if( substr( $browser->getFilename(), 0, 1 ) == "." )

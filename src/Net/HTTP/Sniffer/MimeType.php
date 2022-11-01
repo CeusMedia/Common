@@ -1,8 +1,8 @@
 <?php
 /**
- *	Sniffer for Mime Types accepted by a HTTP Request.
+ *	Sniffer for Mime Types accepted by an HTTP Request.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,58 +20,59 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
- *	Sniffer for Mime Types accepted by a HTTP Request.
+ *	Sniffer for Mime Types accepted by an HTTP Request.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
-class Net_HTTP_Sniffer_MimeType
+class MimeType
 {
 	/**
-	 *	Returns prefered allowed and accepted Mime Types.
+	 *	Returns preferred allowed and accepted Mime Types.
 	 *	@access		public
 	 *	@static
-	 *	@param		array	$allowed		Array of Mime Types supported and allowed by the Application
-	 *	@param		string	$default		Default Mime Types supported and allowed by the Application
-	 *	@return		string
+	 *	@param		array			$allowed		Array of Mime Types supported and allowed by the Application
+	 *	@param		string|NULL		$default		Default Mime Types supported and allowed by the Application
+	 *	@return		string|NULL
 	 */
-	public static function getMimeType( $allowed, $default = FALSE )
+	public static function getMimeType( array $allowed, ?string $default = NULL ): ?string
 	{
 		if( !$default)
 			$default = $allowed[0];
-		$pattern		= '@^([a-z\*\+]+(/[a-z\*\+]+)*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$@i';
+		$pattern	= '@^([a-z*+]+(/[a-z*+]+)*)(?:;\s*q=(0(?:\.\d{1,3})?|1(?:\.0{1,3})?))?$@i';
 		$accepted	= getEnv( 'HTTP_ACCEPT' );
 		if( !$accepted )
 			return $default;
-		$accepted	= preg_split( '/,\s*/', $accepted );
-		$curr_mime	= $default;
-		$curr_qual	= 0;
-		foreach( $accepted as $accept){
+
+		$quality	= 0;
+		$mimeType	= $default;
+		foreach( preg_split( '/,\s*/', $accepted ) as $accept ){
 			if( !preg_match ( $pattern, $accept, $matches ) )
 				continue;
-			$mime_code = explode ( '/', $matches[1] );
-			$mime_quality =  isset( $matches[3] ) ? (float) $matches[3] : 1.0;
-			while( count( $mime_code ) ){
-				if( in_array( strtolower( join( '/', $mime_code ) ), $allowed ) ){
-					if( $mime_quality > $curr_qual ){
-						$curr_mime	= strtolower( join( '/', $mime_code ) );
-						$curr_qual	= $mime_quality;
+			$mimeCode = explode ( '/', $matches[1] );
+			$mimeQuality =  isset( $matches[3] ) ? (float) $matches[3] : 1.0;
+			while( count( $mimeCode ) ){
+				if( in_array( strtolower( join( '/', $mimeCode ) ), $allowed ) ){
+					if( $mimeQuality > $quality ){
+						$mimeType	= strtolower( join( '/', $mimeCode ) );
+						$quality	= $mimeQuality;
 						break;
 					}
 				}
-				array_pop( $mime_code );
+				array_pop( $mimeCode );
 			}
 		}
-		return $curr_mime;
+		return $mimeType;
 	}
 }

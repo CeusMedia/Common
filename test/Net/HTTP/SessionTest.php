@@ -1,31 +1,34 @@
 <?php
-/**
- *	TestUnit of Session.
- *	@package		Tests.net.http
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Session.
+ *	@package		Tests.net.http
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Net\HTTP;
+
+use CeusMedia\Common\Net\HTTP\Session;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Session.
  *	@package		Tests.net.http
- *	@extends		Test_Case
- *	@uses			Net_HTTP_Session
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.1
  */
-class Test_Net_HTTP_SessionTest extends Test_Case
+class SessionTest extends BaseCase
 {
 	private $session;
 
 	public function setUp(): void
 	{
-		$this->session		= @new Net_HTTP_Session();
+		$this->session		= @new Session();
 		$this->session->clear();
 	}
 
@@ -33,7 +36,7 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 	{
 		$_SESSION['key1']	= "value1";
 		$this->session->clear();
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $_SESSION;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -58,7 +61,7 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 	{
 		$_SESSION['key1']	= "value1";
 		$_SESSION['key2']	= "value2";
-		$assertion	= (array) $_SESSION;
+		$assertion	= $_SESSION;
 		$creation	= $this->session->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -74,9 +77,9 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 	public function testOffsetExists()
 	{
 		$_SESSION['key4']	= "value4";
-		$assertion	= true;
+
 		$creation	= isset( $this->session['key4'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 	}
 
@@ -100,18 +103,18 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 	{
 		$_SESSION['key7']	= "value7";
 		unset( $this->session['key7'] );
-		$assertion	= false;
+
 		$creation	= isset( $_SESSION['key7'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	public function testRemove()
 	{
 		$_SESSION['key8']	= "value8";
 		$this->session->remove( 'key8' );
-		$assertion	= false;
+
 		$creation	= isset( $_SESSION['key8'] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	public function testSet()

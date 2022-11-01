@@ -13,7 +13,7 @@ remark( "getProtectedVar( 'value' ): ".$value );
 try
 {
 	$value	= $mock->getProtectedVar( 'valueStatic' );
-	throw new Exception( 'Invalid acces to static variable' );
+	throw new Exception( 'Invalid access to static variable' );
 }
 catch( MockBadVarCallException $e )
 {

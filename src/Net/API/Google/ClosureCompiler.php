@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Minify Javascript using Google's Closure Compiler API.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,49 +21,55 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\Net\API\Google;
+
+use CeusMedia\Common\Net\HTTP\Post;
+use RuntimeException;
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
- *	@since			0.7.6
  */
-class Net_API_Google_ClosureCompiler {
+class ClosureCompiler
+{
+	protected const URL = 'https://closure-compiler.appspot.com/compile';
 
-	const URL = 'http://closure-compiler.appspot.com/compile';
+	protected $options;
 
-    /**
-     *
-     * @param array $options
-     *
-     * fallbackFunc : default array($this, 'fallback');
-     */
-    public function __construct( $options = array() )
-    {
+	/**
+	 *
+	 *	@param		array		$options
+	 *
+	 * fallbackFunc : default array($this, 'fallback');
+	 */
+	public function __construct( array $options = [] )
+	{
 		$this->options	= $options;
-    }
+	}
 
-    protected function compile( $js, $returnErrors = FALSE )
-    {
-		$data	= array(
+	protected function compile( string $js, bool $returnErrors = FALSE ): string
+	{
+		$data	= [
 			'js_code'			=> $js,
 			'output_info'		=> $returnErrors ? 'errors' : 'compiled_code',
 			'output_format'		=> 'text',
 			'compilation_level'	=> 'SIMPLE_OPTIMIZATIONS'
-		);
-		return Net_HTTP_Post::sendData( self::URL, $data );
-    }
+		];
+		return Post::sendData( self::URL, $data );
+	}
 
-    public function min( $js )
+	public function min( string $js ): string
 	{
 		$response	= $this->compile( $js );
 		if( preg_match( '/^Error\(\d\d?\):/', $response ) )
@@ -70,18 +77,18 @@ class Net_API_Google_ClosureCompiler {
 		if( !strlen( trim( $response ) ) )
 			throw new RuntimeException( $this->compile( $js, TRUE ) );
 		return $response;
-    }
+	}
 
-    /**
-     * Minify Javascript code via HTTP request to the Closure Compiler API
-     *
-     * @param string $js input code
-     * @param array $options unused at this point
-     * @return string
-     */
-    static public function minify( $js, $options = array() )
-    {
-        $obj = new self( $options );
-        return $obj->min( $js );
-    }
+	/**
+	 * Minify Javascript code via HTTP request to the Closure Compiler API
+	 *
+	 *	@param		string		$js			input code
+	 *	@param		array		$options	unused at this point
+	 *	@return		string
+	 */
+	public static function minify( string $js, array $options = [] ): string
+	{
+		$obj = new self( $options );
+		return $obj->min( $js );
+	}
 }

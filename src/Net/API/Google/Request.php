@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base class for request to Google APIs.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,31 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.5
  */
+
+namespace CeusMedia\Common\Net\API\Google;
+
+use CeusMedia\Common\Net\Reader as NetReader;
+
 /**
  *	Base class for request to Google APIs.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.5
  *	@todo			finish implementation
  */
-abstract class Net_API_Google_Request
+abstract class Request
 {
 	public $apiKey		= "";
+
 	public $apiUrl		= "";
+
 	public $pathCache	= "";
 
 	/**
@@ -49,28 +55,28 @@ abstract class Net_API_Google_Request
 	 *	@return		void
 	 *	@todo		check if apiKey is still needed
 	 */
-	public function __construct( $apiKey )
+	public function __construct( string $apiKey )
 	{
 		$this->apiKey	= $apiKey;
 	}
 
-	protected function sendQuery( $query )
+	protected function sendQuery( string $query ): string
 	{
 		$query		.= "&key=".$this->apiKey;
 		$url		= $this->apiUrl.$query;
-		$response	= Net_Reader::readUrl( $url );
-		$response	= utf8_encode( $response );
-		return $response;
+		$response	= NetReader::readUrl( $url );
+		return utf8_encode( $response );
 	}
 
 	/**
 	 *	Sets Cache Path.
 	 *	@access		public
 	 *	@param		string		$path		Path to Cache
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setCachePath( $path )
+	public function setCachePath( string $path ): self
 	{
 		$this->pathCache	= $path;
+		return $this;
 	}
 }

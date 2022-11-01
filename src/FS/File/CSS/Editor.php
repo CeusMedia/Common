@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for CSS files or given sheet structures.
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,70 +21,99 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use Exception;
+use OutOfRangeException;
+use RuntimeException;
+
+use CeusMedia\Common\ADT\CSS\Rule as CssRule;
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use CeusMedia\Common\ADT\CSS\Property as CssProperty;
+
 /**
  *	Editor for CSS files.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
-class FS_File_CSS_Editor
+class Editor
 {
-	/** @var		ADT_CSS_Sheet		$sheet */
-	protected $sheet;
+	/** @var		CssSheet|NULL		$sheet */
+	protected ?CssSheet $sheet			= NULL;
 
-	public function __construct( $fileName = NULL ){
+	protected ?string $fileName			= NULL;
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param 		string|NULL		$fileName
+	 *	@throws		Exception
+	 */
+	public function __construct( ?string $fileName = NULL )
+	{
 		if( $fileName )
 			$this->setFileName( $fileName );
 	}
 
-	public function addRuleBySelector( $selector, $properties = array() ){
-		$rule	= new ADT_CSS_Rule( $selector, $properties );
+	public function addRuleBySelector( string $selector, array $properties = [] ): self
+	{
+		$this->checkIsLoaded();
+		$rule	= new CssRule( $selector, $properties );
 		$this->sheet->addRule( $rule );
-		return $this->save();
+		$this->save();
+		return $this;
 	}
 
-	public function changePropertyKey( $selector, $keyOld, $keyNew ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
+	public function changePropertyKey( string $selector, $keyOld, $keyNew ): self
+	{
+		$this->checkIsLoaded();
 		$rule	= $this->sheet->getRuleBySelector( $selector );
 		if( !$rule->hasPropertyByKey( $keyOld ) )
 			throw new OutOfRangeException( 'Property with key "'.$keyOld.'" is not existing' );
 		$property	= $rule->getPropertyByKey( $keyOld );
 		$property->setKey( $keyNew );
 		$this->save();
+		return $this;
 	}
 
-	public function changeRuleSelector( $selectorOld, $selectorNew ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
+	public function changeRuleSelector( string $selectorOld, string $selectorNew ): self
+	{
+		$this->checkIsLoaded();
 		$rule	= $this->sheet->getRuleBySelector( $selectorOld );
 		if( !$rule )
 			throw new OutOfRangeException( 'Rule with selector "'.$selectorOld.'" is not existing' );
 		$rule->setSelector( $selectorNew );
 		$this->save();
+		return $this;
+	}
+
+	protected function checkIsLoaded()
+	{
+		if( NULL === $this->sheet )
+			throw new RuntimeException( 'No CSS sheet loaded' );
 	}
 
 	/**
 	 *
 	 *	@access		public
-	 *	@param		string		$selector		Rule selector
-	 *	@param		string		$key			Property key
-	 *	@return		string|NULL
+	 *	@param		string			$selector		Rule selector
+	 *	@param		string			$key			Property key
+	 *	@return		CssProperty|NULL
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function get( $selector, $key = NULL ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
+	public function get( string $selector, string $key ): ?CssProperty
+	{
+		$this->checkIsLoaded();
 		return $this->sheet->get( $selector, $key );
 	}
 
@@ -94,12 +124,12 @@ class FS_File_CSS_Editor
 	 *	@return		array
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function getProperties( $selector ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
+	public function getProperties( string $selector ): array
+	{
+		$this->checkIsLoaded();
 		$rule	= $this->sheet->getRuleBySelector( $selector );
 		if( !$rule )
-			return array();
+			return [];
 		return $rule->getProperties();
 	}
 
@@ -109,35 +139,34 @@ class FS_File_CSS_Editor
 	 *	@return		array
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function getSelectors(){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
+	public function getSelectors(): array
+	{
+		$this->checkIsLoaded();
 		return $this->sheet->getSelectors();
 	}
 
 	/**
 	 *
 	 */
-	public function getSheet(){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
+	public function getSheet(): CssSheet
+	{
+		$this->checkIsLoaded();
 		return $this->sheet;
 	}
 
 	/**
 	 *	Removes a rule property by rule selector and property key.
 	 *	@access		public
-	 *	@param		string		$selector		Rule selector
-	 *	@param		string		$key			Property key
-	 *	@return		boolean
+	 *	@param		string			$selector		Rule selector
+	 *	@param		string|NULL		$key			Property key
+	 *	@return		self
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function remove( $selector, $key = NULL ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
-		$result	= $this->sheet->remove( $selector, $key );
-		$this->save();
-		return $result;
+	public function remove( string $selector, ?string $key = NULL ): self
+	{
+		$this->checkIsLoaded();
+		$this->sheet->remove( $selector, $key ) && $this->save();
+		return $this;
 	}
 
 	/**
@@ -146,25 +175,37 @@ class FS_File_CSS_Editor
 	 *	@return		integer		Number of written bytes
 	 *	@throws		RuntimeException	if no CSS file is set, yet.
 	 */
-	protected function save(){
+	protected function save(): int
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
-		return FS_File_CSS_Writer::save( $this->fileName, $this->sheet );
+		return Writer::save( $this->fileName, $this->sheet );
 	}
 
-	public function set( $selector, $key, $value ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
-		$result	= $this->sheet->set( $selector, $key, $value );
-		return $this->save();
+	public function set( string $selector, string $key, ?string $value ): self
+	{
+		$this->checkIsLoaded();
+		$this->sheet->set( $selector, $key, $value ) && $this->save();
+		return $this;
 	}
 
-	public function setFileName( $fileName ){
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		string		$fileName
+	 *	@return		self
+	 *	@throws		Exception
+	 */
+	public function setFileName( string $fileName ): self
+	{
 		$this->fileName	= $fileName;
-		$this->sheet	= FS_File_CSS_Parser::parseFile( $fileName );
+		$this->sheet	= Parser::parseFile( $fileName );
+		return $this;
 	}
 
-	public function setSheet( ADT_CSS_Sheet $sheet ){
+	public function setSheet( CssSheet $sheet ): self
+	{
 		$this->sheet	= $sheet;
+		return $this;
 	}
 }

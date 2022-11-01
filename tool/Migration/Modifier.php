@@ -4,9 +4,9 @@ class Tool_Migration_Modifier
 	public static function breakCommentsInLines( $lines )
 	{
 		$nrInserted	= 0;
-		$list	= array();
+		$list	= [];
 		foreach( $lines as $nr => $line ){
-			$matches	= array();
+			$matches	= [];
 			if( preg_match_all( '@^(\s*)(\S.+)(\s+)(//\s+)(\S.+)$@U', $line, $matches ) ){
 				$list[]		= $matches[1][0].$matches[4][0].$matches[5][0];
 				$line		= $matches[1][0].$matches[2][0];
@@ -60,7 +60,7 @@ class Tool_Migration_Modifier
 		return static::addReturnTypeOfMethods( $lines, 'void', $methods );
 	}
 
-	public static function addReturnTypeOfMethods( $lines, $returnType, $methods = array() )
+	public static function addReturnTypeOfMethods( $lines, $returnType, $methods = [] )
 	{
 		$regExp		= '/(function %s\(\))\s*\{/s';
 		$content	= join( PHP_EOL, $lines );

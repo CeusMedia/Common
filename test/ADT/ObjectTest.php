@@ -1,26 +1,33 @@
 <?php
-/**
- *	TestUnit of Test_ADT_Object.
- *	@package		Tests.{classPackage}
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.05.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of ADT\Object_.
+ *	@package		Tests.ADT
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\ADT;
+
+use CeusMedia\Common\ADT\Object_;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
- *	TestUnit of Test_ADT_Object.
- *	@package		Tests.{classPackage}
- *	@extends		Test_Case
- *	@uses			ADT_Object
+ *	TestUnit of ADT\Object_.
+ *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.05.2008
- *	@version		0.1
  */
-class Test_ADT_ObjectTest extends Test_Case
+class ObjectTest extends BaseCase
 {
+	protected $object;
+	protected $methods;
+	protected $vars;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -30,19 +37,19 @@ class Test_ADT_ObjectTest extends Test_Case
 	{
 		$this->object	= new TestObjectClass;
 		$this->methods	= array(
-					'publicMethod',
-					'protectedMethod',
-#					'privateMethod',
-					'getClass',
-					'getMethods',
-					'getObjectInfo',
-					'getParent',
-					'getVars',
-					'hasMethod',
-					'isInstanceOf',
-					'isSubclassOf',
-					'serialize',
-				);
+			'publicMethod',
+			'protectedMethod',
+#			'privateMethod',
+			'getClass',
+			'getMethods',
+			'getObjectInfo',
+			'getParent',
+			'getVars',
+			'hasMethod',
+			'isInstanceOf',
+			'isSubclassOf',
+			'serialize',
+		);
 		$this->vars	= array(
 			'publicVar'		=> FALSE,
 			'protectedVar'	=> FALSE,
@@ -57,7 +64,7 @@ class Test_ADT_ObjectTest extends Test_Case
 	 */
 	public function testGetClass()
 	{
-		$assertion	= "TestObjectClass";
+		$assertion	= TestObjectClass::class;
 		$creation	= $this->object->getClass();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -82,8 +89,8 @@ class Test_ADT_ObjectTest extends Test_Case
 	public function testGetObjectInfo()
 	{
 		$assertion	= array(
-			'name'		=> "TestObjectClass",
-			'parent'	=> "ADT_Object",
+			'name'		=> 'CeusMedia\\CommonTest\\ADT\\TestObjectClass',
+			'parent'	=> 'CeusMedia\\Common\\ADT\\Object_',
 			'methods'	=> $this->methods,
 			'vars'		=> $this->vars,
 		);
@@ -98,9 +105,13 @@ class Test_ADT_ObjectTest extends Test_Case
 	 */
 	public function testGetParent()
 	{
-		$assertion	= "ADT_Object";
-		$creation	= $this->object->getParent();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( Object_::class, $this->object->getParent() );
+
+		$object		= new Object_();
+		$this->assertEquals( NULL, $object->getParent() );
+
+		$object		= new ChildTestObjectClass();
+		$this->assertEquals( TestObjectClass::class, $object->getParent() );
 	}
 
 	/**
@@ -122,25 +133,20 @@ class Test_ADT_ObjectTest extends Test_Case
 	 */
 	public function testHasMethod()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'getClass' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'publicMethod' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'protectedMethod' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->object->hasMethod( 'privateMethod', FALSE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->object->hasMethod( 'privateMethod' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -150,17 +156,14 @@ class Test_ADT_ObjectTest extends Test_Case
 	 */
 	public function testIsInstanceOf()
 	{
-		$assertion	= TRUE;
-		$creation	= $this->object->isInstanceOf( "ADT_Object" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\Object_' );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
-		$creation	= $this->object->isInstanceOf( "ADT_OBJECT" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->object->isInstanceOf( "NOT_A_PARENT_CLASS" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -170,17 +173,14 @@ class Test_ADT_ObjectTest extends Test_Case
 	 */
 	public function testIsSubclassOf()
 	{
-		$assertion	= TRUE;
-		$creation	= $this->object->isSubclassOf( "ADT_Object" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\Object_' );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
-		$creation	= $this->object->isSubclassOf( "ADT_OBJECT" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->object->isSubclassOf( "NOT_A_PARENT_CLASS" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -195,7 +195,7 @@ class Test_ADT_ObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class TestObjectClass extends ADT_Object
+class TestObjectClass extends Object_
 {
 	public		$publicVar		= FALSE;
 	protected	$protectedVar	= FALSE;
@@ -203,4 +203,8 @@ class TestObjectClass extends ADT_Object
 	public		function publicMethod(){}
 	protected	function protectedMethod(){}
 	private		function privateMethod(){}
+}
+
+class ChildTestObjectClass extends TestObjectClass
+{
 }

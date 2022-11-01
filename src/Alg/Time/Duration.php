@@ -1,27 +1,34 @@
-<?php
-class Alg_Time_Duration{
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+namespace CeusMedia\Common\Alg\Time;
+
+class Duration
+{
 	protected $shortMode	= FALSE;
 
-	public function __construct(){
+	public function __construct()
+	{
 	}
 
-	public function convertDurationToSeconds( $duration ){
+	public function convertDurationToSeconds( $duration ): int
+	{
 		return self::parse( $duration );
 	}
 
-	public function convertSecondsToDuration( $seconds, $space ){
+	public function convertSecondsToDuration( int $seconds, string $space ): string
+	{
 		return self::render( $seconds, $space, $this->shortMode );
 	}
 
-	static public function parse( $duration ){
+	public static function parse( string $duration ): int
+	{
 		$regexWeeks	= '@([0-9]+)w\s*@';
 		$regexDays	= '@([0-9]+)d\s*@';
 		$regexHours	= '@([0-9]+)h\s*@';
 		$regexMins	= '@([0-9]+)m\s*@';
 		$regexSecs	= '@([0-9]+)s\s*@';
 		$seconds	= 0;
-		$matches	= array();
+		$matches	= [];
 		if( preg_match( $regexWeeks, $duration, $matches ) ){
 			$duration	= preg_replace( $regexWeeks, '', $duration );
 			$seconds	+= (int) $matches[1] * 7 * 24 * 60 * 60;
@@ -45,7 +52,8 @@ class Alg_Time_Duration{
 		return $seconds;
 	}
 
-	static public function render( $seconds, $space = ' ', $shorten = FALSE ){
+	static public function render( int $seconds, string $space = ' ', bool $shorten = FALSE ): string
+	{
 		$remaining	= abs( $seconds );
 		$secs	 	= $remaining % 60;
 		$remaining	= ( $remaining - $secs ) / 60;
@@ -77,12 +85,14 @@ class Alg_Time_Duration{
 		return ltrim( $duration, $space );
 	}
 
-	public function sanitize( $duration, $space = ' ' ){
+	public function sanitize( string $duration, string $space = ' ' ): string
+	{
 		return self::render( self::parse( $duration ), ' ' );
 	}
 
-	public function setShortMode( $enableShortMode = TRUE ){
+	public function setShortMode( bool $enableShortMode = TRUE ): self
+	{
 		$this->shortMode	= (bool) $enableShortMode;
-
+		return $this;
 	}
 }

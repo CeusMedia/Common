@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for CSS files.
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,33 +21,39 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use RuntimeException;
+
 /**
  *	Editor for CSS files.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
-class FS_File_CSS_Writer{
-
+class Writer
+{
 	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		Relative or absolute file URI
+	 *	@param		string|NULL		$fileName		Relative or absolute file URI
 	 *	@return		void
 	 */
-	public function __construct( $fileName = NULL ){
+	public function __construct( ?string $fileName = NULL )
+	{
 		if( $fileName )
 			$this->setFileName( $fileName );
 	}
@@ -56,7 +63,8 @@ class FS_File_CSS_Writer{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFileName(){
+	public function getFileName(): string
+	{
 		return $this->fileName;
 	}
 
@@ -65,32 +73,35 @@ class FS_File_CSS_Writer{
 	 *	@access		public
 	 *	@static
 	 *	@param		string			$fileName	Relative or absolute file URI
-	 *	@param		ADT_CSS_Sheet	$sheet		Sheet structure
-	 *	@return		void
+	 *	@param		CssSheet		$sheet		Sheet structure
+	 *	@return		int				Number of written bytes
 	 */
-	static public function save( $fileName, ADT_CSS_Sheet $sheet ){
-		$css	= FS_File_CSS_Converter::convertSheetToString( $sheet );								//  
-		return FS_File_Writer::save( $fileName, $css );												//  
+	static public function save( string $fileName, CssSheet $sheet ): int
+	{
+		return FileWriter::save( $fileName, Converter::convertSheetToString( $sheet ) );
 	}
 
 	/**
 	 *	Set name of CSS file.
 	 *	@access		public
 	 *	@param		string		$fileName		Relative or absolute file URI
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setFileName( $fileName ){
+	public function setFileName( string $fileName ): self
+	{
 		$this->fileName	= $fileName;
+		return $this;
 	}
 
 	/**
 	 *	Writes a sheet structure to the current CSS file.
 	 *	@access		public
-	 *	@param		ADT_CSS_Sheet	$sheet		Sheet structure
-	 *	@return		void
-	 *	@throws		RuntimeException	if no CSS file is set, yet.
+	 *	@param		CssSheet	$sheet		Sheet structure
+	 *	@return		int						Number of written bytes
+	 *	@throws		RuntimeException		if no CSS file is set, yet.
 	 */
-	public function write( ADT_CSS_Sheet $sheet ){
+	public function write( CssSheet $sheet ): int
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
 		return self::save( $this->fileName, $sheet );

@@ -2,7 +2,7 @@
 /**
  *	Parser for HTTP Header Fields.
  *
- *	Copyright (c) 2017-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2017-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,43 +20,48 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2020 Christian Würker
+ *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header\Field;
+
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use InvalidArgumentException;
+
 /**
  *	Parser for HTTP Header Fields.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2020 Christian Würker
+ *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
-class Net_HTTP_Header_Field_Parser{
-
+class Parser
+{
 	/**
 	 *	Tries to decode qualified values into a map of values ordered by their quality.
 	 *
 	 *	@static
 	 *	@access		public
-	 *	@param		string		$string			String of qualified values to decode
+	 *	@param		string		$qualifiedValues			String of qualified values to decode
 	 *	@param		boolean		$sortByLength	Flag: assume longer key as more qualified for keys with same quality (default: FALSE)
 	 *	@return		array		Map of qualified values ordered by quality
 	 */
-	static public function decodeQualifiedValues( $qualifiedValues, $sortByLength = FALSE ){
-		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/iU';
+	public static function decodeQualifiedValues( string $qualifiedValues, bool $sortByLength = FALSE ): array
+	{
+		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.\d{1,3})?|1(?:\.0{1,3})?))?$/iU';
 		$parts		= preg_split( '/,\s*/', $qualifiedValues );
-		$codes		= array();
+		$codes		= [];
 		foreach( $parts as $part )
 			if( preg_match ( $pattern, $part, $matches ) )
 				$codes[$matches[1]]	= isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-		$map	= array();
+		$map	= [];
 		foreach( $codes as $code => $quality ){
 			if( !isset( $map[(string)$quality] ) )
-				$map[(string)$quality]	= array();
+				$map[(string)$quality]	= [];
 			$map[(string)$quality][strlen( $code)]	= $code;
 			if( $sortByLength )
 				//  sort inner list by code length
@@ -64,7 +69,7 @@ class Net_HTTP_Header_Field_Parser{
 		}
 		//  sort outer list by quality
 		krsort( $map );
-		$list	= array();
+		$list	= [];
 		//  reduce map to list
 		foreach( $map as $quality => $codes )
 			foreach( $codes as $code )
@@ -79,16 +84,17 @@ class Net_HTTP_Header_Field_Parser{
 	 *	@access		public
 	 *	@param		string		$headerFieldString		String to header field to parse
 	 *	@param		boolean		$decodeQualifiedValues	Flag: decode qualified values (default: FALSE)
-	 *	@return		Net_HTTP_Header_Field				Header field object
+	 *	@return		HeaderField							Header field object
 	 *	@throws		InvalidArgumentException			If given string is not a valid header field
 	 */
-	static public function parse( $headerFieldString, $decodeQualifiedValues = FALSE ){
+	public static function parse( string $headerFieldString, bool $decodeQualifiedValues = FALSE ): HeaderField
+	{
 		if( !preg_match( '/^\S+:\s*.+$/', trim( $headerFieldString ) ) )
 		 	throw new InvalidArgumentException( 'Given string is not an HTTP header' );
-		list( $key, $value )	= preg_split( '/:/', trim( $headerFieldString ), 2 );
+		[$key, $value]	= preg_split( '/:/', trim( $headerFieldString ), 2 );
 		$value	= trim( $value );
 		if( $decodeQualifiedValues )
 			$value	= self::decodeQualifiedValues( $value );
-		return new Net_HTTP_Header_Field( trim( $key ), $value );
+		return new HeaderField( trim( $key ), $value );
 	}
 }

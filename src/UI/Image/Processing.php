@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Processor for resizing, scaling and rotating an image.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,39 +22,44 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\UI\Image;
+use InvalidArgumentException;
+use OutOfRangeException;
+use ReflectionFunction;
+
 /**
  *	Processor for resizing, scaling and rotating an image.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@uses			UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
-class UI_Image_Processing
+class Processing
 {
-	/**	@var		UI_Image		$image			Image resource object */
+	/**	@var		Image			$image			Image resource object */
 	protected $image;
 
-	/**	@param		integer			$maxMegaPixel	Maxiumum megapixels */
+	/**	@param		integer			$maxMegaPixel	Maximum megapixels */
 	public $maxMegaPixels			= 0;
 
 	/**
 	 *	Constructor.
 	 *	Sets initial image resource object.
 	 *	@access		public
-	 *	@param		UI_Image		$image			Image resource object
-	 *	@param		integer			$maxMegaPixel	Maxiumum megapixels, default: 0 - unlimited
+	 *	@param		Image			$image			Image resource object
+	 *	@param		integer			$maxMegaPixels	Maximum megapixels, default: 0 - unlimited
 	 *	@return		void
 	 */
-	public function __construct( UI_Image $image, $maxMegaPixels = 0 )
+	public function __construct( Image $image, int $maxMegaPixels = 0 )
 	{
 		$this->image			= $image;
 		$this->maxMegaPixels	= $maxMegaPixels;
@@ -65,30 +72,22 @@ class UI_Image_Processing
 	 *	@param		integer		$startY			Top margin
 	 *	@param		integer		$width			New width
 	 *	@param		integer		$height			New height
-	 *	@return		boolean		Image has been copped
-	 *	@throws		InvalidArgumentException if left margin is not an integer value
-	 *	@throws		InvalidArgumentException if top margin is not an integer value
-	 *	@throws		InvalidArgumentException if width is not an integer value
-	 *	@throws		InvalidArgumentException if height is not an integer value
-	 *	@throws		OutOfRangeException if width is lower than 1
-	 *	@throws		OutOfRangeException if height is lower than 1
-	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
+	 *	@return		boolean						Image has been copped
+	 *	@throws		InvalidArgumentException	if left margin is not an integer value
+	 *	@throws		InvalidArgumentException	if top margin is not an integer value
+	 *	@throws		InvalidArgumentException	if width is not an integer value
+	 *	@throws		InvalidArgumentException	if height is not an integer value
+	 *	@throws		OutOfRangeException			if width is lower than 1
+	 *	@throws		OutOfRangeException			if height is lower than 1
+	 *	@throws		OutOfRangeException			if resulting image has more mega pixels than allowed
 	 */
-	public function crop( $startX, $startY, $width, $height )
+	public function crop( int $startX, int $startY, int $width, int $height ): bool
 	{
-		if( !is_int( $startX ) )
-			throw new InvalidArgumentException( 'X start value must be integer' );
-		if( !is_int( $startY ) )
-			throw new InvalidArgumentException( 'Y start value must be integer' );
-		if( !is_int( $width ) )
-			throw new InvalidArgumentException( 'Width must be integer' );
-		if( !is_int( $height ) )
-			throw new InvalidArgumentException( 'Height must be integer' );
 		if( $width < 1 )
-			throw new OutOfRangeException( 'Width must be atleast 1' );
+			throw new OutOfRangeException( 'Width must be at least 1' );
 		if( $height < 1 )
-			throw new OutOfRangeException( 'Height must be atleast 1' );
-		$image	= new UI_Image;
+			throw new OutOfRangeException( 'Height must be at least 1' );
+		$image	= new Image;
 		$image->create( $width, $height );
 		$image->setType( $this->image->getType() );
 
@@ -104,8 +103,9 @@ class UI_Image_Processing
 	 *	@param		integer		$mode		0: horizontally, 1: vertically
 	 *	@return		boolean		Image has been flipped
 	 */
-	public function flip( $mode = 0 ){
-		$image	= new UI_Image;
+	public function flip( int $mode = 0 ): bool
+	{
+		$image	= new Image;
 		$width	= $this->image->getWidth();
 		$height	= $this->image->getHeight();
 		$image->create( $width, $height );
@@ -138,29 +138,25 @@ class UI_Image_Processing
 	 *	@param		integer		$width			New width
 	 *	@param		integer		$height			New height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@return		boolean		Image has been resized
-	 *	@throws		InvalidArgumentException if width is not an integer value
-	 *	@throws		InvalidArgumentException if height is not an integer value
-	 *	@throws		OutOfRangeException if width is lower than 1
-	 *	@throws		OutOfRangeException if height is lower than 1
-	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
+	 *	@return		boolean						Image has been resized
+	 *	@throws		InvalidArgumentException	if width is not an integer value
+	 *	@throws		InvalidArgumentException	if height is not an integer value
+	 *	@throws		OutOfRangeException			if width is lower than 1
+	 *	@throws		OutOfRangeException			if height is lower than 1
+	 *	@throws		OutOfRangeException			if resulting image has more mega pixels than allowed
 	 */
-	public function resize( $width, $height, $interpolate = TRUE )
+	public function resize( int $width, int $height, bool $interpolate = TRUE ): bool
 	{
-		if( !is_int( $width ) )
-			throw new InvalidArgumentException( 'Width must be integer' );
-		if( !is_int( $height ) )
-			throw new InvalidArgumentException( 'Height must be integer' );
 		if( $width < 1 )
-			throw new OutOfRangeException( 'Width must be atleast 1' );
+			throw new OutOfRangeException( 'Width must be at least 1' );
 		if( $height < 1 )
-			throw new OutOfRangeException( 'Height must be atleast 1' );
+			throw new OutOfRangeException( 'Height must be at least 1' );
 		if( $this->image->getWidth() == $width && $this->image->getHeight() == $height )
 			return FALSE;
 		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
 			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$height.')' );
 
-		$image	= new UI_Image;
+		$image	= new Image;
 		$image->create( $width, $height );
 		$image->setType( $this->image->getType() );
 
@@ -194,10 +190,9 @@ class UI_Image_Processing
 	 *	@access		public
 	 *	@param		integer		$angle			Angle to rotate (0-360)
 	 *	@param		integer		$bgColor		Background color
-	 *	@param		integer		$transparency	Flag: use transparency
 	 *	@return		void
 	 */
-	public function rotate( $angle, $bgColor = 0, $ignoreTransparent = 0 )
+	public function rotate( int $angle, int $bgColor = 0 )
 	{
 		$bgColor	= $this->image->colorTransparent;
 		$this->image->setResource( imagerotate( $this->image->getResource(), -$angle, $bgColor ) );
@@ -207,13 +202,13 @@ class UI_Image_Processing
 	 *	Scales image by factors.
 	 *	If no factor for height is given, it will be the same as for width.
 	 *	@access		public
-	 *	@param		integer		$width			Factor for width
-	 *	@param		integer		$height			Factor for height
-	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@return		boolean		Image has been scaled
-	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
+	 *	@param		integer		    $width			Factor for width
+	 *	@param		integer|NULL	$height			Factor for height
+	 *	@param		boolean		    $interpolate	Flag: use interpolation
+	 *	@return		boolean		    				Image has been scaled
+	 *	@throws		OutOfRangeException				if resulting image has more mega pixels than allowed
 	 */
-	public function scale( $width, $height = NULL, $interpolate = TRUE )
+	public function scale( int $width, int $height = NULL, bool $interpolate = TRUE ): bool
 	{
 		if( is_null( $height ) )
 			$height	= $width;
@@ -230,14 +225,10 @@ class UI_Image_Processing
 	 *	@param		integer		$width			Maximum width
 	 *	@param		integer		$height			Maximum height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@return		boolean		Image has been scaled
+	 *	@return		boolean						Image has been scaled
 	 */
-	public function scaleDownToLimit( $width, $height, $interpolate = TRUE )
+	public function scaleDownToLimit( int $width, int $height, bool $interpolate = TRUE ): bool
 	{
-		if( !is_int( $width ) )
-			throw new InvalidArgumentException( 'Width must be integer' );
-		if( !is_int( $height ) )
-			throw new InvalidArgumentException( 'Height must be integer' );
 		$sourceWidth	= $this->image->getWidth();
 		$sourceHeight	= $this->image->getHeight();
 		if( $sourceWidth <= $width && $sourceHeight <= $height )
@@ -263,9 +254,9 @@ class UI_Image_Processing
 	 *	@param		integer		$maxWidth		Maximum width
 	 *	@param		integer		$maxHeight		Maximum height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@return		boolean		Image has been scaled
+	 *	@return		boolean						Image has been scaled
 	 */
-	public function scaleToRange( $minWidth, $minHeight, $maxWidth, $maxHeight, $interpolate = TRUE )
+	public function scaleToRange( int $minWidth, int $minHeight, int $maxWidth, int $maxHeight, bool $interpolate = TRUE ): bool
 	{
 		$width	= $this->image->getWidth();
 		$height	= $this->image->getHeight();
@@ -279,18 +270,14 @@ class UI_Image_Processing
 	/**
 	 *	Scales image up to a minimum size if smaller than limit.
 	 *	@access		public
-	 *	@param		integer		$width		Minimum width
-	 *	@param		integer		$height		Minimum height
+	 *	@param		integer		$width			Minimum width
+	 *	@param		integer		$height			Minimum height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@return		boolean		Image has been scaled
-	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
+	 *	@return		boolean						Image has been scaled
+	 *	@throws		OutOfRangeException			if resulting image has more mega pixels than allowed
 	 */
-	public function scaleUpToLimit( $width, $height, $interpolate = TRUE )
+	public function scaleUpToLimit( int $width, int $height, bool $interpolate = TRUE ): bool
 	{
-		if( !is_int( $width ) )
-			throw new InvalidArgumentException( 'Width must be integer' );
-		if( !is_int( $height ) )
-			throw new InvalidArgumentException( 'Height must be integer' );
 		$sourceWidth	= $this->image->getWidth();
 		$sourceHeight	= $this->image->getHeight();
 		if( $sourceWidth >= $width && $sourceHeight >= $height )

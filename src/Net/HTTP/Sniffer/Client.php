@@ -2,7 +2,7 @@
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,41 +20,41 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
- *	@uses			Net_HTTP_Sniffer_Browser
- *	@uses			Net_HTTP_Sniffer_Charset
- *	@uses			Net_HTTP_Sniffer_Encoding
- *	@uses			Net_HTTP_Sniffer_Language
- *	@uses			Net_HTTP_Sniffer_MimeType
- *	@uses			Net_HTTP_Sniffer_OperatingSystem
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
-class Net_HTTP_Sniffer_Client
+class Client
 {
 	/**	@var		object		$browser		Instance of Net_HTTP_Sniffer_Browser */
 	protected $browser;
-	/**	@var		object		$charset		Instance of Net_HTTP_Sniffer_Charset */
-	protected $charset;
+
+	/**	@var		object		$charSet		Instance of Net_HTTP_Sniffer_Charset */
+	protected $charSet;
+
 	/**	@var		object		$encoding		Instance of Net_HTTP_Sniffer_Encoding */
 	protected $encoding;
+
 	/**	@var		object		$language		Instance of Net_HTTP_Sniffer_Language */
 	protected $language;
+
 	/**	@var		object		$mimeType		Instance of Net_HTTP_Sniffer_MimeType */
 	protected $mimeType;
-	/**	@var		object		$osSniffer		Instance of Net_HTTP_Sniffer_OperatingSystem */
-	protected $osSniffer;
+
+	/**	@var		object		$system			Instance of Net_HTTP_Sniffer_OS */
+	protected $system;
 
 	/**
 	 *	Constructor.
@@ -63,16 +63,16 @@ class Net_HTTP_Sniffer_Client
 	 */
 	public function __construct()
 	{
-		$this->browser	= new Net_HTTP_Sniffer_Browser();
-		$this->charSet	= new Net_HTTP_Sniffer_Charset();
-		$this->encoding	= new Net_HTTP_Sniffer_Encoding();
-		$this->language	= new Net_HTTP_Sniffer_Language();
-		$this->mimeType	= new Net_HTTP_Sniffer_MimeType();
-		$this->system	= new Net_HTTP_Sniffer_OS();
+		$this->browser	= new Browser();
+		$this->charSet	= new Charset();
+		$this->encoding	= new Encoding();
+		$this->language	= new Language();
+		$this->mimeType	= new MimeType();
+		$this->system	= new OS();
 	}
 
 	/**
-	 *	Returns IP addresse of Request.
+	 *	Returns IP address of Request.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -82,7 +82,7 @@ class Net_HTTP_Sniffer_Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Language of a HTTP Request.
+	 *	Returns preferred allowed and accepted Language of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
@@ -93,18 +93,18 @@ class Net_HTTP_Sniffer_Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Character Set of a HTTP Request.
+	 *	Returns preferred allowed and accepted Character Set of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
 	 */
 	public function getCharset( $allowed )
 	{
-		return $this->charSet->getCharset( $allowed  );
+		return $this->charSet->getCharset( $allowed );
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Mime Type of a HTTP Request.
+	 *	Returns preferred allowed and accepted Mime Type of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Mime Types supported and allowed by the Application
 	 *	@return		string
@@ -115,7 +115,7 @@ class Net_HTTP_Sniffer_Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Encoding Methods of a HTTP Request.
+	 *	Returns preferred allowed and accepted Encoding Methods of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Encoding Methods supported and allowed by the Application
 	 *	@return		string
@@ -136,7 +136,7 @@ class Net_HTTP_Sniffer_Client
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Character Set of a HTTP Request.
+	 *	Returns preferred allowed and accepted Character Set of an HTTP Request.
 	 *	@access		public
 	 *	@return		string
 	 */

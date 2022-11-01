@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\CLI\Fork\Server;
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Server
- *	@extends		CLI_Fork_Server_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
-class CLI_Fork_Server_Reflect extends CLI_Fork_Server_Abstract
+class Reflect extends Abstraction
 {
-	protected function handleRequest( $request )
+	protected function handleRequest( $request ): string
 	{
-		$buffer		= array( "\n" );
+		$buffer		= ["\n"];
 		$buffer[]	= "Total requests: ".$this->statSeenTotal;
 		$buffer[]	= "Maximum simultaneous: ".$this->statSeenMax;
 		$buffer[]	= "Currently active: " . ( count( $this->childrenMap ) + 1 );
@@ -49,7 +50,6 @@ class CLI_Fork_Server_Reflect extends CLI_Fork_Server_Abstract
 		$buffer[]	= "Server time: " . date( "D, d M Y H:i:s T", time() );
 		$buffer[]	= "";
 		$buffer[]	= "Your request: ".$request;
-		$buffer		= implode( "\n", $buffer );
-		return $buffer;
+		return implode( "\n", $buffer );
 	}
 }

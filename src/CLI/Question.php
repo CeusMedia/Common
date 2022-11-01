@@ -1,13 +1,19 @@
-<?php
-class CLI_Question{
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-	const TYPE_UNKNOWN			= 0;
-	const TYPE_BOOLEAN			= 1;
-	const TYPE_INTEGER			= 2;
-	const TYPE_NUMBER			= 3;
-	const TYPE_STRING			= 4;
+namespace CeusMedia\Common\CLI;
 
-	const TYPES					= [
+use CeusMedia\Common\CLI;
+use RangeException;
+
+class Question
+{
+	public const TYPE_UNKNOWN			= 0;
+	public const TYPE_BOOLEAN			= 1;
+	public const TYPE_INTEGER			= 2;
+	public const TYPE_NUMBER			= 3;
+	public const TYPE_STRING			= 4;
+
+	public const TYPES			= [
 		self::TYPE_UNKNOWN,
 		self::TYPE_BOOLEAN,
 		self::TYPE_INTEGER,
@@ -15,21 +21,29 @@ class CLI_Question{
 		self::TYPE_STRING,
 	];
 
-	protected $message;
-	protected $type				= 0;
-	protected $default			= NULL;
-	protected $options			= array();
-	protected $break			= TRUE;
-	protected $rangeFrom		= 0;
-	protected $rangeTo			= 0;
-	protected $strictOptions	= TRUE;
-
-	public static $defaultBooleanOptions	= array(
+	public static array $defaultBooleanOptions	= [
 		'y'		=> 'yes',
 		'n'		=> 'no',
-	);
+	];
 
-	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = array(), bool $break = TRUE )
+	protected string $message;
+
+	protected int $type				= 0;
+
+	/** @var string|int|float|NULL $default  */
+	protected $default				= NULL;
+
+	protected array $options		= [];
+
+	protected bool $break			= TRUE;
+
+	protected int $rangeFrom		= 0;
+
+	protected int $rangeTo			= 0;
+
+	protected bool $strictOptions	= TRUE;
+
+	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE )
 	{
 		$this->setMessage( $message );
 		$this->setType( $type );
@@ -49,7 +63,7 @@ class CLI_Question{
 		return $input;
 	}
 
-	public static function askStatic( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = array(), bool $break = TRUE ): string
+	public static function askStatic( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE ): string
 	{
 		$input	= new self( $message, $type, $default, $options, $break );
 		return $input->ask();
@@ -78,7 +92,7 @@ class CLI_Question{
 		return $this;
 	}
 
-	public function setOptions( array $options = array() ): self
+	public function setOptions( array $options = [] ): self
 	{
 		if( $options )
 			$this->options	= $options;
@@ -106,7 +120,7 @@ class CLI_Question{
 		return $this;
 	}
 
-	protected function evaluateInput( & $input )
+	protected function evaluateInput( string & $input ): bool
 	{
 		if( $this->default && !strlen( $input ) )
 			$input	= $this->default;
@@ -122,7 +136,7 @@ class CLI_Question{
 			}
 		}
 		if( $this->type === self::TYPE_INTEGER ){
-			if( !preg_match( '/^[0-9]+$/', $input ) )
+			if( !preg_match( '/^\d+$/', $input ) )
 				return FALSE;
 			$input	= (int) $input;
 			if( $this->strictOptions ){
@@ -134,7 +148,7 @@ class CLI_Question{
 			}
 		}
 		if( $this->type === self::TYPE_NUMBER ){
-			if( !preg_match( '/^[0-9.]+$/', $input ) )
+			if( !preg_match( '/^[\d.]+$/', $input ) )
 				return FALSE;
 			$input	= (float) $input;
 			if( $this->strictOptions ){
@@ -149,7 +163,8 @@ class CLI_Question{
 		return TRUE;
 	}
 
-	protected function renderLabel(){
+	protected function renderLabel(): string
+	{
 		$message		= $this->message;
 		$options		= $this->options;
 		if( $this->type === self::TYPE_BOOLEAN ){
@@ -157,7 +172,7 @@ class CLI_Question{
 				if( !is_null( $this->default ) )
 					if( !array_key_exists( $this->default, $this->options ) )
 						throw new RangeException( 'Default value is not within options' );
-			$options	= array();
+			$options	= [];
 			foreach( $this->options as $key => $value )
 				$options[]	= $key.':'.$value;
 		}
@@ -166,7 +181,7 @@ class CLI_Question{
 				if( !is_null( $this->default ) )
 					if( $this->default < $this->rangeFrom || $this->default > $this->rangeTo )
 						throw new RangeException( 'Default value is not within set range' );
-				$options	= array( $this->rangeFrom.'-'.$this->rangeTo );
+				$options	= [$this->rangeFrom.'-'.$this->rangeTo];
 			}
 		}
 		if( strlen( trim( $this->default ) ) )

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	JSON Parser.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,30 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\ADT\JSON;
+
+use CeusMedia\Common\ADT\Constant;
+use RuntimeException;
+
 /**
  *	JSON Parser.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
-class ADT_JSON_Parser
+class Parser
 {
-	const STATUS_EMPTY			= 0;
-	const STATUS_PARSED			= 1;
-	const STATUS_ERROR			= 2;
+	public const STATUS_EMPTY			= 0;
+	public const STATUS_PARSED			= 1;
+	public const STATUS_ERROR			= 2;
 
 	protected $status			= 0;
 
@@ -49,7 +54,7 @@ class ADT_JSON_Parser
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( $asConstantKey = FALSE )
+	public function getError( bool $asConstantKey = FALSE )
 	{
 		$code	= json_last_error();
 		if( $asConstantKey )
@@ -74,14 +79,14 @@ class ADT_JSON_Parser
 	 *	@access		public
 	 *	@return		object
 	 */
-	public function getInfo()
+	public function getInfo(): object
 	{
-		return (object) array(
+		return (object) [
 			'status'	=> $this->status,
 			'code'		=> $this->getError(),
 			'constant'	=> $this->getError( TRUE ),
 			'message'	=> $this->getMessage(),
-		);
+		];
 	}
 
 	/**
@@ -89,7 +94,7 @@ class ADT_JSON_Parser
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getMessage()
+	public function getMessage(): string
 	{
 		return json_last_error_msg();
 	}
@@ -102,17 +107,17 @@ class ADT_JSON_Parser
 	 *	@return		object|array
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function parse( string $json, bool $asArray = NULL )
+	public function parse( string $json, bool $asArray = FALSE )
 	{
 		$this->status	= static::STATUS_EMPTY;
 		$data			= json_decode( $json, $asArray );
 		if( json_last_error() !== JSON_ERROR_NONE ){
 			$this->status	= static::STATUS_ERROR;
 			$message	= 'Decoding JSON failed (%s): %s';
-			$message	= vsprintf( $message, array(
+			$message	= vsprintf( $message, [
 				$this->getConstantFromCode( json_last_error() ),
-				json_last_error_msg()
-			) );
+				json_last_error_msg(),
+			] );
 			throw new RuntimeException( $message, json_last_error() );
 		}
 		$this->status	= static::STATUS_PARSED;
@@ -121,6 +126,6 @@ class ADT_JSON_Parser
 
 	protected function getConstantFromCode( $code )
 	{
-		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
+		return Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}
 }

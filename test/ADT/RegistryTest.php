@@ -1,27 +1,34 @@
 <?php
-/**
- *	TestUnit of Registry
- *	@package		Tests.adt
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Registry
+ *	@package		Tests.ADT
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+ namespace CeusMedia\CommonTest\ADT;
+
+use CeusMedia\Common\ADT\Registry;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Registry
- *	@package		Tests.adt
- *	@extends		Test_Case
- *	@uses			ADT_Registry
+ *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
-class Test_ADT_RegistryTest extends Test_Case
+class RegistryTest extends BaseCase
 {
+	protected $registry;
+
 	public function setUp(): void
 	{
-		$this->registry	= ADT_Registry::getInstance();
+		$this->registry	= Registry::getInstance();
 	}
 
 	/**
@@ -46,7 +53,7 @@ class Test_ADT_RegistryTest extends Test_Case
 	{
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 		$assertion	= "value1";
-		$creation	= ADT_Registry::getStatic( 'key1' );
+		$creation	= Registry::getStatic( 'key1' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -58,9 +65,9 @@ class Test_ADT_RegistryTest extends Test_Case
 	public function testHas()
 	{
 		$GLOBALS['REFERENCES']['key1']	= "value1";
-		$assertion	= true;
+
 		$creation	= $this->registry->has( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -70,12 +77,12 @@ class Test_ADT_RegistryTest extends Test_Case
 	 */
 	public function testRemove()
 	{
-		$GLOBALS['REFERENCES']	= array();
+		$GLOBALS['REFERENCES']	= [];
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 		$this->registry->remove( 'key1' );
-		$assertion	= false;
+
 		$creation	= $this->registry->has( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -90,5 +97,4 @@ class Test_ADT_RegistryTest extends Test_Case
 		$creation	= $GLOBALS['REFERENCES']['key3'];
 		$this->assertEquals( $data, $creation );
 	}
-
 }

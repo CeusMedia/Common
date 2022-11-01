@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Data class for triggered events.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\ADT\Event;
+
 /**
  *	Data class for triggered events.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
-class ADT_Event_Callback{
-
-	/**	@var		callback	$callback	Anonymous function or callback to call when event is triggered */
+class Callback
+{
+	/**	@var		mixed		$callback	Anonymous function or callback to call when event is triggered */
 	protected $callback;
 
 	/**	@var		mixed		$data		Data to bind to event */
@@ -46,11 +48,12 @@ class ADT_Event_Callback{
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		callback	$callback	Anonymous function or callback to call when event is triggered
+	 *	@param		mixed		$callback	Anonymous function or callback to call when event is triggered
 	 *	@param		mixed		$data		Data to bind to event
 	 *	@return		void
 	 */
-	public function __construct( $callback, $data = NULL ){
+	public function __construct( $callback, $data = NULL )
+	{
 		$this->callback	= $callback;
 		$this->data		= $data;
 	}
@@ -58,9 +61,10 @@ class ADT_Event_Callback{
 	/**
 	 *	Returns bound callback.
 	 *	@access		public
-	 *	@return		callback
+	 *	@return		mixed
 	 */
-	public function getCallback(){
+	public function getCallback()
+	{
 		return $this->callback;
 	}
 
@@ -69,7 +73,8 @@ class ADT_Event_Callback{
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getData(){
+	public function getData()
+	{
 		return $this->data;
 	}
 }

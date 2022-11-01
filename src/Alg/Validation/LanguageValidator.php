@@ -2,7 +2,7 @@
 /**
  *	Validator for Languages (ISO).
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,44 +20,47 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Alg\Validation;
+
+use CeusMedia\Common\Net\HTTP\Sniffer\Language as HttpLanguage;
+use OutOfRangeException;
+use RangeException;
+
 /**
  *	Validator for Languages (ISO).
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
-class Alg_Validation_LanguageValidator
+class LanguageValidator
 {
-	/**	@var		string		$allowed		Array of allowed Languages */
-	protected $allowed;
+	/**	@var		array		$allowed		Array of allowed Languages */
+	protected array $allowed;
+
 	/**	@var		string		$default		Default Language */
-	protected $default;
+	protected string $default;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		array		$allowed		List of allowed Languages
-	 *	@param		string		$default		Default Language
+	 *	@param		array			$allowed		List of allowed Languages
+	 *	@param		string|NULL		$default		Default Language
 	 *	@return		void
 	 */
-	public function __construct( $allowed, $default = NULL )
+	public function __construct( array $allowed, string $default = NULL )
 	{
-		if( !is_array( $allowed ) )
-			throw new InvalidArgumentException( 'First Argument must be an Array.' );
 		if( !count( $allowed ) )
 			throw new RangeException( 'At least one Language must be allowed.' );
 		$this->allowed	= $allowed;
-		if( $default )
-		{
+		if( NULL !== $default ){
 			if( !in_array( $default, $allowed ) )
 				throw new OutOfRangeException( 'Default Language must be an allowed Language.' );
 			$this->default	= $default;
@@ -67,55 +70,28 @@ class Alg_Validation_LanguageValidator
 	}
 
 	/**
-	 *	Returns prefered allowed and accepted Language.
+	 *	Returns preferred allowed and accepted Language.
 	 *	@access		public
 	 *	@param		string	$language		Language to prove
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getLanguage( $language )
+	public function getLanguage( string $language ): ?string
 	{
-		$pattern		= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
-		if( !$language )
-			return $this->default;
-		$accepted	= preg_split( '/,\s*/', $language );
-		$curr_lang	= $this->default;
-		$curr_qual	= 0;
-		foreach( $accepted as $accept)
-		{
-			if( !preg_match ( $pattern, $accept, $matches) )
-				continue;
-			$lang_code = explode ( '-', $matches[1] );
-			$lang_quality =  isset( $matches[2] ) ? (float)$matches[2] : 1.0;
-			while (count ($lang_code))
-			{
-				if( in_array( strtolower( join( '-', $lang_code ) ), $this->allowed ) )
-				{
-					if( $lang_quality > $curr_qual )
-					{
-						$curr_lang	= strtolower( join( '-', $lang_code ) );
-						$curr_qual	= $lang_quality;
-						break;
-					}
-				}
-				array_pop ($lang_code);
-			}
-		}
-		return $curr_lang;
+		return HttpLanguage::getLanguageFromString( $language, $this->allowed, $this->default );
 	}
 
 	/**
 	 *	Validates Language statically and returns valid Language.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$language		Language to validate
-	 *	@param		array		$allowed		List of allowed Languages
-	 *	@param		string		$default		Default Language
+	 *	@param		string			$language		Language to validate
+	 *	@param		array			$allowed		List of allowed Languages
+	 *	@param		string|NULL		$default		Default Language
 	 *	@return		string
 	 */
-	public static function validate( $language, $allowed, $default = NULL )
+	public static function validate( string $language, array $allowed, ?string $default = NULL ): string
 	{
-		$validator	= new Alg_Validation_LanguageValidator( $allowed, $default );
-		$language	= $validator->getLanguage( $language );
-		return $language;
+		$validator	= new LanguageValidator( $allowed, $default );
+		return $validator->getLanguage( $language );
 	}
 }

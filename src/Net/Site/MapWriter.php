@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Google Sitemap XML Writer.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
+
+namespace CeusMedia\Common\Net\Site;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Google Sitemap XML Writer.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
- *	@uses			GoogleSitemapBuilder
- *	@uses			File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
-class Net_Site_MapWriter
+class MapWriter
 {
 	/**	@var		string		$fileName			File Name of Sitemap XML File */
 	protected $fileName;
@@ -48,7 +50,7 @@ class Net_Site_MapWriter
 	 *	@param		string		$fileName			File Name of Sitemap XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -60,9 +62,9 @@ class Net_Site_MapWriter
 	 *	@param		int			$mode				Right Mode
 	 *	@return		int
 	 */
-	public function write( $urls, $mode = 0755 )
+	public function write( array $urls, int $mode = 0755 ): int
 	{
-		return $this->save( $this->fileName, $urls, $mode );
+		return static::save($this->fileName, $urls, $mode);
 	}
 
 	/**
@@ -74,10 +76,10 @@ class Net_Site_MapWriter
 	 *	@param		int			$mode				Right Mode
 	 *	@return		int
 	 */
-	public static function save( $fileName, $urls, $mode = 0777 )
+	public static function save( string $fileName, array $urls, int $mode = 0777 ): int
 	{
-		$builder	= new Net_Site_MapBuilder();
-		$file		= new FS_File_Writer( $fileName, $mode );
+		$builder	= new MapBuilder();
+		$file		= new FileWriter( $fileName, $mode );
 		$xml		= $builder->build( $urls );
 		return $file->writeString( $xml );
 	}

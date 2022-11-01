@@ -1,26 +1,31 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of Tag.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.04.2008
- *	@version		0.1
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\Tag;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Gauss Blur.
  *	@package		Tests.ui.html
- *	@extends		Test_Case
- *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.04.2008
- *	@version		0.1
  */
-class Test_UI_HTML_TagTest extends Test_Case
+class TagTest extends BaseCase
 {
+	protected $tag;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -31,7 +36,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 		$name		= "Tag";
 		$value		= "textContent";
 		$attributes	= array( 'Key1' => 'Value1' );
-		$this->tag	= new UI_HTML_Tag( $name, $value, $attributes );
+		$this->tag	= new Tag( $name, $value, $attributes );
 	}
 
 	/**
@@ -45,7 +50,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 		$value		= "value";
 		$attributes	= array( 'key1' => 'value1' );
 		$assertion	= '<key key1="value1">value</key>';
-		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
+		$creation	= (string) new Tag( $name, $value, $attributes );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -60,7 +65,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 		$value		= "";
 		$attributes	= array( 'key1' => "" );
 		$assertion	= '<key></key>';
-		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
+		$creation	= (string) new Tag( $name, $value, $attributes );
 		$this->assertEquals( $assertion, $creation );
 
 	}
@@ -76,7 +81,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 		$value		= NULL;
 		$attributes	= array( 'key1' => NULL );
 		$assertion	= '<key/>';
-		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
+		$creation	= (string) new Tag( $name, $value, $attributes );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -91,7 +96,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 		$value		= FALSE;
 		$attributes	= array( 'key1' => FALSE );
 		$assertion	= '<key/>';
-		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
+		$creation	= (string) new Tag( $name, $value, $attributes );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -103,7 +108,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testBuild()
 	{
 		$assertion	= '<tag key1="Value1">textContent</tag>';
-		$creation	= (string) $this->tag->build();
+		$creation	= $this->tag->build();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -115,7 +120,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testCreate1()
 	{
 		$assertion	= '<tag key="value">content</tag>';
-		$creation	= UI_HTML_Tag::create( "tag", "content", array( 'key' => 'value' ) );
+		$creation	= Tag::create( "tag", "content", array( 'key' => 'value' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -127,7 +132,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testCreate2_1()
 	{
 		$assertion	= '<tag/>';
-		$creation	= UI_HTML_Tag::create( "tag", NULL );
+		$creation	= Tag::create( "tag", NULL );
 		$this->assertEquals( $assertion, $creation );
 	}
 	/**
@@ -138,7 +143,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testCreate2_2()
 	{
 		$assertion	= '<tag key="value"/>';
-		$creation	= UI_HTML_Tag::create( "tag", NULL, array( 'key' => 'value' ) );
+		$creation	= Tag::create( "tag", NULL, array( 'key' => 'value' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -150,7 +155,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testCreate3_1()
 	{
 		$assertion	= '<style></style>';
-		$creation	= UI_HTML_Tag::create( "style", NULL );
+		$creation	= Tag::create( "style", NULL );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -162,7 +167,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testCreate3_2()
 	{
 		$assertion	= '<script></script>';
-		$creation	= UI_HTML_Tag::create( "script", NULL );
+		$creation	= Tag::create( "script", NULL );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -174,7 +179,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testCreate3_3()
 	{
 		$assertion	= '<div></div>';
-		$creation	= UI_HTML_Tag::create( "div", NULL );
+		$creation	= Tag::create( "div", NULL );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -253,7 +258,8 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_1()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->tag->setAttribute( NULL, 'value' );
 	}
 
@@ -264,7 +270,8 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_2()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->tag->setAttribute( FALSE, 'value' );
 	}
 

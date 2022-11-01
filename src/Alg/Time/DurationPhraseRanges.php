@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Collector of Ranges for Duration Phrase.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,29 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.10.2008
  */
+
+namespace CeusMedia\Common\Alg\Time;
+
+use Countable;
+use Exception;
+
 /**
  *	Collector of Ranges for Duration Phrase.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.10.2008
  */
-class Alg_Time_DurationPhraseRanges implements Countable
+class DurationPhraseRanges implements Countable
 {
-	protected $ranges	= array();
-	protected $regExp	= '@^([0-9]+)(s|m|h|D|W|M|Y)$@';
+	protected array $ranges		= [];
+	protected string $regExp	= '@^([0-9]+)(s|m|h|D|W|M|Y)$@';
 
 	/**
 	 *	Constructor.
@@ -46,7 +51,7 @@ class Alg_Time_DurationPhraseRanges implements Countable
 	 *	@param		array		$ranges		Ranges to import from associative Array with Keys 'from', 'to' and 'label'.
 	 *	@return		void
 	 */
-	public function __construct( $ranges = array() )
+	public function __construct( array $ranges = [] )
 	{
 		foreach( $ranges as $from => $label )
 			$this->addRange( $from, $label );
@@ -57,36 +62,14 @@ class Alg_Time_DurationPhraseRanges implements Countable
 	 *	@access		public
 	 *	@param		string		$from		Start of Range, eg. 0
 	 *	@param		string		$label		Range Label, eg. "{s} seconds"
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addRange( $from, $label )
+	public function addRange( string $from, string $label ): self
 	{
-		$from	= preg_replace_callback( $this->regExp, array( $this, 'calculateSeconds' ), $from );
+		$from	= preg_replace_callback( $this->regExp, [$this, 'calculateSeconds'], $from );
 		$this->ranges[(int) $from]	= $label;
 		ksort( $this->ranges );
-	}
-
-	/**
-	 *	Callback to replace Time Units by factorized Value.
-	 *	@access		protected
-	 *	@param		array		$matches		Array of Matches of regular Expression in 'addRange'.
-	 *	@return		mixed
-	 */
-	protected function calculateSeconds( $matches )
-	{
-		$value	= $matches[1];
-		$format	= $matches[2];
-		switch( $format )
-		{
-			case 's': 	return $value;
-			case 'm': 	return $value * 60;
-			case 'h': 	return $value * 60 * 60;
-			case 'D': 	return $value * 60 * 60 * 24;
-			case 'W': 	return $value * 60 * 60 * 24 * 7;
-			case 'M': 	return $value * 60 * 60 * 24 * 30.4375;
-			case 'Y': 	return $value * 60 * 60 * 24 * 365.25;
-		}
-		throw new Exception( 'Unknown date format "'.$format.'"' );
+		return $this;
 	}
 
 	/**
@@ -94,9 +77,32 @@ class Alg_Time_DurationPhraseRanges implements Countable
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->ranges );
+	}
+
+	/**
+	 *	Callback to replace Time Units by factorized Value.
+	 *	@access		protected
+	 *	@param		array		$matches		Array of Matches of regular Expression in 'addRange'.
+	 *	@return		int
+	 *	@throws		Exception
+	 */
+	protected function calculateSeconds( array $matches ): int
+	{
+		$value	= (int) $matches[1];
+		$format	= $matches[2];
+		switch( $format ){
+			case 's': 	return $value;
+			case 'm': 	return $value * 60;
+			case 'h': 	return $value * 60 * 60;
+			case 'D': 	return $value * 60 * 60 * 24;
+			case 'W': 	return $value * 60 * 60 * 24 * 7;
+			case 'M': 	return (int) floor( $value * 60 * 60 * 24 * 30.4375 );
+			case 'Y': 	return (int) floor( $value * 60 * 60 * 24 * 365.25 );
+		}
+		throw new Exception( 'Unknown date format "'.$format.'"' );
 	}
 
 	/**
@@ -104,7 +110,7 @@ class Alg_Time_DurationPhraseRanges implements Countable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getRanges()
+	public function getRanges(): array
 	{
 		return $this->ranges;
 	}

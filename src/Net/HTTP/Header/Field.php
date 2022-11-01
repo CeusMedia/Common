@@ -2,7 +2,7 @@
 /**
  *	Data Object for HTTP Headers.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,36 +20,41 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header;
+
+use CeusMedia\Common\Net\HTTP\Header\Field\Parser as FieldParser;
+use InvalidArgumentException;
+
 /**
  *	Data Object of HTTP Headers.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
-class Net_HTTP_Header_Field
+class Field
 {
 	/**	@var		string		$name		Name of Header */
-	protected $name;
-	/**	@var		string		$value		Value of Header */
+	protected string $name;
+
+	/**	@var		string|int	$value		Value of Header */
 	protected $value;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$name		Name of Header
-	 *	@param		string		$value		Value of Header
+	 *	@param		string				$name		Name of Header
+	 *	@param		string|int|float	$value		Value of Header
 	 *	@return		void
 	 */
-	public function __construct( $name, $value )
+	public function __construct( string $name, $value )
 	{
 		$this->setName( $name );
 		$this->setValue( $value );
@@ -60,13 +65,13 @@ class Net_HTTP_Header_Field
 	 *	Alias for Net_HTTP_Header_Field_Parser::decodeQualifiedValues.
 	 *	@static
 	 *	@access		public
-	 *	@param		string		$string			String of qualified values to decode
+	 *	@param		string		$values			String of qualified values to decode
 	 *	@param		boolean		$sortByLength	Flag: assume longer key as more qualified for keys with same quality (default: FALSE)
 	 *	@return		array		Map of qualified values ordered by quality
 	 */
-	static public function decodeQualifiedValues( $values, $sortByLength = TRUE )
+	public static function decodeQualifiedValues( string $values, bool $sortByLength = TRUE ): array
 	{
-		return Net_HTTP_Header_Field_Parser::decodeQualifiedValues( $values, $sortByLength );
+		return FieldParser::decodeQualifiedValues( $values, $sortByLength );
 	}
 
 	/**
@@ -74,7 +79,7 @@ class Net_HTTP_Header_Field
 	 *	@access		public
 	 *	@return		string		Header Name
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -82,25 +87,34 @@ class Net_HTTP_Header_Field
 	/**
 	 *	Returns set Header Value.
 	 *	@access		public
-	 *	@return		string|array	Header Value or Array of qualified Values
+	 *	@return		string|int|array	Header Value or Array of qualified Values
 	 */
 	public function getValue( $qualified = FALSE )
 	{
-		if( $qualified )
-			return $this->decodeQualifiedValues ( $this->value );
+		if( $qualified && is_string( $this->value ) )
+			return static::decodeQualifiedValues( $this->value);
 		return $this->value;
 	}
 
-	public function setName( $name )
+	public function setName( string $name ): self
 	{
 		if( !trim( $name ) )
 			throw new InvalidArgumentException( 'Field name cannot be empty' );
 		$this->name	= strtolower( $name );
+		return $this;
 	}
 
-	public function setValue( $value )
+	/**
+	 *	Converts to string, internally.
+	 *	@param		string|int|float	$value
+	 *	@return		self
+	 */
+	public function setValue( $value ): self
 	{
-		$this->value	= $value;
+		if( !is_scalar( $value ) )
+			throw new InvalidArgumentException( 'Header value must be scalar (string, integer or float)' );
+		$this->value	= (string) $value;
+		return $this;
 	}
 
 	/**
@@ -108,7 +122,7 @@ class Net_HTTP_Header_Field
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toString()
+	public function toString(): string
 	{
 		if( function_exists( 'mb_convert_case' ) )
 			$name	= mb_convert_case( $this->name, MB_CASE_TITLE );

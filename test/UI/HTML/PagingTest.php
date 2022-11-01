@@ -1,26 +1,33 @@
 <?php
-/**
- *	TestUnit of UI_HTML_Paging.
- *	@package		Tests.ui.html
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of UI_HTML_Paging.
+ *	@package		Tests.ui.html
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\Paging;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Paging.
  *	@package		Tests.ui.html
- *	@extends		Test_Case
- *	@uses			UI_HTML_Paging
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.07.2008
- *	@version		0.1
  */
-class Test_UI_HTML_PagingTest extends Test_Case
+class PagingTest extends BaseCase
 {
+	protected $paging;
+
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,8 +35,8 @@ class Test_UI_HTML_PagingTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->paging	= new UI_HTML_Paging();
+		$this->path		= dirname( __FILE__ )."/assets/";
+		$this->paging	= new Paging();
 		$this->paging->setOption( 'text_next', 		"[next]" );
 		$this->paging->setOption( 'text_previous',	"[prev]" );
 		$this->paging->setOption( 'text_last',		"[last]" );
@@ -53,13 +60,13 @@ class Test_UI_HTML_PagingTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$paging	= new UI_HTML_Paging();
+		$paging	= new Paging();
 
 		$assertion	= "./";
 		$creation	= $paging->getOption( 'uri' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $paging->getOption( 'param' );
 		$this->assertEquals( $assertion, $creation );
 

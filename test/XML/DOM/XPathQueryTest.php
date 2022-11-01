@@ -1,25 +1,31 @@
 <?php
-/**
- *	TestUnit of XML DOM XPath.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			17.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML DOM XPath.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\DOM;
+
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\Common\XML\DOM\XPathQuery;
+use DOMDocument;
+use DOMNode;
+use DOMNodeList;
 
 /**
  *	TestUnit of XML DOM XPath.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			17.02.2008
- *	@version		0.1
  */
-class Test_XML_DOM_XPathQueryTest extends Test_Case
+class XPathQueryTest extends BaseCase
 {
 	protected $xmlUrl	= "https://www.w3schools.com/xml/books.xml";
 	protected $xmlFile;
@@ -32,8 +38,8 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->xmlFile	= dirname( __FILE__ ).'/books.xml';
-		$this->xPath	= new XML_DOM_XPathQuery();
+		$this->xmlFile	= dirname( __FILE__ ).'/assets/books.xml';
+		$this->xPath	= new XPathQuery();
 	}
 
 	/**
@@ -59,7 +65,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	public function testLoadFileException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$entries	= $this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
+		$this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
 	}
 
 	/**
@@ -85,7 +91,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testLoadXmlException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( '\\InvalidArgumentException' );
 		$this->xPath->loadXml( "not_valid" );
 	}
 
@@ -115,7 +121,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'The cURL extension is not available.' );
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( '\\InvalidArgumentException' );
 		$this->xPath->loadUrl( "notexisting.xml" );
 	}
 
@@ -128,7 +134,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'The cURL extension is not available.' );
-		$this->expectException( 'Exception_IO' );
+		$this->expectException( '\\CeusMedia\Common\\Exception\\IO' );
 		$this->xPath->loadUrl( "http://example.org/notexisting.xml" );
 	}
 
@@ -176,8 +182,8 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testEvaluateException()
 	{
-		$this->expectException( 'RuntimeException' );
-		$entries	= $this->xPath->evaluate( "//book" );
+		$this->expectException( '\\RuntimeException' );
+		$this->xPath->evaluate( "//book" );
 	}
 
 
@@ -191,19 +197,13 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 		$this->xPath->loadFile( $this->xmlFile );
 
 		$doc	= $this->xPath->getDocument();
-		$assertion	= true;
-		$creation	= is_a( $doc, 'DOMDocument' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertInstanceOf( DOMDocument::class, $doc );
 
 		$bookList	= $doc->getElementsByTagName( "book" );
-		$assertion	= true;
-		$creation	= is_a( $bookList, 'DOMNodeList' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertInstanceOf( DOMNodeList::class, $bookList );
 
 		$book		= $bookList->item( 0 );
-		$assertion	= true;
-		$creation	= is_a( $book, 'DOMNode' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertInstanceOf( DOMNode::class, $book );
 	}
 
 	/**
@@ -213,8 +213,8 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testGetDocumentException()
 	{
-		$this->expectException( 'RuntimeException' );
-		$entries	= $this->xPath->getDocument();
+		$this->expectException( '\\RuntimeException' );
+		$this->xPath->getDocument();
 	}
 
 	/**
@@ -261,7 +261,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testQueryException()
 	{
-		$this->expectException( 'RuntimeException' );
-		$entries	= $this->xPath->query( "//book" );
+		$this->expectException( '\\RuntimeException' );
+		$this->xPath->query( "//book" );
 	}
 }

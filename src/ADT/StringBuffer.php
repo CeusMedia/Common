@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	JAVA like StringBuffer Implementation.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,33 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT;
+
+use Countable;
+use Iterator;
+use RangeException;
+
 /**
  *	JAVA like StringBuffer Implementation.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_StringBuffer implements Countable, Iterator
+class StringBuffer implements Countable, Iterator
 {
 	/**	@var		string		$buffer			internal String */
-	private $buffer;
+	private string $buffer;
 
 	/**	@var		int			$position		Iterator position */
-	private $position = 0;
+	private int $position		= 0;
 
 	/**
 	 *	Constructor.
@@ -47,7 +55,7 @@ class ADT_StringBuffer implements Countable, Iterator
 	 *	@param		string		$buffer			initial String in StringBuffer
 	 *	@return		void
 	 */
-	public function __construct( $buffer = '' )
+	public function __construct( string $buffer = '' )
 	{
 		$this->buffer = $buffer;
 	}
@@ -55,7 +63,8 @@ class ADT_StringBuffer implements Countable, Iterator
 	/**
 	 *	Returns the Size of the String.
 	 *	@access		public
-	 *	@return		ADT_StringBuffer
+	 *	@param		string		$string		String to append
+	 *	@return		StringBuffer
 	 */
 	public function append( string $string ): self
 	{

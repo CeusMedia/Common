@@ -1,25 +1,29 @@
 <?php
-/**
- *	TestUnit of XML_Atom_Parser.
- *	@package		Tests.xml.atom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.05.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML_Atom_Parser.
+ *	@package		Tests.xml.atom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\Atom;
+
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\Common\XML\Atom\Parser;
+use Exception;
 
 /**
  *	TestUnit of XML_Atom_Parser.
  *	@package		Tests.xml.atom
- *	@extends		Test_Case
- *	@uses			XML_Atom_Parser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.05.2008
- *	@version		0.1
  */
-class Test_XML_Atom_ParserTest extends Test_Case
+class ParserTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,7 +50,7 @@ class Test_XML_Atom_ParserTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$parser	= new Test_XML_Atom_ParserInstance;
+		$parser	= new ParserInstance;
 
 		$entry		= $parser->getProtectedVar( 'emptyEntry' );
 		$assertion	= $parser->getProtectedVar( 'emptyText' );
@@ -80,7 +84,7 @@ class Test_XML_Atom_ParserTest extends Test_Case
 		$serial	= $path."golem.serial";
 
 		$xml	= file_get_contents( $atom );
-		$parser	= new XML_Atom_Parser();
+		$parser	= new Parser();
 		$parser->parse( $xml );
 		$data	= array(
 			'channel'	=> $parser->channelData,
@@ -94,7 +98,7 @@ class Test_XML_Atom_ParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_XML_Atom_ParserInstance extends XML_Atom_Parser
+class ParserInstance extends Parser
 {
 	public function getProtectedVar( $varName )
 	{

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Deserializer for XML into a Data Object.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,36 +21,39 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use Exception;
+
 /**
  *	Deserializer for XML into a Data Object.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  *	@todo			rewrite, use ObjectFactory
  */
-class XML_DOM_ObjectDeserializer
+class ObjectDeserializer
 {
 	/**
 	 *	Builds Object from XML of a serialized Object.
 	 *	@access		public
 	 *	@param		string		$xml			XML String of a serialized Object
 	 *	@return		mixed
+	 *	@throws		Exception
 	 */
-	public static function deserialize( $xml, $strict = TRUE )
+	public static function deserialize( string $xml )
 	{
-		$parser	= new XML_DOM_Parser();
+		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
-		$class	= $tree->getAttribute( 'class' );
+		$class	= stripslashes( $tree->getAttribute( 'class' ) );
 		if( !class_exists( $class ) )
 			throw new Exception( 'Class "'.$class.'" has not been loaded, yet.' );
 		$object	= new $class();
@@ -62,29 +66,25 @@ class XML_DOM_ObjectDeserializer
 	 *	@access		protected
 	 *	@param		array		$children		Array of Vars to add
 	 *	@param		mixed		$element		current Position in Object
-	 *	@return		string
+	 *	@return		void
 	 */
-	protected static function deserializeVarsRec( $children, &$element )
+	protected static function deserializeVarsRec( array $children, &$element )
 	{
-		foreach( $children as $child )
-		{
+		foreach( $children as $child ){
 			$name		= $child->getAttribute( 'name' );
-			$vartype	= $child->getNodeName();
-			if( is_object( $element ) )
-			{
+			$varType	= $child->getNodeName();
+			if( is_object( $element ) ){
 				if( !isset( $element->$name ) )
 					$element->$name	= NULL;
 				$pointer	=& $element->$name;
 			}
-			else
-			{
+			else{
 				if( !isset( $element->$name ) )
 					$element[$name]	= NULL;
 				$pointer	=& $element[$name];
 			}
 
-			switch( $vartype )
-			{
+			switch( $varType ){
 				case 'boolean':
 					$pointer	= (bool) $child->getContent();
 					break;
@@ -98,7 +98,7 @@ class XML_DOM_ObjectDeserializer
 					$pointer	= (double) $child->getContent();
 					break;
 				case 'array':
-					$pointer	= array();
+					$pointer	= [];
 					self::deserializeVarsRec( $child->getChildren(), $pointer );
 					break;
 				case 'object':

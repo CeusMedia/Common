@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.file
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
- *	@version		0.1
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_NameFilter.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File;
+
+use CeusMedia\Common\FS\File\RegexFilter;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_RegexFilter
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
- *	@version		0.1
  */
-class Test_FS_File_RegexFilterTest extends Test_Case
+class RegexFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -48,7 +45,7 @@ class Test_FS_File_RegexFilterTest extends Test_Case
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_RegexFilter( "not_existing", "@not_relevant@" );
+		$index	= new RegexFilter( "not_existing", "@not_relevant@" );
 	}
 
 	/**
@@ -59,9 +56,9 @@ class Test_FS_File_RegexFilterTest extends Test_Case
 	public function testAccept()
 	{
 		$search	= "@^RegexFilterTest@";
-		$filter	= new FS_File_RegexFilter( $this->path, $search );
+		$filter	= new RegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -70,13 +67,13 @@ class Test_FS_File_RegexFilterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "@not_existing_file@";
-		$filter	= new FS_File_RegexFilter( $this->path, $search );
+		$filter	= new RegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -90,9 +87,9 @@ class Test_FS_File_RegexFilterTest extends Test_Case
 	{
 		$name	= "@^RegexFilterTest@";
 		$incode	= "@RegexFilterTest extends@";
-		$filter	= new FS_File_RegexFilter( $this->path, $name, $incode );
+		$filter	= new RegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -101,13 +98,13 @@ class Test_FS_File_RegexFilterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "@".time()."@";
-		$filter	= new FS_File_RegexFilter( $this->path, "@\.php3$@", $search );
+		$filter	= new RegexFilter( $this->path, "@\.php3$@", $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

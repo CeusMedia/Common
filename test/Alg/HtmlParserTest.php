@@ -1,26 +1,35 @@
-<?php
-/**
- *	TestUnit of Alg_HtmlParser.
- *	@package		Tests.alg
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.08.2008
- *	@version		0.1
- */
+<?php /** @noinspection HtmlUnknownTarget */
+/** @noinspection HtmlRequiredLangAttribute */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of HtmlParser.
+ *	@package		Tests.alg
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg;
+
+use CeusMedia\Common\Alg\HtmlParser;
+use CeusMedia\CommonTest\BaseCase;
+use DOMDocument;
 
 /**
- *	TestUnit of Alg_HtmlParser.
+ *	TestUnit of HtmlParser.
  *	@package		Tests.alg
- *	@extends		Test_Case
- *	@uses			Alg_HtmlParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.08.2008
- *	@version		0.1
  */
-class Test_Alg_HtmlParserTest extends Test_Case
+class HtmlParserTest extends BaseCase
 {
+	protected $fileName;
+	protected $path;
+	protected $parser;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -30,7 +39,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."html.html";
-		$this->parser	= new Alg_HtmlParser();
+		$this->parser	= new HtmlParser();
 		$this->parser->parseHtmlFile( $this->fileName );
 	}
 
@@ -50,11 +59,10 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function test__construct()
 	{
-		$document	= new Alg_HtmlParser();
-		$assertion	= new DOMDocument();
+		$document	= new HtmlParser();
 		$creation	= $document->getDocument();
 
-		$this->assertEquals( 'DOMDocument', get_class( $creation ) );
+		$this->assertInstanceOf( DOMDocument::class, $creation );
 	}
 
 	/**
@@ -68,14 +76,14 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $this->parser->getDescription();
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html><meta name="DC.Description" content="Dublin Core Description">' );
 
 		$assertion	= "Dublin Core Description";
 		$creation	= $parser->getDescription( FALSE );
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
@@ -91,7 +99,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	public function testGetDescriptionException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$parser	= new Alg_HtmlParser();
+		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 		$parser->getDescription();
 	}
@@ -122,21 +130,21 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $this->parser->getFavoriteIcon();
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<HTML><LINK REL="ICON" HREF="icon.png"></HTML>' );
 
 		$assertion	= "icon.png";
 		$creation	= $parser->getFavoriteIcon();
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<link rel="shortcut icon" href="./images/favicon.ico" />' );
 
 		$assertion	= "./images/favicon.ico";
 		$creation	= $parser->getFavoriteIcon();
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
@@ -153,7 +161,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	{
 		$this->expectException( 'RuntimeException' );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 		$parser->getFavoriteIcon();
 	}
@@ -197,10 +205,10 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $urls[1];
 		$this->assertEquals( $assertion, $creation );
 
-		$parser	= new Alg_HtmlParser();
+		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getJavaScriptUrls();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -219,10 +227,10 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $this->parser->getKeyWords();
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getKeyWords( FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -235,7 +243,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	public function testGetKeyWordsException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 		$parser->getKeyWords();
 	}
@@ -251,7 +259,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $this->parser->getLanguage();
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
@@ -267,7 +275,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	public function testGetLanguageException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$parser	= new Alg_HtmlParser();
+		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 		$parser->getLanguage();
 	}
@@ -295,9 +303,9 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $tags;
 		$this->assertEquals( $assertion, $creation );
 
-		$parser	= new Alg_HtmlParser();
+		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getMetaTags();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -341,10 +349,10 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $urls[1];
 		$this->assertEquals( $assertion, $creation );
 
-		$parser	= new Alg_HtmlParser();
+		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $parser->getStyleSheetUrls();
 		$this->assertEquals( $assertion, $creation );
 
@@ -439,9 +447,8 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	{
 		$tag		= $this->parser->getTagById( 'test' );
 
-		$assertion	= TRUE;
 		$creation	= (bool) $tag;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "ul";
 		$creation	= $tag->tagName;
@@ -515,13 +522,11 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function testHasTagById()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->parser->hasTagById( 'test' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->parser->hasTagById( 'not_existing' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -535,14 +540,14 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$creation	= $this->parser->getTitle();
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html><meta http-equiv="DC.Title" content="Dublin Core"></html>' );
 
 		$assertion	= "Dublin Core";
 		$creation	= $parser->getTitle( FALSE );
 		$this->assertEquals( $assertion, $creation );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
@@ -558,7 +563,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	public function testGetTitleException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$parser	= new Alg_HtmlParser();
+		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 		$parser->getTitle();
 	}
@@ -574,7 +579,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$document	= new DOMDocument();
 		$document->loadHtml( $html );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtml( $html );
 		$assertion	= $document;
 		$creation	= $parser->getDocument();
@@ -591,7 +596,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$document	= new DOMDocument();
 		$document->loadHtmlFile( $this->fileName );
 
-		$parser		= new Alg_HtmlParser();
+		$parser		= new HtmlParser();
 		$parser->parseHtmlFile( $this->fileName );
 		$assertion	= $document;
 		$creation	= $parser->getDocument();

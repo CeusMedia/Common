@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Registry Pattern Singleton Implementation to store Objects.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,36 +21,41 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
  */
+
+namespace CeusMedia\Common\ADT;
+
+use InvalidArgumentException;
+
 /**
  *	Registry Pattern Singleton Implementation to store Objects.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
  */
-class ADT_Registry
+class Registry
 {
 	protected static $instance	= NULL;
+
 	protected $poolKey	= "REFERENCES";
 
 	/**
 	 *	Constructor.
 	 *	@access		protected
+	 *	@param		string		$poolKey
 	 *	@return		void
 	 */
-	protected function __construct( $poolKey )
+	protected function __construct( string $poolKey )
 	{
 		$this->poolKey = $poolKey;
 		if( !( isset( $GLOBALS[$this->poolKey] ) && is_array( $GLOBALS[$this->poolKey] ) ) )
-			$GLOBALS[$this->poolKey]	= array();
+			$GLOBALS[$this->poolKey]	= [];
 	}
 
 	/**
@@ -57,10 +63,12 @@ class ADT_Registry
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function __clone() {}
+	private function __clone()
+	{
+	}
 
 	/**
-	 *	Cleares registered Object.
+	 *	Clears registered Object.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -74,13 +82,14 @@ class ADT_Registry
 	 *	Returns Instance of Registry.
 	 *	@access		public
 	 *	@static
+	 *	@param		string		$poolKey
 	 *	@return		Registry
 	 */
-	public static function getInstance( $poolKey = "REFERENCES" )
+	public static function getInstance( string $poolKey = "REFERENCES" ): self
 	{
 		if( self::$instance === NULL )
 			self::$instance	= new self( $poolKey );
-		return self::$instance;		
+		return self::$instance;
 	}
 
 	/**
@@ -89,7 +98,7 @@ class ADT_Registry
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		mixed
 	 */
-	public function & get( $key )
+	public function & get( string $key )
 	{
 		if( !isset( $GLOBALS[$this->poolKey][$key] ) )
 			throw new InvalidArgumentException( 'No Object registered with Key "'.$key.'"' );
@@ -103,7 +112,7 @@ class ADT_Registry
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		mixed
 	 */
-	public static function & getStatic( $key )
+	public static function & getStatic( string $key )
 	{
 		return self::getInstance()->get( $key );
 	}
@@ -114,7 +123,7 @@ class ADT_Registry
 	 *	@param		string		$key		Registry Key to be checked
 	 *	@return		bool
 	 */
-	public function has( $key )
+	public function has( string $key ): bool
 	{
 		return array_key_exists( $key, $GLOBALS[$this->poolKey] );
 	}
@@ -127,7 +136,7 @@ class ADT_Registry
 	 *	@param		bool		$overwrite	Flag: overwrite already registered Objects
 	 *	@return		void
 	 */
-	public function set( $key, &$value, $overwrite = false )
+	public function set( string $key, &$value, bool $overwrite = FALSE )
 	{
 		if( isset( $GLOBALS[$this->poolKey][$key] ) && !$overwrite )
 			throw new InvalidArgumentException( 'Element "'.$key.'" is already registered.' );
@@ -140,11 +149,11 @@ class ADT_Registry
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		bool
 	 */
-	public function remove( $key )
+	public function remove( string $key ): bool
 	{
 		if( !isset( $GLOBALS[$this->poolKey][$key] ) )
 			return false;
 		unset( $GLOBALS[$this->poolKey][$key] );
-		return true;	
+		return true;
 	}
-}  
+}

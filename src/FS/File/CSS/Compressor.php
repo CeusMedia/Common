@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Compresses CSS Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,37 +21,44 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.09.2007
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use Exception;
+
 /**
  *	Compresses CSS Files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.09.2007
  */
-class FS_File_CSS_Compressor
+class Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
-	var $prefix		= "";
+	public $prefix		= "";
+
 	/**	@var		array			$statistics		Statistical Data */
-	var $statistics	= array();
+	public $statistics	= [];
+
 	/**	@var		string			$suffix			Suffix of compressed File Name */
-	var $suffix		= ".min";
+	public $suffix		= ".min";
 
 /*	static public function compressFile( $fileName, $oneLine = FALSE ){
-		return self::compressString( FS_File_Reader::load( $fileName ), $oneLine );
+		return self::compressString( FileReader::load( $fileName ), $oneLine );
 	}
 */
 
-	public function compress( $string, $oneLine = FALSE ){
-		$this->statistics	= array();
+	public function compress( string $string, bool $oneLine = FALSE ): string
+	{
+		$this->statistics	= [];
 		$this->statistics['before']	= strlen( $string );
 		$string	= self::compressString( $string, $oneLine );
 		$this->statistics['after']	= strlen( $string );
@@ -62,8 +70,9 @@ class FS_File_CSS_Compressor
 	 *	@access		public
 	 *	@param		string		$fileUri		Full URI of CSS File
 	 *	@return		string
+	 *	@throws		Exception					if file is not existing
 	 */
-	public function compressFile( $fileUri )
+	public function compressFile( string $fileUri ): string
 	{
 		if( !file_exists( $fileUri ) )
 			throw new Exception( "Style File '".$fileUri."' is not existing." );
@@ -79,30 +88,26 @@ class FS_File_CSS_Compressor
 		return $fileUri;
 	}
 
-	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE ){
-		$converter	= new FS_File_CSS_Converter( $sheet );
+	static public function compressSheet( CssSheet $sheet, bool $oneLine = FALSE ): string
+	{
+		$converter	= new Converter( $sheet );
 		return self::compressString( $converter->toString(), $oneLine );
 	}
 
-	static public function compressString( $string, $oneLine = FALSE ){
+	static public function compressString( string $string, bool $oneLine = FALSE ): string
+	{
 		//  remove comments
 		$string	= preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $string );
 		//  remove space after colons
 		$string	= str_replace( ': ', ':', $string );
 		//  remove whitespace
-		$string	= str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ' ), '', $string );
+		$string	= str_replace( ["\r\n", "\r", "\n", "\t", '  ', '    '], '', $string );
 		//  remove spaces after selectors
 		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );
 		//  remove spaces after selectors
 		$string	= preg_replace( '@\s*\}@s', "}", $string );
 		//  remove leading and trailing space
-		$string	= trim( $string );
-		return $string;
-
-		//  remove leading and trailing space
-		$string	= trim( $string );
-
-
+		return trim( $string );
 	}
 
 	/**
@@ -110,7 +115,7 @@ class FS_File_CSS_Compressor
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getStatistics()
+	public function getStatistics(): array
 	{
 		return $this->statistics;
 	}
@@ -119,23 +124,25 @@ class FS_File_CSS_Compressor
 	 *	Sets Prefix of compressed File Name.
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix of compressed File Name
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setPrefix( $prefix )
+	public function setPrefix( string $prefix ): self
 	{
 		if( trim( $prefix ) )
 			$this->prefix	= $prefix;
+		return $this;
 	}
 
 	/**
 	 *	Sets Suffix of compressed File Name.
 	 *	@access		public
-	 *	@param		string		$prefix			Suffix of compressed File Name
-	 *	@return		void
+	 *	@param		string		$suffix			Suffix of compressed File Name
+	 *	@return		self
 	 */
-	public function setSuffix( $suffix )
+	public function setSuffix( string $suffix ): self
 	{
 		if( trim( $suffix ) )
 			$this->suffix	= $suffix;
+		return $this;
 	}
 }

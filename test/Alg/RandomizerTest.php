@@ -1,26 +1,32 @@
 <?php
-/**
- *	TestUnit of Alg_Randomizer.
- *	@package		Tests.alg
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Alg_Randomizer.
+ *	@package		Tests.Alg
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg;
+
+use CeusMedia\Common\Alg\Randomizer;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg_Randomizer.
- *	@package		Tests.alg
- *	@extends		Test_Case
- *	@uses			Alg_Randomizer
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
- *	@version		0.1
  */
-class Test_Alg_RandomizerTest extends Test_Case
+class RandomizerTest extends BaseCase
 {
+	/** @var Randomizer $randomizer Randomizer instance for all tests */
+	protected $randomizer;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,7 +34,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->randomizer	= new Alg_Randomizer();
+		$this->randomizer	= new Randomizer();
 	}
 
 	/**
@@ -41,33 +47,29 @@ class Test_Alg_RandomizerTest extends Test_Case
 		$this->randomizer->useSigns		= FALSE;
 		$string		= $this->randomizer->get( 1 );
 
-		$assertion	= TRUE;
 		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= 1;
 		$creation	= strlen( $string );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= (bool) preg_match( "@^[a-zA-Z0-9]$@", $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$this->randomizer->useLarges	= FALSE;
 		$this->randomizer->useDigits	= FALSE;
 		$string		= $this->randomizer->get( 20 );
 
-		$assertion	= TRUE;
 		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= 20;
 		$creation	= strlen( $string );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
 		$creation	= (bool) preg_match( "@^[a-z]{20}$@", $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -77,11 +79,9 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetWithStrength()
 	{
-		$string		= $this->randomizer->get( 15, 30 );
+		$strong		= $this->randomizer->get( 15, 30 );
 
-		$assertion	= TRUE;
-		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $strong );
 	}
 
 	/**
@@ -92,15 +92,9 @@ class Test_Alg_RandomizerTest extends Test_Case
 	public function testGetWithUnique()
 	{
 		$this->randomizer->unique	= TRUE;
-		$string		= $this->randomizer->get( 45 );
-
-		$list		= array();
-		foreach( str_split( $string ) as $sign )
-		{
-			if( in_array( $sign, $list ) )
-				$this->fail( 'String is not unique' );
-			$list[]	= $sign;
-		}
+		$random		= $this->randomizer->get( 45 );
+		$unique		= join( array_keys( array_flip( str_split( $random ) ) ) );
+		$this->assertEquals( $unique, $random );
 	}
 
 	/**
@@ -108,18 +102,13 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetLarge()
+	public function test_get_withLargeLength()
 	{
 		$this->randomizer->unique	= FALSE;
 		$string		= $this->randomizer->get( 240 );
 
-		$assertion	= TRUE;
-		$creation	= is_string( $string );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 240;
-		$creation	= strlen( $string );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsString( $string );
+		$this->assertEquals( 240, strlen( $string ) );
 	}
 
 	/**
@@ -127,9 +116,10 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetLengthException1()
+	public function test_get_fromString_expectTypeError()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->randomizer->get( "not_an_integer" );
 	}
 
@@ -138,7 +128,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetLengthException2()
+	public function test_get_fromInt_expectTypeError()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 0 );
@@ -175,9 +165,10 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStrengthException1()
+	public function test_get_withStrengthFromString_expectTypeError()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->randomizer->get( 6, "not_an_integer" );
 	}
 
@@ -186,7 +177,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStrengthException2()
+	public function test_get_withInvalidStrength_expectException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 6, 101 );
@@ -197,7 +188,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStrengthException3()
+	public function test_get_withNegativeStrength_expectException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 6, -101 );
@@ -210,7 +201,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetStrengthException4()
 	{
-		$this->randomizer->turns	= 10;
+		$this->randomizer->maxTurns	= 10;
 
 		$this->expectException( 'RuntimeException' );
 		$this->randomizer->get( 5, 30 );

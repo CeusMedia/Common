@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2018-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2018-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,40 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2020 Christian Würker
+ *	@copyright		2018-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
+
+namespace CeusMedia\Common\ADT\URL;
+
+use CeusMedia\Common\ADT\URL;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2020 Christian Würker
+ *	@copyright		2018-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
-class ADT_URL_Compare
+class Compare
 {
 	protected $url1;
+
 	protected $url2;
 
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		URL|string		$url1
+	 *	@param		URL|string		$url2
+	 */
 	public function __construct( $url1 = NULL, $url2 = NULL )
 	{
 		if( $url1 )
@@ -48,27 +63,39 @@ class ADT_URL_Compare
 			$this->setUrl2( $url2 );
 	}
 
-	public function setUrl1( $url )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		URL|string		$url
+	 *	@return		self
+	 */
+	public function setUrl1( $url ): self
 	{
 		if( is_string( $url ) )
-			$url	= new ADT_URL( $url );
-		if( !is_a( $url, 'ADT_URL' ) )
-			throw new InvalidArgumentException( 'Given first URL is neither ADT_URL nor string' );
+			$url	= new URL( $url );
+		if( !( $url instanceof URL ) )
+			throw new InvalidArgumentException( 'Given first URL is neither URL object nor string' );
 		$this->url1		= $url;
 		return $this;
 	}
 
-	public function setUrl2( $url )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		URL|string		$url
+	 *	@return		self
+	 */
+	public function setUrl2( $url ): self
 	{
 		if( is_string( $url ) )
-			$url	= new ADT_URL( $url );
-		if( !is_a( $url, 'ADT_URL' ) )
-			throw new InvalidArgumentException( 'Given second URL is neither ADT_URL nor string' );
+			$url	= new URL( $url );
+		if( !( $url instanceof URL ) )
+			throw new InvalidArgumentException( 'Given second URL is neither URL object nor string' );
 		$this->url2		= $url;
 		return $this;
 	}
 
-	public function sameBase()
+	public function sameBase(): bool
 	{
 		if( !$this->url1 || !$this->url2 )
 			throw new RuntimeException( 'Not both URLs are set' );
@@ -82,7 +109,15 @@ class ADT_URL_Compare
 		return $sameScheme && $sameHost && $samePort && $sameUsername && $samePassword;
 	}
 
-	public static function sameBaseStatic( $url1, $url2 )
+	/**
+	 *	...
+	 *	@access		public
+	 *	@static
+	 *	@param		URL|string		$url1
+	 *	@param		URL|string		$url2
+	 *	@return		bool
+	 */
+	public static function sameBaseStatic( $url1, $url2 ): bool
 	{
 		$that	= new self( $url1, $url2 );
 		return $that->sameBase();

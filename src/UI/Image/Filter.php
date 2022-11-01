@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Image filter.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +22,32 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\UI\Image;
+
 /**
  *	Image filter.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@uses			UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.php.net/manual/en/function.imagefilter.php
  *	@see			http://www.tuxradar.com/practicalphp/11/2/15
  */
-class UI_Image_Filter
+class Filter
 {
-	/**	@var		UI_Image		$resource		Image resource object */
+	/**	@var		Image		$resource		Image resource object */
 	protected $image;
 
-	public function __construct( UI_Image $image )
+	public function __construct( Image $image )
 	{
 		$this->image	= $image;
 	}
@@ -51,7 +57,7 @@ class UI_Image_Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function blurGaussian()
+	public function blurGaussian(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_GAUSSIAN_BLUR );
 	}
@@ -61,7 +67,7 @@ class UI_Image_Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function blurSelective()
+	public function blurSelective(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_SELECTIVE_BLUR );
 	}
@@ -72,7 +78,7 @@ class UI_Image_Filter
 	 *	@param		integer		$level		Value between -255 and 255
 	 *	@return		boolean
 	 */
-	public function brightness( $level )
+	public function brightness( int $level ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_BRIGHTNESS, $level );
 	}
@@ -81,12 +87,12 @@ class UI_Image_Filter
 	 *	Adds or subtracts colors.
 	 *	@access		public
 	 *	@param		integer		$red		Red component, value between -255 and 255
-	 *	@param		integer		$red		Green component, value between -255 and 255
-	 *	@param		integer		$red		Blue component, value between -255 and 255
-	 *	@param		integer		$alpha		Alpha channel, value between 0 (opacue) and 127 (transparent)
+	 *	@param		integer		$green		Green component, value between -255 and 255
+	 *	@param		integer		$blue		Blue component, value between -255 and 255
+	 *	@param		integer		$alpha		Alpha channel, value between 0 (opaque) and 127 (transparent)
 	 *	@return		boolean
 	 */
-	public function colorize( $red, $green, $blue, $alpha = 0 )
+	public function colorize( int $red, int $green, int $blue, int $alpha = 0 ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_COLORIZE, $red, $green, $blue, $alpha );
 	}
@@ -97,7 +103,7 @@ class UI_Image_Filter
 	 *	@param		integer		$level		Value up to 100
 	 *	@return		boolean
 	 */
-	public function contrast( $level )
+	public function contrast( int $level ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_CONTRAST, $level );
 	}
@@ -107,7 +113,7 @@ class UI_Image_Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function detectEdges()
+	public function detectEdges(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_EDGEDETECT );
 	}
@@ -117,12 +123,12 @@ class UI_Image_Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function emboss()
+	public function emboss(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_EMBOSS );
 	}
 
-	public function gamma( $level )
+	public function gamma( int $level ): bool
 	{
 		return imagegammacorrect( $this->image->getResource(), 1.0, (double) $level );
 	}
@@ -132,7 +138,7 @@ class UI_Image_Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function grayscale()
+	public function grayscale(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_GRAYSCALE );
 	}
@@ -142,7 +148,7 @@ class UI_Image_Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function negate()
+	public function negate(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_NEGATE );
 	}
@@ -154,10 +160,9 @@ class UI_Image_Filter
 	 *	@param		boolean		$effect		Flag: activate advanced pixelation effect
 	 *	@return		boolean
 	 */
-
-	public function pixelate( $size, $effect = FALSE )
+	public function pixelate( int $size, bool $effect = FALSE ): bool
 	{
-		return imagefilter( $this->image->getResource(), IMG_FILTER_PIXELATE, $size, $effect );
+		return imagefilter( $this->image->getResource(), IMG_FILTER_PIXELATE, $size, (int) $effect );
 	}
 
 	/**
@@ -165,7 +170,7 @@ class UI_Image_Filter
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function removeMean()
+	public function removeMean(): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_MEAN_REMOVAL );
 	}
@@ -176,7 +181,7 @@ class UI_Image_Filter
 	 *	@param		integer		$weight		Level of smoothness
 	 *	@return		boolean
 	 */
-	public function smooth( $weight )
+	public function smooth( int $weight ): bool
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_SMOOTH, $weight );
 	}

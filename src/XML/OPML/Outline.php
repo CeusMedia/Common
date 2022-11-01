@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	XML Node for OPML Outlines.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +21,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	XML Node for OPML Outlines.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
- *	@extends		XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
-class XML_OPML_Outline extends XML_DOM_Node
+class Outline extends Node
 {
 	/**
 	 *	Constructor.
@@ -45,17 +48,18 @@ class XML_OPML_Outline extends XML_DOM_Node
 	 */
 	public function __construct()
 	{
-		parent::__construct( "outline" );
+		parent::__construct( 'outline' );
 	}
 
 	/**
 	 *	Adds an Outline Node to this Outline Node.
 	 *	@access		public
-	 *	@param		XML_OPML_Outline	$outline		Outline Node
-	 *	@return		void
+	 *	@param		Outline		$outline		Outline Node
+	 *	@return		self
 	 */
-	public function addOutline( $outline )
+	public function addOutline( Outline $outline ): self
 	{
 		$this->addChild( $outline );
+		return $this;
 	}
 }

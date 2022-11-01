@@ -1,27 +1,24 @@
 <?php
-/**
- *	TestUnit of FS_File_Editor.
- *	@package		Tests.file
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.07.2008
- *	@version		0.1
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_Editor.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File;
+
+use CeusMedia\Common\FS\File\Editor;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_Editor.
- *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_Editor
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.07.2008
- *	@version		0.1
  */
-class Test_FS_File_EditorTest extends Test_Case
+class EditorTest extends BaseCase
 {
-	/**	@var	FS_File_Editor	$editor			Instance of File Editor */
+	/**	@var	Editor		$editor			Instance of File Editor */
 	private $editor			= NULL;
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName		= "editor.test";
@@ -40,7 +37,7 @@ class Test_FS_File_EditorTest extends Test_Case
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path.$this->fileName;
 		file_put_contents( $this->fileName, $this->fileContent );
-		$this->editor	= new FS_File_Editor( $this->fileName );
+		$this->editor	= new Editor( $this->fileName );
 	}
 
 	/**
@@ -66,7 +63,7 @@ class Test_FS_File_EditorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= FS_File_Editor::delete( $this->fileName );
+		$creation	= Editor::delete( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
@@ -170,17 +167,6 @@ class Test_FS_File_EditorTest extends Test_Case
 		$creation	= $this->editor->exists();
 		$this->assertEquals( $assertion, $creation );
 }
-
-	/**
-	 *	Tests Exception of Method 'rename'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testRenameException1()
-	{
-		$this->expectException( 'InvalidArgumentException' );
-		$this->editor->rename( NULL );
-	}
 
 	/**
 	 *	Tests Exception of Method 'rename'.

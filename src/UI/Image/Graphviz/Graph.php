@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
+
 /**
  *	Graph data class for DOT language (Graphviz).
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,41 +22,57 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\UI\Image\Graphviz;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use DomainException;
+use InvalidArgumentException;
+
 /**
  *	Graph data class for DOT language (Graphviz).
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
-class UI_Image_Graphviz_Graph{
-
+class Graph
+{
 	protected $type				= "digraph";
-	protected $edges			= array();
-	protected $nodes			= array();
-	protected $nodeOptions		= array();
-	protected $edgeOptions		= array();
 
-	public function __construct( $id = NULL, $options = array() ){
+	protected $edges			= [];
+
+	protected $nodes			= [];
+
+	protected $nodeOptions		= [];
+
+	protected $edgeOptions		= [];
+
+	protected $id;
+
+	protected $options			= [];
+
+	public function __construct( ?string $id = NULL, array $options = [] )
+	{
 		if( $id )
 			$this->setId( $id );
 		$this->setDefaultOptions( $options );
 	}
 
-	public function __toString(){
+	public function __toString(): string
+	{
 		return $this->render();
 	}
 
-	public function addEdge( $nodeSource, $nodeTarget, $options = array() ){
+	public function addEdge( $nodeSource, $nodeTarget, array $options = [] ): self
+	{
 		$nodeSourceId	= $this->sanitizeNodeName( $nodeSource );
 		$nodeTargetId	= $this->sanitizeNodeName( $nodeTarget );
 		if( !array_key_exists( $nodeSourceId, $this->nodes ) )
@@ -62,66 +80,80 @@ class UI_Image_Graphviz_Graph{
 		if( !array_key_exists( $nodeTargetId, $this->nodes ) )
 			throw new DomainException( 'Target node "'.$nodeTarget.'" (ID: '.$nodeTargetId.') is not existing' );
 		if( !isset( $this->edges[$nodeSourceId] ) )
-			$this->edges[$nodeSourceId]	= array();
+			$this->edges[$nodeSourceId]	= [];
 		$this->edges[$nodeSourceId][$nodeTargetId]	= $options;
+		return $this;
 	}
 
-	public function addNode( $name, $options = array() ){
+	public function addNode( string $name, array $options = [] ): self
+	{
 		$nodeId	= $this->sanitizeNodeName( $name );
 		if( array_key_exists( $nodeId, $this->nodes ) )
 			throw new DomainException( 'Node "'.$name.'" is already existing' );
 		if( !isset( $options['label'] ) )
 			$options['label']	= $name;
 		$this->nodes[$nodeId]	= $options;
+		return $this;
 	}
 
-	public function getDefaultEdgeOptions(){
+	public function getDefaultEdgeOptions(): array
+	{
 		return $this->edgeOptions;
 	}
 
-	public function getDefaultNodeOptions(){
+	public function getDefaultNodeOptions(): array
+	{
 		return $this->nodeOptions;
 	}
 
-	public function getDefaultOptions(){
+	public function getDefaultOptions(): array
+	{
 		return $this->options;
 	}
 
-	public function getEdges(){
+	public function getEdges(): array
+	{
 		return $this->edges;
 	}
 
-	public function getId(){
+	public function getId(): string
+	{
 		return $this->id;
 	}
 
-	public function getNodeOptions( $name ){
+	public function getNodeOptions( string $name ): ?array
+	{
 		if( !$this->hasNode( $name ) )
 			return NULL;
 		return $this->nodes[$this->sanitizeNodeName( $name )];
 	}
 
-	public function getNodes(){
+	public function getNodes(): array
+	{
 		return $this->nodes;
 	}
 
-	public function getType(){
+	public function getType(): string
+	{
 		return $this->type;
 	}
 
-	public function hasEdge( $nameSource, $nameTarget ){
+	public function hasEdge( string $nameSource, string $nameTarget ): bool
+	{
 		$idSource	= $this->sanitizeNodeName( $nameSource );
 		$idTarget	= $this->sanitizeNodeName( $nameTarget );
 		return isset( $this->edges[$idSource][$idTarget] );
 	}
 
-	public function hasNode( $name ){
+	public function hasNode( string $name ): bool
+	{
 		return isset( $this->nodes[$this->sanitizeNodeName( $name )] );
 	}
 
-	public function render( $options = array() ){
-		$edges	= array();
-		$nodes	= array();
+	public function render( array $options = [] ): string
+	{
+		$edges	= [];
+		$nodes	= [];
 		foreach( $this->nodes as $name => $nodeOptions )
 			$nodes[]	= $name.' ['.$this->renderOptions( $this->nodeOptions, $nodeOptions ).'];';
 		foreach( $this->edges as $source => $targets )
@@ -135,63 +167,76 @@ class UI_Image_Graphviz_Graph{
 		return $this->type." ".$this->id." {\n\t".join( "\n\t", $rules )."\n}";
 	}
 
-	protected function renderOptions( $options = array(), $overrideOptions = array(), $delimiter =" " ){
-		if( is_null( $options ) )
-			return "";
+	protected function renderOptions( array $options = [], array $overrideOptions = [], string $delimiter = ' ' ): string
+	{
 		if( is_array( $overrideOptions ) )
 			$options	= array_merge( $options, $overrideOptions );
-		$list	= array();
+		$list	= [];
 		foreach( $options as $key => $value )
 			$list[]	= $key.'="'.addslashes( $value ).'"';
 		return join( $delimiter, $list );
 	}
 
-	protected function sanitizeNodeName( $name ){
+	protected function sanitizeNodeName( string $name ): string
+	{
 		$name	= htmlentities( $name );
 		return preg_replace( "/[^\w_:]/", "", $name );
 	}
 
-	public function save( $fileName, $options = array() ){
-		return FS_File_Writer::save( $fileName, $this->render( $options ) );
+	public function save( string $fileName, array $options = [] ): int
+	{
+		return FileWriter::save( $fileName, $this->render( $options ) );
 	}
 
-	public function setDefaultEdgeOptions( $options ){
+	public function setDefaultEdgeOptions( array $options ): self
+	{
 		$this->edgeOptions	= $options;
+		return $this;
 	}
 
-	public function setDefaultNodeOptions( $options ){
+	public function setDefaultNodeOptions( array $options ): self
+	{
 		$this->nodeOptions	= $options;
+		return $this;
 	}
 
-	public function setDefaultOptions( $options ){
+	public function setDefaultOptions( array $options ): self
+	{
 		$this->options	= $options;
+		return $this;
 	}
 
-	public function setEdgeOptions( $nameSource, $nameTarget, $options ){
-		if( !$this->hasEdge( $nameSource, $nameTarget ) )
-			return FALSE;
-		$idSource	= $this->sanitizeNodeName( $nameSource );
-		$idTarget	= $this->sanitizeNodeName( $nameTarget );
-		$options	= array_merge( $this->edges[$idSource][$idTarget], $options );
-		$this->edges[$idSource][$idTarget]	= $options;
-		return TRUE;
+	public function setEdgeOptions( string $nameSource, string $nameTarget, array $options ): self
+	{
+		if( $this->hasEdge( $nameSource, $nameTarget ) ){
+			$idSource	= $this->sanitizeNodeName( $nameSource );
+			$idTarget	= $this->sanitizeNodeName( $nameTarget );
+			$options	= array_merge( $this->edges[$idSource][$idTarget], $options );
+			$this->edges[$idSource][$idTarget]	= $options;
+		}
+		return $this;
 	}
 
-	public function setId( $id ){
+	public function setId( string $id ): self
+	{
 		$this->id	= $this->sanitizeNodeName( $id );
+		return $this;
 	}
 
-	public function setNodeOptions( $name, $options ){
-		if( !$this->hasNode( $name ) )
-			return FALSE;
-		$nodeId	= $this->sanitizeNodeName( $name );
-		$this->nodes[$nodeId]	= array_merge( $this->nodes[$nodeId], $options );
-		return TRUE;
+	public function setNodeOptions( string $name, $options ): self
+	{
+		if( $this->hasNode( $name ) ){
+			$nodeId	= $this->sanitizeNodeName( $name );
+			$this->nodes[$nodeId]	= array_merge( $this->nodes[$nodeId], $options );
+		}
+		return $this;
 	}
 
-	public function setType( $type ){
-		if( !in_array( $type, array( "digraph", "graph" ) ) )
+	public function setType( string $type ): self
+	{
+		if( !in_array( $type, ["digraph", "graph"] ) )
 			throw new InvalidArgumentException( 'Invalid graph type "'.$type.'"' );
 		$this->type		= $type;
+		return $this;
 	}
 }

@@ -1,28 +1,31 @@
 <?php
-/**
- *	TestUnit of XML RSS Reader.
- *	@package		Tests.xml.rss
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML RSS Reader.
+ *	@package		Tests.xml.rss
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+use CeusMedia\Common\XML\RSS\Reader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
- *	@extends		Test_Case
- *	@uses			XML_RSS_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *	@version		0.1
  */
-class Test_XML_RSS_ReaderTest extends Test_Case
+class ReaderTest extends BaseCase
 {
-
-	protected $url		= "http://www.rssboard.org/files/sample-rss-2.xml";
+	protected $file;
+	protected $serial;
+	protected $reader;
+	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
 
 	/**
 	 *	Sets up Leaf.
@@ -31,9 +34,9 @@ class Test_XML_RSS_ReaderTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->file		= dirname( __FILE__ )."/reader.xml";
-		$this->serial	= dirname( __FILE__ )."/reader.serial";
-		$this->reader	= new XML_RSS_Reader();
+		$this->file		= dirname( __FILE__ )."/assets/reader.xml";
+		$this->serial	= dirname( __FILE__ )."/assets/reader.serial";
+		$this->reader	= new Reader();
 	}
 
 	/**

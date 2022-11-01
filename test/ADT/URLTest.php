@@ -1,28 +1,28 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
 
-/**
- *	TestUnit of ADT_URL.
- *	@package		Tests.CeusMedia_Common_ADT
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_URL
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			30.11.2018
- *	@version		0.1
- */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of ADT\URL.
+ *	@package		Tests.ADT
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\ADT;
+
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
- *	TestUnit of ADT_URL.
- *	@package		Tests.CeusMedia_Common_ADT
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_URL
+ *	TestUnit of ADT\URL.
+ *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			30.11.2018
- *	@version		0.1
  */
-class Test_ADT_URLTest extends Test_Case
+class URLTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -42,8 +42,9 @@ class Test_ADT_URLTest extends Test_Case
 	{
 	}
 
-	protected function create( $url, $baseUrl = NULL ){
-		return new ADT_URL( $url, $baseUrl );
+	protected function create( $url, $baseUrl = NULL )
+	{
+		return new URL( $url, $baseUrl );
 	}
 
 	/**
@@ -65,7 +66,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::__construct();
+		URL::__construct();
 	}
 
 	/**
@@ -77,7 +78,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::__toString();
+		$creation	= URL::__toString();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -90,7 +91,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::create();
+		$creation	= URL::create();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -103,7 +104,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::get();
+		$creation	= URL::get();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -116,7 +117,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getAbsolute();
+		$creation	= URL::getAbsolute();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -129,7 +130,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::getAbsolute();
+		URL::getAbsolute();
 	}
 
 	/**
@@ -141,7 +142,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getRelative();
+		$creation	= URL::getRelative();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -154,7 +155,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getAbsoluteTo();
+		$creation	= URL::getAbsoluteTo();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -167,7 +168,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::getAbsoluteTo();
+		URL::getAbsoluteTo();
 	}
 
 	/**
@@ -177,10 +178,20 @@ class Test_ADT_URLTest extends Test_Case
 	 */
 	public function testGetRelativeTo()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= ADT_URL::getRelativeTo();
-		$this->assertEquals( $assertion, $creation );
+		$url1	= new URL( 'http://abc.de/path/' );
+		$url2	= new URL( 'http://abc.de/path/nested/abc' );
+
+		$expected	= 'nested/abc';
+		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
+
+		$url2	= new URL( 'http://abc.de/abc' );
+		$expected	= '../abc';
+		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
+
+		$url1	= new URL( 'http://abc.de/a/b/c/' );
+		$url2	= new URL( 'http://abc.de/d/e/f/g?p=1' );
+		$expected	= '../../../d/e/f/g?p=1';
+		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
 	}
 
 	/**
@@ -192,7 +203,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getFragment();
+		$creation	= URL::getFragment();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -205,7 +216,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getHost();
+		$creation	= URL::getHost();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -218,7 +229,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getPassword();
+		$creation	= URL::getPassword();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -259,7 +270,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getPort();
+		$creation	= URL::getPort();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -272,7 +283,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getQuery();
+		$creation	= URL::getQuery();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -285,7 +296,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getScheme();
+		$creation	= URL::getScheme();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -298,7 +309,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::getUsername();
+		$creation	= URL::getUsername();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -311,7 +322,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::isAbsolute();
+		$creation	= URL::isAbsolute();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -324,7 +335,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::isRelative();
+		$creation	= URL::isRelative();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -337,7 +348,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::isRelative();
+		URL::isRelative();
 	}
 
 	/**
@@ -349,7 +360,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::isRelative();
+		URL::isRelative();
 	}
 
 	/**
@@ -361,7 +372,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::isRelative();
+		URL::isRelative();
 	}
 
 	/**
@@ -373,7 +384,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'RangeException' );
-		ADT_URL::isRelative();
+		URL::isRelative();
 	}
 
 	/**
@@ -383,7 +394,7 @@ class Test_ADT_URLTest extends Test_Case
 	 */
 	public function testSet()
 	{
-		$object		= new ADT_URL( 'https://username:password@domain.tld:123/path?with=query#havingFragment' );
+		$object		= new URL( 'https://username:password@domain.tld:123/path?with=query#havingFragment' );
 		foreach( array(
 			'https'				=> $object->getScheme(),
 			'domain.tld'		=> $object->getHost(),
@@ -407,7 +418,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::set();
+		URL::set();
 	}
 
 	/**
@@ -419,7 +430,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::set();
+		URL::set();
 	}
 
 	/**
@@ -431,7 +442,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::setAuth();
+		$creation	= URL::setAuth();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -444,7 +455,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::setDefault();
+		$creation	= URL::setDefault();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -457,7 +468,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'InvalidArgumentException' );
-		ADT_URL::setDefault();
+		URL::setDefault();
 	}
 
 	/**
@@ -469,7 +480,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::setFragment();
+		$creation	= URL::setFragment();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -516,7 +527,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::setPath();
+		$creation	= URL::setPath();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -529,7 +540,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'RangeException' );
-		ADT_URL::setPath();
+		URL::setPath();
 	}
 
 	/**
@@ -541,7 +552,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::setQuery();
+		$creation	= URL::setQuery();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -554,7 +565,7 @@ class Test_ADT_URLTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_URL::setScheme();
+		$creation	= URL::setScheme();
 		$this->assertEquals( $assertion, $creation );
 	}
 

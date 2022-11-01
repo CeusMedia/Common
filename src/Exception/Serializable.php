@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base Exception which can be serialized e.G. for NetServices.
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,46 +21,46 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.09.2011
- *	@version		0.1
  *	@see			http://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
  */
+
+namespace CeusMedia\Common\Exception;
+
+use Exception;
+use Serializable as SerializableInterface;
+
 /**
  *	Base Exception which can be serialized e.G. for NetServices.
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
- *	@extends		Exception
- *	@implements		Serializable
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.09.2011
- *	@version		0.1
  */
-class Exception_Serializable extends Exception implements Serializable
+class Serializable extends Exception implements SerializableInterface
 {
 	/**
 	 *	Returns serial of exception.
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function serialize()
+	public function serialize(): string
 	{
-		return serialize( array( $this->message, $this->code, $this->file, $this->line ) );
+		return serialize( [$this->message, $this->code, $this->file, $this->line] );
 	}
 
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$serial			Serial string of an serialized exception
+	 *	@param		string		$data			Serial string of a serialized exception
 	 *	@return		void
 	 */
-	public function unserialize( $serial )
+	public function unserialize( $data )
 	{
-		list( $this->message, $this->code, $this->file, $this->line ) = unserialize( $serial );
+		[$this->message, $this->code, $this->file, $this->line]	= unserialize( $data );
 	}
 }

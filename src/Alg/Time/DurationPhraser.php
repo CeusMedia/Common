@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,53 +21,62 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Time;
+
+use Exception;
+use InvalidArgumentException;
+use OutOfBoundsException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class Alg_Time_DurationPhraser
+class DurationPhraser
 {
 	protected $patternLabel	= '@(.*){(s|m|h|D|W|M|Y)}(.*)::([0-9]+)$@';
 	protected $patternData	= '@::[0-9]+$@';
 	protected $ranges		= NULL;
 
-	public function __construct( $ranges = array() )
+	public function __construct( DurationPhraseRanges $ranges )
 	{
-		if( !( $ranges instanceof Alg_Time_DurationPhraseRanges ) )
-			$ranges	= new Alg_Time_DurationPhraseRanges( $ranges );
 		$this->ranges	= $ranges;
 	}
 
-	public function getPhraseFromSeconds( $seconds )
+	public static function fromArray( array $ranges = [] ): self
+	{
+		$ranges	= new DurationPhraseRanges( $ranges );
+		return new self( $ranges );
+	}
+
+	public function getPhraseFromSeconds( int $seconds ): string
 	{
 		if( !count( $this->ranges ) )
 			throw new Exception( 'No ranges defined' );
-		$callback	= array( $this, 'insertDates' );
+		$callback	= [$this, 'insertDates'];
 		$ranges		= $this->ranges->getRanges();
 		krsort( $ranges );
-		foreach( $ranges as $from => $label )
-		{
+		foreach( $ranges as $from => $label ){
 			if( $from > $seconds )
 				continue;
 			$value	= $label."::".$seconds;
 			$label	= preg_replace_callback( $this->patternLabel, $callback, $value );
-			$label	= preg_replace( $this->patternData, "", $label );
-			return $label;
+			return preg_replace( $this->patternData, "", $label );
 		}
 		throw new OutOfBoundsException( 'No range defined for '.$seconds.' seconds' );
 	}
 
-	public function getPhraseFromTimestamp( $timestamp )
+	public function getPhraseFromTimestamp( int $timestamp ): string
 	{
 		$seconds	= time() - $timestamp;
 		if( $seconds < 0 )
@@ -74,7 +84,7 @@ class Alg_Time_DurationPhraser
 		return $this->getPhraseFromSeconds( $seconds );
 	}
 
-	protected static function insertDates( $matches )
+	protected static function insertDates( array $matches ): string
 	{
 		$value	= $matches[4];
 		$format	= $matches[2];
@@ -93,7 +103,6 @@ class Alg_Time_DurationPhraser
 		else if( $format !== "s" )
 			throw new Exception( 'Unknown date format "'.$format.'"' );
 
-		$value	= $matches[1].(int) $value.$matches[3];
-		return $value;
+		return $matches[1].(int) $value.$matches[3];
 	}
 }

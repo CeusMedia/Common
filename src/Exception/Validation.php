@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Exception for Input Validation Errors, which can be serialized e.G. for NetServices.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,28 +20,29 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
- *	@extends		RuntimeException
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2007
  */
+
+namespace CeusMedia\Common\Exception;
+
+use Throwable;
+
 /**
  *	Exception for Input Validation Errors, which can be serialized e.G. for NetServices.
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
- *	@extends		Exception_Runtime
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2007
  */
-class Exception_Validation extends Exception_Runtime
+class Validation extends Runtime
 {
 	/**	@var		array		$errors			List of Validation Errors */
-	protected $errors	= array();
+	protected $errors	= [];
 
 	/**	@var		string		$form			Name Form in Validation File */
 	protected $form		= "";
@@ -48,11 +50,12 @@ class Exception_Validation extends Exception_Runtime
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$message		Error Message
-	 *	@param		string		$errors			List of Validation Errors
+	 *	@param		string			$message		Error Message
+	 *	@param		array			$errors			List of Validation Errors
+	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */
-	public function __construct( string $message = null, array $errors = array(), $form = '', ?Throwable $previous = null )
+	public function __construct( string $message, array $errors = [], $form = '', ?Throwable $previous = null )
 	{
 		parent::__construct( $message, 0, $previous );
 		$this->errors	= $errors;
@@ -64,7 +67,7 @@ class Exception_Validation extends Exception_Runtime
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
 		return $this->errors;
 	}
@@ -72,9 +75,9 @@ class Exception_Validation extends Exception_Runtime
 	/**
 	 *	Returns Name of Form in Validation File.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string: string
 	 */
-	public function getForm()
+	public function getForm(): string
 	{
 		return $this->form;
 	}
@@ -84,19 +87,19 @@ class Exception_Validation extends Exception_Runtime
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function serialize()
+	public function serialize(): string
 	{
-		return serialize( array( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) );
+		return serialize( [$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form] );
 	}
 
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$serial			Serial string of an validation exception
+	 *	@param		string		$data			Serial string of a validation exception
 	 *	@return		void
 	 */
-	public function unserialize( $serial )
+	public function unserialize( $data )
 	{
-		list( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) = unserialize( $serial );
+		[$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form]	= unserialize( $data );
 	}
 }

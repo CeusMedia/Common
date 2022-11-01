@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Randomizer supporting different sign types.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,43 +21,59 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.01.2006
  */
+
+namespace CeusMedia\Common\Alg;
+
+use CeusMedia\Common\Alg\Crypt\PasswordStrength;
+use InvalidArgumentException;
+use RuntimeException;
+use UnderflowException;
+
 /**
  *	Randomizer supporting different sign types.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.01.2006
  */
-class Alg_Randomizer
+class Randomizer
 {
 	/**	@var		string		$digits			String with Digits */
-	public $digits				= "0123456789";
+	public $digits				= '0123456789';
+
 	/**	@var		string		$larges		String with large Letters */
-	public $larges				= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	public $larges				= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
 	/**	@var		string		$smalls			String with small Letters */
-	public $smalls				= "abcdefghijklmnopqrstuvwxyz";
+	public $smalls				= 'abcdefghijklmnopqrstuvwxyz';
+
 	/**	@var		string		$signs			String with Signs */
 	public $signs				= '.:_-+*=/\!§$%&(){}[]#@?~';
+
 	/**	@var		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100) */
 	public $strength			= 0;
+
 	/**	@var		integer		$maxTurns		Number of Turns to try to create a strong String */
 	public $maxTurns			= 10;
+
 	/**	@var		boolean		$unique			Flag: every Sign may only appear once in randomized String */
 	public $unique				= TRUE;
+
 	/**	@var		boolean		$useDigits		Flag: use Digits */
 	public $useDigits			= TRUE;
+
 	/**	@var		boolean		$useSmalls		Flag: use small Letters */
 	public $useSmalls			= TRUE;
+
 	/**	@var		boolean		$useLarges		Flag: use large Letters */
 	public $useLarges			= TRUE;
+
 	/**	@var		boolean		$useSigns		Flag: use Signs */
 	public $useSigns			= TRUE;
 
@@ -70,9 +87,10 @@ class Alg_Randomizer
 	 *	@param		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100)
 	 *	@return		void
 	 */
-	public function configure( $useDigits, $useSmalls, $useLarges, $useSigns, $strength ){
+	public function configure( bool $useDigits, bool $useSmalls, bool $useLarges, bool $useSigns, int $strength )
+	{
 		if( !( $useDigits || $useSmalls || $useLarges || $useSigns ) )
-			throw InvalidArgumentException( 'Atleast one type of characters must be enabled' );
+			throw new InvalidArgumentException( 'At least one type of characters must be enabled' );
 		$this->useDigits	= $useDigits;
 		$this->useSmalls	= $useSmalls;
 		$this->useLarges	= $useLarges;
@@ -85,15 +103,15 @@ class Alg_Randomizer
 	 *	@access		protected
 	 *	@return		string
 	 */
-	protected function createPool()
+	protected function createPool(): string
 	{
-		$pool	= "";
-		$sets	= array(
-			"useDigits"	=> "digits",
-			"useSmalls"	=> "smalls",
-			"useLarges"	=> "larges",
-			"useSigns"	=> "signs",
-			);
+		$pool	= '';
+		$sets	= [
+			'useDigits'	=> 'digits',
+			'useSmalls'	=> 'smalls',
+			'useLarges'	=> 'larges',
+			'useSigns'	=> 'signs',
+		];
 
 		foreach( $sets as $key => $value )
 			if( $this->$key )
@@ -108,42 +126,35 @@ class Alg_Randomizer
 	 *	@param		string		$pool			Sign Pool String
 	 *	@return		string
 	 */
-	protected function createString( $length, $pool )
+	protected function createString( int $length, string $pool ): string
 	{
-		$random	= array();
-		$input	= array();
+		$random	= [];
+		$input	= [];
 		for( $i=0; $i<strlen( $pool ); $i++ )
 			$input[] = $pool[$i];
 
-		if( $this->unique )
-		{
-			for( $i=0; $i<$length; $i++ )
-			{
-				$key = array_rand( $input, 1 );
+		if( $this->unique ){
+			for( $i=0; $i<$length; $i++ ){
+				$key = array_rand( $input );
 				if( in_array( $input[$key], $random ) )
 					$i--;
 				else
 					$random[] = $input[$key];
 			}
 		}
-		else
-		{
-			if( $length <= strlen( $pool ) )
-			{
+		else{
+			if( $length <= strlen( $pool ) ){
 				shuffle( $input );
 				$random	= array_slice( $input, 0, $length );
 			}
-			else
-			{
-				for( $i=0; $i<$length; $i++ )
-				{
-					$key = array_rand( $input, 1 );
+			else{
+				for( $i=0; $i<$length; $i++ ){
+					$key = array_rand( $input );
 					$random[] = $input[$key];
 				}
 			}
 		}
-		$random	= join( $random );
-		return $random;
+		return join( $random );
 	}
 
 	/**
@@ -153,23 +164,17 @@ class Alg_Randomizer
 	 *	@param		int			$strength		Strength to have at least (-100 <= x <= 100)
 	 *	@return		string
 	 */
-	public function get( $length, $strength = 0 )
+	public function get( int $length, int $strength = 0 ): string
 	{
-		//  Length is not Integer
-		if( !is_int( $length ) )
-			throw new InvalidArgumentException( 'Length must be an Integer.' );
 		//  Length is 0
-		if( !$length )
+		if( $length < 1 )
 			throw new InvalidArgumentException( 'Length must greater than 0.' );
-		//  Stength is not Integer
-		if( !is_int( $strength ) )
-			throw new InvalidArgumentException( 'Strength must be an Integer.' );
-		//  Strength is to high
+		//  Strength is too high
 		if( $strength && $strength > 100 )
 			throw new InvalidArgumentException( 'Strength must be at most 100.' );
-		//  Strength is to low
+		//  Strength is too low
 		if( $strength && $strength < -100 )
-			throw new InvalidArgumentException( 'Strength must be at leastt -100.' );
+			throw new InvalidArgumentException( 'Strength must be at least -100.' );
 
 		//  absolute Length
 		$length	= abs( $length );
@@ -189,10 +194,9 @@ class Alg_Randomizer
 			return $random;
 
 		$turn	= 0;
-		do
-		{
+		do{
 			//  calculate Strength of random String
-			$currentStrength	= Alg_Crypt_PasswordStrength::getStrength( $random );
+			$currentStrength	= PasswordStrength::getStrength( $random );
 			//  random String is strong enough
 			if( $currentStrength >= $strength )
 				return $random;
@@ -201,7 +205,7 @@ class Alg_Randomizer
 			//  count turn
 			$turn++;
 		}
-		//  break if to much turns
+		//  break if too much turns
 		while( $turn < $this->maxTurns );
 		throw new RuntimeException( 'Strength Score '.$strength.' not reached after '.$turn.' Turns.' );
 	}

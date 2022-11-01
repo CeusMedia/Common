@@ -1,25 +1,28 @@
 <?php
-/**
- *	TestUnit of Alg_SgmlTagReader.
- *	@package		Tests.alg
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.08.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Alg_SgmlTagReader.
+ *	@package		Tests.Alg
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg;
+
+use CeusMedia\Common\Alg\SgmlTagReader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg_SgmlTagReader.
- *	@package		Tests.alg
- *	@extends		Test_Case
- *	@uses			Alg_SgmlTagReader
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.08.2008
- *	@version		0.1
  */
-class Test_Alg_SgmlTagReaderTest extends Test_Case
+class SgmlTagReaderTest extends BaseCase
 {
 	public $tag1	= '<a href="http://google.com/" target="_blank" class=\'test-class other\'>Google</a>';
 	public $tag2	= '<body font-color="#FF0000" onFocus="this.blur()">';
@@ -31,7 +34,7 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$reader	= new Alg_SgmlTagReader;
+		$reader	= new SgmlTagReader;
 	}
 
 	/**
@@ -51,11 +54,11 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 	public function testGetNodeName()
 	{
 		$assertion	= "a";
-		$creation	= Alg_SgmlTagReader::getNodeName( $this->tag1 );
+		$creation	= SgmlTagReader::getNodeName( $this->tag1 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "body";
-		$creation	= Alg_SgmlTagReader::getNodeName( $this->tag2 );
+		$creation	= SgmlTagReader::getNodeName( $this->tag2 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -71,14 +74,14 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 			'target'	=> "_blank",
 			'class'		=> "test-class other"
 		);
-		$creation	= Alg_SgmlTagReader::getAttributes( $this->tag1 );
+		$creation	= SgmlTagReader::getAttributes( $this->tag1 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'font-color'	=> "#FF0000",
 			'onFocus'		=> "this.blur()",
 		);
-		$creation	= Alg_SgmlTagReader::getAttributes( $this->tag2 );
+		$creation	= SgmlTagReader::getAttributes( $this->tag2 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -90,11 +93,11 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 	public function testGetContent()
 	{
 		$assertion	= "Google";
-		$creation	= Alg_SgmlTagReader::getContent( $this->tag1 );
+		$creation	= SgmlTagReader::getContent( $this->tag1 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "";
-		$creation	= Alg_SgmlTagReader::getContent( $this->tag2 );
+		$creation	= SgmlTagReader::getContent( $this->tag2 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -114,7 +117,7 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 				'class'		=> "test-class other"
 			)
 		);
-		$creation	= Alg_SgmlTagReader::getTagData( $this->tag1 );
+		$creation	= SgmlTagReader::getTagData( $this->tag1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

@@ -2,7 +2,7 @@
 /**
  *	Extracts Terms from a Text Document.
  *
- *	Copyright (c) 2009-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +20,33 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2020 Christian Würker
+ *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+
 /**
  *	Extracts Terms from a Text Document.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
- *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2020 Christian Würker
+ *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@todo			Code Doc
  */
-class Alg_Text_TermExtractor
+class TermExtractor
 {
-	public static $blacklist					= array();
-	public static $backlistCaseSensitive		= FALSE;
+	public static array $blacklist					= [];
+	public static bool $backlistCaseSensitive		= FALSE;
 
-	public static function getTerms( $text )
+	public static function getTerms( string $text ): array
 	{
-		$list	= array();
+		$list	= [];
 		$lines	= explode( "\n", $text );
 		$blacklist	= self::$blacklist;
 		if( !self::$backlistCaseSensitive )
@@ -66,32 +68,29 @@ class Alg_Text_TermExtractor
 				if( in_array( $search, $blacklist ) )
 					continue;
 
-				if( $word )
-				{
-					if( !isset( $list[$word] ) )
-						$list[$word]	= 0;
-					$list[$word]++;
-				}
+				if( !isset( $list[$word] ) )
+					$list[$word]	= 0;
+				$list[$word]++;
 			}
 		}
-#		ksort( $list );
+//		ksort( $list );
 		arsort( $list );
 		return $list;
 	}
 
-	public static function loadBlacklist( $fileName )
+	public static function loadBlacklist( string $fileName )
 	{
-		$string	= FS_File_Editor::load( $fileName );
-		if( !Alg_Text_Unicoder::isUnicode( $string ) )
+		$string	= FileEditor::load( $fileName );
+		if( !Unicoder::isUnicode( $string ) )
 		{
-			$string	= Alg_Text_Unicoder::convertToUnicode( $string );
-			FS_File_Editor::save( $fileName, $string );
+			$string	= Unicoder::convertToUnicode( $string );
+			FileEditor::save( $fileName, $string );
 		}
-		$list	= FS_File_Editor::loadArray( $fileName );
+		$list	= FileEditor::loadArray( $fileName );
 		self::setBlacklist( array_unique( $list ) );
 	}
 
-	public static function setBlacklist( $list )
+	public static function setBlacklist( array $list )
 	{
 		self::$blacklist		= array_unique( $list );
 	}

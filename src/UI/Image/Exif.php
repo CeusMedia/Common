@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +22,36 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use CeusMedia\Common\UI\Image;
+use Exception;
+use RuntimeException;
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
-class UI_Image_Exif extends ADT_List_Dictionary
+class Exif extends Dictionary
 {
 	protected $imageUri;
 
-	public function __construct( $imageUri )
+    protected $raw;
+
+	public function __construct( string $imageUri )
 	{
 		if( !function_exists( 'exif_read_data' ) )
 			throw new RuntimeException( 'Exif not supported' );
@@ -63,32 +74,32 @@ class UI_Image_Exif extends ADT_List_Dictionary
 		}
 	}
 
-	public function getRawData()
+	public function getRawData(): array
 	{
 		return $this->raw;
 	}
 
-	public function getThumbnailData()
+	public function getThumbnailData(): array
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
-		return array(
+		return [
 			'content'	=> $content,
 			'width'		=> $width,
 			'height'	=> $height,
 			'type'		=> $type
-		);
+		];
 	}
 
-	public function getThumbnailImage()
+	public function getThumbnailImage(): string
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
 		if( !$content )
 			throw new Exception( 'No thumbnail available' );
-		$attributes	= array(
+		$attributes	= [
 			'width'		=> $width,
 			'height'	=> $height,
 			'src'		=> 'data:image/gif;base64,'.base64_encode( $content )
-		);
-		return UI_HTML_Tag::create( 'img', NULL, $attributes );
+		];
+		return HtmlTag::create( 'img', NULL, $attributes );
 	}
 }

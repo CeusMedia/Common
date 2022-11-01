@@ -1,25 +1,28 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of Tag.
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.04.2008
- *	@version		0.1
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\FormElements;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Gauss Blur.
  *	@package		Tests.ui.html
- *	@extends		Test_Case
- *	@uses			UI_HTML_FormElements
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.04.2008
- *	@version		0.1
  */
-class Test_UI_HTML_FormElementsTest extends Test_Case
+class FormElementsTest extends BaseCase
 {
 	/**
 	 *	Tests Method 'Button'.
@@ -29,19 +32,19 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testButton()
 	{
 		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass"><span>testLabel</span></button>';
-		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass" );
+		$creation	= FormElements::Button( "testButton", "testLabel", "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" onclick="return confirm(&#039;testConfirm&#039;);"><span>testLabel</span></button>';
-		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", "testConfirm" );
+		$creation	= FormElements::Button( "testButton", "testLabel", "testClass", "testConfirm" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" disabled="disabled"><span>testLabel</span></button>';
-		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", FALSE, TRUE );
+		$creation	= FormElements::Button( "testButton", "testLabel", "testClass", NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" onclick="alert(&#039;testDisabled&#039;);" readonly="readonly"><span>testLabel</span></button>';
-		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", NULL, "testDisabled" );
+		$creation	= FormElements::Button( "testButton", "testLabel", "testClass", NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -54,23 +57,23 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	{
 /*		XHTML 1.1
 		$assertion	= '<input id="testName" type="checkbox" name="testName"/>';
-		$creation	= UI_HTML_FormElements::CheckBox( "testName", "", "", "", "" );
+		$creation	= FormElements::CheckBox( "testName", "", "", "", "" );
 		$this->assertEquals( $assertion, $creation );
 */
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass"/>';
-		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", FALSE, "testClass" );
+		$creation	= FormElements::CheckBox( "testName", "testValue", FALSE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" checked="checked"/>';
-		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", TRUE, "testClass" );
+		$creation	= FormElements::CheckBox( "testName", "testValue", TRUE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly"/>';
-		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", TRUE );
+		$creation	= FormElements::CheckBox( "testName", "testValue", FALSE, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", "testDisabled" );
+		$creation	= FormElements::CheckBox( "testName", "testValue", FALSE, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -82,7 +85,7 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testHiddenField()
 	{
 		$assertion	= '<input id="testName" type="hidden" name="testName" value="testValue"/>';
-		$creation	= UI_HTML_FormElements::HiddenField( "testName", "testValue" );
+		$creation	= FormElements::HiddenField( "testName", "testValue" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -94,19 +97,19 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testInput()
 	{
 		$assertion	= '<input id="testName" type="text" name="testName" value="testValue" class="testClass"/>';
-		$creation	= UI_HTML_FormElements::Input( "testName", "testValue", "testClass" );
+		$creation	= FormElements::Input( "testName", "testValue", "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="text" name="testName" value="testValue" class="testClass" readonly="readonly"/>';
-		$creation	= UI_HTML_FormElements::Input( "testName", "testValue", "testClass", TRUE );
+		$creation	= FormElements::Input( "testName", "testValue", "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="text" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= UI_HTML_FormElements::Input( "testName", "testValue", "testClass", "testDisabled" );
+		$creation	= FormElements::Input( "testName", "testValue", "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="text" name="testName" value="testValue" class="testClass" tabindex="10" maxlength="20" onkeyup="allowOnly(this,&#039;numeric&#039;);"/>';
-		$creation	= UI_HTML_FormElements::Input( "testName", "testValue", "testClass", FALSE, 10, 20, "numeric" );
+		$creation	= FormElements::Input( "testName", "testValue", "testClass", FALSE, 10, 20, "numeric" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -118,11 +121,11 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testFile()
 	{
 		$assertion	= '<input id="testName" type="file" name="testName" value="testValue" class="testClass" tabindex="10" maxlength="20"/>';
-		$creation	= UI_HTML_FormElements::File( "testName", "testValue", "testClass", FALSE, 10, 20 );
+		$creation	= FormElements::File( "testName", "testValue", "testClass", FALSE, 10, 20 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="file" name="testName" value="testValue" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= UI_HTML_FormElements::File( "testName", "testValue", FALSE, "testDisabled" );
+		$creation	= FormElements::File( "testName", "testValue", NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -134,11 +137,11 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testForm()
 	{
 		$assertion	= '<form method="post">';
-		$creation	= UI_HTML_FormElements::Form();
+		$creation	= FormElements::Form();
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<form id="form_testName" name="testName" action="testURL" target="testTarget" method="post" enctype="testEnctype" onsubmit="testSubmit">';
-		$creation	= UI_HTML_FormElements::Form( "testName", "testURL", "testTarget", "testEnctype", "testSubmit" );
+		$creation	= FormElements::Form( "testName", "testURL", "testTarget", "testEnctype", "testSubmit" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -150,11 +153,11 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testLabel()
 	{
 		$assertion	= '<label for="testId">testLabel</label>';
-		$creation	= UI_HTML_FormElements::Label( "testId", "testLabel" );
+		$creation	= FormElements::Label( "testId", "testLabel" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<label for="testId" class="testClass">testLabel</label>';
-		$creation	= UI_HTML_FormElements::Label( "testId", "testLabel", "testClass" );
+		$creation	= FormElements::Label( "testId", "testLabel", "testClass" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -166,15 +169,15 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testLinkButton()
 	{
 		$assertion	= '<button id="button_423d7f72ed90277acca9dab9098f12a7" type="button" onclick="document.location.href=&#039;testURL&#039;;"><span>testLabel</span></button>';
-		$creation	= UI_HTML_FormElements::LinkButton( "testURL", "testLabel" );
+		$creation	= FormElements::LinkButton( "testURL", "testLabel" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button id="button_423d7f72ed90277acca9dab9098f12a7" type="button" class="testClass" onclick="if(confirm(&#039;testConfirm&#039;)){document.location.href=&#039;testURL&#039;;};"><span>testLabel</span></button>';
-		$creation	= UI_HTML_FormElements::LinkButton( "testURL", "testLabel", "testClass", "testConfirm" );
+		$creation	= FormElements::LinkButton( "testURL", "testLabel", "testClass", "testConfirm" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button id="button_423d7f72ed90277acca9dab9098f12a7" type="button" onclick="alert(&#039;testDisabled&#039;);" readonly="readonly"><span>testLabel</span></button>';
-		$creation	= UI_HTML_FormElements::LinkButton( "testURL", "testLabel", NULL, "testConfirm", "testDisabled" );
+		$creation	= FormElements::LinkButton( "testURL", "testLabel", NULL, "testConfirm", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -186,27 +189,27 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testOption()
 	{
 		$assertion	= '<option value="testValue">testLabel</option>';
-		$creation	= UI_HTML_FormElements::Option( "testValue", "testLabel" );
+		$creation	= FormElements::Option( "testValue", "testLabel" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" selected="selected">testLabel</option>';
-		$creation	= UI_HTML_FormElements::Option( "testValue", "testLabel", TRUE );
+		$creation	= FormElements::Option( "testValue", "testLabel", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" disabled="disabled">testLabel</option>';
-		$creation	= UI_HTML_FormElements::Option( "testValue", "testLabel", NULL, TRUE );
+		$creation	= FormElements::Option( "testValue", "testLabel", FALSE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" selected="selected" disabled="disabled">testLabel</option>';
-		$creation	= UI_HTML_FormElements::Option( "testValue", "testLabel", TRUE, TRUE );
+		$creation	= FormElements::Option( "testValue", "testLabel", TRUE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" class="testClass">testLabel</option>';
-		$creation	= UI_HTML_FormElements::Option( "testValue", "testLabel", NULL, NULL, "testClass" );
+		$creation	= FormElements::Option( "testValue", "testLabel", FALSE, FALSE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<option value="testValue" selected="selected" disabled="disabled" class="testClass">testLabel</option>';
-		$creation	= UI_HTML_FormElements::Option( "testValue", "testLabel", TRUE, TRUE, "testClass" );
+		$creation	= FormElements::Option( "testValue", "testLabel", TRUE, TRUE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -223,12 +226,12 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 		);
 		$selected	= "value2";
 		$assertion	= '<option value="value1">label1</option><option value="value2" selected="selected">label2</option>';
-		$creation	= UI_HTML_FormElements::Options( $options, $selected );
+		$creation	= FormElements::Options( $options, $selected );
 		$this->assertEquals( $assertion, $creation );
 
 		$selected	= array( "value1", "value2" );
 		$assertion	= '<option value="value1" selected="selected">label1</option><option value="value2" selected="selected">label2</option>';
-		$creation	= UI_HTML_FormElements::Options( $options, $selected );
+		$creation	= FormElements::Options( $options, $selected );
 		$this->assertEquals( $assertion, $creation );
 
 		$options	= array(
@@ -239,7 +242,7 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 		);
 		$selected	= "value11";
 		$assertion	= '<optgroup label="group1"><option value="value11" selected="selected">label11</option></optgroup>';
-		$creation	= UI_HTML_FormElements::Options( $options, $selected );
+		$creation	= FormElements::Options( $options, $selected );
 		$this->assertEquals( $assertion, $creation );
 
 		$options	= array(
@@ -250,7 +253,7 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 			),
 		);
 		$assertion	= '<optgroup label="group1"><option value="value11" selected="selected">label11</option></optgroup>';
-		$creation	= UI_HTML_FormElements::Options( $options );
+		$creation	= FormElements::Options( $options );
 		$this->assertEquals( $assertion, $creation );
 
 		$options	= array(
@@ -268,7 +271,7 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 		);
 		$assertion	= '<optgroup label="group1"><option value="value11" selected="selected">label11</option><option value="value12">label12</option></optgroup>'.
 					  '<optgroup label="group2"><option value="value21">label21</option><option value="value22" selected="selected">label22</option></optgroup>';
-		$creation	= UI_HTML_FormElements::Options( $options );
+		$creation	= FormElements::Options( $options );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -280,7 +283,7 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testPassword()
 	{
 		$assertion	= '<input id="testName" type="password" name="testName" class="testClass" tabindex="10" maxlength="20" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= UI_HTML_FormElements::Password( "testName", "testClass", "testDisabled", 10, 20 );
+		$creation	= FormElements::Password( "testName", "testClass", "testDisabled", 10, 20 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -292,19 +295,19 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testRadio()
 	{
 		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass"/>';
-		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", FALSE, "testClass" );
+		$creation	= FormElements::Radio( "testName", "testValue", FALSE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" checked="checked"/>';
-		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", TRUE, "testClass" );
+		$creation	= FormElements::Radio( "testName", "testValue", TRUE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly"/>';
-		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", NULL, "testClass", TRUE );
+		$creation	= FormElements::Radio( "testName", "testValue", FALSE, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);"/>';
-		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", NULL, "testClass", "testDisabled" );
+		$creation	= FormElements::Radio( "testName", "testValue", FALSE, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -322,7 +325,7 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 		);
 
 		$fieldRadio	= '<input id="testName_value1" type="radio" name="testName" value="value1" class="testClass"/>';
-		$fieldRadio	= UI_HTML_FormElements::Radio( 'testName', 'value1', FALSE, 'testClass' );
+		$fieldRadio	= FormElements::Radio( 'testName', 'value1', FALSE, 'testClass' );
 		$spanRadio	= '<span class="radio">'.$fieldRadio.'</span>';
 		$spanLabel	= '<span class="label"><label for="testName_value1">label1</label></span>';
 		$assertion	= '<span class="radiolabel">'.$spanRadio.$spanLabel.'</span>';
@@ -332,16 +335,16 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 		$spanLabel	= '<span class="label"><label for="testName_value2">label2</label></span>';
 		$assertion	.= '<span class="radiolabel">'.$spanRadio.$spanLabel.'</span>';
 
-		$creation	= UI_HTML_FormElements::RadioGroup( "testName", $options, "testClass" );
+		$creation	= FormElements::RadioGroup( "testName", $options, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 
 		$options	= array( 'value1' => 'label1' );
-		$fieldRadio	= UI_HTML_FormElements::Radio( 'testName', 'value1', FALSE, NULL, 'testDisabled' );
+		$fieldRadio	= FormElements::Radio( 'testName', 'value1', FALSE, NULL, 'testDisabled' );
 		$spanRadio	= '<span class="radio">'.$fieldRadio.'</span>';
 		$spanLabel	= '<span class="label"><label for="testName_value1">label1</label></span>';
 		$assertion	= '<span class="radiolabel">'.$spanRadio.$spanLabel.'</span>';
-		$creation	= UI_HTML_FormElements::RadioGroup( "testName", $options, FALSE, "testDisabled" );
+		$creation	= FormElements::RadioGroup( "testName", $options, NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -353,15 +356,15 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testResetButton()
 	{
 		$assertion	= '<button type="reset" class="testClass">testLabel</button>';
-		$creation	= UI_HTML_FormElements::ResetButton( "testLabel", "testClass" );
+		$creation	= FormElements::ResetButton( "testLabel", "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="reset" class="testClass" onclick="return confirm(&#039;testConfirm&#039;);">testLabel</button>';
-		$creation	= UI_HTML_FormElements::ResetButton( "testLabel", "testClass", "testConfirm" );
+		$creation	= FormElements::ResetButton( "testLabel", "testClass", "testConfirm" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="reset" class="testClass" onclick="alert(&#039;testDisabled&#039;);" readonly="readonly">testLabel</button>';
-		$creation	= UI_HTML_FormElements::ResetButton( "testLabel", "testClass", NULL, "testDisabled" );
+		$creation	= FormElements::ResetButton( "testLabel", "testClass", NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -379,27 +382,27 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 			'_selected'	=> 'value2',
 		);
 		$assertion	= '<select id="testName" name="testName" class="testClass"><option value="">- none -</option><option value="value1">label1</option><option value="value2" selected="selected">label2</option></select>';
-		$creation	= UI_HTML_FormElements::Select( "testName", $options, "testClass" );
+		$creation	= FormElements::Select( "testName", $options, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
-		$options	= UI_HTML_FormElements::Options( $options );
+		$options	= FormElements::Options( $options );
 		$assertion	= '<select id="testName" name="testName" class="testClass">'.$options.'</select>';
-		$creation	= UI_HTML_FormElements::Select( "testName", $options, "testClass" );
+		$creation	= FormElements::Select( "testName", $options, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$options	= array(
 			'value1'	=> 'label1',
 		);
 		$assertion	= '<select id="testName" name="testName" onchange="document.getElementById(&#039;testFocus&#039;).focus();document.getElementById(&#039;form_testSubmit&#039;).submit();testChange"><option value="value1">label1</option></select>';
-		$creation	= UI_HTML_FormElements::Select( "testName", $options, NULL, NULL, "testSubmit", "testFocus", "testChange" );
+		$creation	= FormElements::Select( "testName", $options, NULL, NULL, "testSubmit", "testFocus", "testChange" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<select id="testName" name="testName" readonly="readonly" disabled="disabled"><option value="value1">label1</option></select>';
-		$creation	= UI_HTML_FormElements::Select( "testName", $options, NULL, TRUE );
+		$creation	= FormElements::Select( "testName", $options, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<select id="testName" name="testName" readonly="readonly" onmousedown="alert(&#039;testDisabled&#039;); return false;"><option value="value1">label1</option></select>';
-		$creation	= UI_HTML_FormElements::Select( "testName", $options, NULL, "testDisabled" );
+		$creation	= FormElements::Select( "testName", $options, NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -411,19 +414,19 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 	public function testTextArea()
 	{
 		$assertion	= '<textarea id="testName" name="testName" class="testClass">testContent</textarea>';
-		$creation	= UI_HTML_FormElements::TextArea( "testName", "testContent", "testClass" );
+		$creation	= FormElements::TextArea( "testName", "testContent", "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<textarea id="testName" name="testName" class="testClass" readonly="readonly">testContent</textarea>';
-		$creation	= UI_HTML_FormElements::TextArea( "testName", "testContent", "testClass", TRUE );
+		$creation	= FormElements::TextArea( "testName", "testContent", "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<textarea id="testName" name="testName" class="testClass" readonly="readonly" onclick="alert(&#039;testDisabled&#039;);">testContent</textarea>';
-		$creation	= UI_HTML_FormElements::TextArea( "testName", "testContent", "testClass", "testDisabled" );
+		$creation	= FormElements::TextArea( "testName", "testContent", "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<textarea id="testName" name="testName" class="testClass" onkeyup="allowOnly(this,&#039;all&#039;);">testContent</textarea>';
-		$creation	= UI_HTML_FormElements::TextArea( "testName", "testContent", "testClass", NULL, "all" );
+		$creation	= FormElements::TextArea( "testName", "testContent", "testClass", NULL, "all" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

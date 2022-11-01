@@ -2,7 +2,7 @@
 /**
  *	Validator for defined Fields.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +20,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			28.08.2006
  */
+
+namespace CeusMedia\Common\Alg\Validation;
+
+use ArrayObject;
+use InvalidArgumentException;
+
 /**
  *	Validator for defined Fields.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
- *	@extends		Alg_Validation_PredicateValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			28.08.2006
  */
-class Alg_Validation_DefinitionValidator
+class DefinitionValidator
 {
 	/**	@var		Object		Predicate Class Instance */
 	protected $validator;
@@ -48,58 +51,52 @@ class Alg_Validation_DefinitionValidator
 	 *	@param		string		$validatorClass		Class Name of Predicate Validator Class
 	 *	@return		void
 	 */
-	public function __construct( $predicateClass = "Alg_Validation_Predicates", $validatorClass = "Alg_Validation_PredicateValidator" )
+	public function __construct( $predicateClass = NULL, $validatorClass = NULL )
 	{
+		$predicateClass		??= Predicates::class;
+		$validatorClass		??= PredicateValidator::class;
 		$this->validator	= new $validatorClass( $predicateClass );
 	}
 
 	/**
 	 *	Validates Syntax against Field Definition and generates Messages.
 	 *	@access		public
-	 *	@param		string		$fieldKey	Field Key in Definition
-	 *	@param		string		$data		Field Definition
-	 *	@param		string		$value		Value to validate
-	 *	@param		string		$fieldName	Field Name in Form
+	 *	@param		array		$definition		Field Definition
+	 *	@param		string		$value			Value to validate
 	 *	@return		array
 	 */
-	public function validate( $definition, $value )
+	public function validate( array $definition, string $value ): array
 	{
-		if( !is_array( $definition ) )
-			throw new InvalidArgumentException( 'Definition must be an array, '.gettype( $definition ).' given' );
-		$errors		= array();
-		if( !empty( $definition['syntax'] ) )
-		{
+		$errors		= [];
+		if( !empty( $definition['syntax'] ) ){
 			$syntax		= new ArrayObject( $definition['syntax'] );
 
-			if( !strlen( $value ) )
-			{
+			if( !strlen( $value ) ){
 				if( $syntax['mandatory'] )
-					$errors[]	= array( 'isMandatory', NULL );
+					$errors[]	= ['isMandatory', NULL];
 				return $errors;
 			}
 
 			if( $syntax['class'] )
 				if( !$this->validator->isClass( $value, $syntax['class'] ) )
-					$errors[]	= array( 'isClass', $syntax['class'] );
+					$errors[]	= ['isClass', $syntax['class']];
 
-			$predicates	= array(
+			$predicates	= [
 				'maxlength'	=> 'hasMaxLength',
 				'minlength'	=> 'hasMinLength',
-			);
+			];
 			foreach( $predicates as $key => $predicate )
 				if( $syntax[$key] )
 					if( !$this->validator->validate( $value, $predicate, $syntax[$key] ) )
-						$errors[]	= array( $predicate, $syntax[$key] );
+						$errors[]	= [$predicate, $syntax[$key]];
 		}
 
-		if( !empty( $definition['semantic'] ) )
-		{
-			foreach( $definition['semantic'] as $semantic )
-			{
+		if( !empty( $definition['semantic'] ) ){
+			foreach( $definition['semantic'] as $semantic ){
 				$semantic	= new ArrayObject( $semantic );
 				$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
 				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
-					$errors[]	= array( $semantic['predicate'], $param );
+					$errors[]	= [$semantic['predicate'], $param];
 			}
 		}
 		return $errors;

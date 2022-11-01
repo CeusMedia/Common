@@ -2,7 +2,7 @@
 /**
  *	Calculates a Score for the Strength of a Password.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +20,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Crypt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
+
+namespace CeusMedia\Common\Alg\Crypt;
+
 /**
  *	Calculates a Score for the Strength of a Password.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Crypt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
-class Alg_Crypt_PasswordStrength
+class PasswordStrength
 {
 	/**	@var	array	$badWords		List of unsecure words */
-	public static $badWords	= array(
+	public static $badWords	= [
 		"password",
 		"password1",
 		"sex",
@@ -50,8 +51,8 @@ class Alg_Crypt_PasswordStrength
 		"letmein",
 		"qwerty",
 		"monkey"
-	);
-	/**	@var	int		$minLength		... */	
+	];
+	/**	@var	int		$minLength		... */
 	public static $minLength	= 6;
 
 	/**
@@ -118,7 +119,7 @@ class Alg_Crypt_PasswordStrength
 			$score	+= 3;
 
 		//  --  BAD WORDS  --  //
-		if( in_array( strtolower( $password ), self::$badWords ) ) 
+		if( in_array( strtolower( $password ), self::$badWords ) )
 			$score -= 200;
 		return $score;
 	}

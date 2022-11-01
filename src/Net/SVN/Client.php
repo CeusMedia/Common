@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Simple Subversion client.
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,29 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_SVN
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
+
+namespace CeusMedia\Common\Net\SVN;
+
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\XML\Element as XmlElement;
+use Exception;
+
 /**
  *	Simple Subversion client.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_SVN
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
-class Net_SVN_Client{
-
+class Client
+{
 	protected $user;
 	protected $group;
 	protected $mode;
@@ -46,7 +52,7 @@ class Net_SVN_Client{
 
 	public function __construct( $path ){
 		if( !file_exists( $path ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		$this->path		= realpath( $path ).'/';
 		$this->pathExp	= '^('.str_replace( '/', '\/', $this->path ).')';
 	}
@@ -54,7 +60,7 @@ class Net_SVN_Client{
 	public function add( $path ){
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		$status	= @svn_add( $url );
 		if( !$status )
 			svn_revert( $url );
@@ -62,12 +68,12 @@ class Net_SVN_Client{
 	}
 
 	public function authenticate( $username, $password ){
-		svn_auth_set_parameter( SVN_AUTH_PARAM_NON_INTERACTIVE, true);
+		svn_auth_set_parameter( SVN_AUTH_PARAM_NON_INTERACTIVE, 'true');
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_USERNAME, $username );
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_PASSWORD, $password );
 		// <--- Important for certificate issues!
-		svn_auth_set_parameter( PHP_SVN_AUTH_PARAM_IGNORE_SSL_VERIFY_ERRORS, true);
-		svn_auth_set_parameter( SVN_AUTH_PARAM_NO_AUTH_CACHE, true);
+		svn_auth_set_parameter( PHP_SVN_AUTH_PARAM_IGNORE_SSL_VERIFY_ERRORS, 'true');
+		svn_auth_set_parameter( SVN_AUTH_PARAM_NO_AUTH_CACHE, 'true');
 	}
 
 	public function commit( $msg, $list ){
@@ -89,27 +95,27 @@ class Net_SVN_Client{
 		if( !strlen( `svn info $path` ) )
 			throw new Exception( 'Path '.$path.' is not under SVN conrol' );
 		$xml	= `svn info $path --xml 2>&1`;
-		return new XML_Element( $xml );
+		return new XmlElement( $xml );
 	}
 
 	public function ls( $path, $revision = SVN_REVISION_HEAD, $recurse = FALSE ){
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		return svn_ls( $url, $revision, $recurse );
 	}
 
 	public function revert( $path ){
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		return @svn_revert( $url );
 	}
 
 	public function status( $path = '.', $flags = 0 ){
 		$url		= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		return svn_status( $url,  $flags );
 	}
 }

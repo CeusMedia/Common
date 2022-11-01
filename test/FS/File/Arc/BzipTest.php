@@ -1,26 +1,33 @@
 <?php
-/**
- *	TestUnit of Bzip File.
- *	@package		Tests.file.arc
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Bzip File.
+ *	@package		Tests.FS.File.Arc
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\FS\File\Arc;
+
+use CeusMedia\Common\FS\File\Arc\Bzip;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Bzip File.
- *	@package		Tests.file.arc
- *	@extends		Test_Case
- *	@uses			FS_File_Arc_Bzip
+ *	@package		Tests.FS.File.Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
-class Test_FS_File_Arc_BzipTest extends Test_Case
+class BzipTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
+
+	protected $path;
 
 	public function setUp(): void
 	{
@@ -38,12 +45,10 @@ class Test_FS_File_Arc_BzipTest extends Test_Case
 
 	public function testWriteString()
 	{
-		$arc	= new FS_File_Arc_Bzip( $this->fileName );
+		$arc	= new Bzip( $this->fileName );
 		$arc->writeString( "test" );
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 
 		$assertion	= bzcompress( "test" );
 		$creation	= file_get_contents( $this->fileName );
@@ -52,7 +57,7 @@ class Test_FS_File_Arc_BzipTest extends Test_Case
 
 	public function testReadString()
 	{
-		$arc	= new FS_File_Arc_Bzip( $this->fileName );
+		$arc	= new Bzip( $this->fileName );
 		$arc->writeString( "test" );
 
 		$assertion	= "test";

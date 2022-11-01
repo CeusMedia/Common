@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Image resource reader and writer.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,16 +22,24 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI;
+
+use CeusMedia\Common\UI\Image\Error as ErrorImage;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Image resource reader and writer.
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -56,17 +66,35 @@
 16 - XBM		IMAGETYPE_XBM
 17 - ICO		IMAGETYPE_ICO
 */
-class UI_Image
+class Image
 {
-	protected $resource			= NULL;
-	protected $type				= IMAGETYPE_PNG;
-	protected $width			= 0;
-	protected $height			= 0;
-	protected $quality			= 100;
-	protected $fileName			= NULL;
 	public $colorTransparent;
 
-	public function __construct( $fileName = NULL, $tolerateAnimatedGif = FALSE )
+	protected $resource			= NULL;
+
+	protected $type				= IMAGETYPE_PNG;
+
+	protected $width			= 0;
+
+	protected $height			= 0;
+
+	protected $quality			= 100;
+
+	protected $fileName			= NULL;
+
+	/**
+	 *	Constructor.
+	 *	Reads an image from file, supporting several file types, if given.
+	 *	@access		public
+	 *	@param		string|NULL		$fileName		Name of image file
+	 *	@return		void
+	 *	@throws		RuntimeException if file is not existing
+	 *	@throws		RuntimeException if file is not readable
+	 *	@throws		RuntimeException if file is not an image
+	 *	@throws		Exception if detected image type is not supported
+	 *	@throws		Exception if image type is not supported for reading
+	 */
+	public function __construct( ?string $fileName = NULL, bool $tolerateAnimatedGif = FALSE )
 	{
 		if( !is_null( $fileName ) )
 			$this->load( $fileName, $tolerateAnimatedGif );
@@ -78,11 +106,11 @@ class UI_Image
 	 *	@param		integer		$width		Width of image
 	 *	@param		integer		$height		Height of image
 	 *	@param		boolean		$trueColor	Flag: create an TrueColor Image (24-bit depth and without fixed palette)
-	 *	@param		double		$alpha		Alpha channel value (0-100)
+	 *	@param		integer		$alpha		Alpha channel value (0-100)
 	 *	@return		void
 	 *	@todo		is alpha needed ?
 	 */
-	public function create( $width, $height, $trueColor = TRUE, $alpha = 0 )
+	public function create( int $width, int $height, bool $trueColor = TRUE, int $alpha = 0 )
 	{
 		$resource	= $trueColor ? imagecreatetruecolor( $width, $height ) : imagecreate( $width, $height );
 		$this->type	= $trueColor ? IMAGETYPE_PNG : IMAGETYPE_GIF;
@@ -95,7 +123,7 @@ class UI_Image
 	 *	@param		boolean		$sendContentType		Flag: send HTTP header for image type beforehand, default: yes
 	 *	@return		void
 	 */
-	public function display( $sendContentType = TRUE )
+	public function display( bool $sendContentType = TRUE )
 	{
 		if( $sendContentType )
 			header( 'Content-type: '.$this->getMimeType() );
@@ -112,11 +140,11 @@ class UI_Image
 				break;
 			default:
 				header_remove( 'Content-type' );
-				new UI_Image_Error( 'invalid type' );
+				new ErrorImage( 'invalid type' );
 		}
 	}
 
-	public function getColor( $red, $green, $blue, $alpha = 0 )
+	public function getColor( int $red, int $green, int $blue, int $alpha = 0 )
 	{
 		return imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
 	}
@@ -126,7 +154,7 @@ class UI_Image
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFileName()
+	public function getFileName(): string
 	{
 		return $this->fileName;
 	}
@@ -136,7 +164,7 @@ class UI_Image
 	 *	@access		public
 	 *	@return		integer
 	 */
-	public function getHeight()
+	public function getHeight(): int
 	{
 		return $this->height;
 	}
@@ -146,7 +174,7 @@ class UI_Image
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getMimeType()
+	public function getMimeType(): string
 	{
 		return image_type_to_mime_type( $this->type );
 	}
@@ -156,7 +184,7 @@ class UI_Image
 	 *	@access		public
 	 *	@return		integer
 	 */
-	public function getQuality()
+	public function getQuality(): int
 	{
 		return $this->quality;
 	}
@@ -176,7 +204,7 @@ class UI_Image
 	 *	@access		public
 	 *	@return		integer
 	 */
-	public function getType()
+	public function getType(): int
 	{
 		return $this->type;
 	}
@@ -186,7 +214,7 @@ class UI_Image
 	 *	@access		public
 	 *	@return		integer
 	 */
-	public function getWidth()
+	public function getWidth(): int
 	{
 		return $this->width;
 	}
@@ -198,12 +226,12 @@ class UI_Image
 	 *	@param		string		$filePath	Path Name of Image File
 	 *	@return		boolean		TRUE if Image File is an animated GIF
 	 */
-	public static function isAnimated( $filePath ){
+	public static function isAnimated( string $filePath ): bool
+	{
 		$content	= file_get_contents( $filePath );
 		$pos1		= 0;
 		$count		= 0;
-		while( $count < 2 ) # There is no point in continuing after we find a 2nd frame
-		{
+		while( $count < 2 ){ # There is no point in continuing after we find a 2nd frame
 			$pos1	= strpos( $content, "\x00\x21\xF9\x04", $pos1 );
 			if( $pos1 === FALSE )
 				break;
@@ -224,11 +252,11 @@ class UI_Image
 	 *	@return		void
 	 *	@throws		RuntimeException if file is not existing
 	 *	@throws		RuntimeException if file is not readable
-	 *	@throws		RuntimeException if file is not a image
+	 *	@throws		RuntimeException if file is not an image
 	 *	@throws		Exception if detected image type is not supported
 	 *	@throws		Exception if image type is not supported for reading
 	 */
-	public function load( $fileName, $tolerateAnimatedGif = FALSE )
+	public function load( string $fileName, bool $tolerateAnimatedGif = FALSE )
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'Image "'.$fileName.'" is not existing' );
@@ -242,8 +270,7 @@ class UI_Image
 		if( $this->resource )
 			imagedestroy( $this->resource );
 		$this->type		= $info[2];
-		switch( $this->type )
-		{
+		switch( $this->type ){
 			case IMAGETYPE_GIF:
 				$resource	= imagecreatefromgif( $fileName );
 				break;
@@ -265,7 +292,8 @@ class UI_Image
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function render(){
+	public function render(): string
+	{
 		ob_start();
 		$this->display( FALSE );
 		return ob_get_clean();
@@ -274,13 +302,13 @@ class UI_Image
 	/**
 	 *	Writes an image to file.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of new image file
-	 *	@param		integer		$type			Type of image (IMAGETYPE_GIF|IMAGETYPE_JPEG|IMAGETYPE_PNG)
+	 *	@param		string|NULL		$fileName		Name of new image file
+	 *	@param		integer|NULL	$type			Type of image (IMAGETYPE_GIF|IMAGETYPE_JPEG|IMAGETYPE_PNG)
 	 *	@return		boolean
 	 *	@throws		RuntimeException if neither file has been loaded before nor a file name is given
 	 *	@throws		Exception if image type is not supported for writing
 	 */
-	public function save( $fileName = NULL, $type = NULL )
+	public function save( ?string $fileName = NULL, ?int $type = NULL ): bool
 	{
 		if( !$type )
 			$type	= $this->type;
@@ -288,14 +316,16 @@ class UI_Image
 			$fileName	= $this->fileName;
 		if( !$fileName )
 			throw new RuntimeException( 'No image file name set' );
-		switch( $type )
-		{
+		switch( $type ){
 			case IMAGETYPE_GIF:
-				return imagegif( $this->resource, $fileName );
+				imagegif( $this->resource, $fileName );
+				break;
 			case IMAGETYPE_JPEG:
-				return imagejpeg( $this->resource, $fileName, $this->quality );
+				imagejpeg( $this->resource, $fileName, $this->quality );
+				break;
 			case IMAGETYPE_PNG:
-				return imagepng( $this->resource, $fileName );
+				imagepng( $this->resource, $fileName );
+				break;
 			default:
 				throw new Exception( 'Image type "'.$type.'" is no supported' );
 		}
@@ -303,6 +333,7 @@ class UI_Image
 		if( $fileName === $this->fileName )
 			//  reload image
 			$this->load( $this->fileName );
+		return TRUE;
 	}
 
 	public function setQuality( $quality ){
@@ -312,10 +343,11 @@ class UI_Image
 	/**
 	 *	Binds image resource to this image object.
 	 *	@access		public
-	 *	@param		resource	$resource		Image resource
-	 *	@return		void
+	 *	@param		resource		$resource		Image resource
+	 *	@param		integer			$alpha			Alpha channel value (0-100)
+	 *	@return		self
 	 */
-	public function setResource( $resource )
+	public function setResource( $resource, int $alpha = 0 ): self
 	{
 		if( !is_resource( $resource ) )
 			throw new InvalidArgumentException( 'Must be a valid image resource' );
@@ -333,6 +365,7 @@ class UI_Image
 		imagealphablending( $this->resource, FALSE );
 		//  copying the complete alpha channel
 		imagesavealpha( $this->resource, TRUE );
+		return $this;
 	}
 
 	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ){
@@ -340,18 +373,17 @@ class UI_Image
 		imagecolortransparent( $this->resource, $color );
 	}
 
-	public function setType( $type )
+	public function setType( $type ): self
 	{
 		if( !( ImageTypes() & $type ) )
 			throw new InvalidArgumentException( 'Invalid type' );
 		$this->type	= $type;
-		if( $this->fileName )
-		{
+		if( $this->fileName ){
 			$baseName	= pathinfo( $this->fileName, PATHINFO_FILENAME );
 			$pathName	= pathinfo( $this->fileName, PATHINFO_DIRNAME );
 			$extension	= image_type_to_extension( $this->type );
 			$this->fileName	= $pathName.'/'.$baseName.$extension;
 		}
-
+		return $this;
 	}
 }

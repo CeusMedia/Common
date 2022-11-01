@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for Log File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,23 +20,26 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log
- *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Log;
+
+use CeusMedia\Common\Alg\Time\Converter as TimeConverter;
+
 /**
  *	Writer for Log File.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log
- *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Log_Writer
+class Writer
 {
 	/**	@var		string		$uri		URI of Log File */
 	protected $uri;
@@ -46,21 +50,22 @@ class FS_File_Log_Writer
 	 *	@param		string		$uri		URI of Log File
 	 *	@return		void
 	 */
-	public function __construct( $uri )
+	public function __construct( string $uri )
 	{
 		$this->uri = $uri;
 	}
 
 	/**
-	 *	Adds an Note to Log File.
+	 *	Adds a Note to Log File.
 	 *
 	 *	@access		public
-	 *	@param		string		$line		Entry to add to Log File
+	 *	@param		string			$line		Entry to add to Log File
+	 *	@param		string|NULL		$format		...
 	 *	@return		bool
 	 */
-	public function note( $line, $format = "datetime" )
+	public function note( string $line, ?string $format = "datetime" ): bool
 	{
-		$converter 	= new Alg_Time_Converter();
+		$converter 	= new TimeConverter();
 		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";
 		$message	= time().$time." ".$line."\n";
 		return error_log( $message, 3, $this->uri );

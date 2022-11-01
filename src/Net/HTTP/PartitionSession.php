@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Management for session data with partitions.
  *	Helpful and more secure if several applications are storing data with same session.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,24 +22,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.07.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+
 /**
  *	Management for session data with partitions.
  *	Helpful and more secure if several applications are storing data with same session.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
- *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.07.2005
  */
-class Net_HTTP_PartitionSession extends ADT_List_Dictionary
+class PartitionSession extends Dictionary
 {
 	/**	@var	array		$session			Reference to Session with Partitions */
 	protected $session;
@@ -46,13 +49,14 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$partitionName		Partition of Session Data
-	 *	@param		string		$sessionName		Name of Session ID
-	 *	@param		string		$domain				Domain to set cookie for
+	 *	@param		string			$partitionName		Partition of Session Data
+	 *	@param		string			$sessionName		Name of Session ID
+	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
-	public function __construct( $partitionName, $sessionName = "sid", $domain = NULL )
+	public function __construct( string $partitionName, string $sessionName = "sid", ?string $domain = NULL )
 	{
+		parent::__construct();
 		//  set session cookie name
 		@session_name( $sessionName );
 		//  a domain has been specified
@@ -70,8 +74,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 			//  store IP in session
 			$this->session['ip'] = $ip;
 		//  Session hijacking attempt
-		else if( $this->session['ip'] != $ip )
-		{
+		else if( $this->session['ip'] != $ip ){
 			//  generate new session ID
 			session_regenerate_id();
 			//  copy new session data resource
@@ -88,7 +91,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 		//  partition is not opened yet
 		if( !isset( $_SESSION['partitions'][$partitionName] ) )
 			//  create new partition in session
-			$_SESSION['partitions'][$partitionName]	= array();
+			$_SESSION['partitions'][$partitionName]	= [];
 		//  copy session partition reference
 		$this->pairs =& $_SESSION['partitions'][$partitionName];
 	}
@@ -110,7 +113,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	 */
 	public function clear()
 	{
-		$this->pairs	= array();
+		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
 #			$this->remove( $key );
 		$this->session['ip'] = getEnv( 'REMOTE_ADDR' );
@@ -121,7 +124,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionID()
+	public function getSessionID(): string
 	{
 		return session_id();
 	}
@@ -131,7 +134,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionName()
+	public function getSessionName(): string
 	{
 		return session_name();
 	}

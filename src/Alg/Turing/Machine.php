@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Turing Machine with one tape.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,35 +21,45 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Turing
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2005-2020 Christian Würker
+ *	@copyright		2005-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Turing;
+
 /**
  *	Turing Machine with one tape.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Turing
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2005-2020 Christian Würker
+ *	@copyright		2005-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Turing_Machine
+class Machine
 {
 	/**	@var	array			$states			States of Machine */
 	protected $states;
+
 	/**	@var	array			$alphabet		Alphabet of Machine Language */
 	protected $alphabet;
+
 	/**	@var	array			$transition		Transitions of Machine */
 	protected $transition;
-	/**	@var	array			$start			Start State */
+
+	/**	@var	string			$start			Start State */
 	protected $start;
-	/**	@var	array			$blank			Blank Sign of Machine Language */
+
+	/**	@var	string			$blank			Blank Sign of Machine Language */
 	protected $blank;
+
 	/**	@var	array			$finals			Final States */
 	protected $finals;
-	/**	@var	array			$state			Current State of Machine */
+
+	/**	@var	string			$state			Current State of Machine */
 	protected $state;
+
 	/**	@var	int				$pointer		Current Pointer of Machine */
 	protected $pointer;
 
@@ -58,12 +69,12 @@ class Alg_Turing_Machine
 	 *	@param		array		$states			States of Machine
 	 *	@param		array		$alphabet		Alphabet of Machine Language
 	 *	@param		array		$transition		Transitions of Machine
-	 *	@param		array		$start			Start State
-	 *	@param		array		$blank			Blank Sign of Machine Language
+	 *	@param		string		$start			Start State
+	 *	@param		string		$blank			Blank Sign of Machine Language
 	 *	@param		array		$finals			Final States
 	 *	@return		void
 	 */
- 	public function __construct( $states, $alphabet, $transition, $start, $blank, $finals )
+ 	public function __construct( array $states, array $alphabet, array $transition, string $start, string $blank, array $finals )
 	{
 		$this->states		= $states;
 		$this->alphabet		= $alphabet;
@@ -77,13 +88,13 @@ class Alg_Turing_Machine
 	 *	Deletes not needed Blanks at start and end of the tape.
 	 *	@access		private
 	 *	@param		string		$tape			current tape to be cleaned up
-	 *	@return		string
+	 *	@return		void
 	 */
-	private function cleanTape( &$tape )
+	private function cleanTape( string &$tape )
 	{
 		while( substr( $tape, 0, 1 ) == $this->blank )
 			$tape = substr( $tape, 1 );
-		while( substr( $tape, -1 ) == $this->blank )
+		while( substr( $tape, -1 ) === $this->blank )
 			$tape = substr( $tape, 0, -1 );
 	}
 
@@ -91,10 +102,10 @@ class Alg_Turing_Machine
 	 *	Checks and extends the pseudo infinite tape.
 	 *	@access		private
 	 *	@param		string		$tape			current tape to be cleaned up
-	 *	@param		string		$pointer		current Position on tape
-	 *	@return		string
+	 *	@param		int			$pointer		current Position on tape
+	 *	@return		void
 	 */
-	private function extendTape( &$tape, $pointer )
+	private function extendTape( string &$tape, int $pointer )
 	{
 		if( $pointer < 0 )
 			$tape = $this->blank.$tape;
@@ -106,13 +117,12 @@ class Alg_Turing_Machine
 	 *	Returns current Sign.
 	 *	@access		private
 	 *	@param		string		$tape			current tape to be cleaned up
-	 *	@param		string		$pointer		current Position on tape
+	 *	@param		int			$pointer		current Position on tape
 	 *	@return		string
 	 */
-	private function getCurrent( &$tape, $pointer )
+	private function getCurrent( string &$tape, int $pointer ): string
 	{
-		if( $pointer < 0 || $pointer >= strlen( $tape ) )
-		{
+		if( $pointer < 0 || $pointer >= strlen( $tape ) ){
 			$current = $this->blank;
 			$this->extendTape( $tape, $pointer );
 		}
@@ -126,23 +136,21 @@ class Alg_Turing_Machine
 	 *	@param		string		$input			Input to be worked
 	 *	@return		string
 	 */
-	public function run( $input )
+	public function run( string $input ): string
 	{
 		$this->state = $this->start;
 		$this->pointer = 0;
-		$output = $input;
+		$output		= $input;
+		$_counter	= 0;
 		$this->wrapTape( $output );
-		while( !in_array( $this->state, $this->finals ) )
-		{
+		while( !in_array( $this->state, $this->finals ) ){
 			if( $_counter > 200 )
 				break;
 			$_counter++;
 			$_current = $this->getCurrent( $output, $this->pointer );
 			reset( $this->transition );
-			foreach( $this->transition as $trans )
-			{
-				if( $trans[0] == array( $this->state, $_current ) )
-				{
+			foreach( $this->transition as $trans ){
+				if( $trans[0] == [$this->state, $_current] ){
 					$value = $trans[1];
 					$state = $value[0];
 					$this->state = $state;
@@ -172,10 +180,10 @@ class Alg_Turing_Machine
 	 *	@param		string		$tape			current tape
 	 *	@return		string
 	 */
-	public function showTape( $tape )
+	public function showTape( string $tape ): string
 	{
-		for( $i=0; $i<strlen( $tape ); $i++ )
-		{
+		$lines	= [];
+		for( $i=0; $i<strlen( $tape ); $i++ ){
 			$sign = substr( $tape, $i, 1 );
 			if( $i == $this->pointer )
 				$lines[] = "<td style='background: #FF7F7F'>".$sign."</td>";
@@ -190,9 +198,9 @@ class Alg_Turing_Machine
 	 *	Adds Blanks at start and end of the tape.
 	 *	@access		private
 	 *	@param		string		$tape			current tape to be cleaned up
-	 *	@return		string
+	 *	@return		void
 	 */
-	private function wrapTape( &$tape )
+	private function wrapTape( string &$tape )
 	{
 		if( substr( $tape, 0, 1 ) != $this->blank )
 			$tape = $this->blank.$tape;

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /**
  *	Collects and Manages Request Data.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,39 +21,47 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.03.2006
  */
+
+namespace CeusMedia\Common\Net\HTTP\Request;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
+use CeusMedia\Common\Net\HTTP\Method as Method;
+use CeusMedia\Common\Net\HTTP\Request as Request;
+use InvalidArgumentException;
+
 /**
  *	Collects and Manages Request Data.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
- *	@extends		ADT_List_Dictionary
- *	@uses			Net_HTTP_Header_Section
- *	@uses			Net_HTTP_Header_Field
- *	@uses			Net_HTTP_Method
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.03.2006
  */
-class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
+class Receiver extends Dictionary
 {
-	/** @var		Net_HTTP_Header_Section	$headers		Object of collected HTTP Headers */
-	protected $headers						= NULL;
-	/**	@var		string					$ip				IP of Request */
-	protected $ip;
-	/** @var		Net_HTTP_Method			$method			Object of HTTP request method */
-	protected $method						= NULL;
-	/** @var		string					$path			Requested path */
-	protected $path							= NULL;
-	/**	@var		array					$sources		Array of Sources of Request Data */
-	protected $sources;
-	/** @var		string					$root			Detected web root */
-	protected $root;
+	/** @var		HeaderSection		$headers		Object of collected HTTP Headers */
+	protected HeaderSection $headers;
+
+	/**	@var		string				$ip				IP of Request */
+	protected string $ip;
+
+	/** @var		Method				$method			Object of HTTP request method */
+	protected Method $method;
+
+	/** @var		string				$path			Requested path */
+	protected string $path;
+
+	/**	@var		array				$sources		Array of Sources of Request Data */
+	protected array $sources;
+
+	/** @var		string				$root			Detected web root */
+	protected string $root;
 
 	/**
 	 *	Constructor, reads and stores Data from Sources to internal Dictionary.
@@ -63,16 +72,18 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 */
 	public function __construct( bool $useSession = FALSE, bool $useCookie = FALSE )
 	{
-		$this->method	= new \Net_HTTP_Method( getEnv( 'REQUEST_METHOD' ) );
-		$this->sources	= array(
+		$this->method	= new Method( getEnv( 'REQUEST_METHOD' ) );
+		$this->sources	= [
 			"get"	=> &$_GET,
 			"post"	=> &$_POST,
 			"files"	=> &$_FILES,
-		);
+		];
 		if( $useSession )
 			$this->sources['session']	=& $_SESSION;
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
+
+		parent::__construct( array_merge( ...array_values( $this->sources ) ) );
 
 		//  store HTTP method
 		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
@@ -80,12 +91,9 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		if( strpos( $this->path, '?' ) !== FALSE )
 			$this->path	= substr( $this->path, 0, strpos( $this->path, '?' ) );
 
-		foreach( $this->sources as $key => $values )
-			$this->pairs	= array_merge( $this->pairs, $values );
-
 		/*  --  RETRIEVE HTTP HEADERS  --  */
-		$this->headers		= new \Net_HTTP_Header_Section;
-		$this->headers->addFieldPairs( \Net_HTTP_Request::getAllEnvHeaders() );
+		$this->headers		= new HeaderSection;
+		$this->headers->addFieldPairs( Request::getAllEnvHeaders() );
 
 		//  store IP of requesting client
 		$this->ip		= getEnv( 'REMOTE_ADDR' );
@@ -99,7 +107,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
 	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
-	 *	@throws		\InvalidArgumentException if key is not set in source and strict is on
+	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 */
 	public function getAllFromSource( string $source, bool $strict = FALSE ): array
 	{
@@ -107,8 +115,8 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		if( isset( $this->sources[$source] ) )
 			return $this->sources[$source];
 		if( !$strict )
-			return array();
-		throw new \InvalidArgumentException( 'Invalid source "'.$source.'"' );
+			return [];
+		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
 	}
 
 	/**
@@ -118,7 +126,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
 	 *	@return		mixed		Value of key in source or NULL if not set
-	 *	@throws		\InvalidArgumentException if key is not set in source and strict is on
+	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 */
 	public function getFromSource( string $key, string $source, bool $strict = FALSE )
 	{
@@ -127,16 +135,15 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 			return $data[$key];
 		if( !$strict )
 			return NULL;
-		throw new \InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
+		throw new InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
 	}
 
 	/**
 	 *	Returns Object collected HTTP Headers.
 	 *	@access		public
-	 *	@return		Net_HTTP_Header_Section	List of Header Objects
-	 *	@since		0.8.3.4
+	 *	@return		HeaderSection		List of Header Objects
 	 */
-	public function getHeader(): Net_HTTP_Header_Section
+	public function getHeader(): HeaderSection
 	{
 		return $this->headers;
 	}
@@ -145,7 +152,6 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	Returns List collected HTTP Headers.
 	 *	@access		public
 	 *	@return		array		List of Header Objects
-	 *	@since		0.6.8
 	 */
 	public function getHeaders(): array
 	{
@@ -158,15 +164,14 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$name		Header Name
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
-	 *	@return		array|NULL	List of collected HTTP Header Fields with given Header Name
-	 *	@since		0.6.8
+	 *	@return		array|mixed|FALSE|NULL	List of collected HTTP Header Fields with given Header Name
 	 */
 	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
 
-	public function getMethod(): Net_HTTP_Method
+	public function getMethod(): Method
 	{
 		return $this->method;
 	}
@@ -180,7 +185,6 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	Returns received raw POST Data.
 	 *	@access		public
 	 *	@return		string
-	 *	@since		0.6.8
 	 */
 	public function getRawPostData(): string
 	{
@@ -188,11 +192,10 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Indicates whether atleast one HTTP Header with given Header Name is set.
+	 *	Indicates whether at least one HTTP Header with given Header Name is set.
 	 *	@access		public
 	 *	@param		string		$name		Header Name
 	 *	@return		bool
-	 *	@since		0.6.8
 	 */
 	public function hasHeader( string $name ): bool
 	{
@@ -200,7 +203,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Indicates wheter a pair is existing in a request source by its key.
+	 *	Indicates whether a pair is existing in a request source by its key.
 	 *	@access		public
 	 *	@param		string		$key		...
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
@@ -214,10 +217,9 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 
 	/**
 	 *	Indicates whether this Request came by AJAX.
-	 *	It seems only jQery is supporting this at the moment.
+	 *	It seems only jQuery is supporting this at the moment.
 	 *	@access		public
 	 *	@return		bool
-	 *	@since		0.6.7
 	 */
 	public function isAjax(): bool
 	{
@@ -229,7 +231,6 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$method		HTTP method to check for (GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH)
 	 *	@return		bool
-	 *	@since		0.6.7
 	 */
 	public function isMethod( string $method ): bool
 	{

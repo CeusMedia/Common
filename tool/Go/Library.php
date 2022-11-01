@@ -20,7 +20,7 @@ class Go_Library
 	{
 		$count	= 0;
 		$size	= 0;
-		$list	= array();
+		$list	= [];
 		self::listClassesRecursive( $path, $list, $count, $size );
 		return array(
 			'path'	=> $path,
@@ -85,7 +85,7 @@ class Go_Library
 		$count	= 0;
 		$path	= dirname( __FILE__ )."/";
 		$line	= str_repeat( "-", 79 );
-		$list	= array();
+		$list	= [];
 		foreach( $files as $file ){
 			$relative	= str_replace( $path, "", $file );
 			if( $count && !( $count % 60 ) )
@@ -118,13 +118,13 @@ class Go_Library
 		$count	= 0;
 		$path	= dirname( __FILE__ )."/";
 		$line	= str_repeat( "-", 79 );
-		$list	= array();
+		$list	= [];
 		$progress	= new CLI_Output_Progress();
 		$progress->setTotal( count( $files ) );
 		$progress->start();
 		foreach( $files as $file ){
 			$code	= 0;
-			$output	= array();
+			$output	= [];
 			exec( 'php -l "'.$file.'" 2>&1', $output, $code );
 			if( !preg_match( '/^No syntax errors detected/', join( PHP_EOL, $output ) ) )
 				$list[$file]	= join( PHP_EOL, $output );

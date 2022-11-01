@@ -1,33 +1,45 @@
 <?php
-/**
- *	TestUnit of UI_Template
- *	@package		tests.ui
- *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.2
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of UI_Template
+ *	@package		tests.ui
+ *	@author			David Seebacher <dseebacher@gmail.com>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\UI;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\UI\Template;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
+
+use ArrayObject;
 
 /**
  *	TestUnit of UI_Template
  *	@package		tests.ui
- *	@extends		Test_Case
- *	@uses			UI_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.2
  */
-class Test_UI_TemplateTest extends Test_Case
+class TemplateTest extends BaseCase
 {
 	private $template;
+	protected $mock;
+	protected $mockElements;
+	protected $path;
 
 	public function setUp(): void
 	{
-		$this->mock			= Test_MockAntiProtection::getInstance( 'UI_Template' );
-		$this->path			= dirname( __FILE__ )."/";
-		$this->template		= new UI_Template( $this->path.'template_testcase1.html' );
+		$this->mock			= MockAntiProtection::getInstance( Template::class );
+		$this->path			= dirname( __FILE__ )."/assets/";
+		$this->template		= new Template( $this->path.'template_testcase1.html' );
 		$this->mockElements	= array(
 			'user'	=> "Welt",
 			'list'	=> array(
@@ -57,7 +69,7 @@ class Test_UI_TemplateTest extends Test_Case
 
 	}
 
-	public function testInitialyNoElements()
+	public function testInitiallyNoElements()
 	{
 		$size	= sizeof( $this->template->getElements() );
 		$this->assertEquals( 0, $size );
@@ -113,7 +125,7 @@ class Test_UI_TemplateTest extends Test_Case
 
 	public function testAddObject1()
 	{
-		$object	= new Test_UI_TemplateTestDataObject();
+		$object	= new TemplateTestDataObject();
 		$object->setData1( 'test1' );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
@@ -129,7 +141,7 @@ class Test_UI_TemplateTest extends Test_Case
 
 	public function testAddObject2()
 	{
-		$object	= new Test_UI_TemplateTestDataObject();
+		$object	= new TemplateTestDataObject();
 		$object->setData1( new ArrayObject( array( 'first', 'second' ) ) );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
@@ -146,8 +158,8 @@ class Test_UI_TemplateTest extends Test_Case
 
 	public function testAddObject3()
 	{
-		$object	= new Test_UI_TemplateTestDataObject();
-		$object->setData1( new ADT_List_Dictionary( array( 'key1' => 'val1', 'key2' => 'val2' ) ) );
+		$object	= new TemplateTestDataObject();
+		$object->setData1( new Dictionary( array( 'key1' => 'val1', 'key2' => 'val2' ) ) );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
 		$this->assertEquals( 3, $size );
@@ -226,18 +238,21 @@ class Test_UI_TemplateTest extends Test_Case
 			'text'	=> 'das ist der text',
 		);
 		$assertion	= file_get_contents( $this->path.'template_testcase4_result.html' );
-		$creation	= UI_Template::render( $this->path.'template_testcase4.html', $data );
+		$creation	= Template::render( $this->path.'template_testcase4.html', $data );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_UI_TemplateTestDataObject
+
+class TemplateTestDataObject
 {
 	public $public		= "test";
 	protected $data1	= NULL;
+
 	public function getData1()
 	{
 		return $this->data1;
 	}
+
 	public function setData1( $value )
 	{
 		$this->data1	= $value;

@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Contents from the Net.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,65 +21,80 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net
- *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
+
+namespace CeusMedia\Common\Net;
+
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\Net\HTTP\Response\Parser as HttpResponseParser;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Reader for Contents from the Net.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net
- *	@uses			Net_CURL
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>IoException
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
-class Net_Reader
+class Reader
 {
-	/**	@var		string		$body			Result content of response */
-	protected $body				= NULL;
-	/**	@var		array		$headers		Map of response headers */
-	protected $headers			= array();
-	/**	@var		array		$info			Map of information of last request */
-	protected $info				= array();
-	/**	@var		string		$url			URL to read */
-	protected $url;
-	/**	@var		string		$agent			User Agent */
-	protected static $userAgent	= "cmClasses:Net_Reader/0.7";
-	/**	@var		string		$username		Username for Basic Authentication */
-	protected $username			= "";
-	/**	@var		string		$password		Password for Basic Authentication */
-	protected $password			= "";
-	/**	@var		boolean		$verifyHost		Flag: verify Host */
-	protected $verifyHost 		= FALSE;
-	/**	@var		boolean		$verifyPeer		Flag: verify Peer */
-	protected $verifyPeer		= FALSE;
-	/**	@var		string		$proxyAddress	Domain or IP (and port) of proxy server */
-	protected $proxyAddress		= NULL;
-	/**	@var		string		$proxyAuth		Username and password for proxy server authentification */
-	protected $proxyAuth		= 80;
-	/**	@var		integer		$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
-	protected $proxyType		= 0;
+	/**	@var		string|NULL			$body			Result content of response */
+	protected ?string $body				= NULL;
+
+	/**	@var		array				$headers		Map of response headers */
+	protected array $headers			= [];
+
+	/**	@var		array				$info			Map of information of last request */
+	protected array $info				= [];
+
+	/**	@var		string|NULL			$url			URL to read */
+	protected ?string $url				= NULL;
+
+	/**	@var		string				$agent			User Agent */
+	protected static string $userAgent	= "cmClasses:Net_Reader/0.7";
+
+	/**	@var		string				$username		Username for Basic Authentication */
+	protected string $username			= "";
+
+	/**	@var		string				$password		Password for Basic Authentication */
+	protected string $password			= "";
+
+	/**	@var		boolean				$verifyHost		Flag: verify Host */
+	protected bool $verifyHost 			= FALSE;
+
+	/**	@var		boolean				$verifyPeer		Flag: verify Peer */
+	protected bool $verifyPeer			= FALSE;
+
+	/**	@var		string|NULL			$proxyAddress	Domain or IP (and port) of proxy server */
+	protected ?string $proxyAddress		= NULL;
+
+	/**	@var		string|NULL			$proxyAuth		Username and password for proxy server authentication */
+	protected ?string $proxyAuth		= NULL;
+
+	/**	@var		integer				$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
+	protected int $proxyType			= 0;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$url			URL to read
+	 *	@param		string|NULL		$url			URL to read
 	 *	@return		void
 	 */
-	public function __construct( $url = NULL )
+	public function __construct( ?string $url = NULL )
 	{
-		if( $url )
+		if( $url !== NULL )
 			$this->setUrl( $url );
 	}
 
-	public function getBody()
+	public function getBody(): string
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -87,10 +104,10 @@ class Net_Reader
 	/**
 	 *	Returns Headers Array or a specified header from last request.
 	 *	@access		public
-	 *	@param		string		$key		Header key
+	 *	@param		string|NULL		$key		Header key
 	 *	@return		mixed
 	 */
-	public function getHeader( $key = NULL )
+	public function getHeader( ?string $key = NULL )
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -101,17 +118,18 @@ class Net_Reader
 		return $this->headers[$key];
 	}
 
-	public function getHeaders(){
+	public function getHeaders(): array
+	{
 		return $this->headers;
 	}
 
 	/**
 	 *	Returns information map or single information from last request.
 	 *	@access		public
-	 *	@param		string		$key		Information key
+	 *	@param		string|NULL		$key		Information key
 	 *	@return		mixed
 	 */
-	public function getInfo( $key = NULL )
+	public function getInfo( ?string $key = NULL )
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -127,7 +145,7 @@ class Net_Reader
 	 *	@access		public
 	 *	@return		string
  		 */
-	public function getUrl()
+	public function getUrl(): string
 	{
 		return $this->url;
 	}
@@ -137,7 +155,7 @@ class Net_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getUserAgent()
+	public function getUserAgent(): string
 	{
 		return self::$userAgent;
 	}
@@ -145,12 +163,15 @@ class Net_Reader
 	/**
 	 *	Requests set URL and returns response.
 	 *	@access		public
-	 *	@return		string		$curlOptions		Map of cURL options
+	 *	@param		array		$curlOptions		Map of cURL options
+	 *	@return		string
+	 *	@throws		InvalidArgumentException
+	 *	@throws		IoException
 	 *	@todo		Auth
 	 */
-	public function read( $curlOptions = array() )
+	public function read( array $curlOptions = [] ): string
 	{
-		$curl		= new Net_CURL( $this->url );
+		$curl		= new CURL( $this->url );
 
 		$curl->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost );
 		$curl->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
@@ -168,10 +189,8 @@ class Net_Reader
 				$curl->setOption( CURLOPT_PROXYUSERPWD, $this->proxyAuth );
 		}
 
-		foreach( $curlOptions as $key => $value )
-		{
-			if( is_string( $key ) )
-			{
+		foreach( $curlOptions as $key => $value ){
+			if( is_string( $key ) ){
 				if( !( preg_match( "@^CURLOPT_@", $key ) && defined( $key ) ) )
 					throw new InvalidArgumentException( 'Invalid option constant key "'.$key.'"' );
 				$key	= constant( $key );
@@ -181,18 +200,18 @@ class Net_Reader
 			$curl->setOption( $key, $value );
 		}
 		$result			= $curl->exec( TRUE, FALSE );
-		$response		= Net_HTTP_Response_Parser::fromString( $result );
+		$response		= HttpResponseParser::fromString( $result );
 
 		$this->body		= $response->getBody();
 		$this->headers	= $response->getHeaders();
 		$this->info		= $curl->getInfo();
-		$code			= $curl->getInfo( Net_CURL::INFO_HTTP_CODE );
-		$error			= $curl->getInfo( Net_CURL::INFO_ERROR );
-		$errno			= $curl->getInfo( Net_CURL::INFO_ERRNO );
+		$code			= $curl->getInfo( CURL::INFO_HTTP_CODE );
+		$error			= $curl->getInfo( CURL::INFO_ERROR );
+		$errno			= $curl->getInfo( CURL::INFO_ERRNO );
 		if( $errno )
-			throw new Exception_IO( 'HTTP request failed: '.$error, $errno, $this->url );
-		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
-			throw new Exception_IO( 'HTTP request failed', $code, $this->url );
+			throw new IoException( 'HTTP request failed: '.$error, $errno, $this->url );
+		if( !in_array( $code, ['200', '301', '303', '304', '307'] ) )
+			throw new IoException( 'HTTP request failed', $code, $this->url );
 		return $this->body;
 	}
 
@@ -200,14 +219,15 @@ class Net_Reader
 	 *	Requests URL and returns Response statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$url		URL to request
+	 *	@param		string		$url			URL to request
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		string
+	 *	@throws		IoException
 	 *	@todo		Auth
 	 */
-	public static function readUrl( $url, $curlOptions = array() )
+	public static function readUrl( string $url, array $curlOptions = [] ): string
 	{
-		$reader	= new Net_Reader( $url );
+		$reader	= new Reader( $url );
 		return $reader->read( $curlOptions );
 	}
 
@@ -216,72 +236,78 @@ class Net_Reader
 	 *	@access		public
 	 *	@param		string		$username	Basic Auth Username
 	 *	@param		string		$password	Basic Auth Password
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setBasicAuth( $username, $password )
+	public function setBasicAuth( string $username, string $password ): self
 	{
 		$this->username	= $username;
 		$this->password	= $password;
+		return $this;
 	}
 
 	/**
 	 *	Sets proxy domain or IP.
 	 *	@access		public
-	 *	@param		string		$address	Domain or IP (and Port) of proxy server
-	 *	@param		integer		$type		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5 )
-	 *	@param		string		$auth		Username and password for proxy authentification
-	 *	@return		void
+	 *	@param		string			$address	Domain or IP (and Port) of proxy server
+	 *	@param		integer			$type		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5 )
+	 *	@param		string|NULL		$auth		Username and password for proxy authentication
+	 *	@return		self
 	 */
-	public function setProxy( $address, $type = CURLPROXY_HTTP, $auth = NULL )
+	public function setProxy( string $address, int $type = CURLPROXY_HTTP, ?string $auth = NULL ): self
 	{
 		$this->proxyAddress	= $address;
 		$this->proxyType	= $type;
 		$this->proxyAuth	= $auth;
+		return $this;
 	}
 
 	/**
 	 *	Set URL to request.
 	 *	@access		public
 	 *	@param		string		$url		URL to request
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setUrl( $url )
+	public function setUrl( string $url ): self
 	{
-		if( !( is_string( $url ) && $url ) )
+		if( strlen( trim( $url ) ) === 0 )
 			throw new InvalidArgumentException( "No URL given." );
 		$this->url	= $url;
+		return $this;
 	}
 
 	/**
 	 *	Sets User Agent.
 	 *	@access		public
 	 *	@param		string		$title		User Agent to set
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setUserAgent( $title )
+	public function setUserAgent( string $title ): self
 	{
 		self::$userAgent	= $title;
+		return $this;
 	}
 
 	/**
 	 *	Sets Option CURLOPT_SSL_VERIFYHOST.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Host
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setVerifyHost( $verify )
+	public function setVerifyHost( bool $verify ): self
 	{
-		$this->verifyHost	= (bool) $verify;
+		$this->verifyHost	= $verify;
+		return $this;
 	}
 
 	/**
 	 *	Sets Option CURLOPT_SSL_VERIFYPEER.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Peer
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setVerifyPeer( $verify )
+	public function setVerifyPeer( bool $verify ): self
 	{
-		$this->verifyPeer	= (bool) $verify;
+		$this->verifyPeer	= $verify;
+		return $this;
 	}
 }

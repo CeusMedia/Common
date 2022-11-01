@@ -1,33 +1,39 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_Image_Printer.
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.06.2008
- *	@version		0.1
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\UI\Image;
+
+use CeusMedia\Common\FS\File\Reader;
+use CeusMedia\Common\UI\Image\Printer;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
- *	@extends		Test_Case
- *	@uses			UI_Image_Printer
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.06.2008
- *	@version		0.1
  */
-class Test_UI_Image_PrinterTest extends Test_Case
+class PrinterTest extends BaseCase
 {
+	/** @var string  */
+	protected $path;
+
 	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 	}
 
 	public function tearDown(): void
@@ -40,13 +46,13 @@ class Test_UI_Image_PrinterTest extends Test_Case
 	public function testConstructException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		new UI_Image_Printer( "not_a_resource" );
+		new Printer( "not_a_resource" );
 	}
 
 	public function _testShowPng()
 	{
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 
 		ob_start();
 		$printer->show( IMAGETYPE_PNG, 100, FALSE );
@@ -59,7 +65,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 	public function _testShowJpeg()
 	{
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 
 		ob_start();
 		$printer->show( IMAGETYPE_JPEG, 100, FALSE );
@@ -72,22 +78,21 @@ class Test_UI_Image_PrinterTest extends Test_Case
 	public function _testShowGif()
 	{
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 
 		ob_start();
 		$printer->show( IMAGETYPE_GIF, 0, FALSE );
 		$creation	= ob_get_clean();
 
-		$assertion	= TRUE;
 		$creation	= file_get_contents( $this->path."sourceCreator.gif" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	public function testShowException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->show( 15, 0 );
 	}
 
@@ -95,10 +100,10 @@ class Test_UI_Image_PrinterTest extends Test_Case
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", IMAGETYPE_PNG, 0 );
 
-		$file		= new FS_File_Reader( $this->path."targetPrinter.png" );
+		$file		= new Reader( $this->path."targetPrinter.png" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.png" ) );
 	}
 
@@ -106,7 +111,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.jpg", IMAGETYPE_JPEG, 100 );
 
 		$assertion	= TRUE;
@@ -118,10 +123,10 @@ class Test_UI_Image_PrinterTest extends Test_Case
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.gif", IMAGETYPE_GIF, 0 );
 
-		$file		= new FS_File_Reader( $this->path."targetPrinter.gif" );
+		$file		= new Reader( $this->path."targetPrinter.gif" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.gif" ) );
 	}
 
@@ -129,7 +134,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
-		$printer	= new UI_Image_Printer( $resource );
+		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", 15, 0 );
 	}
 }

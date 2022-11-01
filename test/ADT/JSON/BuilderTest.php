@@ -1,32 +1,41 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\ADT\JSON;
+
+use CeusMedia\Common\ADT\JSON\Builder;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\Object_;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
- *	@extends		Test_Case
- *	@uses			Test_ADT_JSON_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
-class Test_ADT_JSON_BuilderTest extends Test_Case
+class BuilderTest extends BaseCase
 {
+	protected $object;
+
 	/**
-	 *	Constructor.
+	 *	Setup.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp(): void
 	{
-		$this->object		= new Test_Object();
+		$this->object		= new Object_();
 		$this->object->a	= "test";
 	}
 
@@ -38,13 +47,13 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 	public function testEncode()
 	{
 		$data		= array( 1, 2.3, "string", TRUE, NULL, $this->object );
-		$builder	= new ADT_JSON_Builder();
+		$builder	= new Builder();
 		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
 		$creation	= $builder->encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
 		$data		= array( array( 1, 2 ), array( 3, 4 ) );
-		$builder	= new ADT_JSON_Builder();
+		$builder	= new Builder();
 		$assertion	= "[[1,2],[3,4]]";
 		$creation	= $builder->encode( $data );
 		$this->assertEquals( $assertion, $creation );
@@ -59,24 +68,24 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 	{
 		$data		= array( 1, 2.3, "string", TRUE, NULL, $this->object );
 		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
-		$creation	= ADT_JSON_Builder::encode( $data );
+		$creation	= Builder::encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
 		$data		= array( array( 1, 2 ), array( 3, 4 ) );
 		$assertion	= "[[1,2],[3,4]]";
-		$creation	= ADT_JSON_Builder::encode( $data );
+		$creation	= Builder::encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
 	}
 
 	/**
 	 *	Tests Exception of Method 'encodeStatic'.
-	 *	@access					public
-	 *	@return					void
+	 *	@access		public
+	 *	@return		void
 	 */
 	public function testEncodeStaticException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
-		ADT_JSON_Builder::encode( dir( dirname( __FILE__ ) ) );
+		$this->expectException( InvalidArgumentException::class );
+		Builder::encode( dir( dirname( __FILE__ ) ) );
 	}
 }

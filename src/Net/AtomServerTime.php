@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,34 +22,39 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.07.2005
  */
+
+namespace CeusMedia\Common\Net;
+
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *	@category		Library
  *	@package		CeusMedia_Common_Net
- *	@uses			Net_AtomTime
- *	@uses			FS_File_Reader
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.07.2005
  */
-class Net_AtomServerTime
+class AtomServerTime
 {
-	/**	@var		string		$syncFile		URI of File with synchronized atom time */
-	protected $syncFile	= "";
-	/**	@var		string		$syncTime		Timestamp of last synchronisation */
-	protected $syncTime	= "";
-	/**	@var		int			$syncDiff		Time difference between server time and atom time */
-	protected $syncDiff	= 0;
-	/**	@var		int			$refreshTime		Time distance in seconds for synchronisation update */
-	protected $refreshTime	= 86400;
+	/**	@var		string			$syncFile		URI of File with synchronized atom time */
+	protected string $syncFile		= "";
+
+	/**	@var		int				$syncTime		Timestamp of last synchronisation */
+	protected int $syncTime			 = 0;
+
+	/**	@var		int				$syncDiff		Time difference between server time and atom time */
+	protected int $syncDiff			= 0;
+
+	/**	@var		int				$refreshTime	Time distance in seconds for synchronisation update */
+	protected int $refreshTime		= 86400;
 
 	/**
 	 *	Constructor.
@@ -55,8 +62,9 @@ class Net_AtomServerTime
 	 *	@param		string		$fileName		URI of File with synchronized atom time
 	 *	@param		int			$refreshTime	Time distance in seconds for synchronisation update
 	 *	@return		void
+	 *	@throws		IoException
 	 */
-	public function __construct( $fileName = "AtomServerTime.diff", $refreshTime = 0)
+	public function __construct( string $fileName = "AtomServerTime.diff", int $refreshTime = 0 )
 	{
 		$this->syncFile = $fileName;
 		if( $refreshTime )
@@ -65,40 +73,24 @@ class Net_AtomServerTime
 	}
 
 	/**
-	 *	Reads File with synchronized atom time difference.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function readSyncFile()
-	{
-		if( !file_exists( $this->syncFile ) )
-			$this->synchronize();
-		$ir = new FS_File_INI_Reader ($this->syncFile, false);
-		$data = $ir->getProperties (true);
-		$this->syncTime	= $data['time'];
-		$this->syncDiff	= $data['diff'];
-	}
-
-	/**
 	 *	Synchronizes server time with atom time by saving time difference.
 	 *	@access		protected
 	 *	@return		void
+	 *	@throws		IoException
 	 */
 	protected function synchronize()
 	{
-		if( file_exists( $this->syncFile ) )
-		{
+		if( file_exists( $this->syncFile ) ){
 			$time	= filemtime( $this->syncFile );
-			if( ( time() - $time ) < $this->refreshTime )
-			{
+			if( ( time() - $time ) < $this->refreshTime ){
 				$this->syncTime	= $time;
-				$this->syncDiff	= FS_File_Reader::load( $this->syncFile );
+				$this->syncDiff	= (int) FileReader::load( $this->syncFile );
 				return;
 			}
 		}
 		$this->syncTime	= time();
-		$this->syncDiff	= $this->syncTime - Net_AtomTime::getTimestamp();
-		FS_File_Writer::save( $this->syncFile, $this->syncDiff );
+		$this->syncDiff	= $this->syncTime - AtomTime::getTimestamp();
+		FileWriter::save( $this->syncFile, (string) $this->syncDiff );
 		touch( $this->syncFile );
 	}
 
@@ -107,7 +99,7 @@ class Net_AtomServerTime
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getSyncTime()
+	public function getSyncTime(): int
 	{
 		return $this->syncTime;
 	}
@@ -118,7 +110,7 @@ class Net_AtomServerTime
 	 *	@param		string		$format			Date format
 	 *	@return		string
 	 */
-	public function getSyncDate( $format = "d.m.Y - H:i:s" )
+	public function getSyncDate( string $format = "d.m.Y - H:i:s" ): string
 	{
 		return date( $format, $this->syncTime );
 	}
@@ -128,7 +120,7 @@ class Net_AtomServerTime
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getSyncDiff()
+	public function getSyncDiff(): int
 	{
 		return $this->syncDiff;
 	}
@@ -137,12 +129,10 @@ class Net_AtomServerTime
 	 *	Returns timestamp.
 	 *	@access		public
 	 *	@return		int
-	 *	@link		http://www.php.net/time
 	 */
-	public function getTimestamp()
+	public function getTimestamp(): int
 	{
-		$time = time() + $this->syncDiff;
-		return $time;
+		return  time() + $this->syncDiff;
 	}
 
 	/**
@@ -152,9 +142,8 @@ class Net_AtomServerTime
 	 *	@return		string
 	 *	@link		http://www.php.net/date
 	 */
-	public function getDate ($format = "d.m.Y - H:i:s")
+	public function getDate( string $format = "d.m.Y - H:i:s" ): string
 	{
-		$time = time() + $this->syncDiff;
-		return date( $format, $time );
+		return date( $format, time() + $this->syncDiff );
 	}
 }

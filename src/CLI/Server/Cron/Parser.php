@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Cron Parser.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,33 +21,35 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server_Cron
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.01.2006
  */
+
+namespace CeusMedia\Common\CLI\Server\Cron;
+
+use Exception;
+
 /**
  *	Cron Parser.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server_Cron
- *	@uses			CLI_Server_Cron_Job
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.01.2006
  */
-class CLI_Server_Cron_Parser
+class Parser
 {
-	/**	@var	array		$jobs			Array of parse Cron Jobs */
-	protected $jobs			= array();
+	/**	@var		array		$jobs			Array of parse Cron Jobs */
+	protected array $jobs		= [];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$fileName		Message Log File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	public function __construct( string $fileName )
 	{
@@ -57,15 +60,13 @@ class CLI_Server_Cron_Parser
 	 *	Fills numbers with leading Zeros.
 	 *	@access		protected
 	 *	@param		string		$value			Number to be filled
-	 *	@param		int			$length			Length to fill to
+	 *	@param		integer		$length			Length to fill to
 	 *	@return		string
 	 */
 	protected function fill( string $value, int $length ): string
 	{
-		if( $length && $value != "*" )
-		{
-			if( strlen( $value ) < $length )
-			{
+		if( $length && $value != "*" ){
+			if( strlen( $value ) < $length ){
 				$diff	= $length - strlen( $value );
 				for( $i=0; $i<$diff; $i++ )
 					$value	= "0".$value;
@@ -87,22 +88,21 @@ class CLI_Server_Cron_Parser
 	/**
 	 *	Parses one numeric entry of Cron Job.
 	 *	@access		protected
-	 *	@param		string		$string		One numeric entry of Cron Job
+	 *	@param		string		$value		One numeric entry of Cron Job
+	 *	@param		integer		$fill		Length to fill to
 	 *	@return		array
 	 */
-	protected function getValues( string $value, $fill = 0 )
+	protected function getValues( string $value, int $fill = 0 ): array
 	{
-		$values	= array();
-		if( substr_count( $value, "-" ) )
-		{
+		$values	= [];
+		if( substr_count( $value, "-" ) ){
 			$parts	= explode( "-", $value );
 			$min	= trim( min( $parts ) );
 			$max	= trim( max( $parts ) );
 			for( $i=$min; $i<=$max; $i++ )
 				$values[] = $this->fill( $i, $fill );
 		}
-		else if( substr_count( $value, "," ) )
-		{
+		else if( substr_count( $value, "," ) ){
 			$parts	= explode( ",", $value );
 			foreach( $parts as $part )
 				$values[]	= $this->fill( $part, $fill );
@@ -116,15 +116,13 @@ class CLI_Server_Cron_Parser
 	 *	@access		protected
 	 *	@param		string		$fileName		Cron Tab File
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	protected function parse( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( "Cron Tab File '".$fileName."' is not existing." );
-		$reader	= new FS_File_Reader( $fileName );
-		$lines	= $reader->readArray();
-		$lines	= file( $fileName );
-		foreach( $lines as $line )
+		foreach( file( $fileName ) as $line )
 			if( trim( $line ) && !preg_match( "@^#@", $line ) )
 				$this->parseJob( $line );
 	}
@@ -137,12 +135,11 @@ class CLI_Server_Cron_Parser
 	 */
 	protected function parseJob( string $string )
 	{
-		$pattern	= "@^( |\t)*(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(.*)(\r)?\n$@si";
-		if( preg_match( $pattern, $string ) )
-		{
+		$pattern	= "@^( |\t)*(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(.*)(\r)?\n$@si";
+		if( preg_match( $pattern, $string ) ){
 			$match	= preg_replace( $pattern, "\\2|||\\4|||\\6|||\\8|||\\10|||\\12", $string );
 			$match	= explode( "|||", $match );
-			$job	= new CLI_Server_Cron_Job( $match[5] );
+			$job	= new Job( $match[5] );
 			$job->setOption( "minute",	$this->getValues( $match[0], 2 ) );
 			$job->setOption( "hour",	$this->getValues( $match[1], 2 ) );
 			$job->setOption( "day",		$this->getValues( $match[2], 2 ) );

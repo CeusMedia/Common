@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Checks Syntax of PHP Classes and Scripts.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,30 +21,34 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.05.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
 /**
  *	Checks Syntax of PHP Classes and Scripts.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.05.2008
  */
-class FS_File_SyntaxChecker
+class SyntaxChecker
 {
+	/**	@var		string		$error */
+	protected $error;
+
 	/**
 	 *	Returns whether a PHP Class or Script has valid Syntax.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of PHP File to check
 	 *	@return		bool
 	 */
-	public function checkFile( $fileName )
+	public function checkFile( string $fileName ): bool
 	{
 		$output = shell_exec('php -l "'.$fileName.'"');
 		if( preg_match( "@^No syntax errors detected@", $output	) )
@@ -57,7 +62,7 @@ class FS_File_SyntaxChecker
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getError()
+	public function getError(): string
 	{
 		return $this->error;
 	}
@@ -67,10 +72,10 @@ class FS_File_SyntaxChecker
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getShortError()
+	public function getShortError(): string
 	{
-		$error	= array_shift( explode( "\n", trim( $this->error ) ) );
-		$error	= preg_replace( "@^Parse error: (.*) in (.*) on (.*)$@i", "\\1 on \\3", $error );
-		return $error;
+		$error	= explode( "\n", trim( $this->error ) );
+		$error	= array_shift( $error );
+		return preg_replace( "@^Parse error: (.*) in (.*) on (.*)$@i", "\\1 on \\3", $error );
 	}
 }

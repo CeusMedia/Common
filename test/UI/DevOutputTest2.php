@@ -1,9 +1,12 @@
 <?php
 declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\UI;
 
-class Test_UI_DevOutput extends TestCase
+use CeusMedia\Common\UI\DevOutput;
+use CeusMedia\CommonTest\BaseCase;
+
+class Test_UI_DevOutput extends BaseCase
 {
 	/**
 	 * @covers		::print_m
@@ -12,7 +15,7 @@ class Test_UI_DevOutput extends TestCase
 	public function testPrintM1(){
 		$this->assertTrue( TRUE );
 
-		new UI_DevOutput();
+		new DevOutput();
 		$r = print_m( 'a', NUll, NULL, TRUE );
 		$this->assertEquals( PHP_EOL.'[S] a'.PHP_EOL, $r );
 

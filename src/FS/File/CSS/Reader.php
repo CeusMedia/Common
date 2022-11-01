@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reads CSS files and returns a structure of ADT_CSS_* objects or an array.
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,36 +21,44 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use Exception;
+use RuntimeException;
+
 /**
  *	Reads CSS files and returns a structure of ADT_CSS_* objects or an array.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
-class FS_File_CSS_Reader
+class Reader
 {
-
 	protected $fileName;
 
 	protected $content;
 
+	protected $sheet;
+
 	/**
-	 *	Contructor.
+	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		Relative or absolute file URI
+	 *	@param		string|NULL		$fileName		Relative or absolute file URI
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $fileName = NULL ){
+	public function __construct( ?string $fileName = NULL )
+	{
 		if( $fileName )
 			$this->setFileName( $fileName );
 	}
@@ -60,19 +69,21 @@ class FS_File_CSS_Reader
 	 *	@return		array
 	 *	@throws		RuntimeException	if no CSS file is set, yet.
 	 */
-	public function getRules(){
+	public function getRules(): array
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
-		return FS_File_CSS_Converter::convertSheetToArray( $this->sheet );
+		return Converter::convertSheetToArray( $this->sheet );
 	}
 
 	/**
 	 *	Returns content of CSS file as sheet structure.
 	 *	@access		public
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
 	 *	@throws		RuntimeException	if no CSS file is set, yet.
 	 */
-	public function getSheet(){
+	public function getSheet(): CssSheet
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
 		return $this->sheet;
@@ -82,20 +93,25 @@ class FS_File_CSS_Reader
 	 *	Loads a CSS file and returns sheet structure statically.
 	 *	@access		public
 	 *	@param		string		$fileName		Relative or absolute file URI
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
+	 *	@throws		Exception
 	 */
-	static public function load( $fileName ){
-		return FS_File_CSS_Parser::parseFile( $fileName );
+	public static function load( string $fileName ): CssSheet
+	{
+		return Parser::parseFile( $fileName );
 	}
 
 	/**
 	 *	Points reader to a CSS file which will be parsed and stored internally.
 	 *	@access		public
 	 *	@param		string		$fileName		Relative or absolute file URI
-	 *	@return		void
+	 *	@return		self
+	 *	@throws		Exception
 	 */
-	public function setFileName( $fileName ){
+	public function setFileName( string $fileName ): self
+	{
 		$this->fileName	= $fileName;
 		$this->sheet	= self::load( $fileName );
+		return $this;
 	}
 }

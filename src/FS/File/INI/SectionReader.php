@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for sectioned Ini Files using parse_ini_file.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,30 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
+
+namespace CeusMedia\Common\FS\File\INI;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /*
  *	Reader for sectioned Ini Files using parse_ini_file.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
-class FS_File_INI_SectionReader
+class SectionReader
 {
 	/**	@var		string		$fileName		Array of parsed Properties from File */
-	protected $data				= array();
+	protected $data				= [];
+
 	/**	@var		string		$fileName		File Name of sectioned Properties File */
 	protected $fileName			= "";
 
@@ -48,7 +54,7 @@ class FS_File_INI_SectionReader
 	 *	@param		string		$fileName		File Name of sectioned Properties File to Read
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 		$this->read();
@@ -57,13 +63,13 @@ class FS_File_INI_SectionReader
 	/**
 	 *	Returns all Properties or all of a Section as Array.
 	 *	@access		public
-	 *	@param		bool		$section		Flag: use Sections
+	 *	@param		string|NULL		$section		Flag: use Sections
 	 *	@return		array
 	 */
-	public function getProperties( $section = NULL )
+	public function getProperties( ?string $section = NULL ): array
 	{
 		if( $section && !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		if( $section )
 			return $this->data[$section];
 		return $this->data;
@@ -76,10 +82,10 @@ class FS_File_INI_SectionReader
 	 *	@param		string		$key			Key of Property
 	 *	@return		string
 	 */
-	public function getProperty( $section, $key )
+	public function getProperty( string $section, string $key ): string
 	{
 		if( !$this->hasProperty( $section, $key ) )
-			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' ); 
+			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
 		return $this->data[$section][$key];
 	}
 
@@ -88,22 +94,22 @@ class FS_File_INI_SectionReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSections()
+	public function getSections(): array
 	{
 		return array_keys( $this->data );
 	}
 
 	/**
-	 *	Indicated whether a Keys is set.
+	 *	Indicated whether a Key is set.
 	 *	@access		public
 	 *	@param		string		$section		Section of Property
 	 *	@param		string		$key			Key of Property
 	 *	@return		bool
 	 */
-	public function hasProperty( $section, $key )
+	public function hasProperty( string $section, string $key ): bool
 	{
 		if( !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		return array_key_exists( $key, $this->data[$section] );
 	}
 
@@ -113,7 +119,7 @@ class FS_File_INI_SectionReader
 	 *	@param		string		$section		Section of Property
 	 *	@return		bool
 	 */
-	public function hasSection( $section )
+	public function hasSection( string $section ): bool
 	{
 		return in_array( $section, $this->getSections() );
 	}
@@ -133,10 +139,10 @@ class FS_File_INI_SectionReader
 	/**
 	 *	Alias for 'getProperties'.
 	 *	@access		public
-	 *	@param		bool		$section		Flag: use Sections
+	 *	@param		string|NULL		$section		Flag: use Sections
 	 *	@return		array
 	 */
-	public function toArray( $section = NULL )
+	public function toArray( ?string $section = NULL ): array
 	{
 		return $this->getProperties( $section );
 	}

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,46 +21,51 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI;
+
 define( 'SERVICE_TEST_PRINT_M', 0 );
 define( 'SERVICE_TEST_VAR_DUMP', 1 );
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@todo			Code Docu
+ *	@todo			Code Doc
  */
-class UI_VariableDumper
+class VariableDumper
 {
 	const MODE_PRINT	= 0;
 	const MODE_DUMP		= 1;
 
-	static public $modePrintIndentSign	= ". ";
-	static public $modePrintIndentSize	= 2;
+	public static $modePrintIndentSign	= ". ";
+	public static $modePrintIndentSize	= 2;
 
 	/**
 	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode and installed XDebug Extension
 	 *
 	 *	The custom method print_m creates lots of DOM Elements.
-	 *	Having to much DOM Elements can be avoided by using var_dump, which now is called Print Mode.
+	 *	Having too much DOM Elements can be avoided by using var_dump, which now is called Print Mode.
 	 *	But since XDebug extends var_dump it creates even way more DOM Elements.
-	 *	So, you should use Print Mode and it will be disabled if XDebug is detected.
+	 *	So, you should use Print Mode, and it will be disabled if XDebug is detected.
 	 *	However, you can force to use Print Mode.
 	 *
 	 *	@access		protected
 	 *	@static
-	 *	@param		mixed		$element		Variable to be dumped
-	 *	@param		bool		$forcePrintMode	Flag: force to use var_dump even if XDebug is enabled (not recommended)
+	 *	@param		mixed		$variable			Variable to be dumped
+	 *	@param		integer		$mode				Mode: MODE_PRINT | MODE_DUMP, default: MODE_DUMP
+	 *	@param		integer		$modeIfNotXDebug	Mode to use if xdebug is not installed
 	 *	@return		string
 	 */
-	public static function dump( $variable, $mode = self::MODE_DUMP, $modeIfNotXDebug = self::MODE_PRINT )
+	public static function dump( $variable, int $mode = self::MODE_DUMP, int $modeIfNotXDebug = self::MODE_PRINT ): string
 	{
 		//  open Buffer
 		ob_start();
@@ -67,13 +73,11 @@ class UI_VariableDumper
 		$hasXDebug	= extension_loaded( 'xdebug' );
 		if( !$hasXDebug )
 			$mode	= $modeIfNotXDebug;
-		switch( $mode )
-		{
+		switch( $mode ){
 			case self::MODE_DUMP:
 				//  print  Variable Dump
 				var_dump( $variable );
-				if( !$hasXDebug )
-				{
+				if( !$hasXDebug ){
 					//  get buffered Dump
 					$dump	= ob_get_clean();
 					//  remove Line Break on Relations
@@ -105,7 +109,7 @@ class UI_VariableDumper
 		return ob_get_clean();
 	}
 }
-function dumpVar( $variable, $mode = UI_VariableDumper::MODE_DUMP, $modeIfNotXDebug = UI_VariableDumper::MODE_PRINT )
+function dumpVar( string $variable, int $mode = VariableDumper::MODE_DUMP, int $modeIfNotXDebug = VariableDumper::MODE_PRINT ): string
 {
-	return UI_VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
+	return VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
 }

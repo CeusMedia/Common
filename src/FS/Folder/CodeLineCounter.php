@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Counter for Lines of Code.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,30 +21,34 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\FS\File\CodeLineCounter as FileCodeLineCounter;
+use CeusMedia\Common\FS\Folder\RecursiveLister as FolderRecursiveLister;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Counter for Lines of Code.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@uses			FS_File_Reader
- *	@uses			FS_Folder_RecursiveLister
- *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  *	@todo			Code Doc
  */
-class FS_Folder_CodeLineCounter
+class CodeLineCounter
 {
-	protected $data	= array();
+	protected $data	= [];
 
-	public function getData( $key = NULL )
+	public function getData( ?string $key = NULL ): array
 	{
 		//  no Folder scanned yet
 		if( !$this->data )
@@ -56,12 +61,11 @@ class FS_Folder_CodeLineCounter
 		//  extract possible Key Prefix
 		$prefix	= substr( strtolower( $key ), 0, 5 );
 		//  Prefix is valid
-		if( in_array( $prefix, array_keys( $this->data ) ) )
-		{
+		if( array_key_exists( $prefix, $this->data ) ){
 			//  extract Key without Prefix
 			$key	= substr( $key, 5 );
 			//  invalid Key
-			if( !array_key_exists( $this->data[$prefix] ) )
+			if( !array_key_exists( $key, $this->data[$prefix] ) )
 				throw new InvalidArgumentException( 'Invalid Data Key.' );
 			//  return Value for prefixed Key
 			return $this->data[$prefix][$key];
@@ -78,11 +82,11 @@ class FS_Folder_CodeLineCounter
 	 *	@access		public
 	 *	@param		string		$path			Folder to count within
 	 *	@param		array		$extensions		List of Code File Extensions
-	 *	@return		array
+	 *	@return		void
 	 */
-	public function readFolder( $path, $extensions = array() )
+	public function readFolder( string $path, array $extensions = [] )
 	{
-		$files			= array();
+		$files			= [];
 		$numberCodes	= 0;
 		$numberDocs		= 0;
 		$numberFiles	= 0;
@@ -92,12 +96,11 @@ class FS_Folder_CodeLineCounter
 
 		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path );
 
-		$st		= new Alg_Time_Clock();
-		$lister	= new FS_Folder_RecursiveLister( $path );
+		$st		= new Clock();
+		$lister	= new FolderRecursiveLister( $path );
 		$lister->setExtensions( $extensions );
 		$list	= $lister->getList();
-		foreach( $list as $entry )
-		{
+		foreach( $list as $entry ){
 			$fileName	= str_replace( "\\", "/", $entry->getFilename() );
 			$pathName	= str_replace( "\\", "/", $entry->getPathname() );
 
@@ -106,7 +109,7 @@ class FS_Folder_CodeLineCounter
 			if( preg_match( "@/_@", $pathName ) )
 				continue;
 
-			$countData	= FS_File_CodeLineCounter::countLines( $pathName );
+			$countData	= FileCodeLineCounter::countLines( $pathName );
 
 			unset( $countData['linesCodes'] );
 			unset( $countData['linesDocs'] );
@@ -122,16 +125,16 @@ class FS_Folder_CodeLineCounter
 			$files[$pathName]	= $countData;
 		}
 		$linesPerFile	= $numberLines / $numberFiles;
-		$this->data	= array(
-			'number'	=> array(
+		$this->data		= [
+			'number'	=> [
 				'files'		=> $numberFiles,
 				'lines'		=> $numberLines,
 				'codes'		=> $numberCodes,
 				'docs'		=> $numberDocs,
 				'strips'	=> $numberStrips,
 				'length'	=> $numberLength,
-			),
-			'ratio'			=> array(
+			],
+			'ratio'			=> [
 				'linesPerFile'		=> round( $linesPerFile, 0 ),
 				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),
 				'docsPerFile'		=> round( $numberDocs / $numberFiles, 0 ),
@@ -139,10 +142,10 @@ class FS_Folder_CodeLineCounter
 				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
 				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
 				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
-			), 
+			],
 			'files'		=> $files,
 			'seconds'	=> $st->stop( 6 ),
 			'path'		=> $path,
-		);
+		];
 	}
 }

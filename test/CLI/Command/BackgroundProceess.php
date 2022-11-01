@@ -1,22 +1,33 @@
 <?php
-/**
- *	TestUnit of CLI_Command_BackgroundProcess.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of CLI_Command_BackgroundProcess.
+ *	@package		Tests.CLI.Command
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\CLI;
+
+use CeusMedia\Common\CLI\Command\BackgroundProcess;
+use CeusMedia\CommonTest\BaseCase;
+use Exception;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of CLI_Command_BackgroundProcess.
- *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			CLI_Command_ArgumentParser
+ *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_CLI_Command_BackgroundProcessTest extends Test_Case
+class BackgroundProcessTest extends BaseCase
 {
+	protected $process;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -24,7 +35,7 @@ class Test_CLI_Command_BackgroundProcessTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->process	= new CLI_Command_BackgroundProcess();
+		$this->process	= new BackgroundProcess();
 	}
 
 	/**
@@ -43,15 +54,15 @@ class Test_CLI_Command_BackgroundProcessTest extends Test_Case
 	 */
 	public function testNewInstance()
 	{
-		$assertion	= new CLI_Command_BackgroundProcess;
-		$creation	= CLI_Command_BackgroundProcess::newInstance();
+		$assertion	= new BackgroundProcess;
+		$creation	= BackgroundProcess::newInstance();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testSetCommand()
 	{
 		$command	= 'ls -lah';
-		$process	= new Test_CLI_Command_BackgroundProcessInstance();
+		$process	= new BackgroundProcessInstance();
 		$process->setCommand( $command );
 
 		$assertion	= $command;
@@ -86,7 +97,7 @@ class Test_CLI_Command_BackgroundProcessTest extends Test_Case
 	}
 
 }
-class Test_CLI_Command_BackgroundProcessInstance extends CLI_Command_BackgroundProcess
+class BackgroundProcessInstance extends BackgroundProcess
 {
 	public function getProtectedVar( $varName )
 	{

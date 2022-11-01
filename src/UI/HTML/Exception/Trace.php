@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Visualisation of Exception Stack Trace.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +21,38 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Exception;
+
+use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use CeusMedia\Common\UI\HTML\Tag;
+use Countable;
+use Exception;
+use InvalidArgumentException;
+use Throwable;
+
 /**
  *	Visualisation of Exception Stack Trace.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
- *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
-class UI_HTML_Exception_Trace
+class Trace
 {
 	/**
 	 *	Prints exception trace HTML code.
 	 *	@access		public
-	 *	@param		Exception	$exception		Exception
+	 *	@param		Throwable	$exception		Exception
 	 *	@return		void
 	 */
-	public static function display( Exception $exception )
+	public static function display( Throwable $exception )
 	{
 		print self::render( $exception );
 	}
@@ -55,33 +63,30 @@ class UI_HTML_Exception_Trace
 	 *	@param		array		$trace			Trace of exception
 	 *	@return		string
 	 */
-	public static function renderFromTrace( $trace )
+	public static function renderFromTrace( array $trace ): string
 	{
-		if( !is_array( $trace ) )
-			throw new InvalidArgumentException( "Trace must be an array" );
 		if( !count( $trace ) )
 			return '';
 		$i	= 0;
 		$j	= 0;
-		$list	= array();
-		foreach( $trace as $key => $trace )
-		{
-			$step	= self::renderTraceStep( $trace, $i++, $j );
+		$list	= [];
+		foreach( $trace as $entry ){
+			$step	= self::renderTraceStep( $entry, $i++, $j );
 			if( !$step )
 				continue;
-			$list[]	= UI_HTML_Tag::create( 'li', $step );
+			$list[]	= Tag::create( 'li', $step );
 			$j++;
 		}
-		return UI_HTML_Tag::create( 'ol', implode( $list ), array( 'class' => 'trace' ) );
+		return Tag::create( 'ol', implode( $list ), ['class' => 'trace'] );
 	}
 
 	/**
 	 *	Renders exception trace HTML code.
 	 *	@access		private
-	 *	@param		Exception	$exception		Exception
+	 *	@param		Throwable	$exception		Exception
 	 *	@return		string
 	 */
-	public static function render( Exception $exception )
+	public static function render( Throwable $exception ): string
 	{
 		$trace	= $exception->getTrace();
 		return self::renderFromTrace( $trace );
@@ -91,10 +96,10 @@ class UI_HTML_Exception_Trace
 	 *	Renders an argument.
 	 *	@access		protected
 	 *	@static
-	 *	@param		array		$argument		Array to render
+	 *	@param		mixed		$argument		Array to render
 	 *	@return		string
 	 */
-	protected static function renderArgument( $argument )
+	protected static function renderArgument( $argument ): string
 	{
 		switch( gettype( $argument ) )
 		{
@@ -123,18 +128,17 @@ class UI_HTML_Exception_Trace
 	 *	@param		array		$array			Array to render
 	 *	@return		string
 	 */
-	protected static function renderArgumentArray( $array )
+	protected static function renderArgumentArray( array $array ): string
 	{
-		$list	= array();
-		foreach( $array as $key => $value )
-		{
+		$list	= [];
+		foreach( $array as $key => $value ){
 			$type	= self::renderArgumentType( $value );
 			$string	= self::renderArgument( $value );
-			$list[]	= UI_HTML_Tag::create( 'dt', $type." ".$key );
-			$list[]	= UI_HTML_Tag::create( 'dd', $string );
+			$list[]	= Tag::create( 'dt', $type." ".$key );
+			$list[]	= Tag::create( 'dd', $string );
 		}
-		$list	= UI_HTML_Tag::create( 'dl', implode( $list ) );
-		$block	= UI_HTML_Tag::create( 'blockquote', $list );
+		$list	= Tag::create( 'dl', implode( $list ) );
+		$block	= Tag::create( 'blockquote', $list );
 		return '{'.$block.'}';
 	}
 
@@ -142,10 +146,10 @@ class UI_HTML_Exception_Trace
 	 *	Renders formatted argument type.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$argument		Argument to render type for
+	 *	@param		mixed		$argument		Argument to render type for
 	 *	@return		string
 	 */
-	protected static function renderArgumentType( $argument )
+	protected static function renderArgumentType( $argument ): string
 	{
 		$type		= gettype( $argument );
 		$length		= '';
@@ -154,7 +158,7 @@ class UI_HTML_Exception_Trace
 		else if( $type == 'array' || $argument instanceof Countable )
 			$length	= '('.count( $argument ).')';
 		$type	= ucFirst( strtolower( gettype( $argument ) ) );
-		return UI_HTML_Tag::create( 'span', $type.$length, array( 'class' => 'type' ) );
+		return Tag::create( 'span', $type.$length, ['class' => 'type'] );
 	}
 
 	/**
@@ -165,12 +169,12 @@ class UI_HTML_Exception_Trace
 	 *	@param		int			$i			Trace Step Number
 	 *	@return		string
 	 */
-	private static function renderTraceStep( $trace, $i, $j )
+	private static function renderTraceStep( array $trace, $i, $j ): string
 	{
 		if( $j == 0 )
 			if( isset( $trace['function'] ) )
 				//  Exception was thrown using throwException
-				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )
+				if( in_array( $trace['function'], ["eval", "throwException"] ) )
 					return "";
 
 		$content	= "";
@@ -194,16 +198,16 @@ class UI_HTML_Exception_Trace
 			$block	= NULL;
 			if( array_key_exists( "args", $trace ) && count( $trace['args'] ) )
 			{
-				$argList	= array();
+				$argList	= [];
 				foreach( $trace["args"] as $argument )
 				{
 					$type	= self::renderArgumentType( $argument );
 					$string	= self::renderArgument( $argument );
-					$argList[]	= UI_HTML_Tag::create( 'dt', $type );
-					$argList[]	= UI_HTML_Tag::create( 'dd', $string );
+					$argList[]	= Tag::create( 'dt', $type );
+					$argList[]	= Tag::create( 'dd', $string );
 				}
-				$argList	= UI_HTML_Tag::create( 'dl', implode( $argList ) );
-				$block		= UI_HTML_Tag::create( 'blockquote', $argList );
+				$argList	= Tag::create( 'dl', implode( $argList ) );
+				$block		= Tag::create( 'blockquote', $argList );
 			}
 			$function	= '<span class="func">'.$trace["function"].'</span>';
 			$arguments	= '<span class="args">('.$block.')</span>';
@@ -221,13 +225,13 @@ class UI_HTML_Exception_Trace
 	 *	@static
 	 *	@param		string		$string			String to secure
 	 *	@param		integer		$maxLength		Number of characters to show at most
-	 *	@param		string		$mask			Mask to show for cutted content
+	 *	@param		string		$mask			Mask to show for cut content
 	 *	@return		string
 	 */
-	protected static function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
+	protected static function secureString( string $string, int $maxLength = 0, string $mask = '&hellip;' ): string
 	{
 		if( $maxLength && strlen( $string ) > $maxLength )
-			$value	= Alg_Text_Trimmer::trimCentric( $string, $maxLength, $mask );
+			$value	= TextTrimmer::trimCentric( $string, $maxLength, $mask );
 //		$string	= addslashes( $string );
 		$string	= htmlentities( $string, ENT_QUOTES, 'UTF-8' );
 		$string	= nl2br( $string );
@@ -241,7 +245,7 @@ class UI_HTML_Exception_Trace
 	 *	@param		string		$fileName		File Name to clear
 	 *	@return		string
 	 */
-	protected static function trimRootPath( $fileName )
+	protected static function trimRootPath( string $fileName ): string
 	{
 		$rootPath	= realpath( getEnv( 'DOCUMENT_ROOT' ) );
 		if( strlen( trim( $fileName ) ) && $rootPath )

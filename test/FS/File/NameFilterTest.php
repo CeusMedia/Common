@@ -1,23 +1,22 @@
 <?php
-/**
- *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.File
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_NameFilter.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File;
+
+use CeusMedia\Common\FS\File\NameFilter;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.File
- *	@extends		Test_Case
- *	@uses			FS_File_NameFilter
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-class Test_FS_File_NameFilterTest extends Test_Case
+class NameFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,7 +45,7 @@ class Test_FS_File_NameFilterTest extends Test_Case
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_NameFilter( "not_existing", "not_relevant" );
+		$index	= new NameFilter( "not_existing", "not_relevant" );
 	}
 
 	/**
@@ -57,9 +56,9 @@ class Test_FS_File_NameFilterTest extends Test_Case
 	public function testAccept()
 	{
 		$search	= "NameFilterTest.php";
-		$filter	= new FS_File_NameFilter( $this->path, $search );
+		$filter	= new NameFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -68,13 +67,13 @@ class Test_FS_File_NameFilterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "not_existing_file";
-		$filter	= new FS_File_NameFilter( $this->path, $search );
+		$filter	= new NameFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -1,25 +1,28 @@
 <?php
-/**
- *	TestUnit of CLI_Command_Program.
- *	@package		Tests.console.command
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.01.2009
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of CLI_Command_Program.
+ *	@package		Tests.CLI.Command
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\CLI;
+
+use CeusMedia\Common\CLI\Command\Program;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of CLI_Command_Program.
- *	@package		Tests.console.command
- *	@extends		Test_Case
- *	@uses			CLI_Command_Program
+ *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.01.2009
- *	@version		0.1
  */
-class Test_CLI_Command_ProgramTest extends Test_Case
+class ProgramTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -39,14 +42,14 @@ class Test_CLI_Command_ProgramTest extends Test_Case
 	{
 	}
 
-	/**
-	 *	Tests Method '__construct'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConstruct1()
-	{
-	}
+//	/**
+//	 *	Tests Method '__construct'.
+//	 *	@access		public
+//	 *	@return		void
+//	 */
+//	public function testConstruct1()
+//	{
+//	}
 
 	/**
 	 *	Tests Method '__construct'.
@@ -55,13 +58,13 @@ class Test_CLI_Command_ProgramTest extends Test_Case
 	 */
 	public function testRun()
 	{
-		$program	= new Test_CLI_Command_TestProgram;
+		$program	= new TestProgram;
 		$assertion	= 2;
 		$creation	= $program->run( "arg1" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_CLI_Command_TestProgram extends CLI_Command_Program
+class TestProgram extends Program
 {
 	public $testOptions	= array(
 		'user'		=> "@[a-z]@i",
@@ -82,17 +85,17 @@ class Test_CLI_Command_TestProgram extends CLI_Command_Program
 		parent::__construct( $options, $shortcuts, 1 );
 	}
 
-	protected function main()
+	protected function main(): int
 	{
 		return 2;
 	}
 
-	public function getArguments()
+	public function getArguments(): ?array
 	{
 		return $this->arguments;
 	}
 
-	public function getOptions()
+	public function getOptions(): ?array
 	{
 		return $this->options;
 	}

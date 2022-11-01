@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,37 +21,47 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class UI_HTML_Table
+class Table
 {
-	protected $bodyRows	= array();
-	protected $footRows	= array();
-	protected $headRows	= array();
+	protected $bodyRows	= [];
+
+	protected $footRows	= [];
+
+	protected $headRows	= [];
+
 	protected $summary	= NULL;
-	protected $columns	= array();
+
+	protected $columns	= [];
+
 	protected $caption	= NULL;
+
 	protected $class	= NULL;
+
 	protected $id		= NULL;
 
-	public function __construct( $attributes = array() )
-	{	
-		foreach( $attributes as $key => $value )
-		{
-			switch( $key )
-			{
+	public function __construct( array $attributes = [] )
+	{
+		foreach( $attributes as $key => $value ){
+			switch( $key ){
 				case 'caption':
 					$this->setCaption( $value );
 					break;
@@ -75,76 +86,77 @@ class UI_HTML_Table
 				case 'rows':
 					foreach( $value as $row )
 					$this->addRow( $row );
-					break;			
+					break;
 			}
 		}
-
 	}
 
-	public function addCell( $label, $attributes = array() )
+	public function addCell( string $label, array $attributes = [] ): self
 	{
 		if( !$this->bodyRows )
-			$this->bodyRows[]	= array();
+			$this->bodyRows[]	= [];
 		$current	= count( $this->bodyRows ) - 1;
 		if( empty( $label ) )
 			$label	= "&#160;";
-		$this->bodyRows[$current][]	= UI_HTML_Tag::create( "td", $label, $attributes );
+		$this->bodyRows[$current][]	= Tag::create( "td", $label, $attributes );
+		return $this;
 	}
 
-	public function addColumn( $column )
+	public function addColumn( string $column ): self
 	{
 		if( !$this->columns )
-			$this->columns[]	= array();
+			$this->columns[]	= [];
 		$current	= count( $this->columns ) - 1;
 		$this->columns[$current][]	= $column;
+		return $this;
 	}
 
-	public function addColumns( $columns = array() )
+	public function addColumns( array $columns = [] ): self
 	{
-		$this->columns[]	= array();
-		if( is_string( $columns ) )
-			$columns	= explode( ",", $columns );
+		$this->columns[]	= [];
 		foreach( $columns as $value )
 			$this->addColumn( $value );
+		return $this;
 	}
 
-	public function addFoot( $label, $attributes = array() )
+	public function addFoot( string $label, array $attributes = [] ): self
 	{
 		if( !$this->footRows )
-			$this->footRows[]	= array();
+			$this->footRows[]	= [];
 		$current	= count( $this->footRows ) - 1;
-		$this->footRows[$current][]	= UI_HTML_Tag::create( "td", $label, $attributes );
+		$this->footRows[$current][]	= Tag::create( "td", $label, $attributes );
+		return $this;
 	}
 
-	public function addFoots( $foots )
+	public function addFoots( array $foots ): self
 	{
-		$this->footRows[]	= array();
-		foreach( $foots as $key => $value )
-		{
+		$this->footRows[]	= [];
+		foreach( $foots as $key => $value ){
 			if( is_int( $key ) && is_string( $value ) )
 				$this->addFoot( $value );
 			else if( is_string( $key ) && is_array( $value ) )
 				$this->addFoot( $key, $value );
 			else
-				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.$gettype( $value ) );
+				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.gettype( $value ) );
 		}
+		return $this;
 	}
 
-	public function addHead( $label, $attributes = array() )
+	public function addHead( string $label, array $attributes = [] ): self
 	{
 		if( !$this->headRows )
-			$this->headRows[]	= array();
+			$this->headRows[]	= [];
 		$current				= count( $this->headRows ) - 1;
-		$attributes['scope']	= isset( $attributes['scope'] ) ? $attributes['scope'] : 'col';
-		$tag					= UI_HTML_Tag::create( "th", $label, $attributes );
+		$attributes['scope']	= $attributes['scope'] ?? 'col';
+		$tag					= Tag::create( "th", $label, $attributes );
 		$this->headRows[$current][]	= $tag;
+		return $this;
 	}
 
-	public function addHeads( $heads )
+	public function addHeads( array $heads ): self
 	{
-		$this->headRows[]	= array();
-		foreach( $heads as $key => $value )
-		{
+		$this->headRows[]	= [];
+		foreach( $heads as $key => $value ){
 			if( is_int( $key ) && is_array( $value ) )
 				$this->addHeads( $value );
 			else if( is_int( $key ) && is_string( $value ) )
@@ -154,13 +166,13 @@ class UI_HTML_Table
 			else
 				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.gettype( $value ) );
 		}
+		return $this;
 	}
 
-	public function addRow( $cells = array() )
+	public function addRow( array $cells = [] )
 	{
-		$this->bodyRows[]	= array();
-		foreach( $cells as $key => $value )
-		{
+		$this->bodyRows[]	= [];
+		foreach( $cells as $key => $value ){
 			if( is_int( $key ) && is_string( $value ) )
 				$this->addCell( $value );
 			else if( is_string( $key ) && is_array( $value ) )
@@ -170,67 +182,71 @@ class UI_HTML_Table
 		}
 	}
 
-	public function render( $comment = "TEST" )
+	public function render( ?string $comment = "TEST" ): string
 	{
 		$start	= $comment ? "\n<!--  TABLE: ".$comment." >>  -->\n" : "";
 		$end	= $comment ? "\n<!--  << TABLE: ".$comment."  -->\n" : "";
 
 		//  --  TABLE HEAD  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->headRows as $headCells )
-			$list[]	= UI_HTML_Tag::create( "tr", "\n      ".implode( "\n      ", $headCells )."\n    " );
-		$tableHead		= "\n  ".UI_HTML_Tag::create( "thead", "\n    ".implode( "\n    ", $list )."\n  " );
+			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $headCells )."\n    " );
+		$tableHead		= "\n  ".Tag::create( "thead", "\n    ".implode( "\n    ", $list )."\n  " );
 
 		//  --  TABLE FOOT  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->footRows as $footCells )
-			$list[]	= UI_HTML_Tag::create( "tr", "\n      ".implode( "\n      ", $footCells )."\n    " );
-		$tableFoot		= "\n  ".UI_HTML_Tag::create( "tfoot", "\n    ".implode( "\n    ", $list )."\n  " );
+			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $footCells )."\n    " );
+		$tableFoot		= "\n  ".Tag::create( "tfoot", "\n    ".implode( "\n    ", $list )."\n  " );
 
 		//  --  TABLE BODY  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->bodyRows as $bodyCells )
-			$list[]	= UI_HTML_Tag::create( "tr", "\n      ".implode( "\n      ", $bodyCells )."\n    " );
-		$tableBody		= "\n  ".UI_HTML_Tag::create( "tbody", "\n    ".implode( "\n    ", $list )."\n  " )."\n";
+			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $bodyCells )."\n    " );
+		$tableBody		= "\n  ".Tag::create( "tbody", "\n    ".implode( "\n    ", $list )."\n  " )."\n";
 
 		//  --  COLUMN GROUP  --  //
-		$list	= array();
+		$list	= [];
 		foreach( $this->columns as $columns )
 		{
 			foreach( $columns as $nr => $width )
-				$columns[$nr]	= UI_HTML_Tag::create( "col", NULL, array( 'width' => $width ) );
-			$list[]	= UI_HTML_Tag::create( "colgroup", "\n      ".implode( "\n      ", $columns )."\n  " );
+				$columns[$nr]	= Tag::create( "col", NULL, ['width' => $width] );
+			$list[]	= Tag::create( "colgroup", "\n      ".implode( "\n      ", $columns )."\n  " );
 		}
 		$colgroups		= "\n  ".implode( "\n  ", $list );
 
-		$caption		= $this->caption ? "\n  ".UI_HTML_Tag::create( 'caption', $this->caption ) : "";
+		$caption		= $this->caption ? "\n  ".Tag::create( 'caption', $this->caption ) : "";
 		$content		= $caption.$colgroups.$tableHead.$tableFoot.$tableBody;
-		$attributes		= array(
+		$attributes		= [
 			'id'		=> $this->id,
 			'class'		=> $this->class,
 			'summary'	=> $this->summary
-		);
-		$table			= UI_HTML_Tag::create( "table", $content, $attributes );
+		];
+		$table			= Tag::create( "table", $content, $attributes );
 		return $start.$table.$end;
 	}
 
-	public function setCaption( $label )
+	public function setCaption( ?string $label ): self
 	{
 		$this->caption	= $label;
+		return $this;
 	}
 
-	public function setClass( $class )
+	public function setClass( ?string $class ): self
 	{
 		$this->class	= $class;
+		return $this;
 	}
 
-	public function setId( $id )
+	public function setId( ?string $id ): self
 	{
 		$this->id	= $id;
+		return $this;
 	}
 
-	public function setSummary( $label )
+	public function setSummary( ?string $label ): self
 	{
 		$this->summary	= $label;
+		return $this;
 	}
 }

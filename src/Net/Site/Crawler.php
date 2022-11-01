@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Crawls and counts all internal Links of an URL.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +21,39 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  */
+
+namespace CeusMedia\Common\Net\Site;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\ADT\StringBuffer;
+use CeusMedia\Common\Alg\UnitFormater;
+use CeusMedia\Common\Net\Reader as NetReader;
+use DOMDocument;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Crawls and counts all internal Links of an URL.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
- *	@uses			ADT_StringBuffer
- *	@uses			ADT_List_Dictionary
- *	@uses			Net_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.12.2006
  *	@todo			finish Code Doc
  */
-class Net_Site_Crawler
+class Crawler
 {
+	protected $baseUrl;
 	protected $crawled		= FALSE;
 	protected $depth		= 10;
-	protected $errors		= array();
-	protected $links		= array();
+	protected $errors		= [];
+	protected $links		= [];
 
 	protected $host;
 	protected $pass;
@@ -53,7 +62,7 @@ class Net_Site_Crawler
 	protected $scheme;
 	protected $user;
 
-	public $denied			= array(
+	public $denied			= [
 		'pdf',
 		'doc',
 		'xls',
@@ -69,26 +78,27 @@ class Net_Site_Crawler
 		'gif',
 		'png',
 		'bmp',
-	);
+	];
 
-	public $deniedUrlParts	= array();
+	public $deniedUrlParts	= [];
 
-	/**	@var	Net_Reader		$reader */
+	/**	@var	NetReader		$reader */
 	protected $reader;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		string		$baseUrl
 	 *	@param		integer		$depth			Number of Links followed in a Row
 	 *	@return		void
 	 */
-	public function __construct( $baseUrl, $depth = 10 )
+	public function __construct( string $baseUrl, int $depth = 10 )
 	{
 		if( $depth < 1 )
 			throw new InvalidArgumentException( 'Depth must be at least 1.' );
 		$this->baseUrl	= $baseUrl;
 		$this->depth	= $depth;
-		$this->reader	= new Net_Reader( "empty" );
+		$this->reader	= new NetReader( "empty" );
 		$this->reader->setUserAgent( "SiteCrawler/0.1" );
 	}
 
@@ -98,9 +108,9 @@ class Net_Site_Crawler
 	 *	@param		array		$parts			Parts of URL
 	 *	@return		string
 	 */
-	protected function buildUrl( $parts )
+	protected function buildUrl( array $parts ): string
 	{
-		$url	= new ADT_StringBuffer();
+		$url	= new StringBuffer();
 		if( isset( $parts['user'] ) && isset( $parts['pass'] ) && $parts['user'] )
 			$url->append( $parts['user'].":".$parts['pass']."@" );
 		if( substr( $parts['path'], 0, 1 ) != "/" )
@@ -115,7 +125,7 @@ class Net_Site_Crawler
 	}
 
 	/**
-	 *	Crawls a Web Site, collects Information and returns Number of visited Links.
+	 *	Crawls a Website, collects Information and returns Number of visited Links.
 	 *	@access		public
 	 *	@param		string		$url					URL of Web Page to start at
 	 *	@param		boolean		$followExternalLinks	Flag: follow external Links (on another Domain)
@@ -123,7 +133,7 @@ class Net_Site_Crawler
 	 *	@param		boolean		$verbose				Flag: show Progression
 	 *	@return		integer
 	 */
-	public function crawl( $url, $followExternalLinks = FALSE, $followWithLabelOnly = FALSE, $verbose = FALSE )
+	public function crawl( string $url, bool $followExternalLinks = FALSE, bool $followWithLabelOnly = FALSE, bool $verbose = FALSE ): int
 	{
 		//  XDebug Profiler is enabled
 		if( $xdebug = ini_get( 'xdebug.profiler_enable' ) )
@@ -131,35 +141,34 @@ class Net_Site_Crawler
 			ini_set( 'xdebug.profiler_enable', "0" );
 
 		$this->crawled	= FALSE;
-		$this->errors	= array();
-		$this->links	= array();
+		$this->errors	= [];
+		$this->links	= [];
 		$parts			= parse_url( $url );
-		$this->scheme	= isset( $parts['scheme'] ) ? $parts['scheme'] : "";
-		$this->host		= isset( $parts['host'] ) ? $parts['host'] : "";
-		$this->port		= isset( $parts['port'] ) ? $parts['port'] : "";
-		$this->user		= isset( $parts['user'] ) ? $parts['user'] : "";
-		$this->pass		= isset( $parts['pass'] ) ? $parts['pass'] : "";
-		$this->path		= isset( $parts['path'] ) ? $parts['path'] : "";
+		$this->scheme	= $parts['scheme'] ?? "";
+		$this->host		= $parts['host'] ?? "";
+		$this->port		= $parts['port'] ?? "";
+		$this->user		= $parts['user'] ?? "";
+		$this->pass		= $parts['pass'] ?? "";
+		$this->path		= $parts['path'] ?? "";
 
 		$number		= 0;
-		$urlList	= array( $url );
-		while( count( $urlList ) )
-		{
+		$urlList	= [$url];
+		while( count( $urlList ) ){
 			$number++;
 			$url	= array_shift( $urlList );
-			$parts	= new ADT_List_Dictionary( parse_url( $url ) );
+			$parts	= new Dictionary( parse_url( $url ) );
 
 			$parts['scheme']	= $this->scheme;
-			$parts['host']		= isset( $parts['host'] ) ? $parts['host'] : $this->host;
+			$parts['host']		??= $this->host;
 			$parts['port']		= $this->port;
 			$parts['user']		= $this->user;
 			$parts['pass']		= $this->pass;
-#			$parts['path']		= $this->path.$parts['path'];	
+#			$parts['path']		= $this->path.$parts['path'];
 
 			if( substr( $url, 0, strlen( $this->baseUrl ) ) !== $this->baseUrl )
 				if( !$followExternalLinks )
 					continue;
-			$url		= $this->buildUrl( $parts );
+			$url		= $this->buildUrl( $parts->getAll() );
 			if( array_key_exists( base64_encode( $url ), $this->links ) )
 				continue;
 
@@ -171,18 +180,15 @@ class Net_Site_Crawler
 			if( $denied || substr_count( $parts['path'], ".." ) )
 				continue;
 
-			try
-			{
+			try{
 				$content	= $this->getHTML( $url );
-				if( $content )
-				{
+				if( $content ){
 					$this->handleRecoveredLink( $url, $content );
 					if( $verbose )
 						$this->handleVerbose( $url, $number );
 					$document	= $this->getDocument( $content, $url );
 					$links		= $this->getLinksFromDocument( $document, $followWithLabelOnly );
-					foreach( $links as $url => $label )
-					{
+					foreach( $links as $url => $label ){
 						$info	= pathinfo( $url );
 						if( isset( $info['extension'] ) )
 							if( in_array( strtolower( $info['extension'] ), $this->denied ) )
@@ -191,8 +197,7 @@ class Net_Site_Crawler
 					}
 				}
 			}
-			catch( Exception $e )
-			{
+			catch( Exception $e ){
 				$this->errors[$url]	= $e->getMessage();
 			}
 		}
@@ -204,11 +209,11 @@ class Net_Site_Crawler
 		return count( $this->links );
 	}
 
-	protected function getBaseUrl( $document = NULL ){
+	protected function getBaseUrl( DOMDocument $document = NULL ): string
+	{
 		$parts	= parse_url( $this->baseUrl );
 		$url	= $this->buildUrl( $parts );
-		if( $document )
-		{
+		if( $document ){
 			$base	= $document->getElementsByTagName( "base" );
 			if( $base->length )
 				$url	= $base->item( 0 )->getAttribute( 'href' );
@@ -223,12 +228,11 @@ class Net_Site_Crawler
 	 *	@param		string		$url			URL of HTML Page
 	 *	@return		DOMDocument
 	 */
-	protected function getDocument( $content, $url )
+	protected function getDocument( string $content, string $url ): DOMDocument
 	{
 		$doc = new DOMDocument();
 		ob_start();
-		if( !@$doc->loadHTML( $content ) )
-		{
+		if( !@$doc->loadHTML( $content ) ){
 			$content	= ob_get_clean();
 			if( $content )
 				$this->errors[$url]	= $content;
@@ -243,7 +247,7 @@ class Net_Site_Crawler
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
 		return $this->errors;
 	}
@@ -253,22 +257,21 @@ class Net_Site_Crawler
 	 *	@access		public
 	 *	@param		string		$url		URL to get Content for
 	 *	@return		string
+	 * @throws Exception
 	 */
-	protected function getHTML( $url )
+	protected function getHTML( string $url ): string
 	{
 		$this->reader->setUrl( $url );
-		try
-		{
-			$content	= $this->reader->read( array(
-				'CURLOPT_FOLLOWLOCATION'	=> TRUE,
-				'CURLOPT_COOKIEJAR'			=> 'cookies.txt', 
-				'CURLOPT_COOKIEFILE'		=> 'cookies.txt'
-			) );
+		try{
+			$content	= $this->reader->read( [
+				CURLOPT_FOLLOWLOCATION	=> TRUE,
+				CURLOPT_COOKIEJAR		=> 'cookies.txt',
+				CURLOPT_COOKIEFILE		=> 'cookies.txt'
+			] );
 			$contentType	= $this->reader->getInfo( 'content_type' );
 			return $contentType === 'text/html' ? $content : '';
 		}
-		catch( RuntimeException $e )
-		{
+		catch( RuntimeException $e ){
 			$this->errors[$url]	= $e->getMessage();
 			throw $e;
 		}
@@ -279,7 +282,7 @@ class Net_Site_Crawler
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
 		if( !$this->crawled )
 			throw new RuntimeException( "First crawl an URL." );
@@ -293,13 +296,12 @@ class Net_Site_Crawler
 	 *	@param		boolean		$onlyWithLabel	Flag: note only links with label
 	 *	@return		array
 	 */
-	protected function getLinksFromDocument( $document, $onlyWithLabel = FALSE )
+	protected function getLinksFromDocument( DOMDocument $document, bool $onlyWithLabel = FALSE ): array
 	{
 		$baseUrl	= $this->getBaseUrl( $document );
-		$links		= array();
+		$links		= [];
 		$nodes		= $document->getElementsByTagName( "a" );
-		foreach( $nodes as $node )
-		{
+		foreach( $nodes as $node ){
 			$ref	= $node->getAttribute( 'href' );
 			$ref	= trim( preg_replace( "@^\./@", "", $ref ) );
 			if( strlen( $ref ) ){
@@ -331,10 +333,11 @@ class Net_Site_Crawler
 	 *	@access		protected
 	 *	@param		string		$url			URL of Web Page
 	 *	@param		integer		$number			Number of followed Page
+	 *	@return		void
 	 */
-	protected function handleVerbose( $url, $number )
+	protected function handleVerbose( string $url, int $number )
 	{
-		$speed	= Alg_UnitFormater::formatBytes( $this->reader->getInfo( 'speed_download' ) );
+		$speed	= UnitFormater::formatBytes( $this->reader->getInfo( 'speed_download' ) );
 		$url	= str_replace( "http://".$this->host.":".$this->port, "", $url );
 		$url	= str_replace( "http://".$this->host, "", $url );
 		remark( "[".$number."] ".$url." | ".$speed."/s" );
@@ -344,17 +347,20 @@ class Net_Site_Crawler
 	/**
 	 *	Collects URL, Number of References and Content of Web Pages. This Method is customizable (can be overwritten).
 	 *	@access		protected
-	 *	@param		string		$url			URL of Web Page
-	 *	@param		string		$content		HTML Content of Web Page
+	 *	@param		string			$url			URL of Web Page
+	 *	@param		string|NULL		$content		HTML Content of Web Page
+	 *	@return		void
 	 */
-	protected function handleRecoveredLink( $url, $content = NULL )
+	protected function handleRecoveredLink( string $url, ?string $content = NULL )
 	{
-		if( array_key_exists( $url, $this->links ) )
-			return $this->links[$url]['references']++;
-		$this->links[base64_encode( $url )] = array(
+		if( array_key_exists( $url, $this->links ) ){
+			$this->links[$url]['references']++;
+			return;
+		}
+		$this->links[base64_encode( $url )] = [
 			'url'			=> $url,
 			'references'	=> 1,
 			'content'		=> $content
-		);
+		];
 	}
 }

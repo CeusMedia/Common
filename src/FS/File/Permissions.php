@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	File permission data object and handler.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +21,29 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	File permission data object and handler.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Permissions
+class Permissions
 {
 	/**	@var	string		$pathName			Path name of current file */
-	protected $pathName		= NULL;
+	protected string $pathName;
 
 	/**
 	 *	Constructor.
@@ -56,7 +63,7 @@ class FS_File_Permissions
 	 *	Returns permissions as octal string value.
 	 *	@access		public
 	 *	@return		string		Octal string value of permissions of current file
-	 *	@throws		RuntimeException if no valid file is set
+	 *	@throws		InvalidArgumentException if no valid file is set
 	 */
 	public function getAsOctal(): string
 	{
@@ -70,7 +77,7 @@ class FS_File_Permissions
 	 *	Returns permissions as string value.
 	 *	@access		public
 	 *	@return		string		String value of permissions of current file
-	 *	@throws		RuntimeException if no valid file is set
+	 *	@throws		InvalidArgumentException if no valid file is set
 	 */
 	public function getAsString(): string
 	{
@@ -80,9 +87,9 @@ class FS_File_Permissions
 		return self::getStringFromOctal( sprintf( '%o', $permissions ) );
 	}
 
-	public static function getOctalFromFile( $pathName ): string
+	public static function getOctalFromFile( string $pathName ): string
 	{
-		$object	= new FS_File_Permissions( $pathName );
+		$object	= new Permissions( $pathName );
 		return $object->getAsOctal();
 	}
 
@@ -114,7 +121,7 @@ class FS_File_Permissions
 
 	public static function getStringFromFile( string $pathName ): string
 	{
-		$object	= new FS_File_Permissions( $pathName );
+		$object	= new Permissions( $pathName );
 		return $object->getAsString();
 	}
 
@@ -158,6 +165,6 @@ class FS_File_Permissions
 
 	public function setByString( string $permissions ): bool
 	{
-		return $this->setByOctal( $this->getOctalFromString( $permissions ) );
+		return $this->setByOctal( static::getOctalFromString( $permissions ) );
 	}
 }

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	YAML Writer based on Spyc.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_YAML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
+
+namespace CeusMedia\Common\FS\File\YAML;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	YAML Writer based on Spyc.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_YAML
- *	@uses			FS_File_Writer
- *	@uses			FS_File_YAML_Spyc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
-class FS_File_YAML_Writer
+class Writer
 {
 	/**	@var		string		$fileName		File Name of YAML File */
 	protected $fileName;
@@ -48,7 +50,7 @@ class FS_File_YAML_Writer
 	 *	@param		string		$fileName		File Name of YAML File.
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -59,20 +61,20 @@ class FS_File_YAML_Writer
 	 *	@static
 	 *	@param		string		$fileName		File Name of YAML File.
 	 *	@param		array		$data			Array to write into YAML File
-	 *	@return		bool
+	 *	@return		int
 	 */
-	public static function save( $fileName, $data )
+	public static function save( string $fileName, array $data ): int
 	{
-		$yaml	= FS_File_YAML_Spyc::YAMLDump( $data );
-		return FS_File_Writer::save( $fileName, $yaml );
+		return FileWriter::save( $fileName, Spyc::YAMLDump( $data ) );
 	}
 
 	/**
 	 *	Writes Data into YAML File.
 	 *	@access		public
-	 *	@return		bool
+	 *	@param		array		$data			Array to write into YAML File
+	 *	@return		int
 	 */
-	public function write( $data )
+	public function write( array $data ): int
 	{
 		return self::save( $this->fileName, $data );
 	}

@@ -1,26 +1,33 @@
 <?php
-/**
- *	TestUnit of Alg_Parcel_Packer.
- *	@package		Tests.alg.parcel
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Alg_Parcel_Packer.
+ *	@package		Tests.alg.parcel
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg\Parcel;
+
+use CeusMedia\Common\Alg\Parcel\Packer as ParcelPacker;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg_Parcel_Packer.
  *	@package		Tests.alg.parcel
- *	@extends		Test_Case
- *	@uses			Alg_Parcel_Packer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- *	@version		0.1
  */
-class Test_Alg_Parcel_PackerTest extends Test_Case
+class PackerTest extends BaseCase
 {
+	protected $articles;
+	protected $packets;
+	protected $volumes;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -55,7 +62,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 				'c'	=> 0.5
 			)
 		);
-		$this->packer	= new Alg_Parcel_Packer( $this->packets, $this->articles, $this->volumes );
+		$this->packer	= new ParcelPacker( $this->packets, $this->articles, $this->volumes );
 	}
 
 	/**
@@ -76,7 +83,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Alg_Parcel_Packer::__construct();
+		$creation	= ParcelPacker::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -89,7 +96,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Alg_Parcel_Packer::calculatePackage();
+		$creation	= ParcelPacker::calculatePackage();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -128,7 +135,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Alg_Parcel_Packer::getPacket();
+		$creation	= ParcelPacker::getPacket();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -141,7 +148,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'OutOfRangeException' );
-		Alg_Parcel_Packer::getPacket();
+		ParcelPacker::getPacket();
 	}
 
 	/**
@@ -153,7 +160,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->expectException( 'OutOfRangeException' );
-		Alg_Parcel_Packer::replacePacket();
+		ParcelPacker::replacePacket();
 	}
 
 	/**
@@ -165,7 +172,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Alg_Parcel_Packer::replacePacket();
+		$creation	= ParcelPacker::replacePacket();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

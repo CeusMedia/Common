@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,29 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
+
+namespace CeusMedia\Common\ADT\URL;
+
+use CeusMedia\Common\ADT\URL;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
-class ADT_URL_Inference extends ADT_URL
+class Inference extends URL
 {
-	public $separator		= "&";
+	public $separator				= "&";
 	public static $staticAddress	= "./";
 	public static $staticScheme		= "";
 	public static $staticSeparator	= "&";
@@ -47,12 +53,12 @@ class ADT_URL_Inference extends ADT_URL
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
 	 *
 	 *	@access		public
-	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
-	 *	@param		string		$fragment		Fragment ID
-	 *	@return		string		New URL.
+	 *	@param		array			$mapSet			Map of Parameters to append to URL
+	 *	@param		array			$listRemove		List of Parameters to remove from URL
+	 *	@param		string|NULL		$fragment		Fragment ID
+	 *	@return		string			New URL.
 	 */
-	public function build( $mapSet = array(), $listRemove = array(), $fragment = NULL )
+	public function build( array $mapSet = [], array $listRemove = [], ?string $fragment = NULL ): string
 	{
 		$parameters	= $this->buildQueryString( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
@@ -66,10 +72,10 @@ class ADT_URL_Inference extends ADT_URL
 	 *
 	 *	@access		public
 	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
+	 *	@param		array		$listRemove		List of Parameters to remove from URL
 	 *	@return		string		New URL.
 	 */
-	public function buildQueryString( $mapSet = array(), $listRemove = array() )
+	public function buildQueryString( array $mapSet = [], array $listRemove = [] ): string
 	{
 		$mapRequest	= $_GET;
 
@@ -90,11 +96,12 @@ class ADT_URL_Inference extends ADT_URL
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
 	 *
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
+	 *	@param		array		$listRemove		List of Parameters to remove from URL
 	 *	@return		string		New URL.
 	 */
-	public static function buildQueryStringStatic( $mapSet = array(), $listRemove = array() )
+	public static function buildQueryStringStatic( array $mapSet = [], array $listRemove = [] ): string
 	{
 		$mapRequest	= $_GET;
 
@@ -115,17 +122,18 @@ class ADT_URL_Inference extends ADT_URL
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
 	 *
 	 *	@access		public
-	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
-	 *	@param		string		$fragment		Fragment ID
-	 *	@return		string		New URL.
+	 *	@static
+	 *	@param		array			$mapSet			Map of Parameters to append to URL
+	 *	@param		array			$listRemove		List of Parameters to remove from URL
+	 *	@param		string|NULL		$fragment		Fragment ID
+	 *	@return		string			New URL.
 	 */
-	public function buildStatic( $mapSet = array(), $listRemove = array(), $fragment = NULL )
+	public static function buildStatic( array $mapSet = [], array $listRemove = [], ?string $fragment = NULL, bool $absolute = FALSE ): string
 	{
 		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
-		$url		= new ADT_URL( self::$staticScheme, self::$staticAddress );
-		return $url->getUrl().$parameters;
+		$url		= new URL( self::$staticScheme, self::$staticAddress );
+		return $url->get( $absolute ).$parameters;
 	}
 }

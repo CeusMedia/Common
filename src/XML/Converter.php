@@ -1,8 +1,11 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpUnused */
+
 /**
  *	Converts XML strings statically to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,53 +23,63 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Ceus Media
+ *	@copyright		2010-2022 Ceus Media
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\XML;
+
+use CeusMedia\Common\XML\DOM\Parser;
+use CeusMedia\Common\XML\DOM\Node as DomNode;
+#use DOMNode;
+use Exception;
+use stdClass;
+
 /**
  *	Converts XML to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Ceus Media
+ *	@copyright		2010-2022 Ceus Media
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
-class XML_Converter
+class Converter
 {
 	/**
-	 *	Converts a XML string to a tree of plain objects and returns JSON string.
+	 *	Converts an XML string to a tree of plain objects and returns JSON string.
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$xml		XML string
 	 *	@return		string		JSON representation of XML string
+	 *	@throws		Exception
 	 */
-	public static function toJson( $xml )
+	public static function toJson( string $xml ): string
 	{
 		$object	= self::toPlainObject( $xml );
 		return json_encode( $object );
 	}
 
 	/**
-	 *	Converts a XML string to a tree of plain objects (stdClass).
+	 *	Converts an XML string to a tree of plain objects (stdClass).
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$xml		XML string
 	 *	@return		object
+	 *	@throws		Exception
 	 */
-	public static function toPlainObject( $xml )
+	public static function toPlainObject( string $xml ): object
 	{
-		$parser		= new XML_DOM_Parser();
+		$parser		= new Parser();
 		$document	= $parser->parse( $xml );
-		$rootNode	= array_shift( $document->getChildren() );
+		$children	= $document->getChildren();
+		$rootNode	= array_shift( $children );
 		$rootName	= $rootNode->getNodeName();
-		$object		= (object) array(
+		$object		= (object) [
 			$rootName => new stdClass()
-		);
+		];
 		self::convertToObjectRecursive( $rootNode, $object->$rootName );
 		return $object;
 	}
@@ -75,23 +88,21 @@ class XML_Converter
 	 *	Converts DOM node to tree of objects recursively and in-situ.
 	 *	@static
 	 *	@access		protected
-	 *	@param		DOMNode		$node		DOM node to convert
+	 *	@param		DomNode		$node		DOM node to convert
 	 *	@param		object		$object		Tree for objects
 	 *	@return		void
 	 */
-	protected static function convertToObjectRecursive( $node, $object )
+	protected static function convertToObjectRecursive( DomNode $node, object $object )
 	{
 		$object->children	= new stdClass();
 		$object->attributes	= new stdClass();
-		foreach( $node->getChildren() as $childNode )
-		{
+		foreach( $node->getChildren() as $childNode ) {
 			$childObject	= new stdClass();
 			$nodeName		= $childNode->getNodeName();
 			$object->children->$nodeName	= $childObject;
 			self::convertToObjectRecursive( $childNode, $childObject );
 		}
-		if( $node->getAttributes() )
-		{
+		if( $node->getAttributes() ) {
 			foreach( $node->getAttributes() as $key => $value )
 				$object->attributes->$key	= $value;
 		}

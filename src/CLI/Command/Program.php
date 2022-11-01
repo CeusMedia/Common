@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,43 +22,47 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\CLI\Command;
+
+use Exception;
+
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Command
  *	@abstract
- *	@uses			CLI_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-abstract class CLI_Command_Program
+abstract class Program
 {
-	const EXIT_NO			= -1;
-	const EXIT_OK			= 0;
-	const EXIT_INIT			= 1;
-	const EXIT_PARSE		= 2;
-	const EXIT_RUN			= 4;
+	public const EXIT_NO		= -1;
+	public const EXIT_OK		= 0;
+	public const EXIT_INIT		= 1;
+	public const EXIT_PARSE		= 2;
+	public const EXIT_RUN		= 4;
 
-	/**	@var	array		$arguments		Map of given Arguments */
-	protected $arguments	= NULL;
+	/**	@var	array			$arguments		Map of given Arguments */
+	protected array $arguments	= [];
 
-	/**	@var	array		$arguments		Map of given Options */
-	protected $options		= NULL;
+	/**	@var	array			$options		Map of given Options */
+	protected array $options	= [];
 
-	/**	@var	array		$exitCode		Exit Code of Main Application */
-	protected $exitCode		= NULL;
+	/**	@var	int				$exitCode		Exit Code of Main Application */
+	protected int $exitCode		= self::EXIT_NO;
 
-	protected $parser;
+	protected ArgumentParser $parser;
 
 	/**
 	 *	Constructor, parses Console Call String against given Options and calls Main Method.
-	 *	If this class is going to be extended, the constructor must be extend too and the parents constructor must be called
+	 *	If this class is going to be extended, the constructor must be extended too and the parent's constructor must be called
 	 *
 	 *	<code>
 	 *  public function __construct()
@@ -80,10 +86,10 @@ abstract class CLI_Command_Program
 	 *	@param		int			$numberArguments	Number of mandatory Arguments
 	 *	@return		void
 	 */
-	public function __construct( $options, $shortcuts, $numberArguments = 0 )
+	public function __construct( array $options, array $shortcuts, int $numberArguments = 0 )
 	{
 		//  load Argument Parser
-		$this->parser	= new CLI_Command_ArgumentParser();
+		$this->parser	= new ArgumentParser();
 		//  set minimum Number of Arguments
 		$this->parser->setNumberOfMandatoryArguments( $numberArguments );
 		//  set Map of Options and Patterns
@@ -97,23 +103,22 @@ abstract class CLI_Command_Program
 	 *	@access		protected
 	 *	@return		string
 	 */
-	protected function getArgumentString()
+	protected function getArgumentString(): string
 	{
-		//  get Console Arguments from PHP
+		//  get console arguments from PHP
 		$arguments	= $_SERVER['argv'];
-		//  remove Programm Call itself
+		//  remove Program call itself
 		array_shift( $arguments );
 		//  build Argument String
-		$string		= implode( " ", $arguments );
-		return $string;
+		return implode( " ", $arguments );
 	}
 
-	public function getLastExitCode()
+	public function getLastExitCode(): int
 	{
 		return $this->exitCode;
 	}
 
-	protected function handleParserException( Exception $e, $exitCode = self::EXIT_PARSE )
+	protected function handleParserException( Exception $e, int $exitCode = self::EXIT_PARSE )
 	{
 		//  show exception message and exit if set so
 		$this->showError( $e->getMessage(), $exitCode );
@@ -123,11 +128,11 @@ abstract class CLI_Command_Program
 	 *	Program, to be implemented by you.
 	 *	@abstract
 	 *	@access		protected
-	 *	@return		mixed			can return a String or an Integer Exit Code.
+	 *	@return		int			Exit code, 0 on success
 	 */
-	abstract protected function main();
+	abstract protected function main(): int;
 
-	public function run( $argumentString = NULL )
+	public function run( ?string $argumentString = NULL ): int
 	{
 		if( is_null( $argumentString ) )
 			//  get Argument String
@@ -143,10 +148,11 @@ abstract class CLI_Command_Program
 			$this->exitCode		= $this->main();
 			return $this->exitCode;
 		}
-		//  handle uncatched Exceptions
+		//  handle uncaught Exceptions
 		catch( Exception $e ){
 			$this->handleParserException( $e );
 		}
+		return self::EXIT_OK;
 	}
 
 	/**
@@ -156,7 +162,7 @@ abstract class CLI_Command_Program
 	 *	@param		integer			$exitCode		Quit program afterwards, if >= 0 (EXIT_OK|EXIT_INIT|EXIT_PARSE|EXIT_RUN), default: -1 (EXIT_NO)
 	 *	@return		void
 	 */
-	protected function showError( $message, $exitCode = self::EXIT_NO )
+	protected function showError( $message, int $exitCode = self::EXIT_NO )
 	{
 		if( is_array( $message ) )
 			$message	= join( PHP_EOL, $message );

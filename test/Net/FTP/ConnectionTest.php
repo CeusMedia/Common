@@ -1,29 +1,40 @@
 <?php
-/**
- *	TestUnit of Net_FTP_Connection.
- *	@package		Tests.net.ftp
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			01.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Net_FTP_Connection.
+ *	@package		Tests.net.ftp
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Net\FTP;
+
+use CeusMedia\Common\Net\FTP\Connection;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_FTP_Connection.
  *	@package		Tests.net.ftp
- *	@extends		Test_Case
- *	@uses			Net_FTP_Connection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			01.07.2008
- *	@version		0.1
  */
-class Test_Net_FTP_ConnectionTest extends Test_Case
+class ConnectionTest extends BaseCase
 {
 	protected $connection;
+	protected $host;
+	protected $port;
+	protected $username;
+	protected $password;
+	protected $local;
+	protected $path;
+	protected $config;
 
-	protected function login() {
+	protected function login()
+	{
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
 			$this->connection->setPath( $this->path );
@@ -48,7 +59,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
 
 		@mkDir( $this->local );
-		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
+		$this->connection	= new Connection( $this->host, $this->port );
 	}
 
 	/**
@@ -71,10 +82,8 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$connection	= new Net_FTP_Connection( $this->host, $this->port );
-		$assertion	= TRUE;
-		$creation	= is_resource( $connection->getResource() );
-		$this->assertEquals( $assertion, $creation );
+		$connection	= new Connection( $this->host, $this->port );
+		$this->assertIsResource( $connection->getResource() );
 
 		$assertion	= $this->host;
 		$creation	= $connection->getHost();
@@ -89,10 +98,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	public function testDestruct()
 	{
 		$this->connection->__destruct();
-
-		$assertion	= NULL;
-		$creation	= $this->connection->getResource();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertNull( $this->connection->getResource() );
 	}
 
 	/**
@@ -102,7 +108,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testCheckConnection()
 	{
-		$connection	= new Net_FTP_Connection( $this->host, $this->port );
+		$connection	= new Connection( $this->host, $this->port );
 		$creation	= $connection->checkConnection( TRUE, FALSE );
 		$connection->login( $this->username, $this->password );
 		$creation	= $connection->checkConnection( TRUE, TRUE );
@@ -138,9 +144,8 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testClose()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->connection->close();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -150,19 +155,15 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testConnect()
 	{
-		$connection	= new Net_FTP_Connection( "127.0.0.1", 21, 2 );
-		$assertion	= TRUE;
-		$creation	= is_resource( $connection->getResource() );
-		$this->assertEquals( $assertion, $creation );
+		$connection	= new Connection( "127.0.0.1", 21, 2 );
+		$this->assertIsResource( $connection->getResource() );
 
 		$assertion	= 2;
 		$creation	= $connection->getTimeout();
 		$this->assertEquals( $assertion, $creation );
 
-		$connection	= new Net_FTP_Connection( "not_existing", 1, 1 );
-		$assertion	= FALSE;
-		$creation	= is_resource( $connection->getResource() );
-		$this->assertEquals( $assertion, $creation );
+		$connection	= new Connection( "not_existing", 1, 1 );
+		$this->assertIsNotResource( $connection->getResource() );
 	}
 
 	/**
@@ -220,15 +221,9 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testGetResource()
 	{
-		$assertion	= TRUE;
-		$creation	= is_resource( $this->connection->getResource() );
-		$this->assertEquals( $assertion, $creation );
-
+		$this->assertIsResource( $this->connection->getResource() );
 		$this->connection->close();
-
-		$assertion	= NULL;
-		$creation	= $this->connection->getResource();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertNull( $this->connection->getResource() );
 	}
 
 	/**
@@ -256,13 +251,11 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testLogin()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->connection->login( $this->username, $this->password );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->connection->login( "wrong_user", "wrong_pass" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -272,17 +265,14 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testSetTransferMode()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->connection->setTransferMode( FTP_ASCII );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->connection->setTransferMode( FTP_BINARY );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->connection->setTransferMode( -1 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -297,13 +287,11 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 
 		$this->login();
 
-		$assertion	= FALSE;
 		$creation	= $this->connection->setPath( "not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->connection->setPath( "folder" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->connection->getPath();
@@ -319,13 +307,11 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testSetTimeout()
 	{
-		$assertion	= FALSE;
 		$creation	= $this->connection->setTimeout( 0 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->connection->setTimeout( 9 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= 9;
 		$creation	= $this->connection->getTimeout();

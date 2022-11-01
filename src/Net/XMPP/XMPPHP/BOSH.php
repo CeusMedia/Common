@@ -25,6 +25,11 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
+
+namespace CeusMedia\Common\Net\XMPP\XMPPHP;
+
+use SimpleXMLElement;
+
 /**
  * XMPPHP Main Class
  *
@@ -35,15 +40,16 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
-class Net_XMPP_XMPPHP_BOSH {
-
+class BOSH
+{
 	protected $rid;
 	protected $sid;
 	protected $http_server;
-	protected $http_buffer = Array();
+	protected $http_buffer = [];
 	protected $session = false;
 
-	public function connect($server, $wait='1', $session=false) {
+	public function connect($server, $wait='1', $session=false)
+	{
 		$this->http_server = $server;
 		$this->use_encryption = false;
 		$this->session = $session;
@@ -76,7 +82,8 @@ class Net_XMPP_XMPPHP_BOSH {
 		}
 	}
 
-	public function __sendBody($body=null, $recv=true) {
+	public function __sendBody($body=null, $recv=true)
+	{
 		if(!$body) {
 			$body = $this->__buildBody();
 		}
@@ -98,7 +105,8 @@ class Net_XMPP_XMPPHP_BOSH {
 		return $output;
 	}
 
-	public function __buildBody($sub=null) {
+	public function __buildBody($sub=null)
+	{
 		$xml = new SimpleXMLElement("<body xmlns='http://jabber.org/protocol/httpbind' xmlns:xmpp='urn:xmpp:xbosh' />");
 		$xml->addAttribute('content', 'text/xml; charset=utf-8');
 		$xml->addAttribute('rid', $this->rid);
@@ -117,7 +125,8 @@ class Net_XMPP_XMPPHP_BOSH {
 		return $xml;
 	}
 
-	public function __process() {
+	public function __process()
+	{
 		if($this->http_buffer) {
 			$this->__parseBuffer();
 		} else {
@@ -126,7 +135,8 @@ class Net_XMPP_XMPPHP_BOSH {
 		}
 	}
 
-	public function __parseBuffer() {
+	public function __parseBuffer()
+	{
 		while ($this->http_buffer) {
 			$idx = key($this->http_buffer);
 			$buffer = $this->http_buffer[$idx];
@@ -136,25 +146,27 @@ class Net_XMPP_XMPPHP_BOSH {
 				$children = $xml->xpath('child::node()');
 				foreach ($children as $child) {
 					$buff = $child->asXML();
-					$this->log->log("RECV: $buff",  Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE);
+					$this->log->log("RECV: $buff",  Log::LEVEL_VERBOSE);
 					xml_parse($this->parser, $buff, false);
 				}
 			}
 		}
 	}
 
-	public function send($msg) {
-		$this->log->log("SEND: $msg",  Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE);
+	public function send($msg)
+	{
+		$this->log->log("SEND: $msg",  Log::LEVEL_VERBOSE);
 		$msg = new SimpleXMLElement($msg);
 		#$msg->addAttribute('xmlns', 'jabber:client');
 		$this->__sendBody($this->__buildBody($msg), true);
 		#$this->__parseBuffer();
 	}
 
-	public function reset() {
+	public function reset()
+	{
 		$this->xml_depth = 0;
 		unset($this->xmlobj);
-		$this->xmlobj = array();
+		$this->xmlobj = [];
 		$this->setupParser();
 		#$this->send($this->stream_start);
 		$body = $this->__buildBody();
@@ -166,7 +178,8 @@ class Net_XMPP_XMPPHP_BOSH {
 		xml_parse($this->parser, $buff, false);
 	}
 
-	public function loadSession() {
+	public function loadSession()
+	{
 		if(isset($_SESSION['XMPPHP_BOSH_RID'])) $this->rid = $_SESSION['XMPPHP_BOSH_RID'];
 		if(isset($_SESSION['XMPPHP_BOSH_SID'])) $this->sid = $_SESSION['XMPPHP_BOSH_SID'];
 		if(isset($_SESSION['XMPPHP_BOSH_authed'])) $this->authed = $_SESSION['XMPPHP_BOSH_authed'];
@@ -174,7 +187,8 @@ class Net_XMPP_XMPPHP_BOSH {
 		if(isset($_SESSION['XMPPHP_BOSH_fulljid'])) $this->fulljid = $_SESSION['XMPPHP_BOSH_fulljid'];
 	}
 
-	public function saveSession() {
+	public function saveSession()
+	{
 		$_SESSION['XMPPHP_BOSH_RID'] = (string) $this->rid;
 		$_SESSION['XMPPHP_BOSH_SID'] = (string) $this->sid;
 		$_SESSION['XMPPHP_BOSH_authed'] = (boolean) $this->authed;

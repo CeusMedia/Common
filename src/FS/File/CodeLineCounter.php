@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Counter for Lines of Code of a File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +21,23 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
 /**
  *	Counter for Lines of Code of a File.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
-class FS_File_CodeLineCounter
+class CodeLineCounter
 {
 	/**
 	 *	Reads File and counts Code Lines, Documentation Lines and unimportant Lines and returns a Data Array.
@@ -45,9 +46,9 @@ class FS_File_CodeLineCounter
 	 *	@param		string		$fileName		Name File to analyse
 	 *	@return		array
 	 */
-	public static function countLines( $fileName )
+	public static function countLines( string $fileName ): array
 	{
-		$content	= FS_File_Reader::load( $fileName );
+		$content	= Reader::load( $fileName );
 		return self::countLinesFromSource( $content );
 	}
 
@@ -58,42 +59,37 @@ class FS_File_CodeLineCounter
 	 *	@param		string		$content		Source Code of File
 	 *	@return		array
 	 */
-	public static function countLinesFromSource( $content )
+	public static function countLinesFromSource( string $content ): array
 	{
 		$counter		= 0;
 		$numberCodes	= 0;
 		$numberDocs		= 0;
 		$numberStrips	= 0;
-		$linesCodes		= array();
-		$linesDocs		= array();
-		$linesStrips	= array();
+		$linesCodes		= [];
+		$linesDocs		= [];
+		$linesStrips	= [];
 
 		$lines		= explode( "\n", $content );
-		foreach( $lines as $line )
-		{
-			if( preg_match( "@^(\t| )*/?\*@", $line ) )
-			{
+		foreach( $lines as $line ){
+			if( preg_match( "@^(\t| )*/?\*@", $line ) ){
 				$linesDocs[$counter] = $line;
 				$numberDocs++;
 			}
-			else if( preg_match( "@^(<\?php|<\?|\?>|\}|\{|\t| )*$@", trim( $line ) ) )
-			{
+			else if( preg_match( "@^(<\?php|<\?|\?>|\}|\{|\t| )*$@", trim( $line ) ) ){
 				$linesStrips[$counter] = $line;
 				$numberStrips++;
 			}
-			else if( preg_match( "@^(public|protected|private|class|function|final|define|import)@", trim( $line ) ) )
-			{
+			else if( preg_match( "@^(public|protected|private|class|function|final|define|import)@", trim( $line ) ) ){
 				$linesStrips[$counter] = $line;
 				$numberStrips++;
 			}
-			else
-			{
+			else{
 				$linesCodes[$counter] = $line;
 				$numberCodes++;
 			}
 			$counter ++;
 		}
-		$data	= array(
+		return [
 			'length'		=> strlen( $content ),
 			'numberCodes'	=> $numberCodes,
 			'numberDocs'	=> $numberDocs,
@@ -105,7 +101,6 @@ class FS_File_CodeLineCounter
 			'ratioCodes'	=> $numberCodes / $counter * 100,
 			'ratioDocs'		=> $numberDocs / $counter * 100,
 			'ratioStrips'	=> $numberStrips / $counter * 100,
-		);
-		return $data;
+		];
 	}
 }

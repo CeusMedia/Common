@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for FTP Connections.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,55 +21,56 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
+
+namespace CeusMedia\Common\Net\FTP;
+
 /**
  *	Reader for FTP Connections.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.07.2008
  */
-class Net_FTP_Reader
+class Reader
 {
-	/**	@var		array				$fileTypes		List of File Types (dir,file,link) */
-	protected $fileTypes	= array(
+	/**	@var		array			$fileTypes		List of File Types (dir,file,link) */
+	protected $fileTypes	= [
 		'd'	=> "dir",
 		'-'	=> "file",
 		'l'	=> "link"
-	);
+	];
 
-	/**	@var		Net_FTP_Connection	$connection		FTP Connection Object */
+	/**	@var		Connection		$connection		FTP Connection Object */
 	protected $connection;
 
 	/**
 	 *	Constructor
 	 *	@access		public
-	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
+	 *	@param		Connection		$connection		FTP Connection Object
 	 *	@return		void
 	 */
-	public function __construct( Net_FTP_Connection $connection )
+	public function __construct( Connection $connection )
 	{
 		$this->connection	= $connection;
 	}
 
 	/**
-	 *	Transferes a File from FTP Server.
+	 *	Transfers a File from FTP Server.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of Remove File
-	 *	@param		string		$target			Name of Target File
+	 *	@param		string			$fileName		Name of Remove File
+	 *	@param		string|NULL		$target			Name of Target File
 	 *	@return		bool
 	 */
-	public function getFile( $fileName, $target = "" )
+	public function getFile( string $fileName, ?string $target ): bool
 	{
 		$this->connection->checkConnection();
-		if( !$target )
+		if( $target === NULL || strlen( trim( $target ) ) === 0 )
 			$target	= $fileName;
 		return @ftp_get( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
@@ -80,10 +82,10 @@ class Net_FTP_Reader
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getFileList( $path = "", $recursive = FALSE )
+	public function getFileList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getList( $path, $recursive );
 		foreach( $list as $entry )
 			if( !preg_match( "@/?[.]{1,2}$@", $entry['name'] ) )
@@ -99,10 +101,10 @@ class Net_FTP_Reader
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getFolderList( $path = "", $recursive = FALSE )
+	public function getFolderList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getList( $path, $recursive );
 		foreach( $list as $entry )
 			if( !preg_match( "@/?[.]{1,2}$@", $entry['name'] ) )
@@ -112,32 +114,27 @@ class Net_FTP_Reader
 	}
 
 	/**
-	 *	Returns a List of all Folders an Files of a Path on FTP Server.
+	 *	Returns a List of all Folders and Files of a Path on FTP Server.
 	 *	@access		public
 	 *	@param		string		$path			Path
 	 *	@param		bool		$recursive		Scan Folders recursive (default: FALSE)
 	 *	@return		array
 	 */
-	public function getList( $path = "", $recursive = FALSE )
+	public function getList( string $path = "", bool $recursive = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$parsed	= array();
+		$parsed	= [];
 		if( !$path )
 			$path	= $this->getPath();
 		$list	= ftp_rawlist( $this->connection->getResource(), $path );
-		if( is_array( $list ) )
-		{
-			foreach( $list as $current )
-			{
+		if( is_array( $list ) ){
+			foreach( $list as $current ){
 				$data	= $this->parseListEntry( $current );
-				if( count( $data ) )
-				{
+				if( count( $data ) ){
 					$parsed[]	= $data;
-					if( $recursive && $data['isdir'] && $data['name'] != "." && $data['name'] != ".." )
-					{
+					if( $recursive && $data['isdir'] && $data['name'] != "." && $data['name'] != ".." ){
 						$nested	= $this->getList( $path."/".$data['name'], TRUE );
-						foreach( $nested as $entry )
-						{
+						foreach( $nested as $entry ){
 							$entry['name']	= $data['name']."/".$entry['name'];
 							$parsed[]	= $entry;
 						}
@@ -153,12 +150,12 @@ class Net_FTP_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->connection->getPath();
 	}
 
-	public function getPermissionsAsOctal( $permissions )
+	public function getPermissionsAsOctal( $permissions ): string
 	{
 		$mode	= 0;
 		if( $permissions[1] == 'r' ) $mode += 0400;
@@ -187,15 +184,15 @@ class Net_FTP_Reader
 	 *	@param		string		$entry		Entry of List
 	 *	@return		array
 	 */
-	protected function parseListEntry( $entry )
+	protected function parseListEntry( string $entry ): array
 	{
-		$data	= array();
-		$parts	= preg_split("/[\s]+/", $entry, 9 );
+		$data	= [];
+		$parts	= preg_split("/\s+/", $entry, 9 );
 		if( $parts[0] == "total" )
-			return array();
-		$data['isdir']			= $parts[0]{0} === "d";
-		$data['islink']			= $parts[0]{0} === "l";
-		$data['isfile']			= $parts[0]{0} === "-";
+			return [];
+		$data['isdir']			= $parts[0][0] === "d";
+		$data['islink']			= $parts[0][0] === "l";
+		$data['isfile']			= $parts[0][0] === "-";
 		$data['permissions']	= $parts[0];
 		$data['number']			= $parts[1];
 		$data['owner']			= $parts[2];
@@ -207,15 +204,14 @@ class Net_FTP_Reader
 		$data['name']			= $parts[8];
 		if( preg_match( "/:/", $data['time'] ) )
 			$data['year']		= date( "Y" );
-		else
-		{
+		else{
 			$data['year']		= $data['time'];
 			$data['time']		= "00:00";
 		}
 		$data['timestamp']		= strtotime( $data['day']." ".$data['month']." ".$data['year']." ".$data['time'] );
 		$data['datetime']		= date( "c", $data['timestamp'] );
-		$data['type']			= $this->fileTypes[$parts[0]{0}];
-		$data['type_short']		= $data['type']{0};
+		$data['type']			= $this->fileTypes[$parts[0][0]];
+		$data['type_short']		= $data['type'][0];
 		$data['octal']			= $this->getPermissionsAsOctal( $parts[0] );
 		$data['raw']			= $entry;
 		return $data;
@@ -229,17 +225,14 @@ class Net_FTP_Reader
 	 *	@param		bool		$regular			Search with regular Expression (default: false)
 	 *	@return		array
 	 */
-	public function searchFile( $fileName = "", $recursive = FALSE, $regular = FALSE )
+	public function searchFile( string $fileName = "", bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getFileList( $this->getPath(), $recursive );
-		foreach( $list as $entry )
-		{
-			if( !$entry['isdir'] )
-			{
-				if( $regular )
-				{
+		foreach( $list as $entry ){
+			if( !$entry['isdir'] ){
+				if( $regular ){
 					if( preg_match( $fileName, $entry['name'] ) )
 						$results[]	= $entry;
 				}
@@ -258,17 +251,14 @@ class Net_FTP_Reader
 	 *	@param		bool		$regular			Search with regular Expression (default: FALSE)
 	 *	@return		array
 	 */
-	public function searchFolder( $folderName = "", $recursive = FALSE, $regular = FALSE )
+	public function searchFolder( string $folderName = "", bool $recursive = FALSE, bool $regular = FALSE ): array
 	{
 		$this->connection->checkConnection();
-		$results	= array();
+		$results	= [];
 		$list		= $this->getFolderList( $this->getPath(), $recursive );
-		foreach( $list as $entry )
-		{
-			if( $entry['isdir'] )
-			{
-				if( $regular )
-				{
+		foreach( $list as $entry ){
+			if( $entry['isdir'] ){
+				if( $regular ){
 					if( preg_match( $folderName, $entry['name'] ) )
 						$results[]	= $entry;
 				}
@@ -285,7 +275,7 @@ class Net_FTP_Reader
 	 *	@param		string		$path		Path to go to
 	 *	@return		bool
 	 */
-	public function setPath( $path )
+	public function setPath( string $path ): bool
 	{
 		return $this->connection->setPath( $path );
 	}

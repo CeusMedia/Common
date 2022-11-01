@@ -1,33 +1,36 @@
 <?php
-/**
- *	TestUnit of XML Element Reader.
- *	@package		Tests.xml
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML Element Reader.
+ *	@package		Tests.xml
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML;
+
+use CeusMedia\Common\XML\ElementReader;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML Element Reader.
  *	@package		Tests.xml
- *	@extends		Test_Case
- *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *	@version		0.1
  */
-class Test_XML_ElementReaderTest extends Test_Case
+class ElementReaderTest extends BaseCase
 {
-
 	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
+
 	protected $file;
 
 	public function setUp(): void
 	{
-		$this->file		= dirname( __FILE__ ).'/element_reader.xml';
+		$this->file		= dirname( __FILE__ ).'/assets/element_reader.xml';
 	}
 
 	/**
@@ -40,7 +43,7 @@ class Test_XML_ElementReaderTest extends Test_Case
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'The cURL extension is not available.' );
 
-		$element	= XML_ElementReader::readUrl( $this->url );
+		$element	= ElementReader::readUrl( $this->url );
 
 		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;
@@ -58,7 +61,7 @@ class Test_XML_ElementReaderTest extends Test_Case
 	 */
 	public function testReadFile()
 	{
-		$element	= XML_ElementReader::readFile( $this->file );
+		$element	= ElementReader::readFile( $this->file );
 
 		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;

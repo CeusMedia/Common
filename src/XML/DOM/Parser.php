@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Parses a XML Document to a Tree of XML_DOM_Nodes.
+ *	Parses an XML Document to a Tree of XML_DOM_Nodes.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,42 +22,49 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\ADT\OptionObject;
+use DOMDocument;
+use DOMElement;
+use DOMNode;
+use Exception;
+
 /**
- *	Parses a XML Document to a Tree of XML_DOM_Nodes.
+ *	Parses an XML Document to a Tree of XML_DOM_Nodes.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@extends		ADT_OptionObject
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_SyntaxValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_DOM_Parser extends ADT_OptionObject
+class Parser extends OptionObject
 {
-	/**	@var	DOMDocument		$document		DOM Document */
+	/**	@var	DOMDocument|NULL		$document		DOM Document */
 	protected $document			= NULL;
+
 	/**	@var	array			$attributes		List of DOM Document Options */
-	protected $attributes	= array(
+	protected $attributes	= [
 		"version",
 		"encoding",
 		"standalone",
 		"type",
 		"compression",
 		"charset"
-	);
+	];
 
 	/**
 	 *	Returns DOM Document.
 	 *	@access		public
 	 *	@return		DOMDocument
 	 */
-	public function getDocument()
+	public function getDocument(): DOMDocument
 	{
 		return $this->document;
 	}
@@ -65,12 +74,13 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 *	@access		public
 	 *	@param		string		$xml			XML to be parsed
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	protected function loadXml( $xml )
+	protected function loadXml( string $xml )
 	{
-		$xsv	= new XML_DOM_SyntaxValidator;
+		$xsv	= new SyntaxValidator;
 		if( !$xsv->validate( $xml ) )
-			throw new Exception( "XML Document is not valid:".$xsv->getErrors() );
+			throw new Exception( "XML Document is not valid: ".$xsv->getErrors() );
 		$this->document	= $xsv->getDocument();
 		$this->clearOptions();
 		foreach( $this->attributes as $attribute )
@@ -82,18 +92,18 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 *	Parses XML String to XML Tree.
 	 *	@access		public
 	 *	@param		string		$xml			XML to parse
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
+	 *	@throws		Exception
 	 */
-	public function parse( $xml )
+	public function parse( string $xml ): Node
 	{
 		$this->loadXml( $xml );
 		$root	= $this->document->firstChild;
-		while( $root->nodeType == XML_COMMENT_NODE )
+		while( $root->nodeType === XML_COMMENT_NODE )
 			$root	= $root->nextSibling;
 
-		$tree	= new XML_DOM_Node( $root->nodeName );
-		if( $root->hasAttributes())
-		{
+		$tree	= new Node( $root->nodeName );
+		if( $root->hasAttributes()){
 			$attributeNodes	= $root->attributes;
 			foreach( $attributeNodes as $attributeNode )
 				$tree->setAttribute( $attributeNode->nodeName, $attributeNode->nodeValue );
@@ -105,24 +115,19 @@ class XML_DOM_Parser extends ADT_OptionObject
 	/**
 	 *	Parses XML File to XML Tree recursive.
 	 *	@access		protected
-	 *	@param		DOMElement		$root		DOM Node Element
-	 *	@param		XML_DOM_Node	$tree		Parent XML Node
+	 *	@param		DOMNode			$root		DOM Node Element
+	 *	@param		Node			$tree		Parent XML Node
 	 *	@return		bool
 	 */
-	protected function parseRecursive( $root, $tree )
+	protected function parseRecursive( DOMNode  $root, Node $tree ): bool
 	{
-		$nodes = array();
-		if( $child = $root->firstChild )
-		{
-			while( $child )
-			{
-				$attributes	= $child->hasAttributes()? $child->attributes : array();
-				switch( $child->nodeType )
-				{
+		if( $child = $root->firstChild ){
+			while( $child ){
+				$attributes	= $child->hasAttributes()? $child->attributes : [];
+				switch( $child->nodeType ){
 					case XML_ELEMENT_NODE:
-						$node = new XML_DOM_Node( $child->nodeName );
-						if( !$this->parseRecursive( $child, $node ) )
-						{
+						$node = new Node( $child->nodeName );
+						if( !$this->parseRecursive( $child, $node ) ){
 	#						$node->setContent( utf8_decode( $child->textContent ) );
 							$node->setContent( $child->textContent );
 						}
@@ -131,14 +136,10 @@ class XML_DOM_Parser extends ADT_OptionObject
 						$tree->addChild( $node );
 						break;
 					case XML_TEXT_NODE:
-						if( strlen( trim( $content = $child->textContent ) ) )
-						{
-							return false;
-						}
+						if( strlen( trim( $child->textContent ) ) )
+							return FALSE;
 						else if( isset( $attributes['type'] ) && preg_match( "/.*ml/i", $attributes['type'] ) )
-						{
-							return false;
-						}
+							return FALSE;
 						break;
 					case XML_CDATA_SECTION_NODE:
 						$tree->setContent( stripslashes( $child->textContent ) );
@@ -149,6 +150,6 @@ class XML_DOM_Parser extends ADT_OptionObject
 				$child = $child->nextSibling;
 			}
 		}
-		return true;
+		return TRUE;
 	}
 }

@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of FS_File_INI.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.12.2010
- *	@version		0.1
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_INI.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File;
+
+use CeusMedia\Common\FS\File\INI;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_INI.
- *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			FS_File_INI
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.12.2010
- *	@version		0.1
  */
-class Test_FS_File_INITest extends Test_Case
+class INITest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -49,7 +46,7 @@ class Test_FS_File_INITest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_INI::__construct();
+		$creation	= INI::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -61,7 +58,7 @@ class Test_FS_File_INITest extends Test_Case
 	public function testGet1()
 	{
 		$fileName	= $this->path.'plain.ini';
-		$file		= new FS_File_INI( $fileName );
+		$file		= new INI( $fileName );
 
 		$assertion	= 'value1';
 		$creation	= $file->get( 'key1' );
@@ -80,7 +77,7 @@ class Test_FS_File_INITest extends Test_Case
 	public function testGet2()
 	{
 		$fileName	= $this->path.'sections.ini';
-		$file		= new FS_File_INI( $fileName, TRUE );
+		$file		= new INI( $fileName, TRUE );
 
 		$assertion	= 'value1';
 		$creation	= $file->get( 'key1', 'section1' );
@@ -104,7 +101,7 @@ class Test_FS_File_INITest extends Test_Case
 	public function testHas1()
 	{
 		$fileName	= $this->path.'plain.ini';
-		$file		= new FS_File_INI( $fileName );
+		$file		= new INI( $fileName );
 
 		$assertion	= TRUE;
 		$creation	= $file->has( 'key1' );
@@ -127,7 +124,7 @@ class Test_FS_File_INITest extends Test_Case
 	public function testHas2()
 	{
 		$fileName	= $this->path.'sections.ini';
-		$file		= new FS_File_INI( $fileName, TRUE );
+		$file		= new INI( $fileName, TRUE );
 
 		$assertion	= TRUE;
 		$creation	= $file->has( 'key1', 'section1' );
@@ -155,7 +152,7 @@ class Test_FS_File_INITest extends Test_Case
 	{
 		$fileName	= $this->path.'plain.ini';
 		copy( $fileName, $fileName.'.copy' );
-		$file		= new FS_File_INI( $fileName.'.copy' );
+		$file		= new INI( $fileName.'.copy' );
 
 		$assertion	= TRUE;
 		$data		= parse_ini_file( $fileName.'.copy' );
@@ -187,7 +184,7 @@ class Test_FS_File_INITest extends Test_Case
 	{
 		$fileName	= $this->path.'sections.ini';
 		copy( $fileName, $fileName.'.copy' );
-		$file		= new FS_File_INI( $fileName.'.copy', TRUE );
+		$file		= new INI( $fileName.'.copy', TRUE );
 
 		$assertion	= TRUE;
 		$data		= parse_ini_file( $fileName.'.copy', TRUE );
@@ -219,7 +216,7 @@ class Test_FS_File_INITest extends Test_Case
 	{
 		$fileName	= $this->path.'plain.ini';
 		copy( $fileName, $fileName.'.copy' );
-		$file		= new FS_File_INI( $fileName.'.copy' );
+		$file		= new INI( $fileName.'.copy' );
 
 		$assertion	= FALSE;
 		$data		= parse_ini_file( $fileName.'.copy' );
@@ -246,7 +243,7 @@ class Test_FS_File_INITest extends Test_Case
 	{
 		$fileName	= $this->path.'sections.ini';
 		copy( $fileName, $fileName.'.copy' );
-		$file		= new FS_File_INI( $fileName.'.copy', TRUE );
+		$file		= new INI( $fileName.'.copy', TRUE );
 
 		$assertion	= FALSE;
 		$data		= parse_ini_file( $fileName.'.copy', TRUE );

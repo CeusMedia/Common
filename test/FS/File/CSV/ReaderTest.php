@@ -1,19 +1,23 @@
 <?php
-/**
- *	TestUnit of FS_File_CSV_Reader.
- *	@package		Tests.File.CSV
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_CSV_Reader.
+ *	@package		Tests.FS.File.CSV
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File\CSV;
+
+use CeusMedia\Common\FS\File\CSV\Reader;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 
 /**
  *	TestUnit of FS_File_CSV_Reader.
  *	@package		Tests.File.CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_CSV_ReaderTest extends Test_Case
+class ReaderTest extends BaseCase
 {
 	protected $filePath;
 	protected $pathName;
@@ -28,7 +32,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	{
 		$this->pathName	= dirname( __FILE__ ).'/';
 		$this->filePath	= $this->pathName.'read.csv';
-		$this->reader	= new FS_File_CSV_Reader( $this->filePath, TRUE, ';' );
+		$this->reader	= new Reader( $this->filePath, TRUE, ';' );
 	}
 
 	/**
@@ -47,7 +51,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	 */
 	public function test__construct()
 	{
-		$mock		= Test_MockAntiProtection::getInstance( 'FS_File_CSV_Reader', $this->filePath, TRUE, '|', '#' );
+		$mock		= MockAntiProtection::getInstance( Reader::class, $this->filePath, TRUE, '|', '#' );
 
 		$assertion	= TRUE;
 		$creation	= is_object( $mock );
@@ -65,8 +69,8 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 		$creation	= $this->reader->getHeaders();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new FS_File_CSV_Reader( $this->filePath, FALSE, ';' );
-		$assertion	= array();
+		$reader		= new Reader( $this->filePath, FALSE, ';' );
+		$assertion	= [];
 		$creation	= $reader->getHeaders();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -85,7 +89,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 		$creation	= $this->reader->count();
 		$this->assertEquals( $assertion, $creation, 'Not same size on 2nd attempt' );
 
-		$reader		= new FS_File_CSV_Reader( $this->filePath, FALSE, ';' );
+		$reader		= new Reader( $this->filePath, FALSE, ';' );
 		$assertion	= 3;
 		$creation	= $reader->count();
 		$this->assertEquals( $assertion, $creation );
@@ -114,7 +118,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 //print(json_encode($creation, JSON_PRETTY_PRINT));
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new FS_File_CSV_Reader( $this->filePath, FALSE, ';' );
+		$reader		= new Reader( $this->filePath, FALSE, ';' );
 		$assertion	= array(
 			array(
 				'id', 'col1', 'col2'

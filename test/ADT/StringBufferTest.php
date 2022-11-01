@@ -1,26 +1,31 @@
 <?php
-/**
- *	TestUnit of Test_ADT_StringBuffer.
- *	@package		Tests.adt
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Test_ADT_StringBuffer.
+ *	@package		Tests.ADT
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\ADT;
+
+use CeusMedia\Common\ADT\StringBuffer;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Test_ADT_StringBuffer.
- *	@package		Tests.adt
- *	@extends		Test_Case
- *	@uses			ADT_StringBuffer
+ *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- *	@version		0.1
  */
-class Test_ADT_StringBufferTest extends Test_Case
+class StringBufferTest extends BaseCase
 {
+	protected $buffer;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,7 +33,7 @@ class Test_ADT_StringBufferTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->buffer	= new ADT_StringBuffer( "test" );
+		$this->buffer	= new StringBuffer( "test" );
 	}
 
 	/**
@@ -47,7 +52,7 @@ class Test_ADT_StringBufferTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$buffer		= new ADT_StringBuffer( "construct" );
+		$buffer		= new StringBuffer( "construct" );
 		$assertion	= "construct";
 		$creation	= $buffer->toString();
 		$this->assertEquals( $assertion, $creation );

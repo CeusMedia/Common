@@ -1,23 +1,23 @@
 <?php
-/**
- *	TestUnit of FS_File_CSV_Iterator.
- *	@package		Tests.File.CSV
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.08.2010
- *	@version		0.1
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_CSV_Iterator.
+ *	@package		Tests.FS.File.CSV
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File\CSV;
+
+use CeusMedia\Common\FS\File\CSV\Iterator;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 
 /**
  *	TestUnit of FS_File_CSV_Iterator.
- *	@package		Tests.File.CSV
+ *	@package		Tests.FS:File.CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.08.2010
- *	@version		0.1
  */
-class Test_FS_File_CSV_IteratorTest extends Test_Case
+class IteratorTest extends BaseCase
 {
 	protected $filePath;
 	protected $iterator;
@@ -32,7 +32,7 @@ class Test_FS_File_CSV_IteratorTest extends Test_Case
 	{
 		$this->pathName	= dirname( __FILE__ ).'/';
 		$this->filePath	= $this->pathName.'read.csv';
-		$this->iterator	= new FS_File_CSV_Iterator( $this->filePath, TRUE, ';', '"' );
+		$this->iterator	= new Iterator( $this->filePath, TRUE, ';', '"' );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Test_FS_File_CSV_IteratorTest extends Test_Case
 	 */
 	public function test__construct()
 	{
-		$mock		= Test_MockAntiProtection::getInstance( 'FS_File_CSV_Iterator', $this->filePath, TRUE, '|', '#' );
+		$mock		= MockAntiProtection::getInstance( Iterator::class, $this->filePath, TRUE, '|', '#' );
 
 		$assertion	= TRUE;
 		$creation	= is_object( $mock );
@@ -85,7 +85,7 @@ class Test_FS_File_CSV_IteratorTest extends Test_Case
 		$creation	= $this->iterator->getHeaders();
 		$this->assertEquals( $assertion, $creation );
 
-		$iterator	= new FS_File_CSV_Iterator( $this->filePath, FALSE );
+		$iterator	= new Iterator( $this->filePath, FALSE );
 		$creation	= $iterator->getHeaders();
 		$this->assertEquals( [], $creation );
 	}
@@ -101,7 +101,7 @@ class Test_FS_File_CSV_IteratorTest extends Test_Case
 		$creation	= $this->iterator->getDelimiter();
 		$this->assertEquals( $assertion, $creation );
 
-		$iterator	= new FS_File_CSV_Iterator( $this->filePath, TRUE, '_' );
+		$iterator	= new Iterator( $this->filePath, TRUE, '_' );
 		$assertion	= '_';
 		$creation	= $iterator->getDelimiter();
 		$this->assertEquals( $assertion, $creation );
@@ -118,7 +118,7 @@ class Test_FS_File_CSV_IteratorTest extends Test_Case
 		$creation	= $this->iterator->getEnclosure();
 		$this->assertEquals( $assertion, $creation );
 
-		$iterator	= new FS_File_CSV_Iterator( $this->filePath, TRUE, ';', '_' );
+		$iterator	= new Iterator( $this->filePath, TRUE, ';', '_' );
 		$assertion	= '_';
 		$creation	= $iterator->getEnclosure();
 		$this->assertEquals( $assertion, $creation );

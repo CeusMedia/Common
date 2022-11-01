@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Generates HTML of an index structure, parsed headings within HTML or given by OPML (or [several] tree structures and objects).
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,50 +21,53 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Generates HTML of an index structure, parsed headings within HTML or given by OPML (or [several] tree structures and objects).
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  *	@todo		implement import of trees and perhaps normal setters
  *	@todo		code doc
  */
-class UI_HTML_Index{
-
-	public $headings	= array();
-	public $tree		= array();
+class Index
+{
+	public $headings	= [];
+	public $tree		= [];
 
 	/**
 	 *	Parses HTML for headings.
 	 *	@access		public
-	 *	@param		string		$html		Reference to HTML to inspect for headings
+	 *	@param		string		$content		Reference to HTML to inspect for headings
+	 *	@param		integer		$level			Heading level to start at, default: 1
 	 *	@return		void
 	 */
-	public function importFromHtml( &$content, $level = 1 ){
-		$this->headings	= array();																	//  
-		$this->tree		= $this->importFromHtmlRecursive( $content, $level );						//  
-		$this->setHeadingIds( $content, $level );													//  
+	public function importFromHtml( string &$content, int $level = 1 ){
+		$this->headings	= [];																	//
+		$this->tree		= $this->importFromHtmlRecursive( $content, $level );						//
+		$this->setHeadingIds( $content, $level );													//
 	}
 
-	protected function importFromHtmlRecursive( $content, $level ){
+	protected function importFromHtmlRecursive( string $content, int $level ): array
+	{
 		//  no heading of this level found
 		if( !preg_match( "/<h".$level.">/", $content ) )
 			//  return empty list
-			return array();
+			return [];
 		//  prepare empty tree
-		$tree		= array();
+		$tree		= [];
 		//  prepare empty heading list
-		$headings	= array();
+		$headings	= [];
 		//  collect headings of this level
 		preg_match_all( "/<h".$level.">(.+)<\/h".$level.">/U", $content, $headings );
 		//  split HTML into blocks
@@ -72,23 +76,23 @@ class UI_HTML_Index{
 		array_shift( $parts );
 		//  iterate blocks
 		foreach( $parts as $nr => $part ){
-			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//  
-			$id			= strtolower( trim( $heading ) );											//  
-			$id			= str_replace( array( " ", "_" ), "-", $id );								//  
-			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//  
-			$this->headings[]	= (object) array(													//  
-				'label'		=> $heading,															//  
-				'level'		=> $level,																//  
-				'id'		=> $id,																	//  
+			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//
+			$id			= strtolower( trim( $heading ) );											//
+			$id			= str_replace( [" ", "_"], "-", $id );								//
+			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//
+			$this->headings[]	= (object) array(													//
+				'label'		=> $heading,															//
+				'level'		=> $level,																//
+				'id'		=> $id,																	//
 			);
-			$tree[]	= (object) array(																//  
-				'label'		=> $heading,															//  
-				'level'		=> $level,																//  
-				'id'		=> $id,																	//  
-				'children'	=> $this->importFromHtmlRecursive( $part, $level + 1 ),					//  
+			$tree[]	= (object) array(																//
+				'label'		=> $heading,															//
+				'level'		=> $level,																//
+				'id'		=> $id,																	//
+				'children'	=> $this->importFromHtmlRecursive( $part, $level + 1 ),					//
 			);
 		}
-		return $tree;																				//  
+		return $tree;																				//
 	}
 
 	/**
@@ -96,33 +100,35 @@ class UI_HTML_Index{
 	 *	@access		public
 	 *	@return		string		HTML of list containing heading structure.
 	 */
-	public function renderList( $itemClassPrefix = "level-" ){
-		$list	= array();																			//  
-		foreach( $this->headings as $item ){														//  
-			$link	= UI_HTML_Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//  
-			$attributes		= array( 'class' => $itemClassPrefix.$item->level );							//  
-			$list[]	= UI_HTML_Elements::ListItem( $link, 0, $attributes );							//  
+	public function renderList( string $itemClassPrefix = "level-" ): string
+	{
+		$list	= [];																			//
+		foreach( $this->headings as $item ){														//
+			$link	= Tag::create( 'a', $item->label, ['href' => "#".$item->id] );	//
+			$attributes		= ['class' => $itemClassPrefix.$item->level];							//
+			$list[]	= Elements::ListItem( $link, 0, $attributes );							//
 		}
-		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'index-list' ) );				//  
+		return Tag::create( 'ul', $list, ['class' => 'index-list'] );				//
 	}
 
 	/**
 	 *	Generates nested lists of parsed heading structure.
 	 *	@access		public
-	 *	@param		array		$tree		Tree of heading structure, default: parsed tree
-	 *	@return		string		HTML of nested lists containing heading structure.
+	 *	@param		array|NULL		$tree		Tree of heading structure, default: parsed tree
+	 *	@return		string			HTML of nested lists containing heading structure.
 	 */
-	public function renderTree( $tree = NULL ){														//  
-		$list	= array();																			//  
-		if( is_null( $tree ) )																		//  
-			$tree	= $this->tree;																	//  
+	public function renderTree( ?array $tree = NULL ): string
+	{
+		$list	= [];																			//
+		if( is_null( $tree ) )																		//
+			$tree	= $this->tree;																	//
 		foreach( $tree as $item ){
-			$link	= UI_HTML_Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//  
-			$attributes		= array( 'class' => 'level-'.$item->level );							//  
-			$subtree		= $this->renderTree( $item->children );									//  
-			$list[]	= UI_HTML_Elements::ListItem( $link.$subtree, 0, $attributes );					//  
+			$link	= Tag::create( 'a', $item->label, ['href' => "#".$item->id] );	//
+			$attributes		= ['class' => 'level-'.$item->level];							//
+			$subtree		= $this->renderTree( $item->children );									//
+			$list[]	= Elements::ListItem( $link.$subtree, 0, $attributes );					//
 		}
-		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'index-tree' ) );				//  
+		return Tag::create( 'ul', $list, ['class' => 'index-tree'] );				//
 	}
 
 	/**
@@ -132,11 +138,12 @@ class UI_HTML_Index{
 	 *	@param		integer		$level			Heading level to start at, default: 1
 	 *	@return		string		Resulting HTML
 	 */
-	protected function setHeadingIds( &$content, $level = 1 ){
-		foreach( $this->headings as $heading ){														//  
-			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//  
-			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//  
-			$content	= preg_replace( $find, $replace, $content );								//  
+	protected function setHeadingIds( string &$content, int $level = 1 ): string
+	{
+		foreach( $this->headings as $heading ){														//
+			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//
+			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//
+			$content	= preg_replace( $find, $replace, $content );								//
 		}
 		return $content;
 	}

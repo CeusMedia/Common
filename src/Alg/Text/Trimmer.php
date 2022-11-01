@@ -2,7 +2,7 @@
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
  *
- *	Copyright (c) 2009-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,39 +20,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2020 Christian Würker
+ *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
+use InvalidArgumentException;
+
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2020 Christian Würker
+ *	@copyright		2009-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
-class Alg_Text_Trimmer
+class Trimmer
 {
-	static protected function strlen( $string, $encoding = NULL )
-	{
-		if( !function_exists( 'mb_strlen' ) )
-			return strlen( utf8_decode( $string ) );
-		$encoding	= $encoding ? $encoding : mb_internal_encoding();
-		return mb_strlen( $string, $encoding );
-	}
-
-	static protected function substr( $string, $start, $length = NULL, $encoding = NULL )
-	{
-		if( !function_exists( 'mb_substr' ) )
-			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
-		$encoding	= $encoding ? $encoding : mb_internal_encoding();
-		return mb_substr( $string, $start, $length, $encoding );
-	}
-
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
@@ -64,10 +51,10 @@ class Alg_Text_Trimmer
 	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
-	static public function trim( $string, $length = 0, $mask = "...", $fromLeft = FALSE, $encoding = "UTF-8" )
+	public static function trim( string $string, int $length = 0, string $mask = "...", bool $fromLeft = FALSE, string $encoding = "UTF-8" ): string
 	{
-		$string		= trim( (string) $string );
-		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
+		$string		= trim( $string );
+		if( $length < 1 || self::strlen( $string, $encoding ) <= $length )
 			return $string;
 		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
 		if( $length < $maskLength )
@@ -90,18 +77,18 @@ class Alg_Text_Trimmer
 	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
-	static public function trimCentric( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
+	public static function trimCentric( string $string, int $length = 0, string $mask = "...", string $encoding = "UTF-8" ): string
 	{
-		$string	= trim( (string) $string );
-		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
+		$string	= trim( $string );
+		if( $length < 1 || self::strlen( $string, $encoding ) <= $length )
 			return $string;
 		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
 		if( $maskLength >= $length )
-			throw new InvalidArgumentException( 'Lenght must be greater than '.$maskLength );
+			throw new InvalidArgumentException( 'Length must be greater than '.$maskLength );
 		$range	= ( $length - $maskLength ) / 2;
-		$length	= self::strlen( $string, $encoding ) - floor( $range );
-		$left	= self::substr( $string, 0, ceil( $range ), $encoding );
-		$right	= self::substr( $string, -floor( $range ), $length, $encoding );
+		$length	= self::strlen( $string, $encoding ) - (int) floor( $range );
+		$left	= self::substr( $string, 0, (int) ceil( $range ), $encoding );
+		$right	= self::substr( $string, (int) -floor( $range ), $length, $encoding );
 		return $left.$mask.$right;
 	}
 
@@ -113,8 +100,24 @@ class Alg_Text_Trimmer
 	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
-	static public function trimLeft( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
+	public static function trimLeft( string $string, int $length = 0, string $mask = "...", string $encoding = "UTF-8" ): string
 	{
 		return self::trim( $string, $length, $mask, TRUE, $encoding );
+	}
+
+	protected static function strlen( string $string, ?string $encoding = NULL ): int
+	{
+		if( !function_exists( 'mb_strlen' ) )
+			return strlen( utf8_decode( $string ) );
+		$encoding	= $encoding ?: mb_internal_encoding();
+		return mb_strlen( $string, $encoding );
+	}
+
+	protected static function substr( string $string, int $start, ?int $length = NULL, ?string $encoding = NULL ): string
+	{
+		if( !function_exists( 'mb_substr' ) )
+			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
+		$encoding	= $encoding ?: mb_internal_encoding();
+		return mb_substr( $string, $start, $length, $encoding );
 	}
 }

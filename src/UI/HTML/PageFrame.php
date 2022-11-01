@@ -1,8 +1,11 @@
 <?php
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,37 +23,43 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Renderable;
+use InvalidArgumentException;
+use OutOfRangeException;
+
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
- *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_PageFrame
+class PageFrame
 {
-	protected $title		= NULL;
-	protected $heading		= NULL;
-	protected $scripts		= array();
-	protected $metaTags		= array();
-	protected $links		= array();
-	protected $baseHref		= NULL;
-	protected $head			= array();
-	protected $body			= array();
-	protected $prefixes		= array();
-	protected $profile		= NULL;
-	public $indent			= "  ";
-	protected $charset		= NULL;
-	protected $language		= NULL;
-	protected $doctype		= 'XHTML_10_STRICT';
-	protected $doctypes		= array(
+	public string $indent			= "  ";
+
+	protected ?string $title		= NULL;
+	protected ?string $heading		= NULL;
+	protected array $scripts		= [];
+	protected array $metaTags		= [];
+	protected array $links			= [];
+	protected ?string $baseHref		= NULL;
+	protected array $head			= [];
+	protected array $body			= [];
+	protected string $charset;
+	protected string $language;
+	protected string $docType		= 'XHTML_10_STRICT';
+	protected array $docTypes		= [
 		'HTML_5'					=> '<!DOCTYPE html>',
 		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
 		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
@@ -59,7 +68,9 @@ class UI_HTML_PageFrame
 		'HTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
 		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
 		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
-	);
+	];
+	protected array $prefixes		= [];
+	protected ?string $profile		= NULL;
 
 	/**
 	 *	Constructor.
@@ -71,13 +82,13 @@ class UI_HTML_PageFrame
 	 *	@param		string		$styleType		Default Stylesheet MIME-Type
 	 *	@return		void
 	 */
-	public function __construct( $docType = "XHTML_10_STRICT", $language = "en", $charset = "UTF-8", $scriptType = "text/javascript", $styleType = "text/css" )
+	public function __construct( string $docType = "XHTML_10_STRICT", string $language = "en", string $charset = "UTF-8", string $scriptType = "text/javascript", string $styleType = "text/css" )
 	{
 		$this->setDocType( $docType );
 		$this->setLanguage( $language );
 		$this->charset	= $charset;
 		if( $docType == "HTML_5" ){
-			$this->metaTags["charset"]	= array( 'charset' => $charset );
+			$this->metaTags["charset"]	= ['charset' => $charset];
 			$this->addMetaTag( "http-equiv", "Content-Type", "text/html" );
 		}
 		else{
@@ -90,82 +101,88 @@ class UI_HTML_PageFrame
 	/**
 	 *	Adds further HTML to Body.
 	 *	@access		public
-	 *	@param		string		$string			HTML String for Head
-	 *	@return		void
+	 *	@param		string|Renderable		$string			HTML String for Head
+	 *	@return		self
 	 */
-	public function addBody( $string )
+	public function addBody( $string ): self
 	{
-		$this->body[]	= $string;
+		$this->body[]	= $string instanceof Renderable ? $string->render() : $string;
+		return $this;
 	}
 
 	/**
 	 *	Adds a favourite Icon to the Page (supports ICO and other Formats).
 	 *	@access		public
-	 *	@param		string		$url			URL of Icon or Image
-	 *	@return		void
-	 *	@since		0.6.7
+	 *	@param		string|URL		$url			URL of Icon or Image
+	 *	@return		self
 	 */
-	public function addFavouriteIcon( $url )
+	public function addFavouriteIcon( $url ): self
 	{
+		$url	= $url instanceof URL ? $url->get() : $url;
 		$ext	= strtolower( pathinfo( $url, PATHINFO_EXTENSION ) );
 		$type	= "image/x-icon";
 		if( $ext === 'png' )
 			$type	= "image/png";
 		if( $ext === 'gif' )
 			$type	= "image/gif";
-		$this->links[]	= array(
+		$this->links[]	= [
 			'rel'		=> "icon",
 			'type'		=> $type,
 			'href'		=> $url,
-		);
+		];
+		return $this;
 	}
 
 	/**
 	 *	Adds further HTML to Head.
 	 *	@access		public
-	 *	@param		string		$string			HTML String for Head
-	 *	@return		void
+	 *	@param		string|Renderable		$string			HTML String for Head
+	 *	@return		self
 	 */
-	public function addHead( $string )
+	public function addHead( $string ): self
 	{
-		$this->head[]	= $string;
+		$this->head[]	= $string instanceof Renderable ? $string->render() : $string;
+		return $this;
 	}
 
 	/**
-	 *	Adds a Java Script Link to Head.
+	 *	Adds a JavaScript Link to Head.
 	 *	@access		public
-	 *	@param		string		$uri			URI to Script
-	 *	@param		string		$type			MIME Type of Script
-	 *	@param		string		$charset		Charset of Script
-	 *	@return		void
+	 *	@param		URL|string		$uri			URI to Script
+	 *	@param		string|NULL		$type			MIME Type of Script
+	 *	@param		string|NULL		$charset		Charset of Script
+	 *	@return		self
 	 */
-	public function addJavaScript( $uri, $type = NULL, $charset = NULL )
+	public function addJavaScript( $uri, ?string $type = NULL, ?string $charset = NULL ): self
 	{
 		$typeDefault	= 'text/javascript';
 		if( isset( $this->metaTags["http-equiv:content-script-type"] ) )
 			$typeDefault	= $this->metaTags["http-equiv:content-script-type"]['content'];
-		$scriptData	= array(
-			'type'		=> $type ? $type : $typeDefault,
-			'charset'	=> $charset ? $charset : NULL,
-			'src'		=> $uri,
-		);
+		$scriptData	= [
+			'type'		=> $type ?: $typeDefault,
+			'charset'	=> $charset ?: NULL,
+			'src'		=> $uri instanceof URL ? $uri->get() : $uri,
+		];
 		$this->scripts[]	= $scriptData;
+		return $this;
 	}
 
 	/**
 	 *	Adds link to head.
 	 *	@access		public
-	 *	@param		string		$uri			URI to linked resource
-	 *	@param		string		$relation		Relation to resource like stylesheet, canonical etc.
-	 *	@param		string		$type			Type of resource
-	 *	@return		void
+	 *	@param		URL|string		$uri			URI to linked resource
+	 *	@param		string			$relation		Relation to resource like stylesheet, canonical etc.
+	 *	@param		string|NULL		$type			Type of resource
+	 *	@return		self
 	 */
-	public function addLink( $uri, $relation, $type = NULL ){
-		$this->links[]	= array(
-			'uri'		=> $uri,
+	public function addLink( $uri, string $relation, ?string $type = NULL ): self
+	{
+		$this->links[]	= [
+			'uri'		=> $uri instanceof URL ? $uri->get() : $uri,
 			'rel'		=> $relation,
 			'type'		=> $type
-		);
+		];
+		return $this;
 	}
 
 	/**
@@ -174,83 +191,95 @@ class UI_HTML_PageFrame
 	 *	@param		string		$type			Meta Tag Key Type (name|http-equiv)
 	 *	@param		string		$key			Meta Tag Key Name
 	 *	@param		string		$value			Meta Tag Value
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addMetaTag( $type, $key, $value )
+	public function addMetaTag( string $type, string $key, string $value ): self
 	{
-		$metaData	= array(
+		$metaData	= [
 			$type		=> $key,
 			'content'	=> $value,
-		);
+		];
 		$this->metaTags[strtolower( $type.":".$key )]	= $metaData;
+		return $this;
 	}
 
-	public function addPrefix( $prefix, $namespace )
+	/**
+	 *	@param		string			$prefix
+	 *	@param		URL|string		$namespace
+	 *	@return		self
+	 */
+	public function addPrefix( string $prefix, $namespace ): self
 	{
-		$this->prefixes[$prefix]	= $namespace;
+		$this->prefixes[$prefix]	= $namespace instanceof URL ? $namespace->get() : $namespace;
+		return $this;
 	}
 
-	public function addScript( $script, $type = "text/javascript" ){
-		$this->addHead( UI_HTML_Tag::create( 'script', $script, array( 'type' => $type ) ) );
+	public function addScript( string $script, string $type = "text/javascript" ): self
+	{
+		$this->addHead( Tag::create( 'script', $script, ['type' => $type] ) );
+		return $this;
 	}
 
 	/**
 	 *	Adds a Stylesheet Link to Head.
 	 *	@access		public
-	 *	@param		string		$uri			URI to CSS File
-	 *	@param		string		$media			Media Type (all|screen|print|...), default: screen
-	 *	@param		string		$type			Content Type, by default 'text/css'
-	 *	@return		void
+	 *	@param		URL|string		$uri			URI to CSS File
+	 *	@param		string			$media			Media Type (all|screen|print|...), default: screen
+	 *	@param		string|NULL		$type			Content Type, by default 'text/css'
+	 *	@return		self
 	 *	@see		http://www.w3.org/TR/html4/types.html#h-6.13
 	 */
-	public function addStylesheet( $uri, $media = "all", $type = NULL )
+	public function addStylesheet( $uri, string $media = "all", ?string $type = NULL ): self
 	{
 		$typeDefault	= 'text/css';
 		if( isset( $this->metaTags["http-equiv:content-style-type"] ) )
 			$typeDefault	= $this->metaTags["http-equiv:content-style-type"]['content'];
-		$styleData	= array(
+		$styleData	= [
 			'rel'		=> "stylesheet",
-			'type'		=> $type ? $type : $typeDefault,
+			'type'		=> $type ?: $typeDefault,
 			'media'		=> $media,
-			'href'		=> $uri,
-		);
+			'href'		=> $uri instanceof URL ? $uri->get() : $uri,
+		];
 		$this->links[]	= $styleData;
+		return $this;
 	}
 
 	/**
 	 *	Builds Page Frame HTML.
 	 *	@access		public
+	 *	@param		array		$bodyAttributes
+	 *	@param		array		$htmlAttributes
 	 *	@return		string
 	 */
-	public function build( $bodyAttributes = array(), $htmlAttributes = array() )
+	public function build( array $bodyAttributes = [], array $htmlAttributes = [] ): string
 	{
 		if( !is_array( $bodyAttributes ) )
 			throw new InvalidArgumentException( 'Parameter "bodyAttributes" need to be an array or empty' );
 		if( !is_array( $htmlAttributes ) )
 			throw new InvalidArgumentException( 'Parameter "htmlAttributes" need to be an array or empty' );
-		$tagsHead	= array();
-		$tagsBody	= array();
+		$tagsHead	= [];
+		$tagsBody	= [];
 
 		if( $this->baseHref )
-			$tagsHead[]	= UI_HTML_Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
+			$tagsHead[]	= Tag::create( 'base', NULL, ['href' => $this->baseHref] );
 		foreach( $this->metaTags as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( 'meta', NULL, $attributes );
+			$tagsHead[]	= Tag::create( 'meta', NULL, $attributes );
 
 		if( $this->title )
-			$tagsHead[]	= UI_HTML_Tag::create( 'title', $this->title );
+			$tagsHead[]	= Tag::create( 'title', $this->title );
 
 		if( $this->heading )
-			$tagsBody[]	= UI_HTML_Tag::create( 'h1', $this->heading );
+			$tagsBody[]	= Tag::create( 'h1', $this->heading );
 
 		foreach( $this->links as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( "link", NULL, $attributes );
+			$tagsHead[]	= Tag::create( "link", NULL, $attributes );
 
 		foreach( $this->scripts as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( "script", "", $attributes );
+			$tagsHead[]	= Tag::create( "script", "", $attributes );
 
-		$headAttributes	= array(
+		$headAttributes	= [
 			'profile'	=> $this->profile
-		);
+		];
 
 		$tagsHead	= implode( "\n".$this->indent.$this->indent, $tagsHead );
 		$tagsHead	.= implode( "\n".$this->indent.$this->indent, $this->head );
@@ -260,17 +289,17 @@ class UI_HTML_PageFrame
 			$tagsBody	= "\n".$this->indent.$this->indent.$tagsBody."\n".$this->indent;
 		if( $tagsHead )
 			$tagsHead	= "\n".$this->indent.$this->indent.$tagsHead."\n".$this->indent;
-		$head		= UI_HTML_Tag::create( "head", $tagsHead, $headAttributes );
-		$body		= UI_HTML_Tag::create( "body", $tagsBody, $bodyAttributes );
+		$head		= Tag::create( "head", $tagsHead, $headAttributes );
+		$body		= Tag::create( "body", $tagsBody, $bodyAttributes );
 
-		$doctype	= $this->doctypes[$this->doctype];
-		$attributes	= array( 'lang' => $this->language );
-		if( is_int( strpos( $doctype, 'xhtml' ) )/* || $this->doctype == 'HTML_5'*/ ){
-			$attributes	= array( 'xml:lang' => $this->language ) + $attributes;
-			$attributes	= array( 'xmlns' => "http://www.w3.org/1999/xhtml" ) + $attributes;
+		$docType	= $this->docTypes[$this->docType];
+		$attributes	= ['lang' => $this->language];
+		if( is_int( strpos( $docType, 'xhtml' ) )/* || $this->docType == 'HTML_5'*/ ){
+			$attributes	= ['xml:lang' => $this->language] + $attributes;
+			$attributes	= ['xmlns' => "http://www.w3.org/1999/xhtml"] + $attributes;
 		}
 		if( $this->prefixes ){
-			$list	= array();
+			$list	= [];
 			foreach( $this->prefixes as $prefix => $namespace )
 				$list[]	= $prefix.": ".$namespace;
 			$attributes['prefix']	= join( " ", $list );
@@ -282,8 +311,8 @@ class UI_HTML_PageFrame
 				$attributes[$key]	= $value;
 		}
 		$content	= "\n".$this->indent.$head."\n".$this->indent.$body."\n";
-		$html		= UI_HTML_Tag::create( "html", $content, $attributes );
-		return $doctype."\n".$html;
+		$html		= Tag::create( "html", $content, $attributes );
+		return $docType."\n".$html;
 	}
 
 	/**
@@ -292,112 +321,129 @@ class UI_HTML_PageFrame
 	 *	@param		string		$separator		Glue between added body blocks
 	 *	@return		string
 	 */
-	public function getBody( $separator = "\n" )
+	public function getBody( string $separator = "\n" ): string
 	{
 		return join( $separator, $this->body );
 	}
 
-	public function getLanguage(){
+	public function getLanguage(): string
+	{
 		return $this->language;
 	}
 
 	/**
 	 *	Returns set page title.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getTitle(){
+	public function getTitle(): ?string
+	{
 		return $this->title;
 	}
 
 	/**
 	 *	Sets base URI for all referencing resources.
 	 *	@access		public
-	 *	@param		string		$uri			Base URI for all referencing resources
-	 *	@return		void
+	 *	@param		URL|string		$uri			Base URI for all referencing resources
+	 *	@return		self
 	 */
-	public function setBaseHref( $uri )
+	public function setBaseHref( $uri ): self
 	{
-		$this->baseHref	= $uri;
+		$this->baseHref	= $uri instanceof URL ? $uri->get() : $uri;
+		return $this;
 	}
 
 	/**
 	 *	Sets body of HTML page.
 	 *	@access		public
-	 *	@param		string		$string			Body of HTML page
-	 *	@return		void
+	 *	@param		string|Renderable		$string			Body of HTML page
+	 *	@return		self
 	 */
-	public function setBody( $string )
+	public function setBody( $string ): self
 	{
-		$this->body		= array( $string );
+		$this->body		= [$string instanceof Renderable ? $string->render() : $string];
+		return $this;
 	}
 
 	/**
 	 *	Sets canonical link.
 	 *	Removes link having been set before.
 	 *	@access		public
-	 *	@param		string		$url			URL of canonical link
-	 *	@return		void
+	 *	@param		URL|string		$url			URL of canonical link
+	 *	@return		self
 	 */
-	public function setCanonicalLink( $url )
+	public function setCanonicalLink( $url ): self
 	{
+		$url	= $url instanceof URL ? $url->get() : $url;
 		foreach( $this->links as $nr => $link )
 			if( $link['rel'] === 'canonical' )
 				unset( $this->links[$nr] );
 		$this->addLink( $url, 'canonical' );
+		return $this;
 	}
 
 	/**
 	 *	Sets document type of page.
 	 *	@access		public
-	 *	@param		string		$doctype		Document type to set
-	 *	@return		void
+	 *	@param		string		$docType		Document type to set
+	 *	@return		self
 	 *	@see		http://www.w3.org/QA/2002/04/valid-dtd-list.html
 	 */
-	public function setDocType( $doctype )
+	public function setDocType( string $docType ): self
 	{
-		$doctypes	= array_keys( $this->doctypes );
-		$key		= str_replace( array( ' ', '-' ), '_', trim( $doctype ) );
-		$key		= preg_replace( "/[^A-Z0-9_]/", '', strtoupper( $key ) );
+		$key		= str_replace( [' ', '-'], '_', trim( $docType ) );
+		$key		= preg_replace( "/[^A-Z\d_]/", '', strtoupper( $key ) );
 		if( !strlen( trim( $key ) ) )
 			throw new InvalidArgumentException( 'No doctype given' );
-		if( !array_key_exists( $key, $this->doctypes ) )
-			throw new OutOfRangeException( 'Doctype "'.$doctype.'" (understood as '.$key.') is invalid' );
-		$this->doctype	= $key;
+		if( !array_key_exists( $key, $this->docTypes ) )
+			throw new OutOfRangeException( 'Doctype "'.$docType.'" (understood as '.$key.') is invalid' );
+		$this->docType	= $key;
+		return $this;
 	}
 
 	/**
 	 *	Sets Application Heading in Body.
 	 *	@access		public
-	 *	@param		string		$heading		Application Heading
-	 *	@return		void
+	 *	@param		string|Renderable		$heading		Application Heading
+	 *	@return		self
 	 */
-	public function setHeading( $heading )
+	public function setHeading( $heading ): self
 	{
-		$this->heading	= $heading;
+		$this->heading	= $heading instanceof Renderable ? $heading->render() : $heading;
+		return $this;
 	}
 
-	public function setHeadProfileUrl( $url )
+	/**
+	 *	@param		URL|string		$url
+	 *	@return		self
+	 */
+	public function setHeadProfileUrl( $url ): self
 	{
-		$this->profile	= $url;
+		$this->profile	= $url instanceof URL ? $url->get() : $url;
+		return $this;
 	}
 
-	public function setLanguage( $language ){
+	public function setLanguage( string $language ): self
+	{
 		$this->language	= $language;
+		return $this;
 	}
 
 	/**
 	 *	Sets Page Title, visible in Browser Title Bar.
 	 *	@access		public
 	 *	@param		string		$title			Page Title
-	 *	@return		void
+	 *	@param		string		$mode			Concat mode: set, append, prepend
+	 *	@param		string		$separator		Default: " | "
+	 *	@return		self
 	 */
-	public function setTitle( $title, $mode = 'set', $separator = ' | ' )
+	public function setTitle( string $title, string $mode = 'set', string $separator = ' | ' ): self
 	{
-		if( $mode == 'append' || $mode === 1 )
+		if( $mode == 'append' )
 			$title	= $this->title.$separator.$title;
-		else if( $mode == 'prepend' || $mode === -1 )
+		else if( $mode == 'prepend' )
 			$title	= $title.$separator.$this->title;
 		$this->title	= $title;
+		return $this;
 	}
 }

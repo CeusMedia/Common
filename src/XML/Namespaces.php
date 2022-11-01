@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Namespace Map to detect and collect Namespaces from a XML File, usind Simple XML to read XML and import DOM.
+ *	Namespace Map to detect and collect namespaces from an XML file, using Simple XML to read XML and import DOM.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,43 +21,51 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML;
+
+use DOMDocument;
+use SimpleXMLElement;
+use Exception;
+
 /**
- *	Namespace Map to detect and collect Namespaces from a XML File, usind Simple XML to read XML and import DOM.
+ *	Namespace Map to detect and collect namespaces from an XML file, using Simple XML to read XML and import DOM.
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_Namespaces
+class Namespaces
 {
-	/**	@var		array				$namespaces		Map of Namespaces */
-	protected $namespaces	= array();
+	/**	@var		array				$namespaces		Map of namespaces */
+	protected $namespaces	= [];
 
 	/**
-	 *	Adds a Namespace to Map.
+	 *	Adds a namespace to map.
 	 *	@access		public
 	 *	@param		string				$prefix			Namespace Prefix
 	 *	@param		string				$uri			Namespace URI
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addNamespace( $prefix, $uri )
+	public function addNamespace( string $prefix, string $uri ): self
 	{
 		$this->namespaces[$prefix]	= $uri;
+		return $this;
 	}
 
 	/**
-	 *	Detects Namespaces from a XML DOM Document and returns Number of found Namespaces.
+	 *	Detects namespaces from an XML DOM Document and returns number of found namespaces.
 	 *	@access		public
-	 *	@param		DOMDocument			$doc			DOM Document of XML File
-	 *	@return		void
+	 *	@param		DOMDocument			$doc			DOM document of XML file
+	 *	@return		integer
 	 */
-	public function detectNamespacesFromDocument( $doc )
+	public function detectNamespacesFromDocument( DOMDocument $doc ): int
 	{
 		$namespaces	= self::getNamespacesFromDocument( $doc );
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
@@ -64,12 +73,12 @@ class XML_Namespaces
 	}
 
 	/**
-	 *	Detects Namespaces from a XML DOM Document and returns Number of found Namespaces.
+	 *	Detects Namespaces from a Simple XML Element and returns number of found namespaces.
 	 *	@access		public
-	 *	@param		DOMDocument			$doc			DOM Document of XML File
-	 *	@return		void
+	 *	@param		SimpleXMLElement	$element		Simple XML Element
+	 *	@return		integer
 	 */
-	public function detectNamespacesFromSimpleXmlElement( $element )
+	public function detectNamespacesFromSimpleXmlElement( SimpleXMLElement $element ): int
 	{
 		$namespaces	= self::getNamespacesFromSimpleXmlElement( $element );
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
@@ -77,12 +86,13 @@ class XML_Namespaces
 	}
 
 	/**
-	 *	Detects Namespaces from a XML File and returns Number of found Namespaces.
+	 *	Detects Namespaces from an XML string and returns number of found namespaces.
 	 *	@access		public
-	 *	@param		DOMDocument			$doc			DOM Document of XML File
-	 *	@return		void
+	 *	@param		string			$xml			XML string
+	 *	@return		integer
+	 *	@throws		Exception
 	 */
-	public function detectNamespacesFromXml( $xml )
+	public function detectNamespacesFromXml( string $xml ): int
 	{
 		$namespaces	= self::getNamespacesFromXml( $xml );
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
@@ -90,23 +100,23 @@ class XML_Namespaces
 	}
 
 	/**
-	 *	Returns Map of collected Namespaces.
+	 *	Returns map of collected namespaces.
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getNamespaces()
+	public function getNamespaces(): array
 	{
 		return $this->namespaces;
 	}
 
 	/**
-	 *	Returns Map of Namespaces found in a XML DOM Document.
+	 *	Returns map of namespaces found in an XML DOM Document.
 	 *	@access		public
 	 *	@static
-	 *	@param		DOMDocument			$doc			DOM Document of XML File
+	 *	@param		DOMDocument			$doc			DOM Document
 	 *	@return		array
 	 */
-	public static function getNamespacesFromDocument( $doc )
+	public static function getNamespacesFromDocument( DOMDocument $doc ): array
 	{
 		//  convert DOM Document to Simple XML Element
 		$element	= simplexml_import_dom( $doc );
@@ -115,25 +125,27 @@ class XML_Namespaces
 	}
 
 	/**
-	 *	Detects and returns Map of Namespaces found in a XML DOM Document.
+	 *	Detects and returns map of namespaces found in a Simple XML Element.
 	 *	@access		public
 	 *	@static
-	 *	@param		SimpleXmlElement	$element		Simple XML Element of XML File
+	 *	@param		SimpleXMLElement	$element		Simple XML Element
+	 *	@param		boolean				$recursive		Flag: search with recursion, default: yes
 	 *	@return		array
 	 */
-	public static function getNamespacesFromSimpleXmlElement( $element, $recursive = TRUE )
+	public static function getNamespacesFromSimpleXmlElement( SimpleXMLElement $element, bool $recursive = TRUE ): array
 	{
-		return $element->getDocNamespaces( $element );
+		return $element->getDocNamespaces( $recursive );
 	}
 
 	/**
-	 *	Detects and returns Map of Namespaces found in a XML File.
+	 *	Detects and returns map of namespaces found in an XML string.
 	 *	@access		public
 	 *	@static
 	 *	@param		string				$xml			XML String
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function getNamespacesFromXml( $xml )
+	public static function getNamespacesFromXml( string $xml ): array
 	{
 		//  parse XML String
 		$element	= new SimpleXMLElement( $xml );

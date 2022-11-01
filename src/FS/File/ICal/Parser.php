@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for iCalendar Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +21,29 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_ICal
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2006
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
+
+namespace CeusMedia\Common\FS\File\ICal;
+
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	Parser for iCalendar Files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_ICal
- *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2006
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-class FS_File_ICal_Parser
+class Parser
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;
@@ -51,27 +54,26 @@ class FS_File_ICal_Parser
 	 *	@param		string		$lineBreak		Line Break String
 	 *	@return 	void
 	 */
-	public function __construct( $lineBreak = "\r\n" )
+	public function __construct( string $lineBreak = "\r\n" )
 	{
 		self::$lineBreak	= $lineBreak;
 	}
 
 	/**
-	 *	Parses iCal Lines and returns a XML Tree.
+	 *	Parses iCal Lines and returns an XML Tree.
 	 *	@access		public
 	 *	@param		string		$name		Line Name
-	 *	@param		array		$string		String of iCal Lines
-	 *	@return 	XML_DOM_Node
+	 *	@param		string		$string		String of iCal Lines
+	 *	@return 	Node
 	 */
-	public function parse( $name, $string )
+	public function parse( string $name, string $string ): Node
 	{
-		$root	= new XML_DOM_Node( $name );
+		$root	= new Node( $name );
 
 		$string	= self::unfoldString( $string );
 		$lines = explode( self::$lineBreak, $string );
 
-		while( count( $lines ) )
-		{
+		while( count( $lines ) ){
 			$line	= array_shift( $lines );
 			$parsed	= self::parseLine( $line );
 			if( $parsed['name'] == "BEGIN" )
@@ -87,61 +89,57 @@ class FS_File_ICal_Parser
 	 *	@param		string		$line		Line to parse
 	 *	@return 	array
 	 */
-	protected static function parseLine( $line )
+	protected static function parseLine( string $line ): array
 	{
 		$pos	= strpos( $line, ":" );
 		$name	= substr( $line, 0, $pos );
 		$value	= substr( $line, $pos+1 );
 
-		$params	= array();
-		if( substr_count( $name, ";" ) )
-		{
+		$params	= [];
+		if( substr_count( $name, ";" ) ){
 			$pos	= strpos( $name, ";" );
 			$params	= substr( $name, $pos+1 );
 			$name	= substr( $name, 0, $pos );
 			$params	= explode( ",", utf8_decode( $params ) );
 		}
 
-		$parsed	= array(
+		return [
 			"name"	=> trim( $name ),
 			"param"	=> $params,
 			"value"	=> utf8_decode( $value ),
-		);
-		return $parsed;
+		];
 	}
 
 	/**
-	 *	Parses iCal Lines and returns a XML Tree recursive.
+	 *	Parses iCal Lines and returns an XML Tree recursive.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string			$type			String to unfold
-	 *	@param		XML_DOM_Node	$root			Parent XML Node
-	 *	@param		string			$lines			Array of iCal Lines
-	 *	@return 	void
+	 *	@param		string		$type			String to unfold
+	 *	@param		Node		$root			Parent XML Node
+	 *	@param		array		$lines			Array of iCal Lines
+	 *	@return 	array
 	 */
-	protected static function parseRecursive( $type, &$root, &$lines )
+	protected static function parseRecursive( string $type, Node $root, array &$lines ): array
 	{
-		$node = new XML_DOM_Node( strtolower( $type ) );
+		$node = new Node( strtolower( $type ) );
 		$root->addChild( $node );
-		while( count( $lines ) )
-		{
+		while( count( $lines ) ){
 			$line	= array_shift( $lines );
 			$parsed	= self::parseLine( $line );
 			if( $parsed['name'] == "END" && $parsed['value'] == $type )
 				return $lines;
 			else if( $parsed['name'] == "BEGIN" )
 				$lines	= self::parseRecursive( $parsed['value'], $node, $lines );
-			else
-			{
-				$child	= new XML_DOM_Node( strtolower( $parsed['name'] ), $parsed['value'] );
-				foreach( $parsed['param'] as $param )
-				{
+			else{
+				$child	= new Node( strtolower( $parsed['name'] ), $parsed['value'] );
+				foreach( $parsed['param'] as $param ){
 					$parts	= explode( "=", $param );
 					$child->setAttribute( strtolower( $parts[0] ), $parts[1] );
 				}
 				$node->addChild( $child );
 			}
 		}
+		return [];
 	}
 
 	/**
@@ -151,11 +149,10 @@ class FS_File_ICal_Parser
 	 *	@param		string		$string		String to unfold
 	 *	@return 	string
 	 */
-	protected static function unfoldString( $string )
+	protected static function unfoldString( string $string ): string
 	{
 		$string	= str_replace( self::$lineBreak." ;", ";", $string );
 		$string	= str_replace( self::$lineBreak." :", ":", $string );
-		$string	= str_replace( self::$lineBreak." ", "", $string );
-		return $string;
+		return str_replace( self::$lineBreak." ", "", $string );
 	}
 }

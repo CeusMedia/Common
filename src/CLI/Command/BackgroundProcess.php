@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -24,6 +25,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\CLI\Command;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
+use InvalidArgumentException;
+use RangeException;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
@@ -33,15 +43,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_Command_BackgroundProcess
+class BackgroundProcess
 {
-	protected static $pidMin	= 2;
+	protected static int $pidMin	= 2;
 
-	protected static $pidMax	= 32768;
+	protected static int $pidMax	= 32768;
 
-	protected $pid				= 0;
+	protected int $pid				= 0;
 
-	protected $command;
+	protected ?string $command		= NULL;
 
 	/**
 	 *	Constructor.
@@ -52,9 +62,9 @@ class CLI_Command_BackgroundProcess
 	public function __construct()
 	{
 		try{
-			self::$pidMax	= FS_File_Reader::load( '/proc/sys/kernel/pid_max' );
+			self::$pidMax	= (int) FileReader::load( '/proc/sys/kernel/pid_max' );
 		}
-		catch( \Exception $e ){}
+		catch( Exception $e ){}
 	}
 
 	/**
@@ -72,7 +82,7 @@ class CLI_Command_BackgroundProcess
 	 *	@access		public
 	 *	@param		boolean		$strict		Flag: throw exceptions on errors (default: yes)
 	 *	@return		integer					Process ID (PID) of running process
-	 *	@throws		\RuntimeException		if process has not been started or has been stopped and strict mode is enabled
+	 *	@throws		RuntimeException		if process has not been started or has been stopped and strict mode is enabled
 	 */
 	public function getPid( bool $strict = TRUE ): int
 	{
@@ -112,14 +122,14 @@ class CLI_Command_BackgroundProcess
 	 *	@access		public
 	 *	@param		string		$command		Command to be executed
 	 *	@return		self
-	 *	@throws		\InvalidArgumentException	if no command has been set
+	 *	@throws		InvalidArgumentException	if no command has been set
 	 */
 	public function setCommand( string $command ): self
 	{
 		if( !strlen( trim( $command ) ) )
-			throw new \InvalidArgumentException( 'Command cannot be empty' );
+			throw new InvalidArgumentException( 'Command cannot be empty' );
 		if( $this->getStatus( FALSE ) )
-			throw new \InvalidArgumentException( 'Command cannot be changed on a running process' );
+			throw new InvalidArgumentException( 'Command cannot be changed on a running process' );
 		$this->command	= $command;
 		$this->pid		= 0;
 		return $this;
@@ -131,13 +141,13 @@ class CLI_Command_BackgroundProcess
 	 *	@access		public
 	 *	@param		integer		$pid		Process ID
 	 *	@return		self
-	 *	@throws		\RangeException			if given PID is not between self::$pidMin and self::$pidMax
+	 *	@throws		RangeException			if given PID is not between self::$pidMin and self::$pidMax
 	 */
 	public function setPid( int $pid ): self
 	{
 		if( $pid < static::$pidMin || $pid > static::$pidMax ){
 			$msg	= 'Invalid PID (must be between %d and %d)';
-			throw new \RangeException( sprintf( $msg, static::$pidMin, static::$pidMax ) );
+			throw new RangeException( sprintf( $msg, static::$pidMin, static::$pidMax ) );
 		}
 		$this->pid = $pid;
 		return $this;
@@ -147,15 +157,15 @@ class CLI_Command_BackgroundProcess
 	 *	Starts process if set command has not been executed, yet.
 	 *	@access		public
 	 *	@return		self
-	 *	@throws		\RuntimeException		if command has already been executed
-	 *	@throws		\RuntimeException		if no command has been set
+	 *	@throws		RuntimeException		if command has already been executed
+	 *	@throws		RuntimeException		if no command has been set
 	 */
 	public function start(): self
 	{
 		if( $this->pid )
-			throw new \RuntimeException( 'Process already has been started' );
+			throw new RuntimeException( 'Process already has been started' );
 		if( !strlen( trim( $this->command ) ) )
-			throw new \RuntimeException( 'No command set' );
+			throw new RuntimeException( 'No command set' );
 		$this->runCommand();
 		return $this;
     }
@@ -184,14 +194,14 @@ class CLI_Command_BackgroundProcess
 	 *	@access		protected
 	 *	@param		boolean		$strict			Flag: strict mode (default: yes)
 	 *	@return		boolean
-	 *	@throws		\RuntimeException			if no process ID is known and strict mode is enabled
+	 *	@throws		RuntimeException			if no process ID is known and strict mode is enabled
 	 */
 	protected function ensurePid( bool $strict = TRUE ): bool
 	{
 		if( $this->pid )
 			return TRUE;
 		if( $strict )
-			throw new \RuntimeException( 'Process has not been started or has been stopped' );
+			throw new RuntimeException( 'Process has not been started or has been stopped' );
 		return FALSE;
 	}
 

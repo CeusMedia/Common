@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,46 +21,54 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
+
+namespace CeusMedia\Common\ADT\CSS;
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
-class ADT_CSS_Property{
-
+class Property
+{
 	protected $key;
 
 	protected $value;
 
-	public function __construct( $key, $value ){
+	public function __construct( $key, $value )
+	{
 		$this->key		= $key;
 		$this->value	= $value;
 	}
 
-	public function getKey(){
+	public function getKey(): string
+	{
 		return $this->key;
 	}
 
-	public function getValue(){
+	public function getValue(): string
+	{
 		return $this->value;
 	}
 
-	public function setKey( $key ){
+	public function setKey( string $key ): self
+	{
 		$this->key		= $key;
+		return $this;
 	}
 
-	public function setValue( $value ){
+	public function setValue( string $value ): self
+	{
 		$this->value	= $value;
+		return $this;
 	}
 }

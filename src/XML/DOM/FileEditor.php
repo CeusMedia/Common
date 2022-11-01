@@ -1,8 +1,11 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for XML Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,11 +26,17 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.05.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use DOMException;
+use InvalidArgumentException;
+
+
 /**
  *	Editor for XML Files.
  *	Every Method is working with a Node Path, which is a bit like XPath but without Attribute Selectors.
@@ -35,21 +44,18 @@
  *	To focus on the second Node named 'test' within a Node named 'parent' the Node Path would be "mother/test[1]"
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			XML_DOM_FileReader
- *	@uses			XML_DOM_FileWriter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.05.2008
  */
-class XML_DOM_FileEditor
+class FileEditor
 {
-	/** @var		string			$fileName		File Name of XML File */
-	protected $fileName;
+	/** @var		string		$fileName		File Name of XML File */
+	protected string $fileName;
 
-	/** @var		XML_DOM_Node	$xmlTree		... */
-	protected $xmlTree;
+	/** @var		Node		$xmlTree		... */
+	protected Node $xmlTree;
 
 	/**
 	 *	Constructor.
@@ -57,25 +63,26 @@ class XML_DOM_FileEditor
 	 *	@param		string		$fileName		File Name of XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
-		$this->xmlTree	= XML_DOM_FileReader::load( $fileName );
+		$this->xmlTree	= FileReader::load( $fileName );
 	}
 
 	/**
 	 *	Adds a new Node Attribute to an existing Node.
 	 *	@access		public
-	 *	@param		string		$nodePath		Path to existring Node in XML Tree
+	 *	@param		string		$nodePath		Path to existing Node in XML Tree
 	 *	@param		string		$name			Name of new Node
-	 *	@param		string		$content		Cotnent of new Node
+	 *	@param		string		$content		Content of new Node
 	 *	@param		array		$attributes		Array of Attribute of new Content
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
-	public function addNode( $nodePath, $name, $content = "", $attributes = array() )
+	public function addNode( string $nodePath, string $name, string $content = '', array $attributes = [] ): bool
 	{
 		$branch	= $this->getNode( $nodePath );
-		$node	= new XML_DOM_Node( $name, $content, $attributes );
+		$node	= new Node( $name, $content, $attributes );
 		$branch->addChild( $node );
 		return (bool) $this->write();
 	}
@@ -85,14 +92,15 @@ class XML_DOM_FileEditor
 	 *	@access		public
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@param		string		$key			Attribute Key
+	 *	@param		mixed		$value			Attribute Value
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
-	public function editNodeAttribute( $nodePath, $key, $value )
+	public function editNodeAttribute( string $nodePath, string $key, $value ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		if( $node->setAttribute( $key, $value ) )
-			return (bool) $this->write();
-		return FALSE;
+		$node->setAttribute( $key, $value );
+		return (bool) $this->write();
 	}
 
 	/**
@@ -101,41 +109,39 @@ class XML_DOM_FileEditor
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@param		string		$content		Content to set to Node
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
-	public function editNodeContent( $nodePath, $content )
+	public function editNodeContent( string $nodePath, string $content ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		if( $node->setContent( $content ) )
-			return (bool) $this->write();
-		return FALSE;
+		$node->setContent( $content );
+		return (bool) $this->write();
 	}
 
 	/**
 	 *	Returns Node Object for a Node Path.
 	 *	@access		public
 	 *	@param		string		$nodePath		Path to Node in XML Tree
-	 *	@return		bool
+	 *	@throws		InvalidArgumentException	if node is not existing
+	 *	@return		Node
 	 */
-	protected function getNode( $nodePath )
+	protected function getNode( string $nodePath ): Node
 	{
 		$pathNodes	= explode( "/", $nodePath );
 		$xmlNode	=& $this->xmlTree;
-		while( $pathNodes )
-		{
+		while( $pathNodes ){
 			$pathNode	= trim( array_shift( $pathNodes ) );
-			$matches	= array();
-			if( preg_match_all( "@^(.*)\[([0-9]+)\]$@", $pathNode, $matches ) )
-			{
+			$matches	= [];
+			if( preg_match_all( "@^(.*)\[(\d+)\]$@", $pathNode, $matches ) ){
 				$pathNode	= $matches[1][0];
 				$itemNumber	= $matches[2][0];
 				$nodes		= $xmlNode->getChildren( $pathNode );
 				if( !isset( $nodes[$itemNumber] ) )
-					throw new InvalidArgumentException( 'Node not existing.' );
+					throw new InvalidArgumentException( 'Node is not existing' );
 				$xmlNode	=& $nodes[$itemNumber];
 				continue;
 			}
-			$xmlNode	=& $xmlNode->getChild( $pathNode );
-			continue;
+			$xmlNode	= $xmlNode->getChild( $pathNode );
 		}
 		return $xmlNode;
 	}
@@ -145,25 +151,23 @@ class XML_DOM_FileEditor
 	 *	@access		public
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
-	public function removeNode( $nodePath )
+	public function removeNode( string $nodePath ): bool
 	{
 		$pathNodes	= explode( "/", $nodePath );
 		$nodeName	= array_pop( $pathNodes );
 		$nodePath	= implode( "/", $pathNodes );
 		$nodeNumber	= 0;
 		$branch		= $this->getNode( $nodePath );
-		if( preg_match_all( "@^(.*)\[([0-9]+)\]$@", $nodeName, $matches ) )
-		{
+		if( preg_match_all( "@^(.*)\[(\d+)\]$@", $nodeName, $matches ) ){
 			$nodeName	= $matches[1][0];
 			$nodeNumber	= $matches[2][0];
 		}
 		$nodes		=& $branch->getChildren();
 		$index		= -1;
-		for( $i=0; $i<count( $nodes ); $i++ )
-		{
-			if( !$nodeName || $nodes[$i]->getNodeName() == $nodeName )
-			{
+		for( $i=0; $i<count( $nodes ); $i++ ){
+			if( !$nodeName || $nodes[$i]->getNodeName() == $nodeName ){
 				$index++;
 				if( $index != $nodeNumber )
 					continue;
@@ -180,22 +184,23 @@ class XML_DOM_FileEditor
 	 *	@param		string		$nodePath		Path to Node in XML Tree
 	 *	@param		string		$key			Attribute Key
 	 *	@return		bool
+	 *	@throws		DOMException
 	 */
-	public function removeNodeAttribute( $nodePath, $key )
+	public function removeNodeAttribute( string $nodePath, string $key ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		if( $node->removeAttribute( $key ) )
-			return (bool) $this->write();
-		return FALSE;
+		$node->removeAttribute( $key );
+		return (bool) $this->write();
 	}
 
 	/**
 	 *	Writes changes XML Tree to File and returns Number of written Bytes.
 	 *	@access		protected
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	protected function write()
+	protected function write(): int
 	{
-		return XML_DOM_FileWriter::save( $this->fileName, $this->xmlTree );
+		return FileWriter::save( $this->fileName, $this->xmlTree );
 	}
 }

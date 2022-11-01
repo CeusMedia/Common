@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Compressor for HTTP Request Body Strings.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,32 +21,36 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Response
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP\Response;
+
+use CeusMedia\Common\Net\HTTP\Response as Response;
+use InvalidArgumentException;
+
 /**
- *	Decompressor for HTTP Request Body Strings.
+ *	Compressor for HTTP Request Body Strings.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Response
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
-class Net_HTTP_Response_Compressor
+class Compressor
 {
 	/**
-	 *	Appied HTTP Compression to a Response Object.
+	 *	Applies HTTP Compression to a Response Object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Response	$response			Response Object
-	 *	@param		string				$type				Compression type (gzip|deflate)
-	 *	@param		boolean				$sendLengthHeader	Flag: add Content-Length Header
+	 *	@param		Response		$response			Response Object
+	 *	@param		string|NULL		$type				Compression type (gzip|deflate)
+	 *	@param		boolean			$sendLengthHeader	Flag: add Content-Length Header
 	 *	@return		void
 	 */
-	public static function compressResponse( Net_HTTP_Response $response, $type = NULL, $sendLengthHeader = TRUE )
+	public static function compressResponse( Response $response, ?string $type = NULL, bool $sendLengthHeader = TRUE )
 	{
 		if( !$type )
 			return;
@@ -56,19 +61,19 @@ class Net_HTTP_Response_Compressor
 		$response->addHeaderPair( 'Vary', "Accept-Encoding", TRUE );
 		if( $sendLengthHeader )
 			//  send Content-Length Header
-			$response->addHeaderPair( 'Content-Length', strlen( $response->getBody() ), TRUE );
+			$response->addHeaderPair( 'Content-Length', (string) strlen( $response->getBody() ), TRUE );
 	}
 
 	/**
 	 *	Applied HTTP Compression to a String.
 	 *	@access		public
-	 *	@param		string		$content		String to be compressed
-	 *	@return		string		Compressed String.
+	 *	@param		string			$content		String to be compressed
+	 *	@param		string|NULL		$type				Compression type (gzip|deflate)
+	 *	@return		string			Compressed String.
 	 */
-	public static function compressString( $content, $type = NULL )
+	public static function compressString( string $content, ?string $type = NULL ): string
 	{
-		switch( $type )
-		{
+		switch( $type ){
 			case NULL:
 				return $content;
 			case 'deflate':

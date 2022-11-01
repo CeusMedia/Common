@@ -1,23 +1,20 @@
-<?php
-/**
- *	Fork server exception.
- *	@category		Library
- *	@package		CeusMedia_Common_CLI_Fork_Server
- */
-/**
- *	Fork server exception.
- *	@category		Library
- *	@package		CeusMedia_Common_CLI_Fork_Server
- */
-class CLI_Fork_Server_Exception extends RuntimeException
-{
-}
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
- *	Fork server socket exception.
+ *	Fork server exception.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Server
  */
-class CLI_Fork_Server_SocketException extends RuntimeException
+
+namespace CeusMedia\Common\CLI\Fork\Server;
+
+use RuntimeException;
+
+/**
+ *	Fork server exception.
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI_Fork_Server
+ */
+class Exception extends RuntimeException
 {
 }

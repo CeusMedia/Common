@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Checks visibility of methods in a folder containing PHP files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,45 +21,49 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\FS\File\PHP\Check\MethodVisibility as FilePhpCheckMethodVisibility;
+use CeusMedia\Common\FS\File\RecursiveRegexFilter as FileRecursiveRegexFilter;
+use FilterIterator;
+
 /**
  *	Checks visibility of methods in a folder containing PHP files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@uses			FS_File_RecursiveRegexFilter
- *	@uses			FS_File_PHP_Check_MethodVisibility
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
-class FS_Folder_MethodVisibilityCheck
+class MethodVisibilityCheck
 {
 	public $count	= 0;
+
 	public $found	= 0;
-	public $list	= array();
+
+	public $list	= [];
 
 	/**
 	 *	Scans a folder containing PHP files for methods without defined visibility.
 	 *	@access		public
 	 *	@param		string		$path			Path to Folder containing PHP Files
-	 *	@param		string		$extension		Extension of PHP Files. 
+	 *	@param		string		$extension		Extension of PHP Files.
 	 *	@return		void
 	 */
-	public function scan( $path, $extension = "php5" )
+	public function scan( string $path, string $extension = 'php5' )
 	{
 		$this->count	= 0;
 		$this->found	= 0;
-		$this->list		= array();
-		$finder	= new FS_File_RecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
-		foreach( $finder as $entry )
-		{
-			$checker	= new FS_File_PHP_Check_MethodVisibility( $entry->getPathname() );
+		$this->list		= [];
+		$finder	= new FileRecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
+		foreach( $finder as $entry ){
+			$checker	= new FilePhpCheckMethodVisibility( $entry->getPathname() );
 			if( $checker->check() )
 				continue;
 			$this->found++;

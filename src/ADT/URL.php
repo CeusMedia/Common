@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** * @noinspection PhpDocMissingThrowsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +22,31 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
+
+namespace CeusMedia\Common\ADT;
+
+use Exception;
+use InvalidArgumentException;
+use RangeException;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  *	@todo			code doc
  */
-class ADT_URL
+class URL
 {
 	protected $defaultUrl;
 
@@ -47,7 +57,7 @@ class ADT_URL
 	 *
 	 *	@access		public
 	 *	@param		string			$url		URL string to represent
-	 *	@param		ADT_URL|string	$defaultUrl Underlaying base URL
+	 *	@param		URL|string		$defaultUrl Underlying base URL
 	 */
 	public function __construct( string $url, $defaultUrl = NULL )
 	{
@@ -58,7 +68,7 @@ class ADT_URL
 		}
 		if( 0 === strlen( trim( $url ) ) )
 			throw new InvalidArgumentException( 'No URL given' );
-		return $this->set( $url );
+		$this->set( $url );
 	}
 
 	public function __toString(): string
@@ -88,7 +98,7 @@ class ADT_URL
 			throw new RuntimeException( 'HTTP scheme not set' );
 		if( 0 === strlen( trim( $this->parts->host ) ) )
 			throw new RuntimeException( 'HTTP host not set' );
-		$buffer	= array();
+		$buffer	= [];
 		if( $this->parts->scheme )
 			$buffer[]	= $this->parts->scheme.'://';
 		if( $this->parts->user ){
@@ -111,14 +121,14 @@ class ADT_URL
 	}
 
 	/**
-	 *	Returns set URL as relative URL-
+	 *	Returns set URL as relative URL.
 	 *	Alias for get( FALSE ).
 	 *	@access		public
 	 *	@return		string		Relative URL
 	 */
 	public function getRelative(): string
 	{
-		$buffer	= array();
+		$buffer	= [];
 		if( $this->parts->path )
 			$buffer[]	= ltrim( $this->parts->path, '/' );
 		if( $this->parts->query )
@@ -132,15 +142,15 @@ class ADT_URL
 	 *	... (to be implemented)
 	 *	@access		public
 	 *	@todo		implement
-	 *	@param		ADT_URL|string	$referenceUrl		Reference URL to apply to absolute URL
+	 *	@param		URL|string		$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string		... (to be implemented)
 	 */
 	public function getAbsoluteTo( $referenceUrl ): string
 	{
 		if( is_string( $referenceUrl ) )
-			$referenceUrl	= new ADT_URL( $referenceUrl );
-		if( !( is_a( $referenceUrl, 'ADT_URL' ) ) )
-			throw new InvalidArgumentException( 'Given reference URL is neither ADT_URL nor string' );
+			$referenceUrl	= new URL( $referenceUrl );
+		if( !( $referenceUrl instanceof URL ) )
+			throw new InvalidArgumentException( 'Given reference URL is neither URL object nor string' );
 		$url	= clone $referenceUrl;
 		$url->setPath( $this->parts->path );
 		$url->setQuery( $this->parts->query );
@@ -149,16 +159,42 @@ class ADT_URL
 	}
 
 	/**
-	 *	... (to be implemented)
 	 *	@access		public
-	 *	@todo		implement
-	 *	@param		ADT_URL|string	$referenceUrl		Reference URL to apply to absolute URL
-	 *	@return		string		... (to be implemented)
+	 *	@param		URL|string	$referenceUrl		Reference URL to apply to absolute URL
+	 *	@return		string
 	 */
-	public function getRelativeTo( $referenceUrl )
+	public function getRelativeTo( $referenceUrl ): string
 	{
-		throw new Exception( 'No implemented, yet' );
-		return '';
+		if( is_string( $referenceUrl ) )
+			$reference	= new self( $referenceUrl );
+		else
+			$reference	= $referenceUrl;
+
+		if( $this->getScheme() !== $reference->getScheme() )
+			throw new InvalidArgumentException( 'Schema not matching' );
+		if( $this->getHost() !== $reference->getHost() )
+			throw new InvalidArgumentException( 'Host not matching' );
+		if( $this->getPort() !== $reference->getPort() )
+			throw new InvalidArgumentException( 'Port not matching' );
+
+		$query			= $this->getQuery() ? '?'.$this->getQuery() : '';
+		$fragment		= $this->getFragment() ? '#'.$this->getFragment() : '';
+		$referencePath	= $reference->getPath();
+		if( substr( $this->getPath(), 0, strlen( $referencePath ) ) === $referencePath )
+			return substr( $this->getPath(), strlen( $referencePath ) ).$query.$fragment;
+
+		$parts			= [];
+		$pathParts		= explode( '/', ltrim( $this->getPath(), '/' ) );
+		foreach( explode( '/', trim( $referencePath, '/' ) ) as $nr => $referencePathPart ){
+			$part	= array_shift( $pathParts );
+			if( $referencePathPart === $part )
+				continue;
+			array_unshift( $parts, '..' );
+			$parts[]	= $part;
+		}
+		foreach( $pathParts as $part )
+			$parts[]	= $part;
+		return join( '/', $parts ).$query.$fragment;
 	}
 
 	public function getFragment(): string
@@ -221,7 +257,7 @@ class ADT_URL
 		$parts	= parse_url( trim( $url ) );
 		if( $parts === FALSE )
 			throw new InvalidArgumentException( 'No valid URL given' );
-		$defaults	= array(
+		$defaults	= [
 			'scheme'		=> $this->defaultUrl ? $this->defaultUrl->getScheme() : '',
 			'host'			=> $this->defaultUrl ? $this->defaultUrl->getHost() : '',
 			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : '',
@@ -229,7 +265,7 @@ class ADT_URL
 			'pass'			=> $this->defaultUrl ? $this->defaultUrl->getPassword() : '',
 			'query'			=> '',
 			'fragment'		=> '',
-		);
+		];
 		if( $this->defaultUrl && $this->defaultUrl->parts->path !== '/' ){
 			$regExp			= '@^'.preg_quote( $this->defaultUrl->parts->path ).'@';
 			$parts['path']	= preg_replace( $regExp, '/', $parts['path'] );
@@ -246,7 +282,7 @@ class ADT_URL
 		return $this;
 	}
 
-	public function setDefault( ADT_URL $url ): self
+	public function setDefault( URL $url ): self
 	{
 		$this->defaultUrl	= $url;
 		return $this;
@@ -292,7 +328,13 @@ class ADT_URL
 		return $this;
 	}
 
-	public function setQuery( string $query ): self
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		array|string		$query
+	 *	@return		self
+	 */
+	public function setQuery( $query ): self
 	{
 		if( is_array( $query ) )
 			$query	= http_build_query( $query, '&' );

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /**
  *	...
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +21,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header;
+
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
  *	@see			http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 RFC 2616 HTTP Message Headers
  *
  *	GENERAL
@@ -96,76 +101,75 @@
  *	Expires
  *	Last-Modified
  */
-class Net_HTTP_Header_Section
+class Section
 {
-	protected $fields	= array(
-		'general'	=> array(
-			'cache-control'			=> array(),
-			'connection'			=> array(),
-			'date'					=> array(),
-			'pragma'				=> array(),
-			'trailer'				=> array(),
-			'transfer-encoding'		=> array(),
-			'upgrade'				=> array(),
-			'via'					=> array(),
-			'warning'				=> array()
-		),
-		'request'	=> array(
-			'accept'				=> array(),
-			'accept-charset'		=> array(),
-			'accept-encoding'		=> array(),
-			'accept-language'		=> array(),
-			'authorization'			=> array(),
-			'expect'				=> array(),
-			'from'					=> array(),
-			'host'					=> array(),
-			'if-match'				=> array(),
-			'if-modified-since'		=> array(),
-			'if-none-match'			=> array(),
-			'if-range'				=> array(),
-			'if-unmodified-since'	=> array(),
-			'max-forwards'			=> array(),
-			'proxy-authorization'	=> array(),
-			'range'					=> array(),
-			'referer'				=> array(),
-			'te'					=> array(),
-			'user-agent'			=> array()
-		),
-		'response'	=> array(
-			'accept-ranges'			=> array(),
-			'age'					=> array(),
-			'etag'					=> array(),
-			'location'				=> array(),
-			'proxy-authenticate'	=> array(),
-			'retry-after'			=> array(),
-			'server'				=> array(),
-			'vary'					=> array(),
-			'www-authenticate'		=> array()
-		),
-		'entity'	=> array(
-			'allow'		=> array(),
-			'content-encoding'		=> array(),
-			'content-language'		=> array(),
-			'content-length'		=> array(),
-			'content-location'		=> array(),
-			'content-md5'			=> array(),
-			'content-range'			=> array(),
-			'content-type'			=> array(),
-			'expires'				=> array(),
-			'last-modified'			=> array()
-		),
-		'others'	=> array(
-		)
-	);
+	protected array $fields	= [
+		'general'	=> [
+			'cache-control'			=> [],
+			'connection'			=> [],
+			'date'					=> [],
+			'pragma'				=> [],
+			'trailer'				=> [],
+			'transfer-encoding'		=> [],
+			'upgrade'				=> [],
+			'via'					=> [],
+			'warning'				=> [],
+		],
+		'request'	=> [
+			'accept'				=> [],
+			'accept-charset'		=> [],
+			'accept-encoding'		=> [],
+			'accept-language'		=> [],
+			'authorization'			=> [],
+			'expect'				=> [],
+			'from'					=> [],
+			'host'					=> [],
+			'if-match'				=> [],
+			'if-modified-since'		=> [],
+			'if-none-match'			=> [],
+			'if-range'				=> [],
+			'if-unmodified-since'	=> [],
+			'max-forwards'			=> [],
+			'proxy-authorization'	=> [],
+			'range'					=> [],
+			'referer'				=> [],
+			'te'					=> [],
+			'user-agent'			=> [],
+		],
+		'response'	=> [
+			'accept-ranges'			=> [],
+			'age'					=> [],
+			'etag'					=> [],
+			'location'				=> [],
+			'proxy-authenticate'	=> [],
+			'retry-after'			=> [],
+			'server'				=> [],
+			'vary'					=> [],
+			'www-authenticate'		=> [],
+		],
+		'entity'	=> [
+			'allow'		=> [],
+			'content-encoding'		=> [],
+			'content-language'		=> [],
+			'content-length'		=> [],
+			'content-location'		=> [],
+			'content-md5'			=> [],
+			'content-range'			=> [],
+			'content-type'			=> [],
+			'expires'				=> [],
+			'last-modified'			=> [],
+		],
+		'others'	=> []
+	];
 
-	public function addField( Net_HTTP_Header_Field $field ): self
+	public function addField( HeaderField $field ): self
 	{
 		return $this->setField( $field, FALSE );
 	}
 
 	public function addFieldPair( string $name, $value ): self
 	{
-		$field	= new Net_HTTP_Header_Field( $name, $value );
+		$field	= new HeaderField( $name, $value );
 		return $this->addField( $field );
 	}
 
@@ -175,14 +179,14 @@ class Net_HTTP_Header_Section
 	 *	@param		array		$fieldPairs		Map of header field names and values
 	 *	@return		self
 	 */
-	public function addFieldPairs( array $fieldPairs = array() ): self
+	public function addFieldPairs( array $fieldPairs = [] ): self
 	{
 		foreach( $fieldPairs as $key => $value )
 			$this->addFieldPair( $key, $value );
 		return $this;
 	}
 
-	public function addFields( array $fields = array() ): self
+	public function addFields( array $fields = [] ): self
 	{
 		foreach( $fields as $field )
 			$this->addField( $field );
@@ -195,14 +199,14 @@ class Net_HTTP_Header_Section
 		foreach( $this->fields as $sectionName => $sectionPairs )
 			if( array_key_exists( $name, $sectionPairs ) )
 				return $this->fields[$sectionName][$name];
-		return NULL;
+		return [];
 	}
 
 	public function getFields(): array
 	{
-		$list	= array();
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			foreach( $sectionPairs as $name => $fieldList )
+		$list	= [];
+		foreach( $this->fields as $sectionPairs )
+			foreach( $sectionPairs as $fieldList )
 				if( count( $fieldList ) )
 					foreach( $fieldList as $field )
 						$list[]	= $field;
@@ -212,7 +216,7 @@ class Net_HTTP_Header_Section
 	public function getFieldsByName( string $name, bool $latestOnly = FALSE )
 	{
 		$name	= strtolower( $name );
-		foreach( $this->fields as $sectionName => $sectionPairs ){
+		foreach( $this->fields as $sectionPairs ){
 			if( array_key_exists( $name, $sectionPairs ) ){
 				if( $latestOnly )
 					return end( $sectionPairs[$name] );
@@ -221,11 +225,12 @@ class Net_HTTP_Header_Section
 		}
 		if( $latestOnly )
 			return NULL;
-		return array();
+		return [];
 	}
 
-	public static function instantiate(){
-		return new static;
+	public static function getInstance(): self
+	{
+		return new self();
 	}
 
 	public function hasField( string $name ): bool
@@ -237,7 +242,7 @@ class Net_HTTP_Header_Section
 		return FALSE;
 	}
 
-	public function removeField( Net_HTTP_Header_Field $field ): self
+	public function removeField( HeaderField $field ): self
 	{
 		$name	= $field->getName();
 		foreach( $this->fields as $sectionName => $sectionPairs )
@@ -257,66 +262,35 @@ class Net_HTTP_Header_Section
 			unset( $this->fields['others'][$name] );
 		foreach( $this->fields as $sectionName => $sectionPairs )
 			if( array_key_exists( $name, $sectionPairs ) )
-				$this->fields[$sectionName][$name]		= array();
+				$this->fields[$sectionName][$name]		= [];
 		return $this;
 	}
 
-	public function setField( Net_HTTP_Header_Field $field, bool $emptyBefore = TRUE ): self
+	public function setField( HeaderField $field, bool $emptyBefore = TRUE ): self
 	{
 		$name	= $field->getName();
 		foreach( $this->fields as $sectionName => $sectionPairs ){
 			if( array_key_exists( $name, $sectionPairs ) ){
 				if( $emptyBefore )
-					$this->fields[$sectionName][$name]	= array();
+					$this->fields[$sectionName][$name]	= [];
 				$this->fields[$sectionName][$name][]	= $field;
 				return $this;
 			}
 		}
 		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
-			$this->fields['others'][$name]	= array();
+			$this->fields['others'][$name]	= [];
 		$this->fields['others'][$name][]	= $field;
 		return $this;
 	}
 
 	public function setFieldPair( string $name, $value, bool $emptyBefore = TRUE ): self
 	{
-		$this->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
+		$this->setField( new HeaderField( $name, $value ), $emptyBefore );
 		return $this;
-	}
-
-	/**
-	 *	@deprecated		use method "getFields" instead, which will provide field objects instead of rendered strings
-	 *	@todo			0.9: to be removed
-	 */
-	public function toArray()
-	{
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message(  'Use "getFields" instead, which will provide field objects instead of rendered strings' );
-		$list	= array();
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			foreach( $sectionPairs as $name => $fields )
-				if( $fields )
-					foreach( $fields as $field )
-						$list[]	= $field->toString();
-		return $list;
 	}
 
 	public function render(): string
 	{
-		return Net_HTTP_Header_Renderer::render( $this );
-	}
-
-	/**
-	 *	@deprecated		use render method instead
-	 *	@todo			0.9: to be removed
-	 */
-	public function toString()
-	{
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message(  'Use render method instead' );
-		//  collect fields with line breaks inbetween
-		$list = implode( "\r\n", $this->toArray() );
-		//  return field list with line break or empty string
-		return $list ? $list."\r\n" : $list;
+		return HeaderRenderer::render( $this );
 	}
 }

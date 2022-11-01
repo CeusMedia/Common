@@ -1,28 +1,32 @@
 <?php
-/**
- *	TestUnit of Folder Reader.
- *	@package		Tests.folder
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Folder Reader.
+ *	@package		Tests.FS.Folder
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-require_once __DIR__.'/TestCase.php';
+namespace CeusMedia\CommonTest\FS\Folder;
+
+use CeusMedia\Common\FS\Folder\Reader;
 
 /**
  *	TestUnit of Folder Reader.
- *	@package		Tests.folder
- *	@extends		Test_FS_Folder_TestCase
- *	@uses			FS_Folder_Reader
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *	@version		0.1
  */
-class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
+class ReaderTest extends TestCase
 {
+	protected $reader1;
+
+	protected $reader2;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -32,9 +36,9 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	{
 		parent::setUp();
 		//  valid Folder Reader
-		$this->reader1	= new FS_Folder_Reader( $this->path."folder" );
+		$this->reader1	= new Reader( $this->path."folder" );
 		//  invalid Folder Reader
-		$this->reader2	= new FS_Folder_Reader( $this->path."not_existing" );
+		$this->reader2	= new Reader( $this->path."not_existing" );
 	}
 
 	/**
@@ -44,7 +48,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testConstruct()
 	{
-		$reader	= new FS_Folder_Reader( "test123" );
+		$reader	= new Reader( "test123" );
 		$assertion	= "test123";
 		$creation	= $reader->getFolderName();
 		$this->assertEquals( $assertion, $creation );
@@ -57,13 +61,11 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testExists()
 	{
-		$assertion	= true;
 		$creation	= $this->reader1->exists();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= false;
 		$creation	= $this->reader2->exists();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -121,7 +123,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	public function testGetFileCountException()
 	{
 		$this->expectException( "RuntimeException" );
-		$creation	= $this->reader2->getFileCount();
+		$this->reader2->getFileCount();
 	}
 
 	/**
@@ -150,7 +152,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	public function testGetFileListException()
 	{
 		$this->expectException( "RuntimeException" );
-		$index	= $this->reader2->getFileList();
+		$this->reader2->getFileList();
 	}
 
 	/**
@@ -172,7 +174,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 
 		$index	= $this->reader1->getFileListByExtensions( array( 'php' ) );
 		$list	= $this->getListFromIndex( $index );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -284,12 +286,12 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 		$index	= $this->reader1->getList( "@xyz@" );
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -443,7 +445,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 
 		$index	= $this->reader1->getNestedFileList( "@not_existing@" );
 		$list	= $this->getListFromIndex( $index );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -508,7 +510,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 
 		$index	= $this->reader1->getNestedFolderList( "@not_existing@" );
 		$list	= $this->getListFromIndex( $index );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -636,11 +638,11 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	public function testIsFolder()
 	{
 		$assertion	= true;
-		$creation	= FS_Folder_Reader::isFolder( $this->path."folder" );
+		$creation	= Reader::isFolder( $this->path."folder" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= FS_Folder_Reader::isFolder( $this->path."not_existing" );
+		$creation	= Reader::isFolder( $this->path."not_existing" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

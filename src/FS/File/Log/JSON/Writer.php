@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writer for Log Files containing JSON Serials.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +21,23 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2008
  */
+
+namespace CeusMedia\Common\FS\File\Log\JSON;
+
 /**
  *	Writer for Log Files containing JSON Serials.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.12.2008
  */
-class FS_File_Log_JSON_Writer
+class Writer
 {
 	/**	@var		string		$fileName		File Name of Log File */
 	protected $fileName;
@@ -46,9 +48,9 @@ class FS_File_Log_JSON_Writer
 	 *	@param		string		$fileName		File Name of Log File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
-		$this->fileName	= $fileName;	
+		$this->fileName	= $fileName;
 	}
 
 	/**
@@ -57,7 +59,7 @@ class FS_File_Log_JSON_Writer
 	 *	@param		array		$data			Data Array to note
 	 *	@return		bool
 	 */
-	public function note( $data )
+	public function note( array $data ): bool
 	{
 		return self::noteData( $this->fileName, $data );
 	}
@@ -70,14 +72,9 @@ class FS_File_Log_JSON_Writer
 	 *	@param		array		$data			Data Array to note
 	 *	@return		bool
 	 */
-	public static function noteData( $fileName, $data )
+	public static function noteData( string $fileName, array $data ): bool
 	{
-		$data	= array_merge(
-			array(
-				'timestamp' => time()
-			),
-			$data
-		);
+		$data	= array_merge( ['timestamp' => time()], $data );
 		$serial	= json_encode( $data )."\n";
 		if( !file_exists( dirname( $fileName ) ) )
 			mkDir( dirname( $fileName ), 0700, TRUE );

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Validates a XML Element built form an Atom XML String against most of the ATOM Rules.
+ *	Validates an XML Element built form an Atom XML String against most of the ATOM Rules.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,31 +22,32 @@
  *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.05.2008
- *	@version		0.6
  */
+
+namespace CeusMedia\Common\XML\Atom;
+
+use CeusMedia\Common\XML\Element as XmlElement;
+
 /**
- *	Validates a XML Element built form an Atom XML String against most of the ATOM Rules.
+ *	Validates an XML Element built form an Atom XML String against most of the ATOM Rules.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.05.2008
- *	@version		0.6
  */
-class XML_Atom_Validator
+class Validator
 {
 	/**	@var		array			$errors			List of broken Atom Rules */
-	protected $errors	= array();
+	protected $errors	= [];
 
 	/**	@var		array			$rules			Error Messages of Atom Rules */
-	protected $rules	= array(
+	protected $rules	= [
 		'feed_author'		=> "Feed element MUST contain one or more author elements, unless all of the feed element's child entry elements contain at least one author element.",
 		'feed_generator'	=> "Feed element MUST NOT contain more than one generator element.",
 		'feed_icon'			=> "Feed element MUST NOT contain more than one icon element.",
@@ -68,7 +70,7 @@ class XML_Atom_Validator
 		'entry_title'		=> "Entry Element MUST contain exactly one title element.",
 		'entry_updates'		=> "Entry Element MUST contain exactly one updated element.",
 		'entry_link_unique'	=> "Entry Element MUST NOT contain more than one link element with a rel attribute value of \"alternate\" that has the same combination of type and hreflang attribute values.",
-	);
+	];
 
 	/**
 	 *	Returns Error Messages of all Atom Rules hurt by Validation.
@@ -76,9 +78,9 @@ class XML_Atom_Validator
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->errors as $errorKey )
 			$list[$errorKey]	= $this->rules[$errorKey];
 		return $list;
@@ -89,38 +91,38 @@ class XML_Atom_Validator
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFirstError()
+	public function getFirstError(): string
 	{
 		if( !$this->errors )
-			return "";
-		$error	= array_pop( array_slice( $this->errors, 0, 1 ) );
+			return '';
+		$slice	= array_slice( $this->errors, 0, 1 );
+		$error	= array_pop( $slice );
 		return $this->rules[$error];
 	}
 
 	/**
-	 *	Indicates whether a XML Element built form an Atom XML String is a valid Atom Feed.
+	 *	Indicates whether an XML Element built form an Atom XML String is a valid Atom Feed.
 	 *	@access		protected
-	 *	@param		XML_Element		$xmlElement		Root Element of Atom Feed
+	 *	@param		XmlElement		$xmlElement		Root Element of Atom Feed
 	 *	@return		bool
 	 */
-	public function isValid( $xmlElement )
+	public function isValid( XmlElement $xmlElement ): bool
 	{
 		$this->validate( $xmlElement );
-		return !count( $this->errors );
+		return count( $this->errors ) === 0;
 	}
 
 	/**
-	 *	Validates a XML Element built form an Atom XML String and returns broken Atom Rules.
+	 *	Validates an XML Element built form an Atom XML String and returns broken Atom Rules.
 	 *	@access		protected
-	 *	@param		XML_Element		$xmlElement		Root Element of Atom Feed
-	 *	@return		bool
+	 *	@param		XmlElement		$xmlElement		Root Element of Atom Feed
+	 *	@return		array
 	 */
-	protected function validate( $xmlElement )
+	protected function validate( XmlElement $xmlElement ): array
 	{
-		$errors	= array();
-		foreach( $xmlElement->getDocNamespaces() as $prefix => $namespace )
-		{
-			$prefix	= $prefix ? $prefix : "atom";
+		$errors	= [];
+		foreach( $xmlElement->getDocNamespaces() as $prefix => $namespace ){
+			$prefix	= $prefix ?: "atom";
 			$xmlElement->registerXPathNamespace( $prefix, $namespace );
 		}
 		$key	= "//atom:feed/";
@@ -144,16 +146,14 @@ class XML_Atom_Validator
 			$errors[]	= "feed_title";
 		if( count( $xmlElement->xpath( $key.'atom:updated' ) ) != 1 )
 			$errors[]	= "feed_updated";
-		$ids	= array();
-		foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) as $link )
-		{
+		$ids	= [];
+		foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) as $link ){
 			$id	= "";
 			if( $link->hasAttribute( 'type' ) )
 				$id	= $link->getAttribute( 'type' );
 			if( $link->hasAttribute( 'hreflang' ) )
 				$id	.= "_".$link->getAttribute( 'hreflang');
-			if( in_array( $id, $ids, TRUE ) )
-			{
+			if( in_array( $id, $ids, TRUE ) ){
 				$errors[]	= "feed_link_unique";
 				break;
 			}
@@ -161,8 +161,7 @@ class XML_Atom_Validator
 		}
 
 		$numberEntries	= count( $xmlElement->xpath( $key.'atom:entry' ) );
-		for( $i=1; $i<=$numberEntries; $i++ )
-		{
+		for( $i=1; $i<=$numberEntries; $i++ ){
 			$key	= "//atom:feed/atom:entry[$i]/";
 			if( !count( $xmlElement->xpath( $key.'atom:author' ) ) && !count( $xmlElement->xpath( '//atom:feed/atom:author' ) ) )
 				$errors[]	= "entry_author";
@@ -185,16 +184,14 @@ class XML_Atom_Validator
 			if( count( $xmlElement->xpath( $key.'atom:updated' ) ) != 1 )
 				$errors[]	= "entry_updated";
 
-			$keys	= array();
-			foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) as $link )
-			{
+			$keys	= [];
+			foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) as $link ){
 				$key	= "";
 				if( $link->hasAttribute( 'type' ) )
 					$key	= $link->getAttribute( 'type' );
 				if( $link->hasAttribute( 'hreflang' ) )
 					$key	.= "_".$link->getAttribute( 'hreflang');
-				if( in_array( $key, $keys, TRUE ) )
-				{
+				if( in_array( $key, $keys, TRUE ) ){
 					$errors[]	= "entry_link_unique";
 					break;
 				}
@@ -202,6 +199,6 @@ class XML_Atom_Validator
 			}
 		}
 		$this->errors	= $errors;
-
+		return $errors;
 	}
 }

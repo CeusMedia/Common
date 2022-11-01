@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
- *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,34 +21,44 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use FilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@extends		FilterIterator
- *	@uses			RecursiveIteratorIterator
- *	@uses			RecursiveDirectoryIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
-class FS_Folder_RecursiveIterator extends FilterIterator
+class RecursiveIterator extends FilterIterator
 {
 	/**	@var		 string		$path				Path to iterate */
 	protected $path;
+
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
+
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
-	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
-	protected $stripDotFolders;
+
+	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
+	protected $stripDotEntries;
+
+	protected $realPath;
+
+	protected $realPathLength;
 
 	/**
 	 *	Constructor.
@@ -58,7 +69,7 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE )
+	public function __construct( string $path, bool $showFiles = TRUE, bool $showFolders = TRUE, bool $stripDotEntries = TRUE )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -66,7 +77,7 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
 		$this->realPathLength	= strlen( $this->realPath );
 		$this->showFiles		= $showFiles;
-		$this->showFiles		= $showFiles;
+		$this->showFolders		= $showFolders;
 		$this->stripDotEntries	= $stripDotEntries;
 		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : RecursiveIteratorIterator::LEAVES_ONLY;
 		parent::__construct(
@@ -85,29 +96,31 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
-		if( $this->getInnerIterator()->isDot() )
+		/** @var RecursiveDirectoryIterator $innerIterator */
+		$innerIterator	= $this->getInnerIterator();
+
+		if( $innerIterator->isDot() )
 			return FALSE;
 
-		$isDir	= $this->getInnerIterator()->isDir();
+		$isDir	= $innerIterator->isDir();
 		if( !$this->showFiles && !$isDir )
 			return FALSE;
 
 		//  skip all folders and files starting with a dot
-		if( $this->stripDotEntries )
-		{
+		if( $this->stripDotEntries ){
 			//  found file or folder is hidden
-			if( substr( $this->getFilename(), 0, 1 ) == "." )
+			if( substr( $innerIterator->getFilename(), 0, 1 ) === "." )
 				return FALSE;
 
 			//  inner path is hidden
-			if( substr( $this->getSubPathname(), 0, 1 ) == "." )
+			if( substr( $innerIterator->getSubPathname(), 0, 1 ) === "." )
 				return FALSE;
 
 			//  be nice to Windows
-			$subPath	= str_replace( "\\", "/", $this->getSubPathname() );
-			//  atleast 1 folder in inner path is hidden
+			$subPath	= str_replace( "\\", "/", $innerIterator->getSubPathname() );
+			//  at least 1 folder in inner path is hidden
 			if( preg_match( '/\/\.\w/', $subPath ) )
 				return FALSE;
 		}
@@ -119,7 +132,7 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 	 *	@access		public
 	 *	@return		string		Path to Folder to iterate
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->path;
 	}

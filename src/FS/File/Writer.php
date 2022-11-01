@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base File Writer.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,36 +21,42 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Base File Writer.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Writer
+class Writer
 {
-	public static $minFreeDiskSpace	= 10485760;
+	public static $minFreeDiskSpace	= 10_485_760;
 
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI */
 	protected $fileName;
 
 	/**
-	 *	Constructor. Creates if File if not existing and Creation Mode is set.
+	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name, absolute or relative URI
-	 *	@param		string		$creationMode	UNIX rights for chmod()
-	 *	@param		string		$creationUser	User Name for chown()
-	 *	@param		string		$creationGroup	Group Name for chgrp()
+	 *	@param		integer		$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
+	 *	@param		string|NULL	$creationUser	Username for chown()
+	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $creationMode = NULL, $creationUser = NULL, $creationGroup = NULL )
+	public function __construct( string $fileName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		$this->fileName	= $fileName;
 		if( $creationMode && !file_exists( $fileName ) )
@@ -59,34 +66,35 @@ class FS_File_Writer
 	/**
 	 *	Writes a String into the File and returns Length.
 	 *	@access		public
-	 *	@param		string		string		string to write to file
+	 *	@param		string		$string		string to write to file
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no string is given
+	 *	@throws		InvalidArgumentException if no string is given
 	 *	@throws		RuntimeException if file is not writable
 	 *	@throws		RuntimeException if written length is unequal to string length
 	 */
-	public function appendString( $string )
+	public function appendString( string $string ): int
 	{
-		if( !is_string( $string ) )
-			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of string' );
 		if( !file_exists( $this->fileName ) )
 			$this->create();
 		if( !$this->isWritable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
-		return error_log( $string, 3, $this->fileName );
+		$fp	= fopen( $this->fileName, 'a' );
+		fputs( $fp, $string );
+		fclose( $fp );
+		return strlen( $string );
 	}
 
 	/**
 	 *	Create a file and sets Rights, Owner and Group.
 	 *	@access		public
-	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string		$user			User Name for chown()
-	 *	@param		string		$group			Group Name for chgrp()
+	 *	@param		integer		$mode			UNIX rights for chmod() as octal integer (starting with 0), default: 0640
+	 *	@param		string|NULL	$user			Username for chown()
+	 *	@param		string|NULL	$group			Group Name for chgrp()
 	 *	@throws		RuntimeException if no space is left on file system
 	 *	@throws		RuntimeException if file could not been created
 	 *	@return		void
 	 */
-	public function create( $mode = NULL, $user = NULL, $group = NULL )
+	public function create( int $mode = 0640, ?string $user = NULL, ?string $group = NULL )
 	{
 		if( self::$minFreeDiskSpace && self::$minFreeDiskSpace > disk_free_space( getcwd() ) )
 			throw new RuntimeException( 'No space left' );
@@ -102,9 +110,9 @@ class FS_File_Writer
 			$this->setGroup( $group );
 	}
 
-	public static function delete( $fileName )
+	public static function delete( string $fileName ): bool
 	{
-		$writer	= new FS_File_Writer( $fileName );
+		$writer	= new Writer( $fileName );
 		return $writer->remove();
 	}
 
@@ -113,7 +121,7 @@ class FS_File_Writer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isWritable()
+	public function isWritable(): bool
 	{
 		return is_writable( $this->fileName );
 	}
@@ -123,7 +131,7 @@ class FS_File_Writer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function remove()
+	public function remove(): bool
 	{
 		if( file_exists( $this->fileName ) )
 			return unlink( $this->fileName );
@@ -136,15 +144,15 @@ class FS_File_Writer
 	 *	@static
 	 *	@param		string		$fileName 		URI of File
 	 *	@param		string		$content		Content to save in File
-	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string		$user			User Name for chown()
-	 *	@param		string		$group			Group Name for chgrp()
+	 *	@param		integer		$mode			UNIX rights for chmod() as octal integer (starting with 0), default: 0640
+	 *	@param		string|NULL	$user			Username for chown()
+	 *	@param		string|NULL	$group			Group Name for chgrp()
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no string is given
+	 *	@throws		InvalidArgumentException if no string is given
 	 */
-	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
+	public static function save( string $fileName, string $content, int $mode = 0640, ?string $user = NULL, ?string $group = NULL ): int
 	{
-		$writer	= new FS_File_Writer( $fileName, $mode, $user, $group );
+		$writer	= new Writer( $fileName, $mode, $user, $group );
 		return $writer->writeString( $content );
 	}
 
@@ -156,11 +164,11 @@ class FS_File_Writer
 	 *	@param		array		$array			Array to save
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no array is given
+	 *	@throws		InvalidArgumentException if no array is given
 	 */
-	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
+	public static function saveArray( string $fileName, array $array, string $lineBreak = "\n" ): int
 	{
-		$writer	= new FS_File_Writer( $fileName );
+		$writer	= new Writer( $fileName );
 		return $writer->writeArray( $array, $lineBreak );
 	}
 
@@ -170,7 +178,7 @@ class FS_File_Writer
 	 *	@param		string		$groupName		OS Group Name of new File Owner
 	 *	@return		void
 	 */
-	public function setGroup( $groupName )
+	public function setGroup( string $groupName )
 	{
 		if( !$groupName )
 			throw new InvalidArgumentException( 'No Group Name given.' );
@@ -185,10 +193,10 @@ class FS_File_Writer
 	/**
 	 *	Sets Owner of current File.
 	 *	@access		public
-	 *	@param		string		$userName		OS User Name of new File Owner
+	 *	@param		string		$userName		OS username of new File Owner
 	 *	@return		void
 	 */
-	public function setOwner( $userName )
+	public function setOwner( string $userName )
 	{
 		if( !$userName )
 			throw new InvalidArgumentException( 'No User Name given.' );
@@ -205,14 +213,13 @@ class FS_File_Writer
 	/**
 	 *	Sets permissions of current File.
 	 *	@access		public
-	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
+	 *	@param		integer		$mode			OCTAL value of new rights (e.g. 0750)
 	 *	@return		bool
 	 */
-	public function setPermissions( $mode )
+	public function setPermissions( int $mode ): bool
 	{
-		if( is_integer( $mode ) )
-			$mode	= decoct( (string) $mode );
-		$permissions	= new FS_File_Permissions( $this->fileName );
+		$mode			= decoct( $mode );
+		$permissions	= new Permissions( $this->fileName );
 		return $permissions->setByOctal( $mode );
 	}
 
@@ -222,12 +229,10 @@ class FS_File_Writer
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no array is given
+	 *	@throws		InvalidArgumentException if no array is given
 	 */
-	public function writeArray( $array, $lineBreak = "\n" )
+	public function writeArray( array $array, string $lineBreak = "\n" ): int
 	{
-		if( !is_array( $array ) )
-			throw new InvalidArgumentException( ucFirst( gettype( $array ) ).' given instead of array' );
 		$string	= implode( $lineBreak, $array );
 		return $this->writeString( $string );
 	}
@@ -235,16 +240,13 @@ class FS_File_Writer
 	/**
 	 *	Writes a String into the File and returns Length.
 	 *	@access		public
-	 *	@param		string		string		string to write to file
+	 *	@param		string		$string		string to write to file
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no string is given
 	 *	@throws		RuntimeException if file is not writable
 	 *	@throws		RuntimeException if written length is unequal to string length
 	 */
-	public function writeString( $string )
+	public function writeString( string $string ): int
 	{
-		if( !is_string( $string ) )
-			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of string' );
 		if( !file_exists( $this->fileName ) )
 			$this->create();
 		if( !$this->isWritable() )

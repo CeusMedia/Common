@@ -1,26 +1,32 @@
 <?php
-/**
- *	TestUnit of Google Sitemap Builder.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Google Sitemap Builder.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\DOM;
+
+use CeusMedia\Common\XML\DOM\GoogleSitemapWriter;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_GoogleSitemapWriter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *	@version		0.1
  */
-class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
+class GoogleSitemapWriterTest extends BaseCase
 {
+	protected $testFile;
+	protected $xmlFile;
+
 	/**
 	 *	Sets up Builder.
 	 *	@access		public
@@ -28,8 +34,8 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->xmlFile	= dirname( __FILE__ ).'/sitemap.xml';
-		$this->testFile	= dirname( __FILE__ ).'/test.xml';
+		$this->xmlFile	= dirname( __FILE__ ).'/assets/sitemap.xml';
+		$this->testFile	= dirname( __FILE__ ).'/assets/test.xml';
 	}
 
 	/**
@@ -39,7 +45,7 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
 	 */
 	public function testWrite()
 	{
-		$builder	= new XML_DOM_GoogleSitemapWriter();
+		$builder	= new GoogleSitemapWriter();
 		$builder->addLink( "test1.html" );
 		$builder->addLink( "test2.html" );
 
@@ -63,7 +69,7 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
 			"test2.html",
 		);
 
-		XML_DOM_GoogleSitemapWriter::writeSitemap( $links, $this->testFile, "http://www.example.com/" );
+		GoogleSitemapWriter::writeSitemap( $links, $this->testFile, "http://www.example.com/" );
 
 		$assertion	= file_get_contents( $this->xmlFile );
 		$creation	= file_get_contents( $this->testFile );

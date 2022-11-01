@@ -1,25 +1,28 @@
 <?php
-/**
- *	TestUnit of Net_CURL.
- *	@package		Tests.Net
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			29.10.2010
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Net_CURL.
+ *	@package		Tests.Net
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Net;
+
+use CeusMedia\Common\Net\CURL as Net_CURL;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net
- *	@extends		Test_Case
- *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			29.10.2010
- *	@version		0.1
  */
-class Test_Net_CURLTest extends Test_Case
+class CURLTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

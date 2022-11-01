@@ -1,28 +1,40 @@
 <?php
-/**
- *	TestUnit of XML DOM Object Serializer.
- *	@package		Tests.xml.dom
- *	@uses			Test_Object
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML DOM Object Serializer.
+ *	@package		Tests.xml.dom
+ *	@uses			Test_Object
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\DOM;
+
+use CeusMedia\Common\XML\DOM\ObjectSerializer;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\Object_ as TestObject;
 
 /**
  *	TestUnit of XML DOM Object Serializer.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_ObjectSerializer
- *	@uses			Test_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
  */
-class Test_XML_DOM_ObjectSerializerTest extends Test_Case
+class ObjectSerializerTest extends BaseCase
 {
+	/** @var string  */
+	protected $fileName;
+
+	/** @var ObjectSerializer  */
+	protected $serializer;
+
+	/** @var TestObject  */
+	protected $object;
+
 	/**
 	 *	Sets up Leaf.
 	 *	@access		public
@@ -30,15 +42,15 @@ class Test_XML_DOM_ObjectSerializerTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->fileName		= dirname( __FILE__ ).'/serializer.xml';
-		$this->serializer		= new XML_DOM_ObjectSerializer();
-		$this->object			= new Test_Object();
+		$this->fileName		= dirname( __FILE__ ).'/assets/serializer.xml';
+		$this->serializer		= new ObjectSerializer();
+		$this->object			= new TestObject();
 		$this->object->string	= "content";
 		$this->object->integer	= 1;
 		$this->object->boolean	= true;
 		$this->object->list		= array( "item1", "item2" );
 		$this->object->array	= array( "key" => "value" );
-		$this->object->child	= new Test_Object();
+		$this->object->child	= new TestObject();
 		$this->object->child->integer	= 2;
 #		$xml	= $this->serializer->serialize( $this->object );
 #		file_put_contents( $this->fileName, $xml );

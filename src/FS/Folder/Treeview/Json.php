@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,47 +22,59 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder_Treeview
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\Folder\Treeview;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\UI\HTML\Tag;
+use DirectoryIterator;
+use JsonException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder_Treeview
- *	@uses			Alg_Time_Clock
- *	@uses			UI_HTML_Tag
  *	@todo			Code Doc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_Folder_Treeview_Json
+class Json
 {
-	protected $logFile;
-	protected $path;
+	protected string $basePath;
+	protected ?string $logFile;
 
-	public $classLeaf		= "file";
-	public $classNode		= "folder";
+	public string $classLeaf		= "file";
+	public string $classNode		= "folder";
 
-	public $fileUrl			= "./?file=";
-	public $fileTarget		= NULL;
+	public string $fileUrl			= "./?file=";
+	public ?string $fileTarget		= NULL;
 
-	public function __construct( $basePath, $logFile = NULL )
+	public function __construct( string $basePath, ?string $logFile = NULL )
 	{
 		$this->basePath		= $basePath;
 		$this->logFile		= $logFile;
 	}
 
-	public function buildJson( $path = "" )
+	/**
+	 *	...
+	 *	@param			string		$path
+	 *	@return			string
+	 *	@noinspection	PhpUnused
+	 *	@throws			JsonException
+	 */
+	public function buildJson( string $path = '' ): string
 	{
-		$clock		= new Alg_Time_Clock;
+		$clock		= new Clock;
 		$index		= new DirectoryIterator( $this->basePath.$path );
-		$folders	= array();
-		$files		= array();
-		foreach( $index as $entry )
-		{
+		$folders	= [];
+		$files		= [];
+		foreach( $index as $entry ){
 			if( substr( $entry->getFilename(), 0, 1 ) == "." )
 				continue;
 			if( $entry->isDir() )
@@ -68,80 +82,71 @@ class FS_Folder_Treeview_Json
 			else if( $entry->isFile() )
 				$files[]		= $this->buildFileItem( $entry );
 		}
-		$list	= array_merge( $folders, $files );
-		$json	= json_encode( $list );
+		$list	= [...$folders, ...$files];
+		$json	= json_encode( $list, JSON_THROW_ON_ERROR );
 		if( $this->logFile )
-			$this->log( $path, count( $list ), strlen( $json ), $clock->stop( 6, 0 ) );
+			$this->log( $path, count( $list ), strlen( $json ), (int) $clock->stop( 6, 0 ) );
 		return $json;
 	}
 
 
-	protected function buildFileItem( $entry )
+	protected function buildFileItem( $entry ): array
 	{
 		$label		= $entry->getFilename();
 		$url		= $this->getFileUrl( $entry );
-		$attributes	= array(
+		$attributes	= [
 			'href' 		=> $url,
 			'target'	=> $this->fileTarget
-		);
-		$link		= UI_HTML_Tag::create( "a", $label, $attributes );
-		$item		= array(
+		];
+		$link		= Tag::create( "a", $label, $attributes );
+		return [
 			'text'		=> $link,
 			'classes'	=> $this->classLeaf,
-		);
-		return $item;
+		];
 	}
 
-	protected function buildFolderItem( $entry )
+	protected function buildFolderItem( $entry ): array
 	{
-		$children	= $this->hasChildren( $entry );
-		$item	= array(
+		return [
 			'text'			=> $entry->getFilename(),
 			'id'			=> rawurlencode( $this->getPathName( $entry ) ),
-			'hasChildren'	=> (bool) $children,
+			'hasChildren'	=> $this->hasChildren( $entry ),
 			'classes'		=> $this->classNode,
-		);
-		return $item;
+		];
 	}
 
-	protected function getFileExtension( $entry )
+	protected function getFileExtension( $entry ): string
 	{
 		return pathinfo( $entry->getPathname(), PATHINFO_EXTENSION );
 	}
 
-	protected function getFileUrl( $entry )
+	protected function getFileUrl( $entry ): string
 	{
 		return $this->fileUrl.rawurlencode( $this->getPathName( $entry ) );
 	}
 
-	protected function getPathname( $entry )
+	protected function getPathname( $entry ): string
 	{
 		$path	= str_replace( "\\", "/", $entry->getPathname() );
 		$base	= str_replace( "\\", "/", $this->basePath );
-		$path	= substr( $path, strlen( $base ) );
-		return $path;
+		return substr( $path, strlen( $base ) );
 	}
 
-	protected function hasChildren( $entry, $countChildren = FALSE )
+	protected function hasChildren( $entry ): bool
 	{
-		$children	= 0;
 		$childIndex	= new DirectoryIterator( $entry->getPathname() );
-		foreach( $childIndex as $child )
-		{
+		foreach( $childIndex as $child ){
 			if( substr( $child->getFilename(), 0, 1 ) == "." )
 				continue;
 			if( $child->isLink() )
 				continue;
-			$children++;
-			if( !$countChildren )
-				break;
+			return TRUE;
 		}
-		return $children;
+		return FALSE;
 	}
 
-	protected function log( $path, $numberItems, $jsonLength, $time )
+	protected function log( string $path, int $numberItems, int $jsonLength, int $time ): void
 	{
-		$message	= '<path time="%1$d" items="%3$d" length="%4$d" time="%5$d">%2$s</path>';
 		$message	= '%1$d {%3$d} [%4$d] (%5$d) %2$s';
 		$message	= sprintf(
 			$message,

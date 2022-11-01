@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base Object with options.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +21,31 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
+
+namespace CeusMedia\Common\ADT;
+
+use ArrayAccess;
+use Countable;
+use InvalidArgumentException;
+use OutOfRangeException;
+
 /**
  *	Base Object with options.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
- *	@implements		ArrayAccess
- *	@implements		Countable
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
-class ADT_OptionObject implements ArrayAccess, Countable
+class OptionObject implements ArrayAccess, Countable
 {
 	/**	@var		array		$options		Associative Array of options */
-	protected $options	= array();
+	protected $options	= [];
 
 	/**
 	 *	Constructor.
@@ -48,18 +53,12 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@param		array		$defaults		Associative Array of options
 	 *	@param		array		$settings		...
 	 *	@throws		InvalidArgumentException	if given map is not an array
-	 *	@throws		InvalidArgumentException	if map key is an integer since associative arrays are prefered
+	 *	@throws		InvalidArgumentException	if map key is an integer since associative arrays are preferred
 	 *	@todo		allow integer map keys for eg. options defined by constants (which point to integer values, of course)
 	 *	@return		void
 	 */
-	public function __construct( array $defaults = array(), array $settings = array() )
+	public function __construct( array $defaults = [], array $settings = [] )
 	{
-		if( !is_array( $defaults ) )
-			throw new InvalidArgumentException( 'Default options must be an array map.' );
-		if( !is_array( $settings ) )
-			throw new InvalidArgumentException( 'Settings must be an array map.' );
-
-
 		foreach( $defaults as $key => $value )
 			if( is_int( $key ) )
 				throw new InvalidArgumentException( 'Default options must be an associative array of pairs.' );
@@ -79,7 +78,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	{
 		if( !count( $this->options ) )
 			return FALSE;
-		$this->options	= array();
+		$this->options	= [];
 		return TRUE;
 	}
 
@@ -99,7 +98,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@param		array		$optionKeys		List of Option Keys
 	 *	@return		void
 	 */
-	public function declareOptions( array $optionKeys = array() )
+	public function declareOptions( array $optionKeys = [] )
 	{
 		foreach( $optionKeys as $key ){
 			if( !is_string( $key ) )
@@ -138,59 +137,59 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	}
 
 	/**
-	 *	Indicated whether a option is set or not.
+	 *	Indicated whether an option is set or not.
 	 *	@access		public
 	 *	@param		string		$key			Option Key
 	 *	@return		bool
 	 */
 	public function hasOption( string $key ): bool
 	{
-		return array_key_exists( (string) $key, $this->options );
+		return array_key_exists( $key, $this->options );
 	}
 
 	/**
 	 *	Indicates whether a Key is existing.
 	 *	@access		public
-	 *	@param		string		$key			Option Key
+	 *	@param		string		$offset			Option Key
 	 *	@return		bool
 	 */
-	public function offsetExists( $key )
+	public function offsetExists( $offset ): bool
 	{
-		return $this->hasOption( $key );
+		return $this->hasOption( $offset );
 	}
 
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Option key
+	 *	@param		string		$offset			Option key
 	 *	@return		mixed
 	 */
-	public function offsetGet( $key )
+	public function offsetGet( $offset )
 	{
-		return $this->getOption( $key );
+		return $this->getOption( $offset );
 	}
 
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
-	 *	@param		string		$key			Option Key
+	 *	@param		string		$offset			Option Key
 	 *	@param		string		$value			Option Value
 	 *	@return		void
 	 */
-	public function offsetSet( $key, $value )
+	public function offsetSet( $offset, $value )
 	{
-		return $this->setOption( $key, $value );
+		$this->setOption( $offset, $value );
 	}
 
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Option Key
-	 *	@return		void
+	 *	@param		string		$offset			Option Key
+	 *	@return		bool
 	 */
-	public function offsetUnset( $key )
+	public function offsetUnset( $offset ): bool
 	{
-		return $this->removeOption( $key );
+		return $this->removeOption( $offset );
 	}
 
 	/**

@@ -1,26 +1,31 @@
 <?php
-/**
- *	TestUnit of Alg_Parcel_Packet.
- *	@package		Tests.alg.parcel
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Alg_Parcel_Packet.
+ *	@package		Tests.alg.parcel
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Alg\Parcel;
+
+use CeusMedia\Common\Alg\Parcel\Packet as ParcelPacket;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Alg_Parcel_Packet.
  *	@package		Tests.alg.parcel
- *	@extends		Test_Case
- *	@uses			Alg_Parcel_Packet
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- *	@version		0.1
  */
-class Test_Alg_Parcel_PacketTest extends Test_Case
+class PacketTest extends BaseCase
 {
+	protected $packet;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,7 +33,7 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->packet	= new Alg_Parcel_Packet( 'testPacket' );
+		$this->packet	= new ParcelPacket( 'testPacket' );
 		$this->packet->addArticle( 'testArticle1', 0.2 );
 		$this->packet->addArticle( 'testArticle2', 0.3 );
 		$this->packet->addArticle( 'testArticle3', 0.4 );
@@ -51,7 +56,7 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	public function testConstruct()
 	{
 		$packetName	= "testPacketName";
-		$packet		= new Alg_Parcel_Packet( $packetName );
+		$packet		= new ParcelPacket( $packetName );
 
 		$assertion	= $packetName;
 		$creation	= $packet->getName();
@@ -77,7 +82,7 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	 */
 	public function testAddArticle()
 	{
-		$packet		= new Alg_Parcel_Packet( 'testPacket' );
+		$packet		= new ParcelPacket( 'testPacket' );
 
 		$assertion	= 0;
 		$creation	= count( $packet->getArticles() );
@@ -85,15 +90,13 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 
 		$packet->addArticle( 'testArticle1', 0.1 );
 
-		$assertion	= 1;
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 1, $creation );
 
 		$packet->addArticle( 'testArticle1', 0.1 );
 
-		$assertion	= 1;
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 1, $creation );
 
 		$packet->addArticle( 'testArticle2', 0.2 );
 
@@ -155,16 +158,13 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	 */
 	public function testHasVolumeLeft()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->packet->hasVolumeLeft( 0.05 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->packet->hasVolumeLeft( 0.1 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->packet->hasVolumeLeft( 0.2 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 }

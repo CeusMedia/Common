@@ -1,8 +1,11 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Premailer API PHP class.
  *
- *	Copyright (c) 2012-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,15 +22,24 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2020 Christian Würker
+ *	@copyright		2012-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://premailer.dialect.ca/api
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.5
  */
+
+namespace CeusMedia\Common\Net\API;
+
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\Net\HTTP\Post;
+use CeusMedia\Common\Net\Reader as NetReader;
+use Exception;
+use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
+use RuntimeException;
+
 /**
  *	Premailer API PHP class.
  *
@@ -39,24 +51,23 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2020 Christian Würker
+ *	@copyright		2012-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://premailer.dialect.ca/api
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.5
  */
-class Net_API_Premailer
+class Premailer
 {
-	const ENDPOINT = 'http://premailer.dialect.ca/api/0.1/documents';
+	protected const ENDPOINT = 'https://premailer.dialect.ca/api/0.1/documents';
 
-	protected $cache;
+	protected ?SimpleCacheInterface $cache = NULL;
 
 	protected $response;
 
-	static public $options = array(
+	public static array $options = [
 		//  string  - Which document handler to use (hpricot (default) or nokigiri)
 		'adaptor'			=> 'hpricot',
 		//  string  - Base URL for converting relative links
@@ -73,15 +84,21 @@ class Net_API_Premailer
 		'remove_classes'	=> false,
 		//  boolean - Remove comments from the HTML document?
 		'remove_comments'	=> false
-	);
+	];
 
-	public function __construct( $cache = NULL )
+	public function __construct( ?SimpleCacheInterface $cache = NULL )
 	{
 		if( $cache )
 			$this->setCache( $cache );
 	}
 
-	protected function convert( $params )
+	/**
+	 *	...
+	 *	@param		array		$params
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	protected function convert( array $params )
 	{
 		if( !$params['base_url'] )
 			unset( $params['base_url'] );
@@ -98,13 +115,14 @@ class Net_API_Premailer
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return json_decode( $this->cache->get( $cacheKey ) );
 
-		$request	= new Net_HTTP_Post();
-		$response	= json_decode( $request->send( self::ENDPOINT, $params, array(
+		$request	= new Post( self::ENDPOINT );
+		$request->setContent( Post::convertArrayToFormData( $params ) );
+		$response	= json_decode( $request->send( [
 			CURLOPT_TIMEOUT			=> 15,
 			CURLOPT_USERAGENT		=> 'PHP Premailer',
 			CURLOPT_SSL_VERIFYHOST	=> 0,
 			CURLOPT_SSL_VERIFYPEER	=> 0,
-		) ) );
+		] ) );
 		if( $response->status != 201 ){
 			switch( $response->status){
 				case 400:
@@ -128,8 +146,9 @@ class Net_API_Premailer
 	 *	@param		string		$url		URL to HTML resource to be converted
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
+	 *	@throws		Exception
 	 */
-	public function convertFromUrl( $url, $params = array() )
+	public function convertFromUrl( string $url, array $params = [] ): object
 	{
 		$params = array_merge( self::$options, $params );
 		$params['url']	= $url;
@@ -144,8 +163,9 @@ class Net_API_Premailer
 	 *	@param		string		$html		HTML content to be converted
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
+	 *	@throws		Exception
 	 */
-	public function convertFromHtml( $html, $params = array() )
+	public function convertFromHtml( string $html, array $params = [] ): object
 	{
 		$params = array_merge( self::$options, $params );
 		$params['html']	= $html;
@@ -157,15 +177,16 @@ class Net_API_Premailer
 	 *	Returns converted HTML.
 	 *	@access		public
 	 *	@return		string		Converted HTML
+	 *	@throws		IoException
 	 */
-	public function getHtml()
+	public function getHtml(): string
 	{
 		if( !$this->response )
 			throw new RuntimeException( 'No conversion started' );
 		$cacheKey	= 'premailer_'.$this->response->requestId.'.html';
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return $this->cache->get( $cacheKey );
-		$html	= Net_Reader::readUrl( $this->response->documents->html );
+		$html	= NetReader::readUrl( $this->response->documents->html );
 		$this->cache && $this->cache->set( $cacheKey, $html );
 		return $html;
 	}
@@ -174,20 +195,21 @@ class Net_API_Premailer
 	 *	Returns converted plain text.
 	 *	@access		public
 	 *	@return		string		Converted HTML
+	 *	@throws		IoException
 	 */
-	public function getPlainText()
+	public function getPlainText(): string
 	{
 		if( !$this->response )
 			throw new RuntimeException( 'No conversion startet' );
 		$cacheKey	= 'premailer_'.$this->response->requestId.'.text';
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return $this->cache->get( $cacheKey );
-		$text	= Net_Reader::readUrl( $this->response->documents->txt );
+		$text	= NetReader::readUrl( $this->response->documents->txt );
 		$this->cache && $this->cache->set( $cacheKey, $text );
 		return $text;
 	}
 
-	public function setCache( $cache )
+	public function setCache( SimpleCacheInterface $cache )
 	{
 		$this->cache	= $cache;
 	}

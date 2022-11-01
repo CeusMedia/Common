@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
+
+namespace CeusMedia\Common\FS\File\INI;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use InvalidArgumentException;
+
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
- *	@extends		FS_File_INI_SectionReader
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
-class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
+class SectionEditor extends SectionReader
 {
 	/**
 	 *	Adds a Section.
@@ -45,11 +48,11 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 	 *	@param		string		$section		Section to add
 	 *	@return		bool
 	 */
-	public function addSection( $section )
+	public function addSection( string $section ): bool
 	{
 		if( $this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is already existing.' );
-		$this->data[$section] = array();
+		$this->data[$section] = [];
 		return is_int( $this->write() );
 	}
 
@@ -60,13 +63,12 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 	 *	@param		int			$tabs			Amount to Tabs to indent
 	 *	@return		string
 	 */
-	protected function fillUp( $key, $tabs = 5 )
+	protected function fillUp( string $key, int $tabs = 5 ): string
 	{
 		$key_breaks	= $tabs - floor( strlen( $key ) / 8 );
 		if( $key_breaks < 1 )
 			$key_breaks = 1;
-		$key	= $key.str_repeat( "\t", $key_breaks );
-		return $key;
+		return $key.str_repeat( "\t", $key_breaks );
 	}
 
 	/**
@@ -76,7 +78,7 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 	 *	@param		string		$key			Key of Property
 	 *	@return		bool
 	 */
-	public function removeProperty( $section, $key )
+	public function removeProperty( string $section, string $key ): bool
 	{
 		if( !$this->hasProperty( $section, $key ) )
 			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
@@ -90,10 +92,10 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 	 *	@param		string		$section		Section of Property
 	 *	@return		bool
 	 */
-	public function removeSection( $section )
+	public function removeSection( string $section ): bool
 	{
 		if( !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		unset( $this->data[$section] );
 		return is_int( $this->write() );
 	}
@@ -106,7 +108,7 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 	 *	@param		string		$value			Value of Property
 	 *	@return		bool
 	 */
-	public function setProperty( $section, $key, $value )
+	public function setProperty( string $section, string $key, string $value ): bool
 	{
 		if( !$this->hasSection( $section ) )
 			$this->addSection( $section );
@@ -119,17 +121,17 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function write()
+	public function write(): int
 	{
-		$lines		= array();
+		$lines		= [];
 		$sections	= $this->getSections();
-		foreach( $sections as $section )
-		{
+		foreach( $sections as $section ){
 			$lines[]	= "[".$section."]";
 			foreach( $this->data[$section] as $key => $value )
 				$lines[]	= $this->fillUp( $key )."=".$value;
 		}
-		return FS_File_Writer::saveArray( $this->fileName, $lines );
+		$result	= FileWriter::saveArray( $this->fileName, $lines );
 		$this->read();
+		return $result;
 	}
 }

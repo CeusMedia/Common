@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Resizing Images.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,65 +22,74 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.12.2005
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use InvalidArgumentException;
+use Exception;
+use RuntimeException;
+
 /**
  *	Resizing Images.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.12.2005
  */
-class UI_Image_ThumbnailCreator
+class ThumbnailCreator
 {
 	/**	@var	int			$quality		Quality of Target Image */
 	private $quality;
+
 	/**	@var	array		$size			Sizes of Source Image */
-	private $size	= array();
+	private $size	= [];
+
 	/**	@var	string		$source			Source File Name of Source Image */
 	private $source;
+
 	/**	@var	string		$target			Target File Name of Target Image */
 	private $target;
 
 	/**
-	 *	Constructur.
+	 *	Constructor.
 	 *	@access		public
 	 *	@param		string	$source 		File Name of Source Image
 	 *	@param		string	$target 		File Name of Target Image
 	 *	@param		int		$quality 		Quality of Target Image
 	 *	@return		void
 	 */
-	public function __construct( $source, $target, $quality = 100 )
+	public function __construct( string $source, string $target, int $quality = 100 )
 	{
-		$this->setSource( $source );	
-		$this->setTarget( $target );	
-		$this->setQuality( $quality );	
+		$this->setSource( $source );
+		$this->setTarget( $target );
+		$this->setQuality( $quality );
 	}
 
 	/**
 	 *	Sets the Quality of resulting Image.
 	 *	@access		public
 	 *	@param		int		$quality 	Quality of resulting Image
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setQuality( $quality )
+	public function setQuality( int $quality ): self
 	{
 		$this->quality	= $quality;
+        return $this;
 	}
 
 	/**
 	 *	Sets the File Name of Source Image.
 	 *	@access		public
 	 *	@param		string	$source 		File Name of Source Image
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setSource( $source )
+	public function setSource( string $source ): self
 	{
 		if( !file_exists( $source ) )
 			throw new InvalidArgumentException( 'Image File "'.$source.'" is not existing.' );
@@ -87,17 +98,19 @@ class UI_Image_ThumbnailCreator
 			throw new Exception( 'Source File "'.$source.'" is not a supported Image.' );
 		$this->size		= $size;
 		$this->source	= $source;
+		return $this;
 	}
 
 	/**
 	 *	Sets the File Name of Target Image.
 	 *	@access		public
 	 *	@param		string	$target 		File Name of resulting Target Image
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setTarget( $target )
+	public function setTarget( string $target ): self
 	{
 		$this->target	= $target;
+		return $this;
 	}
 
 	/**
@@ -107,7 +120,7 @@ class UI_Image_ThumbnailCreator
 	 *	@param		int			$height 	Height of Target Image
 	 *	@return		bool
 	 */
-	public function thumbize( $width, $height )
+	public function thumbize( int $width, int $height ): bool
 	{
 		if( !count( $this->size ) )
 			throw new RuntimeException( 'No Source Image set.' );
@@ -116,19 +129,18 @@ class UI_Image_ThumbnailCreator
 		if( function_exists( 'imageantialias' ) )
 			imageantialias( $thumb, TRUE );
 
-		switch( $this->size[2] )
-		{
-			case 1:      //GIF
+		switch( $this->size[2] ){
+			case IMAGETYPE_GIF:
 				$source	= imagecreatefromgif( $this->source );
 				imagecopyresampled( $thumb, $source, 0, 0, 0, 0, $width, $height, $this->size[0], $this->size[1] );
 				imagegif( $thumb, $this->target );
 				break;
-			case 2:      //JPEG
+			case IMAGETYPE_JPEG:
 				$source	= imagecreatefromjpeg( $this->source );
 				imagecopyresampled( $thumb, $source, 0, 0, 0, 0, $width, $height, $this->size[0], $this->size[1] );
 				imagejpeg( $thumb, $this->target, $this->quality );
 				break;
-			case 3:      //PNG
+			case IMAGETYPE_PNG:
 				$source	= imagecreatefrompng( $this->source );
 				imagecopyresampled( $thumb, $source, 0, 0, 0, 0, $width, $height, $this->size[0], $this->size[1] );
 				imagepng( $thumb, $this->target );
@@ -136,7 +148,7 @@ class UI_Image_ThumbnailCreator
 			default:
 				throw new Exception( 'Image Type is no supported.' );
 		}
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -146,7 +158,7 @@ class UI_Image_ThumbnailCreator
 	 *	@param		int			$height 	Largest Height of Target Image
 	 *	@return		bool
 	 */
-	public function thumbizeByLimit( $width, $height )
+	public function thumbizeByLimit( int $width, int $height ): bool
 	{
 		if( !count( $this->size ) )
 			throw new RuntimeException( 'No Source Image set.' );

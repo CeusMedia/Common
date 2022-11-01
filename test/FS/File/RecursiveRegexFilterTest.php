@@ -1,25 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_RecursiveRegexFilter.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
- *	@version		0.1
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File;
+
+use CeusMedia\Common\FS\File\RecursiveRegexFilter;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_RecursiveRegexFilter
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
- *	@version		0.1
  */
-class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
+class RecursiveRegexFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -61,7 +58,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_RecursiveRegexFilter( "not_existing", "@not_relevant@" );
+		$index	= new RecursiveRegexFilter( "not_existing", "@not_relevant@" );
 	}
 
 	/**
@@ -72,9 +69,9 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 	public function testAccept()
 	{
 		$search	= "@^test@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $search );
+		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -90,9 +87,9 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 
 
 		$search	= "@^test1@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $search );
+		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -102,13 +99,13 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 
 
 		$search	= "@not_existing_file@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $search );
+		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -122,9 +119,9 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 	{
 		$name	= "@^test@";
 		$incode	= "@test2@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $name, $incode );
+		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -135,9 +132,9 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 
 
 		$incode	= "@test@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $name, $incode );
+		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -150,13 +147,13 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 
 
 		$incode	= "@test5@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $name, $incode );
+		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

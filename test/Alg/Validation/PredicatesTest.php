@@ -1,27 +1,31 @@
 <?php
-/**
- *	TestUnit of Predicates.
- *	@package		Tests.alg.validation
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Predicates.
+ *	@package		Tests.Alg.Validation
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg\Validation;
+
+use CeusMedia\Common\Alg\Validation\Predicates;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Predicates.
- *	@package		Tests.alg.validation
- *	@extends		Test_Case
- *	@uses			Alg_Validation_Predicates
- *	@uses			Alg_Crypt_PasswordStrength
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
- *	@version		0.1
  */
-class Test_Alg_Validation_PredicatesTest extends Test_Case
+class PredicatesTest extends BaseCase
 {
+	protected $point;
+
 	function setUp(): void
 	{
 		$this->point	= time();
@@ -34,7 +38,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasMaxLengthPositive()
 	{
-		$creation	= Alg_Validation_Predicates::hasMaxLength( "test1", 6 );
+		$creation	= Predicates::hasMaxLength( "test1", 6 );
 		$this->assertTrue( $creation );
 	}
 
@@ -45,7 +49,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasMaxLengthNegative()
 	{
-		$creation	= Alg_Validation_Predicates::hasMaxLength( "test1", 3 );
+		$creation	= Predicates::hasMaxLength( "test1", 3 );
 		$this->assertFalse( $creation );
 	}
 
@@ -56,10 +60,10 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasMinLengthPositive()
 	{
-		$creation	= Alg_Validation_Predicates::hasMinLength( "test1", 4 );
+		$creation	= Predicates::hasMinLength( "test1", 4 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasMinLength( "test1", 5 );
+		$creation	= Predicates::hasMinLength( "test1", 5 );
 		$this->assertTrue( $creation );
 	}
 
@@ -70,7 +74,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasMinLengthNegative()
 	{
-		$creation	= Alg_Validation_Predicates::hasMinLength( "test1", 6 );
+		$creation	= Predicates::hasMinLength( "test1", 6 );
 		$this->assertFalse( $creation );
 	}
 
@@ -82,23 +86,23 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testHasPasswordScorePositive()
 	{
 		//  15
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 15 );
+		$creation	= Predicates::hasPasswordScore( 'hansi1', 15 );
 		$this->assertTrue( $creation );
 
 		//  13
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qweasdyxc', 10 );
+		$creation	= Predicates::hasPasswordScore( 'qweasdyxc', 10 );
 		$this->assertTrue( $creation );
 
 		//  43
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'test123#@', 40 );
+		$creation	= Predicates::hasPasswordScore( 'test123#@', 40 );
 		$this->assertTrue( $creation );
 
 		//  50
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'tEsT123#@', 50 );
+		$creation	= Predicates::hasPasswordScore( 'tEsT123#@', 50 );
 		$this->assertTrue( $creation );
 
 		//  56
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( '$Up3r$3CuR3#1', 55 );
+		$creation	= Predicates::hasPasswordScore( '$Up3r$3CuR3#1', 55 );
 		$this->assertTrue( $creation );
 	}
 
@@ -110,19 +114,19 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testHasPasswordScoreNegative()
 	{
 		//  15
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 20 );
+		$creation	= Predicates::hasPasswordScore( 'hansi1', 20 );
 		$this->assertFalse( $creation );
 
 		//  -178
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'abc123', 0 );
+		$creation	= Predicates::hasPasswordScore( 'abc123', 0 );
 		$this->assertFalse( $creation );
 
 		//  -193
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qwerty', 10 );
+		$creation	= Predicates::hasPasswordScore( 'qwerty', 10 );
 		$this->assertFalse( $creation );
 
 		//  -299
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'sex', 0 );
+		$creation	= Predicates::hasPasswordScore( 'sex', 0 );
 		$this->assertFalse( $creation );
 	}
 
@@ -134,23 +138,23 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testHasPasswordStrengthPositive()
 	{
 		//  27
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 20 );
+		$creation	= Predicates::hasPasswordStrength( 'hansi1', 20 );
 		$this->assertTrue( $creation );
 
 		//  23
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qweasdyxc', 20 );
+		$creation	= Predicates::hasPasswordStrength( 'qweasdyxc', 20 );
 		$this->assertTrue( $creation );
 
 		//  77
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'test123#@', 75 );
+		$creation	= Predicates::hasPasswordStrength( 'test123#@', 75 );
 		$this->assertTrue( $creation );
 
 		//  89
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'tEsT123#@', 89 );
+		$creation	= Predicates::hasPasswordStrength( 'tEsT123#@', 89 );
 		$this->assertTrue( $creation );
 
 		//  100
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( '$Up3r$3CuR3#1', 99 );
+		$creation	= Predicates::hasPasswordStrength( '$Up3r$3CuR3#1', 99 );
 		$this->assertTrue( $creation );
 	}
 
@@ -162,19 +166,19 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testHasPasswordStrengthNegative()
 	{
 		//  27
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 30 );
+		$creation	= Predicates::hasPasswordStrength( 'hansi1', 30 );
 		$this->assertFalse( $creation );
 
 		//  -178
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'abc123', 0 );
+		$creation	= Predicates::hasPasswordStrength( 'abc123', 0 );
 		$this->assertFalse( $creation );
 
 		//  -193
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qwerty', 10 );
+		$creation	= Predicates::hasPasswordStrength( 'qwerty', 10 );
 		$this->assertFalse( $creation );
 
 		//  -299
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'sex', 0 );
+		$creation	= Predicates::hasPasswordStrength( 'sex', 0 );
 		$this->assertFalse( $creation );
 	}
 
@@ -185,10 +189,10 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasValuePositive()
 	{
-		$creation	= Alg_Validation_Predicates::hasValue( "test" );
+		$creation	= Predicates::hasValue( "test" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasValue( "1" );
+		$creation	= Predicates::hasValue( "1" );
 		$this->assertTrue( $creation );
 	}
 
@@ -199,7 +203,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasValueNegative()
 	{
-		$creation	= Alg_Validation_Predicates::hasValue( "" );
+		$creation	= Predicates::hasValue( "" );
 		$this->assertFalse( $creation );
 	}
 
@@ -210,43 +214,43 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsAfterPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isAfter( "01.2037", $this->point );
+		$creation	= Predicates::isAfter( "01.2037", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01.01.2037", $this->point );
+		$creation	= Predicates::isAfter( "01.01.2037", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01.01.2037 01:02:03", $this->point );
+		$creation	= Predicates::isAfter( "01.01.2037 01:02:03", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "2037-01", $this->point );
+		$creation	= Predicates::isAfter( "2037-01", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "2037-01-01", $this->point );
+		$creation	= Predicates::isAfter( "2037-01-01", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "2037-01-01 01:02:03", $this->point );
+		$creation	= Predicates::isAfter( "2037-01-01 01:02:03", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01/2037", $this->point );
+		$creation	= Predicates::isAfter( "01/2037", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01/01/2037", $this->point );
+		$creation	= Predicates::isAfter( "01/01/2037", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01/01/2037 01:02:03", $this->point );
+		$creation	= Predicates::isAfter( "01/01/2037 01:02:03", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "d.m.Y" )." 23:59:59", $this->point );
+		$creation	= Predicates::isAfter( date( "d.m.Y" )." 23:59:59", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "Y-m-d" )." 23:59:59", $this->point );
+		$creation	= Predicates::isAfter( date( "Y-m-d" )." 23:59:59", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "m/d/Y" )." 23:59:59", $this->point );
+		$creation	= Predicates::isAfter( date( "m/d/Y" )." 23:59:59", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "Y-m-d" )." 23:59:59", $this->point );
+		$creation	= Predicates::isAfter( date( "Y-m-d" )." 23:59:59", $this->point );
 		$this->assertTrue( $creation );
 	}
 
@@ -257,40 +261,40 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsAfterNegative()
 	{
-		$creation	= Alg_Validation_Predicates::isAfter( "01.2001", $this->point );
+		$creation	= Predicates::isAfter( "01.2001", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01.01.2001", $this->point );
+		$creation	= Predicates::isAfter( "01.01.2001", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "2001-01", $this->point );
+		$creation	= Predicates::isAfter( "2001-01", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "2001-01-01", $this->point );
+		$creation	= Predicates::isAfter( "2001-01-01", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01/01/2001", $this->point );
+		$creation	= Predicates::isAfter( "01/01/2001", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( "01/2001", $this->point );
+		$creation	= Predicates::isAfter( "01/2001", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "m.Y" ), $this->point );
+		$creation	= Predicates::isAfter( date( "m.Y" ), $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "d.m.Y" ), $this->point );
+		$creation	= Predicates::isAfter( date( "d.m.Y" ), $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "Y-m-d" ), $this->point );
+		$creation	= Predicates::isAfter( date( "Y-m-d" ), $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "Y-m" ), $this->point );
+		$creation	= Predicates::isAfter( date( "Y-m" ), $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "m/d/Y" ), $this->point );
+		$creation	= Predicates::isAfter( date( "m/d/Y" ), $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAfter( date( "m/Y" ), $this->point );
+		$creation	= Predicates::isAfter( date( "m/Y" ), $this->point );
 		$this->assertFalse( $creation );
 	}
 
@@ -302,7 +306,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsAfterException()
 	{
 		$this->expectException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isAfter( "01.71.2008", $this->point );
+		Predicates::isAfter( "01.71.2008", $this->point );
 	}
 
 	/**
@@ -313,17 +317,17 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsAlpha()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isAlpha( "a" );
+		$creation	= Predicates::isAlpha( "a" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlpha( "1" );
+		$creation	= Predicates::isAlpha( "1" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isAlpha( "#" );
+		$creation	= Predicates::isAlpha( "#" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlpha( "a#1" );
+		$creation	= Predicates::isAlpha( "a#1" );
 		$this->assertFalse( $creation );
 	}
 
@@ -335,23 +339,23 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsAlphahypen()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( "a" );
+		$creation	= Predicates::isAlphahyphen( "a" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( "1" );
+		$creation	= Predicates::isAlphahyphen( "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( "-" );
+		$creation	= Predicates::isAlphahyphen( "-" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( "a-1" );
+		$creation	= Predicates::isAlphahyphen( "a-1" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( "#" );
+		$creation	= Predicates::isAlphahyphen( "#" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( "-#-" );
+		$creation	= Predicates::isAlphahyphen( "-#-" );
 		$this->assertFalse( $creation );
 	}
 
@@ -363,23 +367,23 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsAlphaspace()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isAlphaspace( "a" );
+		$creation	= Predicates::isAlphaspace( "a" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphaspace( "1" );
+		$creation	= Predicates::isAlphaspace( "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphaspace( " " );
+		$creation	= Predicates::isAlphaspace( " " );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphaspace( "a 1" );
+		$creation	= Predicates::isAlphaspace( "a 1" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isAlphaspace( "#" );
+		$creation	= Predicates::isAlphaspace( "#" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlphaspace( " # " );
+		$creation	= Predicates::isAlphaspace( " # " );
 		$this->assertFalse( $creation );
 	}
 
@@ -390,39 +394,40 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsBeforePositive()
 	{
-		$creation	= Alg_Validation_Predicates::isBefore( "01.2001", $this->point );
+		$creation	= Predicates::isBefore( "01.2001", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01.01.2001", $this->point );
+		$creation	= Predicates::isBefore( "01.01.2001", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01.01.2001 01:02:03", $this->point );
-
-		$creation	= Alg_Validation_Predicates::isBefore( "2001-01", $this->point );
+		$creation	= Predicates::isBefore( "01.01.2001 01:02:03", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "2001-01-01", $this->point );
+		$creation	= Predicates::isBefore( "2001-01", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "2001-01-01 01:02:03", $this->point );
+		$creation	= Predicates::isBefore( "2001-01-01", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01/2001", $this->point );
+		$creation	= Predicates::isBefore( "2001-01-01 01:02:03", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01/01/2001", $this->point );
+		$creation	= Predicates::isBefore( "01/2001", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01/01/2001 01:02:03", $this->point );
+		$creation	= Predicates::isBefore( "01/01/2001", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "Y-m-d" ), $this->point );
+		$creation	= Predicates::isBefore( "01/01/2001 01:02:03", $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "m/d/Y" ), $this->point );
+		$creation	= Predicates::isBefore( date( "Y-m-d" ), $this->point );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "d.m.Y" ), $this->point );
+		$creation	= Predicates::isBefore( date( "m/d/Y" ), $this->point );
+		$this->assertTrue( $creation );
+
+		$creation	= Predicates::isBefore( date( "d.m.Y" ), $this->point );
 		$this->assertTrue( $creation );
 	}
 
@@ -433,40 +438,40 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsBeforeNegative()
 	{
-		$creation	= Alg_Validation_Predicates::isBefore( "01.2037", $this->point );
+		$creation	= Predicates::isBefore( "01.2037", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01.01.2037", $this->point );
+		$creation	= Predicates::isBefore( "01.01.2037", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "2037-01", $this->point );
+		$creation	= Predicates::isBefore( "2037-01", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "2037-01-01", $this->point );
+		$creation	= Predicates::isBefore( "2037-01-01", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01/2037", $this->point );
+		$creation	= Predicates::isBefore( "01/2037", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( "01/01/2037", $this->point );
+		$creation	= Predicates::isBefore( "01/01/2037", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "m.Y" ), $this->point - 24 * 60 * 60 );
+		$creation	= Predicates::isBefore( date( "m.Y" ), $this->point - 24 * 60 * 60 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "d.m.Y" )." 23:59:59", $this->point );
+		$creation	= Predicates::isBefore( date( "d.m.Y" )." 23:59:59", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "Y-m" ), $this->point - 24 * 60 * 60 );
+		$creation	= Predicates::isBefore( date( "Y-m" ), $this->point - 24 * 60 * 60 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "Y-m-d" )." 23:59:59", $this->point );
+		$creation	= Predicates::isBefore( date( "Y-m-d" )." 23:59:59", $this->point );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "m/Y" ), $this->point - 24 * 60 * 60 );
+		$creation	= Predicates::isBefore( date( "m/Y" ), $this->point - 24 * 60 * 60 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isBefore( date( "m/d/Y" )." 23:59:59", $this->point );
+		$creation	= Predicates::isBefore( date( "m/d/Y" )." 23:59:59", $this->point );
 		$this->assertFalse( $creation );
 	}
 
@@ -478,7 +483,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsBeforeException()
 	{
 		$this->expectException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isBefore( "01.71.2008", $this->point );
+		Predicates::isBefore( "01.71.2008", $this->point );
 	}
 
 	/**
@@ -488,22 +493,22 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsDatePositive()
 	{
-		$creation	= Alg_Validation_Predicates::isDate( "01.02.2003" );
+		$creation	= Predicates::isDate( "01.02.2003" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "02/01/2003" );
+		$creation	= Predicates::isDate( "02/01/2003" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "2003-02-01" );
+		$creation	= Predicates::isDate( "2003-02-01" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "02.2003" );
+		$creation	= Predicates::isDate( "02.2003" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "02/2003" );
+		$creation	= Predicates::isDate( "02/2003" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "2003-02" );
+		$creation	= Predicates::isDate( "2003-02" );
 		$this->assertTrue( $creation );
 	}
 
@@ -514,22 +519,22 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsDateNegative()
 	{
-		$creation	= Alg_Validation_Predicates::isDate( "123" );
+		$creation	= Predicates::isDate( "123" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "abc" );
+		$creation	= Predicates::isDate( "abc" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "32.2.2000" );
+		$creation	= Predicates::isDate( "32.2.2000" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "71.2009" );
+		$creation	= Predicates::isDate( "71.2009" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "40.71.2009" );
+		$creation	= Predicates::isDate( "40.71.2009" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDate( "2009-40-40" );
+		$creation	= Predicates::isDate( "2009-40-40" );
 		$this->assertFalse( $creation );
 	}
 
@@ -541,23 +546,23 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsDigit()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isDigit( "1" );
+		$creation	= Predicates::isDigit( "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDigit( "123" );
+		$creation	= Predicates::isDigit( "123" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isDigit( "a" );
+		$creation	= Predicates::isDigit( "a" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDigit( "1a3" );
+		$creation	= Predicates::isDigit( "1a3" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDigit( "@" );
+		$creation	= Predicates::isDigit( "@" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isDigit( "²³" );
+		$creation	= Predicates::isDigit( "²³" );
 		$this->assertFalse( $creation );
 	}
 
@@ -568,10 +573,10 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsEmail()
 	{
-		$creation	= Alg_Validation_Predicates::isEmail( "christian.wuerker@ceus-media.de" );
+		$creation	= Predicates::isEmail( "christian.wuerker@ceus-media.de" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isEmail( "hans@hans" );
+		$creation	= Predicates::isEmail( "hans@hans" );
 		$this->assertFalse( $creation );
 	}
 
@@ -582,13 +587,13 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsFloatPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isFloat( "1" );
+		$creation	= Predicates::isFloat( "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( "1.0" );
+		$creation	= Predicates::isFloat( "1.0" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( "123.456" );
+		$creation	= Predicates::isFloat( "123.456" );
 		$this->assertTrue( $creation );
 	}
 
@@ -599,25 +604,25 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsFloatNegative()
 	{
-		$creation	= Alg_Validation_Predicates::isFloat( "" );
+		$creation	= Predicates::isFloat( "" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( "." );
+		$creation	= Predicates::isFloat( "." );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( ".1" );
+		$creation	= Predicates::isFloat( ".1" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( ",1" );
+		$creation	= Predicates::isFloat( ",1" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( "1,0" );
+		$creation	= Predicates::isFloat( "1,0" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( "1.2,3" );
+		$creation	= Predicates::isFloat( "1.2,3" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFloat( "1.2.3" );
+		$creation	= Predicates::isFloat( "1.2.3" );
 		$this->assertFalse( $creation );
 	}
 
@@ -628,40 +633,40 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsFuturePositive()
 	{
-		$creation	= Alg_Validation_Predicates::isFuture( "01.2037" );
+		$creation	= Predicates::isFuture( "01.2037" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "01.01.2037" );
+		$creation	= Predicates::isFuture( "01.01.2037" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "01.01.2037 01:02:03" );
+		$creation	= Predicates::isFuture( "01.01.2037 01:02:03" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "2037-01" );
+		$creation	= Predicates::isFuture( "2037-01" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "2037-01-01" );
+		$creation	= Predicates::isFuture( "2037-01-01" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "2037-01-01 01:02:03" );
+		$creation	= Predicates::isFuture( "2037-01-01 01:02:03" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "01/2037" );
+		$creation	= Predicates::isFuture( "01/2037" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "01/01/2037" );
+		$creation	= Predicates::isFuture( "01/01/2037" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "01/01/2037 01:02:03" );
+		$creation	= Predicates::isFuture( "01/01/2037 01:02:03" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "d.m.Y" )." 23:59:59" );
+		$creation	= Predicates::isFuture( date( "d.m.Y" )." 23:59:59" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "Y-m-d" )." 23:59:59" );
+		$creation	= Predicates::isFuture( date( "Y-m-d" )." 23:59:59" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "m/d/Y" )." 23:59:59" );
+		$creation	= Predicates::isFuture( date( "m/d/Y" )." 23:59:59" );
 		$this->assertTrue( $creation );
 	}
 
@@ -672,31 +677,31 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsFutureNegative()
 	{
-		$creation	= Alg_Validation_Predicates::isFuture( "01.01.2001" );
+		$creation	= Predicates::isFuture( "01.01.2001" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "2001-01-01" );
+		$creation	= Predicates::isFuture( "2001-01-01" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "01/2001" );
+		$creation	= Predicates::isFuture( "01/2001" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( "01/01/2001" );
+		$creation	= Predicates::isFuture( "01/01/2001" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "m.Y" ) );
+		$creation	= Predicates::isFuture( date( "m.Y" ) );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "d.m.Y" ) );
+		$creation	= Predicates::isFuture( date( "d.m.Y" ) );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "Y-m-d" ) );
+		$creation	= Predicates::isFuture( date( "Y-m-d" ) );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "Y-m-d" ) );
+		$creation	= Predicates::isFuture( date( "Y-m-d" ) );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isFuture( date( "m/d/Y" ) );
+		$creation	= Predicates::isFuture( date( "m/d/Y" ) );
 		$this->assertFalse( $creation );
 	}
 
@@ -708,7 +713,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsFutureException()
 	{
 		$this->expectException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isFuture( "01.71.2008", $this->point );
+		Predicates::isFuture( "01.71.2008" );
 	}
 
 	/**
@@ -719,26 +724,26 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsGreater()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isGreater( "1", 0 );
+		$creation	= Predicates::isGreater( "1", 0 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isGreater( "1", "0" );
+		$creation	= Predicates::isGreater( "1", "0" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isGreater( "2", "1" );
+		$creation	= Predicates::isGreater( "2", "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isGreater( "-1", "-2" );
+		$creation	= Predicates::isGreater( "-1", "-2" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isGreater( "2", "2" );
+		$creation	= Predicates::isGreater( "2", "2" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isGreater( "1", "2" );
+		$creation	= Predicates::isGreater( "1", "2" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isGreater( "-2", "-1" );
+		$creation	= Predicates::isGreater( "-2", "-1" );
 		$this->assertFalse( $creation );
 	}
 
@@ -750,20 +755,20 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsId()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isId( "a1" );
+		$creation	= Predicates::isId( "a1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isId( "aa123bb456cc" );
+		$creation	= Predicates::isId( "aa123bb456cc" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isId( "a#1@2:3_4-5.6/7" );
+		$creation	= Predicates::isId( "a#1@2:3_4-5.6/7" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isId( "1a" );
+		$creation	= Predicates::isId( "1a" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isId( "#a" );
+		$creation	= Predicates::isId( "#a" );
 		$this->assertFalse( $creation );
 	}
 
@@ -774,16 +779,16 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsLessPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isLess( "0", 1 );
+		$creation	= Predicates::isLess( "0", 1 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isLess( "0", "1" );
+		$creation	= Predicates::isLess( "0", "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isLess( "1", "2" );
+		$creation	= Predicates::isLess( "1", "2" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isLess( "-2", "-1" );
+		$creation	= Predicates::isLess( "-2", "-1" );
 		$this->assertTrue( $creation );
 	}
 
@@ -794,13 +799,13 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsLessNegative()
 	{
-		$creation	= Alg_Validation_Predicates::isLess( "2", "2" );
+		$creation	= Predicates::isLess( "2", "2" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isLess( "2", "1" );
+		$creation	= Predicates::isLess( "2", "1" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isLess( "-1", "-2" );
+		$creation	= Predicates::isLess( "-1", "-2" );
 		$this->assertFalse( $creation );
 	}
 
@@ -812,17 +817,17 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsLetter()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isLetter( "a" );
+		$creation	= Predicates::isLetter( "a" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isLetter( "abc" );
+		$creation	= Predicates::isLetter( "abc" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isLetter( "1" );
+		$creation	= Predicates::isLetter( "1" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isLetter( "1a3" );
+		$creation	= Predicates::isLetter( "1a3" );
 		$this->assertFalse( $creation );
 	}
 
@@ -833,26 +838,26 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsMaximum()
 	{
-		$creation	= Alg_Validation_Predicates::isMaximum( "1", 2 );
+		$creation	= Predicates::isMaximum( "1", 2 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMaximum( "1", "2" );
+		$creation	= Predicates::isMaximum( "1", "2" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMaximum( "2", "2" );
+		$creation	= Predicates::isMaximum( "2", "2" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMaximum( "-20", "-10" );
+		$creation	= Predicates::isMaximum( "-20", "-10" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMaximum( "-20", "-20" );
+		$creation	= Predicates::isMaximum( "-20", "-20" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isMaximum( "3", "2" );
+		$creation	= Predicates::isMaximum( "3", "2" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMaximum( "-10", "-20" );
+		$creation	= Predicates::isMaximum( "-10", "-20" );
 		$this->assertFalse( $creation );
 	}
 
@@ -863,26 +868,26 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsMinimumPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isMinimum( "1", 0 );
+		$creation	= Predicates::isMinimum( "1", 0 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMinimum( "1", "0" );
+		$creation	= Predicates::isMinimum( "1", "0" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMinimum( "2", "2" );
+		$creation	= Predicates::isMinimum( "2", "2" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMinimum( "-10", "-20" );
+		$creation	= Predicates::isMinimum( "-10", "-20" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMinimum( "-20", "-20" );
+		$creation	= Predicates::isMinimum( "-20", "-20" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isMinimum( "1", "2" );
+		$creation	= Predicates::isMinimum( "1", "2" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isMinimum( "-20", "-10" );
+		$creation	= Predicates::isMinimum( "-20", "-10" );
 		$this->assertFalse( $creation );
 	}
 
@@ -894,23 +899,23 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsNumeric()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isNumeric( "1" );
+		$creation	= Predicates::isNumeric( "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isNumeric( "123" );
+		$creation	= Predicates::isNumeric( "123" );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
-		$creation	= Alg_Validation_Predicates::isNumeric( "²³" );
+		$creation	= Predicates::isNumeric( "²³" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isNumeric( "a" );
+		$creation	= Predicates::isNumeric( "a" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isNumeric( "1a3" );
+		$creation	= Predicates::isNumeric( "1a3" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isNumeric( "@" );
+		$creation	= Predicates::isNumeric( "@" );
 		$this->assertFalse( $creation );
 	}
 
@@ -921,40 +926,40 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsPastPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isPast( "01.2001" );
+		$creation	= Predicates::isPast( "01.2001" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01.01.2001" );
+		$creation	= Predicates::isPast( "01.01.2001" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01.01.2001 01:02:03" );
+		$creation	= Predicates::isPast( "01.01.2001 01:02:03" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "2001-01" );
+		$creation	= Predicates::isPast( "2001-01" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "2001-01-01" );
+		$creation	= Predicates::isPast( "2001-01-01" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "2001-01-01 01:02:03" );
+		$creation	= Predicates::isPast( "2001-01-01 01:02:03" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01/2001" );
+		$creation	= Predicates::isPast( "01/2001" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01/01/2001" );
+		$creation	= Predicates::isPast( "01/01/2001" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01/01/2001 01:02:03" );
+		$creation	= Predicates::isPast( "01/01/2001 01:02:03" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "d.m.Y" ) );
+		$creation	= Predicates::isPast( date( "d.m.Y" ) );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "Y-m-d" ) );
+		$creation	= Predicates::isPast( date( "Y-m-d" ) );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "m/d/Y" ) );
+		$creation	= Predicates::isPast( date( "m/d/Y" ) );
 		$this->assertTrue( $creation );
 	}
 
@@ -965,40 +970,40 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsPastNegative()
 	{
-		$creation	= Alg_Validation_Predicates::isPast( "01.2037" );
+		$creation	= Predicates::isPast( "01.2037" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01.01.2037" );
+		$creation	= Predicates::isPast( "01.01.2037" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "2037-01" );
+		$creation	= Predicates::isPast( "2037-01" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "2037-01-01" );
+		$creation	= Predicates::isPast( "2037-01-01" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01/2037" );
+		$creation	= Predicates::isPast( "01/2037" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( "01/01/2037" );
+		$creation	= Predicates::isPast( "01/01/2037" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "m.Y" ) );
+		$creation	= Predicates::isPast( date( "m.Y" ) );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "Y-m" ) );
+		$creation	= Predicates::isPast( date( "Y-m" ) );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "m/Y" ) );
+		$creation	= Predicates::isPast( date( "m/Y" ) );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "d.m.Y" )." 23:59:59" );
+		$creation	= Predicates::isPast( date( "d.m.Y" )." 23:59:59" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "Y-m-d" )." 23:59:59" );
+		$creation	= Predicates::isPast( date( "Y-m-d" )." 23:59:59" );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "m/d/Y" )." 23:59:59" );
+		$creation	= Predicates::isPast( date( "m/d/Y" )." 23:59:59" );
 		$this->assertFalse( $creation );
 	}
 
@@ -1010,7 +1015,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsPastException()
 	{
 		$this->expectException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isPast( "01.71.2008", $this->point );
+		Predicates::isPast( "01.71.2008", $this->point );
 	}
 
 	/**
@@ -1020,10 +1025,10 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsPreg()
 	{
-		$creation	= Alg_Validation_Predicates::isPreg( "1", "@[0-9]+@" );
+		$creation	= Predicates::isPreg( "1", "@[0-9]+@" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPreg( "1", "@[1-9][0-9]+@" );
+		$creation	= Predicates::isPreg( "1", "@[1-9][0-9]+@" );
 		$this->assertFalse( $creation );
 	}
 
@@ -1034,13 +1039,13 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsUrl()
 	{
-		$creation	= Alg_Validation_Predicates::isUrl( "http://ceus-media.de/references.html" );
+		$creation	= Predicates::isUrl( "https://ceus-media.de/references.html" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isUrl( "ftp://google.de/public/" );
+		$creation	= Predicates::isUrl( "ftp://google.de/public/" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isUrl( "tp://domain.tld" );
+		$creation	= Predicates::isUrl( "tp://domain.tld" );
 		$this->assertFalse( $creation );
 	}
 }

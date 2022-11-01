@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Writes XML Files from Trees build with XML_Node.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\FS\File\Writer as RawFileWriter;
+use CeusMedia\Common\XML\DOM\Builder;
+use CeusMedia\Common\XML\DOM\Node;
+use DOMException;
+
 /**
  *	Writes XML Files from Trees build with XML_Node.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
- *	@uses			XML_DOM_Builder
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_OPML_FileWriter
+class FileWriter
 {
 	/**	@var		string		$fileName		URI of OPML File */
 	protected $fileName;
@@ -46,7 +53,7 @@ class XML_OPML_FileWriter
 	 *	@param		string		$fileName		URI of OPML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 	}
@@ -56,26 +63,28 @@ class XML_OPML_FileWriter
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		URI of OPML File
-	 *	@param		XML_DOM_Node	tree		OPML Tree
-	 *	@param		string			encoding	Encoding Type
-	 *	@return		bool
+	 *	@param		Node		$tree			OPML Tree
+	 *	@param		string		$encoding		Encoding Type
+	 *	@return		int
+	 *	@throws		DOMException;
 	 */
-	public static function save( $fileName, $tree, $encoding = "utf-8" )
+	public static function save( string $fileName, Node $tree, string $encoding = "utf-8" ): int
 	{
-		$builder	= new XML_DOM_Builder();
+		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		$file		= new FS_File_Writer( $fileName, 0777 );
+		$file		= new RawFileWriter( $fileName, 0777 );
 		return $file->writeString( $xml );
 	}
 
 	/**
 	 *	Writes OPML Tree to OPML File.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	tree		OPML Tree
-	 *	@param		string			encoding	Encoding Type
-	 *	@return		bool
+	 *	@param		Node		$tree		OPML Tree
+	 *	@param		string		$encoding	Encoding Type
+	 *	@return		int
+	 *	@throws		DOMException;
 	 */
-	public function write( $tree, $encoding = "utf-8" )
+	public function write( Node $tree, string $encoding = "utf-8" ): int
 	{
 		return self::save( $this->fileName, $tree, $encoding );
 	}

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Console input handler.
  *
- *	Copyright (c) 2015-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,32 +21,34 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.06.2012
  */
+
+namespace CeusMedia\Common\CLI;
+
+use RuntimeException;
+
 /**
  *	Console input handler.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2020 Christian Würker
+ *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.06.2012
  */
-class CLI_Prompt
+class Prompt
 {
-
 	/**	@var	resource		$tty		Terminal (or console) input handler */
 	protected $tty;
 
 	/**
-	 *	Constructor, tries to setup a terminal input resource handler.
+	 *	Constructor, tries to set up a terminal input resource handler.
 	 *	@access		public
 	 *	@return		void
-	 *	@throws		RuntimeException	if no terminal resource could by established
+	 *	@throws		RuntimeException	if no terminal resource could be established
 	 */
 	public function __construct()
 	{
@@ -60,15 +63,14 @@ class CLI_Prompt
 	/**
 	 *	Returns string entered through terminal input resource.
 	 *	@access		public
-	 *	@param		string		$prompt		Message to show infront of cursor
+	 *	@param		string		$prompt		Message to show in front of cursor
 	 *	@param		integer		$length		Number of bytes to read at most
 	 *	@return		string		String entered in terminal
 	 */
-	public function get( string $prompt = '', $length = 1024 )
+	public function get( string $prompt = '', int $length = 1024 ): string
 	{
 		print( $prompt );
 		ob_flush();
-		$result = trim( fgets( $this->tty, $length ) );
-		return $result;
+		return trim( fgets( $this->tty, $length ) );
 	}
 }

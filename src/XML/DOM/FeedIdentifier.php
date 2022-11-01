@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,36 +21,38 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			24.01.2006
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			File
- *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			24.01.2006
  */
-class XML_DOM_FeedIdentifier
+class FeedIdentifier
 {
 	/**	@var	string		$type			Type of Feed */
-	protected $type	= "";
+	protected $type		= '';
+
 	/**	@var	string		$version		Version of Feed Type */
-	protected $version	= "";
+	protected $version	= '';
 
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getType()
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -59,7 +62,7 @@ class XML_DOM_FeedIdentifier
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getVersion()
+	public function getVersion(): string
 	{
 		return $this->version;
 	}
@@ -68,11 +71,11 @@ class XML_DOM_FeedIdentifier
 	 *	Identifies Feed from XML.
 	 *	@access		public
 	 *	@param		string		$xml		XML of Feed
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function identify( $xml )
+	public function identify( string $xml ): ?string
 	{
-		$parser	= new XML_DOM_Parser();
+		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
 		return $this->identifyFromTree( $tree );
 	}
@@ -81,11 +84,11 @@ class XML_DOM_FeedIdentifier
 	 *	Identifies Feed from a File.
 	 *	@access		public
 	 *	@param		string		$fileName	XML File of Feed
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function identifyFromFile( $fileName )
+	public function identifyFromFile( string $fileName ): ?string
 	{
-		$file	= new FS_File_Reader( $fileName );
+		$file	= new FileReader( $fileName );
 		$xml	= $file->readString();
 		return $this->identify( $xml );
 	}
@@ -93,18 +96,17 @@ class XML_DOM_FeedIdentifier
 	/**
 	 *	Identifies Feed from XML Tree.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	$tree	XML Tree of Feed
-	 *	@return		string
+	 *	@param		Node		$tree	XML Tree of Feed
+	 *	@return		string|NULL
 	 */
-	public function identifyFromTree( $tree )
+	public function identifyFromTree( Node $tree ): ?string
 	{
 		$this->type		= "";
 		$this->version	= "";
-		$nodename		= strtolower( $tree->getNodeName() );
+		$nodeName		= strtolower( $tree->getNodeName() );
 		$type			= '';
 		$version		= '';
-		switch( $nodename )
-		{
+		switch( $nodeName ) {
 			case 'feed':
 				$type		= "ATOM";
 				$version	= $tree->getAttribute( 'version' );
@@ -118,12 +120,11 @@ class XML_DOM_FeedIdentifier
 				$version	= "1.0";
 				break;
 		}
-		if( $type && $version )
-		{
+		if( $type && $version ) {
 			$this->type		= $type;
 			$this->version	= $version;
 			return $type."/".$version;
 		}
-		return FALSE;
+		return NULL;
 	}
 }

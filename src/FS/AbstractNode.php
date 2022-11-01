@@ -1,9 +1,17 @@
-<?php
-abstract class FS_AbstractNode
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+namespace CeusMedia\Common\FS;
+
+abstract class AbstractNode
 {
 	protected $pathName;
 
-	public function getName( bool $strict = TRUE ): string
+	public function __construct( string $pathName )
+	{
+		$this->setPathName( $pathName );
+	}
+
+	public function getName(): string
 	{
 		return pathinfo( $this->pathName, PATHINFO_BASENAME );
 	}

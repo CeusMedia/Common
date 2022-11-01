@@ -1,12 +1,13 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converts CSS between:
  *	- a string representation, typically content from a CSS file
- *	- a list of rules meaning an array represenation containering rules and their properties
+ *	- a list of rules meaning an array representation containing rules and their properties
  *	- a structure out of ADT_CSS_Sheet, ADT_CSS_Rule and ADT_CSS_Property objects
  *	- a file for input and output
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -24,48 +25,56 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use CeusMedia\Common\ADT\CSS\Rule as CssRule;
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use Exception;
+
 /**
  *	Converts CSS between.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.10.2011
  */
-class FS_File_CSS_Converter{
-
+class Converter
+{
 	protected $sheet	= NULL;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		ADT_CSS_Sheet	$sheet		Sheet structure
+	 *	@param		CssSheet|NULL	$sheet		Sheet structure
 	 *	@return		void
 	 */
-	public function __construct( ADT_CSS_Sheet $sheet = NULL ){
+	public function __construct( ?CssSheet $sheet = NULL )
+	{
 		if( $sheet )
 			$this->fromSheet( $sheet );
 	}
 
 	/**
-	 *	
+	 *
 	 *	@access		public
 	 *	@static
 	 *	@param		array			$rules		List of CSS rules
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
 	 */
-	static public function convertArrayToSheet( $rules ){
-		$sheet	= new ADT_CSS_Sheet;
+	public static function convertArrayToSheet( array $rules ): CssSheet
+	{
+		$sheet	= new CssSheet;
 		foreach( $rules as $selector => $properties )
-			$sheet->addRule( new ADT_CSS_Rule( $selector, $properties ) );
+			$sheet->addRule( new CssRule( $selector, $properties ) );
 		return $sheet;
 	}
 
@@ -76,22 +85,23 @@ class FS_File_CSS_Converter{
 	 *	@param		array			$rules		List of CSS rules
 	 *	@return		string
 	 */
-	static public function convertArrayToString( $rules ){
-		$sheet	= self::convertArrayToSheet( $rules );
-		return self::convertSheetToString( $sheet );
+	public static function convertArrayToString( array $rules ): string
+	{
+		return self::convertSheetToString( self::convertArrayToSheet( $rules ) );
 	}
 
 	/**
 	 *
 	 *	@access		public
 	 *	@static
-	 *	@param		ADT_CSS_Sheet	$sheet		CSS structure
+	 *	@param		CssSheet		$sheet		CSS structure
 	 *	@return		array
 	 */
-	static public function convertSheetToArray( ADT_CSS_Sheet $sheet ){
-		$level0	= array();
+	public static function convertSheetToArray( CssSheet $sheet ): array
+	{
+		$level0	= [];
 		foreach( $sheet->getRules() as $rule ){
-			$level1	= array();
+			$level1	= [];
 			foreach( $rule->getProperties() as $property )
 				$level1[$property->getKey()]	= $property->getValue();
 			$level0[$rule->getSelector()]	= $level1;
@@ -103,83 +113,96 @@ class FS_File_CSS_Converter{
 	 *
 	 *	@access		public
 	 *	@static
-	 *	@param		ADT_CSS_Sheet	$sheet		CSS structure
+	 *	@param		CssSheet		$sheet		CSS structure
 	 *	@return		string
 	 */
-	static public function convertSheetToString( ADT_CSS_Sheet $sheet ){
-		$lines	= array();
+	public static function convertSheetToString( CssSheet $sheet ): string
+	{
+		$lines	= [];
 		foreach( $sheet->getRules() as $rule ){
-			array_push( $lines, $rule->getSelector().' {' );
+			$lines[]	= $rule->getSelector() . ' {';
 			foreach( $rule->getProperties() as $property )
-				array_push( $lines, "\t".$property->getKey().': '.$property->getValue().';' );		//  
+				$lines[]	= "\t".$property->getKey().': '.$property->getValue().';';
 			$lines[]	= "\t".'}';
 		}
-		array_push( $lines, '' );
-		$css	= implode( "\n", $lines );
-		return $css;
+		$lines[]	= '';
+		return implode( "\n", $lines );
 	}
 
 	/**
 	 *
 	 *	@access		public
 	 *	@static
-	 *	@param		string			$string		CSS string
+	 *	@param		string			$css		CSS string
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	static public function convertStringToArray( $css ){
-		$sheet	= FS_File_CSS_Parser::parseString( $css );
-		return self::convertSheetToArray( $sheet );
-	} 
+	public static function convertStringToArray( string $css ): array
+	{
+		return self::convertSheetToArray( Parser::parseString( $css ) );
+	}
 
 	/**
 	 *
 	 *	@access		public
 	 *	@static
-	 *	@param		string			$string		CSS structure
-	 *	@return		ADT_CSS_Sheet
+	 *	@param		string			$css		CSS structure
+	 *	@return		CssSheet
+	 *	@throws		Exception
 	 */
-	static public function convertStringToSheet( $css ){
-		return FS_File_CSS_Parser::parseString( $css );
-	} 
+	public static function convertStringToSheet( string $css ): CssSheet
+	{
+		return Parser::parseString( $css );
+	}
 
 	/**
 	 *	Reads sheet from array.
 	 *	@access		public
 	 *	@param		array			$rules		List of CSS rules
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function fromArray( $rules ){
+	public function fromArray( array $rules ): self
+	{
 		$this->sheet	= self::convertArrayToSheet( $rules );
+		return $this;
 	}
 
 	/**
 	 *	Reads sheet from file.
 	 *	@access		public
-	 *	@param		string			$fileName	Realtive or absolute file URI
-	 *	@return		void
+	 *	@param		string			$fileName	Relative or absolute file URI
+	 *	@return		self
+	 *	@throws		Exception
 	 */
-	public function fromFile( $fileName ){
-		$this->sheet	= FS_File_CSS_Parser::parseFile( $fileName );
+	public function fromFile( string $fileName ): self
+	{
+		$this->sheet	= Parser::parseFile( $fileName );
+		return $this;
 	}
 
 	/**
 	 *	Reads sheet.
 	 *	@access		public
-	 *	@param		ADT_CSS_Sheet	$sheet		CSS structure
-	 *	@return		void
+	 *	@param		CssSheet		$sheet		CSS structure
+	 *	@return		self
 	 */
-	public function fromSheet( ADT_CSS_Sheet $sheet ){
+	public function fromSheet( CssSheet $sheet ): self
+	{
 		$this->sheet	= $sheet;
+		return $this;
 	}
 
 	/**
 	 *	Reads sheet from string.
 	 *	@access		public
 	 *	@param		string			$string		CSS structure
-	 *	@return		void
+	 *	@return		self
+	 *	@throws		Exception
 	 */
-	public function fromString( $string ){
-		$this->sheet	= FS_File_CSS_Parser::parseString( $string );
+	public function fromString( string $string ): self
+	{
+		$this->sheet	= Parser::parseString( $string );
+		return $this;
 	}
 
 	/**
@@ -187,27 +210,29 @@ class FS_File_CSS_Converter{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray(){
-		return FS_File_CSS_Converter::convertSheetToArray( $this->sheet );
+	public function toArray(): array
+	{
+		return Converter::convertSheetToArray( $this->sheet );
 	}
 
 	/**
 	 *	Writes sheet into file and returns number of written bytes.
 	 *	@access		public
-	 *	@param		string			$fileName	Realtive or absolute file URI
+	 *	@param		string			$fileName	Relative or absolute file URI
 	 *	@return		integer			Number of bytes written.
 	 */
-	public function toFile( $fileName ){
-		$css	= FS_File_CSS_Converter::convertSheetToString( $this->sheet );
-		return FS_File_Writer::save( $fileName, $css );
+	public function toFile( string $fileName ): int
+	{
+		return FileWriter::save( $fileName, Converter::convertSheetToString( $this->sheet ) );
 	}
 
 	/**
 	 *	Returns current sheet.
 	 *	@access		public
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
 	 */
-	public function toSheet(){
+	public function toSheet(): CssSheet
+	{
 		return $this->sheet;
 	}
 
@@ -216,7 +241,8 @@ class FS_File_CSS_Converter{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toString(){
-		return FS_File_CSS_Converter::convertSheetToString( $this->sheet );
+	public function toString(): string
+	{
+		return Converter::convertSheetToString( $this->sheet );
 	}
 }

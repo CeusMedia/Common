@@ -33,13 +33,13 @@ class PackageGraphView
 
 		$samples	= $this->getPackages();
 
-		$data	= array(
-			'values'	=> array(),
-			'uris'		=> array(),
-			'legends'	=> array(),
-			'labels'	=> array(),
+		$data	= [
+			'values'	=> [],
+			'uris'		=> [],
+			'legends'	=> [],
+			'labels'	=> [],
 			'total'		=> 0
-		);
+		];
 		foreach( $samples as $sampleName => $sampleData )
 		{
 			$data['values'][]	= $sampleData['count'];
@@ -55,10 +55,10 @@ class PackageGraphView
 
 
 		$data	= array(
-			'values'	=> array(),
-			'uris'		=> array(),
-			'legends'	=> array(),
-			'labels'	=> array(),
+			'values'	=> [],
+			'uris'		=> [],
+			'legends'	=> [],
+			'labels'	=> [],
 			'total'		=> 0
 		);
 		foreach( $samples as $sampleName => $sampleData )
@@ -80,7 +80,7 @@ class PackageGraphView
 		$tabs->setOption( 'navClass', 'tabs-office2' );
 		foreach( $this->getPackages() as $package => $data )
 		{
-			$list	= array();
+			$list	= [];
 			foreach( $data['files'] as $fileName ){
 				$ext	= pathinfo( $fileName, PATHINFO_EXTENSION );
 				$fileName	= str_replace( '.', '_', $fileName );
@@ -111,7 +111,7 @@ class PackageGraphView
 	{
 		if( file_exists( $this->fileSerial ) && !$refresh )
 			return;
-		$files	= array();
+		$files	= [];
 		$index	= new FS_File_RecursiveRegexFilter( $this->path, $this->regExpFilename, $this->rexExpSignature );
 		foreach( $index as $entry )
 		{
@@ -136,7 +136,7 @@ class PackageGraphView
 
 	protected function getPackages( $key = NULL )
 	{
-		$packages	= array();
+		$packages	= [];
 		$list		= $key ? $this->map->get( $key ) : $this->map->getAll();
 		foreach( $list as $pathName => $size )
 		{

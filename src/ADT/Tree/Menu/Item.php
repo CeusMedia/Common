@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Tree Menu List Item Data Object used by UI_HTML_Tree_Menu.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,26 +21,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.11.2008
  */
+
+namespace CeusMedia\Common\ADT\Tree\Menu;
+
 /**
  *	Tree Menu List Item Data Object used by UI_HTML_Tree_Menu.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree_Menu
- *	@uses			ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.11.2008
  */
-class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
+class Item extends Collection
 {
 	/**	@var		string		$url			URL of Item Link */
-	public $url			= NULL;
+	public string $url;
 
 	/**
 	 *	Constructor.
@@ -49,7 +50,7 @@ class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
 	 *	@param		array		$attributes		Array of Item Attributes (classItem,classLink,classList)
 	 *	@return		void
 	 */
-	public function __construct( $url, $label, $attributes = array() )
+	public function __construct( string $url, string $label, array $attributes = [] )
 	{
 		parent::__construct( $label, $attributes );
 		$this->url			= $url;
@@ -61,7 +62,7 @@ class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
 	 *	@param		string		$key			Attribute Key
 	 *	@return		mixed
 	 */
-	public function __get( $key )
+	public function __get( string $key )
 	{
 		return $this->attributes->get( $key );
 	}
@@ -69,9 +70,9 @@ class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
 	/**
 	 *	Returns URL of Tree Menu List Item.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		string|NULL
 	 */
-	public function getUrl()
+	public function getUrl(): ?string
 	{
 		return $this->url;
 	}
@@ -81,16 +82,15 @@ class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
-		$array	= array(
+		return [
 			'url'		=> $this->url,
 			'label'		=> $this->label,
 			'classLink'	=> $this->attributes->get( 'classLink' ),
 			'classItem'	=> $this->attributes->get( 'classItem' ),
 			'classList'	=> $this->attributes->get( 'classList' ),
 			'children'	=> 	parent::toArray()
-		);
-		return $array;
+		];
 	}
 }

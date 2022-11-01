@@ -1,25 +1,29 @@
 <?php
-/**
- *	TestUnit of UI_HTML_Panel.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			07.09.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of UI_HTML_Panel.
+ *	@package		Tests.
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\Panel;
+use CeusMedia\CommonTest\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			UI_HTML_Panel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			07.09.2008
- *	@version		0.1
  */
-class Test_UI_HTML_PanelTest extends Test_Case
+class PanelTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,7 +50,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 	 */
 	public function testBuild1()
 	{
-		$panel		= new UI_HTML_Panel();
+		$panel		= new Panel();
 		$assertion	= '<div id="a1" class="panel default"><div class="panelContent"><div class="panelContentInner"></div></div></div>';
 		$creation	= $panel->build( "a1" );
 		$this->assertEquals( $assertion, $creation );
@@ -59,7 +63,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 	 */
 	public function testBuild2()
 	{
-		$panel		= new UI_HTML_Panel();
+		$panel		= new Panel();
 		$panel->setHeader( "header1" );
 		$panel->setFooter( "footer1" );
 		$panel->setContent( "content1" );
@@ -76,7 +80,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 	public function testCreate1()
 	{
 		$assertion	= '<div id="a1" class="panel default"><div class="panelContent"><div class="panelContentInner"></div></div></div>';
-		$creation	= UI_HTML_Panel::create( "a1", NULL, NULL );
+		$creation	= Panel::create( "a1", NULL, NULL );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -88,7 +92,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 	public function testCreate2()
 	{
 		$assertion	= '<div id="a1" class="panel default"><div class="panelHead"><div class="panelHeadInner">header1</div></div><div class="panelContent"><div class="panelContentInner">content1</div></div><div class="panelFoot"><div class="panelFootInner">footer1</div></div></div>';
-		$creation	= UI_HTML_Panel::create( "a1", "content1", "header1", NULL, "footer1" );
+		$creation	= Panel::create( "a1", "content1", "header1", NULL, "footer1" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -99,7 +103,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 	 */
 	public function testSetContent()
 	{
-		$panel		= new Test_UI_HTML_PanelInstance();
+		$panel		= new Test_PanelInstance();
 
 		$panel->setContent( "1" );
 		$assertion	= "1";
@@ -119,7 +123,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 	 */
 	public function testSetHeader()
 	{
-		$panel		= new Test_UI_HTML_PanelInstance();
+		$panel		= new Test_PanelInstance();
 
 		$panel->setHeader( "1" );
 		$assertion	= "1";
@@ -139,7 +143,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 	 */
 	public function testSetFooter()
 	{
-		$panel		= new Test_UI_HTML_PanelInstance();
+		$panel		= new Test_PanelInstance();
 
 		$panel->setFooter( "1" );
 		$assertion	= "1";
@@ -152,7 +156,7 @@ class Test_UI_HTML_PanelTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_UI_HTML_PanelInstance extends UI_HTML_Panel
+class Test_PanelInstance extends Panel
 {
 	public function getProtectedVar( $varName )
 	{

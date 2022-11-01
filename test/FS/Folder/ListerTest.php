@@ -1,28 +1,33 @@
 <?php
-/**
- *	TestUnit of Folder Indexer.
- *	@package		Tests.folder
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Folder Indexer.
+ *	@package		Tests.FS.Folder
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-require_once __DIR__.'/TestCase.php';
+namespace CeusMedia\CommonTest\FS\Folder;
+
+use CeusMedia\Common\FS\Folder\Lister;
+use CeusMedia\CommonTest\FS\Folder\TestCase;
 
 /**
  *	TestUnit of Folder Indexer.
- *	@package		Tests.folder
- *	@extends		Test_FS_Folder_TestCase
- *	@uses			FS_Folder_Lister
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *	@version		0.1
  */
-class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
+class ListerTest extends TestCase
 {
+	protected $lister1;
+
+	protected $lister2;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -31,8 +36,8 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	public function setUp(): void
 	{
 		parent::setUp();
-		$this->lister1	= new FS_Folder_Lister( $this->folder );
-		$this->lister2	= new FS_Folder_Lister( "not_existing" );
+		$this->lister1	= new Lister( $this->folder );
+		$this->lister2	= new Lister( "not_existing" );
 	}
 
 	/**
@@ -84,7 +89,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		$index	= $this->lister1->getList();
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -101,12 +106,12 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		$index	= $this->lister1->getList();
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -119,10 +124,10 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFileList()
 	{
-		$index	= FS_Folder_Lister::getFileList( $this->folder );
+		$index	= Lister::getFileList( $this->folder );
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -144,7 +149,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	public function testGetFileListException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= FS_Folder_Lister::getFileList( "not_existing" );
+		$index	= Lister::getFileList( "not_existing" );
 	}
 
 	/**
@@ -154,7 +159,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFileListPatterns()
 	{
-		$index	= FS_Folder_Lister::getFileList( $this->folder, "@^file@" );
+		$index	= Lister::getFileList( $this->folder, "@^file@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array(
 			'file1.txt',
@@ -164,9 +169,9 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= FS_Folder_Lister::getFileList( $this->folder, "@^file$@" );
+		$index	= Lister::getFileList( $this->folder, "@^file$@" );
 		$list	= $this->getListFromIndex( $index );
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -179,7 +184,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFolderList()
 	{
-		$index	= FS_Folder_Lister::getFolderList( $this->folder );
+		$index	= Lister::getFolderList( $this->folder );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -187,7 +192,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -201,7 +206,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	public function testGetFolderListException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= FS_Folder_Lister::getFolderList( "not_existing" );
+		$index	= Lister::getFolderList( "not_existing" );
 	}
 
 	/**
@@ -211,14 +216,14 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFolderListPatterns()
 	{
-		$index	= FS_Folder_Lister::getFolderList( $this->folder, "@sub@" );
+		$index	= Lister::getFolderList( $this->folder, "@sub@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= FS_Folder_Lister::getFolderList( $this->folder, "@^sub1$@" );
+		$index	= Lister::getFolderList( $this->folder, "@^sub1$@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array( 'sub1' );
 		$creation	= $list['folders'];
@@ -233,7 +238,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetMixedList()
 	{
-		$index	= FS_Folder_Lister::getMixedList( $this->folder );
+		$index	= Lister::getMixedList( $this->folder );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -261,7 +266,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	public function testGetMixedListException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= FS_Folder_Lister::getMixedList( "not_existing" );
+		Lister::getMixedList( "not_existing" );
 	}
 
 	/**
@@ -271,7 +276,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetMixedListPatterns()
 	{
-		$index	= FS_Folder_Lister::getMixedList( $this->folder, "@sub@" );
+		$index	= Lister::getMixedList( $this->folder, "@sub@" );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -279,12 +284,12 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= FS_Folder_Lister::getMixedList( $this->folder, "@^sub1$@" );
+		$index	= Lister::getMixedList( $this->folder, "@^sub1$@" );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( 'sub1' );
@@ -292,14 +297,14 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= FS_Folder_Lister::getMixedList( $this->folder, "@^file@" );
+		$index	= Lister::getMixedList( $this->folder, "@^file@" );
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -312,15 +317,15 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= FS_Folder_Lister::getMixedList( $this->folder, "@^file$@" );
+		$index	= Lister::getMixedList( $this->folder, "@^file$@" );
 		$list	= $this->getListFromIndex( $index );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
@@ -333,7 +338,7 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetMixedListShowHidden()
 	{
-		$index	= FS_Folder_Lister::getMixedList( $this->folder, NULL, FALSE );
+		$index	= Lister::getMixedList( $this->folder, NULL, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -356,14 +361,14 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= FS_Folder_Lister::getMixedList( $this->folder, "@sub3$@", FALSE );
+		$index	= Lister::getMixedList( $this->folder, "@sub3$@", FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( '.sub3' );
 		$creation	= $list['folders'];
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 	}

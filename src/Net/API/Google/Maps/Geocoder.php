@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Resolves an address to geo codes using Google Maps API.
+ *	Resolves an address to geocodes using Google Maps API.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,28 +21,33 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google_Maps
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.5
  */
+
+namespace CeusMedia\Common\Net\API\Google\Maps;
+
+use CeusMedia\Common\Net\API\Google\Request as GoogleRequest;
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use CeusMedia\Common\XML\Element as XmlElement;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
- *	Resolves an address to geo codes using Google Maps API.
+ *	Resolves an address to geocodes using Google Maps API.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google_Maps
- *	@extends		Net_API_Google_Request
- *	@uses			XML_Element
- *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2020 Christian Würker
+ *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.5
  */
-class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
+class Geocoder extends GoogleRequest
 {
 	/** @var		string		$apiUrl			Google Maps API URL */
-	public $apiUrl				= "http://maps.googleapis.com/maps/api/geocode/xml";
+	public $apiUrl				= "https://maps.googleapis.com/maps/api/geocode/xml";
 
 	/**
 	 *	Returns KML data for an address.
@@ -51,25 +57,26 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	 *	@return		string
 	 *	@throws		RuntimeException			if query limit is reached
 	 *	@throws		InvalidArgumentException	if address could not been resolved
+	 *	@throws		Exception
 	 */
-	public function getGeoCode( $address, $force = FALSE )
+	public function getGeoCode( string $address, bool $force = FALSE ): string
 	{
 		$address	= urlencode( $address );
 		$query		= "?address=".$address."&sensor=false";
-		if( $this->pathCache )
-		{
+		$cacheFile	= NULL;
+		if( $this->pathCache ){
 			$cacheFile	= $this->pathCache.$address.".xml.cache";
 			if( file_exists( $cacheFile ) && !$force )
-				return File_Editor::load( $cacheFile );
+				return FileEditor::load( $cacheFile );
 		}
 		$xml	= $this->sendQuery( $query );
-		$doc	= new XML_Element( $xml );
+		$doc	= new XmlElement( $xml );
 		if( $doc->status->getValue() === "OVER_QUERY_LIMIT" )
 			throw new RuntimeException( 'Query limit reached' );
 		if( !@$doc->result->geometry->location )
 			throw new InvalidArgumentException( 'Address not found' );
 		if( $this->pathCache )
-			File_Editor::save( $cacheFile, $xml );
+			FileEditor::save( $cacheFile, $xml );
 		return $xml;
 	}
 
@@ -81,24 +88,33 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	 *	@return		array
 	 *	@throws		RuntimeException			if query limit is reached
 	 *	@throws		InvalidArgumentException	if address could not been resolved
+	 *	@throws		Exception
 	 */
-	public function getGeoTags( $address, $force = FALSE )
+	public function getGeoTags( string $address, bool $force = FALSE ): array
 	{
 		$xml	= $this->getGeoCode( $address, $force );
-		$xml	= new XML_Element( $xml );
-		$coordinates	= (string) $xml->result->geometry->location;
-		$parts			= explode( ",", $coordinates );
-		$data			= array(
+		$xml	= new XmlElement( $xml );
+//		$coordinates	= (string) $xml->result->geometry->location;
+//		$parts			= explode( ",", $coordinates );
+		return [
 			'longitude'	=> (string) $xml->result->geometry->location->lng,
 			'latitude'	=> (string) $xml->result->geometry->location->lat,
 			'accuracy'	=> NULL,
-		);
-		return $data;
+		];
 	}
 
-	public function getAddress( $address, $force = FALSE ){
+	/**
+	 *	...
+	 *	@param		string		$address
+	 *	@param		bool		$force
+	 *	@return		string
+	 *	@throws		RuntimeException
+	 *	@throws		Exception
+	 */
+	public function getAddress( string $address, bool $force = FALSE ): string
+	{
 		$xml	= $this->getGeoCode( $address, $force );
-		$xml	= new XML_Element( $xml );
+		$xml	= new XmlElement( $xml );
 		if( (string) $xml->status !== "OK" )
 			throw new RuntimeException( 'Address not found: '.$address );
 		return (string) $xml->result->formatted_address;

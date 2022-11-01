@@ -1,26 +1,31 @@
 <?php
-/**
- *	TestUnit of Google Sitemap Builder.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Google Sitemap Builder.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\DOM;
+
+use CeusMedia\Common\XML\DOM\GoogleSitemapBuilder;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_GoogleSitemapBuilder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *	@version		0.1
  */
-class Test_XML_DOM_GoogleSitemapBuilderTest extends Test_Case
+class GoogleSitemapBuilderTest extends BaseCase
 {
+	protected $xmlFile;
+
 	/**
 	 *	Sets up Builder.
 	 *	@access		public
@@ -28,7 +33,7 @@ class Test_XML_DOM_GoogleSitemapBuilderTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->xmlFile	= dirname( __FILE__ ).'/sitemap.xml';
+		$this->xmlFile	= dirname( __FILE__ ).'/assets/sitemap.xml';
 	}
 
 	/**
@@ -38,7 +43,7 @@ class Test_XML_DOM_GoogleSitemapBuilderTest extends Test_Case
 	 */
 	public function testBuild()
 	{
-		$builder	= new XML_DOM_GoogleSitemapBuilder();
+		$builder	= new GoogleSitemapBuilder();
 		$builder->addLink( "test1.html" );
 		$builder->addLink( "test2.html" );
 
@@ -60,7 +65,7 @@ class Test_XML_DOM_GoogleSitemapBuilderTest extends Test_Case
 		);
 
 		$assertion	= file_get_contents( $this->xmlFile );
-		$creation	= XML_DOM_GoogleSitemapBuilder::buildSitemap( $links, "http://www.example.com/" );
+		$creation	= GoogleSitemapBuilder::buildSitemap( $links, "http://www.example.com/" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

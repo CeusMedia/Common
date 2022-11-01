@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for RSS 2.0 Feeds.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +21,27 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\Net\Reader as NetReader;
+use Exception;
+
 /**
  *	Reader for RSS 2.0 Feeds.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2008
  */
-class XML_RSS_SimpleReader
+class SimpleReader
 {
 	/**
 	 *	Reads RSS from File.
@@ -43,11 +49,11 @@ class XML_RSS_SimpleReader
 	 *	@static
 	 *	@param		string		$fileName	File Name to XML RSS File
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function readFile( $fileName )
+	public static function readFile( string $fileName ): array
 	{
-		$xml	= FS_File_Reader::load( $fileName );
-		return XML_RSS_SimpleParser::parse( $xml );
+		return SimpleParser::parse( FileReader::load( $fileName ) );
 	}
 
 	/**
@@ -56,11 +62,11 @@ class XML_RSS_SimpleReader
 	 *	@static
 	 *	@param		string		$url		URL to read RSS from
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function readUrl( $url )
+	public static function readUrl( string $url ): array
 	{
-		$xml	= Net_Reader::readUrl( $url );
-		return XML_RSS_SimpleParser::parse( $xml );
+		return SimpleParser::parse( NetReader::readUrl( $url ) );
 	}
 
 	/**
@@ -69,9 +75,10 @@ class XML_RSS_SimpleReader
 	 *	@static
 	 *	@param		string		$xml		XML String to read
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	public static function readXml( $xml )
+	public static function readXml( string $xml ): array
 	{
-		return XML_RSS_SimpleParser::parse( $xml );
+		return SimpleParser::parse( $xml );
 	}
 }

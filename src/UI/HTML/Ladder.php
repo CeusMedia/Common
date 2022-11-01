@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
  *
- *	Copyright (c) 2009-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +21,27 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
- *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
- *	@uses			UI_HTML_Elements
- *	@uses			UI_HTML_Tag
- *	@uses			UI_HTML_JQuery
- *	@since			0.6.8
  */
-class UI_HTML_Ladder
+class Ladder
 {
-	protected $steps	= array();
+	protected $steps	= [];
 	protected $id		= NULL;
 
 	/**
@@ -51,7 +50,7 @@ class UI_HTML_Ladder
 	 *	@param		string		$id			ID of Ladder HTML Container
 	 *	@return		void
 	 */
-	public function __construct( $id )
+	public function __construct( string $id )
 	{
 		$this->id	= $id;
 	}
@@ -61,14 +60,15 @@ class UI_HTML_Ladder
 	 *	@access		public
 	 *	@param		string		$label		Label of Step
 	 *	@param		string		$content	Content of Step
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addStep( $label, $content )
+	public function addStep( string $label, string $content ): self
 	{
 		$this->steps[]	= array(
 			'label'		=> $label,
 			'content'	=> $content,
 		);
+		return $this;
 	}
 
 	/**
@@ -76,21 +76,19 @@ class UI_HTML_Ladder
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildHtml()
+	public function buildHtml(): string
 	{
-		$list	= array();
-		$divs	= array();
-		foreach( $this->steps as $nr => $step )
-		{
+		$list	= [];
+		$divs	= [];
+		foreach( $this->steps as $nr => $step ){
 			$id		= $this->id."_link".$nr;
-			$list[]	= UI_HTML_Elements::ListItem( $step['label'], 0, array( 'id' => $id ) );
+			$list[]	= Elements::ListItem( $step['label'], 0, ['id' => $id] );
 			$id		= $this->id."_".$nr;
-			$divs[] = UI_HTML_Tag::create( 'div', $step['content'], array( 'id' => $id ) );
+			$divs[] = Tag::create( 'div', $step['content'], ['id' => $id] );
 		}
-		$list	= UI_HTML_Elements::unorderedList( $list );
+		$list	= Elements::unorderedList( $list );
 		$divs	= implode( "\n", $divs );
-		$div	= UI_HTML_Tag::create( 'div', "\n".$list.$divs."\n", array( 'id' => $this->id ) );
-		return $div;
+		return Tag::create( 'div', "\n".$list.$divs."\n", ['id' => $this->id] );
 	}
 
 	/**
@@ -98,8 +96,8 @@ class UI_HTML_Ladder
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildScript()
+	public function buildScript(): string
 	{
-		return UI_HTML_JQuery::buildPluginCall( 'cmLadder', '#'.$this->id );	
+		return JQuery::buildPluginCall( 'cmLadder', '#'.$this->id );
 	}
 }

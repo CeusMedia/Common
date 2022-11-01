@@ -6,7 +6,7 @@
  *	Example for encoding: Hello World! ---> Hello_World!
  *	Example for decoding: snake_cased_string ---> snake cased string
  *
- *	Copyright (c) 2017-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2017-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -24,45 +24,52 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2020 Christian Würker
+ *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  *	@see			https://en.wikipedia.org/wiki/Snake_case
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Support for strings in snake case.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2020 Christian Würker
+ *	@copyright		2017-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.3.4
  */
-class Alg_Text_SnakeCase{
-
-	static public function apply( $string ){
+class SnakeCase
+{
+	public static function apply( string $string ): string
+	{
 		return self::encode( $string );
 	}
 
-	static public function decode( $string ){
+	public static function decode( string $string ): string
+	{
 		return str_replace( "_", " ", $string );
 	}
 
-	static public function encode( $string ){
+	public static function encode( $string )
+	{
 		return str_replace( " ", "_", $string );
 	}
 
-	static public function toCamelCase( $string ){
-		return Alg_Text_CamelCase::encode( static::decode( $string ) );
+	public static function toCamelCase( string $string ): string
+	{
+		return CamelCase::encode( static::decode( $string ) );
 	}
 
-	static public function toPascalCase( $string ){
-		return Alg_Text_PascalCase::encode( static::decode( $string ) );
+	public static function toPascalCase( string $string ): string
+	{
+		return PascalCase::encode( static::decode( $string ) );
 	}
 
-	static public function validate( $string ){
+	public static function validate( string $string ): bool
+	{
 		return self::apply( $string ) === $string;
 	}
 }

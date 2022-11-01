@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,43 +22,49 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class UI_Image_Creator
+class Creator
 {
 	protected $height		= -1;
 	protected $resource		= NULL;
 	protected $type			= NULL;
 	protected $width		= -1;
+    protected $extension;
 
-	public function create( $width, $height, $backgroundRed = 255, $backgroundGreen = 255, $backgroundBlue = 255, $alpha = 0 )
+	public function create( int $width, int $height, int $backgroundRed = 255, int $backgroundGreen = 255, int $backgroundBlue = 255, int $alpha = 0 )
 	{
 		$this->resource	= imagecreatetruecolor( $width, $height );
 		$this->width	= $width;
 		$this->height	= $height;
 		$backColor		= imagecolorallocatealpha( $this->resource, $backgroundRed, $backgroundGreen, $backgroundBlue, $alpha );
-		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );		
+		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );
 	}
 
-	public function getExtension()
+	public function getExtension(): ?string
 	{
-		return $this->extension;	
+		return $this->extension;
 	}
 
-	public function getHeight()
+	public function getHeight(): int
 	{
 		return $this->height;
 	}
@@ -66,24 +74,23 @@ class UI_Image_Creator
 		return $this->resource;
 	}
 
-	public function getType()
+	public function getType(): ?int
 	{
-		return $this->type;	
+		return $this->type;
 	}
 
-	public function getWidth()
+	public function getWidth(): int
 	{
 		return $this->width;
 	}
 
-	public function loadImage( $fileName )
+	public function loadImage( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );
 		$info		= pathinfo( $fileName );
 		$extension	= strtolower( $info['extension'] );
-		switch( $extension )
-		{
+		switch( $extension ){
 			case 'png':
 				$this->resource	= imagecreatefrompng( $fileName );
 				$this->type	= IMAGETYPE_PNG;
@@ -102,7 +109,7 @@ class UI_Image_Creator
 				throw new InvalidArgumentException( 'Image Type "'.$extension.'" is not supported.' );
 		}
 		$this->extension	= $extension;
-		$this->width		= imagesx( $this->resource );		
-		$this->height		= imagesy( $this->resource );		
+		$this->width		= imagesx( $this->resource );
+		$this->height		= imagesy( $this->resource );
 	}
 }

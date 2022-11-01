@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,55 +21,61 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use RuntimeException;
+
 /**
  *	....
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			code doc
  */
-class FS_File_Lock
+class Lock
 {
-
 	protected $fileName;
 	protected $expiration			= 0;
 	protected $sleep				= 0.1;
 	protected $timeout				= 2;
 
-	public function __construct( $fileName, $expiration = 0, $timeout = 2, $sleep = 0.1 )
+	public function __construct( string $fileName, ?float $expiration = 0, ?float $timeout = 2, ?float $sleep = 0.1 )
 	{
 		$this->fileName		= $fileName;
-		$this->setExpiration( $expiration );
-		$this->setTimeout( $timeout );
-		$this->setSleep( $sleep );
+		if( !is_null( $expiration ) )
+			$this->setExpiration( $expiration );
+		if( !is_null( $timeout ) )
+			$this->setTimeout( $timeout );
+		if( !is_null( $sleep ) )
+			$this->setSleep( $sleep );
 	}
 
-	public function getExpiration()
+	public function getExpiration(): float
 	{
 		return $this->expiration;
 	}
 
-	public function getSleep()
+	public function getSleep(): float
 	{
 		return $this->sleep;
 	}
 
-	public function getTimeout()
+	public function getTimeout(): float
 	{
 		return $this->timeout;
 	}
 
-	public function isLocked()
+	public function isLocked(): bool
 	{
-		if( file_exists( $this->fileName ) )
-		{
+		if( file_exists( $this->fileName ) ){
 			if( !$this->expiration )
 				return TRUE;
 			if( $this->expiration >= time() - filemtime( $this->fileName ) )
@@ -78,7 +85,7 @@ class FS_File_Lock
 		return FALSE;
 	}
 
-	public function lock( $strict = TRUE )
+	public function lock( bool $strict = TRUE ): bool
 	{
 		$start		= microtime( TRUE );
 		$timeout	= $start + $this->timeout;
@@ -88,33 +95,35 @@ class FS_File_Lock
 					return FALSE;
 				throw new RuntimeException( 'File "'.$this->fileName.'" could not been locked' );
 			}
-			usleep( $this->sleep * 1000000 );
+			usleep( $this->sleep * 1_000_000 );
 		}
 		touch( $this->fileName );
 		return TRUE;
 	}
 
-	public function unlock()
+	public function unlock(): bool
 	{
-		if( $this->isLocked() ){
-			@unlink( $this->fileName );
-			return TRUE;
-		}
-		return FALSE;
+		if( !$this->isLocked() )
+			return FALSE;
+		@unlink( $this->fileName );
+		return TRUE;
 	}
 
-	public function setExpiration( $expiration = 0 )
+	public function setExpiration( float $expiration = 0 ): self
 	{
-		$this->expiration	= abs( (int) $expiration );
+		$this->expiration	= abs( $expiration );
+		return $this;
 	}
 
-	public function setSleep( $sleep = 0.1 )
+	public function setSleep( float $sleep = 0.1 ): self
 	{
-		$this->sleep	= abs( (float) $sleep );
+		$this->sleep	= abs( $sleep );
+		return $this;
 	}
 
-	public function setTimeout( $timeout = 2 )
+	public function setTimeout( float $timeout = 2 ): self
 	{
-		$this->timeout	= abs( (float) $timeout );
+		$this->timeout	= abs( $timeout );
+		return $this;
 	}
 }

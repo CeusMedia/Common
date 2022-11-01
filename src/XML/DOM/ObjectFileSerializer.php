@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Serializer for Data Object into a XML File.
+ *	Serializer for Data Object into an XML File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,27 +20,27 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@extends		XML_DOM_ObjectSerializer
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use DOMException;
+
 /**
- *	Serializer for Data Object into a XML File.
+ *	Serializer for Data Object into an XML File.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@extends		XML_DOM_ObjectSerializer
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			26.12.2005
  */
-class XML_DOM_ObjectFileSerializer
+class ObjectFileSerializer
 {
 	/**
 	 *	Writes XML String from an Object to a File.
@@ -47,10 +48,11 @@ class XML_DOM_ObjectFileSerializer
 	 *	@static
 	 *	@param		mixed		$object			Object to serialize
 	 *	@param		string		$fileName		XML File to write to
-	 *	@return		void
+	 *	@return		integer
+	 *	@throws		DOMException
 	 */
-	public static function serialize( $object, $fileName )
+	public static function serialize( $object, string $fileName ): int
 	{
-		return FS_File_Writer::save( $fileName, XML_DOM_ObjectSerializer::serialize( $object ) );
+		return FileWriter::save( $fileName, ObjectSerializer::serialize( $object ) );
 	}
 }

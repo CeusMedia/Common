@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Prints an Image Resource into a File or on Screen.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +22,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.06.2008
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use InvalidArgumentException;
+
 /**
  *	Prints an Image Resource into a File or on Screen.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			16.06.2008
  */
-class UI_Image_Printer
+class Printer
 {
 	/**	@var		resource		$resource		Image Resource */
 	protected $resource;
@@ -56,39 +61,35 @@ class UI_Image_Printer
 	/**
 	 *	Writes Image to File.
 	 *	@access		public
-	 *	@param		string		$fleName		Name of target Image File
+	 *	@param		string		$fileName		Name of target Image File
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public function save( $fileName, $type = IMAGETYPE_PNG, $quality = 100 )
+	public function save( string $fileName, int $type = IMAGETYPE_PNG, int $quality = 100 ): bool
 	{
-		$this->saveImage( $fileName, $this->resource, $type, $quality );
+		return $this->saveImage( $fileName, $this->resource, $type, $quality );
 	}
 
 	/**
 	 *	Saves an Image to File statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fleName		Name of target Image File
+	 *	@param		string		$fileName		Name of target Image File
 	 *	@param		resource	$resource		Image Resource
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public static function saveImage( $fileName, $resource, $type = IMAGETYPE_PNG, $quality = 100 )
+	public static function saveImage( string $fileName, $resource, int $type = IMAGETYPE_PNG, int $quality = 100 ): bool
 	{
-		switch( $type )
-		{
+		switch( $type ){
 			case IMAGETYPE_PNG:
-				ImagePNG( $resource, $fileName );
-				break;
+				return ImagePNG( $resource, $fileName );
 			case IMAGETYPE_JPEG:
-				ImageJPEG( $resource, $fileName, $quality );
-				break;
+				return ImageJPEG( $resource, $fileName, $quality );
 			case IMAGETYPE_GIF:
-				ImageGIF( $resource, $fileName );
-				break;
+				return ImageGIF( $resource, $fileName );
 			default:
 				throw new InvalidArgumentException( 'Invalid Image Type' );
 		}
@@ -99,12 +100,12 @@ class UI_Image_Printer
 	 *	@access		public
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
-	 *	@param		bool		$showHeader		Flag: set Image MIME Type Header
-	 *	@return		void
+	 *	@param		bool		$sendHeader		Flag: set Image MIME Type Header
+	 *	@return		bool
 	 */
-	public function show( $type = IMAGETYPE_PNG, $quality = 100, $sendHeader = TRUE )
+	public function show( int $type = IMAGETYPE_PNG, int $quality = 100, bool $sendHeader = TRUE ): bool
 	{
-		$this->showImage( $this->resource, $type, $quality, $sendHeader );
+		return $this->showImage( $this->resource, $type, $quality, $sendHeader );
 	}
 
 	/**
@@ -114,28 +115,24 @@ class UI_Image_Printer
 	 *	@param		resource	$resource		Image Resource
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
-	 *	@param		bool		$showHeader		Flag: set Image MIME Type Header
-	 *	@return		void
+	 *	@param		bool		$sendHeader		Flag: set Image MIME Type Header
+	 *	@return		bool
 	 */
-	public static function showImage( $resource, $type = IMAGETYPE_PNG, $quality = 100, $sendHeader = TRUE )
+	public static function showImage( $resource, int $type = IMAGETYPE_PNG, int $quality = 100, bool $sendHeader = TRUE ): bool
 	{
-		switch( $type )
-		{
+		switch( $type ){
 			case IMAGETYPE_GIF:
 				if( $sendHeader )
 					header( "Content-type: image/gif" );
-				ImageGIF( $resource );
-				break;
+				return ImageGIF( $resource );
 			case IMAGETYPE_JPEG:
 				if( $sendHeader )
 					header( "Content-type: image/jpeg" );
-				ImageJPEG( $resource, "", $quality );
-				break;
+				return ImageJPEG( $resource, "", $quality );
 			case IMAGETYPE_PNG:
 				if( $sendHeader )
 					header( "Content-type: image/png" );
-				ImagePNG( $resource );
-				break;
+				return ImagePNG( $resource );
 			default:
 				throw new InvalidArgumentException( 'Invalid Image Type' );
 		}

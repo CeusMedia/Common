@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for OPML Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +21,39 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\XML\DOM\Builder as DomBuilder;
+use CeusMedia\Common\XML\DOM\Node;
+use DOMException;
+use InvalidArgumentException;
+
+
 /**
  *	Builder for OPML Files.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
- *	@extends		XML_DOM_Node
- *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
-class XML_OPML_Builder extends XML_DOM_Node
+class Builder extends Node
 {
-	/**	@var	XML_DOM_Node	$tree			Outline Document Tree */
+	/**	@var	Node	$tree			Outline Document Tree */
 	protected $tree;
+
+	protected $head;
+
+	protected $body;
+
 	/**	@var	array			$headers		Array of supported Headers */
-	protected $headers	= array(
+	protected $headers	= [
 		"title",
 		"dateCreated",
 		"dateModified",
@@ -54,7 +65,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 		"windowLeft",
 		"windowBottom",
 		"windowRight",
-		);
+		];
 
 	/**
 	 *	Constructor.
@@ -62,25 +73,26 @@ class XML_OPML_Builder extends XML_DOM_Node
 	 *	@param		string		$version		Version of OPML Document
 	 *	@return		void
 	 */
-	public function __construct( $version = "1.0" )
+	public function __construct( string $version = "1.0" )
 	{
-		$this->tree	= new XML_DOM_Node( "opml" );
-		$this->tree->setAttribute( "version", $version );
-		$this->tree->addChild( new XML_DOM_Node( "head" ) );
-		$this->tree->addChild( new XML_DOM_Node( "body" ) );
+		parent::__construct( 'opml' );
+		$this->head = new Node( "head" );
+		$this->body = new Node( "body" );
+		$this->tree	= new Node( "opml" );
+		$this->setAttribute( "version", $version );
+		$this->addChild( $this->head );
+		$this->addChild( $this->body );
 	}
 
 	/**
 	 *	Adds Outline to OPML Document.
 	 *	@access		public
-	 *	@param		OPML_DOM_Outline	outline		Outline Node to add
+	 *	@param		Outline		$outline		Outline Node to add
 	 *	@return		void
 	 */
-	public function addOutline( $outline )
+	public function addOutline( Outline $outline )
 	{
-		$children	=& $this->getChildren();
-		$body		=& $children[1];
-		$body->addChild( $outline );
+		$this->body->addChild( $outline );
 	}
 
 	/**
@@ -90,14 +102,12 @@ class XML_OPML_Builder extends XML_DOM_Node
 	 *	@param		string		$value			Value of Header
 	 *	@return		void
 	 */
-	public function setHeader( $key, $value )
+	public function setHeader( string $key, string $value )
 	{
 		if( !in_array( $key, $this->headers, TRUE ) )
 			throw new InvalidArgumentException( "Unsupported Header '".$key."'" );
-		$children	=& $this->tree->getChildren();
-		$head		=& $children[0];
-		$node		= new XML_DOM_Node( $key, $value );
-		$head->addChild( $node );
+		$node		= new Node( $key, $value );
+		$this->head->addChild( $node );
 	}
 
 	/**
@@ -105,11 +115,11 @@ class XML_OPML_Builder extends XML_DOM_Node
 	 *	@access		public
 	 *	@param		string		$encoding		Encoding of OPML Document
 	 *	@return		string
+	 *	@throws		DOMException
 	 */
-	public function build( $encoding = "utf-8" )
+	public function build( string $encoding = "utf-8" ): string
 	{
-		$builder	= new XML_DOM_Builder;
-		$xml		= $builder->build( $this->tree, $encoding );
-		return $xml;
+		$builder	= new DomBuilder;
+		return $builder->build( $this, $encoding );
 	}
 }

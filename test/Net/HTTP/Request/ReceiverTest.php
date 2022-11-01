@@ -1,32 +1,32 @@
 <?php
-/**
- *	TestUnit of Request Receiver.
- *	@package		Tests.net.http.request
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.1
- */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Request Receiver.
+ *	@package		Tests.net.http.request
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *
+ */
+
+namespace CeusMedia\CommonTest\Net\HTTP;
+
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\Common\Net\HTTP\Request\Receiver;
 
 /**
  *	TestUnit of Request Receiver.
  *	@package		Tests.net.http.request
- *	@extends		Test_Case
- *	@uses			Net_HTTP_Request_Receiver
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.1
+ *
  */
-class Test_Net_HTTP_Request_ReceiverTest extends Test_Case
+class ReceiverTest extends BaseCase
 {
 	/**	@var	array		$list		Instance of Request Receiver */
 	private $receiver;
 
 	public function setUp(): void
 	{
-		$this->receiver	= new Net_HTTP_Request_Receiver();
+		$this->receiver	= new Receiver();
 		$this->receiver->set( 'key1', 'value1' );
 		$this->receiver->set( 'key2', 'value2' );
 		$this->receiver->set( 'key3', 'value3' );

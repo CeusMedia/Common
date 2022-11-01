@@ -1,26 +1,32 @@
 <?php
-/**
- *	TestUnit of CLI_Command_ArgumentParser.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			24.10.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of CLI_Command_ArgumentParser.
+ *	@package		Tests.CLI.Command
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\CLI;
+
+use CeusMedia\Common\CLI\Command\ArgumentParser;
+use CeusMedia\CommonTest\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of CLI_Command_ArgumentParser.
- *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			CLI_Command_ArgumentParser
+ *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			24.10.2008
- *	@version		0.1
  */
-class Test_CLI_Command_ArgumentParserTest extends Test_Case
+class ArgumentParserTest extends BaseCase
 {
+	protected $parser;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,7 +34,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->parser	= new Test_CLI_Command_ArgumentParserInstance();
+		$this->parser	= new ArgumentParserInstance();
 	}
 
 	/**
@@ -121,7 +127,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 		);
 		$string		= "-a xyz -beta 123 -f Argument1 Argument2";
 
-		$parser	= new CLI_Command_ArgumentParser();
+		$parser	= new ArgumentParser();
 		$parser->setNumberOfMandatoryArguments( 2 );
 		$parser->setPossibleOptions( $options );
 		$parser->setShortcuts( $shortcuts );
@@ -244,7 +250,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_CLI_Command_ArgumentParserInstance extends CLI_Command_ArgumentParser
+class ArgumentParserInstance extends ArgumentParser
 {
 	public function getProtectedVar( $varName )
 	{

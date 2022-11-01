@@ -2,7 +2,7 @@
 /**
  *	Converter for Strings using Pascal Case.
  *
- *	Copyright (c) 2018-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2018-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +20,30 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2020 Christian Würker
+ *	@copyright		2018-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
+use RuntimeException;
+
 /**
  *	Converter for Strings using Pascal Case.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2020 Christian Würker
+ *	@copyright		2018-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Text_PascalCase{
-
-	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
+class PascalCase
+{
+	protected static string $regExp	= '/^(.*)[\-\_ ](.*)$/';
 
 	/**
-	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
+	 *	Convert a String to Pascal Case, removing all spaces and underscores and capitalizing all Words.
 	 *	Alias for encode.
 	 *	@access		public
 	 *	@static
@@ -46,11 +51,13 @@ class Alg_Text_PascalCase{
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function convert( $string, $lowercaseLetters = TRUE ){
+	public static function convert( string $string, bool $lowercaseLetters = TRUE ): string
+	{
 		return static::encode( $string, $lowercaseLetters );
 	}
 
-	static public function decode( $string, $delimiter = ' ' ){
+	public static function decode( string $string, string $delimiter = ' ' ): string
+	{
 		if( !function_exists( 'mb_substr' ) )
 			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
 
@@ -73,7 +80,8 @@ class Alg_Text_PascalCase{
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function encode( $string, $lowercaseLetters = TRUE ){
+	public static function encode( string $string, bool $lowercaseLetters = TRUE ): string
+	{
 		if( $lowercaseLetters === TRUE )
 			$string	= mb_strtolower( $string );
 
@@ -83,27 +91,31 @@ class Alg_Text_PascalCase{
 		return $string;
 	}
 
-	static protected function isUpperCharacter( $string, $pos ){
-		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
-		return mb_strtolower( $char, "UTF-8") != $char;
+	public static function toCamelCase( string $string ): string
+	{
+		return CamelCase::encode( static::decode( $string ) );
 	}
 
-	static public function toCamelCase( $string ){
-		return Alg_Text_CamelCase::encode( static::decode( $string ) );
+	public static function toSnakeCase( string $string ): string
+	{
+		return SnakeCase::encode( static::decode( $string ) );
 	}
 
-	static public function toSnakeCase( $string ){
-		return Alg_Text_SnakeCase::encode( static::decode( $string ) );
-	}
-
-	static public function validate( $string ){
+	public static function validate( string $string ): bool
+	{
 		for( $i=0; $i<strlen( $string ); $i++ ){
 			$isUpper	= static::isUpperCharacter( $string, $i );
 			if( $i == 0 && !$isUpper )
 				return FALSE;
-			if( $i > 0 && !preg_match( '/[A-Za-z0-9]$/', $string[$i] ) )
+			if( $i > 0 && !preg_match( '/[A-Za-z\d]$/', $string[$i] ) )
 				return FALSE;
 		}
 		return TRUE;
+	}
+
+	protected static function isUpperCharacter( string $string, int $pos ): bool
+	{
+		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
+		return mb_strtolower( $char, "UTF-8") != $char;
 	}
 }

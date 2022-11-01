@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -6,7 +7,7 @@
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -24,38 +25,45 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\FS\Folder\Iterator as FolderIterator;
+use DirectoryIterator;
+use InvalidArgumentException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
+
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
  *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
- *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
+ *	By default, copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@extends	 	FS_Folder_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
-class FS_Folder_Editor extends FS_Folder_Reader
+class Editor extends Reader
 {
 	/**
 	 *	Constructor, Creates Folder if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$folderName		Folder Name, relative or absolute
-	 *	@param		string		$creationMode	UNIX rights for chmod()
-	 *	@param		string|NULL	$creationUser	User Name for chown()
+	 *	@param		integer		$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
+	 *	@param		string|NULL	$creationUser	Username for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( string $folderName, $creationMode = NULL, ?string $creationUser = NULL, ?string $creationGroup = NULL )
+	public function __construct( string $folderName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		parent::__construct( $folderName );
 		if( !self::isFolder( $folderName ) && $creationMode !== NULL )
@@ -166,7 +174,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 			$count	+= (int) self::createFolder( $targetFolder );
 
 		//  Index of Source Folder
-		$index	= new FS_Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );
+		$index	= new FolderIterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );
 		foreach( $index as $entry ){
 			//  Dot Folders
 			if( $entry->isDot() )
@@ -245,7 +253,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Source Folder, eg. /path/to/source/folder
 	 *	@param		string		$targetPath		Folder Path of Target Folder, eg. /path/to/target
-	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
+	 *	@param		bool		$force			Flag: continue if Target Folder is already existing, otherwise break
 	 *	@return		bool
 	 */
 	public static function moveFolder( string $sourceFolder, string $targetPath, bool $force = FALSE ): bool
@@ -281,12 +289,12 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 *	Moves current Folder to another Path.
 	 *	@access		public
 	 *	@param		string		$folderPath		Folder Path of Target Folder
-	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
+	 *	@param		bool		$force			Flag: continue if Target Folder is already existing, otherwise break
 	 *	@return		bool
 	 */
 	public function move( string $folderPath, bool $force = FALSE ): bool
 	{
-		if( !$this->moveFolder( $this->folderName, $folderPath, $force ) )
+		if( !static::moveFolder($this->folderName, $folderPath, $force) )
 			return FALSE;
 		$this->folderName	= $folderPath;
 		return TRUE;
@@ -300,7 +308,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 */
 	public function rename( string $folderName ): bool
 	{
-		if( !$this->renameFolder( $this->folderName, $folderName ) )
+		if( !static::renameFolder($this->folderName, $folderName) )
 			return FALSE;
 		$this->folderName	= dirname( $this->folderName )."/".basename( $folderName );
 		return TRUE;
@@ -343,7 +351,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 */
 	public function remove( bool $force = false ): int
 	{
-		return $this->removeFolder( $this->folderName, $force );
+		return static::removeFolder($this->folderName, $force);
 	}
 
 	/**

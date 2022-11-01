@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.08.2005
  */
+
+namespace CeusMedia\Common\CLI;
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.08.2005
  */
-class CLI_Shell
+class Shell
 {
 	/**	@var	array	$skip	Commands to skip */
-	protected $skip	= array(
+	protected array $skip	= [
 		"class",
 		"declare",
 		"die",
@@ -57,18 +59,18 @@ class CLI_Shell
 		"return",
 		"static",
 		"switch",
-		"while"
-	);
+		"while",
+	];
 
-	/**	@var	array	$okeq	Valide equation operators */
-	protected $okeq = array(
+	/**	@var	array	$okeq	Valid equation operators */
+	protected array $okeq = [
 		"===",
 		"!==",
 		"==",
 		"!=",
 		"<=",
 		">="
-	);
+	];
 
 	/**
 	 *	Constructor.
@@ -79,16 +81,20 @@ class CLI_Shell
 	{
 		if( getenv( 'HTTP_HOST' ) )
 			die( "usage in console only." );
-		ob_implicit_flush( true );
-		ini_set( "html_errors", 0 );
+		ob_implicit_flush();
+		ini_set( "html_errors", '0' );
 		error_reporting( 7 );
 		set_time_limit( 0 );
 		if( !defined( 'STDIN' ) ){
 			define( 'STDIN',	fopen( "php://stdin","r" ) );
 			define( 'STDOUT',	fopen( "php://stdout","w" ) );
 			define( 'STDERR',	fopen( "php://stderr","w" ) );
-			register_shutdown_function(
-				create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
+			register_shutdown_function( function(){
+				fclose(STDIN);
+				fclose(STDOUT);
+				fclose(STDERR);
+				return TRUE;
+			});
 		}
 		$this->run();
 	}
@@ -99,7 +105,7 @@ class CLI_Shell
 	 *	@param		string		$line		...
 	 *	@return 	bool
 	 */
-	protected function isImmediate( $line )
+	protected function isImmediate( string $line ): bool
 	{
 		$code = '';
 		$sq = $dq = FALSE;
@@ -119,7 +125,7 @@ class CLI_Shell
 		$code = str_replace( $this->okeq, '', $code );
 		if( strcspn( $code, ";{=" ) != strlen( $code ) )
 			return FALSE;
-		$kw = preg_split( "/[^A-Za-z0-9_]/", $code );
+		$kw = preg_split( "/[^a-z\d_]/i", $code );
 		foreach( $kw as $i )
 			if( in_array( $i, $this->skip, TRUE ) )
 				return FALSE;

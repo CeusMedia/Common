@@ -7,6 +7,10 @@ require_once __DIR__.'/Migration/Applier.php';
 use Tool_Migration_Modifier as Modifier;
 use Tool_Migration_Applier as Applier;
 
+use CeusMedia\Common\CLI;
+use CeusMedia\Common\CLI\Color as CLI_Color;
+use CeusMedia\Common\FS\Folder as FS_Folder;
+
 $places	= array(
 	'src'	=> (object) array(
 		'active'	=> TRUE,
@@ -47,7 +51,7 @@ $places	= array(
 	),
 );
 
-new UI_DevOutput();
+new CeusMedia\Common\UI\DevOutput();
 $cliColor	= new CLI_Color();
 
 foreach( $places as $placeKey => $placeData ){

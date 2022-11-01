@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Multiplexer.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,39 +20,43 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
- *	@extends		Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			23.08.2005
  */
+
+namespace CeusMedia\Common\ADT;
+
+use RangeException;
+
 /**
  *	Multiplexer.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			23.08.2005
  */
-class ADT_Multiplexer
+class Multiplexer
 {
 	/**	@var		int			$type			Type (1,2,4) */
-	protected $type;
+	protected int $type;
+
 	/**	@var		array		$controls		Controls */
-	protected $controls			= array();
-	/**	@var		int			$inputs			Inputs */
-	protected $inputs			= array();
+	protected array $controls;
+
+	/**	@var		array		$inputs			Inputs */
+	protected array $inputs;
 
 	/**
-	 *	Contructor.
+	 *	Constructor.
 	 *	@access		public
 	 *	@param		int			$type			Type (1,2,4)
 	 *	@return		void
 	 */
-	public function __construct( $type = 1 )
+	public function __construct( int $type = 1 )
 	{
 		$this->type = $type;
 		$this->setControls();
@@ -63,7 +68,7 @@ class ADT_Multiplexer
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getControls()
+	public function getControls(): array
 	{
 		return $this->controls;
 	}
@@ -73,7 +78,7 @@ class ADT_Multiplexer
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getInputs()
+	public function getInputs(): array
 	{
 		return $this->inputs;
 	}
@@ -83,7 +88,7 @@ class ADT_Multiplexer
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getType()
+	public function getType(): int
 	{
 		return $this->type;
 	}
@@ -99,7 +104,7 @@ class ADT_Multiplexer
 			case 1:
 				return $this->controls[0] ? $this->inputs[1] : $this->inputs[0];
 			case 2:
-				$mux = new ADT_Multiplexer();
+				$mux = new Multiplexer();
 				$mux->setControls( $this->controls[0] );
 				$mux->setInputs( $this->inputs[0], $this->inputs[1] );
 				$input0 = $mux->proceed();
@@ -109,7 +114,7 @@ class ADT_Multiplexer
 				$mux->setInputs( $input0, $input1 );
 				return $mux->proceed();
 			case 4:
-				$mux2 = new ADT_Multiplexer( 2 );
+				$mux2 = new Multiplexer( 2 );
 				$mux2->setControls( $this->controls[0], $this->controls[1] );
 				$mux2->setInputs( $this->inputs[0], $this->inputs[1], $this->inputs[2], $this->inputs[3] );
 				$input0 = $mux2->proceed();
@@ -134,7 +139,7 @@ class ADT_Multiplexer
 	 */
 	public function setControls()
 	{
-		$this->controls	= array();
+		$this->controls	= [];
 		$args	= func_get_args();
 		for( $i = 0; $i < $this->type; $i ++ )
 			if( isset( $args[$i] ) )
@@ -148,8 +153,8 @@ class ADT_Multiplexer
 	 */
 	public function setInputs()
 	{
-		$this->inputs	= array();
-		$len	= pow( 2, $this->type );
+		$this->inputs	= [];
+		$len	= 2 ** $this->type;
 		$args	= func_get_args();
 		for( $i = 0; $i < $len; $i ++ )
 			if( isset( $args[$i] ) )

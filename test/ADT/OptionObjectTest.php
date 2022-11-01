@@ -1,27 +1,34 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of Option Object
  *	@package		adt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+ namespace CeusMedia\CommonTest\ADT;
+
+use CeusMedia\Common\ADT\OptionObject;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
- *	@extends		Test_Case
- *	@uses			ADT_OptionObject
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
-class Test_ADT_OptionObjectTest extends Test_Case
+class OptionObjectTest extends BaseCase
 {
+	protected $object;
+
 	public function setUp(): void
 	{
-		$this->object	= new ADT_OptionObject();
+		$this->object	= new OptionObject();
 		$this->object->setOption( "string1", "value1" );
 		$this->object->setOption( "boolean1", true );
 		$this->object->setOption( "double1", M_PI );
@@ -35,8 +42,8 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$object		= new ADT_OptionObject();
-		$assertion	= array();
+		$object		= new OptionObject();
+		$assertion	= [];
 		$creation	= $object->getOptions();
 		$this->assertEquals( $assertion, $creation );
 
@@ -45,7 +52,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 			'key2'	=> "param2",
 		);
 
-		$object		= new ADT_OptionObject( $pairs );
+		$object		= new OptionObject( $pairs );
 		$assertion	= $pairs;
 		$creation	= $object->getOptions();
 		$this->assertEquals( $assertion, $creation );
@@ -59,7 +66,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testConstructException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		new ADT_OptionObject( array( 1, 2 ) );
+		new OptionObject( array( 1, 2 ) );
 	}
 
 	/**
@@ -69,19 +76,17 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testClearOptions()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->object->clearOptions();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->object->getOptions();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->object->clearOptions();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->object->getOptions();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -106,7 +111,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testDeclareOptions()
 	{
 		$optionKeys	= array( "key1", "key2" );
-		$object		= new ADT_OptionObject();
+		$object		= new OptionObject();
 		$object->declareOptions( $optionKeys );
 
 		$assertion	= $optionKeys;
@@ -126,7 +131,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testDeclareOptionsException1()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$object		= new ADT_OptionObject();
+		$object		= new OptionObject();
 		$object->declareOptions( array( "a", 1 )  );
 	}
 
@@ -144,9 +149,8 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  get Boolean
-		$assertion	= true;
 		$creation	= $this->object->getOption( "boolean1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  get Double
 		$assertion	= M_PI;
@@ -159,9 +163,8 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  get NULL
-		$assertion	= NULL;
 		$creation	= $this->object->getOption( "not_existing", FALSE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertNull( $creation );
 	}
 
 	/**
@@ -201,14 +204,12 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testHasOptions()
 	{
 		//  check existing Option
-		$assertion	= true;
 		$creation	= $this->object->hasOption( "string1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check not existing Option
-		$assertion	= false;
 		$creation	= $this->object->hasOption( "string2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -219,14 +220,12 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testOffsetExists()
 	{
 		//  check existing Option
-		$assertion	= true;
 		$creation	= isset( $this->object["string1"] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check not existing Option
-		$assertion	= false;
 		$creation	= isset( $this->object["string2"] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -242,9 +241,8 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  get Boolean
-		$assertion	= true;
 		$creation	= $this->object["boolean1"];
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  get Double
 		$assertion	= M_PI;
@@ -268,9 +266,8 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		$this->object["string2"]	= "value2";
 
 		//  check set Option
-		$assertion	= true;
 		$creation	= isset( $this->object["string2"] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check set Option
 		$assertion	= "value2";
@@ -297,9 +294,8 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		unset( $this->object["string1"] );
 
 		//  check removed Option
-		$assertion	= false;
 		$creation	= isset( $this->object["string1"] );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -310,19 +306,16 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testRemoveOption()
 	{
 		//  remove Option
-		$assertion	= true;
 		$creation	= $this->object->removeOption( "string1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check removed Option
-		$assertion	= false;
 		$creation	= $this->object->hasOption( "string1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		//  try to remove Option again
-		$assertion	= false;
 		$creation	= $this->object->removeOption( "string1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -333,14 +326,12 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testSetOption()
 	{
 		//  set Option
-		$assertion	= true;
 		$creation	= $this->object->setOption( "string2", "value2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check set Option
-		$assertion	= true;
 		$creation	= $this->object->hasOption( "string2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check set Option
 		$assertion	= "value2";
@@ -348,14 +339,12 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  try to set Option again
-		$assertion	= false;
 		$creation	= $this->object->setOption( "string2", "value2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		//  overwrite Option
-		$assertion	= true;
 		$creation	= $this->object->setOption( "string2", "value2-2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  check set Option
 		$assertion	= "value2-2";

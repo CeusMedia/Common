@@ -2,7 +2,7 @@
 /**
  *	Parser for HTTP Request Query Strings, for example given by mod_rewrite or own formats.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.11.2008
  */
+
+namespace CeusMedia\Common\Net\HTTP\Request;
+
+use InvalidArgumentException;
+
 /**
  *	Parser for HTTP Request Query Strings, for example given by mod_rewrite or own formats.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			02.11.2008
  */
-class Net_HTTP_Request_QueryParser
+class QueryParser
 {
 	/**
 	 *	Parses Query String and returns an Array statically.
@@ -48,13 +51,12 @@ class Net_HTTP_Request_QueryParser
 	 */
 	public static function toArray( $query, $separatorPairs = "&", $separatorPair = "=" )
 	{
-		$list	= array();
+		$list	= [];
 		//  cut query into pairs
 		$pairs	= explode( $separatorPairs, $query );
 		//  iterate all pairs
-		foreach( $pairs as $pair )
-		{
-			//  remove surrounding whitespace 
+		foreach( $pairs as $pair ){
+			//  remove surrounding whitespace
 			$pair	= trim( $pair );
 			//  empty pair
 			if( !$pair )
@@ -67,10 +69,9 @@ class Net_HTTP_Request_QueryParser
 			$value		= NULL;
 			$pattern	= '@^(\S+)'.$separatorPair.'(\S*)$@U';
 			//  separator sign found -> value attached
-			if( preg_match( $pattern, $pair ) )
-			{
+			if( preg_match( $pattern, $pair ) ){
 				//  prepare matches array
-				$matches	= array();
+				$matches	= [];
 				//  find all parts
 				preg_match_all( $pattern, $pair, $matches );
 				//  key is first part
@@ -84,14 +85,13 @@ class Net_HTTP_Request_QueryParser
 				throw new InvalidArgumentException( 'Query is invalid.' );
 
 			//  key is ending on [] -> array
-			if( preg_match( "/\[\]$/", $key ) )
-			{
+			if( preg_match( "/\[\]$/", $key ) ){
 				//  remove [] from key
 				$key	= preg_replace( "/\[\]$/", "", $key );
 				//  array for key is not yet set in list
 				if( !isset( $list[$key] ) )
 					//  set up array for key in list
-					$list[$key]	= array();
+					$list[$key]	= [];
 				//  add value for key in array in list
 				$list[$key][]	= $value;
 			}

@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
+
 /**
  *	Put watermark in image with transparent and randomize effect
  *
@@ -7,8 +9,10 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Lionel Micault <lionel.micault@laposte.net>
- *	@version		1.01
  */
+
+namespace CeusMedia\Common\UI\Image;
+
 // position constants
 define ("transparentWatermarkOnTop", -10);
 define ("transparentWatermarkOnMiddle", 0);
@@ -16,6 +20,7 @@ define ("transparentWatermarkOnBottom", 10);
 define ("transparentWatermarkOnLeft", -10);
 define ("transparentWatermarkOnCenter", 0);
 define ("transparentWatermarkOnRight", 10);
+
 /**
  *	Put watermark in image with transparent and randomize effect
  *
@@ -24,158 +29,147 @@ define ("transparentWatermarkOnRight", 10);
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Lionel Micault <lionel.micault@laposte.net>
- *	@version		1.01
  *	@todo			check Integration
  *	@todo			create TestCases
  *	@todo			Code Documentation
  */
-class UI_Image_TransparentWatermark
+class TransparentWatermark
 {
-	var $stampImage		= 0;
-	var $stampWidth;
-	var $stampHeight;
-	var $stampPositionX	= transparentWatermarkOnRight;
-	var $stampPositionY	= transparentWatermarkOnBottom;
+	protected $stampImage		= 0;
 
-	var $errorMsg="";
+	protected $stampWidth;
+
+	protected $stampHeight;
+
+	protected $stampPositionX	= transparentWatermarkOnRight;
+
+	protected $stampPositionY	= transparentWatermarkOnBottom;
+
+	protected $errorMsg			= '';
 
 	/**
-	* Constructor
-	*
-	* @param string $stampFile  filename of stamp image
-	* @return boolean
-	* @access public
-	* @uses setStamp()
-	*/
-	public function __construct( $stampFile="")
+	 *	Constructor
+	 *
+	 *	@access		public
+	 *	@param		string		$stampFile		Filename of stamp image
+	 *	@return		void
+	 */
+	public function __construct( string $stampFile = '' )
 	{
-		return( $this->setStamp( $stampFile));
+		$this->setStamp( $stampFile );
 	}
 
 	/**
-	* send image to stdout
-	*
-	* @param resource $image  image
-	* @param int $type  image type (2:JPEG or 3:PNG)
-	* @return void
-	* @access protected
-	* @uses errorMsg
-	*/
-	public function displayImage( $image, $type )
+	 *	Send image to stdout.
+	 *
+	 *	@access		protected
+	 *	@param		resource	$image		image
+	 *	@param		int			$type		image type (2:JPEG or 3:PNG)
+	 *	@return		void
+	 */
+	public function displayImage( $image, int $type )
 	{
-		switch ($type) {
-			case 2:	//JPEG
-			header("Content-Type: image/jpeg");
-			imagejpeg( $image);
-			break;
-
-			case 3:	//PNG
-			header("Content-Type: image/png");
-			imagepng( $image);
-			break;
-
+		switch( $type ){
+			case IMAGETYPE_JPEG:
+				header( 'Content-Type: image/jpeg' );
+				imagejpeg( $image );
+				break;
+			case IMAGETYPE_PNG:
+				header( 'Content-Type: image/png' );
+				imagepng( $image );
+				break;
 			default:
-			$this->errorMsg="File format not supported.";
+				$this->errorMsg = 'File format not supported.';
 		}
 	}
 
 	/**
-	* retrieve last error message
-	*
-	* @return string
-	* @access public
-	* @uses errorMsg
-	*/
-	public function getLastError() {
-		return($this->errorMsg);
+	 *	Retrieve last error message.
+	 *
+	 *	@access public
+	 *	@return string
+	 */
+	public function getLastError(): ?string
+	{
+		return $this->errorMsg;
 	}
 
 	/**
-	* mark an image file and  display/save it
-	*
-	* @param int $imageFile  image file (JPEG or PNG format)
-	* @param int $resultImageFile new image file (same format)
-	* @return boolean
-	* @access public
-	* @uses readImage()
-	* @uses markImage()
-	* @uses writeImage()
-	* @uses readImage()
-	* @uses errorMsg
-	*/
-	public function markImageFile ( $imageFile, $resultImageFile="") {
-		if (!$this->stampImage) {
-			$this->errorMsg="Stamp image is not set.";
-			return(false);
+	 *	Mark an image file and display/save it.
+	 *
+	 *	@access		public
+	 *	@param		string		$imageFile			image file (JPEG or PNG format)
+	 *	@param		string		$resultImageFile	new image file (same format)
+	 *	@return		boolean
+	 */
+	public function markImageFile( string $imageFile, string $resultImageFile = '' ): bool
+    {
+		if( !$this->stampImage ){
+			$this->errorMsg = 'Stamp image is not set.';
+			return( FALSE );
 		}
 
-		$imageinfos = @getimagesize($imageFile);
-		$type   = $imageinfos[2];
-
-		$image=$this->readImage($imageFile, $type);
-		if (!$image) {
-			$this->errorMsg="Error on loading '$imageFile', image must be a valid PNG or JPEG file.";
-			return(false);
+		$imageInfos	= @getimagesize( $imageFile );
+		$type		= $imageInfos[2];
+		$image		= $this->readImage( $imageFile, $type );
+		if( !$image ){
+			$this->errorMsg = 'Error on loading "'.$imageFile.'", image must be a valid PNG or JPEG file.';
+			return( FALSE );
 		}
 
-		$this->markImage ( $image);
+		$this->markImage( $image );
 
-		if ($resultImageFile!="") {
-			$this->writeImage( $image, $resultImageFile, $type);
+		if( $resultImageFile != ''){
+			$this->writeImage( $image, $resultImageFile, $type );
 		}
-		else {
-			$this->displayImage( $image, $type);
+		else{
+			$this->displayImage( $image, $type );
 		}
-		return( true);
-
+		return TRUE;
 	}
 
 	/**
-	* mark an image
-	*
-	* @param int $imageResource resource of image
-	* @return boolean
-	* @access public
-	* @uses stampWidth
-	* @uses stampHeight
-	* @uses stampImage
-	* @uses stampPositionX
-	* @uses stampPositionY
-	*/
-	public function markImage ( $imageResource) {
-		if (!$this->stampImage) {
-			$this->errorMsg="Stamp image is not set.";
-			return(false);
+	 *	Mark an image.
+	 *
+	 *	@access		public
+	 *	@param		resource		$imageResource		resource of image
+	 *	@return		boolean
+	 */
+	public function markImage( $imageResource ): bool
+    {
+		if( !$this->stampImage ){
+			$this->errorMsg = 'Stamp image is not set.';
+			return FALSE;
 		}
-		$imageWidth  = imagesx( $imageResource);
-		$imageHeight = imagesy( $imageResource);
+		$imageWidth  = imagesx( $imageResource );
+		$imageHeight = imagesy( $imageResource );
 
 		//set position of logo
-		switch ($this->stampPositionX) {
+		switch( $this->stampPositionX ){
 			case transparentWatermarkOnLeft:
-			$leftStamp=0;
-			break;
+				$leftStamp = 0;
+				break;
 			case transparentWatermarkOnCenter:
-			$leftStamp=($imageWidth - $this->stampWidth)/2;
-			break;
+				$leftStamp = ( $imageWidth - $this->stampWidth ) / 2;
+				break;
 			case transparentWatermarkOnRight:
-			$leftStamp=$imageWidth - $this->stampWidth;
-			break;
+				$leftStamp = $imageWidth - $this->stampWidth;
+				break;
 			default :
-			$leftStamp=0;
+				$leftStamp = 0;
 		}
-		switch ($this->stampPositionY) {
+		switch( $this->stampPositionY ){
 			case transparentWatermarkOnTop:
-			$topStamp=0;
-			break;
+				$topStamp = 0;
+				break;
 			case transparentWatermarkOnMiddle:
-			$topStamp=($imageHeight - $this->stampHeight)/2;
-			break;
+				$topStamp = ( $imageHeight - $this->stampHeight ) / 2;
+				break;
 			case transparentWatermarkOnBottom:
-			$topStamp=$imageHeight - $this->stampHeight;
-			break;
+				$topStamp = $imageHeight - $this->stampHeight;
+				break;
 			default:
-			$topStamp=0;
+				$topStamp = 0;
 		}
 
 		// for each pixel of stamp
@@ -195,7 +189,7 @@ class UI_Image_TransparentWatermark
 				$indexImage	= imagecolorat( $imageResource, $x+$leftStamp, $y+$topStamp );
 				$rgbImage=imagecolorsforindex( $imageResource, $indexImage );
 
-				$randomizer=0;
+				$randomizer = 0;
 
 				// compute new values of colors pixel
 				$r	= max( min( $rgbImage["red"] + $rgbStamp["red"]-0x80, 0xFF), 0x00 );
@@ -206,116 +200,108 @@ class UI_Image_TransparentWatermark
 				imagesetpixel( $imageResource, $x+$leftStamp, $y+$topStamp, ($r<<16)+($g<<8)+$b );
 			}
 		}
+        return TRUE;
 	}
 
 	/**
-	* read image from file
-	*
-	* @param string $file  image file (JPEG or PNG)
-	* @param int $type  file type (2:JPEG or 3:PNG)
-	* @return resource
-	* @access protected
-	* @uses errorMsg
-	*/
-	public function readImage( $file, $type) {
-		switch ($type) {
-			case 2:	//JPEG
-			return(ImageCreateFromJPEG($file));
-			break;
-
-			case 3:	//PNG
-			return(ImageCreateFromPNG($file));
-			break;
-
+	 *	Read image from file.
+	 *
+	 *	@access		protected
+	 *	@param		string		$file		image file (JPEG or PNG)
+	 *	@param		int			$type		file type (2:JPEG or 3:PNG)
+	 *	@return		resource|NULL
+	 */
+	public function readImage( string $file, int $type )
+    {
+		switch( $type ){
+			case IMAGETYPE_JPEG:
+				return ImageCreateFromJPEG( $file );
+			case IMAGETYPE_PNG:
+				return ImageCreateFromPNG( $file );
 			default:
-			$this->errorMsg="File format not supported.";
-			return(false);
+				$this->errorMsg = 'File format not supported.';
+				return NULL;
 		}
 	}
 
 	/**
-	* set stamp image for watermak
-	*
-	* @param string $stampFile  image file (JPEG or PNG)
-	* @return boolean
-	* @access public
-	* @uses readImage()
-	* @uses stampImage
-	* @uses stampWidth
-	* @uses stampHeight
-	* @uses errorMsg
-	*/
-	public function setStamp( $stampFile) {
-		$imageinfos = @getimagesize($stampFile);
-		$width  = $imageinfos[0];
-		$height = $imageinfos[1];
-		$type   = $imageinfos[2];
+	 *	Set stamp image for watermark.
+	 *
+	 *	@access		public
+	 *	@param		string		$stampFile		image file (JPEG or PNG)
+	 *	@return		boolean
+	 */
+	public function setStamp( string $stampFile ): bool
+    {
+		$imageInfos	= @getimagesize( $stampFile );
+		$width		= $imageInfos[0];
+		$height		= $imageInfos[1];
+		$type		= $imageInfos[2];
 
-		if ($this->stampImage) imagedestroy( $this->stampImage);
+		if( $this->stampImage )
+			imagedestroy( $this->stampImage );
 
-		$this->stampImage=$this->readImage($stampFile, $type);
+		$this->stampImage = $this->readImage( $stampFile, $type );
 
-		if (!$this->stampImage) {
-			$this->errorMsg="Error on loading '$stampFile', stamp image must be a valid PNG or JPEG file.";
-			return(false);
+		if( !$this->stampImage ){
+			$this->errorMsg = 'Error on loading "'.$stampFile.'", stamp image must be a valid PNG or JPEG file.';
+			return FALSE;
 		}
-		else {
+		else{
 			$this->stampWidth=$width;
 			$this->stampHeight=$height;
-			return(true);
+			return TRUE;
 		}
 	}
 
 	/**
-	* set stamp position on image
-	*
-	* @access	public
-	* @param	int $Xposition x position
-	* @param	int $Yposition y position
-	* @return	void
-	* @uses	errorMsg
-	*/
-	public function setStampPosition ( $Xposition, $Yposition) {
+	 *	Set stamp position on image.
+	 *
+	 *	@access		public
+	 *	@param		int			$Xposition		x position
+	 *	@param		int			$Yposition		y position
+	 *	@return		void
+	 */
+	public function setStampPosition( int $Xposition, int $Yposition )
+    {
 		// set X position
-		switch ($Xposition) {
+		switch( $Xposition ){
 			case transparentWatermarkOnLeft:
 			case transparentWatermarkOnCenter:
 			case transparentWatermarkOnRight:
-			$this->stampPositionX=$Xposition;
-			break;
+				$this->stampPositionX	= $Xposition;
+				break;
 		}
 		// set Y position
-		switch ($Yposition) {
+		switch( $Yposition ){
 			case transparentWatermarkOnTop:
 			case transparentWatermarkOnMiddle:
 			case transparentWatermarkOnBottom:
-			$this->stampPositionY=$Yposition;
-			break;
+				$this->stampPositionY	= $Yposition;
+				break;
 		}
 	}
 
 	/**
-	* write image to file
-	*
-	* @param resource $image  image
-	* @param string $file  image file (JPEG or PNG)
-	* @param int $type  file type (2:JPEG or 3:PNG)
-	* @return void
-	* @access protected
-	* @uses errorMsg
-	*/
-	public function writeImage( $image, $file, $type) {
-		switch ($type) {
-			case 2:	//JPEG
-			Imagejpeg( $image, $file);
-			break;
-
-			case 3:	//PNG
-			Imagepng( $image, $file);
-			break;
-
+	 *	Write image to file.
+	 *
+	 *	@access		protected
+	 *	@param		resource	$image		image
+	 *	@param		string		$file		image file (JPEG or PNG)
+	 *	@param		int			$type		file type (2:JPEG or 3:PNG)
+	 *	@return     void
+	 */
+	public function writeImage( $image, string $file, int $type )
+    {
+		switch( $type ){
+			case IMAGETYPE_JPEG:
+				Imagejpeg( $image, $file );
+				break;
+			case IMAGETYPE_PNG:
+				Imagepng( $image, $file);
+				break;
 			default:
-			$this->errorMsg="File format not supported.";
+				$this->errorMsg = 'File format not supported.';
 		}
 	}
 }

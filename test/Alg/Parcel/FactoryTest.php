@@ -1,26 +1,38 @@
 <?php
-/**
- *	TestUnit of Alg_Parcel_Factory.
- *	@package		Tests.alg.parcel
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Alg_Parcel_Factory.
+ *	@package		Tests.alg.parcel
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg\Parcel;
+
+use CeusMedia\Common\Alg\Parcel\Factory as ParcelFactory;
+use CeusMedia\Common\Alg\Parcel\Packet as ParcelPacket;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
+use Exception;
 
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
- *	@extends		Test_Case
- *	@uses			Alg_Parcel_Factory
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- *	@version		0.1
  */
-class Test_Alg_Parcel_FactoryTest extends Test_Case
+class FactoryTest extends BaseCase
 {
+	protected $articles;
+
+	protected $packets;
+
+	protected $volumes;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -46,8 +58,8 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 				'b'	=> 0.25,
 			),
 		);
-		Test_MockAntiProtection::createMockClass( "Alg_Parcel_Factory" );
-		$this->factory	= new Test_Alg_Parcel_Factory_MockAntiProtection( $this->packets, $this->articles, $this->volumes );
+		$this->factory	= MockAntiProtection::getInstance( ParcelFactory::class, $this->packets, $this->articles, $this->volumes );
+//		$this->factory	= new FactoryMockAntiProtection( $this->packets, $this->articles, $this->volumes );
 	}
 
 	/**
@@ -88,7 +100,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testProduce()
 	{
-		$packet		= new Alg_Parcel_Packet( 'large' );
+		$packet		= new ParcelPacket( 'large' );
 		$packet->addArticle( 'a', 0.1 );
 		$packet->addArticle( 'a', 0.1 );
 		$packet->addArticle( 'a', 0.1 );
@@ -133,7 +145,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 		$this->factory->produce( "small", array( 'b' => 5 ) );
 	}
 }
-class Alg_Parcel_FactoryInstance extends Alg_Parcel_Factory
+class FactoryInstance extends ParcelFactory
 {
 	public function getProtectedVar( $varName )
 	{

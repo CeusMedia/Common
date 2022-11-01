@@ -1,28 +1,36 @@
 <?php
-/**
- *	TestUnit of XML_RSS_Builder.
- *	@package		Tests.xml.rss
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML_RSS_Builder.
+ *	@package		Tests.xml.rss
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\RSS;
+
+use CeusMedia\Common\XML\DOM\Builder as XmlDomBuilder;
+use CeusMedia\Common\XML\RSS\Builder;
+use CeusMedia\CommonTest\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of XML_RSS_Builder.
  *	@package		Tests.xml.rss
- *	@extends		Test_Case
- *	@uses			XML_RSS_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *	@version		0.1
  */
-class Test_XML_RSS_BuilderTest extends Test_Case
+class BuilderTest extends BaseCase
 {
 	protected $file;
 	protected $serial;
+	protected $path;
+	protected $builder;
+	protected $setup;
 
 	/**
 	 *	Setup for every Test.
@@ -31,9 +39,9 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->path		= dirname( __FILE__ )."/";
+		$this->path		= dirname( __FILE__ )."/assets/";
 		$this->file		= $this->path."builder.xml";
-		$this->builder	= new Test_XML_RSS_BuilderInstance();
+		$this->builder	= new TestBuilderInstance();
 		$this->setup	= array(
 			'channel'	=> array(
 				'title'				=> "UnitTest created Feed",
@@ -75,9 +83,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$builder	= new Test_XML_RSS_BuilderInstance();
-
-		$assertion	= new XML_DOM_Builder();
+		$assertion	= new XmlDomBuilder();
 		$creation	= $this->builder->getProtectedVar( 'builder' );
 		$this->assertEquals( $assertion, $creation );
 
@@ -121,8 +127,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 		$this->builder->setChannelData( $this->setup['channel'] );
 		$this->builder->setItemList( $this->setup['items'] );
 
-		$assertion	= file_get_contents( $this->file );
-		$creation	= $this->builder->build();
+		$this->builder->build();
 		$this->assertXmlFileEqualsXmlFile( $this->file, $this->path."builder2.xml" );
 	}
 
@@ -195,7 +200,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	}
 }
 
-class Test_XML_RSS_BuilderInstance extends XML_RSS_Builder
+class TestBuilderInstance extends Builder
 {
 	public function getProtectedVar( $varName )
 	{

@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder of Exception Pages.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,35 +21,42 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Exception;
+
+use CeusMedia\Common\UI\HTML\JQuery;
+use CeusMedia\Common\UI\HTML\PageFrame;
+use CeusMedia\Common\UI\HTML\Tag;
+use Exception;
+
 /**
  *	Builder of Exception Pages.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
-class UI_HTML_Exception_Page
+class Page
 {
 	/**
 	 *	Displays rendered Exception Page.
 	 *	@access		public
 	 *	@param		Exception				$e			Exception to render View for
-	 *	@return		string
+	 *	@return		void
 	 *	@static
 	 */
 	public static function display( Exception $e )
 	{
-		$view	= UI_HTML_Exception_View::render( $e );
+		$view	= View::render( $e );
 		print( self::wrapExceptionView( $view ) );
 	}
+
 	/**
 	 *	Returns rendered Exception Page.
 	 *	@access		public
@@ -56,30 +64,30 @@ class UI_HTML_Exception_Page
 	 *	@return		string
 	 *	@static
 	 */
-	public static function render( Exception $e )
+	public static function render( Exception $e ): string
 	{
-		$view	= UI_HTML_Exception_View::render( $e );
+		$view	= View::render( $e );
 		return self::wrapExceptionView( $view );
 	}
 
 	/**
 	 *	Wraps an Exception View to an Exception Page.
 	 *	@access		public
-	 *	@param		UI_HTML_Exception_View	$view		Exception View
+	 *	@param		string		$view		Exception View
 	 *	@return		string
 	 */
-	public static function wrapExceptionView( $view )
+	public static function wrapExceptionView( string $view ): string
 	{
-		$page	= new UI_HTML_PageFrame();
+		$page	= new PageFrame();
 		$page->setTitle( 'Exception' );
 		$page->addJavaScript( '//cdn.ceusmedia.de/js/jquery/1.4.2.min.js' );
 		$page->addJavaScript( '//cdn.ceusmedia.de/js/jquery/cmExceptionView/0.1.js' );
 		$page->addStylesheet( '//cdn.ceusmedia.de/js/jquery/cmExceptionView/0.1.css' );
 		$page->addStylesheet( '//cdn.ceusmedia.de/css/bootstrap.min.css' );
-		$options	= array( 'foldTraces' => TRUE );
-		$script		= UI_HTML_JQuery::buildPluginCall( 'cmExceptionView', 'dl.exception', $options );
-		$page->addHead( UI_HTML_Tag::create( 'script', $script ) );
-		$page->addBody( UI_HTML_Tag::create( 'h2', 'Error' ).$view );
-		return $page->build( array( 'style' => 'margin: 1em' ) );
+		$options	= ['foldTraces' => TRUE];
+		$script		= JQuery::buildPluginCall( 'cmExceptionView', 'dl.exception', $options );
+		$page->addHead( Tag::create( 'script', $script ) );
+		$page->addBody( Tag::create( 'h2', 'Error' ).$view );
+		return $page->build( ['style' => 'margin: 1em'] );
 	}
 }

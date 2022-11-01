@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Handes Upload Error Codes by throwing Exceptions.
+ *	Handles Upload Error Codes by throwing Exceptions.
  *
- *	Copyright (c) 2010-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,29 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
- *	Handes Upload Error Codes by throwing Exceptions.
+ *	Handles Upload Error Codes by throwing Exceptions.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
  *	@todo			code doc
  */
-class Net_HTTP_UploadErrorHandler
+class UploadErrorHandler
 {
-	protected $messages	= array(
+	protected $messages	= [
 		UPLOAD_ERR_INI_SIZE		=> 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
 		UPLOAD_ERR_FORM_SIZE	=> 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
 		UPLOAD_ERR_PARTIAL		=> 'The uploaded file was only partially uploaded',
@@ -46,19 +51,20 @@ class Net_HTTP_UploadErrorHandler
 		UPLOAD_ERR_NO_TMP_DIR	=> 'Missing a temporary folder',
 		UPLOAD_ERR_CANT_WRITE	=> 'Failed to write file to disk',
 		UPLOAD_ERR_EXTENSION	=> 'File upload stopped by extension',
-	);
+	];
 
-	public function getErrorMessage( $code ){
-		if( !isset( $this->messages[(string)$code] ) )
+	public function getErrorMessage( int $code )
+	{
+		if( !isset( $this->messages[$code] ) )
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		return $this->messages[$code];
 	}
 
-	public function handleErrorCode( $code )
+	public function handleErrorCode( int $code )
 	{
-		if( (int)$code === 0 )
+		if( $code === 0 )
 			return;
-		if( !isset( $this->messages[(string)$code] ) )
+		if( !isset( $this->messages[$code] ) )
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		$msg	= $this->messages[$code];
 		switch( $code )
@@ -75,21 +81,21 @@ class Net_HTTP_UploadErrorHandler
 		}
 	}
 
-	public function handleErrorFromUpload( $upload )
+	public function handleErrorFromUpload( array $upload )
 	{
 		$code	= $upload['error'];
-		return $this->handleErrorCode( $code );
+		$this->handleErrorCode( $code );
 	}
 
 	/**
 	 *	Sets Error Messages.
 	 *	@access		public
-	 *	@param		array		Map of Error Messages assigned to official PHP Upload Error Codes Constants
-	 *	@return		string
+	 *	@param		array		$messages		Map of Error Messages assigned to official PHP Upload Error Codes Constants
+	 *	@return		self
 	 */
-	public function setMessages( $messages )
+	public function setMessages( array $messages ): self
 	{
-		foreach( $messages as $code => $label )
-			$this->messages[$code]	= $label;
+		$this->messages	= array_merge( $this->messages, $messages );
+		return $this;
 	}
 }

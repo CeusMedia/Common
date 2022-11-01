@@ -1,37 +1,42 @@
 <?php
-/**
- *	TestUnit of Thumbnail Creator.
- *	@package		Tests.ui.image
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Thumbnail Creator.
+ *	@package		Tests.ui.image
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\UI\Image;
+
+use CeusMedia\Common\UI\Image\ThumbnailCreator;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Thumbnail Creator.
  *	@package		Tests.ui.image
- *	@extends		Test_Case
- *	@uses			UI_Image_ThumbnailCreator
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.1
  */
-class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
+class ThumbnailCreatorTest extends BaseCase
 {
 	protected $assertFile;
 	protected $sourceFile;
 	protected $targetFile;
+
+	/** @var string  */
+	protected $path;
 
 	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 		$this->assertFile	= $this->path."assertThumbnail.png";
 		$this->sourceFile	= $this->path."sourceThumbnail.png";
 		$this->targetFile	= $this->path."targetThumbnail.png";
@@ -54,7 +59,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $sourceFile, $targetFile );
+		$creator	= new ThumbnailCreator( $sourceFile, $targetFile );
 		$creator->thumbize( 16, 16 );
 
 		$assertion	= true;
@@ -78,7 +83,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $sourceFile, $targetFile );
+		$creator	= new ThumbnailCreator( $sourceFile, $targetFile );
 		$creator->thumbize( 16, 16 );
 
 		$assertion	= true;
@@ -99,7 +104,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $sourceFile, $targetFile );
+		$creator	= new ThumbnailCreator( $sourceFile, $targetFile );
 		$creator->thumbize( 16, 16 );
 
 		$assertion	= true;
@@ -117,7 +122,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 		if( file_exists( $this->targetFile ) )
 			unlink( $this->targetFile );
 
-		$creator	= new UI_Image_ThumbnailCreator( $this->sourceFile, $this->targetFile );
+		$creator	= new ThumbnailCreator( $this->sourceFile, $this->targetFile );
 		$creator->thumbizeByLimit( 100, 16 );
 
 		$assertion	= true;
@@ -131,13 +136,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 
 	public function testThumbizeExceptions()
 	{
-		try
-		{
-			$creator	= new UI_Image_ThumbnailCreator( __FILE__, "notexisting.txt" );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		$this->expectException( 'Exception' );
+		$creator	= new ThumbnailCreator( __FILE__, "notexisting.txt" );
 	}
 }

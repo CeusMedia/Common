@@ -1,21 +1,24 @@
 <?php
-/**
- *	TestUnit of Folder Editor.
- *	@package		Tests.folder
- *	@since			21.04.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Folder Editor.
+ *	@package		Tests.FS.Folder
+ */
+
+namespace CeusMedia\CommonTest\FS\Folder;
+
+use CeusMedia\CommonTest\BaseCase as BaseTestCase;
 
 /**
  *	TestUnit of Folder Editor.
- *	@package		Tests.folder
- *	@extends		Test_Case
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *	@version		0.1
  *
  *	This Class creates and removed this File Structure:
  *	# folder
@@ -50,8 +53,11 @@ use PHPUnit\Framework\TestCase;
  *	      ° file3_2_1
  *	      ° .file3_2_2
  */
-class Test_FS_Folder_TestCase extends Test_Case
+class TestCase extends BaseTestCase
 {
+	protected $folder;
+
+	protected $path;
 
 	public function __construct()
 	{
@@ -118,8 +124,8 @@ class Test_FS_Folder_TestCase extends Test_Case
 	 */
 	protected function getListFromIndex( $index )
 	{
-		$folders	= array();
-		$files		= array();
+		$folders	= [];
+		$files		= [];
 		foreach( $index as $entry )
 		{
 			if( $entry->getFilename() == "." || $entry->getFilename() == ".." )
@@ -142,9 +148,9 @@ class Test_FS_Folder_TestCase extends Test_Case
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
 	 */
-	protected static function removeFolder( $path, $force = false )
+	protected static function removeFolder( string $path, bool $force = FALSE )
 	{
-		$list	= array();
+		$list	= [];
 		$path	= str_replace( "\\", "/", $path );
 		//  index Folder
 		$dir	= dir( $path );

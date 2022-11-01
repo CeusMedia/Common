@@ -1,26 +1,35 @@
 <?php
-/**
- *	TestUnit of UI_HTML_Indicator.
- *	@package		Tests.ui.html
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.07.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of UI_HTML_Indicator.
+ *	@package		Tests.ui.html
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\UI\HTML;
+
+use CeusMedia\Common\UI\HTML\Indicator;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
- *	@extends		Test_Case
- *	@uses			UI_HTML_Indicator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.07.2008
- *	@version		0.1
  */
-class Test_UI_HTML_IndicatorTest extends Test_Case
+class IndicatorTest extends BaseCase
 {
+	/** @var Indicator $indicator */
+	protected $indicator;
+
+	/** @var string $path */
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -28,8 +37,8 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->path	= dirname( __FILE__ )."/";
-		$this->indicator	= new UI_HTML_Indicator();
+		$this->path	= dirname( __FILE__ )."/assets/";
+		$this->indicator	= new Indicator();
 	}
 
 	/**
@@ -48,15 +57,13 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$indicator	= new UI_HTML_Indicator();
+		$indicator	= new Indicator();
 
-		$assertion	= TRUE;
 		$creation	= $indicator->getOption( 'useColor' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $indicator->getOption( 'useRatio' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -195,17 +202,14 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 	 */
 	public function testSetOption()
 	{
-		$assertion	= TRUE;
 		$creation	= $this->indicator->setOption( 'useColor', FALSE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= TRUE;
 		$creation	= $this->indicator->setOption( 'useColor', TRUE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
-		$assertion	= FALSE;
 		$creation	= $this->indicator->setOption( 'useColor', TRUE );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -216,7 +220,7 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 	public function testSetOptionException()
 	{
 		$this->expectException( 'OutOfRangeException' );
-		$creation	= $this->indicator->setOption( 'not_existing', 'not_relevant' );
+		$this->indicator->setOption( 'not_existing', 'not_relevant' );
 	}
 
 	/**

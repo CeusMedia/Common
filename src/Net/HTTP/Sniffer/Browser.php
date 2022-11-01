@@ -2,7 +2,7 @@
 /**
  *	Sniffer for browsing HTTP Clients via User Agents.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +20,32 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
  *	Sniffer for browsing HTTP Clients via User Agents.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.08.2005
+ *	@deprecated		outdated and not state of the art
+ *	@todo			to be removed in 0.9.1
  */
-class Net_HTTP_Sniffer_Browser
+class Browser
 {
 	/**	@var		string		$browser			Browser */
 	protected $browser;
+
 	/**	@var		string		$browserVersion		Browser Version */
 	protected $browserVersion;
+
 	/**	@var		string		$browserType		Browser Type */
 	protected $browserType;
 
@@ -50,7 +55,7 @@ class Net_HTTP_Sniffer_Browser
 	 *	@param		string		$userAgent			User Agent
 	 *	@return		void
 	 */
-	public function __construct( $userAgent = false )
+	public function __construct( ?string $userAgent = NULL )
 	{
 		$this->identifyBrowser( $userAgent );
 	}
@@ -62,7 +67,7 @@ class Net_HTTP_Sniffer_Browser
 	 */
 	public function getBrowser()
 	{
-		return array( "browser" => $this->browser, "version" => $this->browserVersion, "type" => $this->browserType );
+		return ["browser" => $this->browser, "version" => $this->browserVersion, "type" => $this->browserType];
 	}
 
 	/**
@@ -87,14 +92,13 @@ class Net_HTTP_Sniffer_Browser
 
 	/**
 	 *	Identifies Browser, Version and Type.
-	 *	@access		private
-	 *	@param		string		$userAgent			User Agent
+	 *	@access		public
+	 *	@param		string|NULL		$userAgent			User Agent, otherwise auto detect
 	 *	@return		void
 	 */
-	public function identifyBrowser( $ua = false )
+	public function identifyBrowser( ?string $userAgent = NULL )
 	{
-		if( !$ua )
-			$ua = getEnv( 'HTTP_userAgent' );
+		$ua	= $userAgent ?? getEnv( 'HTTP_USER_AGENT' );
 		$this->browserType = "robot";
 		if (preg_match("~msnbot~i", $ua)){
 			$this->browser = "MSN Bot";

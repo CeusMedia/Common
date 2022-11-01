@@ -1,8 +1,10 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Clock implementation with Lap Support.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +22,35 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Time;
+
 /**
  *	Clock implementation with Lap Support.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Time_Clock
+class Clock
 {
-	/**	@var	string		$microtimeStart		Microtime at the Start */
-	protected $microtimeStart;
-	/**	@var	string		$microtimeLap		Time in micro at the end of the last since start */
-	protected $microtimeLap;
-	/**	@var	string		$microtimeStop		Microtime at the End */
-	protected $microtimeStop;
+	/**	@var	float		$microTimeStart		Micro-time at the Start */
+	protected float $microTimeStart;
+
+	/**	@var	float		$microTimeLap		Time in micro at the end of the last since start */
+	protected float $microTimeLap;
+
+	/**	@var	float		$microTimeStop		Micro-time at the End */
+	protected float $microTimeStop;
+
 	/**	@var	array		$laps				Array of Lap Times */
-	protected $laps			= array();
+	protected array $laps	= [];
 
 	/**
 	 *	Constructor.
@@ -54,13 +62,12 @@ class Alg_Time_Clock
 		$this->start();
 	}
 
-	protected static function calculateTimeSpan( $microtimeStart, $microtimeStop )
+	protected static function calculateTimeSpan( float $microTimeStart, float $microTimeStop ): float
 	{
-		$time	= (float) $sec + $msec;
-		return $time;
+		return $microTimeStop - $microTimeStart;
 	}
 
-	public function getLaps()
+	public function getLaps(): array
 	{
 		return $this->laps;
 	}
@@ -70,24 +77,27 @@ class Alg_Time_Clock
 	 *	@access		public
 	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
 	 *	@param		int		$round		Numbers after dot
-	 *	@return		string
+	 *	@return		float
 	 */
-	public function getTime( $base = 3, $round = 3 )
+	public function getTime( int $base = 3, int $round = 3 ): float
 	{
-		$time	= $this->microtimeStop - $this->microtimeStart;
-		$time	= $time * pow( 10, $base );
-		$time	= round( $time, $round );
-		return $time;
+		$time	= $this->microTimeStop - $this->microTimeStart;
+		$time	= $time * 10 ** $base;
+		return round( $time, $round );
 	}
 
+	/**
+	 * @param int|float $seconds
+	 * @return void
+	 */
 	public function sleep( $seconds )
 	{
-		$this->usleep( (float) $seconds * 1000000 );
+		$this->usleep( (int) ( $seconds * 1_000_000 ) );
 	}
 
 	public function speed( $seconds )
 	{
-		$this->uspeed( (float) $seconds * 1000000 );
+		$this->uspeed( (int) ( $seconds * 1_000_000 ) );
 	}
 
 	/**
@@ -97,7 +107,7 @@ class Alg_Time_Clock
 	 */
 	public function start()
 	{
-		$this->microtimeStart = microtime( TRUE );
+		$this->microTimeStart = microtime( TRUE );
 	}
 
 	/**
@@ -105,46 +115,46 @@ class Alg_Time_Clock
 	 *	@access		public
 	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
 	 *	@param		int		$round		Numbers after dot
-	 *	@return		string
+	 *	@return		float
 	 */
-	public function stop( $base = 3, $round = 3 )
+	public function stop( int $base = 3, int $round = 3 ): float
 	{
-		$this->microtimeStop 	= microtime( TRUE );
+		$this->microTimeStop 	= microtime( TRUE );
 		return $this->getTime( $base, $round );
 	}
 
-	public function stopLap( $base = 3, $round = 3, $label = NULL, $description = NULL )
+	public function stopLap( int $base = 3, int $round = 3, ?string $label = NULL, ?string $description = NULL ): float
 	{
-		$microtimeLast	= $this->microtimeLap ? $this->microtimeLap : $this->microtimeStart;
-		$microtimeNow	= microtime( TRUE );
+		$microTimeLast	= $this->microTimeLap ?: $this->microTimeStart;
+		$microTimeNow	= microtime( TRUE );
 
-		$totalMicro		= round( ( $microtimeNow - $this->microtimeStart ) * 1000000 );
-		$timeMicro		= round( ( $microtimeNow - $microtimeLast ) * 1000000 );
+		$totalMicro		= round( ( $microTimeNow - $this->microTimeStart ) * 1_000_000 );
+		$timeMicro		= round( ( $microTimeNow - $microTimeLast ) * 1_000_000 );
 
-		$total			= round( $totalMicro * pow( 10, $base - 6 ), $round );
-		$time			= round( $timeMicro * pow( 10, $base - 6 ), $round );
+		$total			= round( $totalMicro * 10 ** ($base - 6), $round );
+		$time			= round( $timeMicro * 10 ** ($base - 6), $round );
 
-		$this->laps[]	= array(
+		$this->laps[]	= [
 			'time'			=> $time,
 			'timeMicro'		=> $timeMicro,
 			'total'			=> $total,
 			'totalMicro'	=> $totalMicro,
 			'label'			=> $label,
 			'description'	=> $description,
-		);
-		$this->microtimeLap	= $microtimeNow;
+		];
+		$this->microTimeLap	= $microTimeNow;
 		return $time;
 	}
 
-	public function usleep( $microseconds )
+	public function usleep( int $microseconds )
 	{
-		$seconds	= $microseconds / 1000000;
-		if( ( microtime( TRUE ) - $this->microtimeStart ) >= $seconds )
-			$this->microtimeStart	+= $seconds;
+		$seconds	= $microseconds / 1_000_000;
+		if( ( microtime( TRUE ) - $this->microTimeStart ) >= $seconds )
+			$this->microTimeStart	+= $seconds;
 	}
 
-	public function uspeed( $microseconds )
+	public function uspeed( int $microseconds )
 	{
-		$this->microtimeStart	-= $microseconds / 1000000;
+		$this->microTimeStart	-= $microseconds / 1_000_000;
 	}
 }

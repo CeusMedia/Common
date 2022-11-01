@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds and writes Google Sitemap.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,30 +20,30 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			XML_DOM_GoogleSitemapBuilder
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use Exception;
+
 /**
  *	Builds and writes Google Sitemap.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			XML_DOM_GoogleSitemapBuilder
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
-class XML_DOM_GoogleSitemapWriter
+class GoogleSitemapWriter
 {
 	/**	@var	array		$list		List of URLs */
-	protected $list	= array();
+	protected $list	= [];
 
 	/**
 	 *	Adds another Link to Sitemap.
@@ -50,7 +51,7 @@ class XML_DOM_GoogleSitemapWriter
 	 *	@param		string		$link		Link to add to Sitemap
 	 *	@return		void
 	 */
-	public function addLink( $link )
+	public function addLink( string $link )
 	{
 		$this->list[]	= $link;
 	}
@@ -60,9 +61,10 @@ class XML_DOM_GoogleSitemapWriter
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML Sitemap File
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
-	 *	@return		bool
+	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public function write( $fileName = "sitemap.xml", $baseUrl = "" )
+	public function write( string $fileName = 'sitemap.xml', string $baseUrl = '' ): int
 	{
 		return self::writeSitemap( $this->list, $fileName, $baseUrl );
 	}
@@ -71,15 +73,16 @@ class XML_DOM_GoogleSitemapWriter
 	 *	Builds and write XML of Sitemap.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$links		List of Sitemap Link
+	 *	@param		array		$links		List of Sitemap Link
 	 *	@param		string		$fileName	File Name of XML Sitemap File
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
-	 *	@return		bool
+	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public static function writeSitemap( $links, $fileName = "sitemap.xml", $baseUrl = "" )
+	public static function writeSitemap( array $links, string $fileName = 'sitemap.xml', string $baseUrl = '' ): int
 	{
-		$xml	= XML_DOM_GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
-		$file	= new FS_File_Writer( $fileName );
+		$xml	= GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
+		$file	= new FileWriter( $fileName );
 		return $file->writeString( $xml );
 	}
 }

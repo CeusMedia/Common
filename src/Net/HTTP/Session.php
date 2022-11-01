@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Session Management.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +21,36 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+
 /**
  *	Session Management.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
- *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Net_HTTP_Session extends ADT_List_Dictionary
+class Session extends Dictionary
 {
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$sessionName		Name of Session ID
-	 *	@param		string		$domain				Domain to set cookie for
+	 *	@param		string			$sessionName		Name of Session ID
+	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
-	public function __construct( $sessionName = "sid", $domain = NULL )
+	public function __construct( string $sessionName = "sid", ?string $domain = NULL )
 	{
+		parent::__construct();
 		//  set session cookie name
 		session_name( $sessionName );
 		//  a domain has been specified
@@ -73,7 +79,7 @@ class Net_HTTP_Session extends ADT_List_Dictionary
 	 */
 	public function clear()
 	{
-		$this->pairs	= array();
+		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
 #			unset( $this->pairs[$key] );
 	}
@@ -83,7 +89,7 @@ class Net_HTTP_Session extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionID()
+	public function getSessionID(): string
 	{
 		return session_id();
 	}
@@ -93,7 +99,7 @@ class Net_HTTP_Session extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getSessionName()
+	public function getSessionName(): string
 	{
 		return session_name();
 	}

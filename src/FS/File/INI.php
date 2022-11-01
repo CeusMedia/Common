@@ -1,26 +1,39 @@
-<?php
-/**
- *	...
- *	@category		Library
- *	@package		CeusMedia_Common_FS_File
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			https://github.com/CeusMedia/Common
- */
-/**
- *	...
- *	@category		Library
- *	@package		CeusMedia_Common_FS_File
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			https://github.com/CeusMedia/Common
- */
-class FS_File_INI {
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+/**
+ *	...
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2007-2022 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+
+/**
+ *	...
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2007-2022 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+class INI
+{
+	protected $fileName;
+	protected $mode;
+
+	/**	@var	Dictionary|NULL		$sections		... */
 	protected $sections		= NULL;
+
+	/**	@var	Dictionary|NULL		$pairs			... */
 	protected $pairs		= NULL;
+
 	public $indentTabs		= 8;
 	public $lengthTab		= 4;
 
@@ -31,7 +44,7 @@ class FS_File_INI {
 	 *	@param		boolean		$useSections	Flag: use Sections
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $useSections = FALSE, $mode = NULL )
+	public function __construct( string $fileName, bool $useSections = FALSE, $mode = NULL )
 	{
 		$this->fileName	= $fileName;
 		$this->mode		= $mode;
@@ -43,10 +56,10 @@ class FS_File_INI {
 	 *	Returns Value by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key
-	 *	@param		boolean		$section		Flag: use Sections
+	 *	@param		string|NULL	$section		...
 	 *	@return		string|NULL	Value if set, NULL otherwise
 	 */
-	public function get( $key, $section = NULL )
+	public function get( string $key, ?string $section = NULL ): ?string
 	{
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			return $this->sections->get( $section )->get( $key );
@@ -59,41 +72,38 @@ class FS_File_INI {
 	 *	Returns Value by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key
-	 *	@param		boolean		$section		Flag: use Sections
+	 *	@param		string|NULL	$section		...
 	 *	@return		boolean
 	 */
-	public function has( $key, $section = NULL )
+	public function has( string $key, ?string $section = NULL ): bool
 	{
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			return $this->sections->get( $section )->has( $key );
 		if( !is_null( $this->pairs ) )
 			return $this->pairs->has( $key );
-		return NULL;
+		return FALSE;
 	}
 
-	protected function read( $useSections = FALSE )
+	protected function read( bool $useSections = FALSE ): void
 	{
-		if( $useSections )
-		{
-			$this->sections	= new ADT_List_Dictionary();
-			foreach( parse_ini_file( $this->fileName, TRUE ) as $section => $pairs )
-			{
+		if( $useSections ){
+			$this->sections	= new Dictionary();
+			foreach( parse_ini_file( $this->fileName, TRUE ) as $section => $pairs ){
 				$data	= $this->sections->get( $section );
 				if( is_null( $data ) )
-					$data	= new ADT_List_Dictionary();
+					$data	= new Dictionary();
 				foreach( $pairs as $key => $value )
-					$data->set( $key, $value, TRUE );
-				$this->sections->set( $section, $data, TRUE );
+					$data->set( $key, $value );
+				$this->sections->set( $section, $data );
 			}
 		}
-		else
-		{
+		else{
 			$data			= parse_ini_file( $this->fileName, FALSE );
-			$this->pairs	= new ADT_List_Dictionary( $data );
+			$this->pairs	= new Dictionary( $data );
 		}
 	}
 
-	public function remove( $key, $section = NULL )
+	public function remove( string $key, ?string $section = NULL ): bool
 	{
 		$result	= NULL;
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
@@ -105,15 +115,13 @@ class FS_File_INI {
 		return $result;
 	}
 
-	public function set( $key, $value, $section = NULL )
+	public function set( string $key, $value, ?string $section = NULL ): bool
 	{
-		$result	= NULL;
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			$result	= $this->sections->get( $section )->set( $key, $value );
-		else
-		{
+		else{
 			if( is_null( $this->pairs ) )
-				$this->pairs	= new ADT_List_Dictionary();
+				$this->pairs	= new Dictionary();
 			$result	= $this->pairs->set( $key, $value );
 		}
 		if( $result )
@@ -121,16 +129,13 @@ class FS_File_INI {
 		return $result;
 	}
 
-	protected function write()
+	protected function write(): int
 	{
-		$list	= array();
-		if( !is_null( $this->sections ) )
-		{
-			foreach( $this->sections as $section => $items )
-			{
+		$list	= [];
+		if( !is_null( $this->sections ) ){
+			foreach( $this->sections as $section => $items ){
 				$list[]	= '['.$section.']';
-				foreach( $items as $key => $value )
-				{
+				foreach( $items as $key => $value ){
 					$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
 					if( is_bool( $value ) )
 						$value	= $value ? "yes" : "no";
@@ -141,10 +146,8 @@ class FS_File_INI {
 				$list[]	= '';
 			}
 		}
-		else if( !is_null( $this->pairs ) )
-		{
-			foreach( $this->pairs as $key => $value )
-			{
+		else if( !is_null( $this->pairs ) ){
+			foreach( $this->pairs as $key => $value ){
 				$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
 				if( is_bool( $value ) )
 					$value	= $value ? "yes" : "no";
@@ -153,6 +156,6 @@ class FS_File_INI {
 				$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
 			}
 		}
-		return FS_File_Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
+		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
 	}
 }

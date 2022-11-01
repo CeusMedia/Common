@@ -1,38 +1,41 @@
 <?php
-/**
- *	Test class for FS_File_Backup.
- *	@package		Tests.file
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
- */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	Test class for FS_File_Backup.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\FS\File;
+
+use CeusMedia\Common\FS\File\Backup;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	Test class for FS_File_Backup.
- *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_Editor
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
-class Test_FS_File_BackupTest extends Test_Case{
-
+class BackupTest extends BaseCase
+{
 	protected $filePath;
 	protected $path;
 	protected $time;
+	protected $file;
 
 	public function setUp(): void
 	{
 		$this->time	= time();
-		$this->path	= "test";
-		$this->filePath	= $this->path."/test.txt";
+		$this->path	= __DIR__.'/';
+		$this->filePath	= $this->path."test.txt";
 
 		if( !file_exists( $this->path ) )
 			mkdir( $this->path );
 		file_put_contents( $this->filePath, $this->time );
-		$this->file	= new FS_File_Backup( $this->filePath );
+		$this->file	= new Backup( $this->filePath );
 	}
 
 	public function tearDown(): void
@@ -57,9 +60,11 @@ class Test_FS_File_BackupTest extends Test_Case{
 
 	/**
 	 */
-	public function testGetContentException1(){
-		$this->expectException( 'InvalidArgumentException' );
+	public function test_getContent_fromString_expectTypeError()
+	{
+		$this->expectException( 'TypeError' );
 		$this->file->store();
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->file->getContent( "a" );
 	}
 
@@ -80,7 +85,7 @@ class Test_FS_File_BackupTest extends Test_Case{
 	}
 
 	public function testGetVersions1(){
-		$this->assertEquals( array(), $this->file->getVersions() );
+		$this->assertEquals( [], $this->file->getVersions() );
 	}
 
 	public function testGetVersions2(){

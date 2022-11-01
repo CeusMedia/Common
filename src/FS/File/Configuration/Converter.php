@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML  will be supported if Spyc is improved.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,31 +22,38 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			06.05.2008
  */
+
+namespace CeusMedia\Common\FS\File\Configuration;
+
+use CeusMedia\Common\ADT\JSON\Builder as JsonBuilder;
+use CeusMedia\Common\ADT\JSON\Converter as JsonConverter;
+use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
+use CeusMedia\Common\FS\File\INI\Creator as IniFileCreator;
+use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\XML\DOM\FileWriter as XmlFileWriter;
+use CeusMedia\Common\XML\DOM\Node;
+use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use CeusMedia\Common\XML\Element as XmlElement;
+use DOMException;
+use Exception;
+
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML will be supported if Spyc is improved.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
- *	@uses			FS_File_Writer
- *	@uses			FS_File_INI_Creator
- *	@uses			FS_File_INI_Reader
- *	@uses			ADT_JSON_Converter
- *	@uses			ADT_JSON_Formater
- *	@uses			XML_ElementReader
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_FileWriter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			06.05.2008
  */
-class FS_File_Configuration_Converter
+class Converter
 {
 	/**	@var		string		$iniTypePattern		Pattern for Types in INI Comments */
 	public static $iniTypePattern = '@^(string|integer|int|double|boolean|bool)[ \t]*[:-]*[ \t]*(.*)$@';
@@ -58,7 +66,7 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
 	 */
-	public static function convertIniToJson( $sourceFile, $targetFile )
+	public static function convertIniToJson( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadIni( $sourceFile );
 		return self::saveJson( $targetFile, $data );
@@ -71,8 +79,9 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	public static function convertIniToXml( $sourceFile, $targetFile )
+	public static function convertIniToXml( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadIni( $sourceFile );
 		return self::saveXml( $targetFile, $data );
@@ -86,7 +95,7 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
 	 */
-	public static function convertJsonToIni( $sourceFile, $targetFile )
+	public static function convertJsonToIni( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadJson( $sourceFile );
 		return self::saveIni( $targetFile, $data );
@@ -99,8 +108,9 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	public static function convertJsonToXml( $sourceFile, $targetFile )
+	public static function convertJsonToXml( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadJson( $sourceFile );
 		return self::saveXml( $targetFile, $data );
@@ -113,8 +123,9 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public static function convertXmlToIni( $sourceFile, $targetFile )
+	public static function convertXmlToIni( string $sourceFile, string $targetFile ): int
 	{
 		$data		= self::loadXml( $sourceFile );
 		return self::saveIni( $targetFile, $data );
@@ -127,8 +138,9 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
+	 *	@throws		Exception
 	 */
-	public static function convertXmlToJson( $sourceFile, $targetFile )
+	public static function convertXmlToJson( string $sourceFile, string $targetFile ): int
 	{
 		$data	= self::loadXml( $sourceFile );
 		return self::saveJson( $targetFile, $data );
@@ -141,22 +153,20 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$fileName		File Name of INI File.
 	 *	@return		array
 	 */
-	protected static function loadIni( $fileName )
+	protected static function loadIni( string $fileName ): array
 	{
-		$reader	= new FS_File_INI_Reader( $fileName, TRUE );
+		$data	= [];
+		$reader	= new IniFileReader( $fileName, TRUE );
 		$ini	= $reader->getCommentedProperties();
-		foreach( $ini as $sectionName => $sectionData )
-		{
-			foreach( $sectionData as $pair )
-			{
-				$item	= array(
+		foreach( $ini as $sectionName => $sectionData ){
+			foreach( $sectionData as $pair ){
+				$item	= [
 					'key'		=> $pair['key'],
 					'value'		=> $pair['value'],
 					'type'		=> "string",
-				);
-				if( isset( $pair['comment'] ) )
-				{
-					$matches	= array();
+				];
+				if( isset( $pair['comment'] ) ){
+					$matches	= [];
 					if( preg_match_all( self::$iniTypePattern, $pair['comment'], $matches ) )
 					{
 						$item['type']		= $matches[1][0];
@@ -180,15 +190,14 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$fileName		File Name of JSON File.
 	 *	@return		array
 	 */
-	protected static function loadJson( $fileName )
+	protected static function loadJson( string $fileName ): array
 	{
-		$json	= FS_File_Reader::load( $fileName );
-		$json	= ADT_JSON_Converter::convertToArray( $json );
-		foreach( $json as $sectionName => $sectionData )
-		{
-			foreach( $sectionData as $pairKey => $pairData )
-			{
-				$pairData	= array_merge( array( 'key' => $pairKey ), $pairData );
+		$data	= [];
+		$json	= FileReader::load( $fileName );
+		$json	= JsonConverter::convertToArray( $json );
+		foreach( $json as $sectionName => $sectionData ){
+			foreach( $sectionData as $pairKey => $pairData ){
+				$pairData	= array_merge( ['key' => $pairKey], $pairData );
 				$data[$sectionName][]	= $pairData;
 			}
 		}
@@ -201,20 +210,21 @@ class FS_File_Configuration_Converter
 	 *	@static
 	 *	@param		string		$fileName		File Name of XML File.
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	protected static function loadXml( $fileName )
+	protected static function loadXml( string $fileName ): array
 	{
-		$xml	= XML_ElementReader::readFile( $fileName );
-		foreach( $xml as $sectionNode )
-		{
+		$data	= [];
+		$xml	= XmlElementReader::readFile( $fileName );
+		/** @var XmlElement $sectionNode */
+		foreach( $xml as $sectionNode ){
 			$sectionName	= $sectionNode->getAttribute( 'name' );
-			foreach( $sectionNode as $valueNode )
-			{
-				$item	= array(
+			foreach( $sectionNode as $valueNode ){
+				$item	= [
 					'key'		=> $valueNode->getAttribute( 'name' ),
 					'value'		=> (string) $valueNode,
 					'type'		=> $valueNode->getAttribute( 'type' ),
-				);
+				];
 
 				if( $valueNode->hasAttribute( 'comment' ) )
 					$item['comment']	= $valueNode->getAttribute( 'comment' );
@@ -233,16 +243,13 @@ class FS_File_Configuration_Converter
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
 	 */
-	protected static function saveIni( $fileName, $data )
+	protected static function saveIni( string $fileName, array $data ): int
 	{
-		$creator	= new FS_File_INI_Creator( TRUE );
-		foreach( $data as $sectionName => $sectionData )
-		{
+		$creator	= new IniFileCreator( TRUE );
+		foreach( $data as $sectionName => $sectionData ){
 			$creator->addSection( $sectionName );
-			foreach( $sectionData as $pair )
-			{
-				switch( $pair['type'] )
-				{
+			foreach( $sectionData as $pair ){
+				switch( $pair['type'] ){
 					case 'string':
 						$pair['value']	= '"'.addslashes( $pair['value'] ).'"';
 						break;
@@ -266,20 +273,19 @@ class FS_File_Configuration_Converter
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
 	 */
-	protected static function saveJson( $fileName, $data )
+	protected static function saveJson( string $fileName, array $data ): int
 	{
-		$json	= array();
-		foreach( $data as $sectionName => $sectionData )
-		{
-			foreach( $sectionData as $pair )
-			{
+		$json	= [];
+		foreach( $data as $sectionName => $sectionData ){
+			foreach( $sectionData as $pair ){
 				$key	= $pair['key'];
 				unset( $pair['key'] );
 				$json[$sectionName][$key]	= $pair;
 			}
 		}
-		$json	= ADT_JSON_Formater::format( $json, TRUE );
-		return FS_File_Writer::save( $fileName, $json );
+//		$json	= json_encode( $json, JSON_PRETTY_PRINT );
+		$json	= JsonPretty::print( JsonBuilder::encode( $json ), TRUE );
+		return FileWriter::save( $fileName, $json );
 	}
 
 	/**
@@ -289,18 +295,17 @@ class FS_File_Configuration_Converter
 	 *	@param		string		$fileName		File Name of XML File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
+	 *	@throws		DOMException
 	 */
-	protected static function saveXml( $fileName, $data )
+	protected static function saveXml( string $fileName, array $data ): int
 	{
-		$root	= new XML_DOM_Node( "configuration" );
-		foreach( $data as $sectionName => $sectionData )
-		{
-			$sectionNode	= new XML_DOM_Node( "section" );
-			$sectionNode->setAttribute( 'name', $sectionName );			
-			foreach( $sectionData as $pair )
-			{
-				$comment	= isset( $pair['comment'] ) ? $pair['comment'] : NULL;
-				$valueNode	= new XML_DOM_Node( "value", $pair['value'] );
+		$root	= new Node( "configuration" );
+		foreach( $data as $sectionName => $sectionData ){
+			$sectionNode	= new Node( "section" );
+			$sectionNode->setAttribute( 'name', $sectionName );
+			foreach( $sectionData as $pair ){
+				$comment	= $pair['comment'] ?? NULL;
+				$valueNode	= new Node( "value", $pair['value'] );
 				$valueNode->setAttribute( 'type', $pair['type'] );
 				$valueNode->setAttribute( 'name', $pair['key'] );
 				if( isset( $pair['comment'] ) )
@@ -309,6 +314,6 @@ class FS_File_Configuration_Converter
 			}
 			$root->addChild( $sectionNode );
 		}
-		return XML_DOM_FileWriter::save( $fileName, $root );
+		return XmlFileWriter::save( $fileName, $root );
 	}
 }

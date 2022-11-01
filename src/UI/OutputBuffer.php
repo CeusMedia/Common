@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Buffer for Standard Output Channel.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +21,25 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			24.09.2005
  */
+
+namespace CeusMedia\Common\UI;
+
+use RuntimeException;
+
 /**
  *	Buffer for Standard Output Channel.
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			24.09.2005
  */
-class UI_OutputBuffer
+class OutputBuffer
 {
 	/**	@var		boolean		$isOpen		Flag: Buffer opened */
 	protected $isOpen = FALSE;
@@ -46,7 +50,7 @@ class UI_OutputBuffer
 	 *	@param		boolean		$open		Flag: open Buffer with Instance
 	 *	@return		void
 	 */
-	public function __construct ( $open = TRUE )
+	public function __construct ( bool $open = TRUE )
 	{
 		if( $open )
 			$this->open();
@@ -89,31 +93,33 @@ class UI_OutputBuffer
 	 *	@param		boolean		$clear		Flag: clear Output Buffer afterwards
 	 *	@return		string
 	 */
-	public function get( $clear = FALSE )
+	public function get( bool $clear = FALSE ): string
 	{
 		if( !$this->isOpen() )
 			throw new RuntimeException( 'Output Buffer is not open.' );
 		return $clear ? ob_get_clean() : ob_get_contents();
 	}
 
-	public function has(){
-		return strlen( $this->get() );
+	public function has(): bool
+	{
+		return strlen( $this->get() ) !== 0;
 	}
 
 	/**
 	 *	Indicates whether Output Buffer is open.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public function isOpen()
+	public function isOpen(): bool
 	{
-		return (boolean) $this->isOpen;
+		return $this->isOpen;
 	}
 
 	/**
 	 *	Opens Output Buffer.
 	 *	@access		public
 	 *	@return		void
+	 *	@throws		RuntimeException		if buffer is open, already
 	 */
 	public function open()
 	{

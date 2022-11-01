@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Writing comma separatad values (CSV) data with or without column headers to File. 
+ *	Writing comma separated values (CSV) data with or without column headers to File.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,35 +21,40 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\CSV;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
- *	Writing comma separatad values (CSV) data with or without column headers to File. 
+ *	Writing comma separated values (CSV) data with or without column headers to File.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSV_Writer
+class Writer
 {
 	/**	@var		string		$fileName		Flag: use ColumnHeaders in first line */
 	protected $fileName;
+
 	/**	@var		string		$separator		Separator Sign */
 	protected $separator		= ",";
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File name of CSV File
-	 *	@param		string		$separator		Separator sign
+	 *	@param		string			$fileName		File name of CSV File
+	 *	@param		string|NULL		$separator		Separator sign
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $separator = NULL )
+	public function __construct( string $fileName, ?string $separator = NULL )
 	{
 		$this->fileName	= $fileName;
 		if( $separator )
@@ -59,11 +65,12 @@ class FS_File_CSV_Writer
 	 *	Sets separating Sign.
 	 *	@access		public
 	 *	@param		string		$separator		Separator sign
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setSeparator( $separator )
+	public function setSeparator( string $separator ): self
 	{
 		$this->separator	= $separator;
+		return $this;
 	}
 
 	/**
@@ -71,17 +78,14 @@ class FS_File_CSV_Writer
 	 *	@access		public
 	 *	@param		array		$data			2 dimensional array of data
 	 *	@param		array		$headers		List of Column Headers
-	 *	@return		bool
+	 *	@return		int			Number of written bytes
 	 */
-	public function write( $data, $headers = array() )
+	public function write( array $data, array $headers = [] ): int
 	{
-		$output = array();
+		$output = [];
 		if( $headers )
-		{
 			$output[] = implode( $this->separator, $headers );
-		}
-		foreach( $data as $line )
-		{
+		foreach( $data as $line ){
 			//  iterate line values
 			foreach( $line as $nr => $value )
 				//  separator found in value
@@ -93,7 +97,7 @@ class FS_File_CSV_Writer
 			$line = implode( $this->separator, $line );
 			$output[] = $line;
 		}
-		$file	= new FS_File_Writer( $this->fileName );
+		$file	= new FileWriter( $this->fileName );
 		return $file->writeArray( $output );
 	}
 }

@@ -1,27 +1,35 @@
 <?php
-/**
- *	TestUnit of XML DOM Node.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML DOM Node.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\DOM;
+
+use CeusMedia\Common\XML\DOM\Node;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML DOM Node.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_Leaf
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
  */
-class Test_XML_DOM_NodeTest extends Test_Case
+class NodeTest extends BaseCase
 {
+	/** @var Node  */
+	protected $node;
+
+	/** @var Node */
+	protected $leaf;
+
 	/**
 	 *	Sets up Node.
 	 *	@access		public
@@ -29,9 +37,9 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->node	= new XML_DOM_Node( "testNode", "testContent" );
+		$this->node	= new Node( "testNode", "testContent" );
 		$this->node->setAttribute( "testKey", "testValue" );
-		$this->leaf	= new XML_DOM_Node( "testLeaf1", "testContent1" );
+		$this->leaf	= new Node( "testLeaf1", "testContent1" );
 		$this->node->addChild( $this->leaf );
 	}
 
@@ -43,7 +51,7 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testConstruct()
 	{
 		$attributes	= array( 'key1' => "value1", 'key2' => "value2" );
-		$node		= new XML_DOM_Node( "tag1", "content1", $attributes );
+		$node		= new Node( "tag1", "content1", $attributes );
 
 		$assertion	= "tag1";
 		$creation	= $node->getNodeName();
@@ -66,31 +74,25 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testAddChild()
 	{
 		//  add Leaf
-		$leaf		= new XML_DOM_Node( "testLeaf2", "testContent2" );
-		$assertion	= $leaf;
+		$leaf		= new Node( "testLeaf2", "testContent2" );
 		$creation	= $this->node->addChild( $leaf );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $leaf, $creation );
 
 		//  get added Leaf
-		$assertion	= $leaf;
 		$creation	= $this->node->getChild( "testLeaf2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $leaf, $creation );
 
 		//  count Children
-		$assertion	= 2;
-		$creation	= count( $this->node->getChildren() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertCount( 2, $this->node->getChildren() );
 
 		//  add Node
-		$node		= new XML_DOM_Node( "testNode3", "testContent3" );
-		$assertion	= $node;
+		$node		= new Node( "testNode3", "testContent3" );
 		$creation	= $this->node->addChild( $node );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $node, $creation );
 
 		//  get added Node
-		$assertion	= $node;
 		$creation	= $this->node->getChild( "testNode3" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $node, $creation );
 
 		//  count Children
 		$assertion	= 3;
@@ -111,14 +113,12 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  get invalid Attribute
-		$assertion	= NULL;
 		$creation	= $this->node->getAttribute( "testKey1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertNull( $creation );
 
 		//  get invalid Attribute
-		$assertion	= NULL;
 		$creation	= $this->node->getAttribute( "TESTKEY" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertNull( $creation );
 	}
 
 	/**
@@ -216,9 +216,8 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	 */
 	public function testHasAttributes()
 	{
-		$assertion	= true;
 		$creation	= $this->node->hasAttributes();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -229,19 +228,16 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testHasAttribute()
 	{
 		//  test valid Attribute
-		$assertion	= true;
 		$creation	= $this->node->hasAttribute( "testKey" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  test invalid Attribute
-		$assertion	= false;
 		$creation	= $this->node->hasAttribute( "testKey1" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		//  test invalid Attribute
-		$assertion	= false;
 		$creation	= $this->node->hasAttribute( "TESTKEY" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -252,15 +248,14 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testHasChild()
 	{
 		//  test Children
-		$assertion	= true;
 		$creation	= $this->node->hasChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  remove Children
 		$this->node->removeChild( $this->leaf->getNodeName() );
-		$assertion	= false;
+
 		$creation	= $this->node->hasChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -271,15 +266,13 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testHasChildren()
 	{
 		//  test Children
-		$assertion	= true;
 		$creation	= $this->node->hasChildren();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		//  remove Children
 		$this->node->removeChild( $this->leaf->getNodeName() );
-		$assertion	= false;
 		$creation	= $this->node->hasChildren();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 	}
 
 	/**
@@ -289,9 +282,8 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	 */
 	public function testHasContent()
 	{
-		$assertion	= true;
 		$creation	= $this->node->hasContent();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -302,24 +294,20 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testRemoveAttribute()
 	{
 		//  remove Attribute
-		$assertion	= true;
 		$creation	= $this->node->removeAttribute( "testKey" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  check Attribute
-		$assertion	= false;
 		$creation	= $this->node->hasAttribute( "testKey" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		//  check Attributes
-		$assertion	= false;
 		$creation	= $this->node->hasAttributes();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		//  try to delete Attribute again
-		$assertion	= false;
 		$creation	= $this->node->removeAttribute( "testKey" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 	}
 
 	/**
@@ -330,24 +318,20 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testRemoveChild()
 	{
 		//  remove Children
-		$assertion	= true;
 		$creation	= $this->node->removeChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  test Children
-		$assertion	= FALSE;
 		$creation	= $this->node->hasChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		//  try to remove Children again
-		$assertion	= false;
 		$creation	= $this->node->removeChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $assertion, $creation );
-
+		$this->assertEquals( $this->node, $creation );
 
 		//  add 2 Children with same Node Name
-		$this->node->addChild( new XML_DOM_Node( "leaf" ) );
-		$this->node->addChild( new XML_DOM_Node( "leaf" ) );
+		$this->node->addChild( new Node( "leaf" ) );
+		$this->node->addChild( new Node( "leaf" ) );
 
 		//  test Children
 		$assertion	= 2;
@@ -355,9 +339,8 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  remove first Child
-		$assertion	= true;
 		$creation	= $this->node->removeChild( "leaf" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  test Children
 		$assertion	= 1;
@@ -365,14 +348,11 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  remove second Child
-		$assertion	= true;
 		$creation	= $this->node->removeChild( "leaf" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  test Children
-		$assertion	= 0;
-		$creation	= count( $this->node->getChildren() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertCount( 0, $this->node->getChildren() );
 	}
 
 	/**
@@ -383,19 +363,16 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testRemoveContent()
 	{
 		//  remove Content
-		$assertion	= true;
 		$creation	= $this->node->removeContent();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  check Content
-		$assertion	= false;
 		$creation	= $this->node->hasContent();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( $creation );
 
 		//  try to delete Content again
-		$assertion	= false;
 		$creation	= $this->node->removeContent();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 	}
 
 	/**
@@ -406,9 +383,8 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testSetAttribute()
 	{
 		//  set Attribute
-		$assertion	= true;
 		$creation	= $this->node->setAttribute( "testKey2", "testValue2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  check Attribute
 		$assertion	= "testValue2";
@@ -416,14 +392,12 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  try to set Attribute again
-		$assertion	= false;
 		$creation	= $this->node->setAttribute( "testKey2", "testValue2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  try to overwrite an Attribute
-		$assertion	= true;
 		$creation	= $this->node->setAttribute( "testKey2", "testValue3" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  check overwritten Attribute
 		$assertion	= "testValue3";
@@ -439,9 +413,8 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testSetContent()
 	{
 		//  set Content
-		$assertion	= true;
 		$creation	= $this->node->setContent( "testContent2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  check Content
 		$assertion	= "testContent2";
@@ -449,9 +422,8 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  try to set Content again
-		$assertion	= false;
 		$creation	= $this->node->setContent( "testContent2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 	}
 
 	/**
@@ -462,9 +434,8 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	public function testSetNodeName()
 	{
 		//  set Node Name
-		$assertion	= true;
 		$creation	= $this->node->setNodeName( "testNode2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 
 		//  check NodeName
 		$assertion	= "testNode2";
@@ -472,8 +443,7 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		//  try to set Node Name again
-		$assertion	= false;
 		$creation	= $this->node->setNodeName( "testNode2" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->node, $creation );
 	}
 }

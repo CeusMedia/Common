@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,49 +21,49 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\JSON;
+
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			code doc
  *	@todo			unit test
  *	@deprecated		use json_decode( $string, TRUE ) instead
  */
-class ADT_JSON_Converter
+class Converter
 {
-	public static function convertToArray( $json )
+	public static function convertToArray( string $json ): array
 	{
-		if( is_string( $json ) )
-		{
-			$json	= json_decode( $json );
-			if( $json === FALSE )
-				throw new InvalidArgumentException( 'JSON String is not valid.' );
-		}
-		$array	= array();
+		$json	= json_decode( $json );
+		if( $json === FALSE )
+			throw new InvalidArgumentException( 'JSON String is not valid.' );
+		$array	= [];
 		self::convertToArrayRecursive( $json, $array );
 		return $array;
 	}
 
 	protected static function convertToArrayRecursive( $node, &$array, $name = NULL )
 	{
-		if( $name )
-		{
+		if( $name ){
 			if( is_object( $node ) )
 				foreach( get_object_vars( $node ) as $key => $value )
 					self::convertToArrayRecursive( $value, $array[$name], $key );
 			else
 				$array[$name]	= $node;
 		}
-		else
-		{
+		else{
 			if( is_object( $node ) )
 				foreach( get_object_vars( $node ) as $key => $value )
 					self::convertToArrayRecursive( $value, $array, $key );

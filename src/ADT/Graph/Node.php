@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Node in a graph
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,23 +21,27 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Graph;
+
 /**
  *	Node in a graph
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Graph_Node
+class Node
 {
 	/**	@var	string		$nodeName 		Name of this Node */
 	protected $nodeName;
+
 	/**	@var	mixed		$nodeValue		Value of this Node */
 	protected $nodeValue;
 
@@ -44,7 +49,7 @@ class ADT_Graph_Node
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of this Node
-	 *	@param		mixed		$value			Value of this Node
+	 *	@param		mixed		$nodeValue		Value of this Node
 	 *	@return		void
 	 */
 	public function __construct( string $nodeName, $nodeValue = '' )
@@ -94,7 +99,7 @@ class ADT_Graph_Node
 	 *	Setting the Value of this Node.
 	 *	@access		public
 	 *	@param		mixed		$nodeValue		Value of this Node
-	 *	@return		void
+	 *	@return		self
 	 */
 	public function setNodeValue( $nodeValue ): self
 	{

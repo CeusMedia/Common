@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,71 +21,84 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
+
+namespace CeusMedia\Common\ADT\CSS;
+
+use Exception;
+use OutOfRangeException;
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
-class ADT_CSS_Rule{
+class Rule
+{
+	public $selector	= '';
 
-	public $selector	= NULL;
+	public $properties	= [];
 
-	public $properties	= array();
-
-	public function __construct( $selector, $properties = array() ){
+	public function __construct( string $selector, array $properties = [] )
+	{
 		$this->setSelector( $selector );
 		foreach( $properties as $property )
 			$this->setProperty( $property );
 	}
 
-	public function getProperties(){
+	public function getProperties(): array
+	{
 		return $this->properties;
 	}
 
-	public function getPropertyByIndex( $index ){
+	public function getPropertyByIndex( int $index ): Property
+	{
 		if( !isset( $this->properties[$index] ) )
 			throw new OutOfRangeException( 'Invalid property index' );
 		return $this->properties[$index];
 	}
 
-	public function getPropertyByKey( $key ){
-		foreach( $this->properties as $nr => $property )
+	public function getPropertyByKey( string $key ): Property
+	{
+		foreach( $this->properties as $property )
 			if( $key == $property->getKey() )
 				return $property;
-		return NULL;
+		throw new OutOfRangeException( 'Invalid property key' );
 	}
 
-	public function getSelector(){
+	public function getSelector(): string
+	{
 		return $this->selector;
 	}
 
-	public function hasProperty( ADT_CSS_Property $property ){
+	public function hasProperty( Property $property ): bool
+	{
 		return $this->hasPropertyByKey( $property->getKey() );
 	}
 
-	public function hasPropertyByKey( $key ){
-		foreach( $this->properties as $nr => $property )
+	public function hasPropertyByKey( string $key ): bool
+	{
+		foreach( $this->properties as $property )
 			if( $key == $property->getKey() )
 				return TRUE;
 		return FALSE;
 	}
 
-	public function removeProperty( ADT_CSS_Property $property ){
+	public function removeProperty( Property $property ): bool
+	{
 		return $this->removePropertyByKey( $property->getKey() );
 	}
 
-	public function removePropertyByKey( $key ){
+	public function removePropertyByKey( string $key ): bool
+	{
 		foreach( $this->properties as $nr => $property ){
 			if( $key == $property->getKey() ){
 				unset( $this->properties[$nr] );
@@ -94,21 +108,28 @@ class ADT_CSS_Rule{
 		return FALSE;
 	}
 
-	public function setProperty( ADT_CSS_Property $property ){
-		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );				//
+	public function setProperty( Property $property ): bool
+	{
+		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );
 	}
 
-	public function setPropertyByKey( $key, $value = NULL ){
+	public function setPropertyByKey( string $key, $value = NULL ): bool
+	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->removePropertyByKey( $key );
-		$property	= $this->getPropertyByKey( $key );
-		if( $property )
-			return $property->setValue( $value );
-		$this->properties[]	= new ADT_CSS_Property( $key, $value );
+		try{
+			$property	= $this->getPropertyByKey( $key );
+			$property->setValue( $value );
+		}
+		catch( Exception $e ){
+			$this->properties[]	= new Property( $key, $value );
+		}
 		return TRUE;
 	}
 
-	public function setSelector( $selector ){
+	public function setSelector( string $selector ): self
+	{
 		$this->selector	= $selector;
+		return $this;
 	}
 }

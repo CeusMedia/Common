@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,29 +21,33 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.04.2008
  */
-define( 'SIZE_BYTE', pow( 1024, 0 ) );
-define( 'SIZE_KILOBYTE', pow( 1024, 1 ) );
-define( 'SIZE_MEGABYTE', pow( 1024, 2 ) );
-define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
+
+namespace CeusMedia\Common\Alg;
+
+use CeusMedia\Common\Deprecation;
+
+define( 'SIZE_BYTE', 1024 ** 0 );
+define( 'SIZE_KILOBYTE', 1024 ** 1 );
+define( 'SIZE_MEGABYTE', 1024 ** 2 );
+define( 'SIZE_GIGABYTE', 1024 ** 3 );
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.10.2007
  */
-class Alg_UnitFormater
+class UnitFormater
 {
 	/**	@var		array		$unitBytes		List of Byte Units */
-	public static $unitBytes	= array(
+	public static $unitBytes	= [
 		'B',
 		'KB',
 		'MB',
@@ -51,11 +56,11 @@ class Alg_UnitFormater
 		'PB',
 		'EB',
 		'ZB',
-		'YB'
-	);
+		'YB',
+	];
 
 	/**	@var		array		$unitPixels		List of Pixel Units */
-	public static $unitPixels	= array(
+	public static $unitPixels	= [
 		'P',
 		'KP',
 		'MP',
@@ -64,19 +69,19 @@ class Alg_UnitFormater
 		'PP',
 		'EP',
 		'ZP',
-		'YP'
-	);
+		'YP',
+	];
 
 	/**	@var		array		$unitBytes		List of Second Units */
-	public static $unitSeconds	= array(
+	public static $unitSeconds	= [
 		'µs',
 		'ms',
 		's',
 		'm',
 		'h',
 		'd',
-		'a'
-	);
+		'a',
+	];
 
 	/**
 	 *	Formats Number of Bytes by switching to next higher Unit if an set Edge is reached.
@@ -120,7 +125,7 @@ class Alg_UnitFormater
 		if( is_string( $indent ) )
 			//  append Unit
 			$float	= $float.$indent.self::$unitBytes[$unitKey];
-		//  return resultung Value
+		//  return resulting Value
 		return $float;
 	}
 
@@ -256,7 +261,7 @@ class Alg_UnitFormater
 	 */
 	public static function formatMinutes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
-		return self::formatMicroSeconds( $float * 60000000, $precision, $indent, $edge );
+		return self::formatMicroSeconds( $float * 60_000_000, $precision, $indent, $edge );
 	}
 
 	/**
@@ -266,15 +271,15 @@ class Alg_UnitFormater
 	 *	@param		float		$float			Number to format
 	 *	@param		int			$unit			Number of Digits for dot to move to left
 	 *	@param		int			$precision		Number of Digits after dot
-	 *	@return		void
-	 *	@deprecated	uncomplete method, please remove
+	 *	@return		int|float
+	 *	@deprecated	incomplete method, please remove
 	 */
-	public static function formatNumber( $float, int $unit = 1, int $precision = 0 ): string
+	public static function formatNumber( $float, int $unit = 1, int $precision = 0 )
 	{
-		Deprecation::getInstance()->setExceptionVersion( '0.8' )
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message(  'Use one of the other methods instead' );
-		if( (int) $unit )
-		{
+		if( $unit ){
 			$float	= $float / $unit;
 			if( is_int( $precision ) )
 				$float	= round( $float, $precision );
@@ -296,7 +301,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatPixels( $number, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
+	public static function formatPixels( float $number, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		//  step to first Unit
 		$unitKey	= 0;
@@ -324,7 +329,7 @@ class Alg_UnitFormater
 		if( is_string( $indent ) )
 			//  append Unit
 			$number	= $number.$indent.self::$unitPixels[$unitKey];
-		//  return resultung Value
+		//  return resulting Value
 		return $number;
 	}
 
@@ -341,6 +346,6 @@ class Alg_UnitFormater
 	 */
 	public static function formatSeconds( $float, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
 	{
-		return self::formatMicroSeconds( $float * 1000000, $precision, $indent, $edge );
+		return self::formatMicroSeconds( $float * 1_000_000, $precision, $indent, $edge );
 	}
 }

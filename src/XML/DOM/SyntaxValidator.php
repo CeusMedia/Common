@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Validator for XML Syntax.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,34 +21,38 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use DOMDocument;
+
 /**
  *	Validator for XML Syntax.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.02.2006
  */
-class XML_DOM_SyntaxValidator
+class SyntaxValidator
 {
-	/**	@var	DOMDocument		$document	DOM Document of Syntax is valid */
+	/**	@var	DOMDocument|NULL		$document	DOM Document of Syntax is valid */
 	protected $document	= NULL;
-	/**	@var	array			$errors		Parsing Errors if Syntax is invalid */
-	protected $errors	= array();
+
+	/**	@var	string|NULL				$errors		Parsing Errors if Syntax is invalid */
+	protected $errors	= '';
 
 	/**
 	 *	Returns DOM Document Object of XML Document if Syntax is valid.
 	 *	@access		public
 	 *	@return		DOMDocument
 	 */
-	public function & getDocument()
+	public function & getDocument(): DOMDocument
 	{
 		return $this->document;
 	}
@@ -55,11 +60,11 @@ class XML_DOM_SyntaxValidator
 	/**
 	 *	Returns Array of parsing Errors.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getErrors()
+	public function getErrors(): ?string
 	{
-		return $this->errors;
+		return $this->errors ?: NULL;
 	}
 
 	/**
@@ -68,13 +73,13 @@ class XML_DOM_SyntaxValidator
 	 *	@param		string		$xml		XML to be validated
 	 *	@return		bool
 	 */
-	public function validate( $xml )
+	public function validate( string $xml ): bool
 	{
 		$this->document	= new DOMDocument();
 		ob_start();
 		$this->document->validateOnParse	= TRUE;
 		$this->document->loadXML( $xml );
-		$this->errors	= ob_get_contents();
+		$this->errors	= ob_get_contents() ?: NULL;
 		ob_end_clean();
 		if( !$this->errors )
 			return TRUE;

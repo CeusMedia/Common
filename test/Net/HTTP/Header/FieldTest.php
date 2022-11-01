@@ -1,41 +1,45 @@
 <?php
-/**
- *	UnitTest for Request Header Field.
- *	@package		net.http.request
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.6
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	UnitTest for Request Header Field.
+ *	@package		net.http.request
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Net\HTTP\Header;
+
+use CeusMedia\Common\Net\HTTP\Header\Field;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	UnitTest for Request Header Field.
  *	@package		net.http.request
- *	@uses			Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *	@version		0.6
  */
-class Test_Net_HTTP_Header_FieldTest extends Test_Case
+class FieldTest extends BaseCase
 {
 	public function testConstruct()
 	{
-		$header	= new Net_HTTP_Header_Field( "key", "value" );
-		$assertion	= true;
+		$header	= new Field( "key", "value" );
+
 		$creation	= (bool) strlen( $header->toString() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 	}
 
 	public function testToString()
 	{
-		$header	= new Net_HTTP_Header_Field( "key", "value" );
+		$header	= new Field( "key", "value" );
 		$assertion	= "Key: value";
 		$creation	= $header->toString();
 		$this->assertEquals( $assertion, $creation );
 
-		$header	= new Net_HTTP_Header_Field( "key-with-more-words", "value" );
+		$header	= new Field( "key-with-more-words", "value" );
 		$assertion	= "Key-With-More-Words: value";
 		$creation	= $header->toString();
 		$this->assertEquals( $assertion, $creation );

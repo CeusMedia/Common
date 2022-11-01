@@ -2,7 +2,7 @@
 /**
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,32 +20,44 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.08
  */
+
+namespace CeusMedia\Common\FS\File\PHP;
+
+use FilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+
 /**
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
- *	@extends		FilterIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.08.08
  *	@todo			Code Doc
  */
-class FS_File_PHP_Lister extends FilterIterator
+class Lister extends FilterIterator
 {
-	public $extensions			= array();
-	public $ignoreFolders		= array();
-	public $ignoreFiles			= array();
-	public $skippedFiles		= array();
-	public $skippedFolders		= array();
+	public $extensions			= [];
 
-	public function __construct( $path, $extensions = array(), $ignoreFolders = array(), $ignoreFiles = array(), $verbose = TRUE )
+	public $ignoreFolders		= [];
+
+	public $ignoreFiles			= [];
+
+	public $skippedFiles		= [];
+
+	public $skippedFolders		= [];
+
+	protected $path;
+
+	protected $verbose;
+
+	public function __construct( string $path, array $extensions = [], array $ignoreFolders = [], array $ignoreFiles = [], bool $verbose = TRUE )
 	{
 		$path	= preg_replace( "@^(.*)/*$@U", "\\1/", $path );
 		$this->path	= str_replace( "\\", "/", $path );
@@ -60,11 +72,10 @@ class FS_File_PHP_Lister extends FilterIterator
 		);
 	}
 
-	public function accept()
+	public function accept(): bool
 	{
 		$fileName	= basename( $this->current() );
-		if( $this->extensions )
-		{
+		if( $this->extensions ){
 			$info		= pathinfo( $fileName );
 			if( empty( $info['extension'] ) )
 				return FALSE;
@@ -112,43 +123,46 @@ class FS_File_PHP_Lister extends FilterIterator
 		return TRUE;
 	}
 
-	public function getExtensions()
+	public function getExtensions(): array
 	{
-		return $this->extensions;	
+		return $this->extensions;
 	}
 
-	public function getSkippedFiles()
+	public function getSkippedFiles(): array
 	{
 		return $this->skippedFiles;
 	}
 
-	protected function getSkippedFolders()
+	protected function getSkippedFolders(): array
 	{
 		return $this->skippedFolders;
 	}
 
-	private function logSkippedFile( $file )
+	private function logSkippedFile( string $file ): void
 	{
 		$this->skippedFiles[]	= $file;
 	}
 
-	private function logSkippedFolder( $path )
+	private function logSkippedFolder( string $path ): void
 	{
 		$this->skippedFolders[]	= $path;
 	}
 
-	public function setExtensions( $extensions )
+	public function setExtensions( array $extensions ): self
 	{
 		$this->extensions	= $extensions;
+		return $this;
 	}
 
-	public function setIgnoredFiles( $files = array() )
+	public function setIgnoredFiles( array $files = [] ): self
 	{
 		$this->ignoreFiles	= $files;
+		return $this;
 	}
 
-	public function setIgnoredFolders( $folders = array() )
+	public function setIgnoredFolders( array $folders = [] ): self
 	{
 		$this->ignoreFolders	= $folders;
+		return $this;
 	}
 }

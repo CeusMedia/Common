@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
- *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,43 +21,48 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
+
+namespace CeusMedia\Common\ADT\CSS;
+
+use InvalidArgumentException;
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2020 Christian Würker
+ *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
-class ADT_CSS_Sheet{
-
-	/**	@var		array			$rules		List of CSS rule objects */
-	public $rules		= array();
+class Sheet
+{
+	/**	@var		Rule[]			$rules		List of CSS rule objects */
+	public $rules		= [];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct(){
-		$this->rules	= array();
+	public function __construct()
+	{
+		$this->rules	= [];
 	}
 
 	/**
 	 *	Add rule object
 	 *	@access		public
-	 *	@param		ADT_CSS_Rule	$rule		CSS rule object
-	 *	@return		void
+	 *	@param		Rule	$rule		CSS rule object
+	 *	@return		self
 	 */
-	public function addRule( ADT_CSS_Rule $rule ){
+	public function addRule( Rule $rule ): self
+	{
 		$got = $this->getRuleBySelector( $rule->selector );
 		if( $got )
 			foreach( $rule->getProperties() as $property )
@@ -66,6 +72,7 @@ class ADT_CSS_Sheet{
 				throw new InvalidArgumentException( 'Invalid selector' );
 			$this->rules[]	= $rule;
 		}
+		return $this;
 	}
 
 	/**
@@ -73,9 +80,10 @@ class ADT_CSS_Sheet{
 	 *	@access		public
 	 *	@param		string			$selector	Rule selector
 	 *	@param		string			$key		Property key
-	 *	@return		string|NULL
+	 *	@return		Property|NULL
 	 */
-	public function get( $selector, $key ){
+	public function get( string $selector, string $key ): ?Property
+	{
 		$rule = $this->getRuleBySelector( $selector );
 		if( !$rule )
 			return NULL;
@@ -86,11 +94,12 @@ class ADT_CSS_Sheet{
 	 *
 	 *	@access		public
 	 *	@param		string			$selector	Rule selector
-	 *	@return		ADT_CSS_Rule|NULL
+	 *	@return		Rule|NULL
 	 */
-	public function getRuleBySelector( $selector ){
+	public function getRuleBySelector( string $selector ): ?Rule
+	{
 		foreach( $this->rules as $rule )
-			if( $selector == $rule->getSelector() )
+			if( $selector === $rule->getSelector() )
 				return $rule;
 		return NULL;
 	}
@@ -100,7 +109,8 @@ class ADT_CSS_Sheet{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getRules(){
+	public function getRules(): array
+	{
 		return $this->rules;
 	}
 
@@ -109,8 +119,9 @@ class ADT_CSS_Sheet{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSelectors(){
-		$list	= array();
+	public function getSelectors(): array
+	{
+		$list	= [];
 		foreach( $this->rules as $rule )
 			$list[]	= $rule->getSelector();
 		return $list;
@@ -120,12 +131,17 @@ class ADT_CSS_Sheet{
 	 *	Indicates whether a property is existing by its key.
 	 *	@access		public
 	 *	@param		string			$selector	Rule selector
+	 *	@param		string|NULL		$key		Rule key
 	 *	@return		boolean
 	 */
-	public function has( $selector, $key = NULL ){
+	public function has( string $selector, ?string $key = NULL ): bool
+	{
 		$rule = $this->getRuleBySelector( $selector );
-		if( $rule )
-			return !$key ? TRUE : $rule->has( $key );
+		if( !is_null( $rule ) ){
+			if( is_null( $key ) )
+				return TRUE;
+			return $rule->hasPropertyByKey( $key );
+		}
 		return FALSE;
 	}
 
@@ -135,7 +151,8 @@ class ADT_CSS_Sheet{
 	 *	@param		string			$selector	Rule selector
 	 *	@return		boolean
 	 */
-	public function hasRuleBySelector( $selector ){
+	public function hasRuleBySelector( string $selector ): bool
+	{
 		foreach( $this->rules as $rule )
 			if( $selector == $rule->getSelector() )
 				return TRUE;
@@ -149,7 +166,8 @@ class ADT_CSS_Sheet{
 	 *	@param		string			$key		Property key
 	 *	@return		boolean
 	 */
-	public function remove( $selector, $key ){
+	public function remove( string $selector, string $key ): bool
+	{
 		$rule	= $this->getRuleBySelector( $selector );
 		if( !$rule )
 			return FALSE;
@@ -164,21 +182,23 @@ class ADT_CSS_Sheet{
 	/**
 	 *	Removes a property.
 	 *	@access		public
-	 *	@param		ADT_CSS_Rule		$rule		Rule object
-	 *	@param		ADT_CSS_Property	$property	Property object
+	 *	@param		Rule		$rule		Rule object
+	 *	@param		Property	$property	Property object
 	 *	@return		boolean
 	 */
-	public function removeProperty( ADT_CSS_Rule $rule, ADT_CSS_Property $property ){
+	public function removeProperty( Rule $rule, Property $property ): bool
+	{
 		return $this->remove( $rule->getSelector(), $property->getKey() );
 	}
 
 	/**
 	 *	Removes a rule.
 	 *	@access		public
-	 *	@param		ADT_CSS_Rule		$rule		Rule object
+	 *	@param		Rule		$rule		Rule object
 	 *	@return		boolean
 	 */
-	public function removeRule( ADT_CSS_Rule $rule ){
+	public function removeRule( Rule $rule ): bool
+	{
 		return $this->removeRuleBySelector( $rule->getSelector() );
 	}
 
@@ -188,7 +208,8 @@ class ADT_CSS_Sheet{
 	 *	@param		string			$selector		Rule selector
 	 *	@return		boolean
 	 */
-	public function removeRuleBySelector( $selector ){
+	public function removeRuleBySelector( string $selector ): bool
+	{
 		foreach( $this->rules as $nr => $rule ){
 			if( $selector == $rule->getSelector() ){
 				unset( $this->rules[$nr] );
@@ -203,15 +224,16 @@ class ADT_CSS_Sheet{
 	 *	@access		public
 	 *	@param		string			$selector		Rule selector
 	 *	@param		string			$key			Property key
-	 *	@param		string			$value			Property value
+	 *	@param		string|NULL		$value			Property value
 	 *	@return		boolean
 	 */
-	public function set( $selector, $key, $value = NULL ){
+	public function set( string $selector, string $key, ?string $value = NULL ): bool
+	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->remove( $selector, $key );
 		$rule = $this->getRuleBySelector( $selector );
 		if( !$rule ){
-			$rule	= new ADT_CSS_Rule( $selector );
+			$rule	= new Rule( $selector );
 			$this->rules[]	= $rule;
 		}
 		return $rule->setPropertyByKey( $key, $value );
@@ -220,11 +242,12 @@ class ADT_CSS_Sheet{
 	/**
 	 *	Sets a property.
 	 *	@access		public
-	 *	@param		ADT_CSS_Rule		$rule		Rule object
-	 *	@param		ADT_CSS_Property	$property	Property object
+	 *	@param		Rule		$rule		Rule object
+	 *	@param		Property	$property	Property object
 	 *	@return		boolean
 	 */
-	public function setProperty( ADT_CSS_Rule $rule, ADT_CSS_Property $property ){
-		return $this->set( $rule->getSelector(), $property->getKey(), $property->getValue() );		//  
+	public function setProperty( Rule $rule, Property $property ): bool
+	{
+		return $this->set( $rule->getSelector(), $property->getKey(), $property->getValue() );		//
 	}
 }

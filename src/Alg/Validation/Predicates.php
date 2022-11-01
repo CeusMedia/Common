@@ -2,7 +2,7 @@
 /**
  *	Class holding predicates for string validation.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +20,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2007
  */
+
+namespace CeusMedia\Common\Alg\Validation;
+
+use CeusMedia\Common\Alg\Crypt\PasswordStrength;
+use CeusMedia\Common\Alg\Time\Converter as TimeConverter;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	Class holding predicates for string validation.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
- *	@uses			Alg_Time_Converter
- *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2007
  */
-class Alg_Validation_Predicates
+class Predicates
 {
 	/**
 	 *	Indicates whether a string is short enough.
@@ -75,7 +79,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function hasPasswordScore( string $string, int $score ): bool
 	{
-		return Alg_Crypt_PasswordStrength::getScore( $string ) >= $score;
+		return PasswordStrength::getScore( $string ) >= $score;
 	}
 
 	/**
@@ -88,7 +92,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function hasPasswordStrength( string $string, int $strength ): bool
 	{
-		return Alg_Crypt_PasswordStrength::getStrength( $string ) >= $strength;
+		return PasswordStrength::getStrength( $string ) >= $strength;
 	}
 
 	/**
@@ -113,7 +117,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isAfter( string $string, $point ): bool
 	{
-		$string	= Alg_Time_Converter::complementMonthDate( $string );
+		$string	= TimeConverter::complementMonthDate( $string );
 		$time	= strtotime( $string );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -166,7 +170,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isBefore( string $string, $point ): bool
 	{
-		$string	= Alg_Time_Converter::complementMonthDate( $string, 1 );
+		$string	= TimeConverter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -183,7 +187,7 @@ class Alg_Validation_Predicates
 	public static function isDate( string $string ): bool
 	{
 		try{
-			$string	= Alg_Time_Converter::complementMonthDate( $string );
+			$string	= TimeConverter::complementMonthDate( $string );
 			$date	= strtotime( $string );
 			return (bool) $date;
 		}
@@ -249,7 +253,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isFuture( string $string ): bool
 	{
-		$string	= Alg_Time_Converter::complementMonthDate( $string );
+		$string	= TimeConverter::complementMonthDate( $string );
 		$time	= strtotime( $string );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -266,7 +270,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isFutureOrNow( string $string ): bool
 	{
-		$string	= Alg_TimeConverter::complementMonthDate( $string, 1 );
+		$string	= TimeConverter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -387,7 +391,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isPast( string $string ): bool
 	{
-		$date	= Alg_Time_Converter::complementMonthDate( $string, 1 );
+		$date	= TimeConverter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $date );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -404,7 +408,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isPastOrNow( string $string ): bool
 	{
-		$date	= Alg_TimeConverter::complementMonthDate( $string );
+		$date	= TimeConverter::complementMonthDate( $string );
 		$time	= strtotime( $date );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );

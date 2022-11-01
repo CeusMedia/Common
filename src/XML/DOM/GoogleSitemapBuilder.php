@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds and writes Google Sitemap.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,27 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use Exception;
+
 /**
  *	Builds and writes Google Sitemap.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.02.2008
  */
-class XML_DOM_GoogleSitemapBuilder
+class GoogleSitemapBuilder
 {
 	/**	@var	array		$list		List of URLs */
-	protected $list	= array();
+	protected $list	= [];
 
 	/**
 	 *	Adds another Link to Sitemap.
@@ -48,7 +50,7 @@ class XML_DOM_GoogleSitemapBuilder
 	 *	@param		string		$link		Link to add to Sitemap
 	 *	@return		void
 	 */
-	public function addLink( $link )
+	public function addLink( string $link )
 	{
 		$this->list[]	= $link;
 	}
@@ -57,9 +59,10 @@ class XML_DOM_GoogleSitemapBuilder
 	 *	Builds and return XML of Sitemap.
 	 *	@access		public
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
-	 *	@return		bool
+	 *	@return		string
+	 *	@throws		Exception
 	 */
-	public function build( $baseUrl )
+	public function build( string $baseUrl ): string
 	{
 		return self::buildSitemap( $this->list, $baseUrl );
 	}
@@ -68,22 +71,23 @@ class XML_DOM_GoogleSitemapBuilder
 	 *	Builds and return XML of Sitemap.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$links		List of Sitemap Link
+	 *	@param		array		$links		List of Sitemap Link
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
-	 *	@return		bool
+	 *	@return		string
+	 *	@throws		Exception
 	 */
-	public static function buildSitemap( $links, $baseUrl = "" )
+	public static function buildSitemap( array $links, string $baseUrl = '' ): string
 	{
-		$root	= new XML_DOM_Node( "urlset" );
-		$root->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
+		$root	= new Node( "urlset" );
+		$root->setAttribute( 'xmlns', "https://www.google.com/schemas/sitemap/0.84" );
 		foreach( $links as $link )
 		{
-			$child	= new XML_DOM_Node( "url" );
-			$loc	= new XML_DOM_Node( "loc", $baseUrl.$link );
+			$child	= new Node( "url" );
+			$loc	= new Node( "loc", $baseUrl.$link );
 			$child->addChild( $loc );
 			$root->addChild( $child );
 		}
-		$builder	= new XML_DOM_Builder();
+		$builder	= new Builder();
 		return $builder->build( $root );
 	}
 }

@@ -1,11 +1,17 @@
-<?php
+<?php /** @noinspection */
+/** @noinspection PhpMissingParamTypeInspection */
+/** @noinspection PhpMissingReturnTypeInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- * Class FS_File_CSS_Relocator
+ * Class Relocator
  *
  * @category	Library
  * @package		CeusMedia_Common_FS_File_CSS
  * @author		Stephen Clay <steve@mrclay.org>
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
 
 /**
  * Rewrite file-relative URIs as root-relative in CSS files
@@ -14,25 +20,25 @@
  * @package		CeusMedia_Common_FS_File_CSS
  * @author		Stephen Clay <steve@mrclay.org>
  */
-class FS_File_CSS_Relocator {
+class Relocator
+{
+	/**	@var		string					$debugText		rewrite() and rewriteRelative() append debugging information here */
+	public static string $debugText			= '';
 
-	/**	@var		string		$debugText		rewrite() and rewriteRelative() append debugging information here */
-	public static $debugText = '';
+	/**	@var		string					$className		Defines which class to call as part of callbacks, change this if you extend FS_File_CSS_Relocator */
+	protected static string $className		= Relocator::class;
 
-	/**	@var		string		$className		Defines which class to call as part of callbacks, change this if you extend FS_File_CSS_Relocator */
-	protected static $className = 'FS_File_CSS_Relocator';
+	/**	@var		string					$_currentDir	Directory of this stylesheet */
+	private static string $_currentDir		= '';
 
-	/**	@var		string		$_currentDir	Directory of this stylesheet */
-	private static $_currentDir = '';
+	/**	@var		string					$_docRoot		DOC_ROOT */
+	private static string $_docRoot			= '';
 
-	/**	@var		string		$_docRoot		DOC_ROOT */
-	private static $_docRoot = '';
+	/**	@var		array					$_symlinks		directory replacements to map symlink targets back to their source (within the document root) E.g. '/var/www/symlink' => '/var/realpath' */
+	private static array $_symlinks			= [];
 
-	/**	@var		array		$_symlinks		directory replacements to map symlink targets back to their source (within the document root) E.g. '/var/www/symlink' => '/var/realpath' */
-	private static $_symlinks = array();
-
-	/**	@var		string		$_prependPath	Path to prepend */
-	private static $_prependPath = null;
+	/**	@var		string|NULL				$_prependPath	Path to prepend */
+	private static ?string $_prependPath	= NULL;
 
 	/**
 	 *	In CSS content, prepend a path to relative URIs
@@ -40,19 +46,18 @@ class FS_File_CSS_Relocator {
 	 *	@param		string		$path The path to prepend.
 	 *	@return		string
 	 */
-	public static function prepend($css, $path)
+	public static function prepend(string $css, string $path): string
 	{
 		self::$_prependPath = $path;
 
 		$css = self::_trimUrls($css);
 
 		// append
-		$css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/'
-			,array(self::$className, '_processUriCB'), $css);
-		$css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
-			,array(self::$className, '_processUriCB'), $css);
+		$callback = [self::$className, '_processUriCB'];
+		$css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/', $callback, $css);
+		$css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/', $callback, $css);
 
-		self::$_prependPath = null;
+		self::$_prependPath = NULL;
 		return $css;
 	}
 
@@ -62,7 +67,7 @@ class FS_File_CSS_Relocator {
 	 * @param string $uri
 	 * @return string
 	 */
-	public static function removeDots($uri)
+	public static function removeDots(string $uri): string
 	{
 		$uri = str_replace('/./', '/', $uri);
 		// inspired by patch from Oleg Cherniy
@@ -75,26 +80,24 @@ class FS_File_CSS_Relocator {
 	/**
 	 *	In CSS content, rewrite file relative URIs as root relative
 	 *
-	 *	@param		string		$css
-	 *	@param		string		$currentDir		The directory of the current CSS file.
-	 *	@param		string		$docRoot		The document root of the web site in which the CSS file resides (default = $_SERVER['DOCUMENT_ROOT']).
-	 *	@param		array		$symlinks		If the CSS file is stored in a symlink-ed directory, provide an array of link paths to target paths, where the link paths are within the document root. Because paths need to be normalized for this to work, use "//" to substitute the doc root in the link paths (the array keys). E.g.:
+	 *	@param		string			$css
+	 *	@param		string			$currentDir		The directory of the current CSS file.
+	 *	@param		string|NULL		$docRoot		The document root of the website in which the CSS file resides (default = $_SERVER['DOCUMENT_ROOT']).
+	 *	@param		array			$symlinks		If the CSS file is stored in a symlink-ed directory, provide an array of link paths to target paths, where the link paths are within the document root. Because paths need to be normalized for this to work, use "//" to substitute the doc root in the link paths (the array keys). E.g.:
 	 *	@example
 	 * <code>
-	 // unix
+	 * // unix
 	 * array('//symlink' => '/real/target/path')
-	 // Windows
+	 * // Windows
 	 * array('//static' => 'D:\\staticStorage')
 	 * </code>
 	 *	@return		string
 	 */
-	public static function rewrite($css, $currentDir, $docRoot = null, $symlinks = array())
+	public static function rewrite(string $css, string $currentDir, ?string $docRoot = null, array $symlinks = [])
 	{
-		self::$_docRoot = self::_realpath(
-			$docRoot ? $docRoot : $_SERVER['DOCUMENT_ROOT']
-		);
+		self::$_docRoot = self::_realpath($docRoot ?: $_SERVER['DOCUMENT_ROOT']);
 		self::$_currentDir = self::_realpath($currentDir);
-		self::$_symlinks = array();
+		self::$_symlinks = [];
 
 		// normalize symlinks
 		foreach ($symlinks as $link => $target) {
@@ -108,36 +111,33 @@ class FS_File_CSS_Relocator {
 		self::$debugText .= "docRoot    : " . self::$_docRoot . "\n"
 						  . "currentDir : " . self::$_currentDir . "\n";
 		if (self::$_symlinks) {
-			self::$debugText .= "symlinks : " . var_export(self::$_symlinks, 1) . "\n";
+			self::$debugText .= "symlinks : " . var_export(self::$_symlinks, true) . "\n";
 		}
 		self::$debugText .= "\n";
 
 		$css = self::_trimUrls($css);
 
 		// rewrite
-		$css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/'
-			,array(self::$className, '_processUriCB'), $css);
-		$css = preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
-			,array(self::$className, '_processUriCB'), $css);
-
-		return $css;
+		$callback = [self::$className, '_processUriCB'];
+		$css = preg_replace_callback('/@import\\s+([\'"])(.*?)[\'"]/', $callback, $css);
+		return preg_replace_callback('/url\\(\\s*([^\\)\\s]+)\\s*\\)/', $callback, $css);
 	}
 
 	/**
 	 * Get a root relative URI from a file relative URI
 	 *
 	 * <code>
-	 * FS_File_CSS_Relocator::rewriteRelative(
+	 * Relocator::rewriteRelative(
 	 *	   '../img/hello.gif'
-	 // path of CSS file
+	 * // path of CSS file
 	 *	 , '/home/user/www/css'
-	 // doc root
+	 * // doc root
 	 *	 , '/home/user/www'
 	 * );
 	 * // returns '/img/hello.gif'
 	 *
 	 * // example where static files are stored in a symlinked directory
-	 * FS_File_CSS_Relocator::rewriteRelative(
+	 * Relocator::rewriteRelative(
 	 *	   'hello.gif'
 	 *	 , '/var/staticFiles/theme'
 	 *	 , '/home/user/www'
@@ -152,29 +152,29 @@ class FS_File_CSS_Relocator {
 	 *	@param		array		$symlinks		If the file is stored in a symlink-ed directory, provide an array of link paths to real target paths, where the link paths "appear" to be within the document root. E.g.:
 	 *	@example
 	 * <code>
-	 // unix
+	 * // unix
 	 * array('/home/foo/www/not/real/path' => '/real/target/path')
-	 // Windows
+	 * // Windows
 	 * array('C:\\htdocs\\not\\real' => 'D:\\real\\target\\path')
 	 * </code>
 	 *	@return		string
 	 */
-	public static function rewriteRelative($uri, $realCurrentDir, $realDocRoot, $symlinks = array())
+	public static function rewriteRelative(string $uri, string $realCurrentDir, string $realDocRoot, array $symlinks = []): string
 	{
 		// prepend path with current dir separator (OS-independent)
 		$path = strtr($realCurrentDir, '/', DIRECTORY_SEPARATOR)
 			. DIRECTORY_SEPARATOR . strtr($uri, '/', DIRECTORY_SEPARATOR);
 
-		self::$debugText .= "file-relative URI  : {$uri}\n"
-						  . "path prepended     : {$path}\n";
+		self::$debugText .= sprintf("file-relative URI  : %s\n", $uri)
+						  . sprintf("path prepended     : %s\n", $path);
 
 		// "unresolve" a symlink back to doc root
 		foreach ($symlinks as $link => $target) {
-			if (0 === strpos($path, $target)) {
+			if (0 === strpos($path, (string) $target)) {
 				// replace $target with $link
 				$path = $link . substr($path, strlen($target));
 
-				self::$debugText .= "symlink unresolved : {$path}\n";
+				self::$debugText .= sprintf("symlink unresolved : %s\n", $path);
 
 				break;
 			}
@@ -182,13 +182,13 @@ class FS_File_CSS_Relocator {
 		// strip doc root
 		$path = substr($path, strlen($realDocRoot));
 
-		self::$debugText .= "docroot stripped   : {$path}\n";
+		self::$debugText .= sprintf("docroot stripped   : %s\n", $path);
 
 		// fix to root-relative URI
 		$uri = strtr($path, '/\\', '//');
 		$uri = self::removeDots($uri);
 
-		self::$debugText .= "traversals removed : {$uri}\n\n";
+		self::$debugText .= sprintf("traversals removed : %s\n\n", $uri);
 
 		return $uri;
 	}
@@ -196,8 +196,9 @@ class FS_File_CSS_Relocator {
 	/**
 	 *	@param		array		$m
 	 *	@return		string
+	 * @noinspection PhpUnusedPrivateMethodInspection
 	 */
-	private static function _processUriCB($m)
+	private static function _processUriCB(array $m): string
 	{
 		// $m matched either '/@import\\s+([\'"])(.*?)[\'"]/' or '/url\\(\\s*([^\\)\\s]+)\\s*\\)/'
 		$isImport = ($m[0][0] === '@');
@@ -231,7 +232,7 @@ class FS_File_CSS_Relocator {
 					$root = '';
 					$rootRelative = $uri;
 					$uri = $root . self::removeDots($rootRelative);
-				} elseif (preg_match('@^((https?\:)?//([^/]+))/@', $uri, $m) && (false !== strpos($m[3], '.'))) {
+				} elseif (preg_match('@^((https?:)?//([^/]+))/@', $uri, $m) && (false !== strpos($m[3], '.'))) {
 					$root = $m[1];
 					$rootRelative = substr($uri, strlen($root));
 					$uri = $root . self::removeDots($rootRelative);
@@ -239,16 +240,16 @@ class FS_File_CSS_Relocator {
 			}
 		}
 		return $isImport
-			? "@import {$quoteChar}{$uri}{$quoteChar}"
-			: "url({$quoteChar}{$uri}{$quoteChar})";
+			? sprintf("@import %s%s%s", $quoteChar, $uri, $quoteChar)
+			: sprintf("url(%s%s%s)", $quoteChar, $uri, $quoteChar);
 	}
 
 	/**
 	 *	Get realpath with any trailing slash removed. If realpath() fails, just remove the trailing slash.
 	 *	@param		string		$path
-	 *	@return		mixed path with no trailing slash
+	 *	@return		string		path with no trailing slash
 	 */
-	protected static function _realpath($path)
+	protected static function _realpath(string $path): string
 	{
 		$realPath = realpath($path);
 		if ($realPath !== false) {

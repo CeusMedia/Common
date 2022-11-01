@@ -1,24 +1,49 @@
 <?php
-require_once dirname( __FILE__ ).'/MockExceptions.php';
-class Test_MockAntiProtection
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
+declare( strict_types = 1 );
+
+namespace CeusMedia\CommonTest;
+
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
+use CeusMedia\Common\UI\Template;
+use InvalidArgumentException;
+
+class MockAntiProtection
 {
-	public static function createMockClass( $className )
+	public static function createMockClass( $originalClass )
 	{
-		if( class_exists( 'Test_'.$className.'_MockAntiProtection' ) )
+		if( !class_exists( $originalClass ) )
+			throw new InvalidArgumentException( 'Class "'.$originalClass.'" is not existing' );
+
+		$mockClass	= str_replace( 'Common\\', 'CommonTest\\', $originalClass );
+		$mockClass	= $mockClass.'MockAntiProtection';
+		if( class_exists( '\\'.$mockClass ) )
 			return;
-		if( !class_exists( $className ) )
-			throw new InvalidArgumentException( 'Class "'.$className.'" is not existing' );
-		$codeFile	= dirname( __FILE__ ).'/MockAntiProtection.tmpl';
-		$codeClass	= UI_Template::render( $codeFile, array( 'className' => $className ) );
+		$parts		= explode( '\\', $mockClass );
+		$className	= array_pop( $parts );
+		$namespace	= implode( '\\', $parts );
+
+		$codeFile	= __DIR__.'/MockAntiProtection.tmpl';
+		$codeClass	= Template::render( $codeFile, [
+			'namespace' => $namespace,
+			'originalClassName' => '\\'.$originalClass,
+			'mockClassName' => $className,
+		] );
+//		xmp( $codeClass );die;
 		eval( $codeClass );
 	}
 
-	public static function getInstance( $className )
+	public static function getInstance( $originalClass ): object
 	{
-		self::createMockClass( $className );
-		$mockClass	= "Test_".$className."_MockAntiProtection";
+		self::createMockClass( $originalClass );
+
+		$mockClass	= str_replace( 'Common\\', 'CommonTest\\', $originalClass );
+		$mockClass	= '\\'.$mockClass.'MockAntiProtection';
 		$arguments	= array_slice( func_get_args(), 1 );
-		$mockObject	= Alg_Object_Factory::createObject( $mockClass, $arguments );
-		return $mockObject;
+		return ObjectFactory::createObject( $mockClass, $arguments );
 	}
 }

@@ -24,10 +24,10 @@ class UnitTestViewer
 
 	protected function buildList( $tests, $type )
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $tests as $test )
 		{
-			$lines	= array();
+			$lines	= [];
 			foreach( explode( "\n", $test['error'] ) as $line )
 			{
 				$class	= NULL;

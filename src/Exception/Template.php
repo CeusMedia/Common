@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Exception for Templates.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,55 +21,59 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.03.2007
  */
+
+namespace CeusMedia\Common\Exception;
+
+use RuntimeException;
+use Throwable;
+
 /**
  *	Exception for Templates.
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
- *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.03.2007
  */
-class Exception_Template extends RuntimeException
+class Template extends RuntimeException
 {
-	const FILE_NOT_FOUND		= 0;
-	const FILE_LABELS_MISSING	= 1;
-	const LABELS_MISSING		= 2;
+	public const FILE_NOT_FOUND			= 0;
+	public const FILE_LABELS_MISSING	= 1;
+	public const LABELS_MISSING			= 2;
 
-	/**	@var		string		$messages		Map of Exception Messages, can be overwritten statically */
-	public static $messages	= array(
+	/**	@var		array			$messages		Map of Exception Messages, can be overwritten statically */
+	public static array $messages	= [
 		self::FILE_NOT_FOUND		=> 'Template File "%1$s" is missing',
 		self::FILE_LABELS_MISSING	=> 'Template "%1$s" is missing %2$s',
 		self::LABELS_MISSING		=> 'Template is missing %1$s',
-	);
+	];
 
-	/**	@var		array		$labels			Holds all not used and non optional labels */
-	protected $labels			= array();
-	/**	@var		string		$filePath		File Path of Template, set only if not found */
-	protected $filePath			= NULL;
+	/**	@var		array			$labels			Holds all not used and non-optional labels */
+	protected array $labels			= [];
+
+	/**	@var		string|NULL		$filePath		File Path of Template, set only if not found */
+	protected ?string $filePath		= NULL;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int			$code			Exception Code
-	 *	@param		string		$fileName		File Name of Template
-	 *	@param		mixed		$data			Some additional data
+	 *	@param		int				$code			Exception Code
+	 *	@param		string|NULL		$fileName		File Name of Template
+	 *	@param		array			$data			Some additional data
+	 *	@param		Throwable|NULL	$previous
 	 *	@return		void
 	 */
-	public function __construct( $code, $fileName, $data = array(), ?Throwable $previous = null )
+	public function __construct( int $code, ?string $fileName, array $data = [], ?Throwable $previous = null )
 	{
-		$tagList	= '"'.implode( '", "', $data ).'"';
-		switch( $code )
-		{
+		$tagList		= '"'.implode( '", "', $data ).'"';
+		$this->filePath	= $fileName;
+		switch( $code ){
 			case self::FILE_NOT_FOUND:
-				$this->filePath	= $data;
 				$message		= self::$messages[self::FILE_NOT_FOUND];
 				$message		= sprintf( $message, $fileName );
 				parent::__construct( $message, self::FILE_NOT_FOUND, $previous );
@@ -91,9 +96,9 @@ class Exception_Template extends RuntimeException
 	/**
 	 *	Returns File Path of Template if not found.
 	 *	@access	  public
-	 *	@return	  array		{@link $filePath}
+	 *	@return	  string		{@link $filePath}
 	 */
-	public function getFilePath()
+	public function getFilePath(): string
 	{
 		return $this->filePath;
 	}
@@ -103,7 +108,7 @@ class Exception_Template extends RuntimeException
 	 *	@access	  public
 	 *	@return	  array		{@link $labels}
 	 */
-	public function getNotUsedLabels()
+	public function getNotUsedLabels(): array
 	{
 		return $this->labels;
 	}

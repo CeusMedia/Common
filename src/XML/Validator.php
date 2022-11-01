@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Validates XML.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,31 +21,37 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\Net\Reader as NetReader;
+
 /**
  *	Validates XML.
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
  */
-class XML_Validator
+class Validator
 {
 	/**	@var		array		$error		Array of Error Information */
-	protected $error	= array();
+	protected $error	= [];
 
 	/**
 	 *	Returns last error line.
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getErrorLine()
+	public function getErrorLine(): int
 	{
 		if( $this->error )
 			return $this->error['line'];
@@ -56,7 +63,7 @@ class XML_Validator
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getErrorMessage()
+	public function getErrorMessage(): string
 	{
 		if( $this->error )
 			return $this->error['message'];
@@ -66,23 +73,23 @@ class XML_Validator
 	/**
 	 *	Validates XML File.
 	 *	@access		public
+	 *	@param		string		$fileName		...
 	 *	@return		bool
 	 */
-	public function validateFile( $fileName )
+	public function validateFile( string $fileName ): bool
 	{
-		$xml = FS_File_Reader::load( $fileName );
-		return $this->validate( $xml );
+		return $this->validate( FileReader::load( $fileName ) );
 	}
 
 	/**
 	 *	Validates XML URL.
 	 *	@access		public
+	 *	@param		string		$url		...
 	 *	@return		bool
 	 */
-	public function validateUrl( $url)
+	public function validateUrl( string $url ): bool
 	{
-		$xml	= Net_Reader::readUrl( $url );
-		return $this->validate( $xml );
+		return $this->validate( NetReader::readUrl( $url ) );
 	}
 
 	/**
@@ -91,10 +98,10 @@ class XML_Validator
 	 *	@param		string		$xml		XML String to validate
 	 *	@return		bool
 	 */
-	public function validate( $xml )
+	public function validate( string $xml ): bool
 	{
 		$parser	= xml_parser_create();
-		$dummy	= create_function( '', '' );
+		$dummy	= function(){};
 		xml_set_element_handler( $parser, $dummy, $dummy );
 		xml_set_character_data_handler( $parser, $dummy );
 		if( !xml_parse( $parser, $xml ) )

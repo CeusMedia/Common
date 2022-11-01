@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Folders.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,24 +21,28 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\Alg\UnitFormater;
+use FilterIterator;
+use RuntimeException;
+
 /**
  *	Reader for Folders.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
- *	@uses			FS_Folder_Lister
- *	@uses			FS_Folder_RecursiveLister
- *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement getFileTree, getFolderTree, getTree
  */
-class FS_Folder_Reader
+class Reader
 {
 	/**	@var		string		$folderName		Folder Name, relative or absolute */
 	protected $folderName;
@@ -48,7 +53,7 @@ class FS_Folder_Reader
 	 *	@param		string		$folderName		Folder Name, relative or absolute
 	 *	@return		void
 	 */
-	public function __construct( $folderName )
+	public function __construct( string $folderName )
 	{
 		$this->folderName = $folderName;
 	}
@@ -60,7 +65,7 @@ class FS_Folder_Reader
 	 *	@param		string		$path			Path to correct
 	 *	@return		string
 	 */
-	public static function correctPath( $path )
+	public static function correctPath( string $path ): string
 	{
 		return preg_replace( "@([^/])$@", "\\1/", $path );
 	}
@@ -70,9 +75,9 @@ class FS_Folder_Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function exists()
+	public function exists(): bool
 	{
-		return $this->isFolder( $this->folderName );
+		return static::isFolder($this->folderName);
 	}
 
 	/**
@@ -81,7 +86,7 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getCount( $pattern = NULL )
+	public function getCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		$list	= $this->getList( $pattern );
@@ -96,7 +101,7 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getFileCount( $pattern = NULL )
+	public function getFileCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )
@@ -110,20 +115,20 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		Name Filter RegEx Pattern, eg. '@xml$@' for all Files ending with 'xml'
 	 *	@return		FilterIterator
 	 */
-	public function getFileList( $pattern = NULL )
+	public function getFileList( ?string $pattern = NULL ): FilterIterator
 	{
-		return FS_Folder_Lister::getFileList( $this->folderName, $pattern );
+		return Lister::getFileList( $this->folderName, $pattern );
 	}
 
 	/**
 	 *	Get List of Files with specified Extensions within current Folder.
 	 *	@access		public
-	 *	@param		array		$extension		List of allowed Extensions
+	 *	@param		array		$extensions		List of allowed Extensions
 	 *	@return		FilterIterator
 	 */
-	public function getFileListByExtensions( $extensions )
+	public function getFileListByExtensions( array $extensions ): FilterIterator
 	{
-		$lister	= new FS_Folder_Lister( $this->folderName );
+		$lister	= new Lister( $this->folderName );
 		$lister->setExtensions( $extensions );
 		$lister->showFolders( FALSE );
 		return $lister->getList();
@@ -135,7 +140,7 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getFolderCount( $pattern = NULL )
+	public function getFolderCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getFolderList( $pattern ) as $entry )
@@ -149,9 +154,9 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		Name Filter RegEx Pattern, eg. @^a$@ for all Folders starting with 'a'
 	 *	@return		FilterIterator
 	 */
-	public function getFolderList( $pattern = NULL )
+	public function getFolderList( ?string $pattern = NULL ): FilterIterator
 	{
-		return FS_Folder_Lister::getFolderList( $this->folderName, $pattern );
+		return Lister::getFolderList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -159,7 +164,7 @@ class FS_Folder_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFolderName()
+	public function getFolderName(): string
 	{
 		return $this->folderName;
 	}
@@ -170,9 +175,9 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		Name Filter RegEx Pattern, eg. @xml@ for all Entries containing 'xml'
 	 *	@return		FilterIterator
 	 */
-	public function getList( $pattern = NULL )
+	public function getList( ?string $pattern = NULL ): FilterIterator
 	{
-		return FS_Folder_Lister::getMixedList( $this->folderName, $pattern );
+		return Lister::getMixedList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -180,7 +185,7 @@ class FS_Folder_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return basename( $this->folderName );
 	}
@@ -191,7 +196,7 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedCount( $pattern = NULL )
+	public function getNestedCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedList( $pattern ) as $entry )
@@ -205,7 +210,7 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedFileCount( $pattern = NULL )
+	public function getNestedFileCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedFileList( $pattern ) as $entry )
@@ -219,9 +224,9 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedFileList( $pattern = NULL )
+	public function getNestedFileList( string $pattern = NULL ): FilterIterator
 	{
-		return FS_Folder_RecursiveLister::getFileList( $this->folderName, $pattern );
+		return RecursiveLister::getFileList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -230,7 +235,7 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedFolderCount( $pattern = NULL )
+	public function getNestedFolderCount( string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedFolderList( $pattern ) as $entry )
@@ -244,9 +249,9 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedFolderList( $pattern = NULL )
+	public function getNestedFolderList( ?string $pattern = NULL ): FilterIterator
 	{
-		return FS_Folder_RecursiveLister::getFolderList( $this->folderName, $pattern );
+		return RecursiveLister::getFolderList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -255,9 +260,9 @@ class FS_Folder_Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedList( $pattern = NULL)
+	public function getNestedList( ?string $pattern = NULL): FilterIterator
 	{
-		return FS_Folder_RecursiveLister::getMixedList( $this->folderName, $pattern );
+		return RecursiveLister::getMixedList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -268,13 +273,13 @@ class FS_Folder_Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getNestedSize( $pattern = NULL, $unit = NULL, $precision = NULL )
+	public function getNestedSize( string $pattern = NULL, int $unit = NULL, int $precision = NULL ): int
 	{
 		$size	= 0;
 		foreach( $this->getNestedFileList( $pattern ) as $entry )
 			$size	+= $entry->getSize();
 		if( $unit )
-			$size	= Alg_UnitFormater::formatNumber( $size, $unit, $precision );
+			$size	= UnitFormater::formatNumber( $size, $unit, $precision );
 		return $size;
 	}
 
@@ -283,7 +288,7 @@ class FS_Folder_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return dirname( $this->folderName )."/";
 	}
@@ -293,7 +298,7 @@ class FS_Folder_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getRealPath()
+	public function getRealPath(): string
 	{
 		$path	= realpath( $this->folderName );
 		if( FALSE === $path )
@@ -309,13 +314,13 @@ class FS_Folder_Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize( $pattern = NULL, $unit = NULL, $precision = NULL )
+	public function getSize( string $pattern = NULL, int $unit = NULL, int $precision = NULL ): int
 	{
 		$size	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )
 			$size	+= $entry->getSize();
 		if( $unit )
-			$size	= Alg_UnitFormater::formatBytes( $size, $precision );
+			$size	= UnitFormater::formatBytes( $size, $precision );
 		return $size;
 	}
 
@@ -326,7 +331,7 @@ class FS_Folder_Reader
 	 *	@param		string		$path			Path to check
 	 *	@return		bool
 	 */
-	public static function isFolder( $path )
+	public static function isFolder( string $path ): bool
 	{
 		$exists	= file_exists( $path );
 		$isDir	= is_dir( $path );

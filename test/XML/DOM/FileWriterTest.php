@@ -1,27 +1,33 @@
 <?php
-/**
- *	TestUnit of XML DOM File Writer.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML DOM File Writer.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\DOM;
+
+use CeusMedia\Common\XML\DOM\FileWriter;
+use CeusMedia\Common\XML\DOM\Node;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of XML DOM File Writer.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_FileWriter
- *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
  */
-class Test_XML_DOM_FileWriterTest extends Test_Case
+class FileWriterTest extends BaseCase
 {
+	/** @var string  */
+	protected $path;
+
 	/**
 	 *	Sets up Writer.
 	 *	@access		public
@@ -29,7 +35,7 @@ class Test_XML_DOM_FileWriterTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= dirname( __FILE__ )."/assets/";
 	}
 
 	/**
@@ -50,19 +56,19 @@ class Test_XML_DOM_FileWriterTest extends Test_Case
 	 */
 	public function testWrite()
 	{
-		$tree	= new XML_DOM_Node( "testRoot" );
-		$node1	= new XML_DOM_Node( "testNode1" );
+		$tree	= new Node( "testRoot" );
+		$node1	= new Node( "testNode1" );
 		$node1->setAttribute( "testKeyNode1", "testValueNode1" );
-		$leaf11	= new XML_DOM_Node( "testLeaf11", "testContentLeaf11" );
+		$leaf11	= new Node( "testLeaf11", "testContentLeaf11" );
 		$leaf11->setAttribute( "testKeyLeaf11", "testValueLeaf11" );
-		$leaf12	= new XML_DOM_Node( "testLeaf12", "testContentLeaf12" );
+		$leaf12	= new Node( "testLeaf12", "testContentLeaf12" );
 		$leaf12->setAttribute( "testKeyLeaf12", "testValueLeaf12" );
 
-		$node2	= new XML_DOM_Node( "testNode2" );
+		$node2	= new Node( "testNode2" );
 		$node2->setAttribute( "testKeyNode2", "testValueNode2" );
-		$leaf21	= new XML_DOM_Node( "testLeaf21", "testContentLeaf21" );
+		$leaf21	= new Node( "testLeaf21", "testContentLeaf21" );
 		$leaf21->setAttribute( "testKeyLeaf21", "testValueLeaf21" );
-		$leaf22	= new XML_DOM_Node( "testLeaf22", "testContentLeaf22" );
+		$leaf22	= new Node( "testLeaf22", "testContentLeaf22" );
 		$leaf22->setAttribute( "testKeyLeaf22", "testValueLeaf22" );
 
 		$node1->addChild( $leaf11 );
@@ -70,9 +76,9 @@ class Test_XML_DOM_FileWriterTest extends Test_Case
 		$node2->addChild( $leaf21 );
 		$node2->addChild( $leaf22 );
 
-		$leaf31	= new XML_DOM_Node( "testLeaf31", "testContentLeaf31" );
+		$leaf31	= new Node( "testLeaf31", "testContentLeaf31" );
 		$leaf31->setAttribute( "testKeyLeaf31", "testValueLeaf31" );
-		$leaf32	= new XML_DOM_Node( "testLeaf32", "testContentLeaf32" );
+		$leaf32	= new Node( "testLeaf32", "testContentLeaf32" );
 		$leaf32->setAttribute( "testKeyLeaf32", "testValueLeaf32" );
 
 		$tree->addChild( $node1 );
@@ -80,7 +86,7 @@ class Test_XML_DOM_FileWriterTest extends Test_Case
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 
-		$writer	= new XML_DOM_FileWriter( $this->path."writer.xml" );
+		$writer	= new FileWriter( $this->path."writer.xml" );
 		$writer->write( $tree );
 		$assertion	= file_get_contents( $this->path."builder.xml" );
 		$creation	= file_get_contents( $this->path."writer.xml" );
@@ -94,19 +100,19 @@ class Test_XML_DOM_FileWriterTest extends Test_Case
 	 */
 	public function testSave()
 	{
-		$tree	= new XML_DOM_Node( "testRoot" );
-		$node1	= new XML_DOM_Node( "testNode1" );
+		$tree	= new Node( "testRoot" );
+		$node1	= new Node( "testNode1" );
 		$node1->setAttribute( "testKeyNode1", "testValueNode1" );
-		$leaf11	= new XML_DOM_Node( "testLeaf11", "testContentLeaf11" );
+		$leaf11	= new Node( "testLeaf11", "testContentLeaf11" );
 		$leaf11->setAttribute( "testKeyLeaf11", "testValueLeaf11" );
-		$leaf12	= new XML_DOM_Node( "testLeaf12", "testContentLeaf12" );
+		$leaf12	= new Node( "testLeaf12", "testContentLeaf12" );
 		$leaf12->setAttribute( "testKeyLeaf12", "testValueLeaf12" );
 
-		$node2	= new XML_DOM_Node( "testNode2" );
+		$node2	= new Node( "testNode2" );
 		$node2->setAttribute( "testKeyNode2", "testValueNode2" );
-		$leaf21	= new XML_DOM_Node( "testLeaf21", "testContentLeaf21" );
+		$leaf21	= new Node( "testLeaf21", "testContentLeaf21" );
 		$leaf21->setAttribute( "testKeyLeaf21", "testValueLeaf21" );
-		$leaf22	= new XML_DOM_Node( "testLeaf22", "testContentLeaf22" );
+		$leaf22	= new Node( "testLeaf22", "testContentLeaf22" );
 		$leaf22->setAttribute( "testKeyLeaf22", "testValueLeaf22" );
 
 		$node1->addChild( $leaf11 );
@@ -114,9 +120,9 @@ class Test_XML_DOM_FileWriterTest extends Test_Case
 		$node2->addChild( $leaf21 );
 		$node2->addChild( $leaf22 );
 
-		$leaf31	= new XML_DOM_Node( "testLeaf31", "testContentLeaf31" );
+		$leaf31	= new Node( "testLeaf31", "testContentLeaf31" );
 		$leaf31->setAttribute( "testKeyLeaf31", "testValueLeaf31" );
-		$leaf32	= new XML_DOM_Node( "testLeaf32", "testContentLeaf32" );
+		$leaf32	= new Node( "testLeaf32", "testContentLeaf32" );
 		$leaf32->setAttribute( "testKeyLeaf32", "testValueLeaf32" );
 
 		$tree->addChild( $node1 );
@@ -124,7 +130,7 @@ class Test_XML_DOM_FileWriterTest extends Test_Case
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 
-		XML_DOM_FileWriter::save( $this->path."writer.xml", $tree );
+		FileWriter::save( $this->path."writer.xml", $tree );
 		$assertion	= file_get_contents( $this->path."builder.xml" );
 		$creation	= file_get_contents( $this->path."writer.xml" );
 		$this->assertEquals( $assertion, $creation );

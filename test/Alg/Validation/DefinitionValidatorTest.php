@@ -1,27 +1,28 @@
 <?php
-/**
- *	TestUnit of Definition Validator.
- *	@package		Tests.alg.validation
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Definition Validator.
+ *	@package		Tests.Alg.Validation
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg\Validation;
+
+use CeusMedia\Common\Alg\Validation\DefinitionValidator;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Definition Validator.
- *	@package		Tests.alg.validation
- *	@extends		Test_Case
- *	@uses			Alg_Validation_DefinitionValidator
- *	@uses			Alg_Validation_PredicateValidator
- *	@uses			Alg_Validation_Predicates
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
- *	@version		0.1
  */
-class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
+class DefinitionValidatorTest extends BaseCase
 {
 	protected $definition	= array(
 		'test1' => array(
@@ -44,30 +45,30 @@ class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
 		),
 	);
 
+	protected $validator;
+
 	protected $labels	= array(
 		'test1'	=> 'Test Field 1'
 	);
 
 	public function setUp(): void
 	{
-		$this->validator	= new Alg_Validation_DefinitionValidator();
+		$this->validator	= new DefinitionValidator();
 #		$this->validator->setLabels( $this->labels );
 	}
 
 	public function testConstruct()
 	{
-		$validator	= new Alg_Validation_DefinitionValidator();
+		$validator	= new DefinitionValidator();
 		ob_start();
 		var_dump( $validator );
 		$dump	= ob_get_clean();
 
-		$assertion	= 1;
-		$creation	= substr_count( $dump, "Alg_Validation_PredicateValidator" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= substr_count( $dump, "PredicateValidator" );
+		$this->assertEquals( 1, $creation );
 
-		$assertion	= 1;
-		$creation	= substr_count( $dump, "Alg_Validation_Predicates" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= substr_count( $dump, "Predicates" );
+		$this->assertEquals( 1, $creation );
 	}
 /*
 	public function testSetLabels()
@@ -83,7 +84,7 @@ class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 
-		$this->validator->setLabels( array() );
+		$this->validator->setLabels( [] );
 		$assertion	= array(
 			"Field 'test1' is mandatory.",
 		);
@@ -106,7 +107,7 @@ class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
 
 	public function testValidatePass1()
 	{
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $this->validator->validate( $this->definition['test1'], "abc123" );
 		$this->assertEquals( $assertion, $creation );
 	}

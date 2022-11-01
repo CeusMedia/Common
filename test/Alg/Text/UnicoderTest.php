@@ -1,25 +1,28 @@
 <?php
-/**
- *	TestUnit of Alg_Text_Unicoder.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Alg\Text\Unicoder.
+ *	@package		Tests.Alg.Text
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\Alg\Text;
+
+use CeusMedia\Common\Alg\Text\Unicoder;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
- *	TestUnit of Alg_Text_Unicoder.
- *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			Alg_Text_Unicoder
+ *	TestUnit of Alg\Text\Unicoder.
+ *	@package		Tests.Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
- *	@version		0.1
  */
-class Test_Alg_Text_UnicoderTest extends Test_Case
+class UnicoderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,17 +49,17 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$coder		= new Alg_Text_Unicoder( utf8_decode( "äöüÄÖÜß" ) );
+		$coder		= new Unicoder( utf8_decode( "äöüÄÖÜß" ) );
 		$assertion	= "äöüÄÖÜß";
 		$creation	= $coder->getString();
 		$this->assertEquals( $assertion, $creation );
 
-		$coder		= new Alg_Text_Unicoder( "äöüÄÖÜß" );
+		$coder		= new Unicoder( "äöüÄÖÜß" );
 		$assertion	= "äöüÄÖÜß";
 		$creation	= $coder->getString();
 		$this->assertEquals( $assertion, $creation );
 
-		$coder		= new Alg_Text_Unicoder( "äöüÄÖÜß", TRUE );
+		$coder		= new Unicoder( "äöüÄÖÜß", TRUE );
 		$assertion	= utf8_encode( "äöüÄÖÜß" );
 		$creation	= $coder->getString();
 		$this->assertEquals( $assertion, $creation );
@@ -70,7 +73,7 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	public function testToString()
 	{
 		$assertion	= "ÄÖÜäöü&§$%@µ";
-		$creation	= (string) new Alg_Text_Unicoder( utf8_decode( "ÄÖÜäöü&§$%@µ" ) );
+		$creation	= (string) new Unicoder( utf8_decode( "ÄÖÜäöü&§$%@µ" ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -81,7 +84,7 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	 */
 	public function testIsUnicode1()
 	{
-		$creation	= Alg_Text_Unicoder::isUnicode( "äöüÄÖÜß" );
+		$creation	= Unicoder::isUnicode( "äöüÄÖÜß" );
 		$this->assertEquals( TRUE, $creation );
 	}
 
@@ -92,7 +95,7 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	 */
 	public function testIsUnicode2()
 	{
-		$creation	= Alg_Text_Unicoder::isUnicode( utf8_decode( "äöüÄÖÜß" ) );
+		$creation	= Unicoder::isUnicode( utf8_decode( "äöüÄÖÜß" ) );
 		$this->assertEquals( FALSE, $creation );
 	}
 
@@ -104,7 +107,7 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	public function testConvertToUnicode1()
 	{
 		$assertion	= "äöüÄÖÜß";
-		$creation	= Alg_Text_Unicoder::convertToUnicode( utf8_decode( "äöüÄÖÜß" ) );
+		$creation	= Unicoder::convertToUnicode( utf8_decode( "äöüÄÖÜß" ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -116,7 +119,7 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	public function testConvertToUnicode2()
 	{
 		$assertion	= "äöüÄÖÜß";
-		$creation	= Alg_Text_Unicoder::convertToUnicode( "äöüÄÖÜß" );
+		$creation	= Unicoder::convertToUnicode( "äöüÄÖÜß" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -128,7 +131,7 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	public function testConvertToUnicode3()
 	{
 		$assertion	= utf8_encode( "äöüÄÖÜß" );
-		$creation	= Alg_Text_Unicoder::convertToUnicode( "äöüÄÖÜß", TRUE );
+		$creation	= Unicoder::convertToUnicode( "äöüÄÖÜß", TRUE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -139,12 +142,12 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 	 */
 	public function testGetString()
 	{
-		$coder		= new Alg_Text_Unicoder( "abc" );
+		$coder		= new Unicoder( "abc" );
 		$assertion	= "abc";
 		$creation	= $coder->getString();
 		$this->assertEquals( $assertion, $creation );
 
-		$coder		= new Alg_Text_Unicoder( utf8_decode( "ÄÖÜäöü&§$%@µ" ) );
+		$coder		= new Unicoder( utf8_decode( "ÄÖÜäöü&§$%@µ" ) );
 		$assertion	= "ÄÖÜäöü&§$%@µ";
 		$creation	= $coder->getString();
 		$this->assertEquals( $assertion, $creation );

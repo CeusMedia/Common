@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	JSON Writer.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +21,26 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\FS\File\JSON;
+
+use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	JSON Writer.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2020 Christian Würker
+ *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
-class FS_File_JSON_Writer
+class Writer
 {
 	protected $filePath;
 
@@ -45,7 +50,7 @@ class FS_File_JSON_Writer
 	 *	@param		string		$filePath		Path to JSON file
 	 *	@return		void
 	 */
-	public function __construct( $filePath )
+	public function __construct( string $filePath )
 	{
 		$this->filePath	= $filePath;
 	}
@@ -58,9 +63,9 @@ class FS_File_JSON_Writer
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
 	 */
-	public static function save( $filePath, $value, $format = FALSE )
+	public static function save( string $filePath, $value, bool $format = FALSE ): int
 	{
-		$writer	= new FS_File_JSON_Writer( $filePath );
+		$writer	= new Writer( $filePath );
 		return $writer->write( $value, $format );
 	}
 
@@ -71,17 +76,16 @@ class FS_File_JSON_Writer
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
 	 */
-	public function write( $value, $format = FALSE )
+	public function write( $value, bool $format = FALSE ): int
 	{
-		if( $format )
-		{
+		if( $format ){
 			if( version_compare( phpversion(), '5.4.0' ) >= 0 )
 				$json	= json_encode( $value, JSON_PRETTY_PRINT );
 			else
-				$json	= ADT_JSON_Formater::format( json_encode( $value ) );
+				$json	= JsonPretty::print( json_encode( $value ) );
 		}
 		else
 			$json	= json_encode( $value );
-		return FS_File_Writer::save( $this->filePath, $json );
+		return FileWriter::save( $this->filePath, $json );
 	}
 }

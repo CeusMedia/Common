@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for HTML tags.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,49 +21,58 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.04.2008
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\Renderable;
+use CeusMedia\Common\Alg\Text\CamelCase as CamelCase;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Builder for HTML tags.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			22.04.2008
  */
-class UI_HTML_Tag implements Renderable
+class Tag implements Renderable
 {
 	/**	@var		array		$attributes		Attributes of tag */
-	protected $attributes		= array();
+	protected $attributes		= [];
+
 	/**	@var		array		$data			Data attributes of tag */
-	protected $data				= array();
+	protected $data				= [];
+
 	/**	@var		string		$name			Node name of tag */
 	protected $name;
-	/**	@var		array		$content		Content of tag */
+
+	/**	@var		mixed		$content		Content of tag */
 	protected $content;
 
-	public static $shortTagExcludes	= array(
+	public static $shortTagExcludes	= [
 		'style',
 		'script',
 		'div',
 		'textarea'
-	);
+	];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$name			Node name of tag
-	 *	@param		string		$content		Content of tag
+	 *	@param		mixed		$content		Content of tag
 	 *	@param		array		$attributes		Attributes of tag
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
 	 */
-	public function __construct( string $name, $content = NULL, array $attributes = array(), array $data = array() )
+	public function __construct( string $name, $content = NULL, array $attributes = [], array $data = [] )
 	{
 		$this->name		= $name;
 		$this->setContent( $content );
@@ -97,12 +107,12 @@ class UI_HTML_Tag implements Renderable
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$name			Node name of tag
-	 *	@param		string		$content		Content of tag
+	 *	@param		mixed		$content		Content of tag
 	 *	@param		array		$attributes		Attributes of tag
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		string
 	 */
-	public static function create( string $name, $content = NULL, array $attributes = array(), array $data = array() ): string
+	public static function create( string $name, $content = NULL, array $attributes = [], array $data = [] ): string
 	{
 		if( !strlen( $name	= trim( $name ) ) )
 			throw new InvalidArgumentException( 'Missing tag name' );
@@ -114,9 +124,9 @@ class UI_HTML_Tag implements Renderable
 		catch( InvalidArgumentException $e ) {
 			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
 				//  throw exception and transport inner exception
-				throw new RuntimeException( 'Invalid attributes', NULL, $e );
+				throw new RuntimeException( 'Invalid attributes', 0, $e );
 			//  throw exception
-			throw new RuntimeException( 'Invalid attributes', NULL );
+			throw new RuntimeException( 'Invalid attributes', 0 );
 		}
 		//  no node content defined, not even an empty string
 		if( $content === NULL || $content === FALSE )
@@ -177,10 +187,10 @@ class UI_HTML_Tag implements Renderable
 	/**
 	 *	Returns value of tag data if set or map of all data if not key is set.
 	 *	@access		public
-	 *	@param		string		$key		Key of data to get
+	 *	@param		string|NULL		$key		Key of data to get
 	 *	@return		mixed|array|NULL
 	 */
-	public function getData( $key = NULL )
+	public function getData( ?string $key = NULL )
 	{
 		if( is_null( $key ) )
 			return $this->data ;
@@ -198,11 +208,11 @@ class UI_HTML_Tag implements Renderable
 	 *	Sets attribute of tag.
 	 *	@access		public
 	 *	@param		string		$key			Key of attribute
-	 *	@param		string		$value			Value of attribute
+	 *	@param		mixed		$value			Value of attribute
 	 *	@param		boolean		$strict			Flag: deny to override attribute
 	 *	@return		self
 	 */
-	public function setAttribute( $key, $value = NULL, $strict = TRUE ): self
+	public function setAttribute( string $key, $value = NULL, bool $strict = TRUE ): self
 	{
 		//  no valid attribute key defined
 		if( empty( $key ) )
@@ -246,7 +256,7 @@ class UI_HTML_Tag implements Renderable
 	 *	@param		boolean		$strict			Flag: deny to override attribute
 	 *	@return		self
 	 */
-	public function setAttributes( $attributes, $strict = TRUE ): self
+	public function setAttributes( array $attributes, bool $strict = TRUE ): self
 	{
 		//  iterate attributes map
 		foreach( $attributes as $key => $value )
@@ -259,11 +269,11 @@ class UI_HTML_Tag implements Renderable
 	 *	Sets data attribute of tag.
 	 *	@access		public
 	 *	@param		string		$key			Key of data attribute
-	 *	@param		string		$value			Value of data attribute
+	 *	@param		mixed		$value			Value of data attribute
 	 *	@param		boolean		$strict			Flag: deny to override data
 	 *	@return		self
 	 */
-	public function setData( $key, $value = NULL, $strict = TRUE ): self
+	public function setData( string $key, $value = NULL, bool $strict = TRUE ): self
 	{
 		//  no valid data key defined
 		if( empty( $key ) )
@@ -285,8 +295,7 @@ class UI_HTML_Tag implements Renderable
 				//  remove attribute
 				unset( $this->data[$key] );
 		}
-		else
-		{
+		else{
 			//  value is string or numeric
 			if( is_string( $value ) || is_numeric( $value ) )
 				//  detect injection
@@ -302,7 +311,7 @@ class UI_HTML_Tag implements Renderable
 	/**
 	 *	Sets Content of Tag.
 	 *	@access		public
-	 *	@param		string|object	$content	Content of Tag or stringable object
+	 *	@param		mixed		$content	Content of Tag or renderable object
 	 *	@return		self
 	 *	@throws		InvalidArgumentException	if given object has no __toString method
 	 */
@@ -325,7 +334,7 @@ class UI_HTML_Tag implements Renderable
 
 	//  --  PROTECTED  --  //
 
-	static protected function flattenArray( $array, $delimiter = " ", $path = NULL ): string
+	static protected function flattenArray( array $array, string $delimiter = " " ): string
 	{
 		foreach( $array as $key => $value )
 			if( is_array( $value ) )
@@ -333,20 +342,21 @@ class UI_HTML_Tag implements Renderable
 		return join( $delimiter, $array );
 	}
 
-	protected static function renderData( $data = array() ){
-		$list	= array();
+	protected static function renderData( array $data = [] ): string
+	{
+		$list	= [];
 		foreach( $data as $key => $value ){
-			$key	= 'data-'.Alg_Text_CamelCase::decode( $key, '-' );
+			$key	= 'data-'.CamelCase::decode( $key, '-' );
 			$list[$key]	= (string) $value;
 		}
 		return self::renderAttributes( $list, TRUE );
 	}
 
-	protected static function renderAttributes( $attributes = array(), $allowOverride = FALSE ): string
+	protected static function renderAttributes( $attributes = [], $allowOverride = FALSE ): string
 	{
 		if( !is_array( $attributes ) )
 			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
-		$list	= array();
+		$list	= [];
 		foreach( $attributes as $key => $value )
 		{
 			//  no valid attribute key defined

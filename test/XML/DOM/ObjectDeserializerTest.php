@@ -1,28 +1,37 @@
 <?php
-/**
- *	TestUnit of XML DOM Object Deserializer.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
- */
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnhandledExceptionInspection */
+/** @noinspection PhpDocMissingThrowsInspection */
+
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of XML DOM Object Deserializer.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\CommonTest\XML\DOM;
+
+use CeusMedia\Common\XML\DOM\ObjectDeserializer;
+use CeusMedia\Common\XML\DOM\ObjectSerializer;
+use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\Object_;
 
 /**
  *	TestUnit of XML DOM Object Deserializer.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_ObjectDeserializer
- *	@uses			XML_DOM_ObjectSerializer
- *	@uses			Test_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *	@version		0.1
  */
-class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
+class ObjectDeserializerTest extends BaseCase
 {
+	/** @var ObjectDeserializer  */
+	protected $deserializer;
+
+	/** @var Object_  */
+	protected $object;
+
 	/**
 	 *	Sets up Leaf.
 	 *	@access		public
@@ -30,8 +39,8 @@ class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->deserializer	= new XML_DOM_ObjectDeserializer();
-		$this->object	= new Test_Object();
+		$this->deserializer	= new ObjectDeserializer();
+		$this->object	= new Object_();
 		$this->object->null		= NULL;
 		$this->object->boolean	= true;
 		$this->object->integer	= 1;
@@ -40,12 +49,12 @@ class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 		$this->object->string	= "content";
 		$this->object->list		= array( "item1", "item2" );
 		$this->object->array	= array( "key" => "value" );
-		$this->object->child	= new Test_Object();
+		$this->object->child	= new Object_();
 		$this->object->child->integer	= 2;
 
-		$serializer	= new XML_DOM_ObjectSerializer();
+		$serializer	= new ObjectSerializer();
 		$xml	= $serializer->serialize( $this->object );
-		file_put_contents( dirname( __FILE__ ).'/deserializer.xml', $xml );
+		file_put_contents( dirname( __FILE__ ).'/assets/deserializer.xml', $xml );
 	}
 
 	/**
@@ -55,7 +64,7 @@ class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 	 */
 	public function testDeserialize()
 	{
-		$xml		= file_get_contents( dirname( __FILE__ ).'/deserializer.xml' );
+		$xml		= file_get_contents( dirname( __FILE__ ).'/assets/deserializer.xml' );
 		$assertion	= $this->object;
 		$creation	= $this->deserializer->deserialize( $xml );
 		$this->assertEquals( $assertion, $creation );

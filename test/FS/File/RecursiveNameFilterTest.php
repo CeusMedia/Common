@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of FS_File_RecursiveNameFilter.
- *	@package		Tests.file
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
- *	@version		0.1
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_RecursiveNameFilter.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\CommonTest\FS\File;
+
+use CeusMedia\Common\FS\File\RecursiveNameFilter;
+use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of FS_File_RecursiveNameFilter.
- *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_RecursiveNameFilter
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
- *	@version		0.1
  */
-class Test_FS_File_RecursiveNameFilterTest extends Test_Case
+class RecursiveNameFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -61,7 +58,7 @@ class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_RecursiveNameFilter( "not_existing", "not_relevant" );
+		$index	= new RecursiveNameFilter( "not_existing", "not_relevant" );
 	}
 
 	/**
@@ -72,9 +69,9 @@ class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 	public function testAccept()
 	{
 		$search	= "test1.test";
-		$filter	= new FS_File_RecursiveNameFilter( $this->path, $search );
+		$filter	= new RecursiveNameFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
@@ -83,13 +80,13 @@ class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "not_existing_file";
-		$filter	= new FS_File_RecursiveNameFilter( $this->path, $search );
+		$filter	= new RecursiveNameFilter( $this->path, $search );
 
-		$files	= array();
+		$files	= [];
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array();
+		$assertion	= [];
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}

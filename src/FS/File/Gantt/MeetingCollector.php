@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,35 +21,38 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Gantt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.03.2008
  */
+
+namespace CeusMedia\Common\FS\File\Gantt;
+
+use DirectoryIterator;
+use Exception;
+
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Gantt
- *	@uses			FS_File_Gantt_MeetingReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.03.2008
  */
-class FS_File_Gantt_MeetingCollector
+class MeetingCollector
 {
 	/**	@var		array		$files			Array of found Gantt Project XML Files */
-	protected $files			= array();
-	/**	@var		array		$meetigns		Array of extracted Meeting Dates */
-	protected $meetings			= array();
+	protected $files			= [];
+
 	/**	@var		array		$projects		Array of extracted Project Dates */
-	protected $projects			= array();
+	protected $projects			= [];
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$path			Path to Gantt Project XML Files
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $path )
+	public function __construct( string $path )
 	{
 		$this->files	= self::listProjectFiles( $path );
 		$this->projects	= self::readProjectFiles( $this->files );
@@ -60,21 +64,19 @@ class FS_File_Gantt_MeetingCollector
 	 *	@param		string		$projectName	Name of Project (optional)
 	 *	@return		array
 	 */
-	public function getMeetingDates( $projectName = "" )
+	public function getMeetingDates( string $projectName = "" ): array
 	{
-		$dates	= array();
-		foreach( $this->projects as $project )
-		{
+		$dates	= [];
+		foreach( $this->projects as $project ){
 			if( $projectName && $projectName != $project['name'] )
 				continue;
-			foreach( $project['meetings'] as $meeting )
-			{
-				$dates[]	= array(
+			foreach( $project['meetings'] as $meeting ){
+				$dates[]	= [
 					'project'	=> $project['name'],
 					'name'		=> $meeting['name'],
 					'start'		=> $meeting['start'],
 					'end'		=> $meeting['end'],
-				);
+				];
 			}
 		}
 		return $dates;
@@ -86,18 +88,17 @@ class FS_File_Gantt_MeetingCollector
 	 *	@param		string		$projectName	Name of Project (optional)
 	 *	@return		array
 	 */
-	public function getProjectDates( $projectName = "" )
+	public function getProjectDates( string $projectName = "" ): array
 	{
-		$dates	= array();
-		foreach( $this->projects as $project )
-		{
+		$dates	= [];
+		foreach( $this->projects as $project ){
 			if( $projectName && $projectName != $project['name'] )
 				continue;
-			$dates[]	= array(
+			$dates[]	= [
 				'name'	=> $project['name'],
 				'start'	=> $project['start'],
 				'end'	=> $project['end'],
-			);
+			];
 		}
 		return $dates;
 	}
@@ -106,15 +107,14 @@ class FS_File_Gantt_MeetingCollector
 	 *	Lists all Gantt Project XML Files in a specified Path.
 	 *	@access		protected
 	 *	@static
-	 *	@param		array		$path			Path to Gantt Project XML Files
+	 *	@param		string		$path			Path to Gantt Project XML Files
 	 *	@return		array
 	 */
-	protected static function listProjectFiles( $path )
+	protected static function listProjectFiles( string $path ): array
 	{
-		$list	= array();
+		$list	= [];
 		$dir	= new DirectoryIterator( $path );
-		foreach( $dir as $entry )
-		{
+		foreach( $dir as $entry ){
 			if( $entry->isDot() )
 				continue;
 			if( !preg_match( "@\.gan$@", $entry->getFilename() ) )
@@ -130,13 +130,13 @@ class FS_File_Gantt_MeetingCollector
 	 *	@static
 	 *	@param		array		$fileList		List of Gantt Project XML Files
 	 *	@return		array
+	 *	@throws		Exception
 	 */
-	protected static function readProjectFiles( $fileList )
+	protected static function readProjectFiles( array $fileList ): array
 	{
-		$projects	= array();
-		foreach( $fileList as $fileName )
-		{
-			$reader		= new FS_File_Gantt_MeetingReader( $fileName );
+		$projects	= [];
+		foreach( $fileList as $fileName ){
+			$reader		= new MeetingReader( $fileName );
 			$projects[]	= $reader->getProjectData();
 		}
 		return $projects;

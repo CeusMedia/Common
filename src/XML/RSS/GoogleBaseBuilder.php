@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds RSS for Google Base - Froogle.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +21,27 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.02.02008
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
+use Exception;
+
 /**
  *	Builds RSS for Google Base - Froogle.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
- *	@extends		XML_RSS_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.02.02008
  */
-class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
+class GoogleBaseBuilder extends Builder
 {
-	protected $itemElements	= array(
+	protected $itemElements	= [
 		'title'						=> FALSE,
 		'description'				=> FALSE,
 		'link'						=> TRUE,
@@ -57,7 +60,7 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 		'g:veröffentlichungs_datum'	=> FALSE,
 		'g:veröffentlichung_band'	=> FALSE,
 		'g:name_der_veröffentlichung'	=> TRUE,*/
-	);
+	];
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";
 
@@ -65,6 +68,7 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
+	 *	@throws		Exception
 	 */
 	public function __construct()
 	{
@@ -72,7 +76,9 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 		$this->registerNamespace( 'g', self::$namespaceUri );
 	}
 
-	public function addItemElement( $name, $mandatory = NULL ){
-		$this->itemElements[$name]	= (boolean) $mandatory;
+	public function addItemElement( string $name, bool $mandatory = FALSE ): self
+	{
+		$this->itemElements[$name]	= $mandatory;
+		return $this;
 	}
 }

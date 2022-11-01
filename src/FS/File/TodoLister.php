@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Class to find all Files with ToDos inside.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,42 +21,55 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use Exception;
+use RegexIterator;
+use RuntimeException;
+use UnexpectedValueException;
+
 /**
  *	Class to find all Files with ToDos inside.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
- *	@uses			FS_File_RegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
-class FS_File_TodoLister
+class TodoLister
 {
 	/**	@var		int			$numberFound	Number of matching Files */
 	protected $numberFound		= 0;
+
 	/**	@var		int			$numberLines	Number of scanned Lines in matching Files */
 	protected $numberLines		= 0;
+
 	/**	@var		int			$numberScanned	Total Number of scanned Files */
 	protected $numberScanned	= 0;
+
 	/**	@var		int			$numberTodos	Number of found Todos */
 	protected $numberTodos		= 0;
+
 	/**	@var		string		$extension		Default File Extension */
 	protected $extension		= "php5";
+
 	/**	@var		array		$extensions		Other File Extensions */
-	protected $extensions		= array();
+	protected $extensions		= [];
+
 	/**	@var		array		$list			List of numberFound Files */
-	protected $list				= array();
+	protected $list				= [];
+
 	/**	@var		string		$pattern		Default Pattern */
 	protected $pattern			= "@todo";
+
 	/**	@var		array		$patterns		Other Patterns */
-	protected $patterns			= array();
+	protected $patterns			= [];
 
 	/**
 	 *	Constructor.
@@ -63,21 +77,17 @@ class FS_File_TodoLister
 	 *	@param		array		$additionalExtensions	Other File Extensions than 'php5'
 	 *	@param		array		$additionalPatterns		Other Patterns than '@todo'
 	 */
-	public function __construct( $additionalExtensions = array(), $additionalPatterns = array() )
+	public function __construct( array $additionalExtensions = [], array $additionalPatterns = [] )
 	{
-		if( !is_array( $additionalExtensions ) )
-			throw new InvalidArgumentException( 'Additional Extensions must be an Array.' );
-		if( !is_array( $additionalPatterns ) )
-			throw new InvalidArgumentException( 'Additional Patterns must be an Array.' );
 		$this->extensions	= $additionalExtensions;
 		$this->patterns		= $additionalPatterns;
 	}
 
-	private function getExtendedPattern( $member = "pattern" )
+	private function getExtendedPattern( string $member = "pattern" ): string
 	{
-		$list1	= array( $this->$member );
+		$list1	= [$this->$member];
 		$list1	= array_merge( $list1, $this->{$member."s"} );
-		$list2	= array();
+		$list2	= [];
 		foreach( $list1 as $item )
 			$list2[]	= str_replace( ".", "\.", $item );
 		if( count( $list2 ) == 1 )
@@ -86,18 +96,17 @@ class FS_File_TodoLister
 			$pattern	= "(".implode( "|", $list2 ).")";
 		if( $member == "extension" )
 			$pattern	.= "$";
-		$pattern	= "%".$pattern."%";
-		return $pattern;
+		return "%".$pattern."%";
 	}
 
-	protected function getExtensionPattern()
+	protected function getExtensionPattern(): string
 	{
 		return $this->getExtendedPattern( "extension" );
 	}
 
-	protected function getIndexIterator( $path, $filePattern )
+	protected function getIndexIterator( string $path, string $filePattern ): RegexIterator
 	{
-		return new FS_File_RegexFilter( $path, $filePattern );
+		return new RegexFilter( $path, $filePattern );
 	}
 
 	/**
@@ -106,11 +115,11 @@ class FS_File_TodoLister
 	 *	@param		bool		$full		Flag: Return Path Name, File Name and Content also
 	 *	@return		array
 	 */
-	public function getList( $full = NULL )
+	public function getList( bool $full = NULL ): array
 	{
 		if( $full )
 			return $this->list;
-		$list	= array();
+		$list	= [];
 		foreach( $this->list as $pathName => $fileData )
 			$list[$pathName]	= $fileData['fileName'];
 		return $list;
@@ -121,7 +130,7 @@ class FS_File_TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberFound()
+	public function getNumberFound(): int
 	{
 		return $this->numberFound;
 	}
@@ -131,7 +140,7 @@ class FS_File_TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberLines()
+	public function getNumberLines(): int
 	{
 		return $this->numberLines;
 	}
@@ -141,7 +150,7 @@ class FS_File_TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberScanned()
+	public function getNumberScanned(): int
 	{
 		return $this->numberScanned;
 	}
@@ -151,12 +160,12 @@ class FS_File_TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberTodos()
+	public function getNumberTodos(): int
 	{
 		return $this->numberTodos;
 	}
 
-	protected function getPattern()
+	protected function getPattern(): string
 	{
 		return $this->getExtendedPattern();
 	}
@@ -164,28 +173,27 @@ class FS_File_TodoLister
 	/**
 	 *	Scans a Path for Files with Pattern.
 	 *	@access		public
-	 *	@return		int
+	 *	@param		string		$path
+	 *	@return		void
 	 */
-	public function scan( $path )
+	public function scan( string $path ): void
 	{
 		$this->numberFound		= 0;
 		$this->numberScanned	= 0;
 		$this->numberTodos		= 0;
 		$this->numberLines		= 0;
-		$this->list				= array();
-		$extensions		= $this->getExtensionPattern(); 
+		$this->list				= [];
+		$extensions		= $this->getExtensionPattern();
 		$pattern		= $this->getExtendedPattern();
 		$iterator		= $this->getIndexIterator( $path, $extensions );
 		try{
-			foreach( $iterator as $entry )
-			{
+			foreach( $iterator as $entry ){
 				$this->numberScanned++;
 				$content	= file_get_contents( $entry->getPathname() );
 				$lines		= explode( "\n", $content );
 				$i			= 0;
-				$list		= array();
-				foreach( $lines as $line )
-				{
+				$list		= [];
+				foreach( $lines as $line ){
 					$this->numberLines++;
 					$i++;
 					if( !preg_match( $pattern, $line ) )
@@ -196,16 +204,16 @@ class FS_File_TodoLister
 				if( !$list )
 					continue;
 				$this->numberFound++;
-				$this->list[$entry->getPathname()]	= array(
+				$this->list[$entry->getPathname()]	= [
 					'fileName'	=> $entry->getFilename(),
 					'lines'		=> $list,
-				);
+				];
 			}
 		}
 		catch( UnexpectedValueException $e ){
 		}
 		catch( Exception $e ){
-			throw new RuntimeException( $e->getMessage(), $e->getCode(), $es );
+			throw new RuntimeException( $e->getMessage(), $e->getCode(), $e );
 		}
 	}
 }

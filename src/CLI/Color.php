@@ -1,7 +1,10 @@
-<?php
-class CLI_Color
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+namespace CeusMedia\Common\CLI;
+
+class Color
 {
-	private static $foregroundColors	= array(
+	protected static array $foregroundColors	= [
 		'black'			=> '0;30',
 		'dark_gray'		=> '1;30',
 		'red'			=> '0;31',
@@ -18,9 +21,9 @@ class CLI_Color
 		'light_cyan'	=> '1;36',
 		'light_gray'	=> '0;37',
 		'white'			=> '1;37',
-	);
+	];
 
-	private static $backgroundColors	= array(
+	protected static array $backgroundColors	= [
 		'black'			=> '40',
 		'red'			=> '41',
 		'green'			=> '42',
@@ -29,14 +32,14 @@ class CLI_Color
 		'magenta'		=> '45',
 		'cyan'			=> '46',
 		'light_gray'	=> '47',
-	);
+	];
 
-	public static $classes				= array(
-		'error'			=> array( 'white', 'red' ),
-		'warning'		=> array( 'white', 'yellow' ),
-		'info'			=> array( 'white', 'blue' ),
-		'success'		=> array( 'white', 'green' ),
-	);
+	public static array $classes				= [
+		'error'			=> ['white', 'red'],
+		'warning'		=> ['white', 'yellow'],
+		'info'			=> ['white', 'blue'],
+		'success'		=> ['white', 'green'],
+	];
 
 	public function applyClass( string $string, string $class ): string
 	{
@@ -47,48 +50,48 @@ class CLI_Color
 		return $string;
 	}
 
-	public function asError( $string ): string
+	public function asError( string $string ): string
 	{
 		return $this->applyClass( $string, 'error' );
 	}
 
-	public function asWarning( $string ): string
+	public function asWarning( string $string ): string
 	{
 		return $this->applyClass( $string, 'warning' );
 	}
 
-	public function asInfo( $string ): string
+	public function asInfo( string $string ): string
 	{
 		return $this->applyClass( $string, 'info' );
 	}
 
-	public function asSuccess( $string ): string
+	public function asSuccess( string $string ): string
 	{
 		return $this->applyClass( $string, 'success' );
 	}
 
-	public function bold( $string ): string
+	public function bold( string $string ): string
 	{
 		return "\033[1m".$string."\033[0m";
 	}
 
-	public function light( $string ): string
+	public function light( string  $string ): string
 	{
 		return "\033[2m".$string."\033[0m";
 	}
 
-	public function italic( $string ): string
+	public function italic( string  $string ): string
 	{
 		return "\033[3m".$string."\033[0m";
 	}
 
-	public function underscore( $string ): string
+	public function underscore( string  $string ): string
 	{
 		return "\033[4m".$string."\033[0m";
 	}
 
 	// Returns colored string
-	public function colorize( string $string, string $foregroundColor = NULL, string $backgroundColor = NULL ): string
+	public function colorize( string $string, ?string $foregroundColor = NULL, ?string $backgroundColor = NULL ): string
 	{
 		$reset			= "\033[0m";
 		$fgColor		= '';
@@ -112,7 +115,7 @@ class CLI_Color
 		return $fgColor.$bgColor.$string.$reset;
 	}
 
-	public function colorize256( string $string, string $foregroundColor = NULL, string $backgroundColor = NULL ): string
+	public function colorize256( string $string, ?string $foregroundColor = NULL, ?string $backgroundColor = NULL ): string
 	{
 		$reset			= "\033[0m";
 		$fgColor		= '';

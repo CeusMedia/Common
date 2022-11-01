@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	HTTP method data type.
  *
@@ -23,8 +24,12 @@
  *	@copyright		2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.4.7
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use BadMethodCallException;
+
 /**
  *	HTTP method data type.
  *	@category		Library
@@ -34,24 +39,23 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
- *	@since			0.8.4.7
  */
-class Net_HTTP_Method
+class Method
 {
-	const METHOD_CONNECT	= 'CONNECT';
-	const METHOD_DELETE		= 'DELETE';
-	const METHOD_GET		= 'GET';
-	const METHOD_HEAD		= 'HEAD';
-	const METHOD_OPTIONS	= 'OPTIONS';
-	const METHOD_PATCH		= 'PATCH';
-	const METHOD_POST		= 'POST';
-	const METHOD_PUT		= 'PUT';
-	const METHOD_TRACE		= 'TRACE';
+	public const METHOD_CONNECT	= 'CONNECT';
+	public const METHOD_DELETE		= 'DELETE';
+	public const METHOD_GET		= 'GET';
+	public const METHOD_HEAD		= 'HEAD';
+	public const METHOD_OPTIONS	= 'OPTIONS';
+	public const METHOD_PATCH		= 'PATCH';
+	public const METHOD_POST		= 'POST';
+	public const METHOD_PUT		= 'PUT';
+	public const METHOD_TRACE		= 'TRACE';
 
 	/** @var		string					$method			HTTP request method */
 	protected $method		= self::METHOD_GET;
 
-	static public $methods	= array(
+	static public $methods	= [
 		self::METHOD_CONNECT,
 		self::METHOD_DELETE,
 		self::METHOD_GET,
@@ -61,7 +65,7 @@ class Net_HTTP_Method
 		self::METHOD_POST,
 		self::METHOD_PUT,
 		self::METHOD_TRACE,
-	);
+	];
 
 	public function __construct( $method = NULL )
 	{
@@ -86,7 +90,7 @@ class Net_HTTP_Method
 
 	/**
 	 *	Indicate whether a specific request method is used.
-	 *	Method parameter is not case sensitive.
+	 *	Method parameter is not case-sensitive.
 	 *	@access		public
 	 *	@param		string		$method		Request method to check against
 	 *	@return		boolean
@@ -191,13 +195,13 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@param		string		$method		Request method to set
 	 *	@return		self
-	 *	@throws		\BadMethodCallException	if given method is not supported
+	 *	@throws		BadMethodCallException	if given method is not supported
 	 */
 	public function set( string $method ): self
 	{
 		$method		= strtoupper( $method );
 		if( !in_array( $method, self::$methods ) )
-			throw new \BadMethodCallException( 'HTTP method "%s" is not supported' );
+			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
 		$this->method	= $method;
 		return $this;
 	}
