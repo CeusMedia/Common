@@ -45,11 +45,10 @@ class Filter
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
-	public static function stripComments( $string )
+	public static function stripComments( string $string ): string
 	{
 		$string	= preg_replace( "@<![\s\S]*?--[ \t\n\r]*>@", "", $string );
-		$string	= preg_replace( "@/\*.+\*/@siU", "", $string );
-		return $string;
+		return preg_replace( "@/\*.+\*/@siU", "", $string );
 	}
 
 	/**
@@ -59,11 +58,10 @@ class Filter
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
-	public static function stripEventAttributes( $string )
+	public static function stripEventAttributes( string $string ): string
 	{
 		$string	= preg_replace( '@(<[^>]+)\s+on[a-z]{4,}\s*=".+"@iU', "\\1", $string );
-		$string	= preg_replace( "@(<[^>]+)\s+on[a-z]{4,}\s*='.+'@iU", "\\1", $string );
-		return $string;
+		return preg_replace( "@(<[^>]+)\s+on[a-z]{4,}\s*='.+'@iU", "\\1", $string );
 	}
 
 	/**
@@ -73,10 +71,9 @@ class Filter
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
-	public static function stripScripts( $string )
+	public static function stripScripts( string $string ): string
 	{
-		$string	= preg_replace( "@<\s*s\s*c\s*r\s*i\s*p\s*t[^>]*>.*<\s*/\s*s\s*c\s*r\s*i\s*p\s*t\s*>@siU", "", $string );
-		return $string;
+		return preg_replace( "@<\s*s\s*c\s*r\s*i\s*p\s*t[^>]*>.*<\s*/\s*s\s*c\s*r\s*i\s*p\s*t\s*>@siU", "", $string );
 	}
 
 	/**
@@ -86,11 +83,10 @@ class Filter
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
-	public static function stripStyles( $string )
+	public static function stripStyles( string $string ): string
 	{
 		$string	= preg_replace( "@<style[^>]*?>.*?</style>@siU", "", $string );
-		$string	= preg_replace( "@<link .*(('|\")\s*stylesheet\s*('|\")|\.css).+(/>|</link>)@siU", "", $string );
-		return $string;
+		return preg_replace( "@<link .*(('|\")\s*stylesheet\s*('|\")|\.css).+(/>|</link>)@siU", "", $string );
 	}
 
 	/**
@@ -100,9 +96,8 @@ class Filter
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
-	public static function stripTags( $string )
+	public static function stripTags( string $string ): string
 	{
-		$string	= preg_replace( "@<[\/\!]*?[^<>]*?>@si", "", $string );
-		return $string;
+		return preg_replace( "@<[\/\!]*?[^<>]*?>@si", "", $string );
 	}
 }

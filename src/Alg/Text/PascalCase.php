@@ -44,7 +44,7 @@ class PascalCase
 	protected static string $regExp	= '/^(.*)[\-\_ ](.*)$/';
 
 	/**
-	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
+	 *	Convert a String to Pascal Case, removing all spaces and underscores and capitalizing all Words.
 	 *	Alias for encode.
 	 *	@access		public
 	 *	@static
@@ -57,7 +57,7 @@ class PascalCase
 		return static::encode( $string, $lowercaseLetters );
 	}
 
-	public static function decode( string$string, string$delimiter = ' ' ): string
+	public static function decode( string $string, string $delimiter = ' ' ): string
 	{
 		if( !function_exists( 'mb_substr' ) )
 			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
@@ -92,12 +92,6 @@ class PascalCase
 		return $string;
 	}
 
-	protected static function isUpperCharacter( string $string, int $pos ): bool
-	{
-		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
-		return mb_strtolower( $char, "UTF-8") != $char;
-	}
-
 	public static function toCamelCase( string $string ): string
 	{
 		return CamelCase::encode( static::decode( $string ) );
@@ -114,9 +108,15 @@ class PascalCase
 			$isUpper	= static::isUpperCharacter( $string, $i );
 			if( $i == 0 && !$isUpper )
 				return FALSE;
-			if( $i > 0 && !preg_match( '/[A-Za-z0-9]$/', $string[$i] ) )
+			if( $i > 0 && !preg_match( '/[A-Za-z\d]$/', $string[$i] ) )
 				return FALSE;
 		}
 		return TRUE;
+	}
+
+	protected static function isUpperCharacter( string $string, int $pos ): bool
+	{
+		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
+		return mb_strtolower( $char, "UTF-8") != $char;
 	}
 }

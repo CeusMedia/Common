@@ -54,7 +54,7 @@ class Trimmer
 	public static function trim( string $string, int $length = 0, string $mask = "...", bool $fromLeft = FALSE, string $encoding = "UTF-8" ): string
 	{
 		$string		= trim( $string );
-		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
+		if( $length < 1 || self::strlen( $string, $encoding ) <= $length )
 			return $string;
 		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
 		if( $length < $maskLength )
@@ -79,14 +79,14 @@ class Trimmer
 	 */
 	public static function trimCentric( string $string, int $length = 0, string $mask = "...", string $encoding = "UTF-8" ): string
 	{
-		$string	= trim( (string) $string );
+		$string	= trim( $string );
 		if( $length === 0 || self::strlen( $string, $encoding ) <= $length )
 			return $string;
 		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
 		if( $maskLength >= $length )
 			throw new InvalidArgumentException( 'Length must be greater than '.$maskLength );
 		$range	= ( $length - $maskLength ) / 2;
-		$length	= self::strlen( $string, $encoding ) - floor( $range );
+		$length	= self::strlen( $string, $encoding ) - (int) floor( $range );
 		$left	= self::substr( $string, 0, (int) ceil( $range ), $encoding );
 		$right	= self::substr( $string, (int) -floor( $range ), $length, $encoding );
 		return $left.$mask.$right;

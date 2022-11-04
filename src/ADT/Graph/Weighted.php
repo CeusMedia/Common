@@ -322,8 +322,8 @@ class Weighted
 			return [$stack];
 		}
 		$hadNodes[] = $source->getNodeName();
-		$ways = [];
-		$nodes = $this->getTargetNodes( $source );
+		$ways		= [];
+		$nodes		= $this->getTargetNodes( $source );
 		foreach( $nodes as $node ) {
 			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) ) {
 				$ways = $this->getWays( $node, $target, $stack, $hadNodes );

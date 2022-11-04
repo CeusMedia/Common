@@ -52,11 +52,9 @@ class TermExtractor
 		$blacklist	= self::$blacklist;
 		if( !self::$backlistCaseSensitive )
 			$blacklist	= array_map( 'strtolower', $blacklist );
-		foreach( $lines as $line )
-		{
+		foreach( $lines as $line ){
 			$words	= explode( " ", trim( $line ) );
-			foreach( $words as $word )
-			{
+			foreach( $words as $word ){
 				$word	= trim( $word );
 				$word	= preg_replace( "@^\(@i", "", $word );
 				$word	= preg_replace( "@\)$@i", "", $word );
@@ -82,8 +80,7 @@ class TermExtractor
 	public static function loadBlacklist( string $fileName ): void
 	{
 		$string	= FileEditor::load( $fileName );
-		if( !Unicoder::isUnicode( $string ) )
-		{
+		if( !Unicoder::isUnicode( $string ) ){
 			$string	= Unicoder::convertToUnicode( $string );
 			FileEditor::save( $fileName, $string );
 		}
@@ -93,6 +90,6 @@ class TermExtractor
 
 	public static function setBlacklist( array $list ): void
 	{
-		self::$blacklist		= array_unique( $list );
+		self::$blacklist	= array_unique( $list );
 	}
 }

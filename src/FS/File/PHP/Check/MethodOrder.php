@@ -51,7 +51,7 @@ class MethodOrder
 	 *	@param		string		$fileName		URL of PHP File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( "File '".$fileName."' is not existing." );
@@ -63,7 +63,7 @@ class MethodOrder
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function compare()
+	public function compare(): bool
 	{
 		$this->compared	= TRUE;
 		$content	= file_get_contents( $this->fileName );
@@ -88,7 +88,7 @@ class MethodOrder
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getOriginalList()
+	public function getOriginalList(): array
 	{
 		if( !$this->compared )
 			throw new Exception( "Not compared yet." );
@@ -100,7 +100,7 @@ class MethodOrder
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSortedList()
+	public function getSortedList(): array
 	{
 		if( !$this->compared )
 			throw new Exception( "Not compared yet." );

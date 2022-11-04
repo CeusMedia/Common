@@ -67,7 +67,7 @@ class EncodingConverter
 	 *	@return		void
 	 *	@throws 	RuntimeException			if Module is not installed.
 	 */
-	protected static function checkIconv()
+	protected static function checkIconv(): void
 	{
 		if( !function_exists( 'iconv' ) )
 			throw new RuntimeException( 'PHP module "iconv" is not installed' );

@@ -52,12 +52,12 @@ class CamelCase
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function convert( string $string, bool $lowercaseLetters = TRUE ): string
+	public static function convert( string $string, bool $lowercaseLetters = TRUE ): string
 	{
 		return static::encode( $string, $lowercaseLetters );
 	}
 
-	static public function decode( string $string, string $delimiter = ' ' ): string
+	public static function decode( string $string, string $delimiter = ' ' ): string
 	{
 		if( !function_exists( 'mb_substr' ) )
 			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
@@ -81,7 +81,7 @@ class CamelCase
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function encode( string $string, bool $lowercaseLetters = TRUE ): string
+	public static function encode( string $string, bool $lowercaseLetters = TRUE ): string
 	{
 		$string[0]	= mb_strtolower( $string[0] );
 		if( $lowercaseLetters === TRUE )
@@ -92,31 +92,31 @@ class CamelCase
 		return $string;
 	}
 
-	static protected function isUpperCharacter( string $string, int $pos ): bool
-	{
-		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
-		return mb_strtolower( $char, "UTF-8") != $char;
-	}
-
-	static public function toPascalCase( string $string ): string
+	public static function toPascalCase( string $string ): string
 	{
 		return PascalCase::encode( static::decode( $string ) );
 	}
 
-	static public function toSnakeCase( string $string ): string
+	public static function toSnakeCase( string $string ): string
 	{
 		return SnakeCase::encode( static::decode( $string ) );
 	}
 
-	static public function validate( string $string ): bool
+	public static function validate( string $string ): bool
 	{
 		for( $i=0; $i<strlen( $string ); $i++ ){
 			$isUpper	= static::isUpperCharacter( $string, $i );
 			if( $i == 0 && $isUpper )
 				return FALSE;
-			if( $i > 0 && !preg_match( '/[A-Za-z0-9]$/', $string[$i] ) )
+			if( $i > 0 && !preg_match( '/[A-Za-z\d]$/', $string[$i] ) )
 				return FALSE;
 		}
 		return TRUE;
+	}
+
+	protected static function isUpperCharacter( string $string, int $pos ): bool
+	{
+		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
+		return mb_strtolower( $char, "UTF-8") != $char;
 	}
 }

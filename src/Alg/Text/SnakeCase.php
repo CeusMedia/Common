@@ -54,17 +54,17 @@ class SnakeCase
 		return str_replace( "_", " ", $string );
 	}
 
-	public static function encode( string$string ): string
+	public static function encode( string $string ): string
 	{
 		return str_replace( " ", "_", $string );
 	}
 
-	public static function toCamelCase( string$string ): string
+	public static function toCamelCase( string $string ): string
 	{
 		return CamelCase::encode( static::decode( $string ) );
 	}
 
-	public static function toPascalCase( string$string ): string
+	public static function toPascalCase( string $string ): string
 	{
 		return PascalCase::encode( static::decode( $string ) );
 	}

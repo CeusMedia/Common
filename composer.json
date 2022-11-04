@@ -86,11 +86,11 @@
     ],
     "dev:rector": [
       "@dev:install",
-      "vendor/bin/rector process --config=tool/config/rector.php --dry-run"
+      "vendor/bin/rector --config=tool/config/rector.php --clear-cache --dry-run"
     ],
     "dev:rector-fix": [
       "@dev:install",
-      "vendor/bin/rector process --config=tool/config/rector.php"
+      "vendor/bin/rector --config=tool/config/rector.php --clear-cache"
     ],
     "dev:test-syntax": [
       "@dev:install",

@@ -47,7 +47,7 @@ class Psr0
 
 	private ?string $namespace;
 
-	private string $includePath;
+	private ?string $includePath;
 
 	private string $namespaceSeparator = '\\';
 
