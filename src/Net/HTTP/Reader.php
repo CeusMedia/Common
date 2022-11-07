@@ -157,17 +157,6 @@ class Reader
 	}
 
 	/**
-	 *	...
-	 *	@access		public
-	 *	@param		string		$key
-	 *	@return		mixed|NULL
-	 */
-	public function getResponseHeader( string $key )
-	{
-		return $this->responseHeaders[$key] ?? NULL;
-	}
-
-	/**
 	 *	Posts Data to Resource and returns Response.
 	 *	@access		public
 	 *	@param		string					$url			Resource URL
