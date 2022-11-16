@@ -47,16 +47,18 @@ use RuntimeException;
  */
 class URL
 {
-	protected ?self $defaultUrl;
+	/**	@var	URL|NULL			$defaultUrl */
+	protected ?self $defaultUrl		= NULL;
 
+	/**	@var	object				$parts */
 	protected object $parts;
 
 	/**
 	 *	Constructor.
 	 *
 	 *	@access		public
-	 *	@param		string			$url		URL string to represent
-	 *	@param		URL|string		$defaultUrl Underlying base URL
+	 *	@param		string				$url		URL string to represent
+	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
 	public function __construct( string $url, $defaultUrl = NULL )
 	{
@@ -264,7 +266,7 @@ class URL
 		$defaults	= [
 			'scheme'		=> $this->defaultUrl ? $this->defaultUrl->getScheme() : '',
 			'host'			=> $this->defaultUrl ? $this->defaultUrl->getHost() : '',
-			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : '',
+			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : NULL,
 			'user'			=> $this->defaultUrl ? $this->defaultUrl->getUsername() : '',
 			'pass'			=> $this->defaultUrl ? $this->defaultUrl->getPassword() : '',
 			'query'			=> '',

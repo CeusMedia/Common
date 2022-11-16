@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/Collection/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Collection/Editor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Editor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Writer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Editor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Connection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Writer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +33,11 @@
       <server host="flug.local" id="5339d3fa-e92d-441c-b94e-f5fba3a7b873" name="flug.local" port="443" use_path_mappings="true">
         <path_mappings>
           <mapping local-root="$PROJECT_DIR$/vendor/rector/rector/vendor/symfony/contracts/HttpClient/Test/Fixtures/web" remote-root="/vagrant/repositories/zf2/public" />
+        </path_mappings>
+      </server>
+      <server host="localhost" id="ef841767-1329-43a2-979f-6ce7a789d39f" name="localhost" port="1080" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$/doc/packages" remote-root="/var/www/lib/GitLab/CeusMedia/Internal/Site/vendor/ceus-media/hydrogen-modules/src/App/Site" />
         </path_mappings>
       </server>
     </servers>
@@ -219,6 +216,8 @@
       <workItem from="1665805366153" duration="1240000" />
       <workItem from="1666288994393" duration="149000" />
       <workItem from="1666745539563" duration="4598000" />
+      <workItem from="1667807782294" duration="75000" />
+      <workItem from="1668254317619" duration="1228000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -465,7 +464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666289419850</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Fix bug.">
+      <created>1667807841117</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1667807841117</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -508,7 +514,8 @@
     <MESSAGE value="Adjust unit tests and fix (migration) bugs according to tests." />
     <MESSAGE value="Updated unit tests heavily." />
     <MESSAGE value="Go for PHPStan level 5." />
-    <option name="LAST_COMMIT_MESSAGE" value="Go for PHPStan level 5." />
+    <MESSAGE value="Fix bug." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix bug." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

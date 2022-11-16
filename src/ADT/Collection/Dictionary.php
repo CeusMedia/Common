@@ -382,8 +382,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	public function set( string $key, $value ): bool
 	{
 		//  check if pair is already existing
-		if( $this->has( $key ) )
-		{
+		if( $this->has( $key ) ){
 			//  given value is NULL, which means: remove this pair
 			if( is_null( $value ) )
 				//  remove pair and return result of sub operation
