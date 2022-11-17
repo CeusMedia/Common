@@ -286,14 +286,14 @@ class FormElements
 	 */
 	public static function Option( $value, string $label, bool $selected = FALSE, bool $disabled = FALSE, ?string $class = NULL ): string
 	{
-		if( !( $value != "_selected" && $value != "_groupname" ) )
-			return "";
-		$attributes	= array(
+		if( $value === "_selected" || $value === "_groupname" )
+			return '';
+		$attributes	= [
 			'value'		=> $value,
 			'selected'	=> $selected ? "selected" : NULL,
 			'disabled'	=> $disabled ? "disabled" : NULL,
 			'class'		=> $class,
-		);
+		];
 		return Tag::create( "option", htmlspecialchars( $label ), $attributes );
 	}
 
