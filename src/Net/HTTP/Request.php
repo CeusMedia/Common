@@ -250,12 +250,11 @@ class Request extends Dictionary
 	 */
 	public function getHeader( string $name, bool $strict = TRUE ): ?HeaderField
 	{
-		$header	= $this->getHeader( $name );
-		if( $header )
-			return $header;
-		if( $strict )
+		/** @var HeaderField|NULL $header */
+		$header	= $this->getHeadersByName( $name, TRUE );
+		if( NULL === $header && $strict )
 			throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
-		return NULL;
+		return $header;
 	}
 
 	/**
@@ -272,9 +271,9 @@ class Request extends Dictionary
 	 *	Returns list of HTTP header fields with a specified header name.
 	 *	With second parameter only the latest header field will be return, NULL if none.
 	 *	@access		public
-	 *	@param		string		$name		Key name of header
-	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
-	 *	@return		array|null	List of HTTP header fields with given header name
+	 *	@param		string			$name		Key name of header
+	 *	@param		boolean			$latestOnly	Flag: return latest header field, only
+	 *	@return		HeaderField[]|HeaderField|NULL	List of HTTP header fields with given header name or singe field if latestOnly
 	 */
 	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): ?array
 	{

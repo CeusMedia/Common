@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Fix bug.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Renderer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Renderer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,10 +30,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/composer.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Net/HTTP/Reader.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/tool/config/phpstan.neon" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/tool/config/rector.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpServers">
     <servers>
       <server host="flug.local" id="5339d3fa-e92d-441c-b94e-f5fba3a7b873" name="flug.local" port="443" use_path_mappings="true">
@@ -136,49 +147,46 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Composer Script.dev:phpstan-save">
-    <configuration name="dev:phpstan-clear" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:phpstan-clear" />
+  <component name="RunManager" selected="PHPUnit.SectionTest">
+    <configuration name="SectionTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" scope="Class" />
       <method v="2" />
     </configuration>
-    <configuration name="dev:phpstan-save" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:phpstan-save" />
+    <configuration name="SectionTest.testGetFieldsByName" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" method="testGetFieldsByName" scope="Method" />
       <method v="2" />
     </configuration>
-    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:phpstan" />
+    <configuration name="SectionTest.testGetSectionedFields" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" method="testGetSectionedFields" scope="Method" />
       <method v="2" />
     </configuration>
-    <configuration name="HTTP" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/Net/HTTP" />
+    <configuration name="SectionTest.testHasField" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" method="testHasField" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="SectionTest.testRemoveByName" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" method="testRemoveByName" scope="Method" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Composer Script.dev:phpstan-save" />
-      <item itemvalue="Composer Script.dev:phpstan-clear" />
-      <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="PHPUnit.phpunit.xml" />
-      <item itemvalue="PHPUnit.HTTP" />
-      <item itemvalue="PHPUnit.test" />
+      <item itemvalue="PHPUnit.SectionTest" />
+      <item itemvalue="PHPUnit.SectionTest.testGetFieldsByName" />
+      <item itemvalue="PHPUnit.SectionTest.testGetSectionedFields" />
+      <item itemvalue="PHPUnit.SectionTest.testHasField" />
+      <item itemvalue="PHPUnit.SectionTest.testRemoveByName" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Composer Script.dev:phpstan-save" />
-        <item itemvalue="Composer Script.dev:phpstan" />
-        <item itemvalue="Composer Script.dev:phpstan-clear" />
-        <item itemvalue="PHPUnit.test" />
-        <item itemvalue="PHPUnit.HTTP" />
+        <item itemvalue="PHPUnit.SectionTest" />
+        <item itemvalue="PHPUnit.SectionTest.testGetSectionedFields" />
+        <item itemvalue="PHPUnit.SectionTest.testRemoveByName" />
+        <item itemvalue="PHPUnit.SectionTest.testHasField" />
+        <item itemvalue="PHPUnit.SectionTest.testGetFieldsByName" />
       </list>
     </recent_temporary>
   </component>
@@ -218,6 +226,8 @@
       <workItem from="1666745539563" duration="4598000" />
       <workItem from="1667807782294" duration="75000" />
       <workItem from="1668254317619" duration="1228000" />
+      <workItem from="1668636894896" duration="72000" />
+      <workItem from="1668739713093" duration="10595000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -471,7 +481,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667807841117</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Fix bug.">
+      <created>1668636936797</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1668636936797</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -560,11 +577,20 @@
           <line>54</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php</url>
+          <line>146</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Common@SectionTest_testRemoveByName.xml" NAME="SectionTest.testRemoveByName Coverage Results" MODIFIED="1668745254334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Common@SectionTest.xml" NAME="SectionTest Coverage Results" MODIFIED="1668745597866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

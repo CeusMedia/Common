@@ -42,14 +42,9 @@ class Renderer
 {
 	public static function render( HeaderSection $section ): string
 	{
-		$fields	= $section->getFields();
-        // @todo prove to remove, idea was: "empty headers" list should also return at least a line break
-//		if( !$fields )
-//			return '';
 		$list	= [];
-		foreach( $fields as $field ){
+		foreach( $section->getFields() as $field )
 			$list[]	= $field->toString();
-		}
-        return join( "\r\n", $list )."\r\n";
+		return join( "\r\n", $list )."\r\n";
 	}
 }

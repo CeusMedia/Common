@@ -61,7 +61,7 @@ class Parser
 				array_unshift( $parts, $part );
 				break;
 			}
-			if( !$response->headers->getFields() )
+			if( 0 === count( $response->headers->getFields() ) )
 				$response	= self::parseHeadersFromString( $part );
 		}
 		$body	= implode( "\r\n\r\n", $parts );
