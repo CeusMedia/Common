@@ -275,7 +275,7 @@ class Request extends Dictionary
 	 *	@param		boolean			$latestOnly	Flag: return latest header field, only
 	 *	@return		HeaderField[]|HeaderField|NULL	List of HTTP header fields with given header name or singe field if latestOnly
 	 */
-	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): ?array
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}

@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Fix bug.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Refactored HTTP header section.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Renderer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Renderer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Parser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -227,7 +222,8 @@
       <workItem from="1667807782294" duration="75000" />
       <workItem from="1668254317619" duration="1228000" />
       <workItem from="1668636894896" duration="72000" />
-      <workItem from="1668739713093" duration="10595000" />
+      <workItem from="1668739713093" duration="11376000" />
+      <workItem from="1668901341988" duration="35000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -488,7 +484,14 @@
       <option name="project" value="LOCAL" />
       <updated>1668636936797</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Refactored HTTP header section.">
+      <created>1668758773363</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1668758773363</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -532,7 +535,8 @@
     <MESSAGE value="Updated unit tests heavily." />
     <MESSAGE value="Go for PHPStan level 5." />
     <MESSAGE value="Fix bug." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix bug." />
+    <MESSAGE value="Refactored HTTP header section." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored HTTP header section." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
