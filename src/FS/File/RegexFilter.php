@@ -121,6 +121,7 @@ class RegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		void
 	 */
+	#[\ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->numberFound		= 0;

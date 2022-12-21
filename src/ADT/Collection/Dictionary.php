@@ -124,6 +124,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function current()
 	{
 		if( $this->position >= $this->count() )
@@ -213,7 +214,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		//  assume all pairs by default
 		$list	= $this->pairs;
 		//  a prefix to filter keys has been given
-		if( strlen( trim( $prefix ) ) ){
+		if( NULL !== $prefix && strlen( trim( $prefix ) ) ){
 			$filtered	= $this->filterByKeyPrefix( $prefix );
 			if( $asDictionary )
 				return $filtered;
@@ -275,6 +276,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		int|string|NULL
 	 */
+	#[\ReturnTypeWillChange]
 	public function key()
 	{
 		$keys	= array_keys( $this->pairs );
@@ -286,6 +288,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		void
 	 */
+	#[\ReturnTypeWillChange]
 	public function next()
 	{
 		$this->position++;
@@ -308,6 +311,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		mixed
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetGet( $offset )
 	{
 		return $this->get( $offset );
@@ -320,6 +324,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$value		Value of Key
 	 *	@return		boolean
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ): bool
     {
 		return $this->set( $offset, $value );
@@ -331,6 +336,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		boolean
 	 */
+	#[\ReturnTypeWillChange]
 	public function offsetUnset( $offset ): bool
 	{
 		return $this->remove( $offset );
@@ -367,6 +373,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		void
 	 */
+	#[\ReturnTypeWillChange]
 	public function rewind()
 	{
 		$this->position	= 0;
