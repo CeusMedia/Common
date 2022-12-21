@@ -5,3 +5,5 @@
 /.phpunit.result.cache
 /doc/*
 ;/.idea
+/.idea/workspace.xml
+/.idea/shelf
