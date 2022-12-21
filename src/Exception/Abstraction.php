@@ -51,15 +51,15 @@ abstract class Abstraction extends Exception implements Interface_
 	protected $code    = 0;
 
 	// Source filename of exception
-	protected $file;
+	protected string $file;
 
 	// Source line of exception
-	protected $line;
+	protected int $line;
 
-	protected $previous;
+	protected ?Exception $previous;
 
 	// Unknown
-	private   $trace;
+	private $trace;
 
 	// Unknown
 	private   $string;
