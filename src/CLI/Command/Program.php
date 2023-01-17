@@ -68,14 +68,14 @@ abstract class Program
 	 *  public function __construct()
 	 *  {
 	 *		$numberArguments	= 1;
-	 *		$options	= array(
+	 *		$options	= [
 	 *			'anything'	=> "",
 	 *			'something'	=> "@.+@",
-	 *		);
-	 *		$shortcuts	= array(
+	 *		];
+	 *		$shortcuts	= [
 	 *			'a'	=> "anything",
 	 *			's'	=> "something",
-	 *		);
+	 *		];
 	 *		parent::__construct( $options, $shortcuts, $numberArguments );
 	 *	}
 	 *  </code>

@@ -76,13 +76,13 @@ class Options
 	 */
 	public function buildScript(): string
 	{
-		$options	= array(
+		$options	= [
 			'url'		=> $this->url,
 			'async'		=> $this->async,
 			'cache'		=> $this->cache,
 			'data'		=> $this->data,
 			'selected'	=> $this->selected
-		);
+		];
 		return JQuery::buildPluginCall( 'ajaxOptions', "select[name='".$this->name."']", $options );
 	}
 

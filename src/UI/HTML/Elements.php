@@ -323,7 +323,7 @@ class Elements extends FormElements
 	 */
 	public static function Image( $url, $title, string $class = "", ?int $width = NULL, ?int $height = NULL ): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'src'		=> $url,
 			'class'		=> $class		?: NULL,
 			'width'		=> $width		?: NULL,
@@ -332,7 +332,7 @@ class Elements extends FormElements
 			'title'		=> $title		?: NULL,
 			'hspace'	=> 0,
 			'vspace'	=> 0,
-		);
+		];
 		$code	= Tag::create( "img", NULL, $attributes );
 		return $code;
 	}

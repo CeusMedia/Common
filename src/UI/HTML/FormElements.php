@@ -358,14 +358,14 @@ class FormElements
 	 */
 	public static function Password( string $name, ?string $class = NULL, $readOnly = FALSE, ?int $tabIndex = NULL, ?int $maxLength = NULL ): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'id'		=> $name,
 			'type'		=> "password",
 			'name'		=> $name,
 			'class'		=> $class,
 			'tabindex'	=> $tabIndex,
 			'maxlength'	=> $maxLength,
-		);
+		];
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
 		return Tag::create( "input", NULL, $attributes );
@@ -384,7 +384,7 @@ class FormElements
 	 */
 	public static function Radio( string $name, $value, bool $checked = FALSE, ?string $class = NULL, $readOnly = FALSE ): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'id'		=> $name.'_'.$value,
 			'type'		=> "radio",
 			'name'		=> $name,
@@ -392,7 +392,7 @@ class FormElements
 			'class'		=> $class,
 			'checked'	=> $checked		? "checked" : NULL,
 			'disabled'	=> $readOnly	? "disabled" : NULL,
-		);
+		];
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
 		return Tag::create( "input", NULL, $attributes );

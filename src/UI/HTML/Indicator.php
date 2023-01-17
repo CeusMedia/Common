@@ -43,7 +43,7 @@ use OutOfRangeException;
 class Indicator extends OptionObject
 {
 	/**	@var		array		$defaultOptions			Map of default options */
-	public $defaultOptions		= array(
+	public $defaultOptions		= [
 		'id'					=> NULL,
 		'classIndicator'		=> 'indicator',
 		'classInner'			=> 'indicator-inner',
@@ -57,7 +57,7 @@ class Indicator extends OptionObject
   		'useData'				=> TRUE,
 		'usePercentage'			=> FALSE,
 		'useRatio'				=> FALSE,
-	);
+	];
 
 	/**
 	 *	Constructor, sets Default Options, sets useColor and usePercentage to TRUE.

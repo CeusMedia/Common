@@ -64,10 +64,10 @@ class Ladder
 	 */
 	public function addStep( string $label, string $content ): self
 	{
-		$this->steps[]	= array(
+		$this->steps[]	= [
 			'label'		=> $label,
 			'content'	=> $content,
-		);
+		];
 		return $this;
 	}
 
