@@ -123,7 +123,7 @@ class Iterator implements BaseIterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function next()
+	public function next(): void
 	{
 		$this->verbose && remark( ' - #'.$this->key().': next' );
 		if( $this->status !== self::STATUS_OPEN )
@@ -138,7 +138,7 @@ class Iterator implements BaseIterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->verbose && remark( ' - #'.$this->key().': rewind' );
 		if( $this->status === self::STATUS_NEW ){							//  file not opened yet

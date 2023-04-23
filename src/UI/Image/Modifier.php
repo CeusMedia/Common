@@ -112,7 +112,7 @@ abstract class Modifier
 			throw new RuntimeException( 'No modification applied' );
 		if( !$this->targetUri )
 			throw new RuntimeException( 'No target image URI set' );
-		$type	= $type ? $type : $this->sourceInfo[2];
+		$type	= $type ?: $this->sourceInfo[2];
 		switch( $type ){
 			case IMAGETYPE_GIF:
 				return imagegif( $this->target, $this->targetUri );

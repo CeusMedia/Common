@@ -29,6 +29,8 @@
 
 namespace CeusMedia\Common\UI\Image;
 
+use GdImage;
+
 /**
  *	Basic Image Creation.
  *	@category		Library
@@ -40,22 +42,22 @@ namespace CeusMedia\Common\UI\Image;
  */
 class Drawer
 {
-	protected $image;
+	protected GdImage $image;
 
-	protected $type	= 0;
+	protected int $type			= 0;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		resource		$image      Image Resource, can be created with UI_Image_Creator
+	 *	@param		GdImage		$image      Image Resource, can be created with UI_Image_Creator
 	 *	@return		void
 	 */
-	public function __construct( $image )
+	public function __construct( GdImage $image )
 	{
 		$this->setImage( $image );
 	}
 
-	public function drawBorder( int $color, int $width = 1 )
+	public function drawBorder( int $color, int $width = 1 ): void
 	{
 		for( $i = 0; $i < $width; $i++ )
 			$this->drawRectangle( $i, $i, imagesx( $this->image ) - $i - 1, imagesy( $this->image ) - $i - 1, $color );
@@ -97,7 +99,7 @@ class Drawer
         return $color ?: NULL;
 	}
 
-	public function getImage()
+	public function getImage(): GdImage
 	{
 		return $this->image;
 	}
@@ -110,15 +112,16 @@ class Drawer
 	/**
 	 *	Sets Image Handler.
 	 *	@access		public
-	 *	@param		resource		$image      Image Handler
-	 *	@return		void
+	 *	@param		GdImage			$image      Image Handler
+	 *	@return		self
 	 */
-	public function setImage( $image )
+	public function setImage( GdImage $image ): self
 	{
 		$this->image = $image;
+		return $this;
 	}
 
-	public function show( int $quality = 100 )
+	public function show( int $quality = 100 ): void
 	{
 		Printer::showImage( $this->image, $this->type, $quality );
 		die;

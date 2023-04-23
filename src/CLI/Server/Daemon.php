@@ -51,7 +51,7 @@ class Daemon extends Application
 	public function __construct( int $timeLimit = 10 )
 	{
 		set_time_limit( $timeLimit );
-		ob_implicit_flush( 1 );
+		ob_implicit_flush( TRUE );
 		parent::__construct();
 	}
 

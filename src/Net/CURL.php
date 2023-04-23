@@ -30,6 +30,7 @@
 
 namespace CeusMedia\Common\Net;
 
+use CurlHandle;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -76,9 +77,9 @@ class CURL
 	/**
 	 *	Current cURL session.
 	 *	@access private
-	 *	@var resource|NULL
+	 *	@var CurlHandle|NULL
 	 */
-	private $handle;
+	private ?CurlHandle $handle;
 
 	/**
 	 *	Array of parsed HTTP header.
@@ -141,7 +142,7 @@ class CURL
 	 *	@return		void
 	 *	@link		http://www.php.net/curl_close
 	 */
-	public function close()
+	public function close(): void
 	{
 		curl_close( $this->handle );
 		$this->handle = NULL;
@@ -277,7 +278,7 @@ class CURL
 		$this->caseless = [];
 		$headers	= preg_split( "/(\r\n)+/", $section );
 		foreach( $headers as $header ){
-			if( !( trim( $header ) && !preg_match( '/^HTTP/', $header ) ) )
+			if( !( trim( $header ) && !str_starts_with( $header, 'HTTP' ) ) )
 				continue;
 			$pair	= preg_split( "/\s*:\s*/", $header, 2 );
 			$caselessTag = strtoupper( $pair[0] );

@@ -1,9 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Refactored HTTP header section.">
+      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Null_.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Null_.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/OptionObject.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/OptionObject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/StringBuffer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/StringBuffer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Server/Daemon.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Server/Daemon.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/RecursiveRegexFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/RecursiveRegexFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/CURL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/CURL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Connection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Drawer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Drawer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Modifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Modifier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Printer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Printer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/TransparentWatermark.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/TransparentWatermark.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Element.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Element.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan-baseline.neon" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/config/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan.neon" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,19 +135,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Project.color&quot;: &quot;3f0804&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/lib/GitHub/CeusMedia/Database&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;php.test.frameworks.configurable&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Project.color": "3f0804",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "php.test.frameworks.configurable",
+    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test/XML" />
@@ -142,13 +168,14 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.SectionTest">
-    <configuration name="SectionTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" scope="Class" />
+  <component name="RunManager" selected="Composer Script.dev:phpstan">
+    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan" />
       <method v="2" />
     </configuration>
-    <configuration name="SectionTest.testGetFieldsByName" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" method="testGetFieldsByName" scope="Method" />
+    <configuration name="SectionTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\Header\SectionTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php" scope="Class" />
       <method v="2" />
     </configuration>
     <configuration name="SectionTest.testGetSectionedFields" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
@@ -168,20 +195,20 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="PHPUnit.phpunit.xml" />
       <item itemvalue="PHPUnit.SectionTest" />
-      <item itemvalue="PHPUnit.SectionTest.testGetFieldsByName" />
       <item itemvalue="PHPUnit.SectionTest.testGetSectionedFields" />
       <item itemvalue="PHPUnit.SectionTest.testHasField" />
       <item itemvalue="PHPUnit.SectionTest.testRemoveByName" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Composer Script.dev:phpstan" />
         <item itemvalue="PHPUnit.SectionTest" />
         <item itemvalue="PHPUnit.SectionTest.testGetSectionedFields" />
         <item itemvalue="PHPUnit.SectionTest.testRemoveByName" />
         <item itemvalue="PHPUnit.SectionTest.testHasField" />
-        <item itemvalue="PHPUnit.SectionTest.testGetFieldsByName" />
       </list>
     </recent_temporary>
   </component>
@@ -224,6 +251,7 @@
       <workItem from="1668636894896" duration="72000" />
       <workItem from="1668739713093" duration="11376000" />
       <workItem from="1668901341988" duration="35000" />
+      <workItem from="1682210842022" duration="3636000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -594,7 +622,7 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Common@SectionTest_testRemoveByName.xml" NAME="SectionTest.testRemoveByName Coverage Results" MODIFIED="1668745254334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Common@SectionTest.xml" NAME="SectionTest Coverage Results" MODIFIED="1668745597866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Common@SectionTest_testRemoveByName.xml" NAME="SectionTest.testRemoveByName Coverage Results" MODIFIED="1668745254334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

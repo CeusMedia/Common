@@ -152,22 +152,20 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	/**
 	 *	Implements interface ArrayAccess and returns always FALSE.
 	 *	@access		public
-	 *	@return		boolean			FALSE, always
+	 *	@return		void
 	 */
-	public function offsetSet( $offset, $value ): bool
+	public function offsetSet( $offset, $value ): void
 	{
-		return TRUE;
 	}
 
 
 	/**
 	 *	Implements interface ArrayAccess and returns always FALSE.
 	 *	@access		public
-	 *	@return		boolean			FALSE, always
+	 *	@return		void			FALSE, always
 	 */
-	public function offsetUnset( $offset ): bool
+	public function offsetUnset( $offset ): void
 	{
-		return TRUE;
 	}
 
 	/**

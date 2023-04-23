@@ -31,6 +31,7 @@ namespace CeusMedia\Common\UI;
 
 use CeusMedia\Common\UI\Image\Error as ErrorImage;
 use Exception;
+use GdImage;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -70,17 +71,17 @@ class Image
 {
 	public $colorTransparent;
 
-	protected $resource			= NULL;
+	protected ?GdImage $resource	= NULL;
 
-	protected $type				= IMAGETYPE_PNG;
+	protected int $type				= IMAGETYPE_PNG;
 
-	protected $width			= 0;
+	protected int $width			= 0;
 
-	protected $height			= 0;
+	protected int $height			= 0;
 
-	protected $quality			= 100;
+	protected int $quality			= 100;
 
-	protected $fileName			= NULL;
+	protected ?string $fileName		= NULL;
 
 	/**
 	 *	Constructor.
@@ -110,7 +111,7 @@ class Image
 	 *	@return		void
 	 *	@todo		is alpha needed ?
 	 */
-	public function create( int $width, int $height, bool $trueColor = TRUE, int $alpha = 0 )
+	public function create( int $width, int $height, bool $trueColor = TRUE, int $alpha = 0 ): void
 	{
 		$resource	= $trueColor ? imagecreatetruecolor( $width, $height ) : imagecreate( $width, $height );
 		$this->type	= $trueColor ? IMAGETYPE_PNG : IMAGETYPE_GIF;
@@ -123,7 +124,7 @@ class Image
 	 *	@param		boolean		$sendContentType		Flag: send HTTP header for image type beforehand, default: yes
 	 *	@return		void
 	 */
-	public function display( bool $sendContentType = TRUE )
+	public function display( bool $sendContentType = TRUE ): void
 	{
 		if( $sendContentType )
 			header( 'Content-type: '.$this->getMimeType() );
@@ -192,9 +193,9 @@ class Image
 	/**
 	 *	Returns inner image resource.
 	 *	@access		public
-	 *	@return		resource
+	 *	@return		GdImage
 	 */
-	public function getResource()
+	public function getResource(): ?GdImage
 	{
 		return $this->resource;
 	}
@@ -256,7 +257,7 @@ class Image
 	 *	@throws		Exception if detected image type is not supported
 	 *	@throws		Exception if image type is not supported for reading
 	 */
-	public function load( string $fileName, bool $tolerateAnimatedGif = FALSE )
+	public function load( string $fileName, bool $tolerateAnimatedGif = FALSE ): void
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'Image "'.$fileName.'" is not existing' );
@@ -270,19 +271,12 @@ class Image
 		if( $this->resource )
 			imagedestroy( $this->resource );
 		$this->type		= $info[2];
-		switch( $this->type ){
-			case IMAGETYPE_GIF:
-				$resource	= imagecreatefromgif( $fileName );
-				break;
-			case IMAGETYPE_JPEG:
-				$resource	= imagecreatefromjpeg( $fileName );
-				break;
-			case IMAGETYPE_PNG:
-				$resource	= imagecreatefrompng( $fileName );
-				break;
-			default:
-				throw new Exception( 'Image type "'.$info['mime'].'" is no supported, detected '.$info[2] );
-		}
+		$resource		= match( $this->type ){
+			IMAGETYPE_GIF	=> imagecreatefromgif( $fileName ),
+			IMAGETYPE_JPEG	=> imagecreatefromjpeg( $fileName ),
+			IMAGETYPE_PNG	=> imagecreatefrompng( $fileName ),
+			default			=> throw new Exception( 'Image type "'.$info['mime'].'" is no supported, detected '.$info[2] ),
+		};
 		$this->fileName	= $fileName;
 		$this->setResource( $resource );
 	}
@@ -336,21 +330,21 @@ class Image
 		return TRUE;
 	}
 
-	public function setQuality( $quality ){
+	public function setQuality( $quality ): self
+	{
 		$this->quality = max( 0, min( 100, $quality ) );
+		return $this;
 	}
 
 	/**
 	 *	Binds image resource to this image object.
 	 *	@access		public
-	 *	@param		resource		$resource		Image resource
+	 *	@param		GdImage			$resource		Image resource
 	 *	@param		integer			$alpha			Alpha channel value (0-100)
 	 *	@return		self
 	 */
-	public function setResource( $resource, int $alpha = 0 ): self
+	public function setResource( GdImage $resource, int $alpha = 0 ): self
 	{
-		if( !is_resource( $resource ) )
-			throw new InvalidArgumentException( 'Must be a valid image resource' );
 		if( $this->resource )
 			imagedestroy( $this->resource );
 
@@ -368,7 +362,8 @@ class Image
 		return $this;
 	}
 
-	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ){
+	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ): void
+	{
 		$color	= imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
 		imagecolortransparent( $this->resource, $color );
 	}

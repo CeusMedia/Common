@@ -60,7 +60,7 @@ class Element extends SimpleXMLElement
 	 */
 //	public function addAttribute( string $qualifiedName, string $value, $namespace = NULL, ?string $nsURI = NULL ): void
 //	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
-	public function addAttribute( $qualifiedName, $value = NULL, $namespace = NULL, string $nsURI = NULL )
+	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, string $nsURI = NULL ): void
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();

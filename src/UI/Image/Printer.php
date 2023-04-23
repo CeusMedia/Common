@@ -30,6 +30,7 @@
 namespace CeusMedia\Common\UI\Image;
 
 use InvalidArgumentException;
+use GdImage;
 
 /**
  *	Prints an Image Resource into a File or on Screen.
@@ -42,19 +43,17 @@ use InvalidArgumentException;
  */
 class Printer
 {
-	/**	@var		resource		$resource		Image Resource */
-	protected $resource;
+	/**	@var		GdImage			$resource		Image Resource */
+	protected GdImage $resource;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		resource		$resource		Image Resource
+	 *	@param		GdImage			$resource		Image Resource
 	 *	@return		void
 	 */
-	public function __construct( $resource )
+	public function __construct( GdImage $resource )
 	{
-		if( !is_resource( $resource ) )
-			throw new InvalidArgumentException( 'Given Image Resource is not a valid Resource.' );
 		$this->resource	= $resource;
 	}
 
@@ -76,23 +75,19 @@ class Printer
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		Name of target Image File
-	 *	@param		resource	$resource		Image Resource
+	 *	@param		GdImage		$resource		Image Resource
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
 	 *	@return		bool
 	 */
-	public static function saveImage( string $fileName, $resource, int $type = IMAGETYPE_PNG, int $quality = 100 ): bool
+	public static function saveImage( string $fileName, GdImage $resource, int $type = IMAGETYPE_PNG, int $quality = 100 ): bool
 	{
-		switch( $type ){
-			case IMAGETYPE_PNG:
-				return ImagePNG( $resource, $fileName );
-			case IMAGETYPE_JPEG:
-				return ImageJPEG( $resource, $fileName, $quality );
-			case IMAGETYPE_GIF:
-				return ImageGIF( $resource, $fileName );
-			default:
-				throw new InvalidArgumentException( 'Invalid Image Type' );
-		}
+		return match( $type ){
+			IMAGETYPE_PNG	=> ImagePNG( $resource, $fileName ),
+			IMAGETYPE_JPEG	=> ImageJPEG( $resource, $fileName, $quality ),
+			IMAGETYPE_GIF	=> ImageGIF( $resource, $fileName ),
+			default			=> throw new InvalidArgumentException( 'Invalid Image Type' ),
+		};
 	}
 
 	/**
@@ -112,13 +107,13 @@ class Printer
 	 *	Prints an Image to Screen statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		resource	$resource		Image Resource
+	 *	@param		GdImage		$resource		Image Resource
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
 	 *	@param		bool		$sendHeader		Flag: set Image MIME Type Header
 	 *	@return		bool
 	 */
-	public static function showImage( $resource, int $type = IMAGETYPE_PNG, int $quality = 100, bool $sendHeader = TRUE ): bool
+	public static function showImage( GdImage $resource, int $type = IMAGETYPE_PNG, int $quality = 100, bool $sendHeader = TRUE ): bool
 	{
 		switch( $type ){
 			case IMAGETYPE_GIF:

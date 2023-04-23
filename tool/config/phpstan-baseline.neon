@@ -54,8 +54,3 @@ parameters:
 			message: "#^Unreachable statement \\- code above always terminates\\.$#"
 			count: 5
 			path: ../../src/Net/API/Gravatar.php
-
-		-
-			message: "#^Parameter \\#1 \\$ftp of function ftp_quit expects resource, resource given\\.$#"
-			count: 1
-			path: ../../src/Net/FTP/Connection.php

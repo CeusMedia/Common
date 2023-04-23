@@ -31,6 +31,7 @@ namespace CeusMedia\Common\XML;
 
 use CeusMedia\Common\XML\DOM\Node;
 use RuntimeException;
+use XMLParser;
 
 /**
  *	Parses XML String and returns Array or Object Structure.
@@ -87,9 +88,9 @@ class Parser
 
 	/**
 	 *	@access		protected
-	 *	@return		resource
+	 *	@return		XMLParser
 	 */
-	protected function createParser()
+	protected function createParser(): XMLParser
 	{
 		$parser		= xml_parser_create();
 		xml_set_object( $parser, $this );
@@ -106,7 +107,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleCDataForArray( $parser, string $cdata )
+	protected function handleCDataForArray( $parser, string $cdata ): void
 	{
 		if( strlen( ltrim( $cdata ) ) > 0 ){
 			$pointer	= count( $this->last ) - 2;
@@ -124,7 +125,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleCDataForObject( $parser, string $cdata )
+	protected function handleCDataForObject( $parser, string $cdata ): void
 	{
 		if( strlen( ltrim( $cdata ) ) <= 0 )
 			return;
@@ -139,11 +140,11 @@ class Parser
 
 	/**
 	 *	@access		protected
-	 *	@param		resource		$parser
+	 *	@param		XMLParser		$parser
 	 *	@return		void
 	 *	@throws		RuntimeException
 	 */
-	protected function handleError( $parser ): void
+	protected function handleError( XMLParser $parser ): void
 	{
 		$msg	= "XML error: %s at line %d";
 		$error	= xml_error_string( xml_get_error_code( $parser ) );
@@ -159,7 +160,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagCloseForArray( $parser, string $tag )
+	protected function handleTagCloseForArray( $parser, string $tag ): void
 	{
 		array_pop( $this->last );
 	}
@@ -172,7 +173,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagCloseForObject( $parser, string $tag )
+	protected function handleTagCloseForObject( $parser, string $tag ): void
 	{
 		array_pop( $this->last );
 	}
@@ -186,7 +187,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagOpenForArray( $parser, string $tag, array $attributes )
+	protected function handleTagOpenForArray( $parser, string $tag, array $attributes ): void
 	{
 		$count	= count( $this->last ) - 1;
 		$this->last[$count][]	= [
@@ -208,7 +209,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagOpenForObject( $parser, string $tag, array $attributes )
+	protected function handleTagOpenForObject( $parser, string $tag, array $attributes ): void
 	{
 		$count		= count( $this->last ) - 1;
 		$parentNode	=& $this->last[$count];

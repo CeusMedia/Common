@@ -164,7 +164,7 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		string		$offset			Option key
 	 *	@return		mixed
 	 */
-	public function offsetGet( $offset )
+	public function offsetGet( $offset ): mixed
 	{
 		return $this->getOption( $offset );
 	}
@@ -176,7 +176,7 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		string		$value			Option Value
 	 *	@return		void
 	 */
-	public function offsetSet( $offset, $value )
+	public function offsetSet( $offset, $value ): void
 	{
 		$this->setOption( $offset, $value );
 	}
@@ -185,11 +185,11 @@ class OptionObject implements ArrayAccess, Countable
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$offset			Option Key
-	 *	@return		bool
+	 *	@return		void
 	 */
-	public function offsetUnset( $offset ): bool
+	public function offsetUnset( $offset ): void
 	{
-		return $this->removeOption( $offset );
+		$this->removeOption( $offset );
 	}
 
 	/**

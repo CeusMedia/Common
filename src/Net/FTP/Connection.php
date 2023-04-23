@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\Net\FTP;
 
+use FTP\Connection as FtpConnection;
 use RuntimeException;
 
 /**
@@ -49,8 +50,8 @@ class Connection
 	/**	@var		boolean			$auth			Indicator of Authentication */
 	protected bool $auth			= FALSE;
 
-	/**	@var		resource|NULL	$resource		Resource ID of Connection (Stream in PHP5) */
-	protected $resource				= NULL;
+	/**	@var		FtpConnection|NULL	$resource		Resource ID of Connection (Stream in PHP5) */
+	protected ?FtpConnection $resource				= NULL;
 
 	/**	@var		string			$host			Host Name */
 	protected string $host			= '';
@@ -180,9 +181,9 @@ class Connection
 	/**
 	 *	Returns FTP Connection Resource.
 	 *	@access		public
-	 *	@return		resource
+	 *	@return		FtpConnection
 	 */
-	public function getResource()
+	public function getResource(): FtpConnection
 	{
 		return $this->resource;
 	}

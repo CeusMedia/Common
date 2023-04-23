@@ -131,7 +131,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->numberFound		= 0;
 		$this->numberScanned	= 0;

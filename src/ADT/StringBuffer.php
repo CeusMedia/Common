@@ -153,7 +153,7 @@ class StringBuffer implements Countable, Iterator
 		return $this;
 	}
 
-	public function next()
+	public function next(): void
 	{
 		++$this->position;
 	}
@@ -176,7 +176,7 @@ class StringBuffer implements Countable, Iterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->position	= 0;
 	}

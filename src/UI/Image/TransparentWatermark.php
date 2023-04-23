@@ -13,6 +13,8 @@
 
 namespace CeusMedia\Common\UI\Image;
 
+use GdImage;
+
 // position constants
 define ("transparentWatermarkOnTop", -10);
 define ("transparentWatermarkOnMiddle", 0);
@@ -63,11 +65,11 @@ class TransparentWatermark
 	 *	Send image to stdout.
 	 *
 	 *	@access		protected
-	 *	@param		resource	$image		image
+	 *	@param		GdImage		$image		image
 	 *	@param		int			$type		image type (2:JPEG or 3:PNG)
 	 *	@return		void
 	 */
-	public function displayImage( $image, int $type )
+	public function displayImage( GdImage $image, int $type ): void
 	{
 		switch( $type ){
 			case IMAGETYPE_JPEG:
@@ -132,10 +134,10 @@ class TransparentWatermark
 	 *	Mark an image.
 	 *
 	 *	@access		public
-	 *	@param		resource		$imageResource		resource of image
+	 *	@param		GdImage			$imageResource		resource of image
 	 *	@return		boolean
 	 */
-	public function markImage( $imageResource ): bool
+	public function markImage( GdImage $imageResource ): bool
     {
 		if( !$this->stampImage ){
 			$this->errorMsg = 'Stamp image is not set.';
@@ -209,9 +211,9 @@ class TransparentWatermark
 	 *	@access		protected
 	 *	@param		string		$file		image file (JPEG or PNG)
 	 *	@param		int			$type		file type (2:JPEG or 3:PNG)
-	 *	@return		resource|NULL
+	 *	@return		GdImage|NULL
 	 */
-	public function readImage( string $file, int $type )
+	public function readImage( string $file, int $type ): ?GdImage
     {
 		switch( $type ){
 			case IMAGETYPE_JPEG:
@@ -286,12 +288,12 @@ class TransparentWatermark
 	 *	Write image to file.
 	 *
 	 *	@access		protected
-	 *	@param		resource	$image		image
+	 *	@param		GdImage		$image		image
 	 *	@param		string		$file		image file (JPEG or PNG)
 	 *	@param		int			$type		file type (2:JPEG or 3:PNG)
 	 *	@return     void
 	 */
-	public function writeImage( $image, string $file, int $type )
+	public function writeImage( GdImage $image, string $file, int $type ): void
     {
 		switch( $type ){
 			case IMAGETYPE_JPEG:
