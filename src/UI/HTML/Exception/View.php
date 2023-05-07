@@ -68,7 +68,7 @@ class View
 	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
 	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
 	 */
-	protected static function getMeaningOfSQLSTATE( $SQLSTATE ): string
+	protected static function getMeaningOfSQLSTATE( string $SQLSTATE ): string
 	{
 		$class1	= substr( $SQLSTATE, 0, 2 );
 		$class2	= substr( $SQLSTATE, 2, 3 );

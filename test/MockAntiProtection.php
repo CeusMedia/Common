@@ -14,36 +14,44 @@ use InvalidArgumentException;
 
 class MockAntiProtection
 {
-	public static function createMockClass( $originalClass )
+	public static function createMockClass( string $originalClass ): void
 	{
 		if( !class_exists( $originalClass ) )
 			throw new InvalidArgumentException( 'Class "'.$originalClass.'" is not existing' );
 
-		$mockClass	= str_replace( 'Common\\', 'CommonTest\\', $originalClass );
-		$mockClass	= $mockClass.'MockAntiProtection';
-		if( class_exists( '\\'.$mockClass ) )
+		$mockClass	= self::getMockClassFromOriginalClass( $originalClass );
+		if( class_exists( $mockClass ) )
 			return;
+
 		$parts		= explode( '\\', $mockClass );
 		$className	= array_pop( $parts );
 		$namespace	= implode( '\\', $parts );
 
-		$codeFile	= __DIR__.'/MockAntiProtection.tmpl';
-		$codeClass	= Template::render( $codeFile, [
-			'namespace' => $namespace,
-			'originalClassName' => '\\'.$originalClass,
-			'mockClassName' => $className,
-		] );
+		$codeClass	= self::renderClassTemplate( $namespace, $originalClass, $className );
 //		xmp( $codeClass );die;
 		eval( $codeClass );
 	}
 
-	public static function getInstance( $originalClass ): object
+	public static function getInstance( string $originalClass ): object
 	{
 		self::createMockClass( $originalClass );
-
-		$mockClass	= str_replace( 'Common\\', 'CommonTest\\', $originalClass );
-		$mockClass	= '\\'.$mockClass.'MockAntiProtection';
+		$mockClass	= self::getMockClassFromOriginalClass( $originalClass );
 		$arguments	= array_slice( func_get_args(), 1 );
 		return ObjectFactory::createObject( $mockClass, $arguments );
+	}
+
+	protected static function getMockClassFromOriginalClass( string $originalClass ): string
+	{
+		return '\\'.str_replace( 'Common\\', 'CommonTest\\', $originalClass ).'MockAntiProtection';
+	}
+
+	protected static function renderClassTemplate( string $namespace, string $originalClass, string $className ): string
+	{
+		$string	= file_get_contents( __DIR__.'/MockAntiProtection.tmpl' );
+		return str_replace(
+			['<%namespace%>', '<%originalClassName%>', '<%mockClassName%>'],
+			[ltrim( $namespace, '\\' ), '\\'.$originalClass, $className],
+			$string
+		);
 	}
 }

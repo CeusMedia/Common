@@ -4,7 +4,7 @@ namespace CeusMedia\Common\FS;
 
 abstract class AbstractNode
 {
-	protected $pathName;
+	protected string $pathName;
 
 	public function __construct( string $pathName )
 	{

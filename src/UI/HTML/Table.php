@@ -42,21 +42,21 @@ use InvalidArgumentException;
  */
 class Table
 {
-	protected $bodyRows	= [];
+	protected array $bodyRows	= [];
 
-	protected $footRows	= [];
+	protected array $footRows	= [];
 
-	protected $headRows	= [];
+	protected array $headRows	= [];
 
-	protected $summary	= NULL;
+	protected ?string $summary	= NULL;
 
-	protected $columns	= [];
+	protected array $columns	= [];
 
-	protected $caption	= NULL;
+	protected ?string $caption	= NULL;
 
-	protected $class	= NULL;
+	protected ?string $class	= NULL;
 
-	protected $id		= NULL;
+	protected ?string $id		= NULL;
 
 	public function __construct( array $attributes = [] )
 	{
@@ -169,7 +169,11 @@ class Table
 		return $this;
 	}
 
-	public function addRow( array $cells = [] )
+	/**
+	 *	@param		array		$cells
+	 *	@return		void
+	 */
+	public function addRow( array $cells = [] ): void
 	{
 		$this->bodyRows[]	= [];
 		foreach( $cells as $key => $value ){

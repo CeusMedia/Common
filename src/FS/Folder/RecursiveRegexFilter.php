@@ -46,20 +46,20 @@ use RuntimeException;
 class RecursiveRegexFilter extends RegexIterator
 {
 	/**	@var		string		$pattern			Regular Expression to match with File Name */
-	protected $pattern;
+	protected string $pattern;
 
 	/**	@var		 bool		$showFiles			Flag: show Files */
-	protected $showFiles;
+	protected bool $showFiles;
 
 	/**	@var		 bool		$showFolders		Flag: show Folders */
-	protected $showFolders;
+	protected bool $showFolders;
 
 	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
-	protected $stripDotEntries;
+	protected bool $stripDotEntries;
 
-	protected $realPath;
+	protected string $realPath;
 
-	protected $realPathLength;
+	protected int $realPathLength;
 
 	/**
 	 *	Constructor.

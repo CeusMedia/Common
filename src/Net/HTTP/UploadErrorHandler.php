@@ -43,7 +43,8 @@ use RuntimeException;
  */
 class UploadErrorHandler
 {
-	protected $messages	= [
+	/** @var array<int,string> $messages  */
+	protected array $messages	= [
 		UPLOAD_ERR_INI_SIZE		=> 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
 		UPLOAD_ERR_FORM_SIZE	=> 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
 		UPLOAD_ERR_PARTIAL		=> 'The uploaded file was only partially uploaded',
@@ -53,22 +54,21 @@ class UploadErrorHandler
 		UPLOAD_ERR_EXTENSION	=> 'File upload stopped by extension',
 	];
 
-	public function getErrorMessage( int $code )
+	public function getErrorMessage( int $code ): string
 	{
 		if( !isset( $this->messages[$code] ) )
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		return $this->messages[$code];
 	}
 
-	public function handleErrorCode( int $code )
+	public function handleErrorCode( int $code ): void
 	{
 		if( $code === 0 )
 			return;
 		if( !isset( $this->messages[$code] ) )
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		$msg	= $this->messages[$code];
-		switch( $code )
-		{
+		switch( $code ){
 			case UPLOAD_ERR_INI_SIZE:
 			case UPLOAD_ERR_FORM_SIZE:
 			case UPLOAD_ERR_PARTIAL:
@@ -81,7 +81,7 @@ class UploadErrorHandler
 		}
 	}
 
-	public function handleErrorFromUpload( array $upload )
+	public function handleErrorFromUpload( array $upload ): void
 	{
 		$code	= $upload['error'];
 		$this->handleErrorCode( $code );

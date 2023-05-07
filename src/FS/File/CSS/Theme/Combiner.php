@@ -45,7 +45,7 @@ class Combiner extends CssCombiner
 	public const PROTOCOL_HTTP		= 1;
 	public const PROTOCOL_HTTPS		= 2;
 
-	protected $protocol;
+	protected int $protocol			= self::PROTOCOL_NONE;
 
 	/**
 	 *	Callback Method for additional Modifications before Combination.

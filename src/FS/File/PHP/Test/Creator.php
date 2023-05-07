@@ -44,36 +44,36 @@ use RuntimeException;
  */
 class Creator
 {
-	/**	@var		string			$className			Class Name, e.g. Package_Class */
-	protected $className			= '';
+	/**	@var		string					$className			Class Name, e.g. Package_Class */
+	protected string $className				= '';
 
-	/**	@var		string			$classFile			Class Name, eg. de/ceus-media/package/Class.php */
-	protected $classFile			= '';
+	/**	@var		string					$classFile			Class Name, eg. de/ceus-media/package/Class.php */
+	protected string $classFile				= '';
 
-	/**	@var		string			$classPath			Class Path, eg. de.ceus-media.package.Class */
-	protected $classPath			= '';
+	/**	@var		string					$classPath			Class Path, eg. de.ceus-media.package.Class */
+	protected string $classPath				= '';
 
-	/**	@var		string			$fileName			File Name of Class */
-	protected $fileName				= '';
+	/**	@var		string					$fileName			File Name of Class */
+	protected string $fileName				= '';
 
-	/**	@var		array			$pathParts			Split Path Parts in lower Case */
-	protected $pathParts			= [];
+	/**	@var		array					$pathParts			Split Path Parts in lower Case */
+	protected array $pathParts				= [];
 
-	/**	@var		array			$pathParts			Split Path Parts in lower Case */
-	protected $pathTemplates		= [];
+	/**	@var		string					$pathParts			... */
+	protected string $pathTemplates			= '';
 
-	/**	@var		string			$templateClass		File Name of Test Class Template */
-	protected $templateClass		= 'Creator_class.tmpl';
+	/**	@var		string					$templateClass		File Name of Test Class Template */
+	protected string $templateClass			= 'Creator_class.tmpl';
 
-	/**	@var		string			$templateClass		File Name of Exception Test Method Template */
-	protected $templateException	= 'Creator_exception.tmpl';
+	/**	@var		string					$templateClass		File Name of Exception Test Method Template */
+	protected string $templateException		= 'Creator_exception.tmpl';
 
-	/**	@var		string			$templateClass		File Name of Test Method Template */
-	protected $templateMethod		= 'Creator_method.tmpl';
+	/**	@var		string					$templateClass		File Name of Test Method Template */
+	protected string $templateMethod		= 'Creator_method.tmpl';
 
-	protected $data					= [];
+	protected array $data					= [];
 
-	protected $targetFile;
+	protected ?string $targetFile			= NULL;
 
 	/**
 	 *	Constructor.
@@ -115,7 +115,7 @@ class Creator
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function buildTestClass()
+	protected function buildTestClass(): void
 	{
 		$methods	= $this->buildTestMethods();
 
@@ -181,7 +181,7 @@ class Creator
 	 *	@param		bool		$force			Flag: overwrite Test Class File if already existing
 	 *	@return		void
 	 */
-	public function createForFile( string $className, bool $force = FALSE )
+	public function createForFile( string $className, bool $force = FALSE ): void
 	{
 		$this->templateClass		= $this->pathTemplates.$this->templateClass;
 		$this->templateException	= $this->pathTemplates.$this->templateException;
@@ -239,7 +239,7 @@ class Creator
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function dumpClassData()
+	private function dumpClassData(): void
 	{
 		ob_start();
 		print_m( $this->data );
@@ -284,7 +284,7 @@ class Creator
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function readPath()
+	protected function readPath(): void
 	{
 		$this->pathParts	= explode( '_', $this->className );
 		$this->fileName		= array_pop( $this->pathParts );

@@ -43,11 +43,11 @@ use FilterIterator;
  */
 class MethodVisibilityCheck
 {
-	public $count	= 0;
+	public int $count	= 0;
 
-	public $found	= 0;
+	public int $found	= 0;
 
-	public $list	= [];
+	public array $list	= [];
 
 	/**
 	 *	Scans a folder containing PHP files for methods without defined visibility.
@@ -56,7 +56,7 @@ class MethodVisibilityCheck
 	 *	@param		string		$extension		Extension of PHP Files.
 	 *	@return		void
 	 */
-	public function scan( string $path, string $extension = 'php5' )
+	public function scan( string $path, string $extension = 'php' ): void
 	{
 		$this->count	= 0;
 		$this->found	= 0;

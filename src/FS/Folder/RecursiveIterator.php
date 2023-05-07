@@ -45,20 +45,20 @@ use RuntimeException;
 class RecursiveIterator extends FilterIterator
 {
 	/**	@var		 string		$path				Path to iterate */
-	protected $path;
+	protected string $path;
 
 	/**	@var		 bool		$showFiles			Flag: show Files */
-	protected $showFiles;
+	protected bool $showFiles;
 
 	/**	@var		 bool		$showFolders		Flag: show Folders */
-	protected $showFolders;
+	protected bool $showFolders;
 
 	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
-	protected $stripDotEntries;
+	protected bool $stripDotEntries;
 
-	protected $realPath;
+	protected string $realPath;
 
-	protected $realPathLength;
+	protected int $realPathLength;
 
 	/**
 	 *	Constructor.
@@ -111,11 +111,11 @@ class RecursiveIterator extends FilterIterator
 		//  skip all folders and files starting with a dot
 		if( $this->stripDotEntries ){
 			//  found file or folder is hidden
-			if( substr( $innerIterator->getFilename(), 0, 1 ) === "." )
+			if( str_starts_with( $innerIterator->getFilename(), '.' ) )
 				return FALSE;
 
 			//  inner path is hidden
-			if( substr( $innerIterator->getSubPathname(), 0, 1 ) === "." )
+			if( str_starts_with( $innerIterator->getSubPathname(), '.' ) )
 				return FALSE;
 
 			//  be nice to Windows

@@ -51,7 +51,7 @@ class Reader
 	 *	@param		string		$fileName		File Name or URI of File
 	 *	@return		void
 	 */
-	public function __construct( string $fileName, bool $check = FALSE )
+	public function __construct( string $fileName, bool $check = TRUE )
 	{
 		$this->fileName = $fileName;
 		if( $check && !$this->exists() )
@@ -158,7 +158,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string|int
 	 */
-	public function getGroup( $resolveName = TRUE )
+	public function getGroup( bool $resolveName = TRUE ): int|string
 	{
 		$this->check();
 		$groupId	= filegroup( $this->fileName );
@@ -207,7 +207,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string|int
 	 */
-	public function getOwner( $resolveName = TRUE )
+	public function getOwner( bool $resolveName = TRUE ): int|string
 	{
 		$this->check();
 		$userId	= fileowner( $this->fileName );
@@ -252,7 +252,7 @@ class Reader
 	 *	@param		integer|NULL	$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		integer|string
 	 */
-	public function getSize( int $precision = NULL )
+	public function getSize( int $precision = NULL ): int|string
 	{
 		$this->check();
 		$size	= filesize( $this->fileName );

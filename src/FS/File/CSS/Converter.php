@@ -49,7 +49,7 @@ use Exception;
  */
 class Converter
 {
-	protected $sheet	= NULL;
+	protected ?CssSheet $sheet	= NULL;
 
 	/**
 	 *	Constructor.

@@ -44,11 +44,9 @@ use RuntimeException;
  */
 class Reader
 {
-	protected $fileName;
+	protected ?string $fileName		= NULL;
 
-	protected $content;
-
-	protected $sheet;
+	protected ?CssSheet $sheet		= NULL;
 
 	/**
 	 *	Constructor.

@@ -49,26 +49,26 @@ use RuntimeException;
 class Request extends Dictionary
 {
 	/** @var		HeaderSection		$headers		Object of collected HTTP Headers */
-	public $headers;
+	public HeaderSection $headers;
 
 	/** @var		string				$body			Raw POST/PUT data, if available */
-	protected $body			= '';
+	protected string $body			= '';
 
 	/**	@var		string				$ip				IP of Request */
-	protected $ip			= '';
+	protected string $ip			= '';
 
 	/** @var		Method				$method			HTTP request method object */
-	protected $method;
+	protected Method $method;
 
-	protected $protocol		= 'HTTP';
+	protected string $protocol		= 'HTTP';
 
-	protected $status		= '200 OK';
+	protected string $status		= '200 OK';
 
-	protected $version		= '1.0';
+	protected string $version		= '1.0';
 
 	protected $root;
 
-	protected $path			= '/';
+	protected string $path			= '/';
 
 	protected $sources;
 
@@ -164,7 +164,7 @@ class Request extends Dictionary
 	 *	@return		Dictionary|array			Pairs in source (or empty array if not set on strict is off)
 	 *	@throws		InvalidArgumentException	if key is not set in source and strict is on
 	 */
-	public function getAllFromSource( string $source, bool $asDictionary = FALSE, bool $strict = TRUE )
+	public function getAllFromSource( string $source, bool $asDictionary = FALSE, bool $strict = TRUE ): array|Dictionary
 	{
 		$source	= strtoupper( $source );
 		if( isset( $this->sources[$source] ) ){
@@ -190,7 +190,7 @@ class Request extends Dictionary
 		];
 
 		foreach( $_SERVER as $key => $value ){
-			if( substr( $key, 0, 5 ) === 'HTTP_' ){
+			if( str_starts_with( $key, 'HTTP_' ) ){
 				$key	= substr( $key, 5 );
 				if( !(isset( $copyDirectly[$key] ) && isset( $_SERVER[$key] ) ) ){
 					$key	= strtolower( str_replace( '_', ' ', $key ) );
@@ -227,7 +227,7 @@ class Request extends Dictionary
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		mixed		Value of key in source or NULL if not set
 	 */
-	public function getFromSource( string $key, string $source, bool $strict = FALSE )
+	public function getFromSource( string $key, string $source, bool $strict = FALSE ): mixed
 	{
 		$data	= $this->getAllFromSource( $source );
 		if( isset( $data[$key] ) )
@@ -275,7 +275,7 @@ class Request extends Dictionary
 	 *	@param		boolean			$latestOnly	Flag: return latest header field, only
 	 *	@return		HeaderField[]|HeaderField|NULL	List of HTTP header fields with given header name or singe field if latestOnly
 	 */
-	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): array|HeaderField|null
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}

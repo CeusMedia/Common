@@ -42,7 +42,7 @@ use Exception;
  */
 class MeetingReader
 {
-	protected $xpath;
+	protected XPathQuery $xpath;
 
 	/**
 	 *	Constructor.

@@ -43,7 +43,7 @@ use RuntimeException;
  */
 abstract class Abstraction
 {
-	protected $isWindows	= NULL;
+	protected ?bool $isWindows	= NULL;
 
 	/**
 	 *	Constructor, checks Server Operating System.
@@ -57,7 +57,7 @@ abstract class Abstraction
 			throw new RuntimeException( 'Not possible on Windows' );
 	}
 
-	public function forkWorkers( int $numberWorkers = 1 )
+	public function forkWorkers( int $numberWorkers = 1 ): void
 	{
 		$numberWorkers	= abs( $numberWorkers );
 		for( $i=0; $i<$numberWorkers; $i++ ){
@@ -80,7 +80,17 @@ abstract class Abstraction
 		}
 	}
 
-	protected function handleHangupSignal()
+	/**
+	 *	Implement this method to set up or validate settings before forking.
+	 *	Throw an Exception if something is wrong.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp()
+	{
+	}
+
+	protected function handleHangupSignal(): void
 	{
 	}
 
@@ -90,7 +100,7 @@ abstract class Abstraction
 	 *	@param		int			$signalNumber
 	 *	@return		void
 	 */
-	protected function handleSignal( int $signalNumber )
+	protected function handleSignal( int $signalNumber ): void
 	{
 		switch( $signalNumber ){
 			case SIGHUP:
@@ -104,11 +114,11 @@ abstract class Abstraction
 		}
 	}
 
-	protected function handleTerminationSignal()
+	protected function handleTerminationSignal(): void
 	{
 	}
 
-	protected function handleUnknownSignal( int $signalNumber )
+	protected function handleUnknownSignal( int $signalNumber ): void
 	{
 //		$this->report( 'Unknown signal: ' . $signalNumber );
 	}
@@ -119,16 +129,6 @@ abstract class Abstraction
 //	}
 
 	/**
-	 *	Implement this method to set up or validate settings before forking.
-	 *	Throw an Exception if something is wrong.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-	}
-
-	/**
 	 *	This method is executed by the Child Process only.
 	 *	Please implement this method and return an Error Code, Error Message or 0 or an empty String.
 	 *	@access		protected
@@ -136,7 +136,7 @@ abstract class Abstraction
 	 *	@param		int			$workerNumber	Worker Number, set by loop in Parent Worker
 	 *	@return		int|string	Error Code or Error Message
 	 */
-	abstract protected function workChild( int $pid, int $workerNumber );
+	abstract protected function workChild( int $pid, int $workerNumber ): int|string;
 
 	/**
 	 *	This method is executed by the Parent Process only.
@@ -145,5 +145,5 @@ abstract class Abstraction
 	 *	@param		int			$pid			Parent PID
 	 *	@return		int|string	Error Code or Error Message
 	 */
-	abstract protected function workParent( int $pid );
+	abstract protected function workParent( int $pid ): int|string;
 }

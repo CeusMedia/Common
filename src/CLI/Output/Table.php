@@ -128,7 +128,7 @@ class Table
 		return $padding;
 	}
 
-	protected function collectColumns()
+	protected function collectColumns(): void
 	{
 		$this->columns	= [];
 		if( !count( $this->data ) )

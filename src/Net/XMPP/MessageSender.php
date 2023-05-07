@@ -254,7 +254,11 @@ class MessageSender
 		return $this;
 	}
 
-	public function setStatus( $status ): self
+	/**
+	 *	@param		string		$status
+	 *	@return		self
+	 */
+	public function setStatus( string $status ): self
 	{
 		$this->xmpp->presence( $status );
 		return $this;

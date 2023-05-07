@@ -26,16 +26,16 @@ use Exception;
  */
 class BackupCleaner
 {
-	protected $path;
-	protected $prefix;
-	protected $ext;
-	protected $vault;
+	protected string $path;
+	protected string $prefix;
+	protected string $ext;
+	protected string $vault		= '';
 
 	public function __construct( string $path, string $prefix, string $ext )
 	{
 		$this->path			= $path;
 		$this->prefix		= $prefix;
-		$this->ext			= preg_replace( "/^\.+/", "", $ext );
+		$this->ext			= ltrim( $ext, '.' );
 	}
 
 
@@ -148,7 +148,7 @@ class BackupCleaner
 	/**
 	 *	...
 	 *	@param		string		$path
-	 *	@return		$this
+	 *	@return		self
 	 *	@noinspection	PhpUnused
 	 */
 	public function setVault( string $path ): self

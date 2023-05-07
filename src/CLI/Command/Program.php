@@ -118,7 +118,7 @@ abstract class Program
 		return $this->exitCode;
 	}
 
-	protected function handleParserException( Exception $e, int $exitCode = self::EXIT_PARSE )
+	protected function handleParserException( Exception $e, int $exitCode = self::EXIT_PARSE ): void
 	{
 		//  show exception message and exit if set so
 		$this->showError( $e->getMessage(), $exitCode );

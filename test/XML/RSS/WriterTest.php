@@ -37,9 +37,9 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct($name)
 	{
-		parent::__construct();
+		parent::__construct($name);
 		MockAntiProtection::createMockClass( Writer::class );
 	}
 

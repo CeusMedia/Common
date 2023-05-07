@@ -128,7 +128,7 @@ class Gravatar
 		return $response[0];
 	}
 
-	public function listImages( string $email, string $password )
+	public function listImages( string $email, string $password ): array
 	{
 		$response	= $this->callXmlRpc( $email, 'userimages', ['password' => $password] );
 		$list		= [];

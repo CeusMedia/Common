@@ -43,16 +43,16 @@ use RuntimeException;
 class ShortReader
 {
 	/*	@var		array		$data		Array of Data in Lines */
-	protected $data		= [];
+	protected array $data		= [];
 
 	/*	@var		bool		$isOpen		Status: Log File is read */
-	protected $isOpen	= FALSE;
+	protected bool $isOpen	= FALSE;
 
-	/*	@var		string		$patterns	Pattern Array filled with Logging Information */
-	protected $patterns	= [];
+	/*	@var		array		$patterns	Pattern Array filled with Logging Information */
+	protected array $patterns	= [];
 
 	/**	@var		string		$uri		URI of Log File */
-	protected $uri;
+	protected string $uri;
 
 	/**
 	 *	Constructor.

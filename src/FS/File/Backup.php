@@ -44,9 +44,9 @@ use RuntimeException;
  */
 class Backup
 {
-	protected $filePath;
-	protected $preserveTimestamp;
-	protected $keepOnlyOne;
+	protected string $filePath;
+	protected bool $preserveTimestamp;
+	protected bool $keepOnlyOne;
 
 	/**
 	 *	Constructor.

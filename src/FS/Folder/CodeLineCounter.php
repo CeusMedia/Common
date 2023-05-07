@@ -46,7 +46,7 @@ use RuntimeException;
  */
 class CodeLineCounter
 {
-	protected $data	= [];
+	protected array $data	= [];
 
 	public function getData( ?string $key = NULL ): array
 	{
@@ -84,7 +84,7 @@ class CodeLineCounter
 	 *	@param		array		$extensions		List of Code File Extensions
 	 *	@return		void
 	 */
-	public function readFolder( string $path, array $extensions = [] )
+	public function readFolder( string $path, array $extensions = [] ): void
 	{
 		$files			= [];
 		$numberCodes	= 0;
@@ -104,9 +104,9 @@ class CodeLineCounter
 			$fileName	= str_replace( "\\", "/", $entry->getFilename() );
 			$pathName	= str_replace( "\\", "/", $entry->getPathname() );
 
-			if( substr( $fileName, 0, 1 ) == "_" )
+			if( str_starts_with( $fileName, '_' ) )
 				continue;
-			if( preg_match( "@/_@", $pathName ) )
+			if( str_contains( $pathName, '/_' ) )
 				continue;
 
 			$countData	= FileCodeLineCounter::countLines( $pathName );

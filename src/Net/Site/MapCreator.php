@@ -43,14 +43,14 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 class MapCreator
 {
 	/**	@var		Crawler			$crawler	Instance of Site Crawler */
-	protected $crawler;
+	protected Crawler $crawler;
 
 	/**	@var		array			$errors		List of Errors */
-	protected $errors				= [];
+	protected array $errors			= [];
 
-	protected $depth;
+	protected int $depth;
 
-	protected $links				= [];
+	protected array $links			= [];
 
 	/**
 	 *	Constructor.

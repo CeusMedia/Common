@@ -42,11 +42,11 @@ use RuntimeException;
  */
 class SectionReader
 {
-	/**	@var		string		$fileName		Array of parsed Properties from File */
-	protected $data				= [];
+	/**	@var		array		$data			Array of parsed Properties from File */
+	protected array $data		= [];
 
 	/**	@var		string		$fileName		File Name of sectioned Properties File */
-	protected $fileName			= "";
+	protected string $fileName	= '';
 
 	/**
 	 *	Constructor.

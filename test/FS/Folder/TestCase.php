@@ -55,13 +55,13 @@ use CeusMedia\CommonTest\BaseCase as BaseTestCase;
  */
 class TestCase extends BaseTestCase
 {
-	protected $folder;
+	protected string $folder;
 
-	protected $path;
+	protected string $path;
 
-	public function __construct()
+	public function __construct($name)
 	{
-		parent::__construct();
+		parent::__construct($name);
 		$this->path		= dirname( __FILE__ )."/";
 		$this->folder	= $this->path."folder/";
 	}

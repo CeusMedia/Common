@@ -19,22 +19,22 @@ use RuntimeException;
  */
 class Iterator implements BaseIterator
 {
-	public static $maxRowSize		= 4096;
+	public static int $maxRowSize		= 4096;
 
 	protected const STATUS_NEW		= 0;
 	protected const STATUS_OPENING	= 1;
 	protected const STATUS_OPEN		= 2;
 
 	protected $currentLine;
-	protected $currentNr			= 0;
-	protected $delimiter			= ',';
-	protected $enclosure			= '"';
+	protected int $currentNr			= 0;
+	protected string $delimiter			= ',';
+	protected string $enclosure			= '"';
 	protected $filePath;
 	protected $filePointer;
 	protected $headers;
-	protected $status				= self::STATUS_NEW;
-	protected $useHeaders			= FALSE;
-	protected $verbose				= FALSE;
+	protected int $status				= self::STATUS_NEW;
+	protected bool $useHeaders			= FALSE;
+	protected bool $verbose				= FALSE;
 
 	/**
 	 *	Constructor.
@@ -221,7 +221,7 @@ class Iterator implements BaseIterator
 	 *	@access		protected
 	 *	@throws		RuntimeException	If file is not existing or not readable
 	 */
-	protected function open()
+	protected function open(): void
 	{
 		$this->verbose && remark( ' - #'.$this->key().': open' );
 		if( $this->status === self::STATUS_OPENING || $this->status === self::STATUS_OPEN )

@@ -45,14 +45,14 @@ use Exception;
 class Tar
 {
 	// Unprocessed Archive Information
-	protected $fileName;
-	protected $content		= "";
+	protected ?string $fileName		= NULL;
+	protected string $content		= '';
 
 	// Processed Archive Information
-	protected $files		= [];
-	protected $folders		= [];
-	protected $numFiles		= 0;
-	protected $numFolders	= 0;
+	protected array $files			= [];
+	protected array $folders		= [];
+	protected int $numFiles			= 0;
+	protected int $numFolders		= 0;
 
 	/**
 	 *	Constructor.

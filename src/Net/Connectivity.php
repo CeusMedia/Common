@@ -55,9 +55,9 @@ class Connectivity
 		self::METHOD_PING,
 	];
 
-	protected $status		= self::STATUS_UNKNOWN;
-	protected $method		= self::METHOD_SOCKET;
-	protected $target		= 'google.com';
+	protected int $status		= self::STATUS_UNKNOWN;
+	protected int $method		= self::METHOD_SOCKET;
+	protected string $target		= 'google.com';
 	protected $callbackOnChange;
 
 	/**

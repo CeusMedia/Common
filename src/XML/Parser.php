@@ -221,12 +221,12 @@ class Parser
 	/**
 	 *	@access		protected
 	 *	@param		Node|array		$data
-	 *	@param		$parser
+	 *	@param		XMLParser		$parser
 	 *	@param		string $xml
 	 *	@return		array|mixed
 	 *	@throws		RuntimeException
 	 */
-	protected function parse( $data, $parser, string $xml )
+	protected function parse( $data, XMLParser $parser, string $xml )
 	{
 		$this->last = [&$data];
 		if( xml_parse( $parser, $xml ) !== 1 )

@@ -42,13 +42,13 @@ use CeusMedia\Common\FS\File\Log\Reader as LogReader;
 class Reader extends LogReader
 {
 	/*	@var		string		$patterns		RegEx Patterns to parse Line */
-	protected $patterns;
+	protected string $patterns	= "@^([0-9]+) \[([0-9:. -]+)\] ([a-z0-9:.-]+) (.*) (.*) \"(.*)\"$@si";
 
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
-	protected $skip;
+	protected string $skip;
 
 	/*	@var		array		$data			Array of Data from parsed Lines */
-	protected $data	= [];
+	protected array $data	= [];
 
 	/**
 	 *	Constructor.
@@ -61,7 +61,6 @@ class Reader extends LogReader
 	public function __construct( string $logFile, string $skip, bool $autoParse = FALSE )
 	{
 		parent::__construct( $logFile );
-		$this->patterns	= "@^([0-9]+) \[([0-9:. -]+)\] ([a-z0-9:.-]+) (.*) (.*) \"(.*)\"$@si";
 		$this->skip		= $skip;
 		if( $autoParse )
 			$this->parse();

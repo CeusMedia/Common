@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\CLI\Fork\Server\Client;
 
+use RuntimeException;
+
 /**
  *	...
  *
@@ -40,7 +42,7 @@ namespace CeusMedia\Common\CLI\Fork\Server\Client;
  */
 abstract class Abstraction
 {
-	protected $port		= NULL;
+	protected ?int $port		= NULL;
 
 	public function __construct( ?int $port = NULL )
 	{
@@ -48,10 +50,19 @@ abstract class Abstraction
 			$this->setPort( $port );
 	}
 
-	abstract function getRequest();
-
-	protected function getResponse()
+	public function setPort( int $port ): self
 	{
+		$this->port	= $port;
+		return $this;
+	}
+
+	abstract function getRequest(): string;
+
+	protected function getResponse(): string
+	{
+		if( NULL === $this->port )
+			throw new RuntimeException( 'No port defined' );
+
 		$socket = stream_socket_client( "tcp://127.0.0.1:".$this->port, $errno, $errstr, 30 );
 		if( !$socket )
 			die( $errstr.' ('.$errno.')<br />\n' );
@@ -63,11 +74,5 @@ abstract class Abstraction
 			$buffer	.= fgets( $socket, 1024 );
 		fclose( $socket );
 		return $buffer;
-	}
-
-	public function setPort( int $port ): self
-	{
-		$this->port	= $port;
-		return $this;
 	}
 }

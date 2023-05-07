@@ -10,6 +10,7 @@ namespace CeusMedia\CommonTest\FS\File;
 
 use CeusMedia\Common\FS\File\Reader;
 use CeusMedia\CommonTest\BaseCase;
+use RuntimeException;
 
 /**
  *	TestUnit of File Reader.
@@ -19,9 +20,11 @@ use CeusMedia\CommonTest\BaseCase;
 class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName;
+	private string $fileName;
 	/**	@var	string		$fileContent	Content of Test File */
-	private $fileContent	= "line1\nline2\n";
+	private string $fileContent	= "line1\nline2\n";
+
+	private Reader $reader;
 
 	/**
 	 *	Setup for every Test.
@@ -65,7 +68,7 @@ class ReaderTest extends BaseCase
 		$creation	= $this->reader->exists();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new Reader( "no_existing" );
+		$reader		= new Reader( "no_existing", FALSE );
 		$assertion	= false;
 		$creation	= $reader->exists();
 		$this->assertEquals( $assertion, $creation );
@@ -134,7 +137,7 @@ class ReaderTest extends BaseCase
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new Reader( "test" );
+		$reader		= new Reader( "test", FALSE );
 		$assertion	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
@@ -194,7 +197,7 @@ class ReaderTest extends BaseCase
 		$creation	= $this->reader->isReadable();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new Reader( "not_existing" );
+		$reader		= new Reader( "not_existing", FALSE );
 		$assertion	= false;
 		$creation	= $reader->isReadable();
 		$this->assertEquals( $assertion, $creation );
@@ -219,7 +222,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testLoadException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( RuntimeException::class );
 		Reader::load( "not_existing" );
 	}
 
@@ -242,7 +245,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testLoadArrayException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( RuntimeException::class );
 		Reader::loadArray( "not_existing" );
 	}
 
@@ -265,7 +268,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testReadStringException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( RuntimeException::class );
 		$reader	= new Reader( "not_existing" );
 		$reader->readString();
 	}
@@ -289,7 +292,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testReadArrayException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( RuntimeException::class );
 		$reader	= new Reader( "not_existing" );
 		$reader->readArray();
 	}

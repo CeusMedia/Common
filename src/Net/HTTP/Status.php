@@ -41,7 +41,8 @@ use InvalidArgumentException;
  */
 class Status
 {
-	protected static $codes	= [
+	/** @var array<int,string> $codes */
+	protected static array $codes	= [
 		100 => "Continue",
 		101 => "Switching Protocols",
 		102 => "Processing",
@@ -161,7 +162,7 @@ class Status
 	 *	@param		string		$protocol		HTTP protocol, default: HTTP/1.0
 	 *	@return		void
 	 */
-	public static function sendHeader( int $code, string $protocol = "HTTP/1.0" )
+	public static function sendHeader( int $code, string $protocol = "HTTP/1.0" ): void
 	{
 		$text = self::getText( $code );
 		header( $protocol.' '.$code.' '.$text );

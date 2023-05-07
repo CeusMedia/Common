@@ -42,7 +42,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  */
 class Writer
 {
-	protected $filePath;
+	protected string $filePath;
 
 	/**
 	 *	Constructor.

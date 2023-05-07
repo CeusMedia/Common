@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\CLI\Fork\Server;
 
+use RuntimeException;
+
 /**
  *	...
  *
@@ -40,21 +42,21 @@ namespace CeusMedia\Common\CLI\Fork\Server;
  */
 class Dynamic extends Abstraction
 {
-	protected string $scriptFile;
-
-	protected function handleRequest( $request )
-	{
-		if( !$this->scriptFile )
-			return "No Script for Dynamic Server set.";
-		if( !file_exists( $this->scriptFile ) )
-			return "Script for Dynamic Server is not existing.";
-
-		return require_once( $this->scriptFile );
-	}
+	protected ?string $scriptFile		= NULL;
 
 	public function setScriptFile( string $scriptFile ): self
 	{
 		$this->scriptFile	= $scriptFile;
 		return $this;
+	}
+
+	protected function handleRequest( string $request ): string
+	{
+		if( NULL === $this->scriptFile || 0 === strlen( trim( $this->scriptFile ) ) )
+			throw new RuntimeException( 'No script for a dynamic server set' );
+		if( !file_exists( $this->scriptFile ) )
+			throw new RuntimeException( 'Script for a dynamic server is not existing' );
+
+		return require_once( $this->scriptFile );
 	}
 }

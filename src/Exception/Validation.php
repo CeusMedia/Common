@@ -42,10 +42,10 @@ use Throwable;
 class Validation extends Runtime
 {
 	/**	@var		array		$errors			List of Validation Errors */
-	protected $errors	= [];
+	protected array $errors		= [];
 
 	/**	@var		string		$form			Name Form in Validation File */
-	protected $form		= "";
+	protected string $form		= "";
 
 	/**
 	 *	Constructor.
@@ -55,7 +55,7 @@ class Validation extends Runtime
 	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */
-	public function __construct( string $message, array $errors = [], $form = '', ?Throwable $previous = null )
+	public function __construct( string $message, array $errors = [], string $form = '', ?Throwable $previous = null )
 	{
 		parent::__construct( $message, 0, $previous );
 		$this->errors	= $errors;
@@ -98,7 +98,7 @@ class Validation extends Runtime
 	 *	@param		string		$data			Serial string of a validation exception
 	 *	@return		void
 	 */
-	public function unserialize( $data )
+	public function unserialize( $data ): void
 	{
 		[$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form]	= unserialize( $data );
 	}

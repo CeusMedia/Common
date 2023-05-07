@@ -74,7 +74,7 @@ class Editor
 		return $this;
 	}
 
-	public function changePropertyKey( string $selector, $keyOld, $keyNew ): self
+	public function changePropertyKey( string $selector, string $keyOld, string $keyNew ): self
 	{
 		$this->checkIsLoaded();
 		$rule	= $this->sheet->getRuleBySelector( $selector );
@@ -97,7 +97,7 @@ class Editor
 		return $this;
 	}
 
-	protected function checkIsLoaded()
+	protected function checkIsLoaded(): void
 	{
 		if( NULL === $this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Checks visibility of methods within a PHP file.
  *
@@ -42,11 +43,11 @@ use RuntimeException;
  */
 class MethodVisibility
 {
-	protected $fileName		= "";
+	protected string $fileName		= "";
 
-	protected $methods		= [];
+	protected array $methods		= [];
 
-	protected $checked		= FALSE;
+	protected bool $checked			= FALSE;
 
 	/**
 	 *	Constructor.

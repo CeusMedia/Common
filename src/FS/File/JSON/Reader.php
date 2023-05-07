@@ -43,11 +43,11 @@ use RuntimeException;
  */
 class Reader
 {
-	protected static $defaultFilters	= ['comments'];
-	protected $filePath;
-	protected $filters					= [];
-	protected $data;
-	protected $parser;
+	protected static array $defaultFilters	= ['comments'];
+	protected string $filePath;
+	protected array $filters				= [];
+	protected object|array|NULL $data		= NULL;
+	protected JsonParser $parser;
 
 	/**
 	 *	Constructor.
@@ -70,7 +70,7 @@ class Reader
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( bool $asConstantKey = FALSE )
+	public function getError( bool $asConstantKey = FALSE ): int|string
 	{
 		return $this->parser->getError( $asConstantKey );
 	}
@@ -123,7 +123,7 @@ class Reader
 	 *	@param		bool		$asArray		Flag: read into an array, default: no
 	 *	@return		object|array
 	 */
-	public static function load( string $filePath, bool $asArray = FALSE )
+	public static function load( string $filePath, bool $asArray = FALSE ): object|array
 	{
 		$reader	= new Reader( $filePath );
 		return $reader->read( $asArray );
@@ -137,7 +137,7 @@ class Reader
 	 *	@return		object|array
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function read( bool $asArray = FALSE, bool $storeData = TRUE )
+	public function read( bool $asArray = FALSE, bool $storeData = TRUE ): object|array
 	{
 		$json	= FileReader::load( $this->filePath );
 		$json	= $this->applyFilters( $json );
@@ -154,7 +154,7 @@ class Reader
 	 *	@param		array		$defaultFilters		List of filters to set for each new instance
 	 *	@noinspection	PhpUnused
 	 */
-	public static function setDefaultFilters( array $defaultFilters )
+	public static function setDefaultFilters( array $defaultFilters ): void
 	{
 		self::$defaultFilters	= $defaultFilters;
 	}

@@ -43,36 +43,47 @@ namespace CeusMedia\Common\FS\Autoloader;
  */
 class Psr0
 {
-	private string $fileExtension = '.php';
+	private string $fileExtension 		= '.php';
 
-	private ?string $namespace;
+	private ?string $namespace			= NULL;
 
-	private ?string $includePath;
+	private ?string $includePath		= NULL;
 
-	private string $namespaceSeparator = '\\';
+	private string $namespaceSeparator	= '\\';
 
 	/**
 	 *	Creates a new <tt>SplClassLoader</tt> that loads classes of the
 	 *	specified namespace.
 	 *
-	 *	@param		string|NULL		$ns		The namespace to use.
+	 *	@param		string|NULL		$ns				The namespace to use.
+	 *	@param		string|NULL		$includePath	The namespace to use.
 	 */
-	public function __construct( ?string $ns = NULL, $includePath = NULL )
+	public function __construct( ?string $ns = NULL, ?string $includePath = NULL )
 	{
-		$this->namespace = $ns;
-		$this->includePath = $includePath;
+		$this->namespace	= $ns;
+		$this->includePath	= $includePath;
 	}
 
 	/**
-	 * Sets the namespace separator used by classes in the namespace of this class loader.
+	 *	Gets the file extension of class files in the namespace of this class loader.
 	 *
-	 *	@param			string		$sep		The separator to use.
+	 * @return			string		$fileExtension
+	 * @noinspection	PhpUnused
+	 */
+	public function getFileExtension(): string
+	{
+		return $this->fileExtension;
+	}
+
+	/**
+	 *	Gets the base include path for all class files in the namespace of this class loader.
+	 *
+	 *	@return			string|NULL		$includePath
 	 *	@noinspection	PhpUnused
 	 */
-	public function setNamespaceSeparator( string $sep ): self
+	public function getIncludePath(): ?string
 	{
-		$this->namespaceSeparator = $sep;
-		return $this;
+		return $this->includePath;
 	}
 
 	/**
@@ -87,27 +98,14 @@ class Psr0
 	}
 
 	/**
-	 *	Sets the base include path for all class files in the namespace of this class loader.
+	 *	Installs this class loader on the SPL autoload stack.
 	 *
-	 *	@param			string		$includePath
 	 *	@return			self
-	 *	@noinspection	PhpUnused
 	 */
-	public function setIncludePath( string $includePath ): self
+	public function register(): self
 	{
-		$this->includePath = $includePath;
+		spl_autoload_register( [$this, 'loadClass'] );
 		return $this;
-	}
-
-	/**
-	 *	Gets the base include path for all class files in the namespace of this class loader.
-	 *
-	 *	@return			string		$includePath
-	 *	@noinspection	PhpUnused
-	 */
-	public function getIncludePath(): string
-	{
-		return $this->includePath;
 	}
 
 	/**
@@ -124,24 +122,27 @@ class Psr0
 	}
 
 	/**
-	 *	Gets the file extension of class files in the namespace of this class loader.
+	 *	Sets the base include path for all class files in the namespace of this class loader.
 	 *
-	 * @return			string		$fileExtension
-	 * @noinspection	PhpUnused
+	 *	@param			string		$includePath
+	 *	@return			self
+	 *	@noinspection	PhpUnused
 	 */
-	public function getFileExtension(): string
+	public function setIncludePath( string $includePath ): self
 	{
-		return $this->fileExtension;
+		$this->includePath = $includePath;
+		return $this;
 	}
 
 	/**
-	 *	Installs this class loader on the SPL autoload stack.
+	 * Sets the namespace separator used by classes in the namespace of this class loader.
 	 *
-	 *	@return			self
+	 *	@param			string		$sep		The separator to use.
+	 *	@noinspection	PhpUnused
 	 */
-	public function register(): self
+	public function setNamespaceSeparator( string $sep ): self
 	{
-		spl_autoload_register( [$this, 'loadClass'] );
+		$this->namespaceSeparator = $sep;
 		return $this;
 	}
 
@@ -164,18 +165,18 @@ class Psr0
 	 */
 	public function loadClass( string $className )
 	{
-		if (NULL === $this->namespace || $this->namespace.$this->namespaceSeparator === substr($className, 0, strlen($this->namespace.$this->namespaceSeparator))) {
-			$fileName = '';
-			$namespace = '';
-			if (false !== ($lastNsPos = strripos($className, $this->namespaceSeparator))) {
-				$namespace = substr($className, 0, $lastNsPos);
-				$className = substr($className, $lastNsPos + 1);
-				$fileName = str_replace($this->namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+		if( NULL === $this->namespace || str_starts_with( $className, $this->namespace.$this->namespaceSeparator ) ){
+			$fileName		= '';
+			$namespace		= '';
+			if( FALSE !== ( $lastNsPos = strripos( $className, $this->namespaceSeparator ) ) ){
+				$namespace	= substr( $className, 0, $lastNsPos );
+				$className	= substr( $className, $lastNsPos + 1 );
+				$fileName	= str_replace( $this->namespaceSeparator, DIRECTORY_SEPARATOR, $namespace ).DIRECTORY_SEPARATOR;
 			}
-			$fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->fileExtension;
-			$filePath = ($this->includePath !== NULL ? $this->includePath . DIRECTORY_SEPARATOR : '') . $fileName;
+			$fileName	.= str_replace( '_', DIRECTORY_SEPARATOR, $className ).$this->fileExtension;
+			$filePath	= ( $this->includePath !== NULL ? $this->includePath.DIRECTORY_SEPARATOR : '' ).$fileName;
 
-			if (file_exists($filePath)) {
+			if( file_exists( $filePath ) ){
 				require $filePath;
 			}
 		}

@@ -7,7 +7,7 @@ use InvalidArgumentException;
 
 class View
 {
-	protected $exception;
+	protected ?Exception $exception		= NULL;
 
 	public function __construct( ?Exception $exception = NULL )
 	{

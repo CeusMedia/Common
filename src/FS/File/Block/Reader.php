@@ -41,9 +41,9 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  */
 class Reader
 {
-	protected $blocks			= [];
-	protected $fileName;
-	protected $patternSection;
+	protected array $blocks				= [];
+	protected string $fileName;
+	protected string $patternSection	= "@^\[([a-z][^\]]*)\]$@i";
 
 	/**
 	 *	Constructor, reads Block File.
@@ -53,10 +53,8 @@ class Reader
 	 */
 	public function __construct( string $fileName )
 	{
-		$this->patternSection	= "@^\[([a-z][^\]]*)\]$@i";
 		$this->fileName	= $fileName;
 		$this->readBlocks();
-
 	}
 
 	/**
@@ -110,7 +108,7 @@ class Reader
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function readBlocks()
+	protected function readBlocks(): void
 	{
 		$open		= FALSE;
 		$section	= NULL;

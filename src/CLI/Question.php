@@ -31,7 +31,7 @@ class Question
 	protected int $type				= 0;
 
 	/** @var string|int|float|NULL $default  */
-	protected $default				= NULL;
+	protected string|int|float|NULL $default				= NULL;
 
 	protected array $options		= [];
 
@@ -43,7 +43,14 @@ class Question
 
 	protected bool $strictOptions	= TRUE;
 
-	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE )
+	/**
+	 *	@param		string					$message
+	 *	@param		int						$type
+	 *	@param		string|int|float|NULL	$default
+	 *	@param		array					$options
+	 *	@param		bool					$break
+	 */
+	public function __construct( string $message, int $type = self::TYPE_STRING, string|int|float|null $default = NULL, array $options = [], bool $break = TRUE )
 	{
 		$this->setMessage( $message );
 		$this->setType( $type );
@@ -63,7 +70,15 @@ class Question
 		return $input;
 	}
 
-	public static function askStatic( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = [], bool $break = TRUE ): string
+	/**
+	 * @param		string					$message
+	 * @param		int						$type
+	 * @param		string|int|float|NULL	$default
+	 * @param		array					$options
+	 * @param		bool					$break
+	 * @return		string
+	 */
+	public static function askStatic( string $message, int $type = self::TYPE_STRING, string|int|float|null $default = NULL, array $options = [], bool $break = TRUE ): string
 	{
 		$input	= new self( $message, $type, $default, $options, $break );
 		return $input->ask();
@@ -80,7 +95,11 @@ class Question
 		return $this;
 	}
 
-	public function setDefault( $default = NULL ): self
+	/**
+	 *	@param		string|int|float|NULL	$default
+	 *	@return		self
+	 */
+	public function setDefault( string|int|float|null $default = NULL ): self
 	{
 		$this->default	= $default;
 		return $this;

@@ -143,33 +143,15 @@ class Trace
 	}
 
 	/**
-	 *	Renders formatted argument type.
-	 *	@access		protected
-	 *	@static
-	 *	@param		mixed		$argument		Argument to render type for
-	 *	@return		string
-	 */
-	protected static function renderArgumentType( $argument ): string
-	{
-		$type		= gettype( $argument );
-		$length		= '';
-		if( $type == 'string' )
-			$length	= '('.strlen( $argument ).')';
-		else if( $type == 'array' || $argument instanceof Countable )
-			$length	= '('.count( $argument ).')';
-		$type	= ucFirst( strtolower( gettype( $argument ) ) );
-		return Tag::create( 'span', $type.$length, ['class' => 'type'] );
-	}
-
-	/**
 	 *	Builds HTML Code of one Trace Step.
 	 *	@access		private
 	 *	@static
 	 *	@param		array		$trace		Trace Step Data
 	 *	@param		int			$i			Trace Step Number
+	 *	@param		int			$j			Trace Step Number
 	 *	@return		string
 	 */
-	private static function renderTraceStep( array $trace, $i, $j ): string
+	private static function renderTraceStep( array $trace, int $i, int $j ): string
 	{
 		if( $j == 0 )
 			if( isset( $trace['function'] ) )
@@ -217,6 +199,25 @@ class Trace
 //			die( print_m( $trace ) );
 //			$content	.= $trace["function"]."(".$block.')';
 		return $content;
+	}
+
+	/**
+	 *	Renders formatted argument type.
+	 *	@access		protected
+	 *	@static
+	 *	@param		mixed		$argument		Argument to render type for
+	 *	@return		string
+	 */
+	protected static function renderArgumentType( $argument ): string
+	{
+		$type		= gettype( $argument );
+		$length		= '';
+		if( $type == 'string' )
+			$length	= '('.strlen( $argument ).')';
+		else if( $type == 'array' || $argument instanceof Countable )
+			$length	= '('.count( $argument ).')';
+		$type	= ucFirst( strtolower( gettype( $argument ) ) );
+		return Tag::create( 'span', $type.$length, ['class' => 'type'] );
 	}
 
 	/**

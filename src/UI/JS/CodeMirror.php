@@ -3,11 +3,11 @@ namespace CeusMedia\Common\UI\JS;
 
 class CodeMirror
 {
-	protected $addons	= [];
+	protected array $addons		= [];
 
-	protected $theme	= [];
+	protected array $theme		= [];
 
-	protected $options	= [
+	protected array $options	= [
 		'lineNumbers'				=> TRUE,
 		'mode'						=> "application/x-httpd-php",
 		'indentUnit'				=> 4,
@@ -44,7 +44,12 @@ $("'.$textareaSelector.'").each(function(){
 		return $this;
 	}
 
-	public function setOption( string $key, $value ): self
+	/**
+	 *	@param		string		$key
+	 *	@param		mixed		$value
+	 *	@return		self
+	 */
+	public function setOption( string $key, mixed $value ): self
 	{
 		if( is_null( $value ) ){
 			if( isset( $this->options[$key] ) )

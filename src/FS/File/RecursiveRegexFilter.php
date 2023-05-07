@@ -55,7 +55,7 @@ class RecursiveRegexFilter extends RegexIterator
 	private string $filePattern;
 
 	/**	@var	string				$contentPattern	Regular Expression to match with File Content */
-	private $contentPattern;
+	private ?string $contentPattern;
 
 	/**
 	 *	Constructor.
@@ -64,7 +64,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@param		string		$filePattern	Regular Expression to match with File Name
 	 *	@return		void
 	 */
-	public function __construct( $path, $filePattern, $contentPattern = NULL )
+	public function __construct( string $path, string $filePattern, ?string $contentPattern = NULL )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );

@@ -9,8 +9,13 @@ use DirectoryIterator;
 
 class Folder extends AbstractNode
 {
-	protected $pathName;
-
+	/**
+	 *	@param		string		$pathName
+	 *	@param		bool		$create
+	 *	@param		int			$mode
+	 *	@param		bool		$strict
+	 *	@throws		IOException
+	 */
 	public function __construct( string $pathName, bool $create = FALSE, int $mode = 0777, bool $strict = TRUE )
 	{
 		parent::__construct( $pathName );
@@ -18,9 +23,15 @@ class Folder extends AbstractNode
 			$this->create( $mode, $strict );
 	}
 
-	public function count( $type = FS::TYPE_ALL, $recursive = FALSE, $strict = TRUE ): int
+	/**
+	 *	@param		int			$type
+	 *	@param		bool		$recursive
+	 *	@param		bool		$strict
+	 *	@return		int
+	 */
+	public function count( int $type = FS::TYPE_ALL, bool $recursive = FALSE, bool $strict = TRUE ): int
 	{
-		$index	= $this->index( $type, $strict );
+		$index	= $this->index( $type, SORT_REGULAR, $strict );
 		$count	= $index->count();
 		if( $recursive ){
 			foreach( $this->index( FS::TYPE_FOLDER ) as $item ){
@@ -30,7 +41,13 @@ class Folder extends AbstractNode
 		return $count;
 	}
 
-	public function create( $mode = 0777, $strict = TRUE )
+	/**
+	 *	@param		int			$mode
+	 *	@param		bool		$strict
+	 *	@return		bool
+	 *	@throws		IOException
+	 */
+	public function create( int $mode = 0777, bool $strict = TRUE ): bool
 	{
 		if( $this->exists() ){
 			if( $strict ){
@@ -43,13 +60,21 @@ class Folder extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !mkdir( $this->pathName, 0777, TRUE ) ){
+		if( !mkdir( $this->pathName, $mode, TRUE ) ){
 			return FALSE;
 		}
 		return TRUE;
 	}
 
-	public function createFile( $pathName, $content = NULL, $mode = 0777, $strict = TRUE ): File
+	/**
+	 *	@param		string		$pathName
+	 *	@param		string|NULL	$content
+	 *	@param		int			$mode
+	 *	@param		bool		$strict
+	 *	@return		File
+	 *	@throws		IOException
+	 */
+	public function createFile( string $pathName, string $content = NULL, int $mode = 0777, bool $strict = TRUE ): File
 	{
 		$file	= new File( $this->pathName.'/'.$pathName );
 		$file->create( $mode, $strict );
@@ -58,13 +83,25 @@ class Folder extends AbstractNode
 		return $file;
 	}
 
-	public function createFolder( $pathName, $mode = 0777, $strict = TRUE ): Folder
+	/**
+	 *	@param		string		$pathName
+	 *	@param		int			$mode
+	 *	@param		bool		$strict
+	 *	@return		Folder
+	 *	@throws		IOException
+	 */
+	public function createFolder( string $pathName, int $mode = 0777, bool $strict = TRUE ): Folder
 	{
 		$folder	= new Folder( $this->pathName.'/'.$pathName );
 		$folder->create( $mode, $strict );
 		return $folder;
 	}
 
+	/**
+	 *	@param		bool		$strict
+	 *	@return		bool
+	 *	@throws		IOException
+	 */
 	public function exists( bool $strict = FALSE ): bool
 	{
 		if( !file_exists( $this->pathName ) ){
@@ -80,30 +117,57 @@ class Folder extends AbstractNode
 		return TRUE;
 	}
 
+	/**
+	 *	@param		string		$fileName
+	 *	@return		File
+	 *	@throws		IOException
+	 */
 	public function getFile( string $fileName ): File
 	{
 		return new File( $this->pathName.'/'.$fileName );
 	}
 
+	/**
+	 *	@param		string		$fileName
+	 *	@return		Folder
+	 *	@throws		IOException
+	 */
 	public function getFolder( string $fileName ): Folder
 	{
 		return new Folder( $this->pathName.'/'.$fileName );
 	}
 
-	public function getTime( $strict = TRUE )
+	/**
+	 *	@param		bool		$strict
+	 *	@return		bool|int|NULL
+	 *	@throws		IOException
+	 */
+	public function getTime( bool $strict = TRUE ): bool|int|null
 	{
 		if( !$this->exists( $strict ) )
 			return NULL;
 		return filemtime( $this->pathName );
 	}
 
-	public function has( string $name, $type = FS::TYPE_ALL )
+	/**
+	 *	@param		string		$name
+	 *	@param		int			$type
+	 *	@return		bool
+	 */
+	public function has( string $name, int $type = FS::TYPE_ALL ): bool
 	{
-		$index	= $this->index( $type, FALSE );
+		$index	= $this->index( $type, SORT_REGULAR, FALSE );
 		return $index->has( $name );
 	}
 
-	public function index( $type = FS::TYPE_ALL, $sort = SORT_REGULAR, $strict = TRUE )
+	/**
+	 *	@param		int			$type
+	 *	@param		int			$sort
+	 *	@param		bool		$strict
+	 *	@return		Dictionary
+	 *	@throws		IOException
+	 */
+	public function index( int $type = FS::TYPE_ALL, int $sort = SORT_REGULAR, bool $strict = TRUE ): Dictionary
 	{
 		if( !$this->exists( $strict ) )
  			return new Dictionary();
@@ -124,7 +188,13 @@ class Folder extends AbstractNode
 		return new Dictionary( $list );
 	}
 
-	public function rename( $targetPath, $strict = TRUE )
+	/**
+	 *	@param		string		$targetPath
+	 *	@param		bool		$strict
+	 *	@return		bool
+	 *	@throws		IOException
+	 */
+	public function rename( string $targetPath, bool $strict = TRUE ): bool
 	{
 		$target	= new Folder( $targetPath );
 		if( $target->exists() ){
@@ -135,5 +205,6 @@ class Folder extends AbstractNode
 		if( !rename( $this->pathName, $targetPath ) )
 			return FALSE;
 		$this->setPathName( $targetPath );
+		return TRUE;
 	}
 }

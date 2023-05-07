@@ -42,38 +42,38 @@ use CeusMedia\Common\FS\File\CSS\Compressor as CssCompressor;
  */
 class Minimizer
 {
-	/**	@var		CssCombiner					$combiner		Combiner instance */
-	protected $combiner;
+	/**	@var		CssCombiner			$combiner		Combiner instance */
+	protected CssCombiner $combiner;
 
-	/**	@var		CssCompressor				$compressor		Compressor instance */
-	protected $compressor;
+	/**	@var		CssCompressor		$compressor		Compressor instance */
+	protected CssCompressor 			$compressor;
 
-	/**	@var		string		$cssFolder		Name of CSS Folder within Theme Path (optional) */
-	protected $cssFolder		= "";
+	/**	@var		string				$cssFolder		Name of CSS Folder within Theme Path (optional) */
+	protected string $cssFolder			= "";
 
-	/**	@var		string		$cssFolder		Path Medium within CSS Path within Theme (optional) */
-	protected $mediumPath		= "";
+	/**	@var		string				$cssFolder		Path Medium within CSS Path within Theme (optional) */
+	protected string $mediumPath		= "";
 
-	/**	@var		string		$prefix			Prefix of combined File Name */
-	protected $combinerPrefix	= "";
+	/**	@var		string				$prefix			Prefix of combined File Name */
+	protected string $combinerPrefix	= "";
 
-	/**	@var		string		$suffix			Suffix of combined File Name */
-	protected $combinerSuffix	= "";
+	/**	@var		string				$suffix			Suffix of combined File Name */
+	protected string $combinerSuffix	= "";
 
-	/**	@var		string		$prefix			Prefix of compressed File Name */
-	protected $compressorPrefix	= "";
+	/**	@var		string				$prefix			Prefix of compressed File Name */
+	protected string $compressorPrefix	= "";
 
-	/**	@var		string		$suffix			Suffix of compressed File Name */
-	protected $compressorSuffix	= "";
+	/**	@var		string				$suffix			Suffix of compressed File Name */
+	protected string $compressorSuffix	= "";
 
-	/**	@var		array		$statistics		Statistical Data */
-	protected $statistics		= [];
+	/**	@var		array				$statistics		Statistical Data */
+	protected array $statistics			= [];
 
-	/**	@var		string		$themesPath		Path to Themes */
-	protected $themesPath;
+	/**	@var		string				$themesPath		Path to Themes */
+	protected string $themesPath;
 
 	/**	@var		string		$themeName		Name of Theme */
-	protected $themeName		= "";
+	protected string $themeName		= "";
 
 	/**
 	 *	Constructor.

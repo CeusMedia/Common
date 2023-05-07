@@ -105,7 +105,7 @@ class Element extends SimpleXMLElement
 	 */
 //	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
 //	public function addChild( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
-	public function addChild( $qualifiedName, $value = NULL, $namespace = NULL, ?string $nsURI = NULL ): self
+	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();
@@ -272,7 +272,7 @@ class Element extends SimpleXMLElement
 		$dom->parentNode->removeChild( $dom );
 	}
 
-	public function removeChild( $qualifiedName, ?int $number = NULL )
+	public function removeChild( string $qualifiedName, ?int $number = NULL ): void
 	{
 		$nr		= 0;
 		foreach( $this->children() as $nodeName => $child ){
@@ -297,7 +297,7 @@ class Element extends SimpleXMLElement
 	 *	@param		string|NULL		$nsURI				Namespace URI of attribute
 	 *	@return		void
 	 */
-	public function setAttribute( string $qualifiedName, ?string $value, ?string $namespace = NULL, ?string $nsURI = NULL )
+	public function setAttribute( string $qualifiedName, ?string $value, ?string $namespace = NULL, ?string $nsURI = NULL ): void
 	{
 		if( $value !== NULL ){
 			if( !$this->hasAttribute( $qualifiedName, $namespace ) ){

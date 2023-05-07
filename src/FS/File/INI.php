@@ -25,26 +25,27 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  */
 class INI
 {
-	protected $fileName;
-	protected $mode;
+	protected string $fileName;
+	protected int $mode;
 
-	/**	@var	Dictionary|NULL		$sections		... */
-	protected $sections		= NULL;
+	/**	@var	Dictionary|NULL			$sections		... */
+	protected ?Dictionary $sections		= NULL;
 
-	/**	@var	Dictionary|NULL		$pairs			... */
-	protected $pairs		= NULL;
+	/**	@var	Dictionary|NULL			$pairs			... */
+	protected ?Dictionary $pairs		= NULL;
 
-	public $indentTabs		= 8;
-	public $lengthTab		= 4;
+	public int $indentTabs				= 8;
+	public int $lengthTab				= 4;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name
 	 *	@param		boolean		$useSections	Flag: use Sections
+	 *	@param		integer		$mode			UNIX rights for chmod() as octal integer (starting with 0), default: 0640
 	 *	@return		void
 	 */
-	public function __construct( string $fileName, bool $useSections = FALSE, $mode = NULL )
+	public function __construct( string $fileName, bool $useSections = FALSE, int $mode = 0640 )
 	{
 		$this->fileName	= $fileName;
 		$this->mode		= $mode;

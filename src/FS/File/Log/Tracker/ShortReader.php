@@ -43,13 +43,13 @@ use RuntimeException;
 class ShortReader extends LogShortReader
 {
 	/*	@var		array		$data			Array of Data from parsed Lines */
-	protected $data		= [];
+	protected array $data		= [];
 
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
-	protected $skip;
+	protected string $skip;
 
 	/*	@var		boolean		$isOpen			Internal status */
-	protected $isOpen = FALSE;
+	protected bool $isOpen 		= FALSE;
 
 	/**
 	 *	Constructor.

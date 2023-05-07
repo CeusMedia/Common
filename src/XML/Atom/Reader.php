@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\XML\Atom;
 
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
@@ -45,31 +46,47 @@ use InvalidArgumentException;
  */
 class Reader
 {
-	protected $parser;
+	protected Parser $parser;
 
 	public function __construct()
 	{
 		$this->parser	= new Parser();
 	}
 
+	/**
+	 *	@param		string		$xml
+	 *	@return		void
+	 *	@throws		Exception
+	 */
 	public function readXml( string $xml ): void
 	{
 		$this->parser->parse( $xml );
 	}
 
+	/**
+	 *	@param		string		$url
+	 *	@return		void
+	 *	@throws		IoException
+	 *	@throws		Exception
+	 */
 	public function readUrl( string $url ): void
 	{
 		$xml	= NetReader::readUrl( $url );
 		$this->parser->parse( $xml );
 	}
 
+	/**
+	 *	@param		string		$fileName
+	 *	@return		void
+	 *	@throws		Exception
+	 */
 	public function readFile( string $fileName ): void
 	{
 		$xml	= FileReader::load( $fileName );
 		$this->parser->parse( $xml );
 	}
 
-	protected function checkEntryIndex( int $index )
+	protected function checkEntryIndex( int $index ): void
 	{
 		if( !isset( $this->parser->entries[$index] ) )
 			throw new InvalidArgumentException( 'Entry with Index "'.$index.'" is not existing.' );
@@ -90,7 +107,13 @@ class Reader
 		return $this->parser->channelData['contributor'];
 	}
 
-	protected function getChannelElementAndAttribute( string $element, ?string $attribute = NULL )
+	/**
+	 *	@param		string			$element
+	 *	@param		string|NULL		$attribute
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	protected function getChannelElementAndAttribute( string $element, ?string $attribute = NULL ): mixed
 	{
 		if( !$attribute )
 			return $this->parser->channelData[$element];
@@ -129,58 +152,110 @@ class Reader
 		return $this->parser->channelData['rights'];
 	}
 
-	public function getChannelSubtitle( string $attribute = 'content' )
+	/**
+	 *	@param		string		$attribute
+	 *	@return		string|NULL
+	 *	@throws		Exception
+	 */
+	public function getChannelSubtitle( string $attribute = 'content' ): ?string
 	{
 		return $this->getChannelElementAndAttribute( 'subtitle', $attribute );
 	}
 
-	public function getChannelTitle( string $attribute = 'content' )
+	/**
+	 *	@param		string		$attribute
+	 *	@return		string|NULL
+	 *	@throws		Exception
+	 */
+	public function getChannelTitle( string $attribute = 'content' ): ?string
 	{
 		return $this->getChannelElementAndAttribute( 'title', $attribute );
 	}
 
-	public function getChannelUpdated()
+	/**
+	 *	@return		mixed
+	 */
+	public function getChannelUpdated(): mixed
 	{
 		return $this->parser->channelData['updated'];
 	}
 
-	public function getChannelData()
+	/**
+	 *	@return		array
+	 */
+	public function getChannelData(): array
 	{
 		return $this->parser->channelData;
 	}
 
-	public function getEntries( ?string $language = NULL )
+	/**
+	 *	@param		string|NULL		$language
+	 *	@return		array
+	 */
+	public function getEntries( ?string $language = NULL ): array
 	{
 		return $this->parser->entries;
 	}
 
-	public function getEntry( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 */
+	public function getEntry( int $index ): mixed
 	{
 		$this->checkEntryIndex( $index );
 		return $this->parser->entries[$index];
 	}
 
-	public function getEntryAuthors( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryAuthors( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'author' );
 	}
 
-	public function getEntryCategories( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryCategories( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'category' );
 	}
 
-	public function getEntryContent( int $index, string $attribute = 'content' )
+	/**
+	 *	@param		int			$index
+	 *	@param		string		$attribute
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryContent( int $index, string $attribute = 'content' ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'content', $attribute );
 	}
 
-	public function getEntryContributors( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryContributors( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'contributor' );
 	}
 
-	protected function getEntryElementAndAttribute( int $index, string $element, string $attribute = NULL )
+	/**
+	 *	@param		int			$index
+	 *	@param		string		$element
+	 *	@param		string|NULL	$attribute
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	protected function getEntryElementAndAttribute( int $index, string $element, string $attribute = NULL ): mixed
 	{
 		$this->checkEntryIndex( $index );
 		if( !$attribute )
@@ -192,46 +267,91 @@ class Reader
 		return $this->parser->entries[$index][$element][$attribute];
 	}
 
-	public function getEntryId( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryId( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'id' );
 	}
 
-	public function getEntryLinks( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryLinks( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'link' );
 	}
 
-	public function getEntryPublished( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryPublished( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'published' );
 	}
 
-	public function getEntryRights( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryRights( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'rights' );
 	}
 
-	public function getEntrySource( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntrySource( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'source' );
 	}
 
-	public function getEntrySummary( int $index, string $attribute = 'content' )
+	/**
+	 *	@param		int			$index
+	 *	@param		string		$attribute
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntrySummary( int $index, string $attribute = 'content' ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'summary', $attribute );
 	}
 
-	public function getEntryTitle( int $index, string $attribute = 'content' )
+	/**
+	 *	@param		int			$index
+	 *	@param		string		$attribute
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryTitle( int $index, string $attribute = 'content' ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'title', $attribute );
 	}
 
-	public function getEntryUpdated( int $index )
+	/**
+	 *	@param		int			$index
+	 *	@return		mixed
+	 *	@throws		Exception
+	 */
+	public function getEntryUpdated( int $index ): mixed
 	{
 		return $this->getEntryElementAndAttribute( $index, 'updated' );
 	}
 
+	/**
+	 *	@return		string
+	 */
 	public function getLanguage(): string
 	{
 		return $this->parser->language;

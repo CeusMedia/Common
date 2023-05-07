@@ -41,9 +41,9 @@ use DirectoryIterator;
  */
 class Finder
 {
-	protected $themePath;
+	protected string $themePath;
 
-	protected $cssPath;
+	protected string $cssPath;
 
 	/**
 	 *	Constructor.
@@ -71,7 +71,7 @@ class Finder
 		foreach( $dir as $entry ){
 			if( !$entry->isDir() )
 				continue;
-			if( substr( $entry->getFilename(), 0, 1 ) == "." )
+			if( str_starts_with( $entry->getFilename(), '.' ) )
 				continue;
 			$themeName		= $entry->getFilename();
 			if( $withBrowsers ){
@@ -80,7 +80,7 @@ class Finder
 				foreach( $subdir as $browser ){
 					if( !$browser->isDir() )
 						continue;
-					if( substr( $browser->getFilename(), 0, 1 ) == "." )
+					if( str_starts_with( $browser->getFilename(), '.' ) )
 						continue;
 					$browserName	= $browser->getFilename();
 					$list[$themeName][$themeName.":".$browserName]	= $browserName;

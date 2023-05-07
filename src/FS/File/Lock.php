@@ -42,10 +42,10 @@ use RuntimeException;
  */
 class Lock
 {
-	protected $fileName;
-	protected $expiration			= 0;
-	protected $sleep				= 0.1;
-	protected $timeout				= 2;
+	protected string $fileName;
+	protected ?float $expiration		= 0;
+	protected ?float $sleep				= 0.1;
+	protected ?float $timeout			= 2;
 
 	public function __construct( string $fileName, ?float $expiration = 0, ?float $timeout = 2, ?float $sleep = 0.1 )
 	{

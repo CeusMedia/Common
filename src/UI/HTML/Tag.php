@@ -44,24 +44,24 @@ use RuntimeException;
  */
 class Tag implements Renderable
 {
-	/**	@var		array		$attributes		Attributes of tag */
-	protected $attributes		= [];
-
-	/**	@var		array		$data			Data attributes of tag */
-	protected $data				= [];
-
-	/**	@var		string		$name			Node name of tag */
-	protected $name;
-
-	/**	@var		mixed		$content		Content of tag */
-	protected $content;
-
-	public static $shortTagExcludes	= [
+	public static array $shortTagExcludes	= [
 		'style',
 		'script',
 		'div',
 		'textarea'
 	];
+
+	/**	@var		array		$attributes		Attributes of tag */
+	protected array $attributes		= [];
+
+	/**	@var		array		$data			Data attributes of tag */
+	protected array $data				= [];
+
+	/**	@var		string		$name			Node name of tag */
+	protected string $name;
+
+	/**	@var		mixed		$content		Content of tag */
+	protected mixed $content;
 
 	/**
 	 *	Constructor.
@@ -72,7 +72,7 @@ class Tag implements Renderable
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
 	 */
-	public function __construct( string $name, $content = NULL, array $attributes = [], array $data = [] )
+	public function __construct( string $name, mixed $content = NULL, array $attributes = [], array $data = [] )
 	{
 		$this->name		= $name;
 		$this->setContent( $content );
@@ -352,13 +352,12 @@ class Tag implements Renderable
 		return self::renderAttributes( $list, TRUE );
 	}
 
-	protected static function renderAttributes( $attributes = [], $allowOverride = FALSE ): string
+	protected static function renderAttributes( array $attributes = [], bool $allowOverride = FALSE ): string
 	{
 		if( !is_array( $attributes ) )
 			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
 		$list	= [];
-		foreach( $attributes as $key => $value )
-		{
+		foreach( $attributes as $key => $value ) {
 			//  no valid attribute key defined
 			if( empty( $key ) )
 				//  skip this pair

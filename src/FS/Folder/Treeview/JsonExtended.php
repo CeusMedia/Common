@@ -29,6 +29,7 @@
 namespace CeusMedia\Common\FS\Folder\Treeview;
 
 use CeusMedia\Common\UI\HTML\Tag;
+use SplFileInfo;
 
 /**
  *	...
@@ -42,7 +43,7 @@ use CeusMedia\Common\UI\HTML\Tag;
  */
 class JsonExtended extends Json
 {
-	protected function buildFileItem( $entry ): array
+	protected function buildFileItem( SplFileInfo $entry ): array
 	{
 		$label		= $entry->getFilename();
 		$extension	= $this->getFileExtension( $entry );
@@ -57,7 +58,7 @@ class JsonExtended extends Json
 		];
 	}
 
-	protected function buildFolderItem( $entry ): array
+	protected function buildFolderItem( SplFileInfo $entry ): array
 	{
 		return [
 			'text'			=> $entry->getFilename(),#." (".$children.")",

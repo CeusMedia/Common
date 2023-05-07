@@ -46,8 +46,8 @@ class VariableDumper
 	const MODE_PRINT	= 0;
 	const MODE_DUMP		= 1;
 
-	public static $modePrintIndentSign	= ". ";
-	public static $modePrintIndentSize	= 2;
+	public static string $modePrintIndentSign	= ". ";
+	public static int $modePrintIndentSize		= 2;
 
 	/**
 	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode and installed XDebug Extension
@@ -65,7 +65,7 @@ class VariableDumper
 	 *	@param		integer		$modeIfNotXDebug	Mode to use if xdebug is not installed
 	 *	@return		string
 	 */
-	public static function dump( $variable, int $mode = self::MODE_DUMP, int $modeIfNotXDebug = self::MODE_PRINT ): string
+	public static function dump( mixed $variable, int $mode = self::MODE_DUMP, int $modeIfNotXDebug = self::MODE_PRINT ): string
 	{
 		//  open Buffer
 		ob_start();

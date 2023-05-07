@@ -43,19 +43,19 @@ use RecursiveIteratorIterator;
  */
 class Lister extends FilterIterator
 {
-	public $extensions			= [];
+	public array $extensions			= [];
 
-	public $ignoreFolders		= [];
+	public array $ignoreFolders			= [];
 
-	public $ignoreFiles			= [];
+	public array $ignoreFiles			= [];
 
-	public $skippedFiles		= [];
+	public array $skippedFiles			= [];
 
-	public $skippedFolders		= [];
+	public array $skippedFolders		= [];
 
-	protected $path;
+	protected string $path;
 
-	protected $verbose;
+	protected bool $verbose;
 
 	public function __construct( string $path, array $extensions = [], array $ignoreFolders = [], array $ignoreFiles = [], bool $verbose = TRUE )
 	{

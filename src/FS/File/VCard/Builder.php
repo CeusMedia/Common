@@ -47,8 +47,8 @@ use CeusMedia\Common\Alg\Text\EncodingConverter;
  */
 class Builder
 {
-	public static $version	= "3.0";
-	public static $prodId	= "";
+	public static string $version	= "3.0";
+	public static string $prodId	= "";
 
 	/**
 	 *	Builds vCard String from vCard Object and converts between Charsets.

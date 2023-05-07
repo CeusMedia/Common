@@ -99,7 +99,7 @@ class Parser
 		return $vcard;
 	}
 
-	protected static function parseLine( VCard $vcard, string $line )
+	protected static function parseLine( VCard $vcard, string $line ): void
 	{
 		$partsLine	= explode( ":", $line );
 		$keyFull	= array_shift( $partsLine );

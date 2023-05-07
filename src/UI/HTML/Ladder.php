@@ -41,8 +41,8 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Ladder
 {
-	protected $steps	= [];
-	protected $id		= NULL;
+	protected array $steps	= [];
+	protected ?string $id		= NULL;
 
 	/**
 	 *	Constructor.

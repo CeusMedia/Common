@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Base ZIP File implementation.
@@ -46,7 +47,7 @@ use ZipArchive;
  */
 class Zip
 {
-	static public $errors	= [
+	public static array $errors	= [
 		0	=> 'No error',
 		1	=> 'Multi-disk zip archives not supported',
 		2	=> 'Renaming temporary file failed',
@@ -73,9 +74,9 @@ class Zip
 		23	=> 'Entry has been deleted',
 	];
 
-	protected $fileName;
+	protected ZipArchive $archive;
 
-	protected $archive;
+	protected string $fileName;
 
 	public function __construct( string $fileName )
 	{
@@ -90,10 +91,14 @@ class Zip
 		return $this->archive->addFile( $fileName, $localFileName );
 	}
 
-	protected function checkFileOpened()
+	protected function checkFileOpened( bool $throwException = TRUE ): bool
 	{
-		if( !$this->fileName )
-			throw new RuntimeException( 'No archive file opened' );
+		if( !$this->fileName ){
+			if( $throwException )
+				throw new RuntimeException( 'No archive file opened' );
+			return FALSE;
+		}
+		return TRUE;
 	}
 
 	protected function checkSupport( bool $throwException = TRUE ): bool
@@ -124,10 +129,11 @@ class Zip
 		return $instance->archive->close();
 	}
 
-	public function setFileName( string $fileName )
+	public function setFileName( string $fileName ): self
 	{
 		$this->fileName	= $fileName;
 		$this->archive->open( $fileName, ZipArchive::CREATE );
+		return $this;
 	}
 
 	public function index(): array

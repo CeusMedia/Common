@@ -49,20 +49,20 @@ use RuntimeException;
  */
 class Crawler
 {
-	protected $baseUrl;
-	protected $crawled		= FALSE;
-	protected $depth		= 10;
-	protected $errors		= [];
-	protected $links		= [];
+	protected string $baseUrl;
+	protected bool $crawled		= FALSE;
+	protected int $depth		= 10;
+	protected array $errors		= [];
+	protected array $links		= [];
 
-	protected $host;
-	protected $pass;
-	protected $path;
-	protected $port;
-	protected $scheme;
-	protected $user;
+	protected string $host;
+	protected string $pass;
+	protected string $path;
+	protected string $port;
+	protected string $scheme;
+	protected string $user;
 
-	public $denied			= [
+	public array $denied			= [
 		'pdf',
 		'doc',
 		'xls',
@@ -80,10 +80,10 @@ class Crawler
 		'bmp',
 	];
 
-	public $deniedUrlParts	= [];
+	public array $deniedUrlParts	= [];
 
 	/**	@var	NetReader		$reader */
-	protected $reader;
+	protected NetReader $reader;
 
 	/**
 	 *	Constructor.

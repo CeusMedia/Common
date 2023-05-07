@@ -45,13 +45,13 @@ use RuntimeException;
 class RegexFilter extends RegexIterator
 {
 	/**	@var	int				$numberFound			Number of found Files */
-	protected $numberFound		= 0;
+	protected int $numberFound		= 0;
 
 	/**	@var	int				$numberScanned			Number of scanned Files */
-	protected $numberScanned	= 0;
+	protected int $numberScanned	= 0;
 
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
-	private $contentPattern;
+	private ?string $contentPattern	= NULL;
 
 	/**
 	 *	Constructor.
@@ -60,7 +60,7 @@ class RegexFilter extends RegexIterator
 	 *	@param		string		$filePattern	Regular Expression to match with File Name
 	 *	@return		void
 	 */
-	public function __construct( $path, $filePattern, $contentPattern = NULL )
+	public function __construct( string $path, string $filePattern, ?string $contentPattern = NULL )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -122,7 +122,7 @@ class RegexFilter extends RegexIterator
 	 *	@return		void
 	 */
 	#[\ReturnTypeWillChange]
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->numberFound		= 0;
 		$this->numberScanned	= 0;

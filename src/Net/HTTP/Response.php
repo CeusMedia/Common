@@ -43,12 +43,12 @@ use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
  */
 class Response
 {
-	public $headers			= NULL;
+	public HeaderSection $headers;
 
-	protected $body			= NULL;
-	protected $protocol		= 'HTTP';
-	protected $status		= '200 OK';
-	protected $version		= '1.0';
+	protected ?string $body			= NULL;
+	protected string $protocol		= 'HTTP';
+	protected string $status		= '200 OK';
+	protected string $version		= '1.0';
 
 	/**
 	 *	Constructor.
@@ -74,7 +74,7 @@ class Response
 	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeader( HeaderField $field, bool $emptyBefore = FALSE )
+	public function addHeader( HeaderField $field, bool $emptyBefore = FALSE ): void
 	{
 		$this->headers->setField( $field, $emptyBefore );
 	}
@@ -87,7 +87,7 @@ class Response
 	 *	@param		boolean		$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeaderPair( string $name, string $value, bool $emptyBefore = FALSE )
+	public function addHeaderPair( string $name, string $value, bool $emptyBefore = FALSE ): void
 	{
 		$this->headers->setField( new HeaderField( $name, $value ), $emptyBefore );
 	}
@@ -109,7 +109,7 @@ class Response
 	 *	@param		bool		$first			Flag: return first header only
 	 *	@return		array|HeaderField		List of header fields or only one header field if requested so
 	 */
-	public function getHeader( string $key, bool $first = NULL )
+	public function getHeader( string $key, bool $first = NULL ): array|HeaderField
 	{
 		//  get all header fields with this header name
 		$fields	= $this->headers->getFieldsByName( $key );

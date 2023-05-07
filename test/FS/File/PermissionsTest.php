@@ -10,6 +10,7 @@ namespace CeusMedia\CommonTest\FS\File;
 
 use CeusMedia\Common\FS\File\Permissions;
 use CeusMedia\CommonTest\BaseCase;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of FS_File_Permissions.
@@ -68,7 +69,7 @@ class PermissionsTest extends BaseCase
 	 */
 	public function test__constructException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		new Permissions( 'not_existing' );
 	}
 
@@ -91,7 +92,7 @@ class PermissionsTest extends BaseCase
 	 */
 	public function testGetAsOctalException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		$permissions	= new Permissions( 'not_existing' );
 		$permissions->getAsOctal();
 	}
@@ -115,7 +116,7 @@ class PermissionsTest extends BaseCase
 	 */
 	public function testGetAsStringException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		$permissions	= new Permissions( 'not_existing' );
 		$permissions->getAsString();
 	}

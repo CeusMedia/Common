@@ -47,9 +47,9 @@ use XSLTProcessor;
 class Transformator
 {
 	/**	@var	string		$xml		Content of XML File */
-	protected $xml;
+	protected string $xml;
 	/**	@var	string		$xml		Content of XSLT File */
-	protected $xsl;
+	protected string $xsl;
 
 	/**
 	 *	Loads XML File.

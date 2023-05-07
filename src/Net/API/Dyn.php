@@ -47,10 +47,10 @@ use CeusMedia\Common\Net\Reader as NetReader;
  */
 class Dyn
 {
-	protected $cacheFile	= NULL;
-	protected $lastIp;
-	protected $lastCheck	= 0;
-	protected $reader;
+	protected ?string $cacheFile	= NULL;
+	protected ?string $lastIp		= NULL;
+	protected int $lastCheck		= 0;
+	protected NetReader $reader;
 
 	/**
 	 *	Constructor.

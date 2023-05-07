@@ -33,6 +33,7 @@ use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\Common\UI\HTML\Tag;
 use DirectoryIterator;
 use JsonException;
+use SplFileInfo;
 
 /**
  *	...
@@ -49,10 +50,10 @@ class Json
 	protected string $basePath;
 	protected ?string $logFile;
 
-	public string $classLeaf		= "file";
-	public string $classNode		= "folder";
+	public string $classLeaf		= 'file';
+	public string $classNode		= 'folder';
 
-	public string $fileUrl			= "./?file=";
+	public string $fileUrl			= './?file=';
 	public ?string $fileTarget		= NULL;
 
 	public function __construct( string $basePath, ?string $logFile = NULL )
@@ -74,8 +75,9 @@ class Json
 		$index		= new DirectoryIterator( $this->basePath.$path );
 		$folders	= [];
 		$files		= [];
+		/** @var SplFileInfo $entry */
 		foreach( $index as $entry ){
-			if( substr( $entry->getFilename(), 0, 1 ) == "." )
+			if( str_starts_with( $entry->getFilename(), '.' ) )
 				continue;
 			if( $entry->isDir() )
 				$folders[]	= $this->buildFolderItem( $entry );
@@ -90,7 +92,7 @@ class Json
 	}
 
 
-	protected function buildFileItem( $entry ): array
+	protected function buildFileItem( SplFileInfo $entry ): array
 	{
 		$label		= $entry->getFilename();
 		$url		= $this->getFileUrl( $entry );
@@ -105,7 +107,7 @@ class Json
 		];
 	}
 
-	protected function buildFolderItem( $entry ): array
+	protected function buildFolderItem( SplFileInfo $entry ): array
 	{
 		return [
 			'text'			=> $entry->getFilename(),
@@ -115,28 +117,28 @@ class Json
 		];
 	}
 
-	protected function getFileExtension( $entry ): string
+	protected function getFileExtension( SplFileInfo $entry ): string
 	{
 		return pathinfo( $entry->getPathname(), PATHINFO_EXTENSION );
 	}
 
-	protected function getFileUrl( $entry ): string
+	protected function getFileUrl( SplFileInfo $entry ): string
 	{
 		return $this->fileUrl.rawurlencode( $this->getPathName( $entry ) );
 	}
 
-	protected function getPathname( $entry ): string
+	protected function getPathname( SplFileInfo $entry ): string
 	{
 		$path	= str_replace( "\\", "/", $entry->getPathname() );
 		$base	= str_replace( "\\", "/", $this->basePath );
 		return substr( $path, strlen( $base ) );
 	}
 
-	protected function hasChildren( $entry ): bool
+	protected function hasChildren( SplFileInfo $entry ): bool
 	{
 		$childIndex	= new DirectoryIterator( $entry->getPathname() );
 		foreach( $childIndex as $child ){
-			if( substr( $child->getFilename(), 0, 1 ) == "." )
+			if( str_starts_with( $child->getFilename(), '.' ) )
 				continue;
 			if( $child->isLink() )
 				continue;

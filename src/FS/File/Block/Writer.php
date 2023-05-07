@@ -41,9 +41,9 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  */
 class Writer
 {
-	protected $fileName;
+	protected string $fileName;
 
-	protected $patternSection;
+	protected string $patternSection	= "[{#name#}]";
 
 	/**
 	 *	Constructor, reads Block File.
@@ -53,8 +53,7 @@ class Writer
 	 */
 	public function __construct( string $fileName )
 	{
-		$this->patternSection	= "[{#name#}]";
-		$this->fileName			= $fileName;
+		$this->fileName		= $fileName;
 	}
 
 	/**

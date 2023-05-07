@@ -31,6 +31,7 @@ namespace CeusMedia\Common\CLI\Fork\Server;
 
 use CeusMedia\Common\CLI\Fork\Server\Exception as ForkServerException;
 use CeusMedia\Common\CLI\Fork\Server\SocketException as ForkServerSocketException;
+use JetBrains\PhpStorm\NoReturn;
 use Throwable;
 
 /**
@@ -97,15 +98,15 @@ abstract class Abstraction
 		return intval( trim( file_get_contents( $this->filePid ) ) );
 	}
 
-	abstract protected function handleRequest( $request );
+	abstract protected function handleRequest( string $request ): string|int|NULL;
 
-	protected function handleServerException( Throwable $e )
+	protected function handleServerException(Throwable $e ): void
 	{
 		die( $e->getMessage()."\n" );
 	}
 
 	//	Do funky things with signals
-	protected function handleSignal( int $signalNumber )
+	protected function handleSignal( int $signalNumber ): void
 	{
 		switch( $signalNumber ){
 			case SIGTERM:
@@ -120,7 +121,7 @@ abstract class Abstraction
 		}
 	}
 
-	protected function handleServerSocketException( ForkServerSocketException $e )
+	protected function handleServerSocketException( ForkServerSocketException $e ): void
 	{
 		$key		= md5( (string) time() );
 		$dump		= serialize( $e );
@@ -141,12 +142,15 @@ abstract class Abstraction
 		return TRUE;
 	}
 
-	protected function report( $string )
+	protected function report( string $string ): void
 	{
 		echo $string."\n";
 	}
 
-	protected function run()
+	/**
+	 *	@return		void
+	 */
+	protected function run(): void
 	{
 		//	Fork and exit (daemonize)
 		$pid = pcntl_fork();
@@ -248,7 +252,7 @@ abstract class Abstraction
 					$wbuf	= $this->handleRequest( $rbuf );
 
 					//	Going postal!
-					if( socket_write( $conn, $wbuf ) === FALSE ){
+					if( socket_write( $conn, (string) $wbuf ) === FALSE ){
 						$errNo	= socket_last_error();
 						throw new ForkServerSocketException( self::E_WRITE_FAILED, $errNo );
 					}

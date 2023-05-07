@@ -21,6 +21,11 @@ parameters:
 			path: ../../src/CLI/Server/Daemon.php
 
 		-
+			message: "#^Static method CeusMedia\\\\Common\\\\FS\\\\File\\\\CSS\\\\Relocator\\:\\:_processUriCB\\(\\) is unused\\.$#"
+			count: 1
+			path: ../../src/FS/File/CSS/Relocator.php
+
+		-
 			message: "#^Call to an undefined method Iterator\\<mixed, mixed\\>\\:\\:getFilename\\(\\)\\.$#"
 			count: 1
 			path: ../../src/FS/File/Iterator.php

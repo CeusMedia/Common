@@ -42,10 +42,10 @@ use RuntimeException;
  */
 class Writer
 {
-	public static $minFreeDiskSpace	= 10_485_760;
+	public static int $minFreeDiskSpace	= 10_485_760;
 
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor. Creates File if not existing and Creation Mode is set.

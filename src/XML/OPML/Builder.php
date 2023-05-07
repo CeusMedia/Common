@@ -45,15 +45,15 @@ use InvalidArgumentException;
  */
 class Builder extends Node
 {
-	/**	@var	Node	$tree			Outline Document Tree */
-	protected $tree;
+	/**	@var	Node		$tree			Outline Document Tree */
+	protected Node $tree;
 
-	protected $head;
+	protected Node $head;
 
-	protected $body;
+	protected Node $body;
 
-	/**	@var	array			$headers		Array of supported Headers */
-	protected $headers	= [
+	/**	@var	string[]	$headers		Array of supported Headers */
+	protected array $headers	= [
 		"title",
 		"dateCreated",
 		"dateModified",
@@ -65,7 +65,7 @@ class Builder extends Node
 		"windowLeft",
 		"windowBottom",
 		"windowRight",
-		];
+	];
 
 	/**
 	 *	Constructor.

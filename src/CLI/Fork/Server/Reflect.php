@@ -40,7 +40,7 @@ namespace CeusMedia\Common\CLI\Fork\Server;
  */
 class Reflect extends Abstraction
 {
-	protected function handleRequest( $request ): string
+	protected function handleRequest( string $request ): string
 	{
 		$buffer		= ["\n"];
 		$buffer[]	= "Total requests: ".$this->statSeenTotal;

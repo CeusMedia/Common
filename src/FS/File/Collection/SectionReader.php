@@ -42,10 +42,10 @@ use Exception;
  */
 class SectionReader
 {
-	public static $commentPattern	= '/^[#|-|*|:|;]/';
-	public static $sectionPattern	= '/^\[([a-z0-9_=.,:;# ])+\]$/i';
+	public static string $commentPattern	= '/^[#|-|*|:|;]/';
+	public static string $sectionPattern	= '/^\[([a-z0-9_=.,:;# ])+\]$/i';
 
-	protected $list	= [];
+	protected array $list	= [];
 
 	/**
 	 *	Constructor.
@@ -95,7 +95,7 @@ class SectionReader
 		return $list;
 	}
 
-	public function read()
+	public function read(): array
 	{
 		return $this->list;
 	}

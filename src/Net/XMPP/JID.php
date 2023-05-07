@@ -41,11 +41,11 @@ use InvalidArgumentException;
  */
 class JID
 {
-	protected $domain;
-	protected $node;
-	protected $resource;
+	protected string $domain;
+	protected ?string $node			= NULL;
+	protected ?string $resource		= NULL;
 
-	static protected $regexJid	= "#^(?:([^@/<>'\"]+)@)?([^@/<>'\"]+)(?:/([^<>'\"]*))?#";
+	static protected string $regexJid	= "#^(?:([^@/<>'\"]+)@)?([^@/<>'\"]+)(?:/([^<>'\"]*))?#";
 
 	/**
 	 *	Constructor.
@@ -57,7 +57,7 @@ class JID
 	 */
 	public function __construct( string $domain, ?string $node = NULL, ?string $resource = NULL )
 	{
-		if( preg_match( "/@/", $domain ) ){
+		if( str_contains( $domain, "@" ) ){
 			$struct	= self::disassemble( $domain );
 			extract( $struct );
 		}

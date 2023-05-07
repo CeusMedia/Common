@@ -42,8 +42,8 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Index
 {
-	public $headings	= [];
-	public $tree		= [];
+	public array $headings	= [];
+	public array $tree		= [];
 
 	/**
 	 *	Parses HTML for headings.
@@ -52,7 +52,8 @@ class Index
 	 *	@param		integer		$level			Heading level to start at, default: 1
 	 *	@return		void
 	 */
-	public function importFromHtml( string &$content, int $level = 1 ){
+	public function importFromHtml( string &$content, int $level = 1 ): void
+	{
 		$this->headings	= [];																	//
 		$this->tree		= $this->importFromHtmlRecursive( $content, $level );						//
 		$this->setHeadingIds( $content, $level );													//

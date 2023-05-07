@@ -44,7 +44,7 @@ use RuntimeException;
  */
 class Writer
 {
-	protected $fileName;
+	protected ?string $fileName		= NULL;
 
 	/**
 	 *	Constructor.

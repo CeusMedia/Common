@@ -7,8 +7,6 @@ use RuntimeException;
 
 class File extends AbstractNode
 {
-	protected $pathName;
-
 	/**
 	 *	@param		string		$pathName
 	 *	@param		boolean		$create

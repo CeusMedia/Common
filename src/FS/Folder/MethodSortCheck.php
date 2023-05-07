@@ -43,15 +43,15 @@ use FilterIterator;
  */
 class MethodSortCheck
 {
-	protected $count		= 0;
+	protected int $count		= 0;
 
-	protected $found		= 0;
+	protected int $found		= 0;
 
-	protected $files		= [];
+	protected array $files		= [];
 
-	protected $path;
+	protected string $path;
 
-	protected $extensions	= [];
+	protected array $extensions	= [];
 
 	/**
 	 *	Constructor.

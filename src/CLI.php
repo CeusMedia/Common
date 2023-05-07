@@ -16,13 +16,13 @@ class CLI
 {
 	protected string $base;
 
-	protected $logger;
+	protected ?object $logger		= NULL;
 
-	protected $size;
+	protected object $size;
 
-	protected $log;
+	protected string $logFile		= 'cli.log';
 
-	static protected $mimeTypeLabels	= [
+	static protected array $mimeTypeLabels	= [
 		'application/xml'		=> 'XML',
 		'text/plain'			=> 'Text',
 		'text/x-php'			=> 'PHP',
@@ -62,7 +62,7 @@ class CLI
 		return FALSE;
 	}
 
-	public static function charTable( int $from = 2500, int $to = 2600 )
+	public static function charTable( int $from = 2500, int $to = 2600 ): void
 	{
 		print PHP_EOL;
 		for($i=$from/10; $i<$to/10; $i++){
@@ -75,7 +75,7 @@ class CLI
 		}
 	}
 
-	public static function error( $messages = NULL )
+	public static function error( array|string|null $messages = NULL ): void
 	{
 		$isCli	= self::checkIsCLi( FALSE );
 		if( !is_array( $messages ) )
@@ -98,7 +98,12 @@ class CLI
 		$isCli ? fwrite( STDERR, PHP_EOL ) : print( PHP_EOL );
 	}
 
-	public static function out( $messages = NULL, $newLine = TRUE )
+	/**
+	 * @param string[]|string|NULL $messages
+	 * @param bool $newLine
+	 * @return void
+	 */
+	public static function out( array|string|null $messages = NULL, bool $newLine = TRUE ): void
 	{
 		$isCli	= self::checkIsCLi( FALSE );
 		if( !is_array( $messages ) )
@@ -136,14 +141,13 @@ class CLI
 		return $this->size->getWidth();
 	}
 
-	public function log( $message )
+	public function log( string $message ): bool
 	{
-		if( is_object( $this->log ) ){
+		if( is_object( $this->logger ) ){
 			$this->logger->log( $message );
-			return;
+			return TRUE;
 		}
-		$logFile	= $this->log ?? 'cli.log';
-		error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, $logFile );
+		return error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, 3, $this->logFile );
 	}
 
 	 /**
@@ -153,7 +157,7 @@ class CLI
 	 *	@return		void
 	 *	@throws		IoException
 	 */
-	public function ls( string $path = NULL, bool $mimeType = TRUE )
+	public function ls( string $path = NULL, bool $mimeType = TRUE ): void
 	{
 		$path	??= '.';
 		$path	= $this->realizePath( $path );

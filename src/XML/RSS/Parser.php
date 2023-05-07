@@ -44,7 +44,8 @@ use CeusMedia\Common\XML\DOM\XPathQuery;
  */
 class Parser
 {
-	public static $channelKeys	= [
+	/** @var string[]  */
+	public static array $channelKeys	= [
 		"title",
 		"language",
 		"link",
@@ -73,7 +74,9 @@ class Parser
 		"skipHours/hour",
 		"skipDays/day",
 	];
-	public static $itemKeys	= [
+
+	/** @var string[]  */
+	public static array $itemKeys	= [
 		"title",
 		"link",
 		"description",

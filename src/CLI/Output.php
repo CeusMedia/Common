@@ -51,7 +51,7 @@ class Output
 	 *	Adds text to current line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
-	 *	@param		integer		$sleep		Seconds to sleep afterwards
+	 *	@param		integer		$sleep		Seconds to sleep afterward
 	 *	@return		self
 	 */
 	public function append( string $string = "", int $sleep = 0 ): self
@@ -63,7 +63,7 @@ class Output
 	 *	Display text in new line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
-	 *	@param		integer		$sleep		Seconds to sleep afterwards
+	 *	@param		integer		$sleep		Seconds to sleep afterward
 	 *	@return		self
 	 */
 	public function newLine( string $string = '', int $sleep = 0 ): self
@@ -84,7 +84,7 @@ class Output
 	 *	Display text in current line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
-	 *	@param		integer		$sleep		Seconds to sleep afterwards
+	 *	@param		integer		$sleep		Seconds to sleep afterward
 	 *	@return		self
 	 */
 	public function sameLine( string $string = '', int $sleep = 0 ): self

@@ -6,7 +6,7 @@ use CeusMedia\Common\Alg\UnitFormater;
 
 class Text
 {
-	public static $defaultLineLength		= 76;
+	public static int $defaultLineLength		= 76;
 
 	public static function line( string $sign, int $length = NULL ): string
 	{

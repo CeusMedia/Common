@@ -14,7 +14,7 @@ includes:
 
 parameters:
 	phpVersion: 80100
-	level: 5
+	level: 6
 	paths:
 		- ../../src
 	excludePaths:
@@ -29,8 +29,8 @@ parameters:
 #			- ../../src/Net
 #			- ../../src/UI
 #			- ../../src/UI/HTML
-#			- ../../src/UI/Image
-#			- ../../src/XML
+			- ../../src/UI/Image
+			- ../../src/XML
 		analyseAndScan:
 			- ../../src/compat8.php
 			- ../../src/compat9.php

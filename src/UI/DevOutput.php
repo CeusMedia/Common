@@ -57,11 +57,11 @@ class DevOutput
 		self::CHANNEL_CONSOLE
 	];
 
-	public $channel;
+	public string $channel;
 
-	public static $defaultChannel	= self::CHANNEL_AUTO;
+	public static string $defaultChannel	= self::CHANNEL_AUTO;
 
-	public static $channelSettings	= [
+	public static array $channelSettings	= [
 		self::CHANNEL_HTML	=> [
 			// Sign for Line Break
 			'lineBreak'			=> "<br/>",
@@ -107,8 +107,6 @@ class DevOutput
 			'stringMaxLength'	=> 50
 		]
 	];
-
-	protected $settings;
 
 	/**
 	 *	Constructor.
@@ -177,7 +175,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printBoolean( bool $bool, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printBoolean( bool $bool, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$key = ( $key !== NULL ) ? $key." => " : "";
@@ -195,7 +193,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printFloat( float $float, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printFloat( float $float, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$key = ( $key !== NULL ) ? $key." => " : "";
@@ -213,7 +211,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printInteger( int $integer, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printInteger( int $integer, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$key = ( $key !== NULL ) ? $key." => " : "";
@@ -393,7 +391,7 @@ class DevOutput
 		echo $text.$param;
 	}
 
-	public function getChannel()
+	public function getChannel(): string
 	{
 		return $this->channel;
 	}

@@ -39,14 +39,14 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class Options
 {
-	protected $async	= TRUE;
-	protected $cache	= TRUE;
-	protected $class	= 'cmOptions';
-	protected $data		= [];
-	protected $name		= NULL;
-	protected $options	= [];
-	protected $selected	= '';
-	protected $url		= NULL;
+	protected bool $async		= TRUE;
+	protected bool $cache		= TRUE;
+	protected string $class		= 'cmOptions';
+	protected array $data		= [];
+	protected ?string $name		= NULL;
+	protected array $options	= [];
+	protected string $selected	= '';
+	protected ?string $url		= NULL;
 
 	/**
 	 *	Constructor.

@@ -87,7 +87,7 @@ class IO extends Runtime
 	 *	@param		string		$data			Serial string of a serialized exception
 	 *	@return		void
 	 */
-	public function unserialize( $data )
+	public function unserialize( string $data ): void
 	{
 		[$this->message, $this->code, $this->file, $this->line, $this->resource]	= unserialize( $data );
 	}

@@ -56,7 +56,7 @@ abstract class Abstraction
 		$this->isBlocking	= $blocking;
 	}
 
-	protected function cleanUpForks()
+	protected function cleanUpForks(): void
 	{
 		if( pcntl_wait( $status, WNOHANG | WUNTRACED ) < 1 ){
 			foreach( $this->pids as $nr => $pid ){
@@ -68,7 +68,7 @@ abstract class Abstraction
 		}
 	}
 
-	protected function fork()
+	protected function fork(): void
 	{
 		$arguments	= func_get_args();
 		$pid		= pcntl_fork();
@@ -93,7 +93,7 @@ abstract class Abstraction
 			$this->cleanUpForks();
 	}
 
-	abstract protected function runInChild( array $arguments = [] );
+	abstract protected function runInChild( array $arguments = [] ): ?int;
 
-	abstract protected function runInParent( array $arguments = [] );
+	abstract protected function runInParent( array $arguments = [] ): ?int;
 }
