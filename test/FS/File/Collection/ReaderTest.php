@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 /**
  *	TestUnit of Collection Reader.
@@ -21,7 +22,9 @@ use RuntimeException;
 class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName;
+	private string $fileName;
+
+	private Reader $reader;
 
 	/**
 	 *	Set up for every Test.
@@ -30,7 +33,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->fileName		= dirname( __FILE__ )."/read.list";
+		$this->fileName	= dirname( __FILE__ )."/read.list";
 		$this->reader	= new Reader( $this->fileName );
 	}
 

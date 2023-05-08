@@ -22,9 +22,9 @@ use RuntimeException;
 class WriterTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName;
+	private string $fileName;
 	/**	@var	string		$fileContent	Content of Test File */
-	private $fileContent	= "line1\nline2\n";
+	private string $fileContent	= "line1\nline2\n";
 
 	/**
 	 *	Setup for every Test.
@@ -67,7 +67,7 @@ class WriterTest extends BaseCase
 	public function testCreateException()
 	{
 		$this->expectException( RuntimeException::class );
-		$writer	= new Writer( "not_existing_folder/file" );
+		$writer	= new Writer( $this->path."not_existing_folder/file" );
 		$writer->create();
 	}
 
@@ -83,7 +83,7 @@ class WriterTest extends BaseCase
 		$creation	= $this->writer->isWritable();
 		$this->assertEquals( $assertion, $creation );
 
-		$writer		= new Writer( "not_existing" );
+		$writer		= new Writer( $this->path."not_existing" );
 		$assertion	= false;
 		$creation	= $writer->isWritable();
 		$this->assertEquals( $assertion, $creation );
@@ -187,7 +187,7 @@ class WriterTest extends BaseCase
 		$creation	= file_exists( $removeFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$writer		= new Writer( "no_existing" );
+		$writer		= new Writer( $this->path."not_existing" );
 		$assertion	= false;
 		$creation	= $writer->remove();
 		$this->assertEquals( $assertion, $creation );
@@ -219,7 +219,7 @@ class WriterTest extends BaseCase
 	public function testSaveException()
 	{
 		$this->expectException( RuntimeException::class );
-		Writer::save( "not_existing_folder/file", $this->fileContent );
+		Writer::save( $this->path."not_existing_folder/file", $this->fileContent );
 	}
 
 	/**
@@ -249,7 +249,7 @@ class WriterTest extends BaseCase
 	public function testSaveArrayException()
 	{
 		$this->expectException( RuntimeException::class );
-		Writer::saveArray( "not_existing_folder/file", [] );
+		Writer::saveArray( $this->path."not_existing_folder/file", [] );
 	}
 
 	/**
@@ -278,7 +278,7 @@ class WriterTest extends BaseCase
 	public function testWriteStringException()
 	{
 		$this->expectException( RuntimeException::class );
-		$writer	= new Writer( "not_existing_folder/file" );
+		$writer	= new Writer( $this->path."not_existing_folder/file" );
 		$writer->writeString( "" );
 	}
 
@@ -309,7 +309,7 @@ class WriterTest extends BaseCase
 	public function testWriteArrayException()
 	{
 		$this->expectException( RuntimeException::class );
-		$writer	= new Writer( "not_existing_folder/file" );
+		$writer	= new Writer( $this->path."not_existing_folder/file" );
 		$writer->writeArray( [] );
 	}
 }

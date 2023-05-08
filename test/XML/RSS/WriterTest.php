@@ -51,7 +51,7 @@ class WriterTest extends BaseCase
 	public function setUp(): void
 	{
 		/** @noinspection PhpUndefinedClassInspection */
-		$this->writer	= new Mock();
+		$this->writer	= MockAntiProtection::getInstance( Writer::class );
 		$this->path		= dirname( __FILE__ )."/assets/";
 		$this->assert	= $this->path."reader.xml";
 		$this->file		= $this->path."writer.xml";

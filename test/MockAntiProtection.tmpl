@@ -40,7 +40,7 @@ namespace <%namespace%>
 		public function setProtectedVar( $varName, $varValue )
 		{
 			if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared.' );
+				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared in class "'.get_class( $this ).'".' );
 			$this->$varName	= $varValue;
 		}
 

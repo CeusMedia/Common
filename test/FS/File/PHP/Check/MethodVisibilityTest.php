@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.
@@ -11,6 +12,7 @@ namespace CeusMedia\CommonTest\FS\File\PHP\Check;
 use CeusMedia\Common\FS\File\PHP\Check\MethodVisibility;
 use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\CommonTest\MockAntiProtection;
+use RuntimeException;
 
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.
@@ -19,6 +21,10 @@ use CeusMedia\CommonTest\MockAntiProtection;
  */
 class MethodVisibilityTest extends BaseCase
 {
+	private string $path;
+	private string $fileTemp1;
+	private string $fileTemp2;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -66,7 +72,7 @@ class MethodVisibilityTest extends BaseCase
 	 */
 	public function testConstructException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( RuntimeException::class );
 		$index	= new MethodVisibility( "not_existing" );
 	}
 

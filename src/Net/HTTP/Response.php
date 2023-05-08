@@ -274,11 +274,11 @@ class Response
 	 */
 	public function toString(): string
 	{
-		$lines	= [];
+		$lines		= [];
 		//  add main protocol header
 		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;
 		//  add header fields and line break
-		$lines[]	= $this->headers->toString();
+		$lines[]	= $this->headers->render();
 		//  response body is set
 		if( strlen( $this->body ) )
 			//  add response body

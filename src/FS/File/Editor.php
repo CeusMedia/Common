@@ -57,7 +57,7 @@ class Editor extends Reader
 	 */
 	public function __construct( string $fileName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
-		parent::__construct( $fileName );
+		parent::__construct( $fileName, FALSE );
 		$this->writer	= new Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 

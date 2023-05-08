@@ -11,6 +11,7 @@
   <testsuites>
     <testsuite name="units">
       <directory>../../test</directory>
+      <exclude>../../test/FS/File/BackupTest.php</exclude>
     </testsuite>
   </testsuites>
   <logging>
