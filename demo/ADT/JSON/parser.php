@@ -1,8 +1,13 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 require_once __DIR__.'/../../../vendor/autoload.php';
-new UI_DevOutput();
 
-$parser	= new ADT_JSON_Parser();
+use CeusMedia\Common\UI\DevOutput;
+use CeusMedia\Common\ADT\JSON\Parser as JsonParser;
+
+new DevOutput();
+
+$parser	= new JsonParser();
 
 try{
 	$result	= $parser->parse( '[invalid_json' );

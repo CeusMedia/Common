@@ -22,7 +22,7 @@ class BaseCase extends FrameworkTestCase
 	 *	Constructor, sets internal library path and loads library config file.
 	 *	@return		void
 	 */
-	public function __construct($name)
+	public function __construct( $name = '' )
 	{
 		parent::__construct($name);
 		self::$_pathLib	= realpath( dirname( __DIR__ ) ).'/';

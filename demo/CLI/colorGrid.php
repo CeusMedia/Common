@@ -1,13 +1,16 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 require_once __DIR__.'/../../vendor/autoload.php';
+
+use CeusMedia\Common\CLI\Color;
 
 /**
  *	by plasmarob (https://unix.stackexchange.com/users/172429/plasmarob)
  *	@see	https://unix.stackexchange.com/questions/124407/what-color-codes-can-i-use-in-my-ps1-prompt/285956#285956
  */
-function colorgrid()
+function colorgrid(): void
 {
-	$color		= new CLI_Color();
+	$color		= new Color();
     $iteration	= 16;
     while( $iteration < 52 ){
         $second	= $iteration+36;

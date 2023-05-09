@@ -6,6 +6,7 @@ namespace <%namespace%>
 	use CeusMedia\CommonTest\MockBadVarCallException;
 	use CeusMedia\CommonTest\MockBadStaticMethodCallException;
 	use CeusMedia\CommonTest\MockBadStaticVarCallException;
+	use ReflectionObject;
 
 	class <%mockClassName%> extends <%originalClassName%>
 	{
@@ -25,7 +26,7 @@ namespace <%namespace%>
 
 		public function getProtectedVar( $varName )
 		{
-			if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
+			if( !in_array( $varName, self::getObjectProperties( $this ) ) )
 				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared.' );
 			return $this->$varName;
 		}
@@ -39,8 +40,14 @@ namespace <%namespace%>
 
 		public function setProtectedVar( $varName, $varValue )
 		{
-			if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared in class "'.get_class( $this ).'".' );
+		  $reflection = new ReflectionObject( $this );
+		  $properties = [];
+		  foreach( $reflection->getProperties() as $property ){
+		    $properties[] = $property->getName();
+		  }
+
+			if( !in_array( $varName, self::getObjectProperties( $this ) ) )
+				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared in class "'.get_class( $this ).'". Having: '.json_encode( $properties ) );
 			$this->$varName	= $varValue;
 		}
 
@@ -50,5 +57,15 @@ namespace <%namespace%>
 				throw new MockBadStaticVarCallException( 'Static variable "'.$varName.'" is not declared.' );
 			self::$$varName	= $varValue;
 		}
+
+    protected function getObjectProperties( object $object ): array
+    {
+		  $reflection = new ReflectionObject( $object );
+		  $properties = [];
+		  foreach( $reflection->getProperties() as $property ){
+		    $properties[] = $property->getName();
+		  }
+		  return $properties;
+    }
 	}
 }

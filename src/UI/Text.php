@@ -10,7 +10,7 @@ class Text
 
 	public static function line( string $sign, int $length = NULL ): string
 	{
-		$length	= self::realizeLength( $length, 1 );
+		$length	= self::realizeLength( $length ?? 0, 1 );
 		return str_repeat( $sign, $length );
 	}
 

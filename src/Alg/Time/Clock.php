@@ -40,19 +40,19 @@ namespace CeusMedia\Common\Alg\Time;
  */
 class Clock
 {
-	/**	@var	float		$microTimeStart		Micro-time at the Start */
-	protected float $microTimeStart;
+  /**	@var	array		$laps				Array of Lap Times */
+  protected array $laps	= [];
 
-	/**	@var	float		$microTimeLap		Time in micro at the end of the last since start */
-	protected float $microTimeLap;
+  /**	@var	float		$microTimeLap		Time in micro at the end of the last since start */
+  protected float $microTimeLap;
+
+  /**	@var	float		$microTimeStart		Micro-time at the Start */
+	protected float $microTimeStart;
 
 	/**	@var	float		$microTimeStop		Micro-time at the End */
 	protected float $microTimeStop;
 
-	/**	@var	array		$laps				Array of Lap Times */
-	protected array $laps	= [];
-
-	/**
+  /**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void

@@ -53,7 +53,7 @@ class CLI
 		return FALSE;
 	}
 
-	public static function checkIsCLi( bool $strict = TRUE ): bool
+	public static function checkIsCli( bool $strict = TRUE ): bool
 	{
 		if( php_sapi_name() === 'cli' )
 			return TRUE;

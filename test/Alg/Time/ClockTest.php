@@ -16,6 +16,7 @@ namespace CeusMedia\CommonTest\Alg\Time;
 
 use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\CommonTest\BaseCase;
+use CeusMedia\CommonTest\MockAntiProtection;
 use CeusMedia\CommonTest\MockAntiProtection as Mock;
 
 /**
@@ -181,10 +182,11 @@ final class ClockTest extends BaseCase
 	 */
 	public function testGetTime()
 	{
+    /** @var MockAntiProtection $watch */
 		$watch	= Mock::getInstance( Clock::class );
 
-		$watch->setProtectedVar( 'microTimeStart', (float) time().".00000000" );
-		$watch->setProtectedVar( 'microTimeStop', (float) time().".12345678" );
+		$watch->setProtectedVar( 'microTimeStop', (float) ( time().".12345678" ) );
+		$watch->setProtectedVar( 'microTimeStart', (float) ( time().".00000000" ) );
 
 		$assertion	= 123.457;
 		$creation	= $watch->getTime( 3, 3 );

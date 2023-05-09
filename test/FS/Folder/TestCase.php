@@ -59,9 +59,9 @@ class TestCase extends BaseTestCase
 
 	protected string $path;
 
-	public function __construct($name)
+	public function __construct( $name = '' )
 	{
-		parent::__construct($name);
+		parent::__construct( $name );
 		$this->path		= dirname( __FILE__ )."/";
 		$this->folder	= $this->path."folder/";
 	}

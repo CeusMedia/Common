@@ -30,7 +30,6 @@
     "ext-iconv": "*",
     "ext-imagick": "*",
     "ext-json": "*",
-    "ext-memcache": "*",
     "ext-pcntl": "*",
     "ext-posix": "*",
     "ext-simplexml": "*",

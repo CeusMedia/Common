@@ -60,7 +60,7 @@ class PartitionSession extends Dictionary
 		//  set session cookie name
 		@session_name( $sessionName );
 		//  a domain has been specified
-		if( strlen( trim( $domain ) ) )
+		if( strlen( trim( $domain ?? '' ) ) )
 			//  set cookie domain
 			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );
 		//  start cookie handler

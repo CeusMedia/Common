@@ -24,7 +24,7 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class PartitionSessionTest extends BaseCase
 {
-	private $session;
+	private PartitionSession $session;
 
 	public function setUp(): void
 	{
