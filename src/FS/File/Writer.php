@@ -92,9 +92,9 @@ class Writer
 	 *	@param		string|NULL	$group			Group Name for chgrp()
 	 *	@throws		RuntimeException if no space is left on file system
 	 *	@throws		RuntimeException if file could not been created
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function create( int $mode = 0640, ?string $user = NULL, ?string $group = NULL )
+	public function create( int $mode = 0640, ?string $user = NULL, ?string $group = NULL ): self
 	{
 		if( self::$minFreeDiskSpace && self::$minFreeDiskSpace > disk_free_space( getcwd() ) )
 			throw new RuntimeException( 'No space left' );
@@ -108,6 +108,7 @@ class Writer
 			$this->setOwner( $user );
 		if( $group )
 			$this->setGroup( $group );
+		return $this;
 	}
 
 	public static function delete( string $fileName ): bool
@@ -176,9 +177,9 @@ class Writer
 	 *	Sets Group of current File.
 	 *	@access		public
 	 *	@param		string		$groupName		OS Group Name of new File Owner
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setGroup( string $groupName )
+	public function setGroup( string $groupName ): self
 	{
 		if( !$groupName )
 			throw new InvalidArgumentException( 'No Group Name given.' );
@@ -188,15 +189,16 @@ class Writer
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		if( !@chGrp( $this->fileName, $groupName ) )
 			throw new RuntimeException( 'Only a superuser can change file group' );
+		return $this;
 	}
 
 	/**
 	 *	Sets Owner of current File.
 	 *	@access		public
 	 *	@param		string		$userName		OS username of new File Owner
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setOwner( string $userName )
+	public function setOwner( string $userName ): self
 	{
 		if( !$userName )
 			throw new InvalidArgumentException( 'No User Name given.' );
@@ -208,6 +210,7 @@ class Writer
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		if( !@chOwn( $this->fileName, $userName ) )
 			throw new RuntimeException( 'Only a superuser can change file owner' );
+		return $this;
 	}
 
 	/**

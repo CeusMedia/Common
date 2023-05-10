@@ -15,7 +15,6 @@
     "email": "office@ceusmedia.de",
     "jabber": "cwuerker@ceusmedia.de"
   },
-  "minimum-stability": "dev",
   "require": {
     "php": "^8",
     "psr/simple-cache": "^3.0"
@@ -38,7 +37,7 @@
     "ext-xsl": "*",
     "ext-zip": "*",
     "ext-zlib": "*",
-    "ceus-media/doc-creator": "^0.9.6 | dev-master",
+    "ceus-media/doc-creator": "^0.9.6 | 0.9.x-dev | dev-master",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
     "phpunit/phpunit": "^9",
@@ -67,10 +66,6 @@
       "@dev:install",
       "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"
     ],
-    "dev:phpunit": [
-      "@dev:install",
-      "php vendor/bin/phpunit --configuration tool/config/phpunit9.xml --testsuite units"
-    ],
     "dev:phpstan": [
       "@dev:install",
       "XDEBUG_MODE=off vendor/bin/phpstan analyze --configuration=tool/config/phpstan.neon --memory-limit=1G --verbose"
@@ -82,6 +77,10 @@
     "dev:phpstan-save": [
       "@dev:install",
       "vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --generate-baseline tool/config/phpstan-baseline.neon --verbose"
+    ],
+    "dev:phpunit": [
+      "@dev:install",
+      "php vendor/bin/phpunit --configuration tool/config/phpunit9.xml --testsuite units"
     ],
     "dev:rector": [
       "@dev:install",
@@ -99,10 +98,10 @@
   "scripts-descriptions": {
     "dev:install": "Installs project dependencies for Development stage",
     "dev:update": "Updates project dependencies for Development stage",
-    "dev:unit": "Run unit tests",
     "dev:phpstan": "Validate codebase with PHPStan",
     "dev:phpstan-clear": "Clear PHPStan cache",
     "dev:phpstan-save": "Store current results in ignore list",
+    "dev:phpunit": "Run unit tests",
     "dev:rector": "Shows suggestions of configured Rector rules",
     "dev:rector-fix": "Apply currently configured Rector rules to codebase",
     "dev:test-syntax": "Validate code base syntax using PHP linter"

@@ -43,28 +43,28 @@ use InvalidArgumentException;
 class Watermark
 {
 	/**	@var		array		$size			Array of Information of Stamp Image */
-	protected $size;
+	protected array $size;
 
 	/**	@var		Creator		$stamp			File Name of Stamp Image */
-	protected $stamp;
+	protected Creator $stamp;
 
 	/**	@var		int			$quality		Quality of resulting JPEG Image */
-	protected $quality;
+	protected int $quality;
 
 	/**	@var		string		$positionH		Horizontal Position of Stamp Image (left, center, right) */
-	protected $positionH		= 'right';
+	protected string $positionH		= 'right';
 
 	/**	@var		string		$positionV		Vertical Position of Stamp Image (top, middle, bottom) */
-	protected $positionV		= 'bottom';
+	protected string $positionV		= 'bottom';
 
 	/**	@var		int			$marginX		Horizontal Margin of Stamp Image */
-	protected $marginX			= 0;
+	protected int $marginX			= 0;
 
 	/**	@var		int			$marginY		Vertical Margin of Stamp Image */
-	protected $marginY			= 0;
+	protected int $marginY			= 0;
 
 	/**	@var		int			$alpha			Opacity of Stamp Image */
-	protected $alpha;
+	protected int $alpha;
 
 	/**
 	 *	Constructor.
@@ -177,9 +177,9 @@ class Watermark
 	 *	@access		public
 	 *	@param		string		$horizontal 	Horizontal Position of Stamp Image (left,center,right)
 	 *	@param		string		$vertical 		Vertical Position of Stamp Image (top,middle,bottom)
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setPosition( string $horizontal, string $vertical )
+	public function setPosition( string $horizontal, string $vertical ): self
 	{
 		if( in_array( $horizontal, ['left', 'center', 'right'] ) )
 			$this->positionH	= $horizontal;
@@ -189,6 +189,7 @@ class Watermark
 			$this->positionV	= $vertical;
 		else
 			throw new InvalidArgumentException( 'Vertical Position "'.$horizontal.'" must be on of (top, middle, bottom).' );
+		return $this;
 	}
 
 	/**

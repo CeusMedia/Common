@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 /**
  *	TestUnit of File Writer.
@@ -25,6 +26,10 @@ class WriterTest extends BaseCase
 	private string $fileName;
 	/**	@var	string		$fileContent	Content of Test File */
 	private string $fileContent	= "line1\nline2\n";
+	/**	@var	string		$path			Path to Test Files */
+	private string $path;
+	/** @var	Writer		$writer			Instance of writer */
+	private Writer $writer;
 
 	/**
 	 *	Setup for every Test.
@@ -53,9 +58,7 @@ class WriterTest extends BaseCase
 		$writer	= new Writer( $this->path."writer_create.test" );
 		$writer->create();
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->path."writer_create.test" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->path."writer_create.test" );
 		@unlink( $this->path."writer_create.test" );
 	}
 
@@ -79,14 +82,11 @@ class WriterTest extends BaseCase
 	public function testIsWritable()
 	{
 		$this->writer->create();
-		$assertion	= TRUE;
-		$creation	= $this->writer->isWritable();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->isWritable() );
 
-		$writer		= new Writer( $this->path."not_existing" );
-		$assertion	= false;
-		$creation	= $writer->isWritable();
-		$this->assertEquals( $assertion, $creation );
+		$writer		= new Writer( $this->path."newFile" );
+		$this->assertTrue( $writer->isWritable() );
+		@unlink( $this->path."newFile" );
 	}
 
 	/**
@@ -97,9 +97,7 @@ class WriterTest extends BaseCase
 	public function testSetGroup()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= $this->writer->setGroup();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->setGroup() );
 	}
 
 	/**
@@ -122,9 +120,7 @@ class WriterTest extends BaseCase
 	public function testSetOwner()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= $this->writer->setOwner();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->setOwner() );
 	}
 
 	/**
@@ -147,9 +143,7 @@ class WriterTest extends BaseCase
 	public function testSetPermissions()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= $this->writer->setPermissions();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->setPermissions() );
 	}
 
 	/**
@@ -174,23 +168,16 @@ class WriterTest extends BaseCase
 		$removeFile	= $this->path."writer_remove.test";
 		file_put_contents( $removeFile, "test" );
 
-		$assertion	= true;
-		$creation	= file_exists( $removeFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $removeFile );
 
 		$writer		= new Writer( $removeFile );
-		$assertion	= true;
-		$creation	= $writer->remove();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $writer->remove() );
 
-		$assertion	= false;
-		$creation	= file_exists( $removeFile );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileDoesNotExist( $removeFile );
 
-		$writer		= new Writer( $this->path."not_existing" );
-		$assertion	= false;
-		$creation	= $writer->remove();
-		$this->assertEquals( $assertion, $creation );
+		$writer		= new Writer( $this->path."newFile" );
+		$this->assertTrue( $writer->remove() );
+		@unlink( $this->path."newFile" );
 	}
 
 	/**
@@ -206,9 +193,7 @@ class WriterTest extends BaseCase
 		$creation	= Writer::save( $this->fileName, $this->fileContent );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 	}
 
 	/**
@@ -236,9 +221,7 @@ class WriterTest extends BaseCase
 		$creation	= Writer::saveArray( $this->fileName, $array );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 	}
 
 	/**
@@ -265,9 +248,7 @@ class WriterTest extends BaseCase
 		$creation	= $this->writer->writeString( $this->fileContent );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 	}
 
 	/**
@@ -296,9 +277,7 @@ class WriterTest extends BaseCase
 		$creation	= $this->writer->writeArray( $array );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFileExists( $this->fileName );
 	}
 
 	/**

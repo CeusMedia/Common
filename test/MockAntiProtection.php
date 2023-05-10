@@ -42,9 +42,8 @@ class MockAntiProtection
 
 	protected static function getMockClassFromOriginalClass( string $originalClass ): string
 	{
-		$id	= 1;
 		$id	= substr( md5( microtime( FALSE ) ), 0, 6 );
-		return '\\'.str_replace( 'Common\\', 'CommonTest\\', $originalClass ).'MockAntiProtection';//_'.$id;
+		return '\\'.str_replace( 'Common\\', 'CommonTest\\', $originalClass ).'MockAntiProtection_'.$id;
 	}
 
 	protected static function renderClassTemplate( string $namespace, string $originalClass, string $className ): string

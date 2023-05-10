@@ -16,6 +16,7 @@ namespace CeusMedia\CommonTest\UI\HTML;
 
 use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\UI\Image\Watermark;
+use CeusMedia\CommonTest\MockAntiProtection;
 use Exception;
 use InvalidArgumentException;
 
@@ -26,11 +27,11 @@ use InvalidArgumentException;
  */
 class WatermarkTest extends BaseCase
 {
-	/** @var WatermarkInstance  */
-	protected $mark;
+	/** @var Watermark  */
+	protected Watermark $mark;
 
 	/** @var string  */
-	protected $path;
+	protected string $path;
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -41,7 +42,8 @@ class WatermarkTest extends BaseCase
 		$this->path	= dirname( __FILE__ )."/assets/";
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
-		$this->mark	= new WatermarkInstance( $this->path."mark.png" );
+//		else
+		$this->mark	= MockAntiProtection::getInstance( Watermark::class, $this->path."mark.png" );
 	}
 
 	/**
@@ -61,19 +63,15 @@ class WatermarkTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$mark	= new WatermarkInstance( $this->path."sourceWatermark.png", 99, 98 );
+		$alpha		= 99;
+		$quality	= 98;
+		$mark		= MockAntiProtection::getInstance( Watermark::class, $this->path."sourceWatermark.png", $alpha, $quality );
 
-		$assertion	= 99;
-		$creation	= $mark->getProtectedVar( 'alpha' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $alpha, $mark->getProtectedVar( 'alpha' ) );
+		$this->assertEquals( $quality, $mark->getProtectedVar( 'quality' ) );
 
-		$assertion	= 98;
-		$creation	= $mark->getProtectedVar( 'quality' );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 100;
-		$creation	= $mark->getProtectedVar( 'stamp' )->getHeight();
-		$this->assertEquals( $assertion, $creation );
+		$height		= 100;
+		$this->assertEquals( $height, $mark->getProtectedVar( 'stamp' )->getHeight() );
 	}
 
 	/**
@@ -87,6 +85,7 @@ class WatermarkTest extends BaseCase
 		$mark	= new Watermark( $this->path."mark.png", 50, 100 );
 		$mark->setMargin( 10, 10 );
 		$mark->markImage( $this->path."sourceWatermark.png", $this->path."targetWatermark.png" );
+
 		$this->assertFileEquals( $this->path."targetWatermark.png", $this->path."assertWatermark.png", "Watermark file not identical." );
 	}
 
@@ -97,11 +96,10 @@ class WatermarkTest extends BaseCase
 	 */
 	public function testSetAlpha()
 	{
-		$this->mark->setAlpha( 75 );
+		$alpha	= 75;
+		$this->mark->setAlpha( $alpha );
 
-		$assertion	= 75;
-		$creation	= $this->mark->getProtectedVar( 'alpha' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $alpha, $this->mark->getProtectedVar( 'alpha' ) );
 	}
 
 	/**
@@ -112,14 +110,8 @@ class WatermarkTest extends BaseCase
 	public function testSetMargin()
 	{
 		$this->mark->setMargin( 1, 2 );
-
-		$assertion	= 1;
-		$creation	= $this->mark->getProtectedVar( 'marginX' );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $this->mark->getProtectedVar( 'marginY' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 1, $this->mark->getProtectedVar( 'marginX' ) );
+		$this->assertEquals( 2, $this->mark->getProtectedVar( 'marginY' ) );
 	}
 
 	/**
@@ -171,9 +163,8 @@ class WatermarkTest extends BaseCase
 	{
 		$this->mark->setQuality( 80 );
 
-		$assertion	= 80;
 		$creation	= $this->mark->getProtectedVar( 'quality' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 80, $creation );
 	}
 
 	/**
@@ -186,17 +177,14 @@ class WatermarkTest extends BaseCase
 		$this->mark->setStamp( $this->path."sourceWatermark.png" );
 		$stamp		= $this->mark->getProtectedVar( 'stamp' );
 
-		$assertion	= TRUE;
-		$creation	= is_resource( $stamp->getResource() );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertIsObject( $stamp->getResource() );
+		$this->assertInstanceOf( \GdImage::class, $stamp->getResource() );
 
-		$assertion	= 100;
 		$creation	= $stamp->getWidth();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 100, $creation );
 
-		$assertion	= 100;
 		$creation	= $stamp->getHeight();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( 100, $creation );
 	}
 }
 

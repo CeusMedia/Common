@@ -127,6 +127,7 @@ class CreatorTest extends BaseCase
 
 	public function test_get_returnsResource()
 	{
-		$this->assertIsResource( $this->creator->getResource() );
+		$gdObject	= $this->creator->getResource();
+		$this->assertIsObject( $gdObject );
 	}
 }
