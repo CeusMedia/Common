@@ -81,7 +81,7 @@ class RecursiveRegexFilter extends RegexIterator
 		$this->showFiles		= $showFiles;
 		$this->showFolders		= $showFolders;
 		$this->stripDotEntries	= $stripDotEntries;
-		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
+		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : RecursiveIteratorIterator::LEAVES_ONLY;
 		parent::__construct(
 			new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator(

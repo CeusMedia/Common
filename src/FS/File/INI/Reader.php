@@ -418,7 +418,7 @@ class Reader extends FileReader
 					else if( strtolower( $value ) === "null" )
 						$value	= NULL;
 				}
-				if( preg_match( '@^".*"$@', $value ) )
+				if( preg_match( '@^".*"$@', $value ?? '' ) )
 					$value	= substr( stripslashes( $value ), 1, -1 );
 				if( $this->usesSections() && isset( $currentSection ) )
 					$this->properties[$currentSection][$key] = $value;

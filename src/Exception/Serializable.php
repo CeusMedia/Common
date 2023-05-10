@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection SpellCheckingInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Base Exception which can be serialized e.G. for NetServices.

@@ -5,29 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Work towards PHPStan level 6.">
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/ADT/JSON/parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/ADT/JSON/parser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/CLI/colorGrid.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/CLI/colorGrid.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/CLI/progress.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/CLI/progress.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/CLI/question.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/CLI/question.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/CLI/randomColors.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/CLI/randomColors.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/CLI/table.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/CLI/table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/CLI/textFormat.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/CLI/textFormat.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/FS/folder.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/FS/folder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/Net/connectivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/demo/Net/connectivity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Clock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Clock.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/PartitionSession.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/PartitionSession.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Text.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Text.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/BaseCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/BaseCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/FS/Folder/TestCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/FS/Folder/TestCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/MockAntiProtection.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/MockAntiProtection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/MockAntiProtection.tmpl" beforeDir="false" afterPath="$PROJECT_DIR$/test/MockAntiProtection.tmpl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Net/HTTP/PartitionSessionTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/HTTP/PartitionSessionTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/XML/RSS/WriterTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/XML/RSS/WriterTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tool/config/phpunit9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpunit9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Serializable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Serializable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/RecursiveRegexFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/RecursiveRegexFilter.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,24 +120,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Project.color": "3f0804",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/opt/homebrew/var/www/lib/GitHub/CeusMedia/Common",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php",
-    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Project.color&quot;: &quot;3f0804&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/opt/homebrew/var/www/lib/GitHub/CeusMedia/Common&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test/XML" />
@@ -173,6 +155,11 @@
     </key>
   </component>
   <component name="RunManager" selected="Composer Script.dev:phpunit">
+    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan" />
+      <method v="2" />
+    </configuration>
     <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpunit" />
@@ -190,29 +177,25 @@
       <TestRunner class="CeusMedia\CommonTest\Alg\Time\ClockTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" method="testGetTime" scope="Method" />
       <method v="2" />
     </configuration>
-    <configuration name="PartitionSessionTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\Net\HTTP\PartitionSessionTest" file="$PROJECT_DIR$/test/Net/HTTP/PartitionSessionTest.php" scope="Class" />
-      <method v="2" />
-    </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
       <item itemvalue="PHPUnit.ADT" />
       <item itemvalue="PHPUnit.Alg" />
       <item itemvalue="PHPUnit.ClockTest.testGetTime" />
-      <item itemvalue="PHPUnit.PartitionSessionTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Composer Script.dev:phpunit" />
+        <item itemvalue="Composer Script.dev:phpstan" />
         <item itemvalue="PHPUnit.ClockTest.testGetTime" />
         <item itemvalue="PHPUnit.Alg" />
         <item itemvalue="PHPUnit.ADT" />
-        <item itemvalue="PHPUnit.PartitionSessionTest" />
       </list>
     </recent_temporary>
   </component>
@@ -260,6 +243,9 @@
       <workItem from="1683371019598" duration="3419000" />
       <workItem from="1683388452823" duration="33270000" />
       <workItem from="1683654425450" duration="6714000" />
+      <workItem from="1683705947410" duration="392000" />
+      <workItem from="1683720604411" duration="110000" />
+      <workItem from="1683726050176" duration="777000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>

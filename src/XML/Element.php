@@ -321,7 +321,7 @@ class Element extends SimpleXMLElement
 	 */
 	public function setValue( ?string $value, bool $cdata = FALSE ): self
 	{
-		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value );
+		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value ?? '' );
 		//  string is known or detected to be CDATA
 		if( $cdata || preg_match( '/[&<]/', $value ) ) {
 			//  import node in DOM
