@@ -44,18 +44,18 @@ use Exception;
  */
 class UrlReader
 {
-	/**	@var		string		$url			URL of XML File */
-	protected $url;
+	/**	@var		string				$url			URL of XML File */
+	protected string $url;
 
-	/**	@var		array		$mimeTypes		List of acceptable Response MIME Type */
-	public static $mimeTypes	= [
+	/**	@var		array				$mimeTypes		List of acceptable Response MIME Type */
+	public static array $mimeTypes		= [
 		'application/xml',
 		'application/xslt+xml',
 		'application/rss+xml',
 		'text/xml',
 	];
 
-	public static $userAgent	= 'CeusMediaCommon:XML.DOM.UrlReader/0.9';
+	public static string $userAgent		= 'CeusMediaCommon:XML.DOM.UrlReader/1.0';
 
 	/**
 	 *	Constructor.

@@ -46,10 +46,10 @@ use ReflectionFunction;
 class Processing
 {
 	/**	@var		Image			$image			Image resource object */
-	protected $image;
+	protected Image $image;
 
 	/**	@param		integer			$maxMegaPixel	Maximum megapixels */
-	public $maxMegaPixels			= 0;
+	public int $maxMegaPixels		= 0;
 
 	/**
 	 *	Constructor.
@@ -192,7 +192,7 @@ class Processing
 	 *	@param		integer		$bgColor		Background color
 	 *	@return		void
 	 */
-	public function rotate( int $angle, int $bgColor = 0 )
+	public function rotate( int $angle, int $bgColor = 0 ): void
 	{
 		$bgColor	= $this->image->colorTransparent;
 		$this->image->setResource( imagerotate( $this->image->getResource(), -$angle, $bgColor ) );

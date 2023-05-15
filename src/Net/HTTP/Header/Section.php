@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
 
 /**
  *	...
@@ -287,7 +288,7 @@ class Section
 		return $this;
 	}
 
-	public function setFieldPair( string $name, $value, bool $emptyBefore = TRUE ): self
+	public function setFieldPair( string $name, string|int|float $value, bool $emptyBefore = TRUE ): self
 	{
 		$this->setField( new HeaderField( $name, $value ), $emptyBefore );
 		return $this;

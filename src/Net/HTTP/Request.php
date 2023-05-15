@@ -48,16 +48,16 @@ use RuntimeException;
  */
 class Request extends Dictionary
 {
-	/** @var		HeaderSection		$headers		Object of collected HTTP Headers */
+	/** @var		HeaderSection	$headers		Object of collected HTTP Headers */
 	public HeaderSection $headers;
 
-	/** @var		string				$body			Raw POST/PUT data, if available */
+	/** @var		string			$body			Raw POST/PUT data, if available */
 	protected string $body			= '';
 
-	/**	@var		string				$ip				IP of Request */
+	/**	@var		string			$ip				IP of Request */
 	protected string $ip			= '';
 
-	/** @var		Method				$method			HTTP request method object */
+	/** @var		Method			$method			HTTP request method object */
 	protected Method $method;
 
 	protected string $protocol		= 'HTTP';
@@ -66,11 +66,11 @@ class Request extends Dictionary
 
 	protected string $version		= '1.0';
 
-	protected $root;
+	protected string $root			= '';
 
 	protected string $path			= '/';
 
-	protected $sources;
+	protected array $sources		= [];
 
 	public function __construct( ?string $protocol = NULL, ?string $version = NULL )
 	{

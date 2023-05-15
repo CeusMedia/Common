@@ -2,19 +2,9 @@ includes:
 #	- ../../vendor/phpstan/phpstan-strict-rules/rules.neon
 	- phpstan-baseline.neon
 
-#reachedLevels:
-#	ADT: 6-
-#	Alg: 4-
-#	CLI: 4-
-#	Exception: 5
-#	FS: 4
-#	Net: 3
-#	UI: 4
-#	XML: 4
-
 parameters:
 	phpVersion: 80100
-	level: 5
+	level: 6
 	paths:
 		- ../../src
 	excludePaths:

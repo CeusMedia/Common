@@ -42,20 +42,20 @@ use BadMethodCallException;
  */
 class Method
 {
-	public const METHOD_CONNECT	= 'CONNECT';
+	public const METHOD_CONNECT		= 'CONNECT';
 	public const METHOD_DELETE		= 'DELETE';
-	public const METHOD_GET		= 'GET';
+	public const METHOD_GET			= 'GET';
 	public const METHOD_HEAD		= 'HEAD';
-	public const METHOD_OPTIONS	= 'OPTIONS';
+	public const METHOD_OPTIONS		= 'OPTIONS';
 	public const METHOD_PATCH		= 'PATCH';
 	public const METHOD_POST		= 'POST';
-	public const METHOD_PUT		= 'PUT';
+	public const METHOD_PUT			= 'PUT';
 	public const METHOD_TRACE		= 'TRACE';
 
-	/** @var		string					$method			HTTP request method */
-	protected $method		= self::METHOD_GET;
+	/** @var		string			$method			HTTP request method */
+	protected string $method		= self::METHOD_GET;
 
-	static public $methods	= [
+	public static array $methods	= [
 		self::METHOD_CONNECT,
 		self::METHOD_DELETE,
 		self::METHOD_GET,
@@ -67,7 +67,7 @@ class Method
 		self::METHOD_TRACE,
 	];
 
-	public function __construct( $method = NULL )
+	public function __construct( string $method = NULL )
 	{
 		if( $method )
 			$this->set( $method );

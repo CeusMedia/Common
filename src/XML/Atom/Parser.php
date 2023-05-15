@@ -45,17 +45,17 @@ use Exception;
 class Parser
 {
 	/**	@var		array		$channelData		Array of collect Data about Atom Feed */
-	public $channelData;
+	public array $channelData;
 
 	/**	@var		array		$emptyChannelData	Template of empty Category Data Structure */
-	protected $emptyCategory	= [
+	protected array $emptyCategory	= [
 		'label'		=> '',
 		'scheme'	=> '',
 		'term'		=> '',
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Channel Data Structure */
-	protected $emptyChannelData	= [
+	protected array $emptyChannelData	= [
 		'author'		=> [],
 		'category'		=> [],
 		'contributor'	=> [],
@@ -73,7 +73,7 @@ class Parser
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Entry Data Structure */
-	protected $emptyEntry		= [
+	protected array $emptyEntry		= [
 		'author'		=> [],
 		'category'		=> [],
 		//  will be set to emptyText by Constructor
@@ -93,14 +93,14 @@ class Parser
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Generator Data Structure */
-	protected $emptyGenerator	= [
+	protected array $emptyGenerator	= [
 		'uri'		=> '',
 		'version'	=> '',
 		'name'		=> '',
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Link Data Structure */
-	protected $emptyLink	= [
+	protected array $emptyLink	= [
 		'href'			=> '',
 		'rel'			=> NULL,
 		'type'			=> NULL,
@@ -110,14 +110,14 @@ class Parser
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Person Data Structure */
-	protected $emptyPerson	= [
+	protected array $emptyPerson	= [
 		'name'	=> '',
 		'uri'	=> '',
 		'email'	=> '',
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Text Data Structure */
-	protected $emptyText		= [
+	protected array $emptyText		= [
 		'base'		=> '',
 		'content'	=> '',
 		'lang'		=> '',
@@ -125,9 +125,9 @@ class Parser
 	];
 
 	/**	@var		array		$entries			Array of Entries in Atom Feed */
-	public $entries;
+	public array $entries;
 
-	public $language;
+	public ?string $language	= NULL;
 
 	/**
 	 *	Constructor.

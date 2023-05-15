@@ -45,19 +45,19 @@ use InvalidArgumentException;
  */
 class Graph
 {
-	protected $type				= "digraph";
+	protected string $type			= "digraph";
 
-	protected $edges			= [];
+	protected array $edges			= [];
 
-	protected $nodes			= [];
+	protected array $nodes			= [];
 
-	protected $nodeOptions		= [];
+	protected array $nodeOptions	= [];
 
-	protected $edgeOptions		= [];
+	protected array $edgeOptions	= [];
 
-	protected $id;
+	protected string $id;
 
-	protected $options			= [];
+	protected array $options		= [];
 
 	public function __construct( ?string $id = NULL, array $options = [] )
 	{
@@ -71,7 +71,7 @@ class Graph
 		return $this->render();
 	}
 
-	public function addEdge( $nodeSource, $nodeTarget, array $options = [] ): self
+	public function addEdge( string $nodeSource, string $nodeTarget, array $options = [] ): self
 	{
 		$nodeSourceId	= $this->sanitizeNodeName( $nodeSource );
 		$nodeTargetId	= $this->sanitizeNodeName( $nodeTarget );
@@ -223,7 +223,7 @@ class Graph
 		return $this;
 	}
 
-	public function setNodeOptions( string $name, $options ): self
+	public function setNodeOptions( string $name, array $options ): self
 	{
 		if( $this->hasNode( $name ) ){
 			$nodeId	= $this->sanitizeNodeName( $name );

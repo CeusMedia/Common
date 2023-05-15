@@ -24,7 +24,7 @@ class BaseCase extends FrameworkTestCase
 	 */
 	public function __construct( $name = '' )
 	{
-		parent::__construct($name);
+		parent::__construct( $name );
 		self::$_pathLib	= realpath( dirname( __DIR__ ) ).'/';
 		self::$_config	= parse_ini_file( self::$_pathLib.'Common.ini', TRUE );
 	}

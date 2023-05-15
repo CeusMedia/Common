@@ -69,7 +69,7 @@ use RuntimeException;
 */
 class Image
 {
-	public $colorTransparent;
+	public int $colorTransparent	= 0;
 
 	protected ?GdImage $resource	= NULL;
 
@@ -145,7 +145,7 @@ class Image
 		}
 	}
 
-	public function getColor( int $red, int $green, int $blue, int $alpha = 0 )
+	public function getColor( int $red, int $green, int $blue, int $alpha = 0 ): bool|int
 	{
 		return imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
 	}
@@ -193,7 +193,7 @@ class Image
 	/**
 	 *	Returns inner image resource.
 	 *	@access		public
-	 *	@return		GdImage
+	 *	@return		?GdImage
 	 */
 	public function getResource(): ?GdImage
 	{
@@ -330,7 +330,7 @@ class Image
 		return TRUE;
 	}
 
-	public function setQuality( $quality ): self
+	public function setQuality( int $quality ): self
 	{
 		$this->quality = max( 0, min( 100, $quality ) );
 		return $this;
@@ -362,13 +362,13 @@ class Image
 		return $this;
 	}
 
-	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ): void
+	public function setTransparentColor( int $red, int $green, int $blue, int $alpha = 0 ): void
 	{
 		$color	= imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
 		imagecolortransparent( $this->resource, $color );
 	}
 
-	public function setType( $type ): self
+	public function setType( int $type ): self
 	{
 		if( !( ImageTypes() & $type ) )
 			throw new InvalidArgumentException( 'Invalid type' );

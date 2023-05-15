@@ -4,12 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Work towards PHPStan level 6.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Fix unit tests.">
+      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Serializable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Serializable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/INI/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/Folder/RecursiveRegexFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/RecursiveRegexFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/VCard/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/VCard/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/YAML/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/YAML/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/ClosureCompiler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/ClosureCompiler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/Maps/Geocoder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/Maps/Geocoder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/Request.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Gravatar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Gravatar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Premailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Premailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Method.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Method.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/SVN.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/SVN.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Creator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Creator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Drawer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Drawer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Exif.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Exif.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Filter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Graphviz/Graph.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Graphviz/Graph.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Graphviz/Renderer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Graphviz/Renderer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Modifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Modifier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Processing.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Processing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/TransparentWatermark.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/TransparentWatermark.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Atom/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Atom/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Node.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/UrlReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/UrlReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/XPathQuery.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/XPathQuery.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RPC/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RPC/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/BaseCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/BaseCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/config/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan.neon" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +91,7 @@
   <component name="PhpStanProjectConfiguration">
     <option name="selectedConfigurationId" value="c61c56cb-5e29-4b84-aa24-d12c040b91d8" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="/bin/php">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
@@ -77,10 +110,8 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/vendor/sebastian/version" />
       <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
       <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
       <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
       <path value="$PROJECT_DIR$/vendor/sebastian/global-state" />
       <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
       <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
@@ -133,7 +164,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.PHP&quot;,
     &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -165,37 +196,37 @@
       <option name="script" value="dev:phpunit" />
       <method v="2" />
     </configuration>
-    <configuration name="ADT" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/ADT" />
+    <configuration name="Net" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/Net" />
       <method v="2" />
     </configuration>
-    <configuration name="Alg" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/Alg" />
-      <method v="2" />
-    </configuration>
-    <configuration name="ClockTest.testGetTime" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\Alg\Time\ClockTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" method="testGetTime" scope="Method" />
+    <configuration name="XML" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/XML" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
+    <configuration name="test" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
-      <item itemvalue="PHPUnit.ADT" />
-      <item itemvalue="PHPUnit.Alg" />
-      <item itemvalue="PHPUnit.ClockTest.testGetTime" />
+      <item itemvalue="PHPUnit.Net" />
+      <item itemvalue="PHPUnit.XML" />
+      <item itemvalue="PHPUnit.test" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Composer Script.dev:phpunit" />
         <item itemvalue="Composer Script.dev:phpstan" />
-        <item itemvalue="PHPUnit.ClockTest.testGetTime" />
-        <item itemvalue="PHPUnit.Alg" />
-        <item itemvalue="PHPUnit.ADT" />
+        <item itemvalue="PHPUnit.test" />
+        <item itemvalue="PHPUnit.XML" />
+        <item itemvalue="PHPUnit.Net" />
       </list>
     </recent_temporary>
   </component>
@@ -243,9 +274,8 @@
       <workItem from="1683371019598" duration="3419000" />
       <workItem from="1683388452823" duration="33270000" />
       <workItem from="1683654425450" duration="6714000" />
-      <workItem from="1683705947410" duration="392000" />
-      <workItem from="1683720604411" duration="110000" />
-      <workItem from="1683726050176" duration="777000" />
+      <workItem from="1683794029207" duration="666000" />
+      <workItem from="1683925853723" duration="14946000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -527,7 +557,21 @@
       <option name="project" value="LOCAL" />
       <updated>1683457908043</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Work towards PHPStan level 6.">
+      <created>1683509310991</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1683509310991</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Fix unit tests.">
+      <created>1683682184987</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1683682184987</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -547,7 +591,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Update git ignore file." />
     <MESSAGE value="Upgrade code: array() to []" />
     <MESSAGE value="Upgrade code: array() to [] on method parameters" />
     <MESSAGE value="Rector: TernaryToNullCoalescingRector + TernaryToElvisRector" />
@@ -572,7 +615,8 @@
     <MESSAGE value="Refactored HTTP header section." />
     <MESSAGE value="Reach PHPStan level 5 in PHP 8.1." />
     <MESSAGE value="Work towards PHPStan level 6." />
-    <option name="LAST_COMMIT_MESSAGE" value="Work towards PHPStan level 6." />
+    <MESSAGE value="Fix unit tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix unit tests." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

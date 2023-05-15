@@ -47,14 +47,14 @@ use RuntimeException;
  */
 class Reader
 {
-	protected $curl;
+	protected CURL $curl;
 
-	protected $curlInfo			= [];
+	protected array $curlInfo			= [];
 
-	protected $responseHeaders	= [];
+	protected array $responseHeaders	= [];
 
 	//  default user agent to report to server, can be overridden by constructor or given CURL options on get or post
-	protected $userAgent		= "CeusMediaCommon:Net.HTTP.Reader/0.9";
+	protected string $userAgent			= "CeusMediaCommon:Net.HTTP.Reader/1.0";
 
 	/**
 	 *	Constructor, sets up cURL.

@@ -37,17 +37,17 @@ define ("transparentWatermarkOnRight", 10);
  */
 class TransparentWatermark
 {
-	protected $stampImage		= 0;
+	protected ?GdImage $stampImage		= NULL;
 
-	protected $stampWidth;
+	protected int $stampWidth			= 0;
 
-	protected $stampHeight;
+	protected int $stampHeight			= 0;
 
-	protected $stampPositionX	= transparentWatermarkOnRight;
+	protected int $stampPositionX		= transparentWatermarkOnRight;
 
-	protected $stampPositionY	= transparentWatermarkOnBottom;
+	protected int $stampPositionY		= transparentWatermarkOnBottom;
 
-	protected $errorMsg			= '';
+	protected ?string $errorMsg			= NULL;
 
 	/**
 	 *	Constructor
@@ -250,8 +250,8 @@ class TransparentWatermark
 			return FALSE;
 		}
 		else{
-			$this->stampWidth=$width;
-			$this->stampHeight=$height;
+			$this->stampWidth	= $width;
+			$this->stampHeight	= $height;
 			return TRUE;
 		}
 	}

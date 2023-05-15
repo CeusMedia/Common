@@ -45,7 +45,7 @@ class ClosureCompiler
 {
 	protected const URL = 'https://closure-compiler.appspot.com/compile';
 
-	protected $options;
+	protected array $options;
 
 	/**
 	 *

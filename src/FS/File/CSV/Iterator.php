@@ -19,19 +19,19 @@ use RuntimeException;
  */
 class Iterator implements BaseIterator
 {
-	public static int $maxRowSize		= 4096;
-
 	protected const STATUS_NEW		= 0;
 	protected const STATUS_OPENING	= 1;
 	protected const STATUS_OPEN		= 2;
 
-	protected $currentLine;
+	public static int $maxRowSize		= 4096;
+
+	protected ?array $currentLine		= NULL;
 	protected int $currentNr			= 0;
 	protected string $delimiter			= ',';
 	protected string $enclosure			= '"';
-	protected $filePath;
+	protected string $filePath;
 	protected $filePointer;
-	protected $headers;
+	protected ?array $headers			= NULL;
 	protected int $status				= self::STATUS_NEW;
 	protected bool $useHeaders			= FALSE;
 	protected bool $verbose				= FALSE;

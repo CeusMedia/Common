@@ -30,6 +30,7 @@
 
 namespace CeusMedia\Common\UI\Image;
 
+use GdImage;
 use InvalidArgumentException;
 
 /**
@@ -44,13 +45,13 @@ use InvalidArgumentException;
  */
 class Creator
 {
-	protected $height		= -1;
-	protected $resource		= NULL;
-	protected $type			= NULL;
-	protected $width		= -1;
-    protected $extension;
+	protected int $height				= -1;
+	protected GdImage|null $resource	= NULL;
+	protected ?int $type				= NULL;
+	protected int $width				= -1;
+    protected ?string $extension		= NULL;
 
-	public function create( int $width, int $height, int $backgroundRed = 255, int $backgroundGreen = 255, int $backgroundBlue = 255, int $alpha = 0 )
+	public function create( int $width, int $height, int $backgroundRed = 255, int $backgroundGreen = 255, int $backgroundBlue = 255, int $alpha = 0 ): void
 	{
 		$this->resource	= imagecreatetruecolor( $width, $height );
 		$this->width	= $width;
@@ -69,7 +70,7 @@ class Creator
 		return $this->height;
 	}
 
-	public function getResource()
+	public function getResource(): ?GdImage
 	{
 		return $this->resource;
 	}
@@ -84,7 +85,7 @@ class Creator
 		return $this->width;
 	}
 
-	public function loadImage( string $fileName )
+	public function loadImage( string $fileName ): void
 	{
 		if( !file_exists( $fileName ) )
 			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );

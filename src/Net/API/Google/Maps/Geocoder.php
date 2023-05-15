@@ -47,7 +47,7 @@ use RuntimeException;
 class Geocoder extends GoogleRequest
 {
 	/** @var		string		$apiUrl			Google Maps API URL */
-	public $apiUrl				= "https://maps.googleapis.com/maps/api/geocode/xml";
+	public string $apiUrl				= "https://maps.googleapis.com/maps/api/geocode/xml";
 
 	/**
 	 *	Returns KML data for an address.

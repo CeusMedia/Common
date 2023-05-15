@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Evaluator for XPath Queries.
@@ -32,6 +33,7 @@ use CeusMedia\Common\ADT\OptionObject;
 use CeusMedia\Common\Net\Reader as NetReader;
 use CeusMedia\Common\XML\Validator;
 use DOMDocument;
+use DOMNode;
 use DOMNodeList;
 use DOMXpath;
 use InvalidArgumentException;
@@ -49,10 +51,10 @@ use RuntimeException;
 class XPathQuery extends OptionObject
 {
 	/**	@var		DOMDocument|NULL	$document		DOM Document Object */
-	public $document	= NULL;
+	public ?DOMDocument $document		= NULL;
 
 	/**	@var		DOMXPath|NULL		$xPath			DOM XPath Object */
-	public $xPath		= NULL;
+	public ?DOMXPath $xPath				= NULL;
 
 	/**
 	 *	Returns identified Type of Feed.
@@ -73,7 +75,7 @@ class XPathQuery extends OptionObject
 	 *	@return		DOMNodeList|FALSE|mixed
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
-	public function evaluate( string $path, $node = NULL )
+	public function evaluate( string $path, ?DOMNode $node = NULL ): mixed
 	{
 		if( !$this->xPath )
 			throw new RuntimeException( 'No XML loaded yet.' );
@@ -151,10 +153,12 @@ class XPathQuery extends OptionObject
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
-	 *	@return		DOMNodeList|FALSE|mixed
+	 *	@param		string			$path
+	 *	@param		DOMNode|NULL	$node
+	 *	@return		DOMNodeList|FALSE
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
-	public function query( string $path, $node = NULL )
+	public function query( string $path, ?DOMNode $node = NULL ): DOMNodeList|FALSE
 	{
 		if( !$this->xPath )
 			throw new RuntimeException( 'No XML loaded yet.' );

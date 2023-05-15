@@ -30,6 +30,7 @@
 namespace CeusMedia\Common\UI\Image;
 
 use Exception;
+use GdImage;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -44,23 +45,23 @@ use RuntimeException;
  */
 abstract class Modifier
 {
-	/*	@var		int			$quality		Quality of Target Image */
-	protected $quality;
+	/*	@var		int				$quality		Quality of Target Image */
+	protected int $quality;
 
-	/*	@var		array		$size			Sizes of Source Image */
-	protected $sourceInfo		= [];
+	/*	@var		array			$sourceInfo		Sizes of Source Image */
+	protected array $sourceInfo		= [];
 
-	/*	@var		string		$source			Source image */
-	protected $source;
+	/*	@var		GdImage|NULL	$source			Source image */
+	protected ?GdImage $source		= NULL;
 
-	/*	@var		string		$sourceUri		Source image URI */
-	protected $sourceUri;
+	/*	@var		string|NULL		$sourceUri		Source image URI */
+	protected ?string $sourceUri	= NULL;
 
-	/*	@var		string		$target			Target image */
-	protected $target;
+	/*	@var		GdImage|NULL	$target			Target image */
+	protected ?GdImage $target		= NULL;
 
-	/*	@var		string		$targetUri		Target image URI */
-	protected $targetUri;
+	/*	@var		string|NULL		$targetUri		Target image URI */
+	protected ?string $targetUri	= NULL;
 
 	/**
 	 *	Constructor.
@@ -79,23 +80,16 @@ abstract class Modifier
 		$this->setQuality( $quality );
 	}
 
-	public function loadImage()
+	public function loadImage(): void
 	{
 		if( !$this->sourceUri )
 			throw new RuntimeException( 'No source image URI set' );
-		switch( $this->sourceInfo[2] ){
-			case IMAGETYPE_GIF:
-				$this->source	= imagecreatefromgif( $this->sourceUri );
-				break;
-			case IMAGETYPE_JPEG:
-				$this->source	= imagecreatefromjpeg( $this->sourceUri );
-				break;
-			case IMAGETYPE_PNG:
-				$this->source	= imagecreatefrompng( $this->sourceUri );
-				break;
-			default:
-				throw new Exception( 'Image type "'.$this->sourceInfo['mime'].'" is no supported' );
-		}
+		$this->source = match( $this->sourceInfo[2] ){
+			IMAGETYPE_GIF	=> imagecreatefromgif($this->sourceUri),
+			IMAGETYPE_JPEG	=> imagecreatefromjpeg($this->sourceUri),
+			IMAGETYPE_PNG	=> imagecreatefrompng($this->sourceUri),
+			default			=> throw new Exception('Image type "' . $this->sourceInfo['mime'] . '" is no supported'),
+		};
 	}
 
 	/**
@@ -113,16 +107,12 @@ abstract class Modifier
 		if( !$this->targetUri )
 			throw new RuntimeException( 'No target image URI set' );
 		$type	= $type ?: $this->sourceInfo[2];
-		switch( $type ){
-			case IMAGETYPE_GIF:
-				return imagegif( $this->target, $this->targetUri );
-			case IMAGETYPE_JPEG:
-				return imagejpeg( $this->target, $this->targetUri, $this->quality );
-			case IMAGETYPE_PNG:
-				return imagepng( $this->target, $this->targetUri );
-			default:
-				throw new Exception( 'Image Type "'.$type.'" is no supported' );
-		}
+		return match( $type ){
+			IMAGETYPE_GIF	=> imagegif($this->target, $this->targetUri),
+			IMAGETYPE_JPEG	=> imagejpeg($this->target, $this->targetUri, $this->quality),
+			IMAGETYPE_PNG	=> imagepng($this->target, $this->targetUri),
+			default			=> throw new Exception('Image Type "' . $type . '" is no supported'),
+		};
 	}
 
 	/**

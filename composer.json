@@ -40,9 +40,9 @@
     "ceus-media/doc-creator": "^0.9.6 | 0.9.x-dev | dev-master",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
-    "phpunit/phpunit": "^9",
-    "phpstan/phpstan": "*",
-    "phpstan/phpstan-strict-rules": "*",
+    "phpunit/phpunit": "^9 | ^10",
+    "phpstan/phpstan": "^1",
+    "phpstan/phpstan-strict-rules": "^1",
     "php-parallel-lint/php-parallel-lint": "^1.3 | dev-master",
     "rector/rector": "*"
   },
@@ -60,6 +60,11 @@
     }
   },
   "scripts": {
+    "dev:all": [
+      "@dev:test-syntax",
+      "@dev:phpstan",
+      "@dev:phpunit"
+    ],
     "dev:install": "composer install --quiet",
     "dev:update": "composer update",
     "incomplete:dev:create-docs": [
@@ -80,7 +85,7 @@
     ],
     "dev:phpunit": [
       "@dev:install",
-      "php vendor/bin/phpunit --configuration tool/config/phpunit9.xml --testsuite units"
+      "XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration tool/config/phpunit10.xml --testsuite units"
     ],
     "dev:rector": [
       "@dev:install",

@@ -49,7 +49,7 @@ use InvalidArgumentException;
 class Client
 {
 	/**	@var		string		$url			Base URL of XML-RPC */
-	protected $url;
+	protected string $url;
 
 	/**
 	 *	Constructor.
@@ -123,7 +123,7 @@ class Client
 	 *	@param		mixed		$parameter			...
 	 *	@return		string
 	 */
-	protected static function encodeXmlParameter( $parameter ): string
+	protected static function encodeXmlParameter( mixed $parameter ): string
 	{
 		$data	= [];
 		$type	= gettype( $parameter );
@@ -138,14 +138,11 @@ class Client
 				foreach( $parameter as $value )
 					$data[]	= self::encodeXmlParameter( $value );
 				return '<array><data>'.join( $data ).'</data></array>';
-			case 'int':
 			case 'integer':
 				return '<value><int>'.$parameter.'</int></value>';
-			case 'bool':
 			case 'boolean':
 				return '<value><boolean>'.( (int) $parameter ).'</boolean></value>';
 			case 'double':
-			case 'float':
 				return '<value><double>'.$parameter.'</double></value>';
 			case 'string':
 				return '<value><string>'.$parameter.'</string></value>';

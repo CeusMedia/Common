@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\UI\Image;
 
+use GdFont;
 use GdImage;
 
 /**
@@ -73,12 +74,12 @@ class Drawer
 		return imagesetpixel( $this->image, $x, $y, $color );
 	}
 
-	public function drawRectangle( $x0, int $y0, int $x1, int $y1, int $color ): bool
+	public function drawRectangle( int $x0, int $y0, int $x1, int $y1, int $color ): bool
 	{
 		return imagerectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 
-	public function drawString( int $x, int $y, string $text, $size, int $color ): bool
+	public function drawString( int $x, int $y, string $text, GdFont|int $size, int $color ): bool
 	{
 		return imagestring( $this->image, $size, $x, $y, $text, $color );
 	}

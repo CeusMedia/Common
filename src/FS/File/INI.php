@@ -116,7 +116,7 @@ class INI
 		return $result;
 	}
 
-	public function set( string $key, $value, ?string $section = NULL ): bool
+	public function set( string $key, string|int|float $value, ?string $section = NULL ): bool
 	{
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			$result	= $this->sections->get( $section )->set( $key, $value );
@@ -136,27 +136,30 @@ class INI
 		if( !is_null( $this->sections ) ){
 			foreach( $this->sections as $section => $items ){
 				$list[]	= '['.$section.']';
-				foreach( $items as $key => $value ){
-					$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
-					if( is_bool( $value ) )
-						$value	= $value ? "yes" : "no";
-					else if( !is_int( $value ) )
-						$value	= '"'.$value.'"';
-					$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
-				}
+				foreach( $items as $key => $value )
+					$this->parseLine( $list, $key, $value);
 				$list[]	= '';
 			}
 		}
-		else if( !is_null( $this->pairs ) ){
-			foreach( $this->pairs as $key => $value ){
-				$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
-				if( is_bool( $value ) )
-					$value	= $value ? "yes" : "no";
-				else if( !is_int( $value ) )
-					$value	= '"'.$value.'"';
-				$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
-			}
-		}
+		else if( !is_null( $this->pairs ) )
+			foreach( $this->pairs as $key => $value )
+				$this->parseLine( $list, $key, $value );
 		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
+	}
+
+	/**
+	 * @param		array				$list
+	 * @param		string|int|float	$key
+	 * @param		mixed				$value
+	 * @return		void
+	 */
+	protected function parseLine( array & $list, string|int|float $key, mixed $value ): void
+	{
+		$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
+		if( is_bool( $value ) )
+			$value	= $value ? "yes" : "no";
+		else if( !is_int( $value ) )
+			$value	= '"'.$value.'"';
+		$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
 	}
 }

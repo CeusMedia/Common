@@ -38,6 +38,7 @@ use CeusMedia\Common\Net\HTTP\Post;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
 use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
+use Psr\SimpleCache\InvalidArgumentException as SimpleCacheInvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -65,7 +66,7 @@ class Premailer
 
 	protected ?SimpleCacheInterface $cache	= NULL;
 
-	protected $response;
+	protected mixed $response;
 
 	public static array $options = [
 		//  string  - Which document handler to use (hpricot (default) or nokigiri)
@@ -97,8 +98,9 @@ class Premailer
 	 *	@param		array		$params
 	 *	@return		mixed
 	 *	@throws		Exception
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
-	protected function convert( array $params )
+	protected function convert( array $params ): mixed
 	{
 		if( !$params['base_url'] )
 			unset( $params['base_url'] );
@@ -124,15 +126,11 @@ class Premailer
 			CURLOPT_SSL_VERIFYPEER	=> 0,
 		] ) );
 		if( $response->status != 201 ){
-			switch( $response->status){
-				case 400:
-					throw new Exception( 'Content missing', 400 );
-				case 403:
-					throw new Exception( 'Access forbidden', 403 );
-				case 500:
-				default:
-					throw new Exception( 'Error', $response->status );
-			}
+			throw match( $response->status ){
+				400		=> new Exception( 'Content missing', 400 ),
+				403		=> new Exception( 'Access forbidden', 403 ),
+				default	=> new Exception( 'Error', $response->status ),
+			};
 		}
 		$response->requestId	= $requestId;
 		$this->cache && $this->cache->set( $cacheKey, json_encode( $response ) );
@@ -147,6 +145,7 @@ class Premailer
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
 	 *	@throws		Exception
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function convertFromUrl( string $url, array $params = [] ): object
 	{
@@ -164,6 +163,7 @@ class Premailer
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
 	 *	@throws		Exception
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function convertFromHtml( string $html, array $params = [] ): object
 	{
@@ -178,6 +178,7 @@ class Premailer
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 *	@throws		IoException
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function getHtml(): string
 	{
@@ -196,6 +197,7 @@ class Premailer
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 *	@throws		IoException
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function getPlainText(): string
 	{
@@ -209,8 +211,9 @@ class Premailer
 		return $text;
 	}
 
-	public function setCache( SimpleCacheInterface $cache )
+	public function setCache( SimpleCacheInterface $cache ): self
 	{
 		$this->cache	= $cache;
+		return $this;
 	}
 }

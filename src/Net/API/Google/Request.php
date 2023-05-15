@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\Net\API\Google;
 
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Net\Reader as NetReader;
 
 /**
@@ -42,11 +43,11 @@ use CeusMedia\Common\Net\Reader as NetReader;
  */
 abstract class Request
 {
-	public $apiKey		= "";
+	public string $apiKey		= '';
 
-	public $apiUrl		= "";
+	public string $apiUrl		= '';
 
-	public $pathCache	= "";
+	public string $pathCache	= '';
 
 	/**
 	 *	Constructor.
@@ -60,14 +61,6 @@ abstract class Request
 		$this->apiKey	= $apiKey;
 	}
 
-	protected function sendQuery( string $query ): string
-	{
-		$query		.= "&key=".$this->apiKey;
-		$url		= $this->apiUrl.$query;
-		$response	= NetReader::readUrl( $url );
-		return utf8_encode( $response );
-	}
-
 	/**
 	 *	Sets Cache Path.
 	 *	@access		public
@@ -78,5 +71,18 @@ abstract class Request
 	{
 		$this->pathCache	= $path;
 		return $this;
+	}
+
+	/**
+	 *	@param		string		$query
+	 *	@return		string
+	 *	@throws		IoException
+	 */
+	protected function sendQuery( string $query ): string
+	{
+		$query		.= '&key='.$this->apiKey;
+		$url		= $this->apiUrl.$query;
+		$response	= NetReader::readUrl( $url );
+		return utf8_encode( $response );
 	}
 }

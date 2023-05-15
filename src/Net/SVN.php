@@ -4,7 +4,7 @@ namespace CeusMedia\Common\Net;
 
 class SVN
 {
-	static public $nodes	= [
+	public static array $nodes	= [
 		SVN_NODE_NONE			=> [
 			'label'	=> 'none',
 			'text'	=> 'Absent'
@@ -22,7 +22,7 @@ class SVN
 			'text'	=> 'Something Subversion cannot identify'
 		]
 	];
-	static public $states	= [
+	public static array $states	= [
 		SVN_WC_STATUS_NONE			=> [
 			'label'	=> 'none',
 			'text'	=> 'Status does not exist'
@@ -81,7 +81,7 @@ class SVN
 		]
 	];
 
-	static public $schedules	= [
+	public static array $schedules	= [
 		SVN_WC_SCHEDULE_NORMAL		=> [
 			'label'	=> 'normal',
 			'text'	=> 'nothing special'

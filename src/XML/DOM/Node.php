@@ -73,7 +73,7 @@ class Node
 				$this->setAttribute( $key, $value );
 	}
 
-	public function __get( string $key )
+	public function __get( string $key ): mixed
 	{
 		switch( $key ){
 			case 'name':

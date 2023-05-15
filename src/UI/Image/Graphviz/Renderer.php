@@ -48,11 +48,11 @@ use RuntimeException;
  */
 class Renderer
 {
-	protected $layoutEngine			= "dot";
+	protected string $layoutEngine		= "dot";
 
-	protected $graph;
+	protected Graph $graph;
 
-	protected $gvInstalled			= NULL;
+	protected bool $gvInstalled;
 
 	public static function checkGraphvizSupport(): bool
 	{
@@ -97,7 +97,7 @@ class Renderer
 		return $map;
 	}
 
-	public function printGraph( string $type = "png", array $graphOptions = [] )
+	public function printGraph( string $type = "png", array $graphOptions = [] ): void
 	{
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );

@@ -67,7 +67,7 @@ class Post
 		return http_build_query( $data, '', '&' );
 	}
 
-	public static function sendData( string $url, $data, array $curlOptions = [] ): string
+	public static function sendData( string $url, array|string $data, array $curlOptions = [] ): string
 	{
 		$post	= new self( $url );
 		$post->setContent( is_array( $data ) ? self::convertArrayToFormData( $data ) : $data );
@@ -84,40 +84,50 @@ class Post
 	public function send( array $curlOptions = [] ): string
 	{
 		$this->checkContentLength( $this->content );
-		$contentType	= 'Content-type: '.$this->contentType;
 
 		switch( $this->transport ){
 			case self::TRANSPORT_CURL:
-				$curl		= new CURL( $this->url->get() );
-				$options	= [
-					CURLOPT_POST				=> TRUE,
-					CURLOPT_RETURNTRANSFER		=> TRUE,
-					CURLOPT_HTTPHEADER			=> [$contentType],
-					CURLOPT_POSTFIELDS			=> $this->content,
-					CURLOPT_FOLLOWLOCATION		=> FALSE,
-					CURLOPT_USERAGENT			=> $this->userAgent,
-					CURLOPT_CONNECTTIMEOUT		=> 15,
-				];
-				foreach( $curlOptions as $key => $value )
-					$options[$key]	= $value;
-				foreach( $options as $key => $value )
-					$curl->setOption( $key, $value );
-				return trim( $curl->exec( TRUE ) );
-
+				return $this->performRequestUsingCurl( $curlOptions );
 			case self::TRANSPORT_FOPEN:
-				$stream	= [
-					'method'		=> 'POST',
-					'header'		=> $contentType,
-					'content'		=> $this->content,
-					'max_redirects'	=> 0,
-					'timeout'		=> 15,
-				];
-				$stream	= stream_context_create( ['http' => $stream] );
-				return trim( file_get_contents( $this->url->get(), FALSE, $stream ) );
-
+				return $this->performRequestUsingStream();
 			default:
 				throw new RuntimeException( 'Could not make HTTP request: allow_url_open is false and cURL not available' );
 		}
+	}
+
+	protected function performRequestUsingCurl( array $curlOptions = [] ): string
+	{
+		$contentType	= 'Content-type: '.$this->contentType;
+		$curl		= new CURL( $this->url->get() );
+		$options	= [
+			CURLOPT_POST				=> TRUE,
+			CURLOPT_RETURNTRANSFER		=> TRUE,
+			CURLOPT_HTTPHEADER			=> [$contentType],
+			CURLOPT_POSTFIELDS			=> $this->content,
+			CURLOPT_FOLLOWLOCATION		=> FALSE,
+			CURLOPT_USERAGENT			=> $this->userAgent,
+			CURLOPT_CONNECTTIMEOUT		=> 15,
+		];
+		foreach( $curlOptions as $key => $value )
+			$options[$key]	= $value;
+		foreach( $options as $key => $value )
+			$curl->setOption( $key, $value );
+		return trim( $curl->exec( TRUE ) );
+	}
+
+	protected function performRequestUsingStream(): string
+	{
+		$contentType	= 'Content-type: '.$this->contentType;
+		$httpContext	= [
+			'method'		=> 'POST',
+			'header'		=> $contentType,
+			'content'		=> $this->content,
+			'max_redirects'	=> 0,
+			'timeout'		=> 15,
+		];
+		$context	= stream_context_create( ['http' => $httpContext] );
+		return trim( file_get_contents( $this->url->get(), FALSE, $context ) );
+
 	}
 
 	public function setContent( string $content ): self
@@ -156,7 +166,7 @@ class Post
 		return $this;
 	}
 
-	protected function checkContentLength( $content )
+	protected function checkContentLength( string $content ): void
 	{
 		if( $this->dataMaxLength > 0 && strlen( $content ) > $this->dataMaxLength )
 			throw new OutOfBoundsException( 'POST content larger than '.$this->dataMaxLength.' bytes' );

@@ -41,7 +41,7 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  */
 class Reader
 {
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.

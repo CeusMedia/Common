@@ -126,7 +126,7 @@ class Builder
 		return str_replace( ":", "\:", $value );
 	}
 
-	protected static function renderLine( string $name, $values, array $types = [], bool $escape = TRUE, string $delimiter = ";" ): string
+	protected static function renderLine( string $name, array|string $values, array $types = [], bool $escape = TRUE, string $delimiter = ";" ): string
 	{
 		$type	= $types ? ";TYPE=".implode( ",", $types ) : "";
 		$name	= strtoupper( $name );

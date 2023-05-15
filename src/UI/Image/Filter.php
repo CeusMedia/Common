@@ -45,7 +45,7 @@ use CeusMedia\Common\UI\Image;
 class Filter
 {
 	/**	@var		Image		$resource		Image resource object */
-	protected $image;
+	protected Image $image;
 
 	public function __construct( Image $image )
 	{

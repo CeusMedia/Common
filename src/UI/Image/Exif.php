@@ -47,9 +47,9 @@ use RuntimeException;
  */
 class Exif extends Dictionary
 {
-	protected $imageUri;
+	protected string $imageUri;
 
-    protected $raw;
+    protected array $raw;
 
 	public function __construct( string $imageUri )
 	{

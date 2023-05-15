@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Data Object for HTTP Headers.
  *
@@ -41,11 +42,11 @@ use InvalidArgumentException;
  */
 class Field
 {
-	/**	@var		string		$name		Name of Header */
+	/**	@var		string				$name		Name of Header */
 	protected string $name;
 
-	/**	@var		string|int	$value		Value of Header */
-	protected $value;
+	/**	@var		string|int|float	$value		Value of Header */
+	protected string|int|float $value;
 
 	/**
 	 *	Constructor.
@@ -54,7 +55,7 @@ class Field
 	 *	@param		string|int|float	$value		Value of Header
 	 *	@return		void
 	 */
-	public function __construct( string $name, $value )
+	public function __construct( string $name, string|int|float $value )
 	{
 		$this->setName( $name );
 		$this->setValue( $value );
@@ -87,9 +88,10 @@ class Field
 	/**
 	 *	Returns set Header Value.
 	 *	@access		public
-	 *	@return		string|int|array	Header Value or Array of qualified Values
+	 *	@param		bool		$qualified
+	 *	@return		string|int|float|array	Header Value or Array of qualified Values
 	 */
-	public function getValue( $qualified = FALSE )
+	public function getValue( bool $qualified = FALSE ): string|int|float|array
 	{
 		if( $qualified && is_string( $this->value ) )
 			return static::decodeQualifiedValues( $this->value);
@@ -106,13 +108,11 @@ class Field
 
 	/**
 	 *	Converts to string, internally.
-	 *	@param		string|int|float	$value
+	 *	@param		float|int|string		$value
 	 *	@return		self
 	 */
-	public function setValue( $value ): self
+	public function setValue( float|int|string $value ): self
 	{
-		if( !is_scalar( $value ) )
-			throw new InvalidArgumentException( 'Header value must be scalar (string, integer or float)' );
 		$this->value	= (string) $value;
 		return $this;
 	}
