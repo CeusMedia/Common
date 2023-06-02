@@ -85,21 +85,21 @@ class Validation extends Runtime
 	/**
 	 *	Returns serial of exception.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		array
 	 */
-	public function serialize(): string
+	public function __serialize(): array
 	{
-		return serialize( [$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form] );
+		return [$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form];
 	}
 
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$data			Serial string of a validation exception
+	 *	@param		array		$data			Serial string of a validation exception
 	 *	@return		void
 	 */
-	public function unserialize( $data ): void
+	public function __unserialize( array $data ): void
 	{
-		[$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form]	= unserialize( $data );
+		[$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form]	= $data;
 	}
 }

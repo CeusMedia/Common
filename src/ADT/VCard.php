@@ -32,7 +32,6 @@ namespace CeusMedia\Common\ADT;
 use CeusMedia\Common\FS\File\VCard\Builder as VCardFileBuilder;
 use CeusMedia\Common\FS\File\VCard\Parser as VCardFileParser;
 use InvalidArgumentException;
-use Serializable;
 
 /**
  *	Data Object for vCard.
@@ -45,7 +44,7 @@ use Serializable;
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  */
-class VCard implements Serializable
+class VCard
 {
 	/**	@var		array		$types					Array of VCard Types (Entities) */
 	private array $types;
@@ -70,15 +69,28 @@ class VCard implements Serializable
 				'honorificSuffixes'	=> NULL,
 			],
 			'nickname'	=> [],
-			'org'		=> [
+			'org'			=> [
 				'name'		=> NULL,
 				'unit'		=> NULL
 			],
 			'role'		=> NULL,
-			'tel'		=> [],
+			'tel'			=> [],
 			'title'		=> NULL,
-			'url'		=> [],
+			'url'			=> [],
 		];
+	}
+
+	/**
+	 *	@return		array
+	 */
+	public function __serialize(): array
+	{
+		return $this->types;
+	}
+
+	public function __unserialize( array $data ): void
+	{
+		$this->types = $data;
 	}
 
 	/**
@@ -363,6 +375,7 @@ class VCard implements Serializable
 	{
 		return $this->toString();
 	}
+
 
 	/**
 	 *	Sets Name a one formatted String.

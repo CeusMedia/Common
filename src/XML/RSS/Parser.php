@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Parser for RSS 2 Feed using XPath.
@@ -30,6 +31,7 @@
 namespace CeusMedia\Common\XML\RSS;
 
 use CeusMedia\Common\XML\DOM\XPathQuery;
+use DOMNodeList;
 
 /**
  *	Parser for RSS 2 Feed using XPath.
@@ -101,7 +103,7 @@ class Parser
 		$version	= $document->documentElement->getAttribute( 'version' );
 
 		foreach( self::$channelKeys as $channelKey ){
-			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" );
+			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" ) ?: new DOMNodeList();
 			$parts	= explode( "/", $channelKey );
 			if( isset( $parts[1] ) )
 				$channelKey	= $parts[0].ucfirst( $parts[1] );
@@ -109,15 +111,15 @@ class Parser
 			$channelData[$channelKey]	= $value;
 		}
 
-		$nodeList	= $xPath->query( "//rss/channel/item" );
+		$nodeList	= $xPath->query( "//rss/channel/item" ) ?: new DOMNodeList();
 		foreach( $nodeList as $item ){
 			$array	= [];
 			foreach( self::$itemKeys as $itemKey ){
-				$nodes	= $xPath->query( $itemKey."/text()", $item );
+				$nodes	= $xPath->query( $itemKey."/text()", $item ) ?: new DOMNodeList();
 				$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
 				if( $itemKey == "source" || $itemKey == "guid" )
 				{
-					$nodes	= $xPath->query( $itemKey, $item );
+					$nodes	= $xPath->query( $itemKey, $item ) ?: new DOMNodeList();
 					if( $nodes->length ){
 						foreach( $nodes->item( 0 )->attributes as $attributeName => $attribute )
 							if( $attributeName == "url" )

@@ -42,26 +42,26 @@ use Serializable as SerializableInterface;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Serializable extends Exception implements SerializableInterface
+class Serializable extends Exception
 {
 	/**
 	 *	Returns serial of exception.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		array
 	 */
-	public function serialize(): string
+	public function __serialize(): array
 	{
-		return serialize( [$this->message, $this->code, $this->file, $this->line] );
+		return [$this->message, $this->code, $this->file, $this->line];
 	}
 
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$data			Serial string of a serialized exception
+	 *	@param		array		$data			Serial string of a serialized exception
 	 *	@return		void
 	 */
-	public function unserialize( string $data ): void
+	public function unserialize( array $data ): void
 	{
-		[$this->message, $this->code, $this->file, $this->line]	= unserialize( $data );
+		[$this->message, $this->code, $this->file, $this->line]	= $data;
 	}
 }

@@ -4,45 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Fix unit tests.">
-      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Work on unit tests.">
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/VCard.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/VCard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/IO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/IO.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Serializable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Serializable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Validation.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/INI.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/VCard/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/VCard/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/YAML/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/YAML/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/ClosureCompiler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/ClosureCompiler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/Maps/Geocoder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/Maps/Geocoder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/Request.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/API/Gravatar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Gravatar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/API/Premailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Premailer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Method.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Method.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/SVN.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/SVN.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Creator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Creator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Drawer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Drawer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Exif.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Exif.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Filter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Graphviz/Graph.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Graphviz/Graph.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Graphviz/Renderer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Graphviz/Renderer.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Modifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Modifier.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/Processing.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Processing.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Image/TransparentWatermark.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/TransparentWatermark.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/Atom/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Atom/Parser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Node.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/DOM/UrlReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/UrlReader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/DOM/XPathQuery.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/XPathQuery.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/RPC/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RPC/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/BaseCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/BaseCase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tool/config/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpstan.neon" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Connectivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Connectivity.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/ContextMenu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/ContextMenu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Atom/Validator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Atom/Validator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Parser.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +120,8 @@
       <path value="$PROJECT_DIR$/vendor/nette/schema" />
       <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
     </include_path>
   </component>
   <component name="ProjectId" id="29UiaPkTicMpylMPaS9Wf3tbCl3" />
@@ -151,24 +129,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Project.color&quot;: &quot;3f0804&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/opt/homebrew/var/www/lib/GitHub/CeusMedia/Common&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.PHP&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Project.color": "3f0804",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/opt/homebrew/var/www/lib/GitHub/CeusMedia/Common",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.sourceCode.PHP",
+    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test/XML" />
@@ -276,6 +254,7 @@
       <workItem from="1683654425450" duration="6714000" />
       <workItem from="1683794029207" duration="666000" />
       <workItem from="1683925853723" duration="14946000" />
+      <workItem from="1685695175388" duration="3617000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>

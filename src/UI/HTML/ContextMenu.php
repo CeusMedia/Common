@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\UI\HTML;
 
+use Stringable;
+
 /**
  *	...
  *	@category		Library
@@ -39,7 +41,7 @@ namespace CeusMedia\Common\UI\HTML;
  */
 class ContextMenu
 {
-	public static function buildCode( $context, $content, string $id ): string
+	public static function buildCode( string|Stringable $context, string|Stringable $content, string $id ): string
 	{
 		$label		= Tag::create( 'div', $context, ['class' => 'label'] );
 		$opener		= Tag::create( 'div', Tag::create( 'span', '&nabla;' ), ['class' => 'opener'] );

@@ -74,21 +74,21 @@ class IO extends Runtime
 	/**
 	 *	Returns serial of exception.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		array
 	 */
-	public function serialize(): string
+	public function __serialize(): array
 	{
-		return serialize( [$this->message, $this->code, $this->file, $this->line, $this->resource] );
+		return [$this->message, $this->code, $this->file, $this->line, $this->resource];
 	}
 
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$data			Serial string of a serialized exception
+	 *	@param		array		$data			Serial string of a serialized exception
 	 *	@return		void
 	 */
-	public function unserialize( string $data ): void
+	public function __unserialize( array $data ): void
 	{
-		[$this->message, $this->code, $this->file, $this->line, $this->resource]	= unserialize( $data );
+		[$this->message, $this->code, $this->file, $this->line, $this->resource]	= $data;
 	}
 }

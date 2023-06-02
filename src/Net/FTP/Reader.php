@@ -155,7 +155,14 @@ class Reader
 		return $this->connection->getPath();
 	}
 
-	public function getPermissionsAsOctal( $permissions ): string
+	/**
+	 *	Returns permissions string as octal string.
+	 *	So, "drwxrw-r--" will become "0764".
+	 *	Also supports sticky bits.
+	 *	@param		string		$permissions
+	 *	@return		string
+	 */
+	public function getPermissionsAsOctal( string $permissions ): string
 	{
 		$mode	= 0;
 		if( $permissions[1] == 'r' ) $mode += 0400;

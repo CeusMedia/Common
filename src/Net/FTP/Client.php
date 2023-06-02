@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Client for FTP Connections.
@@ -29,6 +30,7 @@
 namespace CeusMedia\Common\Net\FTP;
 
 use Exception;
+use FTP\Connection as FtpConnection;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -202,12 +204,12 @@ class Client
 		return $this->connection->getPath();
 	}
 
-	public function getPermissionsAsOctal( $permissions ): string
+	public function getPermissionsAsOctal( string $permissions ): string
 	{
 		return $this->reader->getPermissionsAsOctal( $permissions );
 	}
 
-	public function getResource()
+	public function getResource(): FtpConnection
 	{
 		return $this->connection->getResource();
 	}

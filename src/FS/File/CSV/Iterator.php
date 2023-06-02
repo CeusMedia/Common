@@ -30,7 +30,7 @@ class Iterator implements BaseIterator
 	protected string $delimiter			= ',';
 	protected string $enclosure			= '"';
 	protected string $filePath;
-	protected $filePointer;
+	protected mixed $filePointer;
 	protected ?array $headers			= NULL;
 	protected int $status				= self::STATUS_NEW;
 	protected bool $useHeaders			= FALSE;
