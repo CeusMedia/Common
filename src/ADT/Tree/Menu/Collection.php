@@ -108,7 +108,7 @@ class Collection
 	/**
 	 *	Returns List of nested Tree Menu Items.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		array<Collection>
 	 */
 	public function getChildren(): array
 	{
