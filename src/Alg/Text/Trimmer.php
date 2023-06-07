@@ -2,7 +2,7 @@
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
  *
- *	Copyright (c) 2009-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2022 Christian Würker
+ *	@copyright		2009-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,7 +34,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2022 Christian Würker
+ *	@copyright		2009-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */

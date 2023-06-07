@@ -3,7 +3,7 @@
 /**
  *	Access to Dyn (dyn.com) API.
  *
- *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2022 Christian Würker
+ *	@copyright		2015-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://dyn.com/support/developers/api/
@@ -40,7 +40,7 @@ use CeusMedia\Common\Net\Reader as NetReader;
  *  @category       Library
  *  @package        CeusMedia_Common_Net_API
  *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
- *  @copyright      2015-2022 Christian Würker
+ *  @copyright      2015-2023 Christian Würker
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *  @link           https://github.com/CeusMedia/Common
  *  @see            http://dyn.com/support/developers/api/
