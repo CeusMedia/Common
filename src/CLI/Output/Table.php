@@ -158,9 +158,9 @@ class Table
 		}
 	}
 
-	protected function getBorderStyleObject(): object
+	protected function getBorderStyleObject(): TableBorderTheme
 	{
-		return (object) self::$borderStyles[$this->borderStyle];
+		return TableBorderTheme::createFromArray( self::$borderStyles[$this->borderStyle] );
 	}
 
 	protected function renderHeadline(): string
@@ -234,5 +234,38 @@ class Table
 				join( $border->otj, $list ),
 				$border->otr,
 			] ).PHP_EOL;
+	}
+}
+
+class TableBorderTheme
+{
+	public string $otl		= '';
+	public string $ot		= '';
+	public string $otj		= '';
+	public string $otr		= '';
+	public string $ol		= '';
+	public string $olj		= '';
+	public string $or		= '';
+	public string $orj		= '';
+	public string $obl		= '';
+	public string $ob		= '';
+	public string $obr		= '';
+	public string $obj		= '';
+	public string $ij		= '';
+	public string $ih		= '';
+	public string $iv		= ' ';
+
+	public function set( string $name, string $value ): void
+	{
+		if( property_exists( $this, $name ) )
+			$this->$name = $value;
+	}
+
+	public static function createFromArray( array $data ): self
+	{
+		$o  = new self();
+		foreach( $data as $key => $value )
+			$o->set( $key, $value );
+		return $o;
 	}
 }

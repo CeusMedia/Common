@@ -6,3 +6,4 @@
 /doc/*
 ;/.idea
 /tool/config/.phpunit.cache/
+/demo/UI/SVG/test.svg

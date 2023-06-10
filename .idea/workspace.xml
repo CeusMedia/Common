@@ -4,21 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Work on unit tests.">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Set version to 0.9.1 and update copyright year.">
+      <change afterPath="$PROJECT_DIR$/demo/UI/SVG/index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/SVG/BarAcross.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/SVG/Chart.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/SVG/ChartData.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/UI/SVG/PieGraph.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/VCard.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/VCard.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/IO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/IO.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Serializable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Serializable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Validation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSV/Iterator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/Connectivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Connectivity.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/ContextMenu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/ContextMenu.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/Atom/Validator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Atom/Validator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/XML/RSS/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Browser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Browser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/OS.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/OS.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/JS/CodeMirror.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JS/CodeMirror.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +47,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="PhpDebugGeneral" listening_started="true" />
   <component name="PhpServers">
     <servers>
       <server host="flug.local" id="5339d3fa-e92d-441c-b94e-f5fba3a7b873" name="flug.local" port="443" use_path_mappings="true">
@@ -129,24 +126,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Project.color": "3f0804",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/opt/homebrew/var/www/lib/GitHub/CeusMedia/Common",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.sourceCode.PHP",
-    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Project.color&quot;: &quot;3f0804&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/opt/homebrew/var/www/lib/GitHub/CeusMedia/Common&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.PHP&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test/XML" />
