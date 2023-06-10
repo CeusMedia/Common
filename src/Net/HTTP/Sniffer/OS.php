@@ -35,7 +35,8 @@ namespace CeusMedia\Common\Net\HTTP\Sniffer;
  *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@todo			may be out of date
+ *  @deprecated     outdated and not state of the art, use instead: matomo/device-detector
+ *	@todo			to be removed in 0.9.1
  */
 class OS
 {
@@ -95,7 +96,7 @@ class OS
 	 */
 	protected function identifySystem()
 	{
-		$ua = getEnv( 'HTTP_USER_AGENT' );
+		$ua = getEnv( 'HTTP_USER_AGENT' ) ?: '';
 		if( preg_match( "~win~i", $ua ) ){
 			$this->system = "Windows";
 			if( (preg_match( "~Windows 95~i", $ua ) ) || ( preg_match( "~Win95~i", $ua ) )) $this->version = "95";

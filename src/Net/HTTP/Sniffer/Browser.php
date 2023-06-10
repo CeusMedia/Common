@@ -35,7 +35,7 @@ namespace CeusMedia\Common\Net\HTTP\Sniffer;
  *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@deprecated		outdated and not state of the art
+ *	@deprecated		outdated and not state of the art, use instead: matomo/device-detector
  *	@todo			to be removed in 0.9.1
  */
 class Browser
@@ -98,7 +98,7 @@ class Browser
 	 */
 	public function identifyBrowser( ?string $userAgent = NULL )
 	{
-		$ua	= $userAgent ?? getEnv( 'HTTP_USER_AGENT' );
+		$ua	= $userAgent ?? ( getEnv( 'HTTP_USER_AGENT' ) ?: '' );
 		$this->browserType = "robot";
 		if (preg_match("~msnbot~i", $ua)){
 			$this->browser = "MSN Bot";
