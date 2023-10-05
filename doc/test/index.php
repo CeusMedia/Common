@@ -77,5 +77,4 @@ class UnitTestViewer
 	}
 }
 require_once '../../autoload.php';
-new UnitTestViewer( '../../Test/results.xml' );
-?>
+new UnitTestViewer( __DIR__.'/logfile.xml' );

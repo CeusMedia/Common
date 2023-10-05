@@ -58,17 +58,9 @@ class EditorTest extends BaseCase
 	 */
 	public function testDelete()
 	{
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= Editor::delete( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->editor->exists() );
+		$this->assertTrue( Editor::delete( $this->fileName ) );
+		$this->assertFalse( $this->editor->exists() );
 	}
 
 	/**
@@ -117,17 +109,9 @@ class EditorTest extends BaseCase
 	 */
 	public function testRemove()
 	{
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $this->editor->remove();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->editor->exists() );
+		$this->assertTrue( $this->editor->remove() );
+		$this->assertFalse( $this->editor->exists() );
 	}
 
 	/**
@@ -139,33 +123,13 @@ class EditorTest extends BaseCase
 	{
 		$fileName	= $this->path."renamed.txt";
 
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $this->editor->rename( $fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= $fileName;
-		$creation	= $this->editor->getFileName();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->editor->exists() );
+		$this->assertFileDoesNotExist( $fileName );
+		$this->assertTrue( $this->editor->rename( $fileName ) );
+		$this->assertFileExists( $fileName );
+		$this->assertFileDoesNotExist( $this->fileName );
+		$this->assertEquals( $fileName, $this->editor->getFileName() );
+		$this->assertTrue( $this->editor->exists() );
 }
 
 	/**

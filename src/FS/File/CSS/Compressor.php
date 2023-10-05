@@ -94,6 +94,11 @@ class Compressor
 		return self::compressString( $converter->toString(), $oneLine );
 	}
 
+  /**
+   * @param string $string
+   * @param bool $oneLine
+   * @return string
+   */
 	static public function compressString( string $string, bool $oneLine = FALSE ): string
 	{
 		//  remove comments

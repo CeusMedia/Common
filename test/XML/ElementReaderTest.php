@@ -45,11 +45,11 @@ class ElementReaderTest extends BaseCase
 
 		$element	= ElementReader::readUrl( $this->url );
 
-		$assertion	= 'Liftoff News';
+		$assertion	= 'NASA Space Station News';
 		$creation	= (string) $element->channel->title;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 'http://liftoff.msfc.nasa.gov/';
+		$assertion	= 'http://www.nasa.gov/';
 		$creation	= (string) $element->channel->link;
 		$this->assertEquals( $assertion, $creation );
 	}

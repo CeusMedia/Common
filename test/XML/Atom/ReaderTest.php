@@ -95,31 +95,6 @@ class ReaderTest extends BaseCase
 	}
 
 	/**
-	 *	Tests Method 'checkEntryIndex'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testCheckEntryIndex()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Reader::checkEntryIndex();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Exception of Method 'checkEntryIndex'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testCheckEntryIndexException()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->expectException( 'InvalidArgumentException' );
-		Reader::checkEntryIndex();
-	}
-
-	/**
 	 *	Tests Method 'getChannelAuthors'.
 	 *	@access		public
 	 *	@return		void
@@ -155,19 +130,6 @@ class ReaderTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= Reader::getChannelContributors();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'getChannelElementAndAttribute'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetChannelElementAndAttribute()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Reader::getChannelElementAndAttribute();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -376,19 +338,6 @@ class ReaderTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= Reader::getEntryContributors();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'getEntryElementAndAttribute'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetEntryElementAndAttribute()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Reader::getEntryElementAndAttribute();
 		$this->assertEquals( $assertion, $creation );
 	}
 

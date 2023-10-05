@@ -50,25 +50,20 @@ class ReaderTest extends BaseCase
 			$this->markTestSkipped( 'The cURL extension is not available.' );
 		$rss		= $this->reader->readUrl( $this->url );
 
-		$assertion	= "http://liftoff.msfc.nasa.gov/";
+		$assertion	= "http://www.nasa.gov/";
 		$creation	= $rss['channelData']['link'];
 		$this->assertEquals( $assertion, $creation );
+		$this->assertCount( 5, $rss['itemList'] );
 
-		$assertion	= 4;
-		$creation	= count( $rss['itemList'] );
-		$this->assertEquals( $assertion, $creation );
+		$oldest		= end($rss['itemList']);
 
-		$assertion	= "Star City";
-		$creation	= $rss['itemList'][0]['title'];
-		$this->assertEquals( $assertion, $creation );
+    $expected	= "NASA Plans Coverage of Roscosmos Spacewalk Outside Space Station";
+		$this->assertEquals( $expected, $oldest['title'] );
 
-		$assertion	= true;
-		$creation	= strlen( trim( $rss['itemList'][0]['description'] ) ) > 0;
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( strlen( trim( $oldest['description'] ) ) > 0 );
 
-		$assertion	= "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp";
-		$creation	= $rss['itemList'][0]['link'];
-		$this->assertEquals( $assertion, $creation );
+		$expected	= "http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp";
+		$this->assertEquals( $expected, $oldest['link'] );
 	}
 
 	/**

@@ -86,11 +86,10 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	Answers all undefined members writes by just returning FALSE without storing anything.
 	 *	@param		string		$name			Member name - doesn't matter
 	 *	@param		mixed		$value			Member value - doesn't matter
-	 *	@return		boolean		Always FALSE
+	 *	@return		void
 	 */
-	public function __set( string $name, $value )
+	public function __set( string $name, $value ): void
 	{
-		return FALSE;
 	}
 
 	/**
