@@ -2,8 +2,12 @@
 
 A library of PHP classes for common tasks.
 
+![Branch](https://img.shields.io/badge/Branch-1.0.x-blue?style=flat-square)
+![Release](https://img.shields.io/badge/Release----blue?style=flat-square)
+![PHP version](https://img.shields.io/badge/PHP-%5E8-blue?style=flat-square&color=777BB4)
+![PHPStan level](https://img.shields.io/badge/PHPStan_level-6-darkgreen?style=flat-square)
+[![Total downloads](http://img.shields.io/packagist/dt/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
 [![Package version](http://img.shields.io/packagist/v/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
-[![Monthly downloads](http://img.shields.io/packagist/dt/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
 [![License](https://img.shields.io/packagist/l/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
 
 ## Features
@@ -19,7 +23,7 @@ A library of PHP classes for common tasks.
 - Typed properties
 - Types method arguments
 - Code quality
-  - PHPStan level 9 complete + extra strict rules
+  - PHPStan level 6 complete
   - Rector 7.4 rule set complete
   - PHPUnit 9.5 & some unit tests
 - Composer scripts for development
