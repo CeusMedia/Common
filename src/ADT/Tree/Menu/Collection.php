@@ -3,7 +3,7 @@
 /**
  *	Tree Menu List Data Object used by UI_HTML_Tree_Menu.
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +35,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -73,11 +73,12 @@ class Collection
 	 *	Adds a nested Tree Menu Item to this Tree Menu List.
 	 *	@access		public
 	 *	@param		Collection	$child		Nested Tree Menu Item Data Object
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addChild( Collection $child )
+	public function addChild( Collection $child ): self
 	{
 		$this->children[]	= $child;
+		return $this;
 	}
 
 	/**
@@ -131,7 +132,7 @@ class Collection
 	 */
 	public function hasChildren(): bool
 	{
-		return count( $this->children ) > 0;
+		return count( $this->children ) !== 0;
 	}
 
 	/**
@@ -139,25 +140,27 @@ class Collection
 	 *	@access		public
 	 *	@param		string		$key			Attribute Key
 	 *	@param		string		$value			Attribute Value
-	 *	@return		bool
+	 *	@return		self
 	 */
-	public function setAttribute( string $key, string $value ): bool
+	public function setAttribute( string $key, string $value ): self
 	{
-		return $this->attributes->set( $key, $value );
+		$this->attributes->set( $key, $value );
+		return $this;
 	}
 
 	/**
 	 *	Sets Attributes from Map Array or Dictionary.
 	 *	@access		public
 	 *	@param		Dictionary|array	$array			Map Array or Dictionary of Attributes to set
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setAttributes( $array )
+	public function setAttributes( $array ): self
 	{
 		if( $array instanceof Dictionary )
 			$array	= $array->getAll();
 		foreach( $array as $key => $value )
 			$this->attributes->set( $key, $value );
+		return $this;
 	}
 
 	/**

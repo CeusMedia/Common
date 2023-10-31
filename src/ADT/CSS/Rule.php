@@ -3,7 +3,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2011-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2022 Christian Würker
+ *	@copyright		2011-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,15 +37,15 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2022 Christian Würker
+ *	@copyright		2011-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Rule
 {
-	public $selector	= '';
+	public string $selector		= '';
 
-	public $properties	= [];
+	public array $properties	= [];
 
 	public function __construct( string $selector, array $properties = [] )
 	{
@@ -113,7 +113,7 @@ class Rule
 		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );
 	}
 
-	public function setPropertyByKey( string $key, $value = NULL ): bool
+	public function setPropertyByKey( string $key, ?string $value = NULL ): bool
 	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->removePropertyByKey( $key );

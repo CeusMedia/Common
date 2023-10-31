@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Extracts Terms from a Text Document.
  *
- *	Copyright (c) 2009-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2022 Christian Würker
+ *	@copyright		2009-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,7 +35,7 @@ use CeusMedia\Common\FS\File\Editor as FileEditor;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2022 Christian Würker
+ *	@copyright		2009-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -51,11 +52,9 @@ class TermExtractor
 		$blacklist	= self::$blacklist;
 		if( !self::$backlistCaseSensitive )
 			$blacklist	= array_map( 'strtolower', $blacklist );
-		foreach( $lines as $line )
-		{
+		foreach( $lines as $line ){
 			$words	= explode( " ", trim( $line ) );
-			foreach( $words as $word )
-			{
+			foreach( $words as $word ){
 				$word	= trim( $word );
 				$word	= preg_replace( "@^\(@i", "", $word );
 				$word	= preg_replace( "@\)$@i", "", $word );
@@ -78,11 +77,10 @@ class TermExtractor
 		return $list;
 	}
 
-	public static function loadBlacklist( string $fileName )
+	public static function loadBlacklist( string $fileName ): void
 	{
 		$string	= FileEditor::load( $fileName );
-		if( !Unicoder::isUnicode( $string ) )
-		{
+		if( !Unicoder::isUnicode( $string ) ){
 			$string	= Unicoder::convertToUnicode( $string );
 			FileEditor::save( $fileName, $string );
 		}
@@ -90,8 +88,8 @@ class TermExtractor
 		self::setBlacklist( array_unique( $list ) );
 	}
 
-	public static function setBlacklist( array $list )
+	public static function setBlacklist( array $list ): void
 	{
-		self::$blacklist		= array_unique( $list );
+		self::$blacklist	= array_unique( $list );
 	}
 }

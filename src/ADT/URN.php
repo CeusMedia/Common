@@ -3,7 +3,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.ietf.org/rfc/rfc2141.txt
@@ -36,22 +36,21 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.ietf.org/rfc/rfc2141.txt
  */
 class URN
 {
-	public $nid;
+	public string $nid;
 
-	public $nss;
+	public string $nss;
 
 	public function __construct( string $nid, ?string $nss = NULL )
 	{
 		$nid	= preg_replace( "/^urn:/i", "", $nid );
-		if( $nss === NULL && preg_match( "/^\S+:\S+$/", $nid ) )
-		{
+		if( $nss === NULL && preg_match( "/^\S+:\S+$/", $nid ) ){
 			$parts	= explode( ":", $nid );
 			$nid	= array_shift( $parts );
 			$nss	= implode( ":", $parts );
@@ -78,14 +77,15 @@ class URN
 		return $urn;
 	}
 
-	public function setIdentifier( $nid )
+	public function setIdentifier( string $nid ): self
 	{
 		if( !preg_match( '/^[a-z0-9][a-z0-9-]{1,31}$/i', $nid ) )
 			throw new InvalidArgumentException( 'Namespace Identifier "'.$nid.'" is invalid.' );
 		$this->nid	= $nid;
+		return $this;
 	}
 
-	public function setSpecificString( $nss )
+	public function setSpecificString( string $nss ): self
 	{
 		$alpha		= 'a-z0-9';
 		$others		= '()+,-.:=@;$_!*\\';
@@ -95,6 +95,7 @@ class URN
 		if( !preg_match( '/^('.$trans.'|'.$hex.')+$/i', $nss ) )
 			throw new InvalidArgumentException( 'Namespace Specific String "'.$nss.'" is invalid.' );
 		$this->nss	= $nss;
+		return $this;
 	}
 
 	public function __toString()

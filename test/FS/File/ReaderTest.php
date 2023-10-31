@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 /**
  *	TestUnit of File Reader.
@@ -10,6 +11,7 @@ namespace CeusMedia\CommonTest\FS\File;
 
 use CeusMedia\Common\FS\File\Reader;
 use CeusMedia\CommonTest\BaseCase;
+use RuntimeException;
 
 /**
  *	TestUnit of File Reader.
@@ -265,8 +267,8 @@ class ReaderTest extends BaseCase
 	 */
 	public function testReadStringException()
 	{
-		$this->expectException( 'RuntimeException' );
-		$reader	= new Reader( "not_existing" );
+		$this->expectException( RuntimeException::class );
+		$reader	= new Reader( "not_existing______", TRUE );
 		$reader->readString();
 	}
 

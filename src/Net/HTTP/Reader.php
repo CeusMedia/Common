@@ -3,7 +3,7 @@
 /**
  *	Reader for HTTP Resources.
  *
- *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2022 Christian Würker
+ *	@copyright		2010-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -41,7 +41,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2022 Christian Würker
+ *	@copyright		2010-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -131,10 +131,10 @@ class Reader
 	/**
 	 *	Returns Info Array or single Information from last cURL Request.
 	 *	@access		public
-	 *	@param		string|NULL		$key		Information Key
+	 *	@param		integer|NULL		$key		Information Key
 	 *	@return		mixed
 	 */
-	public function getCurlInfo( ?string $key = NULL )
+	public function getCurlInfo( ?int $key = NULL )
 	{
 		if( !$this->curlInfo )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -149,9 +149,9 @@ class Reader
 	 *	...
 	 *	@access		public
 	 *	@param		string		$key
-	 *	@return		mixed|NULL
+	 *	@return		string|NULL
 	 */
-	public function getResponseHeader( string $key )
+	public function getResponseHeader( string $key ): ?string
 	{
 		return $this->responseHeaders[$key] ?? NULL;
 	}

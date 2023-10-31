@@ -4,7 +4,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
@@ -30,7 +30,6 @@
 
 namespace CeusMedia\Common\ADT;
 
-use Exception;
 use InvalidArgumentException;
 use RangeException;
 use RuntimeException;
@@ -40,7 +39,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
@@ -48,16 +47,18 @@ use RuntimeException;
  */
 class URL
 {
-	protected $defaultUrl;
+	/**	@var	URL|NULL			$defaultUrl */
+	protected ?self $defaultUrl		= NULL;
 
-	protected $parts;
+	/**	@var	object				$parts */
+	protected object $parts;
 
 	/**
 	 *	Constructor.
 	 *
 	 *	@access		public
-	 *	@param		string			$url		URL string to represent
-	 *	@param		URL|string		$defaultUrl Underlying base URL
+	 *	@param		string				$url		URL string to represent
+	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
 	public function __construct( string $url, $defaultUrl = NULL )
 	{
@@ -76,7 +77,12 @@ class URL
 		return $this->get();
 	}
 
-	public static function create( string $url = NULL, string $defaultUrl = NULL ): self
+	/**
+	 * @param		string|NULL			$url
+	 * @param		URL|string|NULL		$defaultUrl
+	 * @return		self
+	 */
+	public static function create( string $url = NULL, $defaultUrl = NULL ): self
 	{
 		return new self( $url, $defaultUrl );
 	}
@@ -109,7 +115,7 @@ class URL
 		}
 		if( $this->parts->host )
 			$buffer[]	= $this->parts->host;
-		if( $this->parts->port )
+		if( NULL !== $this->parts->port && 0 !== $this->parts->port )
 			$buffer[]	= ':'.$this->parts->port;
 		if( $this->parts->path )
 			$buffer[]	= $this->parts->path;
@@ -185,7 +191,7 @@ class URL
 
 		$parts			= [];
 		$pathParts		= explode( '/', ltrim( $this->getPath(), '/' ) );
-		foreach( explode( '/', trim( $referencePath, '/' ) ) as $nr => $referencePathPart ){
+		foreach( explode( '/', trim( $referencePath, '/' ) ) as $referencePathPart ){
 			$part	= array_shift( $pathParts );
 			if( $referencePathPart === $part )
 				continue;
@@ -217,7 +223,7 @@ class URL
 		return $this->parts->path;
 	}
 
-	public function getPort(): string
+	public function getPort(): ?int
 	{
 		return $this->parts->port;
 	}
@@ -260,7 +266,7 @@ class URL
 		$defaults	= [
 			'scheme'		=> $this->defaultUrl ? $this->defaultUrl->getScheme() : '',
 			'host'			=> $this->defaultUrl ? $this->defaultUrl->getHost() : '',
-			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : '',
+			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : NULL,
 			'user'			=> $this->defaultUrl ? $this->defaultUrl->getUsername() : '',
 			'pass'			=> $this->defaultUrl ? $this->defaultUrl->getPassword() : '',
 			'query'			=> '',
@@ -294,10 +300,10 @@ class URL
 		return $this;
 	}
 
-	public function setHost( string $host, $port = NULL, string $username = NULL, string $password = NULL ): self
+	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): self
 	{
 		$this->parts->host	= $host;
-		if( $port )
+		if( NULL !== $port )
 			$this->setPort( $port );
 		if( NULL !== $username )
 			$this->setAuth( $username, $password );
@@ -310,7 +316,7 @@ class URL
 		return $this;
 	}
 
-	public function setPort( $port ): self
+	public function setPort( ?int $port = NULL ): self
 	{
 		$this->parts->port	= $port;
 		return $this;

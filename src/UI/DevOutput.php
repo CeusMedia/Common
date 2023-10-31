@@ -4,7 +4,7 @@
 /**
  *	Output Methods for Development.
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -31,6 +31,7 @@ namespace CeusMedia\Common\UI;
 
 use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
 use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use DOMNode;
 use OutOfRangeException;
 
 /**
@@ -38,7 +39,7 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -434,7 +435,7 @@ class DevOutput
 		self::$defaultChannel	= $channel;
 	}
 
-	public function showDOM( $node, int $offset = 0 )
+	public function showDOM( DOMNode $node, int $offset = 0 ): void
 	{
 	//	remark( $node->nodeType." [".$node->nodeName."]" );
 	//	remark( $node->nodeValue );

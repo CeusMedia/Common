@@ -3,7 +3,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,16 +37,16 @@ use OutOfBoundsException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
 class DurationPhraser
 {
-	protected $patternLabel	= '@(.*){(s|m|h|D|W|M|Y)}(.*)::([0-9]+)$@';
-	protected $patternData	= '@::[0-9]+$@';
-	protected $ranges		= NULL;
+	protected string $patternLabel	= '@(.*){([smhDWMY])}(.*)::([0-9]+)$@';
+	protected string $patternData	= '@::[0-9]+$@';
+	protected DurationPhraseRanges $ranges;
 
 	public function __construct( DurationPhraseRanges $ranges )
 	{
@@ -76,7 +76,7 @@ class DurationPhraser
 		throw new OutOfBoundsException( 'No range defined for '.$seconds.' seconds' );
 	}
 
-	public function getPhraseFromTimestamp( int $timestamp ): string
+	public function getPhraseFromTimestamp(int $timestamp ): string
 	{
 		$seconds	= time() - $timestamp;
 		if( $seconds < 0 )

@@ -3,7 +3,7 @@
 /**
  *	Collects and Manages Request Data.
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -29,6 +29,7 @@
 namespace CeusMedia\Common\Net\HTTP\Request;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Method as Method;
 use CeusMedia\Common\Net\HTTP\Request as Request;
@@ -39,7 +40,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -139,7 +140,7 @@ class Receiver extends Dictionary
 	}
 
 	/**
-	 *	Returns Object collected HTTP Headers.
+	 *	Returns Object of collected HTTP Headers.
 	 *	@access		public
 	 *	@return		HeaderSection		List of Header Objects
 	 */
@@ -149,7 +150,7 @@ class Receiver extends Dictionary
 	}
 
 	/**
-	 *	Returns List collected HTTP Headers.
+	 *	Returns List of collected HTTP Headers.
 	 *	@access		public
 	 *	@return		array		List of Header Objects
 	 */
@@ -164,7 +165,7 @@ class Receiver extends Dictionary
 	 *	@access		public
 	 *	@param		string		$name		Header Name
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
-	 *	@return		array|mixed|FALSE|NULL	List of collected HTTP Header Fields with given Header Name
+	 *	@return		HeaderField[]|HeaderField|NULL	List of collected HTTP Header Fields with given Header Name
 	 */
 	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
 	{

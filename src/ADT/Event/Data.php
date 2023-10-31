@@ -3,7 +3,7 @@
 /**
  *	Data class for triggered events.
  *
- *	Copyright (c) 2015-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2022 Christian Würker
+ *	@copyright		2015-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,29 +33,29 @@ namespace CeusMedia\Common\ADT\Event;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2022 Christian Würker
+ *	@copyright		2015-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Data
 {
-	/**	@var	mixed		$arguments		Data given by trigger */
+	/**	@var	mixed|NULL		$arguments		Data given by trigger */
 	public $arguments;
 
-	/**	@var	mixed		$arguments		Object which triggered bound event */
+	/**	@var	mixed|NULL		$caller			Object which triggered bound event */
 	public $caller;
 
-	/**	@var	mixed		$arguments		Data bound on event */
+	/**	@var	mixed|NULL		$data			Data bound on event */
 	public $data;
 
-	/**	@var	mixed		$arguments		Reference to event handler instance */
-	protected $handler;
+	/**	@var	Handler		$handler		Reference to event handler instance */
+	protected Handler $handler;
 
-	/**	@var	mixed		$arguments		Name bound event, eg. "start.my"  */
+	/**	@var	mixed|NULL		$key			Name bound event, eg. "start.my"  */
 	public $key;
 
-	/**	@var	string		$trigger		Name of trigger, eg. "start" */
-	public $trigger;
+	/**	@var	string|NULL		$trigger		Name of trigger, eg. "start" */
+	public ?string $trigger;
 
 	/**
 	 *	Constructor.

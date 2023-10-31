@@ -3,7 +3,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2022 Christian Würker
+ *	@copyright		2010-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +37,7 @@ use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2022 Christian Würker
+ *	@copyright		2010-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 RFC 2616 HTTP Message Headers
@@ -103,70 +103,77 @@ use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
  */
 class Section
 {
-	protected array $fields	= [
+	protected array $sectionedFields	= [
 		'general'	=> [
-			'cache-control'			=> [],
-			'connection'			=> [],
-			'date'					=> [],
-			'pragma'				=> [],
-			'trailer'				=> [],
-			'transfer-encoding'		=> [],
-			'upgrade'				=> [],
-			'via'					=> [],
-			'warning'				=> [],
+			'cache-control',
+			'connection',
+			'date',
+			'pragma',
+			'trailer',
+			'transfer-encoding',
+			'upgrade',
+			'via',
+			'warning',
 		],
 		'request'	=> [
-			'accept'				=> [],
-			'accept-charset'		=> [],
-			'accept-encoding'		=> [],
-			'accept-language'		=> [],
-			'authorization'			=> [],
-			'expect'				=> [],
-			'from'					=> [],
-			'host'					=> [],
-			'if-match'				=> [],
-			'if-modified-since'		=> [],
-			'if-none-match'			=> [],
-			'if-range'				=> [],
-			'if-unmodified-since'	=> [],
-			'max-forwards'			=> [],
-			'proxy-authorization'	=> [],
-			'range'					=> [],
-			'referer'				=> [],
-			'te'					=> [],
-			'user-agent'			=> [],
+			'accept',
+			'accept-charset',
+			'accept-encoding',
+			'accept-language',
+			'authorization',
+			'expect',
+			'from',
+			'host',
+			'if-match',
+			'if-modified-since',
+			'if-none-match',
+			'if-range',
+			'if-unmodified-since',
+			'max-forwards',
+			'proxy-authorization',
+			'range',
+			'referer',
+			'te',
+			'user-agent',
 		],
 		'response'	=> [
-			'accept-ranges'			=> [],
-			'age'					=> [],
-			'etag'					=> [],
-			'location'				=> [],
-			'proxy-authenticate'	=> [],
-			'retry-after'			=> [],
-			'server'				=> [],
-			'vary'					=> [],
-			'www-authenticate'		=> [],
+			'accept-ranges',
+			'age',
+			'etag',
+			'location',
+			'proxy-authenticate',
+			'retry-after',
+			'server',
+			'vary',
+			'www-authenticate',
 		],
 		'entity'	=> [
-			'allow'		=> [],
-			'content-encoding'		=> [],
-			'content-language'		=> [],
-			'content-length'		=> [],
-			'content-location'		=> [],
-			'content-md5'			=> [],
-			'content-range'			=> [],
-			'content-type'			=> [],
-			'expires'				=> [],
-			'last-modified'			=> [],
+			'allow',
+			'content-encoding',
+			'content-language',
+			'content-length',
+			'content-location',
+			'content-md5',
+			'content-range',
+			'content-type',
+			'expires',
+			'last-modified',
 		],
 		'others'	=> []
 	];
+
+	protected array $fields			= [];
 
 	public function addField( HeaderField $field ): self
 	{
 		return $this->setField( $field, FALSE );
 	}
 
+	/**
+	 *	@param		string				$name
+	 *	@param		string|float|int	$value
+	 *	@return		self
+	 */
 	public function addFieldPair( string $name, $value ): self
 	{
 		$field	= new HeaderField( $name, $value );
@@ -193,39 +200,35 @@ class Section
 		return $this;
 	}
 
-	public function getField( string $name ): array
+	public function getField( string $name ): ?HeaderField
 	{
-		$name	= strtolower( $name );
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			if( array_key_exists( $name, $sectionPairs ) )
-				return $this->fields[$sectionName][$name];
-		return [];
+		$fields		= $this->fields[strtolower( $name )] ?? [];
+		return 0 !== count( $fields ) ? end( $fields ) : NULL;
 	}
 
+	/**
+	 *	Returns list of all set fields.
+	 *	@return		array
+	 */
 	public function getFields(): array
 	{
 		$list	= [];
-		foreach( $this->fields as $sectionPairs )
-			foreach( $sectionPairs as $fieldList )
-				if( count( $fieldList ) )
-					foreach( $fieldList as $field )
-						$list[]	= $field;
+		foreach( $this->fields as $name => $fields )
+			foreach( $fields as $field )
+				$list[]	= $field;
 		return $list;
 	}
 
+	/**
+	 *	@param		string		$name
+	 *	@param		bool		$latestOnly
+	 *	@return		array<HeaderField>|HeaderField|NULL
+	 */
 	public function getFieldsByName( string $name, bool $latestOnly = FALSE )
 	{
-		$name	= strtolower( $name );
-		foreach( $this->fields as $sectionPairs ){
-			if( array_key_exists( $name, $sectionPairs ) ){
-				if( $latestOnly )
-					return end( $sectionPairs[$name] );
-				return $sectionPairs[$name];
-			}
-		}
 		if( $latestOnly )
-			return NULL;
-		return [];
+			return $this->getField( $name );
+		return $this->fields[strtolower( $name )] ?? [];
 	}
 
 	public static function getInstance(): self
@@ -233,53 +236,54 @@ class Section
 		return new self();
 	}
 
+	public function getSectionedFields(): array
+	{
+		$list	= [];
+		$names	= array_keys( $this->fields );
+		foreach($this->sectionedFields as $sectionName => $sectionFields ){
+			foreach( $sectionFields as $sectionFieldName ){
+				if( 0 !== count( $this->fields[$sectionFieldName] ?? [] ) ){
+					$list[$sectionName]	??= [];
+					$list[$sectionName][$sectionFieldName]	= $this->fields[$sectionFieldName];
+				}
+				$names	= array_diff( $names, [$sectionFieldName] );
+			}
+		}
+		if( 0 !== count( $names ) ){
+			$list['others']	= [];
+			foreach( $names as $name )
+				$list['others'][$name]	= $this->fields[$name];
+		}
+		return $list;
+	}
+
 	public function hasField( string $name ): bool
 	{
-		$name	= strtolower( $name );
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			if( array_key_exists( $name, $sectionPairs ) )
-				return (bool) count( $this->fields[$sectionName][$name] );
-		return FALSE;
+		return 0 !== count( $this->fields[strtolower( $name )] ?? [] );
 	}
 
 	public function removeField( HeaderField $field ): self
 	{
-		$name	= $field->getName();
-		foreach( $this->fields as $sectionName => $sectionPairs )
-		{
-			if( !array_key_exists( $name, $sectionPairs ) )
-				continue;
-			foreach( $sectionPairs as $nr => $sectionField )
-				if( $sectionField == $field )
-					unset( $this->fields[$sectionName][$name][$nr] );
-		}
+		$name			= strtolower( $field->getName() );
+		foreach( $this->fields[$name] ?? [] as $nr => $item )
+			if( $item === $field || $item->getValue() === $field->getValue() )
+				unset( $this->fields[$name][$nr] );
 		return $this;
 	}
 
 	public function removeByName( string $name ): self
 	{
-		if( isset( $this->fields['others'][$name] ) )
-			unset( $this->fields['others'][$name] );
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			if( array_key_exists( $name, $sectionPairs ) )
-				$this->fields[$sectionName][$name]		= [];
+		$name	= strtolower( $name );
+		$this->fields[$name]	= [];
 		return $this;
 	}
 
 	public function setField( HeaderField $field, bool $emptyBefore = TRUE ): self
 	{
-		$name	= $field->getName();
-		foreach( $this->fields as $sectionName => $sectionPairs ){
-			if( array_key_exists( $name, $sectionPairs ) ){
-				if( $emptyBefore )
-					$this->fields[$sectionName][$name]	= [];
-				$this->fields[$sectionName][$name][]	= $field;
-				return $this;
-			}
-		}
-		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
-			$this->fields['others'][$name]	= [];
-		$this->fields['others'][$name][]	= $field;
+		$name		= strtolower( $field->getName() );
+		$fields		= !$emptyBefore ? ( $this->fields[$name] ?? [] ) : [];
+		$fields[]	= $field;
+		$this->fields[$name]	= $fields;
 		return $this;
 	}
 

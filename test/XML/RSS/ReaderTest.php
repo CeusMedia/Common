@@ -50,15 +50,15 @@ class ReaderTest extends BaseCase
 			$this->markTestSkipped( 'The cURL extension is not available.' );
 		$rss		= $this->reader->readUrl( $this->url );
 
-		$assertion	= "http://liftoff.msfc.nasa.gov/";
+		$assertion	= "http://www.nasa.gov/";
 		$creation	= $rss['channelData']['link'];
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 4;
+		$assertion	= 5;
 		$creation	= count( $rss['itemList'] );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "Star City";
+		$assertion	= "Louisiana Students to Hear from NASA Astronauts Aboard Space Station";
 		$creation	= $rss['itemList'][0]['title'];
 		$this->assertEquals( $assertion, $creation );
 
@@ -66,7 +66,7 @@ class ReaderTest extends BaseCase
 		$creation	= strlen( trim( $rss['itemList'][0]['description'] ) ) > 0;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp";
+		$assertion	= "http://www.nasa.gov/press-release/louisiana-students-to-hear-from-nasa-astronauts-aboard-space-station";
 		$creation	= $rss['itemList'][0]['link'];
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -5,7 +5,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -19,7 +19,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -156,6 +156,6 @@ class INI
 				$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
 			}
 		}
-		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
+		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode ?? 0640 );
 	}
 }

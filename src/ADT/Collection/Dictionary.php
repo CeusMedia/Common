@@ -4,7 +4,7 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *
- *	Copyright (c) 2006-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2006-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2006-2022 Christian Würker
+ *	@copyright		2006-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -41,7 +41,7 @@ use UnexpectedValueException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2006-2022 Christian Würker
+ *	@copyright		2006-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -132,7 +132,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		return $this->pairs[$keys[$this->position]];
 	}
 
-	public function flush()
+	public function flush(): void
 	{
 		foreach( $this->getKeys() as $key )
 			$this->remove( $key );
@@ -382,8 +382,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	public function set( string $key, $value ): bool
 	{
 		//  check if pair is already existing
-		if( $this->has( $key ) )
-		{
+		if( $this->has( $key ) ){
 			//  given value is NULL, which means: remove this pair
 			if( is_null( $value ) )
 				//  remove pair and return result of sub operation

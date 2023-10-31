@@ -4,7 +4,7 @@
 /**
  *	Clock implementation with Lap Support.
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,7 +34,7 @@ namespace CeusMedia\Common\Alg\Time;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -87,15 +87,19 @@ class Clock
 	}
 
 	/**
-	 * @param int|float $seconds
-	 * @return void
+	 *	@param		int|float		$seconds
+	 *	@return		void
 	 */
-	public function sleep( $seconds )
+	public function sleep( $seconds ): void
 	{
 		$this->usleep( (int) ( $seconds * 1_000_000 ) );
 	}
 
-	public function speed( $seconds )
+	/**
+	 *	@param		int|float		$seconds
+	 *	@return		void
+	 */
+	public function speed( $seconds ): void
 	{
 		$this->uspeed( (int) ( $seconds * 1_000_000 ) );
 	}
@@ -107,7 +111,8 @@ class Clock
 	 */
 	public function start()
 	{
-		$this->microTimeStart = microtime( TRUE );
+		$this->microTimeStart	= microtime( TRUE );
+		$this->microTimeLap		= .0;
 	}
 
 	/**
@@ -146,14 +151,14 @@ class Clock
 		return $time;
 	}
 
-	public function usleep( int $microseconds )
+	public function usleep( int $microseconds ): void
 	{
 		$seconds	= $microseconds / 1_000_000;
 		if( ( microtime( TRUE ) - $this->microTimeStart ) >= $seconds )
 			$this->microTimeStart	+= $seconds;
 	}
 
-	public function uspeed( int $microseconds )
+	public function uspeed( int $microseconds ): void
 	{
 		$this->microTimeStart	-= $microseconds / 1_000_000;
 	}

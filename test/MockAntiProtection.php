@@ -9,7 +9,7 @@ declare( strict_types = 1 );
 namespace CeusMedia\CommonTest;
 
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
-use CeusMedia\Common\UI\Template;
+use CeusMedia\TemplateEngine\Template;
 use InvalidArgumentException;
 
 class MockAntiProtection
@@ -28,7 +28,7 @@ class MockAntiProtection
 		$namespace	= implode( '\\', $parts );
 
 		$codeFile	= __DIR__.'/MockAntiProtection.tmpl';
-		$codeClass	= Template::render( $codeFile, [
+		$codeClass	= Template::renderFile( $codeFile, [
 			'namespace' => $namespace,
 			'originalClassName' => '\\'.$originalClass,
 			'mockClassName' => $className,

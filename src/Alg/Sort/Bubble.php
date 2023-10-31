@@ -2,7 +2,7 @@
 /**
  *	Bubble Sort.
  *
- *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -32,7 +32,7 @@ namespace CeusMedia\Common\Alg\Sort;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -46,7 +46,7 @@ class Bubble
 	 *	@param		array		$list		List to sort
 	 *	@return		array
 	 */
-	public static function sort($list)
+	public static function sort( array $list ): array
 	{
 		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
 			for( $j=0; $j<$i; $j++ )
@@ -61,7 +61,7 @@ class Bubble
 	 *	@static
 	 *	@param		array		$list		Reference to List
 	 *	@param		int			$pos1		Position of first Element
-	 *	@param		int			$pos1		Position of second Element
+	 *	@param		int			$pos2		Position of second Element
 	 *	@return		void
 	 */
 	protected static function swap( &$list, $pos1, $pos2 )

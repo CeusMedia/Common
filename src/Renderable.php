@@ -19,5 +19,9 @@ namespace CeusMedia\Common;
  */
 interface Renderable
 {
-	public function render();
+	/**
+	 *	Returns as string.
+	 *	@return		string
+	 */
+	public function render(): string;
 }

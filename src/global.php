@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 declare(strict_types=1);
@@ -53,15 +53,18 @@ function print_rx( $variable, bool $return = FALSE ): ?string
 /**
  *	Prints out Code formatted with Tag "pre".
  *	@access		public
- *	@param		string		$string		Code to print out
- *	@param		boolean		$dump		...
- *	@return		mixed		String for Dump Mode or void
+ *	@param		string			$string		Code to print out
+ *	@param		boolean			$dump		...
+ *	@return		string|NULL
  */
-function pre( string $string, bool $dump = FALSE )
+function pre( string $string, bool $dump = FALSE ): ?string
 {
 	ob_start();
 	echo "<pre>".htmlentities( $string, ENT_QUOTES, 'UTF-8' )."</pre>";
-	return $dump ? ob_get_clean() : print( ob_get_clean() );
+	if( $dump )
+		return ob_get_clean();
+	print( ob_get_clean() );
+	return NULL;
 }
 
 /**
@@ -150,7 +153,12 @@ function show( $mixed, ?string $sign = NULL, ?int $factor = NULL )
 	print_m( $mixed, $sign, $factor );
 }
 
-function showDOM( $node )
+/**
+ *	@access		public
+ *	@param		DOMNode			$node			DOM node to print
+ *	@return		void
+ */
+function showDOM( DOMNode $node )
 {
 	$o = new DevOutput();
 	$o->showDOM( $node );
@@ -160,9 +168,10 @@ function showDOM( $node )
  *	Prints out Code formatted with Tag XMP
  *	@access		public
  *	@param		string		$string		Code to print out
- *	@return		mixed		String for Dump Mode or void
+ *	@param		bool		$dump		Flag: return instead of print, default: no
+ *	@return		string|NULL
  */
-function xmp( string $string, bool $dump = FALSE )
+function xmp( string $string, bool $dump = FALSE ): ?string
 {
 	$dev	= new DevOutput();
 	if( $dump )
@@ -173,4 +182,5 @@ function xmp( string $string, bool $dump = FALSE )
 		echo "<xmp>".$string."</xmp>";
 	if( $dump )
 		return ob_get_clean();
+	return NULL;
 }

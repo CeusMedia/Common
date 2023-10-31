@@ -81,10 +81,10 @@ class WriterTest extends BaseCase
 		$creation	= $this->writer->isWritable();
 		$this->assertEquals( $assertion, $creation );
 
-		$writer		= new Writer( "not_existing" );
-		$assertion	= false;
+		$writer		= new Writer( $this->path."not_existing" );
 		$creation	= $writer->isWritable();
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( TRUE, $creation );
+		@unlink( $this->path."not_existing" );
 	}
 
 	/**
@@ -185,7 +185,7 @@ class WriterTest extends BaseCase
 		$creation	= file_exists( $removeFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$writer		= new Writer( "no_existing" );
+		$writer		= new Writer( $this->path."no_existing", 0 );
 		$assertion	= false;
 		$creation	= $writer->remove();
 		$this->assertEquals( $assertion, $creation );

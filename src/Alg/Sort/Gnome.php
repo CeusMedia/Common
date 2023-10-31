@@ -2,7 +2,7 @@
 /**
  *	Gnome Sort.
  *
- *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -32,7 +32,7 @@ namespace CeusMedia\Common\Alg\Sort;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2022 Christian Würker
+ *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://www.cs.vu.nl/~dick/gnomesort.html
@@ -45,16 +45,14 @@ class Gnome
 	 *	@static
 	 *	@param		array		$list		Reference of list to sort
 	 */
-	public static function sort( &$list )
+	public static function sort( array &$list ): void
 	{
 		$n	= count( $list );
 		$i	= 0;
-		while( $i < $n )
-		{
+		while( $i < $n ){
 			if( $i == 0 || $list[$i-1] <= $list[$i] )
 				$i++;
-			else
-			{
+			else{
 				$tmp = $list[$i];
 				$list[$i]	= $list[$i-1];
 				$list[--$i] = $tmp;

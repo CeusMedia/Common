@@ -1,12 +1,13 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Support for strings in snake case.
- *	Converts strings into and from snake case.
+ *	Convert strings into and from snake case.
  *	Snake case is a string format where all spaces are replaced by underscores.
  *	Example for encoding: Hello World! ---> Hello_World!
  *	Example for decoding: snake_cased_string ---> snake cased string
  *
- *	Copyright (c) 2017-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2017-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -24,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2022 Christian Würker
+ *	@copyright		2017-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://en.wikipedia.org/wiki/Snake_case
@@ -37,7 +38,7 @@ namespace CeusMedia\Common\Alg\Text;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2022 Christian Würker
+ *	@copyright		2017-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -53,7 +54,7 @@ class SnakeCase
 		return str_replace( "_", " ", $string );
 	}
 
-	public static function encode( $string )
+	public static function encode( string $string ): string
 	{
 		return str_replace( " ", "_", $string );
 	}

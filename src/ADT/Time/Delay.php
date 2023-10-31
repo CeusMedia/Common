@@ -2,7 +2,7 @@
 
 /**
  *
- *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2022 Christian Würker
+ *	@copyright		2010-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,16 +34,16 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2022 Christian Würker
+ *	@copyright		2010-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Delay
 {
-	protected $seconds;
-	protected $time;
-	protected $numberRuns	= 0;
-	protected $numberChecks	= 0;
+	protected float $seconds;
+	protected float $time;
+	protected int $numberRuns	= 0;
+	protected int $numberChecks	= 0;
 
 	/**
 	 *	Constructor.
@@ -56,7 +56,7 @@ class Delay
 	{
 		if( $msec < 1 )
 			throw new RangeException( 'Delay must be at least 1 ms' );
-		$this->seconds	= $msec / 1000;
+		$this->seconds	= (float) $msec / 1000;
 		$this->restart();
 	}
 
