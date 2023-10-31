@@ -48,9 +48,9 @@ class MethodFactory
 {
 	protected array $arguments;
 
-	protected ?string $method;
+	protected ?string $method	= NULL;
 
-	protected ?object $object;
+	protected ?object $object	= NULL;
 
 	/**
 	 *	Constructor.

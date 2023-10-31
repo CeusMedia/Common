@@ -10,6 +10,7 @@ namespace CeusMedia\CommonTest\FS\File\Collection;
 
 use CeusMedia\Common\FS\File\Collection\Reader;
 use CeusMedia\CommonTest\BaseCase;
+use RuntimeException;
 
 /**
  *	TestUnit of Collection Reader.
@@ -130,8 +131,8 @@ class ReaderTest extends BaseCase
 	 */
 	public function testReadException()
 	{
-		$this->expectException( 'RuntimeException' );
-		Reader::read( "not_existing" );
+		$this->expectException( RuntimeException::class );
+		Reader::read( "not_existing", TRUE );
 	}
 
 	/**

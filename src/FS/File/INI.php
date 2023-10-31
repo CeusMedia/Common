@@ -156,6 +156,6 @@ class INI
 				$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
 			}
 		}
-		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
+		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode ?? 0640 );
 	}
 }
