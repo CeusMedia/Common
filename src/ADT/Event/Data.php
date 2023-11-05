@@ -39,28 +39,28 @@ namespace CeusMedia\Common\ADT\Event;
  */
 class Data
 {
-	/**	@var	mixed|NULL		$arguments		Data given by trigger */
-	public $arguments;
+	/**	@var	array			$arguments		Data given by trigger */
+	public array $arguments 	= [];
 
-	/**	@var	mixed|NULL		$caller			Object which triggered bound event */
-	public $caller;
+	/**	@var	object|NULL		$caller			Object which triggered bound event */
+	public ?object $caller		= NULL;
 
 	/**	@var	mixed|NULL		$data			Data bound on event */
 	public $data;
 
-	/**	@var	Handler		$handler		Reference to event handler instance */
+	/**	@var	Handler			$handler		Reference to event handler instance */
 	protected Handler $handler;
 
-	/**	@var	mixed|NULL		$key			Name bound event, eg. "start.my"  */
-	public $key;
+	/**	@var	string|NULL		$key			Name bound event, e.g. "start.my"  */
+	public ?string $key			= NULL;
 
-	/**	@var	string|NULL		$trigger		Name of trigger, eg. "start" */
-	public ?string $trigger;
+	/**	@var	string|NULL		$trigger		Name of trigger, e.g. "start" */
+	public ?string $trigger		= NULL;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Handler	$handler		Event handler instance
+	 *	@param		Handler		$handler		Event handler instance
 	 *	@return		void
 	 */
 	public function __construct( Handler $handler )
@@ -73,7 +73,7 @@ class Data
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function stop()
+	public function stop(): void
 	{
 		$this->handler->stopEvent( $this->trigger );
 	}

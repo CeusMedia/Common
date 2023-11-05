@@ -62,20 +62,19 @@ class Handler
 	/**
 	 *	Bind event.
 	 *	@access		public
-	 *	@param		string		$key		Event key, eg. "start.my"
-	 *	@param		mixed		$callback	Callback function or object
-	 *	@return		void
+	 *	@param		string				$key		Event key, e.g. "start.my"
+	 *	@param		callable|Callback	$callback	Callback function or object
+	 *	@return		int					Number of events by key
 	 */
-	public function bind( string $key, $callback )
+	public function bind( string $key, callable|Callback $callback ): int
 	{
 		if( is_callable( $callback ) )
 			$callback	= new Callback( $callback );
-		if( !( $callback instanceof Callback ) )
-			throw new InvalidArgumentException( 'Callback must be function or instance of '.Callback::class );
 		if( !is_array( $list = $this->events->get( $key ) ) )
 			$list	= [];
 		$list[]	= [$key, $callback];
 		$this->events->set( $key, $list );
+		return count( $this->getBoundEvents( $key ) );
 	}
 
 	/**
@@ -99,28 +98,43 @@ class Handler
 	}
 
 	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function isBound( string $key ): bool
+	{
+		return $this->events->has( $key );
+	}
+
+	/**
 	 *	Removed event key from stop list making it callable again.
 	 *	@access		protected
-	 *	@param		string		$key		Event key, eg. "start"
-	 *	@return		void
+	 *	@param		string		$key		Event key, e.g. "start"
+	 *	@return		bool
 	 */
-	protected function removeStopMark( string $key )
+	protected function removeStopMark( string $key ): bool
 	{
 		$index	= array_search( $key, $this->stopped, TRUE );
-		if( $index !== FALSE )
+		if( $index !== FALSE ){
 			unset( $this->stopped[$index] );
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	/**
 	 *	Notes to stop further propagation of event by its key.
 	 *	@access		public
 	 *	@param		string		$key		Event key
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public function stopEvent( string $key )
+	public function stopEvent( string $key ): bool
 	{
-		if( !in_array( $key, $this->stopped, TRUE ) )
+		if( $this->isBound( $key) && !in_array( $key, $this->stopped, TRUE ) ){
 			$this->stopped[]	= $key;
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	/**
@@ -129,26 +143,29 @@ class Handler
 	 *	@param		string			$key		Event trigger key
 	 *	@param		object|NULL		$caller		Object which triggered event
 	 *	@param		array			$arguments	Data for event on trigger
-	 *	@return		boolean
+	 *	@return		int
 	 */
-	public function trigger( string $key, ?object $caller = NULL, array $arguments = [] ): bool
+	public function trigger( string $key, ?object $caller = NULL, array $arguments = [] ): int
 	{
-		if( !( $events = $this->getBoundEvents( $key, TRUE ) ) )
-			return FALSE;
+		$events	= $this->getBoundEvents( $key, TRUE );
+		if( 0 === count( $events ) )
+			return 0;
+		$counter	= 0;
 		$this->removeStopMark( $key );
 		foreach( $events as $callback ){
 			if( in_array( $key, $this->stopped, TRUE ) )
 				continue;
+			$counter++;
 			$event	= new Data( $this );
 			$event->key			= $callback[0];
 			$event->trigger		= $key;
 			$event->caller		= $caller;
 			$event->data		= $callback[1]->getData();
 			$event->arguments	= $arguments;
-			$result		= call_user_func( $callback[1]->getCallback(), $event );
-			if( $result === FALSE )
-				return FALSE;
+			$result				= call_user_func( $callback[1]->getCallback(), $event );
+//			if( $result === FALSE )
+//				return FALSE;
 		}
-		return TRUE;
+		return $counter;
 	}
 }

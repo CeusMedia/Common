@@ -4,19 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Set version to 0.9.1 and update copyright year.">
-      <change afterPath="$PROJECT_DIR$/demo/UI/SVG/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UI/SVG/BarAcross.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UI/SVG/Chart.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UI/SVG/ChartData.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/UI/SVG/PieGraph.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add PHPUnit file for version 10.">
+      <change afterPath="$PROJECT_DIR$/demo/ADT/Event/handler.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/ADT/Event/HandlerTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/FS/File/PdfToImageTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php-test-framework.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php-test-framework.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Browser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Browser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/OS.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/OS.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/JS/CodeMirror.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JS/CodeMirror.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Event/Data.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Event/Data.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Event/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Event/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/PdfToImage.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PdfToImage.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,10 +117,12 @@
       <path value="$PROJECT_DIR$/vendor/nette/schema" />
       <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
-      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/template-engine" />
     </include_path>
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="29UiaPkTicMpylMPaS9Wf3tbCl3" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -160,48 +162,48 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Composer Script.dev:phpunit">
-    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:phpstan" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="PHPUnit.PdfToImageTest">
     <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpunit" />
       <method v="2" />
     </configuration>
-    <configuration name="Net" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/Net" />
+    <configuration name="incomplete:dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="incomplete:dev:create-docs" />
       <method v="2" />
     </configuration>
-    <configuration name="XML" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test/XML" />
+    <configuration name="HandlerTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\ADT\Event\HandlerTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/Event/HandlerTest.php" scope="Class" />
+      <method v="2" />
+    </configuration>
+    <configuration name="HandlerTest.testTrigger" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\ADT\Event\HandlerTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/Event/HandlerTest.php" method="testTrigger" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="PdfToImageTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\FS\File\PdfToImageTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/FS/File/PdfToImageTest.php" scope="Class" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" directory="$PROJECT_DIR$/test" />
-      <method v="2" />
-    </configuration>
     <list>
-      <item itemvalue="Composer Script.dev:phpstan" />
+      <item itemvalue="Composer Script.incomplete:dev:create-docs" />
       <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
-      <item itemvalue="PHPUnit.Net" />
-      <item itemvalue="PHPUnit.XML" />
-      <item itemvalue="PHPUnit.test" />
+      <item itemvalue="PHPUnit.PdfToImageTest" />
+      <item itemvalue="PHPUnit.HandlerTest" />
+      <item itemvalue="PHPUnit.HandlerTest.testTrigger" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Composer Script.dev:phpunit" />
-        <item itemvalue="Composer Script.dev:phpstan" />
-        <item itemvalue="PHPUnit.test" />
-        <item itemvalue="PHPUnit.XML" />
-        <item itemvalue="PHPUnit.Net" />
+        <item itemvalue="PHPUnit.PdfToImageTest" />
+        <item itemvalue="Composer Script.incomplete:dev:create-docs" />
+        <item itemvalue="PHPUnit.HandlerTest" />
+        <item itemvalue="PHPUnit.HandlerTest.testTrigger" />
       </list>
     </recent_temporary>
   </component>
@@ -252,6 +254,8 @@
       <workItem from="1683794029207" duration="666000" />
       <workItem from="1683925853723" duration="14946000" />
       <workItem from="1685695175388" duration="3617000" />
+      <workItem from="1699156269319" duration="1252000" />
+      <workItem from="1699157552195" duration="10525000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -567,7 +571,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Upgrade code: array() to []" />
     <MESSAGE value="Upgrade code: array() to [] on method parameters" />
     <MESSAGE value="Rector: TernaryToNullCoalescingRector + TernaryToElvisRector" />
     <MESSAGE value="Rector: ListToArrayDestructRector" />
@@ -592,7 +595,8 @@
     <MESSAGE value="Reach PHPStan level 5 in PHP 8.1." />
     <MESSAGE value="Work towards PHPStan level 6." />
     <MESSAGE value="Fix unit tests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix unit tests." />
+    <MESSAGE value="Add PHPUnit file for version 10." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add PHPUnit file for version 10." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -670,7 +674,7 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Common@SectionTest.xml" NAME="SectionTest Coverage Results" MODIFIED="1668745597866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Common@SectionTest_testRemoveByName.xml" NAME="SectionTest.testRemoveByName Coverage Results" MODIFIED="1668745254334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Common@SectionTest.xml" NAME="SectionTest Coverage Results" MODIFIED="1668745597866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
