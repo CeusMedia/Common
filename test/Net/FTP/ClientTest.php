@@ -25,27 +25,28 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ClientTest extends BaseCase
 {
-	/** @var Client  */
-	protected $client;
+	/** @var ?Client  */
+	protected ?Client $client			= NULL;
 
-	/** @var Connection */
-	protected $connection;
+	/** @var ?Connection */
+	protected ?Connection $connection	= NULL;
 
-	protected $host;
+	protected ?string $host;
 
-	protected $port;
+	protected ?int $port;
 
-	protected $username;
+	protected string $username;
 
-	protected $password;
+	protected string $password;
 
-	protected $local;
+	protected string $local;
 
-	protected $path;
+	protected string $path;
 
-	protected $config;
+	protected array $config;
 
-	protected function login() {
+	protected function login(): void
+	{
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
 			$this->connection->setPath( $this->path );
@@ -58,16 +59,16 @@ class ClientTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->config	= self::$_config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
+		$this->config	= self::$_config['unitTest-FTP'] ?? [];
+		$this->host		= $this->config['host'] ?? NULL;
+		$this->port		= (int) ( $this->config['port'] ?? 0 );
+		$this->username	= $this->config['user'] ?? NULL;
+		$this->password	= $this->config['pass'] ?? NULL;
+		$this->path		= $this->config['path'] ?? NULL;
+		$this->local	= $this->config['local'] ?? '';
 
-		if( !$this->local )
-			$this->markTestSkipped( 'No FTP data set in Common.ini' );
+		if( '' === $this->local )
+			return;
 
 		@mkDir( $this->local );
 		@mkDir( $this->local."folder" );
@@ -82,6 +83,19 @@ class ClientTest extends BaseCase
 		$this->client	= new Client( $this->host, $this->port, $this->username, $this->password );
 		if( $this->path )
 			$this->client->setPath( $this->path );
+	}
+
+	/**
+	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
+	 *	@return		bool
+	 */
+	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
+	{
+		if( NULL !== $this->client )
+			return TRUE;
+		if( $markSkipped )
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+		return FALSE;
 	}
 
 	/**
@@ -126,6 +140,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testChangeRights()
 	{
+		$this->checkFtpConfig();
 		file_put_contents( $this->local."rightsTest", "this file will be removed" );
 		if( strtoupper( substr( PHP_OS, 0, 3 ) ) != "WIN" )
 		{
@@ -142,6 +157,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->copyFile( "source.txt", "target.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."target.txt" );
@@ -158,6 +174,8 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFileException1()
 	{
+		if( !$this->checkFtpConfig() )
+			return;
 		$this->expectException( 'RuntimeException' );
 		$this->client->copyFile( "not_existing", "not_relevant" );
 	}
@@ -169,6 +187,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFileException2()
 	{
+		$this->checkFtpConfig();
 		$this->expectException( 'RuntimeException' );
 		$this->client->copyFile( "source.txt", "not_existing/not_relevant.txt" );
 	}
@@ -180,6 +199,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->copyFolder( "folder", "copy" );
 		$this->assertTrue( $creation );
 
@@ -197,6 +217,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testCreateFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->createFolder( "created" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."created" );
@@ -209,6 +230,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->getFile( "test1.txt", "test_getFile" );
 		$this->assertTrue( $creation );
 
@@ -234,6 +256,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetFileList()
 	{
+		$this->checkFtpConfig();
 		$files		= $this->client->getFileList( "folder" );
 		$assertion	= 3;
 		$creation	= count( $files );
@@ -264,6 +287,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetFolderList()
 	{
+		$this->checkFtpConfig();
 		$folders	= $this->client->getFolderList();
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -295,6 +319,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetList()
 	{
+		$this->checkFtpConfig();
 		$files		= [];
 		$list		= $this->client->getList();
 		foreach( $list as $entry )
@@ -328,6 +353,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetPath()
 	{
+		$this->checkFtpConfig();
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->client->getPath();
 		$this->assertEquals( $assertion, $creation );
@@ -346,6 +372,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetPermissionsAsOctal()
 	{
+		$this->checkFtpConfig();
 		$assertion	= '0777';
 		$creation	= $this->client->getPermissionsAsOctal( "drwxrwxrwx" );
 		$this->assertEquals( $assertion, $creation );
@@ -370,6 +397,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testMoveFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->moveFile( "source.txt", "target.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileDoesNotExist( $this->local."source.txt" );
@@ -383,6 +411,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testMoveFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->moveFolder( "folder", "moved" );
 		$this->assertTrue( $creation );
 		$this->assertFileDoesNotExist( $this->local."folder" );
@@ -400,6 +429,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testPutFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->putFile( $this->local."source.txt", "target.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."target.txt" );
@@ -416,6 +446,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testRemoveFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->removeFile( "folder/source.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileDoesNotExist( $this->local."folder/source.txt" );
@@ -428,6 +459,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testRemoveFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->removeFolder( "folder" );
 		$this->assertTrue( $creation );
 		$this->assertFileDoesNotExist( $this->local."folder" );
@@ -440,6 +472,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testRenameFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->renameFile( "source.txt", "renamed.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."renamed.txt" );
@@ -452,6 +485,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testSearchFile()
 	{
+		$this->checkFtpConfig();
 		$files		= $this->client->searchFile( "test1.txt" );
 		$assertion	= 1;
 		$creation	= count( $files );
@@ -474,6 +508,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testSearchFolder()
 	{
+		$this->checkFtpConfig();
 		$folders	= $this->client->searchFolder( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -503,6 +538,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testSetPath()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->setPath( "not_existing" );
 		$this->assertFalse( $creation );
 

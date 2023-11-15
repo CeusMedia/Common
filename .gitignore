@@ -7,3 +7,4 @@
 ;/.idea
 /tool/config/.phpunit.cache/
 /demo/UI/SVG/test.svg
+/test/FS/File/test1.pdf.png_

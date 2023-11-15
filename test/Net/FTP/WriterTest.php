@@ -26,16 +26,16 @@ use CeusMedia\Common\Net\FTP\Writer;
  */
 class WriterTest extends BaseCase
 {
-	/** @var Connection  */
-	protected $connection;
+	/** @var ?Connection  */
+	protected ?Connection $connection	= NULL;
 
-	protected $local;
+	protected string $local;
 
-	protected $path;
+	protected string $path;
 
-	protected $reader;
+	protected ?Reader $reader	= NULL;
 
-	protected $writer;
+	protected ?Writer $writer	= NULL;
 
 	/**
 	 *	Setup for every Test.
@@ -44,16 +44,18 @@ class WriterTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$config	= self::$_config['unitTest-FTP'];
-		$host		= $config['host'];
-		$port		= $config['port'];
-		$username	= $config['user'];
-		$password	= $config['pass'];
-		$this->path		= $config['path'];
-		$this->local	= $config['local'];
+		$this->config	= self::$_config['unitTest-FTP'] ?? [];
+		$this->path		= $this->config['path'] ?? NULL;
+		$this->local	= $this->config['local'] ?? '';
 
-		if( !$this->local )
-			$this->markTestSkipped( 'No FTP data set in Common.ini' );
+		$host			= $this->config['host'] ?? NULL;
+		$port		= (int) ( $this->config['port'] ?? 0 );
+		$port			= $this->config['port'] ?? NULL;
+		$username		= $this->config['user'] ?? NULL;
+		$password		= $this->config['pass'] ?? NULL;
+
+		if( '' === $this->local )
+			return;
 
 		$this->connection	= new Connection( $host, $port );
 		$this->connection->login( $username, $password );
@@ -77,8 +79,6 @@ class WriterTest extends BaseCase
 	 */
 	public function tearDown(): void
 	{
-		if( !$this->local )
-			$this->markTestSkipped( 'No FTP data set in Common.ini' );
 		@unlink( $this->local."source.txt" );
 		@unlink( $this->local."target.txt" );
 		@unlink( $this->local."renamed.txt" );
@@ -96,12 +96,26 @@ class WriterTest extends BaseCase
 	}
 
 	/**
+	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
+	 *	@return		bool
+	 */
+	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
+	{
+		if( NULL !== $this->writer )
+			return TRUE;
+		if( $markSkipped )
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+		return FALSE;
+	}
+
+	/**
 	 *	Tests Method 'changeRights'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testChangeRights()
 	{
+		$this->checkFtpConfig();
 		file_put_contents( $this->local."rightsTest", "this file will be removed" );
 		if( strtoupper( substr( PHP_OS, 0, 3 ) ) != "WIN" )
 		{
@@ -118,6 +132,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testCopyFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->copyFile( "source.txt", "target.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."target.txt" );
@@ -134,6 +149,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testCopyFileInPath()
 	{
+		$this->checkFtpConfig();
 		$this->writer->setPath( "folder" );
 
 		$creation	= $this->writer->copyFile( "source.txt", "target.txt" );
@@ -148,6 +164,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testCopyFileException1()
 	{
+		$this->checkFtpConfig();
 		$this->expectException( 'RuntimeException' );
 		$this->writer->copyFile( "not_existing", "not_relevant" );
 	}
@@ -159,6 +176,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testCopyFileException2()
 	{
+		$this->checkFtpConfig();
 		$this->expectException( 'RuntimeException' );
 		$this->writer->copyFile( "source.txt", "not_existing/not_relevant.txt" );
 	}
@@ -170,6 +188,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testCopyFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->copyFolder( "folder", "copy" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."copy" );
@@ -186,6 +205,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testCreateFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->createFolder( "created" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."created" );
@@ -198,6 +218,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testGetPath()
 	{
+		$this->checkFtpConfig();
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->writer->getPath();
 		$this->assertEquals( $assertion, $creation );
@@ -216,6 +237,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testMoveFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->moveFile( "source.txt", "target.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."target.txt" );
@@ -229,6 +251,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testMoveFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->moveFolder( "folder", "moved" );
 		$this->assertTrue( $creation );
 		$this->assertFileDoesNotExist( $this->local."folder" );
@@ -245,6 +268,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testPutFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->putFile( $this->local."source.txt", "target.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."target.txt" );
@@ -261,6 +285,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testRemoveFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->removeFile( "folder/source.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileDoesNotExist( $this->local."folder/source.txt" );
@@ -273,6 +298,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testRemoveFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->removeFolder( "folder" );
 		$this->assertTrue( $creation );
 		$this->assertFileDoesNotExist( $this->local."folder" );
@@ -285,6 +311,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testRenameFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->renameFile( "source.txt", "renamed.txt" );
 		$this->assertTrue( $creation );
 		$this->assertFileExists( $this->local."renamed.txt" );
@@ -298,6 +325,7 @@ class WriterTest extends BaseCase
 	 */
 	public function testSetPath()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->writer->setPath( "not_existing" );
 		$this->assertFalse( $creation );
 

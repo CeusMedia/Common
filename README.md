@@ -4,8 +4,8 @@
 ![Release](https://img.shields.io/badge/Release----blue?style=flat-square)
 ![PHP version](https://img.shields.io/badge/PHP-%5E8.1-blue?style=flat-square&color=777BB4)
 ![PHPStan level](https://img.shields.io/badge/PHPStan_level-6-darkgreen?style=flat-square)
-[![Monthly downloads](http://img.shields.io/packagist/dt/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
-[![Package version](http://img.shields.io/packagist/v/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
+[![Monthly downloads](https://img.shields.io/packagist/dt/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
+[![Package version](https://img.shields.io/packagist/v/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
 [![License](https://img.shields.io/packagist/l/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
 
 A library of PHP classes for common tasks.

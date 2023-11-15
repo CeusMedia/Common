@@ -25,16 +25,14 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ReaderTest extends BaseCase
 {
-	/** @var Connection  */
-	protected $connection;
+	/** @var ?Connection  */
+	protected ?Connection $connection	= NULL;
 
-	protected $local;
+	protected ?string $local;
 
-	protected $path;
+	protected ?string $path;
 
-	protected $reader;
-
-	protected $writer;
+	protected ?Reader $reader	= NULL;
 
 	/**
 	 *	Setup for every Test.
@@ -43,19 +41,14 @@ class ReaderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$config	= self::$_config['unitTest-FTP'];
-		$host		= $config['host'];
-		$port		= $config['port'];
-		$username	= $config['user'];
-		$password	= $config['pass'];
-		$this->path		= $config['path'];
-		$this->local	= $config['local'];
+		$this->config	= self::$_config['unitTest-FTP'] ?? [];
+		$this->path		= $this->config['path'] ?? NULL;
+		$this->local	= $this->config['local'] ?? '';
 
-		if( !$this->local )
-			$this->markTestSkipped( 'No FTP data set in Common.ini' );
-
-		$this->connection	= new Connection( $host, $port );
-		$this->connection->login( $username, $password );
+		$host			= $this->config['host'] ?? NULL;
+		$port			= (int) ( $this->config['port'] ?? 0 );
+		$username		= $this->config['user'] ?? NULL;
+		$password		= $this->config['pass'] ?? NULL;
 
 		@unlink( $this->local."test1.txt" );
 		@unlink( $this->local."test2.txt" );
@@ -64,6 +57,13 @@ class ReaderTest extends BaseCase
 		@rmDir( $this->local."folder/nested" );
 		@rmDir( $this->local."folder" );
 		@rmDir( $this->local );
+
+		if( '' === $this->local )
+			return;
+
+		$this->connection	= new Connection( $host, $port );
+		$this->connection->login( $username, $password );
+
 
 		@mkDir( $this->local );
 		@mkDir( $this->local."folder" );
@@ -78,6 +78,21 @@ class ReaderTest extends BaseCase
 
 		$this->reader	= new Reader( $this->connection );
 	}
+
+	/**
+	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
+	 *	@return		bool
+	 */
+	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
+	{
+		if( NULL !== $this->reader )
+			return TRUE;
+		if( $markSkipped )
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+		return FALSE;
+	}
+
+
 
 	/**
 	 *	Cleanup after every Test.
@@ -105,6 +120,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->reader->getFile( "test1.txt", "test_getFile" );
 		$this->assertTrue( $creation );
 
@@ -130,6 +146,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetFileList()
 	{
+		$this->checkFtpConfig();
 		$files		= $this->reader->getFileList( "folder" );
 		$assertion	= 2;
 		$creation	= count( $files );
@@ -156,6 +173,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetFolderList()
 	{
+		$this->checkFtpConfig();
 		$folders	= $this->reader->getFolderList();
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -187,6 +205,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetList()
 	{
+		$this->checkFtpConfig();
 		$files		= [];
 		$list		= $this->reader->getList();
 		foreach( $list as $entry )
@@ -220,6 +239,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetPath()
 	{
+		$this->checkFtpConfig();
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
@@ -238,6 +258,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetPermissionsAsOctal()
 	{
+		$this->checkFtpConfig();
 		$assertion	= '0777';
 		$creation	= $this->reader->getPermissionsAsOctal( "drwxrwxrwx" );
 		$this->assertEquals( $assertion, $creation );
@@ -262,6 +283,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testSearchFile()
 	{
+		$this->checkFtpConfig();
 		$files		= $this->reader->searchFile( "test1.txt" );
 		$assertion	= 1;
 		$creation	= count( $files );
@@ -284,6 +306,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testSearchFolder()
 	{
+		$this->checkFtpConfig();
 		$folders	= $this->reader->searchFolder( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -313,6 +336,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testSetPath()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->reader->setPath( "not_existing" );
 		$this->assertFalse( $creation );
 

@@ -4,19 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add PHPUnit file for version 10.">
-      <change afterPath="$PROJECT_DIR$/demo/ADT/Event/handler.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/ADT/Event/HandlerTest.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/FS/File/PdfToImageTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php-test-framework.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php-test-framework.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add unit tests.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Event/Data.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Event/Data.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Event/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Event/Handler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/PdfToImage.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PdfToImage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Net/FTP/ClientTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/ClientTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Net/FTP/ConnectionTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/ConnectionTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Net/FTP/ReaderTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/ReaderTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Net/FTP/WriterTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/WriterTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,10 +63,13 @@
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
       <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
       <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
@@ -90,6 +89,12 @@
       <path value="$PROJECT_DIR$/vendor/michelf/php-markdown" />
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/doc-creator" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/vendor/psr/event-dispatcher" />
       <path value="$PROJECT_DIR$/vendor/ceus-media/php-parser" />
       <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
@@ -156,23 +161,23 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.PdfToImageTest">
+  <component name="RunManager" selected="PHPUnit.ClientTest">
+    <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:all" />
+      <method v="2" />
+    </configuration>
     <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpunit" />
       <method v="2" />
     </configuration>
-    <configuration name="incomplete:dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="incomplete:dev:create-docs" />
+    <configuration name="ClientTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Net\FTP\ClientTest" file="$PROJECT_DIR$/test/Net/FTP/ClientTest.php" scope="Class" />
       <method v="2" />
     </configuration>
-    <configuration name="HandlerTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\ADT\Event\HandlerTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/Event/HandlerTest.php" scope="Class" />
-      <method v="2" />
-    </configuration>
-    <configuration name="HandlerTest.testTrigger" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\ADT\Event\HandlerTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/Event/HandlerTest.php" method="testTrigger" scope="Method" />
+    <configuration name="FTP" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner directory="$PROJECT_DIR$/test/Net/FTP" />
       <method v="2" />
     </configuration>
     <configuration name="PdfToImageTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
@@ -184,20 +189,20 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Composer Script.incomplete:dev:create-docs" />
+      <item itemvalue="Composer Script.dev:all" />
       <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
+      <item itemvalue="PHPUnit.ClientTest" />
+      <item itemvalue="PHPUnit.FTP" />
       <item itemvalue="PHPUnit.PdfToImageTest" />
-      <item itemvalue="PHPUnit.HandlerTest" />
-      <item itemvalue="PHPUnit.HandlerTest.testTrigger" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="PHPUnit.ClientTest" />
         <item itemvalue="Composer Script.dev:phpunit" />
+        <item itemvalue="PHPUnit.FTP" />
+        <item itemvalue="Composer Script.dev:all" />
         <item itemvalue="PHPUnit.PdfToImageTest" />
-        <item itemvalue="Composer Script.incomplete:dev:create-docs" />
-        <item itemvalue="PHPUnit.HandlerTest" />
-        <item itemvalue="PHPUnit.HandlerTest.testTrigger" />
       </list>
     </recent_temporary>
   </component>
@@ -249,7 +254,8 @@
       <workItem from="1683925853723" duration="14946000" />
       <workItem from="1685695175388" duration="3617000" />
       <workItem from="1699156269319" duration="1252000" />
-      <workItem from="1699157552195" duration="10525000" />
+      <workItem from="1699157552195" duration="11377000" />
+      <workItem from="1700084798009" duration="3654000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -579,7 +585,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Upgrade code: array() to [] on method parameters" />
     <MESSAGE value="Rector: TernaryToNullCoalescingRector + TernaryToElvisRector" />
     <MESSAGE value="Rector: ListToArrayDestructRector" />
     <MESSAGE value="Rector: ThisCallOnStaticMethodToStaticCall + RemoveExtraParameters + ExceptionHandlerTypehint" />
@@ -604,7 +609,8 @@
     <MESSAGE value="Work towards PHPStan level 6." />
     <MESSAGE value="Fix unit tests." />
     <MESSAGE value="Add PHPUnit file for version 10." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add PHPUnit file for version 10." />
+    <MESSAGE value="Add unit tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add unit tests." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
