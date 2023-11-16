@@ -1,22 +1,29 @@
 <?php
+
+namespace CeusMedia\CommonTool\Go;
+
+use CeusMedia\Common\CLI\Output\Progress;
+use DirectoryIterator;
+use Exception;
+
 /**
  *	@deorecated not needed once Go is gone
  */
-class Go_Library
+class Library
 {
-	public static $configFile	= 'Common.ini';
+	public static string $configFile	= 'Common.ini';
 
-	public function getConfigData()
+	public static function getConfigData(): array
 	{
-		return parse_ini_file( self::getConfigFile(), TRUE );
+		return parse_ini_file( self::getConfigFile(), TRUE ) ?: [];
 	}
 
-	public static function getConfigFile()
+	public static function getConfigFile(): string
 	{
-		return dirname( dirname( __DIR__ ) ).'/'.self::$configFile;
+		return dirname( __FILE__, 3 ).'/'.self::$configFile;
 	}
 
-	public static function listClasses( $path )
+	public static function listClasses( string $path ): array
 	{
 		$count	= 0;
 		$size	= 0;
@@ -30,22 +37,22 @@ class Go_Library
 		);
 	}
 
-	public static function getGoPath()
+	public static function getGoPath(): string
 	{
 		return dirname( __FILE__ ).'/';
 	}
 
-	public static function getLibraryPath()
+	public static function getLibraryPath(): string
 	{
-		return dirname( dirname( __FILE__ ) ).'/';
+		return dirname( __DIR__ ).'/';
 	}
 
-	public static function getSourcePath()
+	public static function getSourcePath(): string
 	{
 		return self::getLibraryPath().'/src/';
 	}
 
-	protected static function listClassesRecursive( $path, &$list, &$count , &$size )
+	protected static function listClassesRecursive( string $path, array &$list, int &$count , int &$size ): void
 	{
 		$index	= new DirectoryIterator( $path );
 		foreach( $index as $entry ){
@@ -71,7 +78,8 @@ class Go_Library
 		}
 	}
 
-	public static function showMemoryUsage(){
+	public static function showMemoryUsage(): void
+	{
 		$number	= ceil( memory_get_usage() / 1024 );
 		print( "\nmemory: ".$number."KB" );
 	}
@@ -79,7 +87,7 @@ class Go_Library
 	/**
 	 *	@deprecated	since CMC_Loader
 	 */
-	public static function testImports( $files )
+	public static function testImports( array $files ): void
 	{
 		remark( "Checking nested imports\n" );
 		$count	= 0;
@@ -112,21 +120,21 @@ class Go_Library
 		}
 	}
 
-	public static function testSyntax( $files )
+	public static function testSyntax( array $files ): void
 	{
 		remark( "Checking class file syntax\n" );
 		$count	= 0;
 		$path	= dirname( __FILE__ )."/";
 		$line	= str_repeat( "-", 79 );
 		$list	= [];
-		$progress	= new CLI_Output_Progress();
+		$progress	= new Progress();
 		$progress->setTotal( count( $files ) );
 		$progress->start();
 		foreach( $files as $file ){
 			$code	= 0;
 			$output	= [];
 			exec( 'php -l "'.$file.'" 2>&1', $output, $code );
-			if( !preg_match( '/^No syntax errors detected/', join( PHP_EOL, $output ) ) )
+			if( !str_starts_with(join( PHP_EOL, $output), 'No syntax errors detected' ) )
 				$list[$file]	= join( PHP_EOL, $output );
 			$count++;
 			$progress->update( $count );
@@ -134,8 +142,7 @@ class Go_Library
 		$progress->finish();
 		if( $list ){
 			remark( "\n! Invalid files:" );
-			foreach( $list as $file => $message )
-			{
+			foreach( $list as $file => $message ){
 				$relative	= str_replace( $path, "", $file );
 				remark( "File:  ".$relative );
 				remark( "Error: ".$message.PHP_EOL );

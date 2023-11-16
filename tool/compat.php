@@ -1,9 +1,8 @@
 #!/usr/bin/php
 <?php
-namespace CeusMedia\Common\Tool\Compatibility;
 
-require_once __DIR__.'/Compatibility/CliApp.php';
-require_once __DIR__.'/Compatibility/LibraryItem.php';
-require_once __DIR__.'/Compatibility/Worker.php';
+require_once '../vendor/autoload.php';
+
+use CeusMedia\CommonTool\Compatibility\CliApp;
 
 new CliApp( $argv );

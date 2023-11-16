@@ -38,6 +38,7 @@
     "ext-zip": "*",
     "ext-zlib": "*",
     "ceus-media/doc-creator": "^0.9.6 | 0.9.x-dev | dev-master",
+    "ceus-media/php-parser": "^0.4 | 0.4.x-dev",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
     "phpunit/phpunit": "^9 | ^10",
@@ -48,26 +49,29 @@
   },
   "autoload": {
     "psr-4": {
-      "CeusMedia\\Common\\": "src/",
-      "CeusMedia\\CommonTest\\": "test/"
+      "CeusMedia\\Common\\": "src/"
     },
     "files": ["src/global.php"]
   },
   "autoload-dev": {
     "psr-4": {
       "CeusMedia\\Common\\": "src",
-      "CeusMedia\\CommonTest\\": "test"
+      "CeusMedia\\CommonTest\\": "test",
+      "CeusMedia\\CommonTool\\Go\\": "tool/Go/",
+      "CeusMedia\\CommonTool\\Migration\\": "tool/Migration/",
+      "CeusMedia\\CommonTool\\Compatibility\\": "tool/Compatibility/"
     }
   },
   "scripts": {
     "dev:all": [
       "@dev:test-syntax",
       "@dev:phpstan",
-      "@dev:phpunit"
+      "@dev:phpunit",
+      "@dev:create-docs"
     ],
     "dev:install": "composer install --quiet",
     "dev:update": "composer update",
-    "incomplete:dev:create-docs": [
+    "dev:create-docs": [
       "@dev:install",
       "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"
     ],

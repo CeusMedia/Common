@@ -32,7 +32,7 @@ dev-test-syntax:
 #	@php test/syntax.php
 	@composer dev:test-syntax
 
-dev-test-unit: composer-install-dev
+dev-test-unit:
 ##	@php tool/go.php test units
 #	@vendor/bin/phpunit --configuration tool/config/phpunit9.xml --testsuite units
 	@composer dev:phpunit

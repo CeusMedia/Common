@@ -38,77 +38,6 @@ class WriterTest extends BaseCase
 	protected ?Writer $writer	= NULL;
 
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->config	= self::$_config['unitTest-FTP'] ?? [];
-		$this->path		= $this->config['path'] ?? NULL;
-		$this->local	= $this->config['local'] ?? '';
-
-		$host			= $this->config['host'] ?? NULL;
-		$port		= (int) ( $this->config['port'] ?? 0 );
-		$port			= $this->config['port'] ?? NULL;
-		$username		= $this->config['user'] ?? NULL;
-		$password		= $this->config['pass'] ?? NULL;
-
-		if( '' === $this->local )
-			return;
-
-		$this->connection	= new Connection( $host, $port );
-		$this->connection->login( $username, $password );
-
-		@mkDir( $this->local );
-		@mkDir( $this->local."folder" );
-		@file_put_contents( $this->local."source.txt", "source file" );
-		@file_put_contents( $this->local."folder/source.txt", "source file" );
-
-		if( $this->path )
-			$this->connection->setPath( $this->path );
-
-		$this->reader	= new Reader( $this->connection );
-		$this->writer	= new Writer( $this->connection );
-	}
-
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-		@unlink( $this->local."source.txt" );
-		@unlink( $this->local."target.txt" );
-		@unlink( $this->local."renamed.txt" );
-		@unlink( $this->local."folder/source.txt" );
-		@unlink( $this->local."folder/target.txt" );
-		@unlink( $this->local."copy/source.txt" );
-		@unlink( $this->local."moved/source.txt" );
-		@unlink( $this->local."rightsTest" );
-		@rmDir( $this->local."folder" );
-		@rmDir( $this->local."copy" );
-		@rmDir( $this->local."created" );
-		@rmDir( $this->local."moved" );
-		@rmDir( $this->local );
-		$this->connection->close();
-	}
-
-	/**
-	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
-	 *	@return		bool
-	 */
-	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
-	{
-		if( NULL !== $this->writer )
-			return TRUE;
-		if( $markSkipped )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
-		return FALSE;
-	}
-
-	/**
 	 *	Tests Method 'changeRights'.
 	 *	@access		public
 	 *	@return		void
@@ -342,5 +271,75 @@ class WriterTest extends BaseCase
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->writer->getPath();
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
+	 *	@return		bool
+	 */
+	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
+	{
+		if( NULL !== $this->writer )
+			return TRUE;
+		if( $markSkipped )
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+		return FALSE;
+	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp(): void
+	{
+		$config		= self::$_config['unitTest-FTP'] ?? [];
+		$host		= $config['host'] ?? NULL;
+		$port		= (int) ( $config['port'] ?? 0 );
+		$username	= $config['user'] ?? NULL;
+		$password	= $config['pass'] ?? NULL;
+
+		$this->path		= $config['path'] ?? NULL;
+		$this->local	= $config['local'] ?? '';
+
+		if( '' === $this->local )
+			return;
+
+		$this->connection	= new Connection( $host, $port );
+		$this->connection->login( $username, $password );
+
+		@mkDir( $this->local );
+		@mkDir( $this->local."folder" );
+		@file_put_contents( $this->local."source.txt", "source file" );
+		@file_put_contents( $this->local."folder/source.txt", "source file" );
+
+		if( $this->path )
+			$this->connection->setPath( $this->path );
+
+		$this->reader	= new Reader( $this->connection );
+		$this->writer	= new Writer( $this->connection );
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function tearDown(): void
+	{
+		@unlink( $this->local."source.txt" );
+		@unlink( $this->local."target.txt" );
+		@unlink( $this->local."renamed.txt" );
+		@unlink( $this->local."folder/source.txt" );
+		@unlink( $this->local."folder/target.txt" );
+		@unlink( $this->local."copy/source.txt" );
+		@unlink( $this->local."moved/source.txt" );
+		@unlink( $this->local."rightsTest" );
+		@rmDir( $this->local."folder" );
+		@rmDir( $this->local."copy" );
+		@rmDir( $this->local."created" );
+		@rmDir( $this->local."moved" );
+		@rmDir( $this->local );
+		$this->connection->close();
 	}
 }

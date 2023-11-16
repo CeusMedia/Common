@@ -1,22 +1,24 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+namespace CeusMedia\CommonTool\Migration;
+
 use CeusMedia\Common\FS;
 use CeusMedia\Common\FS\Folder;
 use CeusMedia\Common\CLI;
 
-class Tool_Migration_Applier
+class Applier
 {
-	protected $modifiers	= [];
-	protected $folder;
+	protected array $modifiers	= [];
+	protected Folder $folder;
 
 	public function apply(): object
 	{
 		if( !$this->modifiers )
-			throw new RangeException( 'No modifiers set' );
+			throw new \RangeException( 'No modifiers set' );
 		return $this->handleFolder( $this->folder );
 	}
 
-	public function setModifiers( $modifiers ): self
+	public function setModifiers( array $modifiers ): self
 	{
 		$this->modifiers	= $modifiers;
 		return $this;
@@ -30,7 +32,7 @@ class Tool_Migration_Applier
 
 	//  --  PRIVATE  --  //
 
-	private function handleFolder( $folder ): object
+	private function handleFolder( Folder $folder ): object
 	{
 //		remark( "FOLDER: ".$folder->getPathName() );
 		$nrFiles		= 0;
@@ -77,7 +79,8 @@ class Tool_Migration_Applier
 		);
 	}
 
-	private function diff($old, $new){
+	private function diff($old, $new)
+	{
 		$matrix = [];
 		$maxlen = 0;
 		foreach($old as $oindex => $ovalue){

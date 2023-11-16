@@ -1,5 +1,5 @@
 <?php
-namespace CeusMedia\Common\Tool\Compatibility;
+namespace CeusMedia\CommonTool\Compatibility;
 
 class LibraryItem
 {
@@ -8,15 +8,15 @@ class LibraryItem
 	const TYPE_INTERFACE		= 2;
 	const TYPE_TRAIT			= 3;
 
-	public $class8;
-	public $class9;
-	public $path8;
-	public $path9;
-	public $namespace;
-	public $type				= self::TYPE_CLASS;
-	public $declaration			= 'class';
+	public string $class8;
+	public string $class9;
+	public string $path8;
+	public string $path9;
+	public string $namespace;
+	public int $type				= self::TYPE_CLASS;
+	public string $declaration		= 'class';
 
-	public static function fromFile( $filePath )
+	public static function fromFile( string $filePath ): self
 	{
 		$item			= new self();
 		$parts			= explode( '/', $filePath );

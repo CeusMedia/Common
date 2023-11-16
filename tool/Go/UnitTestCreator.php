@@ -1,12 +1,18 @@
 <?php
+
+namespace CeusMedia\CommonTool\Go;
+
+use CeusMedia\Common\FS\File\PHP\Test\Creator as TestCreator;
+use InvalidArgumentException;
+
 /**
  *	@deorecated use php test/create.php [CLASS_NAME] instead!
  */
-class Go_UnitTestCreator
+class UnitTestCreator
 {
 	public function __construct( $arguments )
 	{
-		require_once dirname( dirname( __FILE__ ) ).'/autoload.php';
+		require_once dirname( __DIR__ ).'/autoload.php';
 
 		$force	= in_array( "-f", $arguments ) || in_array( "--force", $arguments );
 		if( in_array( "-f", $arguments ) )
@@ -16,9 +22,8 @@ class Go_UnitTestCreator
 		if( !$arguments )
 			throw new InvalidArgumentException( 'No class name given to create test class for.' );
 		$class	= array_shift( $arguments );
-		$creator	= new FS_File_PHP_Test_Creator();
+		$creator	= new TestCreator();
 		$creator->createForFile( $class, $force );
 		remark( 'Created test class "Test_'.$class.'Test".'."\n" );
 	}
 }
-?>

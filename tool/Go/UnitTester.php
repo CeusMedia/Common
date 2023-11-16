@@ -1,9 +1,12 @@
 <?php
+
+namespace CeusMedia\CommonTool\Go;
+
 /**
  *	@deorecated use make dev-test-unit instead!
  */
 require_once __DIR__.'/Library.php';
-class Go_UnitTester
+class UnitTester
 {
 	public function __construct( $className = NULL )
 	{
@@ -12,14 +15,13 @@ class Go_UnitTester
 		 $this->runAllTests();
 	}
 
-	protected function runAllTests()
+	protected function runAllTests(): void
 	{
 		remark( "Reading Class Files:\n" );
-		$data	= Go_Library::listClasses( dirname( dirname ( __DIR__ ) ).'/src/' );
+		$data	= Library::listClasses( dirname( __FILE__, 3 ).'/src/' );
 		$number	= count( $data['files'] );
 		$length	= strlen( $number );
-		for( $i=0; $i<$number; $i++ )
-		{
+		for( $i=0; $i<$number; $i++ ){
 			require_once( $data['files'][$i] );
 			if( !( $i % 60 ) ){
 				$percent	= str_pad( round( $i / $number * 100 ), 3, ' ', STR_PAD_LEFT );
@@ -31,7 +33,7 @@ class Go_UnitTester
 		remark( "\n" );
 
 		$command	= "phpunit";
-		$config		= Go_Library::getConfigData();
+		$config		= Library::getConfigData();
 		foreach( $config['unitTestOptions'] as $key => $value )
 			$command	.= " --".$key." ".$value;
 		print( "\nRunning Unit Tests:\n\r" );
@@ -39,7 +41,7 @@ class Go_UnitTester
 		passthru( $command );
 	}
 
-	protected function runTestOfClass( $className )
+	protected function runTestOfClass( $className ): void
 	{
 		$parts		= explode( "_", $className );
 		$fileKey	= array_pop( $parts );
@@ -50,10 +52,9 @@ class Go_UnitTester
 		$testClass	= "Test_".$className.$suffix;
 		$testFile	= "Test/".$fileKey.$suffix.".php";
 		if( !file_exists( $testFile ) )
-			throw new RuntimeException( 'Test Class File "'.$testFile.'" is not existing' );
+			throw new \RuntimeException( 'Test Class File "'.$testFile.'" is not existing' );
 		echo "\nTesting Class: ".$className."\n\n";
 
 		passthru( "phpunit ".$testClass, $return );
 	}
 }
-?>

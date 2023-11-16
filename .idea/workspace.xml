@@ -4,15 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add unit tests.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update unit tests.">
+      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Net/FTP/ClientTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/ClientTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Common.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/Net/FTP/ConnectionTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/ConnectionTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/Net/FTP/ReaderTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/ReaderTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/Net/FTP/WriterTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Net/FTP/WriterTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Compatibility/CliApp.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Compatibility/CliApp.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Compatibility/LibraryItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Compatibility/LibraryItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Compatibility/Worker.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Compatibility/Worker.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/Application.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/Application.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/Benchmark.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/Benchmark.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/ClassSyntaxTester.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/ClassSyntaxTester.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/DocCreator.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/DocCreator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/Library.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/Library.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/SelfTester.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/SelfTester.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/UnitTestCreator.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/UnitTestCreator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Go/UnitTester.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Go/UnitTester.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Migration/Applier.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Migration/Applier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Migration/Modifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Migration/Modifier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/compat.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/compat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/go.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/go.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/migrate.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/migrate.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,27 +177,31 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.ClientTest">
+  <component name="RunManager" selected="Composer Script.dev:all">
     <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:all" />
       <method v="2" />
     </configuration>
-    <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+    <configuration name="incomplete:dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:phpunit" />
+      <option name="script" value="incomplete:dev:create-docs" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev-create-docs" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="dev-create-docs" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
+    <configuration name="dev-test-unit" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="dev-test-unit" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
       <method v="2" />
     </configuration>
     <configuration name="ClientTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="CeusMedia\CommonTest\Net\FTP\ClientTest" file="$PROJECT_DIR$/test/Net/FTP/ClientTest.php" scope="Class" />
-      <method v="2" />
-    </configuration>
-    <configuration name="FTP" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner directory="$PROJECT_DIR$/test/Net/FTP" />
-      <method v="2" />
-    </configuration>
-    <configuration name="PdfToImageTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\FS\File\PdfToImageTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/FS/File/PdfToImageTest.php" scope="Class" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -190,19 +210,19 @@
     </configuration>
     <list>
       <item itemvalue="Composer Script.dev:all" />
-      <item itemvalue="Composer Script.dev:phpunit" />
+      <item itemvalue="Composer Script.incomplete:dev:create-docs" />
+      <item itemvalue="Makefile Target.dev-create-docs" />
+      <item itemvalue="Makefile Target.dev-test-unit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
       <item itemvalue="PHPUnit.ClientTest" />
-      <item itemvalue="PHPUnit.FTP" />
-      <item itemvalue="PHPUnit.PdfToImageTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHPUnit.ClientTest" />
-        <item itemvalue="Composer Script.dev:phpunit" />
-        <item itemvalue="PHPUnit.FTP" />
         <item itemvalue="Composer Script.dev:all" />
-        <item itemvalue="PHPUnit.PdfToImageTest" />
+        <item itemvalue="Composer Script.incomplete:dev:create-docs" />
+        <item itemvalue="Makefile Target.dev-create-docs" />
+        <item itemvalue="Makefile Target.dev-test-unit" />
+        <item itemvalue="PHPUnit.ClientTest" />
       </list>
     </recent_temporary>
   </component>
@@ -255,7 +275,7 @@
       <workItem from="1685695175388" duration="3617000" />
       <workItem from="1699156269319" duration="1252000" />
       <workItem from="1699157552195" duration="11377000" />
-      <workItem from="1700084798009" duration="3654000" />
+      <workItem from="1700084798009" duration="13710000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -565,7 +585,15 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Update unit tests.">
+      <option name="closed" value="true" />
+      <created>1700088602700</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1700088602701</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -585,7 +613,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Rector: TernaryToNullCoalescingRector + TernaryToElvisRector" />
     <MESSAGE value="Rector: ListToArrayDestructRector" />
     <MESSAGE value="Rector: ThisCallOnStaticMethodToStaticCall + RemoveExtraParameters + ExceptionHandlerTypehint" />
     <MESSAGE value="Rector: CreateFunctionToAnonymousFunction + RandomFunction + WrapVariableVariableNameInCurlyBraces" />
@@ -610,7 +637,8 @@
     <MESSAGE value="Fix unit tests." />
     <MESSAGE value="Add PHPUnit file for version 10." />
     <MESSAGE value="Add unit tests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add unit tests." />
+    <MESSAGE value="Update unit tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update unit tests." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -35,85 +35,6 @@ class ReaderTest extends BaseCase
 	protected ?Reader $reader	= NULL;
 
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->config	= self::$_config['unitTest-FTP'] ?? [];
-		$this->path		= $this->config['path'] ?? NULL;
-		$this->local	= $this->config['local'] ?? '';
-
-		$host			= $this->config['host'] ?? NULL;
-		$port			= (int) ( $this->config['port'] ?? 0 );
-		$username		= $this->config['user'] ?? NULL;
-		$password		= $this->config['pass'] ?? NULL;
-
-		@unlink( $this->local."test1.txt" );
-		@unlink( $this->local."test2.txt" );
-		@unlink( $this->local."folder/test3.txt" );
-		@unlink( $this->local."folder/test4.txt" );
-		@rmDir( $this->local."folder/nested" );
-		@rmDir( $this->local."folder" );
-		@rmDir( $this->local );
-
-		if( '' === $this->local )
-			return;
-
-		$this->connection	= new Connection( $host, $port );
-		$this->connection->login( $username, $password );
-
-
-		@mkDir( $this->local );
-		@mkDir( $this->local."folder" );
-		@mkDir( $this->local."folder/nested" );
-		@file_put_contents( $this->local."test1.txt", "test1" );
-		@file_put_contents( $this->local."test2.txt", "test2" );
-		@file_put_contents( $this->local."folder/test3.txt", "test3" );
-		@file_put_contents( $this->local."folder/test4.txt", "test4" );
-
-		if( $this->path )
-			$this->connection->setPath( $this->path );
-
-		$this->reader	= new Reader( $this->connection );
-	}
-
-	/**
-	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
-	 *	@return		bool
-	 */
-	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
-	{
-		if( NULL !== $this->reader )
-			return TRUE;
-		if( $markSkipped )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
-		return FALSE;
-	}
-
-
-
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-		if( !$this->local )
-			return;
-		@unlink( $this->local."test1.txt" );
-		@unlink( $this->local."test2.txt" );
-		@unlink( $this->local."folder/test3.txt" );
-		@unlink( $this->local."folder/test4.txt" );
-		@rmDir( $this->local."folder/nested" );
-		@rmDir( $this->local."folder" );
-		@rmDir( $this->local );
-		$this->connection->close();
-	}
-
-	/**
 	 *	Tests Method 'getFile'.
 	 *	@access		public
 	 *	@return		void
@@ -360,5 +281,82 @@ class ReaderTest extends BaseCase
 		$assertion	= "/".$this->path."folder/nested";
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
+	 *	@return		bool
+	 */
+	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
+	{
+		if( NULL !== $this->reader )
+			return TRUE;
+		if( $markSkipped )
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+		return FALSE;
+	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$config		= self::$_config['unitTest-FTP'] ?? [];
+		$host		= $config['host'] ?? NULL;
+		$port		= (int) ( $config['port'] ?? 0 );
+		$username	= $config['user'] ?? NULL;
+		$password	= $config['pass'] ?? NULL;
+
+		$this->path		= $config['path'] ?? NULL;
+		$this->local	= $config['local'] ?? '';
+
+		@unlink( $this->local."test1.txt" );
+		@unlink( $this->local."test2.txt" );
+		@unlink( $this->local."folder/test3.txt" );
+		@unlink( $this->local."folder/test4.txt" );
+		@rmDir( $this->local."folder/nested" );
+		@rmDir( $this->local."folder" );
+		@rmDir( $this->local );
+
+		if( '' === $this->local )
+			return;
+
+		$this->connection	= new Connection( $host, $port );
+		$this->connection->login( $username, $password );
+
+
+		@mkDir( $this->local );
+		@mkDir( $this->local."folder" );
+		@mkDir( $this->local."folder/nested" );
+		@file_put_contents( $this->local."test1.txt", "test1" );
+		@file_put_contents( $this->local."test2.txt", "test2" );
+		@file_put_contents( $this->local."folder/test3.txt", "test3" );
+		@file_put_contents( $this->local."folder/test4.txt", "test4" );
+
+		if( $this->path )
+			$this->connection->setPath( $this->path );
+
+		$this->reader	= new Reader( $this->connection );
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
+		if( !$this->local )
+			return;
+		@unlink( $this->local."test1.txt" );
+		@unlink( $this->local."test2.txt" );
+		@unlink( $this->local."folder/test3.txt" );
+		@unlink( $this->local."folder/test4.txt" );
+		@rmDir( $this->local."folder/nested" );
+		@rmDir( $this->local."folder" );
+		@rmDir( $this->local );
+		$this->connection->close();
 	}
 }

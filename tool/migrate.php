@@ -1,15 +1,14 @@
 #!/usr/bin/php
 <?php
-require_once __DIR__.'/../vendor/autoload.php';
-require_once __DIR__.'/Migration/Modifier.php';
-require_once __DIR__.'/Migration/Applier.php';
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
-use Tool_Migration_Modifier as Modifier;
-use Tool_Migration_Applier as Applier;
+require_once __DIR__.'/../vendor/autoload.php';
 
 use CeusMedia\Common\CLI;
-use CeusMedia\Common\CLI\Color as CLI_Color;
-use CeusMedia\Common\FS\Folder as FS_Folder;
+use CeusMedia\Common\CLI\Color as CliColor;
+use CeusMedia\Common\FS\Folder;
+use CeusMedia\CommonTool\Migration\Applier;
+use CeusMedia\CommonTool\Migration\Modifier;
 
 $places	= array(
 	'src'	=> (object) array(
@@ -52,14 +51,14 @@ $places	= array(
 );
 
 new CeusMedia\Common\UI\DevOutput();
-$cliColor	= new CLI_Color();
+$cliColor	= new CliColor();
 
 foreach( $places as $placeKey => $placeData ){
 	if( empty( $placeData->active ) )
 		continue;
 	CLI::out();
 	CLI::out( $cliColor->asInfo( 'Place: '.$placeKey ) );
-	$folder		= new FS_Folder( realpath( __DIR__.'/../'.$placeData->path ) );
+	$folder		= new Folder( realpath( __DIR__.'/../'.$placeData->path ) );
 	$applier	= new Applier();
 	$applier->setRootFolder( $folder );
 	$applier->setModifiers( $placeData->modifiers );

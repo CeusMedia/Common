@@ -33,7 +33,7 @@ class ConnectionTest extends BaseCase
 	protected ?string $path;
 	protected array $config;
 
-	protected function login()
+	protected function login(): void
 	{
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
