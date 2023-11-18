@@ -37,14 +37,14 @@
     "ext-xsl": "*",
     "ext-zip": "*",
     "ext-zlib": "*",
-    "ceus-media/doc-creator": "^0.9.6 | 0.9.x-dev | dev-master",
+    "ceus-media/doc-creator": "^1 | 1.0.x-dev",
     "ceus-media/php-parser": "^0.4 | 0.4.x-dev",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
     "phpunit/phpunit": "^9 | ^10",
     "phpstan/phpstan": "^1",
     "phpstan/phpstan-strict-rules": "^1",
-    "php-parallel-lint/php-parallel-lint": "^1.3 | dev-master",
+    "php-parallel-lint/php-parallel-lint": "^1.3",
     "rector/rector": "*"
   },
   "autoload": {

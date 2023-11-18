@@ -4,33 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update tools.">
-      <change afterPath="$PROJECT_DIR$/src/CLI/Output/TableBorderTheme.php" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update code doc blocks for API documentation.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alg/Obj/Constant.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Obj/Constant.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Duration.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Duration.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Color.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Color.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Command/ArgumentParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Command/ArgumentParser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Dimensions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Dimensions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Exception/View.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Server/Client/Abstraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Server/Client/Abstraction.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Question.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Deprecation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deprecation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/AbstractNode.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/AbstractNode.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/Autoloader/Psr0.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Autoloader/Psr0.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/Autoloader/Psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Autoloader/Psr4.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/Folder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/Link.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Link.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/SVN.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Renderable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Renderable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Text.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Text.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compat8.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat8.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compat9.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat9.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,10 +155,15 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Composer Script.dev:all">
+  <component name="RunManager" selected="Composer Script.dev:create-docs">
     <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:all" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:create-docs" />
       <method v="2" />
     </configuration>
     <configuration name="incomplete:dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
@@ -202,29 +183,25 @@
       </makefile>
       <method v="2" />
     </configuration>
-    <configuration name="ClientTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\Net\FTP\ClientTest" file="$PROJECT_DIR$/test/Net/FTP/ClientTest.php" scope="Class" />
-      <method v="2" />
-    </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Composer Script.dev:create-docs" />
       <item itemvalue="Composer Script.dev:all" />
       <item itemvalue="Composer Script.incomplete:dev:create-docs" />
       <item itemvalue="Makefile Target.dev-create-docs" />
       <item itemvalue="Makefile Target.dev-test-unit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
-      <item itemvalue="PHPUnit.ClientTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Composer Script.dev:create-docs" />
         <item itemvalue="Composer Script.dev:all" />
         <item itemvalue="Composer Script.incomplete:dev:create-docs" />
         <item itemvalue="Makefile Target.dev-create-docs" />
         <item itemvalue="Makefile Target.dev-test-unit" />
-        <item itemvalue="PHPUnit.ClientTest" />
       </list>
     </recent_temporary>
   </component>
@@ -278,7 +255,7 @@
       <workItem from="1699156269319" duration="1252000" />
       <workItem from="1699157552195" duration="11377000" />
       <workItem from="1700084798009" duration="13818000" />
-      <workItem from="1700238631728" duration="4566000" />
+      <workItem from="1700238631728" duration="5539000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -604,7 +581,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700102721405</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="Update code doc blocks for API documentation.">
+      <option name="closed" value="true" />
+      <created>1700280128832</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1700280128832</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,7 +620,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Rector: ThisCallOnStaticMethodToStaticCall + RemoveExtraParameters + ExceptionHandlerTypehint" />
     <MESSAGE value="Rector: CreateFunctionToAnonymousFunction + RandomFunction + WrapVariableVariableNameInCurlyBraces" />
     <MESSAGE value="Rector: SetCookie + StringifyStrNeedles" />
     <MESSAGE value="Rector: PublicConstantVisibility" />
@@ -660,7 +644,8 @@
     <MESSAGE value="Add unit tests." />
     <MESSAGE value="Update unit tests." />
     <MESSAGE value="Update tools." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update tools." />
+    <MESSAGE value="Update code doc blocks for API documentation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update code doc blocks for API documentation." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
