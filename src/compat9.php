@@ -306,7 +306,6 @@ namespace CeusMedia\Common\Net{
 	class AtomServerTime extends \Net_AtomServerTime{}
 	class Reader extends \Net_Reader{}
 	class Connectivity extends \Net_Connectivity{}
-	class SVN extends \Net_SVN{}
 	class AtomTime extends \Net_AtomTime{}
 	class CURL extends \Net_CURL{}}
 namespace CeusMedia\Common\Net\API{

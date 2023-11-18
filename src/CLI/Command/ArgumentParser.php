@@ -97,7 +97,7 @@ class ArgumentParser
 	 *	@param		string		$string		String of Arguments and Options
 	 *	@return		void
 	 */
-	public function parse( string $string )
+	public function parse( string $string ): void
 	{
 		$this->foundArguments	= [];
 		$this->foundOptions		= [];
@@ -250,7 +250,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onEndOfLine( string $option )
+	protected function onEndOfLine( string $option ): void
 	{
 		if( $this->status == self::STATUS_READ_ARGUMENT )
 			$this->foundArguments[]	= $this->buffer;
@@ -277,7 +277,7 @@ class ArgumentParser
 	 *	@param		string		$sign		Sign to handle
 	 *	@return		void
 	 */
-	protected function onReadArgument( string $sign )
+	protected function onReadArgument( string $sign ): void
 	{
 		if( $sign == " " ){
 			$this->foundArguments[]	= $this->buffer;
@@ -295,7 +295,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionKey( string $sign, string &$option )
+	protected function onReadOptionKey( string $sign, string &$option ): void
 	{
 		if( in_array( $sign, [" ", ":", "="], TRUE ) ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
@@ -322,7 +322,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionValue( string $sign, string $option )
+	protected function onReadOptionValue( string $sign, string $option ): void
 	{
 		//  illegal Option following
 //		if( $sign === "-" )
@@ -358,7 +358,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReady( string $sign, string &$option )
+	protected function onReady( string $sign, string &$option ): void
 	{
 		if( $sign == "-" ){
 			$option	= "";

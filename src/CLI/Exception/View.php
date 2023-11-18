@@ -1,10 +1,31 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+/**
+ *	...
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI_Exception
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2023 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
 namespace CeusMedia\Common\CLI\Exception;
 
 use Exception;
 use InvalidArgumentException;
 
+/**
+ *	...
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI_Exception
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2023 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
 class View
 {
 	protected ?Exception $exception		= NULL;

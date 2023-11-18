@@ -6,6 +6,7 @@ declare(strict_types=1);
 /**
  *	Indicator for deprecated methods.
  *	@category		Library
+ *	@package		CeusMedia_Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
@@ -25,6 +26,7 @@ use Exception;
  *			->message(  'Use method ... instead' );
  *
  *	@category		Library
+ *	@package		CeusMedia_Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common

@@ -50,13 +50,13 @@ abstract class Abstraction
 			$this->setPort( $port );
 	}
 
+	abstract public function getRequest(): string;
+
 	public function setPort( int $port ): self
 	{
 		$this->port	= $port;
 		return $this;
 	}
-
-	abstract function getRequest(): string;
 
 	protected function getResponse(): string
 	{

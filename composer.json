@@ -105,6 +105,7 @@
     ]
   },
   "scripts-descriptions": {
+    "dev:create-docs": "Create API documentation",
     "dev:install": "Installs project dependencies for Development stage",
     "dev:update": "Updates project dependencies for Development stage",
     "dev:phpstan": "Validate codebase with PHPStan",

@@ -1,6 +1,8 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-/*
+/**
+ * PSR0 autoloader.
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -16,11 +18,25 @@
  * This software consists of voluntary contributions made by many individuals
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Autoloader
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2023 Christian Würker
+ *	@license		http://www.opensource.org/licenses/mit-license.html  MIT License
+ *	@link			https://github.com/CeusMedia/Common
+ *	@author			Jonathan H. Wage <jonwage@gmail.com>
+ *	@author			Roman S. Borschel <roman@code-factory.org>
+ *	@author			Matthew Weier O'Phinney <matthew@zend.com>
+ *	@author			Kris Wallsmith <kris.wallsmith@gmail.com>
+ *	@author			Fabien Potencier <fabien.potencier@symfony-project.org>
  */
 
 namespace CeusMedia\Common\FS\Autoloader;
 
 /**
+ *	PSR0 autoloader.
+ *
  *	SplClassLoader implementation that implements the technical interoperability
  *	standards for PHP 5.3 namespaces and class names.
  *
@@ -34,12 +50,17 @@ namespace CeusMedia\Common\FS\Autoloader;
  *	$loader = new Psr0('Doctrine\Common', '/path/to/doctrine');
  *	$loader->register();
  *
- *	@license	http://www.opensource.org/licenses/mit-license.html  MIT License
- *	@author		Jonathan H. Wage <jonwage@gmail.com>
- *	@author		Roman S. Borschel <roman@code-factory.org>
- *	@author		Matthew Weier O'Phinney <matthew@zend.com>
- *	@author		Kris Wallsmith <kris.wallsmith@gmail.com>
- *	@author		Fabien Potencier <fabien.potencier@symfony-project.org>
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Autoloader
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2023 Christian Würker
+ *	@license		http://www.opensource.org/licenses/mit-license.html  MIT License
+ *	@link			https://github.com/CeusMedia/Common
+ *	@author			Jonathan H. Wage <jonwage@gmail.com>
+ *	@author			Roman S. Borschel <roman@code-factory.org>
+ *	@author			Matthew Weier O'Phinney <matthew@zend.com>
+ *	@author			Kris Wallsmith <kris.wallsmith@gmail.com>
+ *	@author			Fabien Potencier <fabien.potencier@symfony-project.org>
  */
 class Psr0
 {
@@ -55,12 +76,12 @@ class Psr0
 	 *	Creates a new <tt>SplClassLoader</tt> that loads classes of the
 	 *	specified namespace.
 	 *
-	 *	@param		string|NULL		$ns				The namespace to use.
-	 *	@param		string|NULL		$includePath	The namespace to use.
+	 *	@param		string|NULL		$namespace		The namespace to use
+	 *	@param		string|NULL		$includePath	Root location of class files
 	 */
-	public function __construct( ?string $ns = NULL, ?string $includePath = NULL )
+	public function __construct( ?string $namespace = NULL, ?string $includePath = NULL )
 	{
-		$this->namespace	= $ns;
+		$this->namespace	= $namespace;
 		$this->includePath	= $includePath;
 	}
 
@@ -95,6 +116,31 @@ class Psr0
 	public function getNamespaceSeparator(): string
 	{
 		return $this->namespaceSeparator;
+	}
+
+	/**
+	 *	Loads the given class or interface.
+	 *
+	 *	@param			string		$className		The name of the class to load.
+	 *	@return			void
+	 */
+	public function loadClass( string $className ): void
+	{
+		if( NULL === $this->namespace || str_starts_with( $className, $this->namespace.$this->namespaceSeparator ) ){
+			$fileName		= '';
+			$namespace		= '';
+			if( FALSE !== ( $lastNsPos = strripos( $className, $this->namespaceSeparator ) ) ){
+				$namespace	= substr( $className, 0, $lastNsPos );
+				$className	= substr( $className, $lastNsPos + 1 );
+				$fileName	= str_replace( $this->namespaceSeparator, DIRECTORY_SEPARATOR, $namespace ).DIRECTORY_SEPARATOR;
+			}
+			$fileName	.= str_replace( '_', DIRECTORY_SEPARATOR, $className ).$this->fileExtension;
+			$filePath	= ( $this->includePath !== NULL ? $this->includePath.DIRECTORY_SEPARATOR : '' ).$fileName;
+
+			if( file_exists( $filePath ) ){
+				require $filePath;
+			}
+		}
 	}
 
 	/**
@@ -155,30 +201,5 @@ class Psr0
 	{
 		spl_autoload_unregister( [$this, 'loadClass'] );
 		return $this;
-	}
-
-	/**
-	 *	Loads the given class or interface.
-	 *
-	 *	@param			string		$className		The name of the class to load.
-	 *	@return			void
-	 */
-	public function loadClass( string $className )
-	{
-		if( NULL === $this->namespace || str_starts_with( $className, $this->namespace.$this->namespaceSeparator ) ){
-			$fileName		= '';
-			$namespace		= '';
-			if( FALSE !== ( $lastNsPos = strripos( $className, $this->namespaceSeparator ) ) ){
-				$namespace	= substr( $className, 0, $lastNsPos );
-				$className	= substr( $className, $lastNsPos + 1 );
-				$fileName	= str_replace( $this->namespaceSeparator, DIRECTORY_SEPARATOR, $namespace ).DIRECTORY_SEPARATOR;
-			}
-			$fileName	.= str_replace( '_', DIRECTORY_SEPARATOR, $className ).$this->fileExtension;
-			$filePath	= ( $this->includePath !== NULL ? $this->includePath.DIRECTORY_SEPARATOR : '' ).$fileName;
-
-			if( file_exists( $filePath ) ){
-				require $filePath;
-			}
-		}
 	}
 }

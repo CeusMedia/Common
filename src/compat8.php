@@ -290,7 +290,6 @@ class Net_HTTP_Sniffer_OS extends CeusMedia\Common\Net\HTTP\Sniffer\OS{}
 class Net_HTTP_Status extends CeusMedia\Common\Net\HTTP\Status{}
 class Net_HTTP_UploadErrorHandler extends CeusMedia\Common\Net\HTTP\UploadErrorHandler{}
 class Net_Reader extends CeusMedia\Common\Net\Reader{}
-class Net_SVN extends CeusMedia\Common\Net\SVN{}
 class Net_SVN_Client extends CeusMedia\Common\Net\SVN\Client{}
 class Net_Site_Crawler extends CeusMedia\Common\Net\Site\Crawler{}
 class Net_Site_MapBuilder extends CeusMedia\Common\Net\Site\MapBuilder{}
