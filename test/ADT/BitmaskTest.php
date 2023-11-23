@@ -32,6 +32,22 @@ class BitmaskTest extends BaseCase
 	const BIT_16	= 16;
 
 	/**
+	 *	Tests Method 'fromArray'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testFromArray()
+	{
+		$obj	= Bitmask::fromArray( [self::BIT_1, self::BIT_2, self::BIT_16] );
+		$this->assertTrue( $obj->has( static::BIT_16 ) );
+		$this->assertFalse( $obj->has( static::BIT_8 ) );
+		$this->assertFalse( $obj->has( static::BIT_4 ) );
+		$this->assertTrue( $obj->has( static::BIT_2 ) );
+		$this->assertTrue( $obj->has( static::BIT_1 ) );
+		$this->assertEquals( static::BIT_1 + static::BIT_2 + static::BIT_16, $obj->get() );
+	}
+
+	/**
 	 *	Tests Method 'get'.
 	 *	@access		public
 	 *	@return		void

@@ -4,9 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update code doc blocks for API documentation.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Require DocCreator 1.0.x.">
+      <change afterPath="$PROJECT_DIR$/test/ADT/CollectionTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php-test-framework.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php-test-framework.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Bitmask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Bitmask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Clock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Clock.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output/TableBorderTheme.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/TableBorderTheme.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ADT/BitmaskTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/ADT/BitmaskTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ADT/Collection/LevelMapTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/ADT/Collection/LevelMapTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,24 +133,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Project.color&quot;: &quot;3f0804&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/opt/homebrew/var/www/lib/GitHub/CeusMedia/Common&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.PHP&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Project.color": "3f0804",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/tool/config/phpunit10.xml",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "php.test.frameworks.configurable",
+    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test/XML" />
@@ -155,32 +167,26 @@
       <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Composer Script.dev:create-docs">
-    <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:all" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="PHPUnit.ClockTest">
     <configuration name="dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:create-docs" />
       <method v="2" />
     </configuration>
-    <configuration name="incomplete:dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="incomplete:dev:create-docs" />
+    <configuration name="BitmaskTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\ADT\BitmaskTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/ADT/BitmaskTest.php" scope="Class" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
-    <configuration name="dev-create-docs" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="dev-create-docs" workingDirectory="" arguments="">
-        <envs />
-      </makefile>
+    <configuration name="BitmaskTest.testFromArray" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\ADT\BitmaskTest" file="$PROJECT_DIR$/test/ADT/BitmaskTest.php" method="testFromArray" scope="Method" />
       <method v="2" />
     </configuration>
-    <configuration name="dev-test-unit" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="dev-test-unit" workingDirectory="" arguments="">
-        <envs />
-      </makefile>
+    <configuration name="ClockTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\Alg\Time\ClockTest" file="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" scope="Class" />
+      <method v="2" />
+    </configuration>
+    <configuration name="LevelMapTest.testGet_performance" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\ADT\Collection\LevelMapTest" file="$PROJECT_DIR$/test/ADT/Collection/LevelMapTest.php" method="testGet_performance" scope="Method" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -189,19 +195,19 @@
     </configuration>
     <list>
       <item itemvalue="Composer Script.dev:create-docs" />
-      <item itemvalue="Composer Script.dev:all" />
-      <item itemvalue="Composer Script.incomplete:dev:create-docs" />
-      <item itemvalue="Makefile Target.dev-create-docs" />
-      <item itemvalue="Makefile Target.dev-test-unit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
+      <item itemvalue="PHPUnit.BitmaskTest.testFromArray" />
+      <item itemvalue="PHPUnit.ClockTest" />
+      <item itemvalue="PHPUnit.LevelMapTest.testGet_performance" />
+      <item itemvalue="PHPUnit.BitmaskTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="PHPUnit.ClockTest" />
+        <item itemvalue="PHPUnit.LevelMapTest.testGet_performance" />
+        <item itemvalue="PHPUnit.BitmaskTest.testFromArray" />
+        <item itemvalue="PHPUnit.BitmaskTest" />
         <item itemvalue="Composer Script.dev:create-docs" />
-        <item itemvalue="Composer Script.dev:all" />
-        <item itemvalue="Composer Script.incomplete:dev:create-docs" />
-        <item itemvalue="Makefile Target.dev-create-docs" />
-        <item itemvalue="Makefile Target.dev-test-unit" />
       </list>
     </recent_temporary>
   </component>
@@ -255,7 +261,8 @@
       <workItem from="1699156269319" duration="1252000" />
       <workItem from="1699157552195" duration="11377000" />
       <workItem from="1700084798009" duration="13818000" />
-      <workItem from="1700238631728" duration="5539000" />
+      <workItem from="1700238631728" duration="5935000" />
+      <workItem from="1700699222416" duration="13040000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -589,7 +596,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700280128832</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Require DocCreator 1.0.x.">
+      <option name="closed" value="true" />
+      <created>1700280692308</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1700280692308</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -620,7 +635,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Rector: CreateFunctionToAnonymousFunction + RandomFunction + WrapVariableVariableNameInCurlyBraces" />
     <MESSAGE value="Rector: SetCookie + StringifyStrNeedles" />
     <MESSAGE value="Rector: PublicConstantVisibility" />
     <MESSAGE value="Rector: finish round 1 being prepared to work in rules for PHP 7.4" />
@@ -645,7 +659,8 @@
     <MESSAGE value="Update unit tests." />
     <MESSAGE value="Update tools." />
     <MESSAGE value="Update code doc blocks for API documentation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update code doc blocks for API documentation." />
+    <MESSAGE value="Require DocCreator 1.0.x." />
+    <option name="LAST_COMMIT_MESSAGE" value="Require DocCreator 1.0.x." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
