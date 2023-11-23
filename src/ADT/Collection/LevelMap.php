@@ -46,9 +46,15 @@ use InvalidArgumentException;
  */
 class LevelMap extends Dictionary
 {
+	/** @var	string	$divider	Level dividing sign */
 	protected string $divider		= ".";
 
-	public function __construct( array $array = [], string $divider = "." )
+	/**
+	 *	Constructor.
+	 *	@param		array		$array
+	 *	@param		string		$divider		Level dividing sign
+	 */
+	public function __construct( array $array = [], string $divider = '.' )
 	{
 		parent::__construct( $array );
 		$this->divider	= $divider;
@@ -81,14 +87,9 @@ class LevelMap extends Dictionary
 		//  get Length of Prefix Key outside the Loop
 		$length		= strlen( $key );
 		//  iterate all stores Pairs
-		foreach( $this->pairs as $pairKey => $pairValue )
-		{
-			//  pre-check for Performance
-			if( $pairKey[0] !== $key[0] )
-				//  skip Pair
-				continue;
+		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 )
+			if( str_starts_with( $pairKey, $key ) )
 				//  collect Pair
 				$list[substr( $pairKey, $length )]	= $pairValue;
 		}
@@ -144,15 +145,9 @@ class LevelMap extends Dictionary
 		$key		.= $this->divider;
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue )
-		{
-			//  pre-check for Performance
-			if( $pairKey[0] !== $key[0] )
-				//  skip Pair
-				continue;
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 )
+			if( str_starts_with( $pairKey, $key ) )
 				return TRUE;
-		}
 		return FALSE;
 	}
 
@@ -180,14 +175,9 @@ class LevelMap extends Dictionary
 		//  prepare Prefix Key to search for
 		$key		.= $this->divider;
 		//  iterate all stores Pairs
-		foreach( $this->pairs as $pairKey => $pairValue )
-		{
-			//  pre-check for Performance
-			if( $pairKey[0] !== $key[0] )
-				//  skip Pair
-				continue;
+		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 ){
+			if( str_starts_with( $pairKey, $key ) ){
 				//  remove Pair
 				unset( $this->pairs[$pairKey] );
 				$count++;

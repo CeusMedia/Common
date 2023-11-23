@@ -15,6 +15,8 @@ declare( strict_types = 1 );
 namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\LevelMap;
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\CLI;
 use CeusMedia\CommonTest\BaseCase;
 
 /**
@@ -26,25 +28,6 @@ class LevelMapTest extends BaseCase
 {
 	/** @var LevelMap $map */
 	protected $map;
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->map	= new LevelMap();
-
-		$this->map['level1.key1']	= "value_11";
-		$this->map['level1.key2']	= "value_12";
-
-		$this->map['level1.level2.key1']	= "value_121";
-		$this->map['level1.level2.key2']	= "value_122";
-
-		$this->map['level1.level2.level3.key1']	= "value_1231";
-		$this->map['level1.level2.level3.key2']	= "value_1232";
-	}
 
 	/**
 	 *	Tests Method 'get'.
@@ -286,5 +269,36 @@ class LevelMapTest extends BaseCase
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->map->set( "", "" );
+	}
+
+/*	//  this disabled snippet exists to measure performance of ::get
+	public function testGet_performance(): void
+	{
+		$clock	= new Clock();
+		for($i=0; $i<1000000; $i++)
+			$this->map->get( 'level1' );
+
+		$time	= $clock->stop(3, 0);
+		CLI::out( 'LevelMap::get@Performance: '.$time.'ms' );
+		$this->markTestIncomplete( 'LevelMap::get@Performance: '.$time.'ms' );
+	}*/
+
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->map	= new LevelMap();
+
+		$this->map['level1.key1']	= "value_11";
+		$this->map['level1.key2']	= "value_12";
+
+		$this->map['level1.level2.key1']	= "value_121";
+		$this->map['level1.level2.key2']	= "value_122";
+
+		$this->map['level1.level2.level3.key1']	= "value_1231";
+		$this->map['level1.level2.level3.key2']	= "value_1232";
 	}
 }

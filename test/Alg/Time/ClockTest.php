@@ -27,16 +27,6 @@ use CeusMedia\CommonTest\MockAntiProtection as Mock;
 final class ClockTest extends BaseCase
 {
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		Mock::createMockClass( Clock::class );
-	}
-
-	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
@@ -199,6 +189,16 @@ final class ClockTest extends BaseCase
 		$assertion	= 0.123;
 		$creation	= $watch->getTime( 0 );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		Mock::createMockClass( Clock::class );
 	}
 }
 

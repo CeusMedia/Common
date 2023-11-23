@@ -62,11 +62,6 @@ class Clock
 		$this->start();
 	}
 
-	protected static function calculateTimeSpan( float $microTimeStart, float $microTimeStop ): float
-	{
-		return $microTimeStop - $microTimeStart;
-	}
-
 	public function getLaps(): array
 	{
 		return $this->laps;
@@ -90,7 +85,7 @@ class Clock
 	 *	@param		int|float		$seconds
 	 *	@return		void
 	 */
-	public function sleep( $seconds ): void
+	public function sleep( int|float $seconds ): void
 	{
 		$this->usleep( (int) ( $seconds * 1_000_000 ) );
 	}
@@ -99,7 +94,7 @@ class Clock
 	 *	@param		int|float		$seconds
 	 *	@return		void
 	 */
-	public function speed( $seconds ): void
+	public function speed( int|float $seconds ): void
 	{
 		$this->uspeed( (int) ( $seconds * 1_000_000 ) );
 	}
@@ -109,9 +104,10 @@ class Clock
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function start()
+	public function start(): void
 	{
 		$this->microTimeStart	= microtime( TRUE );
+		$this->microTimeStop	= .0;
 		$this->microTimeLap		= .0;
 	}
 
@@ -161,5 +157,10 @@ class Clock
 	public function uspeed( int $microseconds ): void
 	{
 		$this->microTimeStart	-= $microseconds / 1_000_000;
+	}
+
+	protected static function calculateTimeSpan( float $microTimeStart, float $microTimeStop ): float
+	{
+		return $microTimeStop - $microTimeStart;
 	}
 }
