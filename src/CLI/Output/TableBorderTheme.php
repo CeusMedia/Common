@@ -26,7 +26,7 @@
  *	@link			https://github.com/CeusMedia/Common
  */
 
-namespace CeusMedia\Common\CLI\Output\Table;
+namespace CeusMedia\Common\CLI\Output;
 
 /**
  *	Progress bar for console output.
