@@ -4,21 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Require DocCreator 1.0.x.">
-      <change afterPath="$PROJECT_DIR$/test/ADT/CollectionTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php-test-framework.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php-test-framework.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Order compat9.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Bitmask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Bitmask.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Clock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Clock.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Output/TableBorderTheme.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/TableBorderTheme.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ADT/BitmaskTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/ADT/BitmaskTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ADT/Collection/LevelMapTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/ADT/Collection/LevelMapTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compat9.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat9.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Compatibility/Worker.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Compatibility/Worker.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +251,7 @@
       <workItem from="1699157552195" duration="11377000" />
       <workItem from="1700084798009" duration="13818000" />
       <workItem from="1700238631728" duration="5935000" />
-      <workItem from="1700699222416" duration="13040000" />
+      <workItem from="1700699222416" duration="16791000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -572,39 +561,47 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00045" summary="Update unit tests.">
+    <task id="LOCAL-00050" summary="Improve code quality of clock and level map.">
       <option name="closed" value="true" />
-      <created>1700088602700</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
+      <created>1700712694963</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
       <option name="project" value="LOCAL" />
-      <updated>1700088602701</updated>
+      <updated>1700712694964</updated>
     </task>
-    <task id="LOCAL-00046" summary="Update tools.">
+    <task id="LOCAL-00051" summary="Make collection an iterator aggregate, array iterator, countable, filterable and mappable.">
       <option name="closed" value="true" />
-      <created>1700102721405</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
+      <created>1700712824364</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
       <option name="project" value="LOCAL" />
-      <updated>1700102721405</updated>
+      <updated>1700712824364</updated>
     </task>
-    <task id="LOCAL-00047" summary="Update code doc blocks for API documentation.">
+    <task id="LOCAL-00052" summary="Order compat9.">
       <option name="closed" value="true" />
-      <created>1700280128832</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
+      <created>1700715710153</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
       <option name="project" value="LOCAL" />
-      <updated>1700280128832</updated>
+      <updated>1700715710153</updated>
     </task>
-    <task id="LOCAL-00048" summary="Require DocCreator 1.0.x.">
+    <task id="LOCAL-00053" summary="Order compat9.">
       <option name="closed" value="true" />
-      <created>1700280692308</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
+      <created>1700716169496</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
       <option name="project" value="LOCAL" />
-      <updated>1700280692308</updated>
+      <updated>1700716169496</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00054" summary="Order compat9.">
+      <option name="closed" value="true" />
+      <created>1700735921686</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1700735921686</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,10 +632,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Rector: SetCookie + StringifyStrNeedles" />
-    <MESSAGE value="Rector: PublicConstantVisibility" />
-    <MESSAGE value="Rector: finish round 1 being prepared to work in rules for PHP 7.4" />
-    <MESSAGE value="Rector: prepare set 5.6" />
     <MESSAGE value="Rector: VarToPublicProperty + DirNameFileConstantToDirConstant + LongArrayToShortArray" />
     <MESSAGE value="Rector: PowToExp" />
     <MESSAGE value="Update composer, make and rector files." />
@@ -660,7 +653,11 @@
     <MESSAGE value="Update tools." />
     <MESSAGE value="Update code doc blocks for API documentation." />
     <MESSAGE value="Require DocCreator 1.0.x." />
-    <option name="LAST_COMMIT_MESSAGE" value="Require DocCreator 1.0.x." />
+    <MESSAGE value="Extends Bitmask by static construction from array of bits." />
+    <MESSAGE value="Improve code quality of clock and level map." />
+    <MESSAGE value="Make collection an iterator aggregate, array iterator, countable, filterable and mappable." />
+    <MESSAGE value="Order compat9." />
+    <option name="LAST_COMMIT_MESSAGE" value="Order compat9." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

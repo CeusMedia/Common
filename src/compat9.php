@@ -13,6 +13,7 @@ namespace CeusMedia\Common{
 	interface Renderable extends \Renderable{}
 }
 namespace CeusMedia\Common\ADT{
+	abstract class Singleton extends \ADT_Singleton{}
 	class Bitmask extends \ADT_Bitmask{}
 	class Collection extends \ADT_List{}
 	class Constant extends \ADT_Constant{}
@@ -21,12 +22,16 @@ namespace CeusMedia\Common\ADT{
 	class Object_ extends \ADT_Object{}
 	class OptionObject extends \ADT_OptionObject{}
 	class Registry extends \ADT_Registry{}
-	abstract class Singleton extends \ADT_Singleton{}
-	class String_ extends \ADT_String{}
 	class StringBuffer extends \ADT_StringBuffer{}
+	class String_ extends \ADT_String{}
 	class URL extends \ADT_URL{}
 	class URN extends \ADT_URN{}
 	class VCard extends \ADT_VCard{}
+}
+namespace CeusMedia\Common\ADT\CSS{
+	class Property extends \ADT_CSS_Property{}
+	class Rule extends \ADT_CSS_Rule{}
+	class Sheet extends \ADT_CSS_Sheet{}
 }
 namespace CeusMedia\Common\ADT\Collection{
 	class Dictionary extends \ADT_List_Dictionary{}
@@ -34,11 +39,6 @@ namespace CeusMedia\Common\ADT\Collection{
 	class Queue extends \ADT_List_Queue{}
 	class SectionList extends \ADT_List_SectionList{}
 	class Stack extends \ADT_List_Stack{}
-}
-namespace CeusMedia\Common\ADT\CSS{
-	class Property extends \ADT_CSS_Property{}
-	class Rule extends \ADT_CSS_Rule{}
-	class Sheet extends \ADT_CSS_Sheet{}
 }
 namespace CeusMedia\Common\ADT\Event{
 	class Callback extends \ADT_Event_Callback{}
@@ -58,7 +58,7 @@ namespace CeusMedia\Common\ADT\JSON{
 	class Builder extends \ADT_JSON_Builder{}
 	class Converter extends \ADT_JSON_Converter{}
 	class Parser extends \ADT_JSON_Parser{}
-	class Pretty extends \ADT_JSON_Formater{}
+	class Pretty extends \ADT_JSON_Pretty{}
 }
 namespace CeusMedia\Common\ADT\Time{
 	class Delay extends \ADT_Time_Delay{}
@@ -134,8 +134,8 @@ namespace CeusMedia\Common\Alg\Time{
 	class Clock extends \Alg_Time_Clock{}
 	class Converter extends \Alg_Time_Converter{}
 	class Duration extends \Alg_Time_Duration{}
-	class DurationPhraser extends \Alg_Time_DurationPhraser{}
 	class DurationPhraseRanges extends \Alg_Time_DurationPhraseRanges{}
+	class DurationPhraser extends \Alg_Time_DurationPhraser{}
 }
 namespace CeusMedia\Common\Alg\Tree\Menu{
 	class Converter extends \Alg_Tree_Menu_Converter{}
@@ -146,8 +146,8 @@ namespace CeusMedia\Common\Alg\Turing{
 namespace CeusMedia\Common\Alg\Validation{
 	class DefinitionValidator extends \Alg_Validation_DefinitionValidator{}
 	class LanguageValidator extends \Alg_Validation_LanguageValidator{}
-	class Predicates extends \Alg_Validation_Predicates{}
 	class PredicateValidator extends \Alg_Validation_PredicateValidator{}
+	class Predicates extends \Alg_Validation_Predicates{}
 }
 namespace CeusMedia\Common\CLI{
 	class Application extends \CLI_Application{}
@@ -162,9 +162,9 @@ namespace CeusMedia\Common\CLI{
 	class Shell extends \CLI_Shell{}
 }
 namespace CeusMedia\Common\CLI\Command{
+	abstract class Program extends \CLI_Command_Program{}
 	class ArgumentParser extends \CLI_Command_ArgumentParser{}
 	class BackgroundProcess extends \CLI_Command_BackgroundProcess{}
-	abstract class Program extends \CLI_Command_Program{}
 }
 namespace CeusMedia\Common\CLI\Exception{
 	class View extends \CLI_Exception_View{}
@@ -189,6 +189,7 @@ namespace CeusMedia\Common\CLI\Fork\Worker{
 namespace CeusMedia\Common\CLI\Output{
 	class Progress extends \CLI_Output_Progress{}
 	class Table extends \CLI_Output_Table{}
+	class TableBorderTheme extends \CLI_Output_TableBorderTheme{}
 }
 namespace CeusMedia\Common\CLI\Server{
 	class Daemon extends \CLI_Server_Daemon{}
@@ -199,15 +200,18 @@ namespace CeusMedia\Common\CLI\Server\Cron{
 	class Parser extends \CLI_Server_Cron_Parser{}
 }
 namespace CeusMedia\Common\Exception{
-	interface Interface_ extends \Exception_Interface{}
 	abstract class Abstraction extends \Exception_Abstract{}
-	class Logic extends \Exception_Logic{}
 	class IO extends \Exception_IO{}
+	class Logic extends \Exception_Logic{}
 	class Runtime extends \Exception_Runtime{}
-	class Serializable extends \Exception_Serializable{}
 	class SQL extends \Exception_SQL{}
+	class Serializable extends \Exception_Serializable{}
 	class Template extends \Exception_Template{}
 	class Validation extends \Exception_Validation{}
+	interface Interface_ extends \Exception_Interface{}
+}
+namespace CeusMedia\Common\Exception\Data{
+	class Ambiguous extends \Exception_Data_Ambiguous{}
 }
 namespace CeusMedia\Common\FS{
 	class AbstractNode extends \FS_AbstractNode{}
@@ -231,11 +235,11 @@ namespace CeusMedia\Common\FS\File{
 	class PdfToImage extends \FS_File_PdfToImage{}
 	class Permissions extends \FS_File_Permissions{}
 	class Reader extends \FS_File_Reader{}
-	class RegexFilter extends \FS_File_RegexFilter{}
 	class RecursiveIterator extends \FS_File_RecursiveIterator{}
 	class RecursiveNameFilter extends \FS_File_RecursiveNameFilter{}
 	class RecursiveRegexFilter extends \FS_File_RecursiveRegexFilter{}
 	class RecursiveTodoLister extends \FS_File_RecursiveTodoLister{}
+	class RegexFilter extends \FS_File_RegexFilter{}
 	class SyntaxChecker extends \FS_File_SyntaxChecker{}
 	class TodoLister extends \FS_File_TodoLister{}
 	class Unicoder extends \FS_File_Unicoder{}
@@ -260,8 +264,8 @@ namespace CeusMedia\Common\FS\File\CSS{
 	class Editor extends \FS_File_CSS_Editor{}
 	class Parser extends \FS_File_CSS_Parser{}
 	class Reader extends \FS_File_CSS_Reader{}
-	class Writer extends \FS_File_CSS_Writer{}
 	class Relocator extends \FS_File_CSS_Relocator{}
+	class Writer extends \FS_File_CSS_Writer{}
 }
 namespace CeusMedia\Common\FS\File\CSS\Theme{
 	class Combiner extends \FS_File_CSS_Theme_Combiner{}
@@ -297,8 +301,8 @@ namespace CeusMedia\Common\FS\File\INI{
 	class Creator extends \FS_File_INI_Creator{}
 	class Editor extends \FS_File_INI_Editor{}
 	class Reader extends \FS_File_INI_Reader{}
-	class SectionReader extends \FS_File_INI_SectionReader{}
 	class SectionEditor extends \FS_File_INI_SectionEditor{}
+	class SectionReader extends \FS_File_INI_SectionReader{}
 }
 namespace CeusMedia\Common\FS\File\JSON{
 	class Config extends \FS_File_JSON_Config{}
@@ -363,8 +367,8 @@ namespace CeusMedia\Common\FS\Folder\Treeview{
 namespace CeusMedia\Common\Net{
 	class AtomServerTime extends \Net_AtomServerTime{}
 	class AtomTime extends \Net_AtomTime{}
-	class Connectivity extends \Net_Connectivity{}
 	class CURL extends \Net_CURL{}
+	class Connectivity extends \Net_Connectivity{}
 	class Reader extends \Net_Reader{}
 }
 namespace CeusMedia\Common\Net\API{
@@ -390,8 +394,8 @@ namespace CeusMedia\Common\Net\FTP{
 	class Writer extends \Net_FTP_Writer{}
 }
 namespace CeusMedia\Common\Net\HTTP{
-	class CrossDomainProxy extends \Net_HTTP_CrossDomainProxy{}
 	class Cookie extends \Net_HTTP_Cookie{}
+	class CrossDomainProxy extends \Net_HTTP_CrossDomainProxy{}
 	class Download extends \Net_HTTP_Download{}
 	class Method extends \Net_HTTP_Method{}
 	class PartitionCookie extends \Net_HTTP_PartitionCookie{}
@@ -450,8 +454,8 @@ namespace CeusMedia\Common\Net\XMPP\XMPPHP{
 	class Exception extends \Net_XMPP_XMPPHP_Exception{}
 	class Log extends \Net_XMPP_XMPPHP_Log{}
 	class Roster extends \Net_XMPP_XMPPHP_Roster{}
-	class XMLStream extends \Net_XMPP_XMPPHP_XMLStream{}
 	class XMLObj extends \Net_XMPP_XMPPHP_XMLObj{}
+	class XMLStream extends \Net_XMPP_XMPPHP_XMLStream{}
 	class XMPP extends \Net_XMPP_XMPPHP_XMPP{}
 }
 namespace CeusMedia\Common\UI{
@@ -465,9 +469,9 @@ namespace CeusMedia\Common\UI{
 namespace CeusMedia\Common\UI\HTML{
 	class CollapsePanel extends \UI_HTML_CollapsePanel{}
 	class ContextMenu extends \UI_HTML_ContextMenu{}
-	class Index extends \UI_HTML_Index{}
 	class Elements extends \UI_HTML_Elements{}
 	class FormElements extends \UI_HTML_FormElements{}
+	class Index extends \UI_HTML_Index{}
 	class Indicator extends \UI_HTML_Indicator{}
 	class JQuery extends \UI_HTML_JQuery{}
 	class Ladder extends \UI_HTML_Ladder{}
@@ -486,6 +490,14 @@ namespace CeusMedia\Common\UI\HTML\Exception{
 	class TraceViewer extends \UI_HTML_Exception_TraceViewer{}
 	class View extends \UI_HTML_Exception_View{}
 }
+namespace CeusMedia\Common\UI\HTML\Tree{
+	class ArrayView extends \UI_HTML_Tree_ArrayView{}
+	class FolderCheckView extends \UI_HTML_Tree_FolderCheckView{}
+	class FolderView extends \UI_HTML_Tree_FolderView{}
+	class LayerMenu extends \UI_HTML_Tree_LayerMenu{}
+	class Menu extends \UI_HTML_Tree_Menu{}
+	class VariableDump extends \UI_HTML_Tree_VariableDump{}
+}
 namespace CeusMedia\Common\UI\Image{
 	class Captcha extends \UI_Image_Captcha{}
 	class Creator extends \UI_Image_Creator{}
@@ -496,8 +508,8 @@ namespace CeusMedia\Common\UI\Image{
 	class Histogram extends \UI_Image_Histogram{}
 	class Modifier extends \UI_Image_Modifier{}
 	class Printer extends \UI_Image_Printer{}
-	class Rotator extends \UI_Image_Rotator{}
 	class Processing extends \UI_Image_Processing{}
+	class Rotator extends \UI_Image_Rotator{}
 	class ThumbnailCreator extends \UI_Image_ThumbnailCreator{}
 	class TransparentWatermark extends \UI_Image_TransparentWatermark{}
 	class Watermark extends \UI_Image_Watermark{}
@@ -505,6 +517,15 @@ namespace CeusMedia\Common\UI\Image{
 namespace CeusMedia\Common\UI\Image\Graphviz{
 	class Graph extends \UI_Image_Graphviz_Graph{}
 	class Renderer extends \UI_Image_Graphviz_Renderer{}
+}
+namespace CeusMedia\Common\UI\JS{
+	class CodeMirror extends \UI_JS_CodeMirror{}
+}
+namespace CeusMedia\Common\UI\SVG{
+	class BarAcross extends \UI_SVG_BarAcross{}
+	class Chart extends \UI_SVG_Chart{}
+	class ChartData extends \UI_SVG_ChartData{}
+	class PieGraph extends \UI_SVG_PieGraph{}
 }
 namespace CeusMedia\Common\XML{
 	class Converter extends \XML_Converter{}
@@ -525,8 +546,8 @@ namespace CeusMedia\Common\XML\DOM{
 	class Builder extends \XML_DOM_Builder{}
 	class FeedIdentifier extends \XML_DOM_FeedIdentifier{}
 	class FileEditor extends \XML_DOM_FileEditor{}
-	class FileWriter extends \XML_DOM_FileWriter{}
 	class FileReader extends \XML_DOM_FileReader{}
+	class FileWriter extends \XML_DOM_FileWriter{}
 	class Formater extends \XML_DOM_Formater{}
 	class GoogleSitemapBuilder extends \XML_DOM_GoogleSitemapBuilder{}
 	class GoogleSitemapWriter extends \XML_DOM_GoogleSitemapWriter{}

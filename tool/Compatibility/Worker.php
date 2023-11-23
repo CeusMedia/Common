@@ -32,7 +32,7 @@ class Worker
 	public function generateCompat9(): int
 	{
 		$count		= 0;
-		$filePath	= $this->rootPath.'compat9.php';
+		$filePath	= $this->rootPath.'src/compat9.php';
 
 		$namespaces	= [];
 		$this->generateCompat9Recursive( $namespaces, $count );
@@ -42,6 +42,7 @@ class Worker
 		fputs( $handle, '<?php'.PHP_EOL );
 		ksort( $namespaces );
 		foreach( $namespaces as $namespace => $lines ){
+			asort($lines);
 			if( count( $lines ) === 0 )
 				continue;
 			$lines	= PHP_EOL."\t".join( PHP_EOL."\t", $lines );
@@ -98,8 +99,10 @@ class Worker
 				continue;
 			$item	= LibraryItem::fromFile( $folder.$entry->getFilename() );
 //			var_export( $item );die;
-			if( !isset( $namespaces[$item->namespace] ) )
+			if( !isset( $namespaces[$item->namespace] ) ){
 				$namespaces[$item->namespace] = [];
+				arsort($namespaces);
+			}
 			$namespaces[$item->namespace][]	= sprintf( $template, $item->declaration, $item->class9, $item->class8 );
 			$count++;
 		}
