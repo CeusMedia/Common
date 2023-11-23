@@ -57,49 +57,49 @@ namespace CeusMedia\Common\ADT\Graph{
 namespace CeusMedia\Common\ADT\JSON{
 	class Builder extends \ADT_JSON_Builder{}
 	class Converter extends \ADT_JSON_Converter{}
-	class Pretty extends \ADT_JSON_Formater{}
 	class Parser extends \ADT_JSON_Parser{}
+	class Pretty extends \ADT_JSON_Formater{}
 }
 namespace CeusMedia\Common\ADT\Time{
 	class Delay extends \ADT_Time_Delay{}
 }
 namespace CeusMedia\Common\ADT\Tree{
-	class Node extends \ADT_Tree_Node{}
 	class MagicNode extends \ADT_Tree_MagicNode{}
+	class Node extends \ADT_Tree_Node{}
 }
 namespace CeusMedia\Common\ADT\Tree\Menu{
-	class Item extends \ADT_Tree_Menu_Item{}
 	class Collection extends \ADT_Tree_Menu_List{}
+	class Item extends \ADT_Tree_Menu_Item{}
 }
 namespace CeusMedia\Common\ADT\URL{
 	class Compare extends \ADT_URL_Compare{}
 	class Inference extends \ADT_URL_Inference{}
 }
 namespace CeusMedia\Common\Alg{
-	class UnitParser extends \Alg_UnitParser{}
-	class SgmlTagReader extends \Alg_SgmlTagReader{}
-	class Randomizer extends \Alg_Randomizer{}
-	class UnitFormater extends \Alg_UnitFormater{}
 	class ColorConverter extends \Alg_ColorConverter{}
-	class HtmlParser extends \Alg_HtmlParser{}
 	class HtmlMetaTagReader extends \Alg_HtmlMetaTagReader{}
+	class HtmlParser extends \Alg_HtmlParser{}
 	class ID extends \Alg_ID{}
+	class Randomizer extends \Alg_Randomizer{}
+	class SgmlTagReader extends \Alg_SgmlTagReader{}
+	class UnitFormater extends \Alg_UnitFormater{}
+	class UnitParser extends \Alg_UnitParser{}
 	class UnusedVariableFinder extends \Alg_UnusedVariableFinder{}
 }
 namespace CeusMedia\Common\Alg\Crypt{
-	class Rot13 extends \Alg_Crypt_Rot13{}
 	class Caesar extends \Alg_Crypt_Caesar{}
 	class PasswordStrength extends \Alg_Crypt_PasswordStrength{}
+	class Rot13 extends \Alg_Crypt_Rot13{}
 }
 namespace CeusMedia\Common\Alg\JS{
 	class Minifier extends \Alg_JS_Minifier{}
 }
 namespace CeusMedia\Common\Alg\Obj{
 	class Constant extends \Alg_Object_Constant{}
-	class MethodFactory extends \Alg_Object_MethodFactory{}
-	class Factory extends \Alg_Object_Factory{}
 	class Delegation extends \Alg_Object_Delegation{}
 	class EventHandler extends \Alg_Object_EventHandler{}
+	class Factory extends \Alg_Object_Factory{}
+	class MethodFactory extends \Alg_Object_MethodFactory{}
 }
 namespace CeusMedia\Common\Alg\Parcel{
 	class Factory extends \Alg_Parcel_Factory{}
@@ -120,21 +120,21 @@ namespace CeusMedia\Common\Alg\Sort{
 	class Selection extends \Alg_Sort_Selection{}
 }
 namespace CeusMedia\Common\Alg\Text{
-	class SnakeCase extends \Alg_Text_SnakeCase{}
 	class CamelCase extends \Alg_Text_CamelCase{}
-	class Extender extends \Alg_Text_Extender{}
 	class EncodingConverter extends \Alg_Text_EncodingConverter{}
-	class Trimmer extends \Alg_Text_Trimmer{}
-	class PascalCase extends \Alg_Text_PascalCase{}
-	class TermExtractor extends \Alg_Text_TermExtractor{}
+	class Extender extends \Alg_Text_Extender{}
 	class Filter extends \Alg_Text_Filter{}
+	class PascalCase extends \Alg_Text_PascalCase{}
+	class SnakeCase extends \Alg_Text_SnakeCase{}
+	class TermExtractor extends \Alg_Text_TermExtractor{}
+	class Trimmer extends \Alg_Text_Trimmer{}
 	class Unicoder extends \Alg_Text_Unicoder{}
 }
 namespace CeusMedia\Common\Alg\Time{
-	class Converter extends \Alg_Time_Converter{}
-	class DurationPhraser extends \Alg_Time_DurationPhraser{}
 	class Clock extends \Alg_Time_Clock{}
+	class Converter extends \Alg_Time_Converter{}
 	class Duration extends \Alg_Time_Duration{}
+	class DurationPhraser extends \Alg_Time_DurationPhraser{}
 	class DurationPhraseRanges extends \Alg_Time_DurationPhraseRanges{}
 }
 namespace CeusMedia\Common\Alg\Tree\Menu{
@@ -144,27 +144,27 @@ namespace CeusMedia\Common\Alg\Turing{
 	class Machine extends \Alg_Turing_Machine{}
 }
 namespace CeusMedia\Common\Alg\Validation{
-	class PredicateValidator extends \Alg_Validation_PredicateValidator{}
-	class LanguageValidator extends \Alg_Validation_LanguageValidator{}
 	class DefinitionValidator extends \Alg_Validation_DefinitionValidator{}
+	class LanguageValidator extends \Alg_Validation_LanguageValidator{}
 	class Predicates extends \Alg_Validation_Predicates{}
+	class PredicateValidator extends \Alg_Validation_PredicateValidator{}
 }
 namespace CeusMedia\Common\CLI{
-	class Downloader extends \CLI_Downloader{}
-	class Question extends \CLI_Question{}
 	class Application extends \CLI_Application{}
 	class ArgumentParser extends \CLI_ArgumentParser{}
-	class Prompt extends \CLI_Prompt{}
-	class Dimensions extends \CLI_Dimensions{}
-	class Shell extends \CLI_Shell{}
 	class Color extends \CLI_Color{}
+	class Dimensions extends \CLI_Dimensions{}
+	class Downloader extends \CLI_Downloader{}
 	class Output extends \CLI_Output{}
+	class Prompt extends \CLI_Prompt{}
+	class Question extends \CLI_Question{}
 	class RequestReceiver extends \CLI_RequestReceiver{}
+	class Shell extends \CLI_Shell{}
 }
 namespace CeusMedia\Common\CLI\Command{
+	class ArgumentParser extends \CLI_Command_ArgumentParser{}
 	class BackgroundProcess extends \CLI_Command_BackgroundProcess{}
 	abstract class Program extends \CLI_Command_Program{}
-	class ArgumentParser extends \CLI_Command_ArgumentParser{}
 }
 namespace CeusMedia\Common\CLI\Exception{
 	class View extends \CLI_Exception_View{}
@@ -173,15 +173,15 @@ namespace CeusMedia\Common\CLI\Fork{
 	abstract class Abstraction extends \CLI_Fork_Abstract{}
 }
 namespace CeusMedia\Common\CLI\Fork\Server{
-	class SocketException extends \CLI_Fork_Server_SocketException{}
-	class Exception extends \CLI_Fork_Server_Exception{}
-	class Reflect extends \CLI_Fork_Server_Reflection{}
 	abstract class Abstraction extends \CLI_Fork_Server_Abstract{}
 	class Dynamic extends \CLI_Fork_Server_Dynamic{}
+	class Exception extends \CLI_Fork_Server_Exception{}
+	class Reflect extends \CLI_Fork_Server_Reflection{}
+	class SocketException extends \CLI_Fork_Server_SocketException{}
 }
 namespace CeusMedia\Common\CLI\Fork\Server\Client{
-	class WebProxy extends \CLI_Fork_Server_Client_WebProxy{}
 	abstract class Abstraction extends \CLI_Fork_Server_Client_Abstract{}
+	class WebProxy extends \CLI_Fork_Server_Client_WebProxy{}
 }
 namespace CeusMedia\Common\CLI\Fork\Worker{
 	abstract class Abstraction extends \CLI_Fork_Worker_Abstract{}
@@ -194,9 +194,9 @@ namespace CeusMedia\Common\CLI\Server{
 	class Daemon extends \CLI_Server_Daemon{}
 }
 namespace CeusMedia\Common\CLI\Server\Cron{
-	class Parser extends \CLI_Server_Cron_Parser{}
 	class Daemon extends \CLI_Server_Cron_Daemon{}
 	class Job extends \CLI_Server_Cron_Job{}
+	class Parser extends \CLI_Server_Cron_Parser{}
 }
 namespace CeusMedia\Common\Exception{
 	interface Interface_ extends \Exception_Interface{}
@@ -307,9 +307,9 @@ namespace CeusMedia\Common\FS\File\JSON{
 }
 namespace CeusMedia\Common\FS\File\Log{
 	class File extends \FS_File_Log_File{}
+	class Reader extends \FS_File_Log_Reader{}
 	class ShortReader extends \FS_File_Log_ShortReader{}
 	class ShortWriter extends \FS_File_Log_ShortWriter{}
-	class Reader extends \FS_File_Log_Reader{}
 	class Writer extends \FS_File_Log_Writer{}
 }
 namespace CeusMedia\Common\FS\File\Log\JSON{
@@ -317,8 +317,8 @@ namespace CeusMedia\Common\FS\File\Log\JSON{
 	class Writer extends \FS_File_Log_JSON_Writer{}
 }
 namespace CeusMedia\Common\FS\File\Log\Tracker{
-	class ShortReader extends \FS_File_Log_Tracker_ShortReader{}
 	class Reader extends \FS_File_Log_Tracker_Reader{}
+	class ShortReader extends \FS_File_Log_Tracker_ShortReader{}
 }
 namespace CeusMedia\Common\FS\File\PHP{
 	class Encoder extends \FS_File_PHP_Encoder{}
@@ -332,50 +332,50 @@ namespace CeusMedia\Common\FS\File\PHP\Test{
 	class Creator extends \FS_File_PHP_Test_Creator{}
 }
 namespace CeusMedia\Common\FS\File\VCard{
-	class Reader extends \FS_File_VCard_Reader{}
-	class Writer extends \FS_File_VCard_Writer{}
 	class Builder extends \FS_File_VCard_Builder{}
 	class Parser extends \FS_File_VCard_Parser{}
+	class Reader extends \FS_File_VCard_Reader{}
+	class Writer extends \FS_File_VCard_Writer{}
 }
 namespace CeusMedia\Common\FS\File\YAML{
-	class Spyc extends \FS_File_YAML_Spyc{}
 	class Reader extends \FS_File_YAML_Reader{}
+	class Spyc extends \FS_File_YAML_Spyc{}
 	class Writer extends \FS_File_YAML_Writer{}
 }
 namespace CeusMedia\Common\FS\Folder{
-	class RegexFilter extends \FS_Folder_RegexFilter{}
 	class CodeLineCounter extends \FS_Folder_CodeLineCounter{}
-	class MethodVisibilityCheck extends \FS_Folder_MethodVisibilityCheck{}
-	class Iterator extends \FS_Folder_Iterator{}
-	class RecursiveLister extends \FS_Folder_RecursiveLister{}
-	class Reader extends \FS_Folder_Reader{}
-	class MethodSortCheck extends \FS_Folder_MethodSortCheck{}
 	class Editor extends \FS_Folder_Editor{}
-	class RecursiveIterator extends \FS_Folder_RecursiveIterator{}
+	class Iterator extends \FS_Folder_Iterator{}
 	class Lister extends \FS_Folder_Lister{}
+	class MethodSortCheck extends \FS_Folder_MethodSortCheck{}
+	class MethodVisibilityCheck extends \FS_Folder_MethodVisibilityCheck{}
+	class Reader extends \FS_Folder_Reader{}
+	class RecursiveIterator extends \FS_Folder_RecursiveIterator{}
+	class RecursiveLister extends \FS_Folder_RecursiveLister{}
 	class RecursiveRegexFilter extends \FS_Folder_RecursiveRegexFilter{}
+	class RegexFilter extends \FS_Folder_RegexFilter{}
 	class SyntaxChecker extends \FS_Folder_SyntaxChecker{}
 }
 namespace CeusMedia\Common\FS\Folder\Treeview{
-	class JsonExtended extends \FS_Folder_Treeview_JsonExtended{}
 	class Json extends \FS_Folder_Treeview_Json{}
+	class JsonExtended extends \FS_Folder_Treeview_JsonExtended{}
 }
 namespace CeusMedia\Common\Net{
 	class AtomServerTime extends \Net_AtomServerTime{}
-	class Reader extends \Net_Reader{}
-	class Connectivity extends \Net_Connectivity{}
 	class AtomTime extends \Net_AtomTime{}
+	class Connectivity extends \Net_Connectivity{}
 	class CURL extends \Net_CURL{}
+	class Reader extends \Net_Reader{}
 }
 namespace CeusMedia\Common\Net\API{
 	class DDNSS extends \Net_API_DDNSS{}
-	class Premailer extends \Net_API_Premailer{}
-	class Gravatar extends \Net_API_Gravatar{}
 	class Dyn extends \Net_API_Dyn{}
+	class Gravatar extends \Net_API_Gravatar{}
+	class Premailer extends \Net_API_Premailer{}
 }
 namespace CeusMedia\Common\Net\API\Google{
-	class Request extends \Net_API_Google_Request{}
 	class ClosureCompiler extends \Net_API_Google_ClosureCompiler{}
+	class Request extends \Net_API_Google_Request{}
 }
 namespace CeusMedia\Common\Net\API\Google\Maps{
 	class Geocoder extends \Net_API_Google_Maps_Geocoder{}
@@ -384,31 +384,31 @@ namespace CeusMedia\Common\Net\API\Google\Sitemap{
 	class Submit extends \Net_API_Google_Sitemap_Submit{}
 }
 namespace CeusMedia\Common\Net\FTP{
+	class Client extends \Net_FTP_Client{}
 	class Connection extends \Net_FTP_Connection{}
 	class Reader extends \Net_FTP_Reader{}
 	class Writer extends \Net_FTP_Writer{}
-	class Client extends \Net_FTP_Client{}
 }
 namespace CeusMedia\Common\Net\HTTP{
-	class Download extends \Net_HTTP_Download{}
-	class UploadErrorHandler extends \Net_HTTP_UploadErrorHandler{}
-	class Reader extends \Net_HTTP_Reader{}
-	class PartitionCookie extends \Net_HTTP_PartitionCookie{}
 	class CrossDomainProxy extends \Net_HTTP_CrossDomainProxy{}
 	class Cookie extends \Net_HTTP_Cookie{}
-	class Response extends \Net_HTTP_Response{}
-	class PartitionSession extends \Net_HTTP_PartitionSession{}
-	class Session extends \Net_HTTP_Session{}
-	class Request extends \Net_HTTP_Request{}
-	class Post extends \Net_HTTP_Post{}
-	class Status extends \Net_HTTP_Status{}
+	class Download extends \Net_HTTP_Download{}
 	class Method extends \Net_HTTP_Method{}
+	class PartitionCookie extends \Net_HTTP_PartitionCookie{}
+	class PartitionSession extends \Net_HTTP_PartitionSession{}
+	class Post extends \Net_HTTP_Post{}
+	class Reader extends \Net_HTTP_Reader{}
+	class Request extends \Net_HTTP_Request{}
+	class Response extends \Net_HTTP_Response{}
+	class Session extends \Net_HTTP_Session{}
+	class Status extends \Net_HTTP_Status{}
+	class UploadErrorHandler extends \Net_HTTP_UploadErrorHandler{}
 }
 namespace CeusMedia\Common\Net\HTTP\Header{
+	class Field extends \Net_HTTP_Header_Field{}
+	class Parser extends \Net_HTTP_Header_Parser{}
 	class Renderer extends \Net_HTTP_Header_Renderer{}
 	class Section extends \Net_HTTP_Header_Section{}
-	class Parser extends \Net_HTTP_Header_Parser{}
-	class Field extends \Net_HTTP_Header_Field{}
 }
 namespace CeusMedia\Common\Net\HTTP\Header\Field{
 	class Parser extends \Net_HTTP_Header_Field_Parser{}
@@ -419,27 +419,27 @@ namespace CeusMedia\Common\Net\HTTP\Request{
 }
 namespace CeusMedia\Common\Net\HTTP\Response{
 	class Compressor extends \Net_HTTP_Response_Compressor{}
+	class Decompressor extends \Net_HTTP_Response_Decompressor{}
 	class Parser extends \Net_HTTP_Response_Parser{}
 	class Sender extends \Net_HTTP_Response_Sender{}
-	class Decompressor extends \Net_HTTP_Response_Decompressor{}
 }
 namespace CeusMedia\Common\Net\HTTP\Sniffer{
+	class Browser extends \Net_HTTP_Sniffer_Browser{}
 	class Charset extends \Net_HTTP_Sniffer_Charset{}
-	class OS extends \Net_HTTP_Sniffer_OS{}
-	class MimeType extends \Net_HTTP_Sniffer_MimeType{}
 	class Client extends \Net_HTTP_Sniffer_Client{}
 	class Encoding extends \Net_HTTP_Sniffer_Encoding{}
-	class Browser extends \Net_HTTP_Sniffer_Browser{}
 	class Language extends \Net_HTTP_Sniffer_Language{}
+	class MimeType extends \Net_HTTP_Sniffer_MimeType{}
+	class OS extends \Net_HTTP_Sniffer_OS{}
 }
 namespace CeusMedia\Common\Net\SVN{
 	class Client extends \Net_SVN_Client{}
 }
 namespace CeusMedia\Common\Net\Site{
-	class MapBuilder extends \Net_Site_MapBuilder{}
-	class MapWriter extends \Net_Site_MapWriter{}
 	class Crawler extends \Net_Site_Crawler{}
+	class MapBuilder extends \Net_Site_MapBuilder{}
 	class MapCreator extends \Net_Site_MapCreator{}
+	class MapWriter extends \Net_Site_MapWriter{}
 }
 namespace CeusMedia\Common\Net\XMPP{
 	class JID extends \Net_XMPP_JID{}
@@ -447,121 +447,121 @@ namespace CeusMedia\Common\Net\XMPP{
 }
 namespace CeusMedia\Common\Net\XMPP\XMPPHP{
 	class BOSH extends \Net_XMPP_XMPPHP_BOSH{}
-	class Log extends \Net_XMPP_XMPPHP_Log{}
-	class XMPP extends \Net_XMPP_XMPPHP_XMPP{}
 	class Exception extends \Net_XMPP_XMPPHP_Exception{}
+	class Log extends \Net_XMPP_XMPPHP_Log{}
+	class Roster extends \Net_XMPP_XMPPHP_Roster{}
 	class XMLStream extends \Net_XMPP_XMPPHP_XMLStream{}
 	class XMLObj extends \Net_XMPP_XMPPHP_XMLObj{}
-	class Roster extends \Net_XMPP_XMPPHP_Roster{}
+	class XMPP extends \Net_XMPP_XMPPHP_XMPP{}
 }
 namespace CeusMedia\Common\UI{
-	class Template extends \UI_Template{}
-	class VariableDumper extends \UI_VariableDumper{}
-	class Text extends \UI_Text{}
-	class OutputBuffer extends \UI_OutputBuffer{}
-	class Image extends \UI_Image{}
 	class DevOutput extends \UI_DevOutput{}
+	class Image extends \UI_Image{}
+	class OutputBuffer extends \UI_OutputBuffer{}
+	class Template extends \UI_Template{}
+	class Text extends \UI_Text{}
+	class VariableDumper extends \UI_VariableDumper{}
 }
 namespace CeusMedia\Common\UI\HTML{
-	class PageFrame extends \UI_HTML_PageFrame{}
-	class JQuery extends \UI_HTML_JQuery{}
-	class Pagination extends \UI_HTML_Pagination{}
 	class CollapsePanel extends \UI_HTML_CollapsePanel{}
 	class ContextMenu extends \UI_HTML_ContextMenu{}
 	class Index extends \UI_HTML_Index{}
-	class Ladder extends \UI_HTML_Ladder{}
-	class Paging extends \UI_HTML_Paging{}
-	class FormElements extends \UI_HTML_FormElements{}
-	class Options extends \UI_HTML_Options{}
 	class Elements extends \UI_HTML_Elements{}
-	class Tag extends \UI_HTML_Tag{}
-	class Table extends \UI_HTML_Table{}
+	class FormElements extends \UI_HTML_FormElements{}
 	class Indicator extends \UI_HTML_Indicator{}
-	class Tabs extends \UI_HTML_Tabs{}
+	class JQuery extends \UI_HTML_JQuery{}
+	class Ladder extends \UI_HTML_Ladder{}
+	class Options extends \UI_HTML_Options{}
+	class PageFrame extends \UI_HTML_PageFrame{}
+	class Pagination extends \UI_HTML_Pagination{}
+	class Paging extends \UI_HTML_Paging{}
 	class Panel extends \UI_HTML_Panel{}
+	class Table extends \UI_HTML_Table{}
+	class Tabs extends \UI_HTML_Tabs{}
+	class Tag extends \UI_HTML_Tag{}
 }
 namespace CeusMedia\Common\UI\HTML\Exception{
-	class Trace extends \UI_HTML_Exception_Trace{}
-	class View extends \UI_HTML_Exception_View{}
-	class TraceViewer extends \UI_HTML_Exception_TraceViewer{}
 	class Page extends \UI_HTML_Exception_Page{}
+	class Trace extends \UI_HTML_Exception_Trace{}
+	class TraceViewer extends \UI_HTML_Exception_TraceViewer{}
+	class View extends \UI_HTML_Exception_View{}
 }
 namespace CeusMedia\Common\UI\Image{
-	class Rotator extends \UI_Image_Rotator{}
 	class Captcha extends \UI_Image_Captcha{}
-	class Histogram extends \UI_Image_Histogram{}
-	class Printer extends \UI_Image_Printer{}
-	class Modifier extends \UI_Image_Modifier{}
-	class Processing extends \UI_Image_Processing{}
-	class Drawer extends \UI_Image_Drawer{}
-	class Watermark extends \UI_Image_Watermark{}
-	class Exif extends \UI_Image_Exif{}
 	class Creator extends \UI_Image_Creator{}
+	class Drawer extends \UI_Image_Drawer{}
 	class Error extends \UI_Image_Error{}
-	class ThumbnailCreator extends \UI_Image_ThumbnailCreator{}
+	class Exif extends \UI_Image_Exif{}
 	class Filter extends \UI_Image_Filter{}
+	class Histogram extends \UI_Image_Histogram{}
+	class Modifier extends \UI_Image_Modifier{}
+	class Printer extends \UI_Image_Printer{}
+	class Rotator extends \UI_Image_Rotator{}
+	class Processing extends \UI_Image_Processing{}
+	class ThumbnailCreator extends \UI_Image_ThumbnailCreator{}
 	class TransparentWatermark extends \UI_Image_TransparentWatermark{}
+	class Watermark extends \UI_Image_Watermark{}
 }
 namespace CeusMedia\Common\UI\Image\Graphviz{
-	class Renderer extends \UI_Image_Graphviz_Renderer{}
 	class Graph extends \UI_Image_Graphviz_Graph{}
+	class Renderer extends \UI_Image_Graphviz_Renderer{}
 }
 namespace CeusMedia\Common\XML{
-	class Element extends \XML_Element{}
 	class Converter extends \XML_Converter{}
+	class Element extends \XML_Element{}
 	class ElementReader extends \XML_ElementReader{}
 	class FeedIdentifier extends \XML_FeedIdentifier{}
-	class UnitTestResultReader extends \XML_UnitTestResultReader{}
-	class Parser extends \XML_Parser{}
-	class Validator extends \XML_Validator{}
 	class Namespaces extends \XML_Namespaces{}
+	class Parser extends \XML_Parser{}
+	class UnitTestResultReader extends \XML_UnitTestResultReader{}
+	class Validator extends \XML_Validator{}
 }
 namespace CeusMedia\Common\XML\Atom{
-	class Reader extends \XML_Atom_Reader{}
 	class Parser extends \XML_Atom_Parser{}
+	class Reader extends \XML_Atom_Reader{}
 	class Validator extends \XML_Atom_Validator{}
 }
 namespace CeusMedia\Common\XML\DOM{
-	class GoogleSitemapWriter extends \XML_DOM_GoogleSitemapWriter{}
-	class FeedIdentifier extends \XML_DOM_FeedIdentifier{}
-	class Storage extends \XML_DOM_Storage{}
-	class ObjectSerializer extends \XML_DOM_ObjectSerializer{}
-	class GoogleSitemapBuilder extends \XML_DOM_GoogleSitemapBuilder{}
 	class Builder extends \XML_DOM_Builder{}
-	class ObjectDeserializer extends \XML_DOM_ObjectDeserializer{}
-	class SyntaxValidator extends \XML_DOM_SyntaxValidator{}
-	class ObjectFileDeserializer extends \XML_DOM_ObjectFileDeserializer{}
-	class Formater extends \XML_DOM_Formater{}
-	class Parser extends \XML_DOM_Parser{}
-	class FileWriter extends \XML_DOM_FileWriter{}
-	class Node extends \XML_DOM_Node{}
-	class ObjectFileSerializer extends \XML_DOM_ObjectFileSerializer{}
-	class UrlReader extends \XML_DOM_UrlReader{}
+	class FeedIdentifier extends \XML_DOM_FeedIdentifier{}
 	class FileEditor extends \XML_DOM_FileEditor{}
+	class FileWriter extends \XML_DOM_FileWriter{}
 	class FileReader extends \XML_DOM_FileReader{}
+	class Formater extends \XML_DOM_Formater{}
+	class GoogleSitemapBuilder extends \XML_DOM_GoogleSitemapBuilder{}
+	class GoogleSitemapWriter extends \XML_DOM_GoogleSitemapWriter{}
+	class Node extends \XML_DOM_Node{}
+	class ObjectDeserializer extends \XML_DOM_ObjectDeserializer{}
+	class ObjectFileDeserializer extends \XML_DOM_ObjectFileDeserializer{}
+	class ObjectFileSerializer extends \XML_DOM_ObjectFileSerializer{}
+	class ObjectSerializer extends \XML_DOM_ObjectSerializer{}
+	class Parser extends \XML_DOM_Parser{}
+	class Storage extends \XML_DOM_Storage{}
+	class SyntaxValidator extends \XML_DOM_SyntaxValidator{}
+	class UrlReader extends \XML_DOM_UrlReader{}
 	class XPathQuery extends \XML_DOM_XPathQuery{}
 }
 namespace CeusMedia\Common\XML\DOM\PEAR{
 	class PackageReader extends \XML_DOM_PEAR_PackageReader{}
 }
 namespace CeusMedia\Common\XML\OPML{
-	class Outline extends \XML_OPML_Outline{}
 	class Builder extends \XML_OPML_Builder{}
-	class Parser extends \XML_OPML_Parser{}
-	class FileWriter extends \XML_OPML_FileWriter{}
 	class FileReader extends \XML_OPML_FileReader{}
+	class FileWriter extends \XML_OPML_FileWriter{}
+	class Outline extends \XML_OPML_Outline{}
+	class Parser extends \XML_OPML_Parser{}
 }
 namespace CeusMedia\Common\XML\RPC{
 	class Client extends \XML_RPC_Client{}
 }
 namespace CeusMedia\Common\XML\RSS{
-	class Reader extends \XML_RSS_Reader{}
-	class Writer extends \XML_RSS_Writer{}
 	class Builder extends \XML_RSS_Builder{}
-	class Parser extends \XML_RSS_Parser{}
-	class SimpleParser extends \XML_RSS_SimpleParser{}
 	class GoogleBaseBuilder extends \XML_RSS_GoogleBaseBuilder{}
+	class Parser extends \XML_RSS_Parser{}
+	class Reader extends \XML_RSS_Reader{}
+	class SimpleParser extends \XML_RSS_SimpleParser{}
 	class SimpleReader extends \XML_RSS_SimpleReader{}
+	class Writer extends \XML_RSS_Writer{}
 }
 namespace CeusMedia\Common\XML\XSL{
 	class Transformator extends \XML_XSL_Transformator{}
