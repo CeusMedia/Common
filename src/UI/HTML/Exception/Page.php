@@ -32,6 +32,7 @@ use CeusMedia\Common\UI\HTML\JQuery;
 use CeusMedia\Common\UI\HTML\PageFrame;
 use CeusMedia\Common\UI\HTML\Tag;
 use Exception;
+use Throwable;
 
 /**
  *	Builder of Exception Pages.
@@ -47,27 +48,30 @@ class Page
 	/**
 	 *	Displays rendered Exception Page.
 	 *	@access		public
-	 *	@param		Exception				$e			Exception to render View for
+	 *	@param		Throwable		$e					Exception to render View for
+	 *	@param		?int			$andExitWithCode	Flag: if set, finish with exit code (0: ok, *: whatever)
 	 *	@return		void
 	 *	@static
+	 *	@throws		Exception		if the SQL meaning XML data could not be parsed
 	 */
-	public static function display( Exception $e )
+	public static function display( Throwable $e, ?int $andExitWithCode = NULL ): void
 	{
-		$view	= View::render( $e );
-		print( self::wrapExceptionView( $view ) );
+		print( self::render( $e ) );
+		if( NULL !== $andExitWithCode )
+			exit( $andExitWithCode );
 	}
 
 	/**
 	 *	Returns rendered Exception Page.
 	 *	@access		public
-	 *	@param		Exception				$e			Exception to render View for
+	 *	@param		Throwable		$e			Exception to render View for
 	 *	@return		string
 	 *	@static
+	 *	@throws		Exception		if the SQL meaning XML data could not be parsed
 	 */
-	public static function render( Exception $e ): string
+	public static function render( Throwable $e ): string
 	{
-		$view	= View::render( $e );
-		return self::wrapExceptionView( $view );
+		return self::wrapExceptionViewWithHtmlPage( View::render( $e ) );
 	}
 
 	/**
@@ -76,7 +80,7 @@ class Page
 	 *	@param		string		$view		Exception View
 	 *	@return		string
 	 */
-	public static function wrapExceptionView( string $view ): string
+	protected static function wrapExceptionViewWithHtmlPage( string $view ): string
 	{
 		$page	= new PageFrame();
 		$page->setTitle( 'Exception' );
