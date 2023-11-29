@@ -4,10 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Order compat9.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Generate compat9.">
+      <change afterPath="$PROJECT_DIR$/src/Exception/Conversion.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/Deprecation.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/FileNotExisting.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compat9.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat9.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tool/Compatibility/Worker.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Compatibility/Worker.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Deprecation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deprecation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/IO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/IO.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Autoloader/Psr0.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Autoloader/Psr0.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Autoloader/Psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Autoloader/Psr4.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Loader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/Page.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/Page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/View.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/ElementReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/ElementReader.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +139,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/tool/config/phpunit10.xml",
+    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -142,11 +153,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Exception" />
       <recent name="$PROJECT_DIR$/test/XML" />
       <recent name="$PROJECT_DIR$/test/Alg/Obj" />
       <recent name="$PROJECT_DIR$/tool/Compatibility" />
       <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/test/UI/assets" />
@@ -251,7 +262,8 @@
       <workItem from="1699157552195" duration="11377000" />
       <workItem from="1700084798009" duration="13818000" />
       <workItem from="1700238631728" duration="5935000" />
-      <workItem from="1700699222416" duration="16791000" />
+      <workItem from="1700699222416" duration="16964000" />
+      <workItem from="1701050992011" duration="18214000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -561,14 +573,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00050" summary="Improve code quality of clock and level map.">
-      <option name="closed" value="true" />
-      <created>1700712694963</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1700712694964</updated>
-    </task>
     <task id="LOCAL-00051" summary="Make collection an iterator aggregate, array iterator, countable, filterable and mappable.">
       <option name="closed" value="true" />
       <created>1700712824364</created>
@@ -601,7 +605,15 @@
       <option name="project" value="LOCAL" />
       <updated>1700735921686</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Generate compat9.">
+      <option name="closed" value="true" />
+      <created>1700736027358</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1700736027358</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -632,7 +644,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Rector: VarToPublicProperty + DirNameFileConstantToDirConstant + LongArrayToShortArray" />
     <MESSAGE value="Rector: PowToExp" />
     <MESSAGE value="Update composer, make and rector files." />
     <MESSAGE value="Improve code strictness, according to PHPStan." />
@@ -657,7 +668,8 @@
     <MESSAGE value="Improve code quality of clock and level map." />
     <MESSAGE value="Make collection an iterator aggregate, array iterator, countable, filterable and mappable." />
     <MESSAGE value="Order compat9." />
-    <option name="LAST_COMMIT_MESSAGE" value="Order compat9." />
+    <MESSAGE value="Generate compat9." />
+    <option name="LAST_COMMIT_MESSAGE" value="Generate compat9." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

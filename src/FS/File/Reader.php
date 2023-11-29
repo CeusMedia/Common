@@ -29,6 +29,8 @@
 namespace CeusMedia\Common\FS\File;
 
 use CeusMedia\Common\Alg\UnitFormater;
+use CeusMedia\Common\Exception\FileNotExisting;
+use CeusMedia\Common\Exception\IO as IoException;
 use RuntimeException;
 
 /**
@@ -290,6 +292,8 @@ class Reader
 	 *	@static
 	 *	@param		string		$fileName		Name of File to load
 	 *	@return		string
+	 *	@throws		IoException	if file is not existing
+	 *	@throws		IoException	if file is not readable
 	 */
 	public static function load( string $fileName ): string
 	{
@@ -311,9 +315,11 @@ class Reader
 	}
 
 	/**
-	 *	Reads file and returns it as array.
+	 *	Reads set file and returns it as array.
 	 *	@access		public
 	 *	@return		array
+	 *	@throws		IoException			if file is not existing
+	 *	@throws		IoException			if file is not readable
 	 */
  	public function readArray(): array
 	{
@@ -322,11 +328,11 @@ class Reader
 	}
 
 	/**
-	 *	Reads file and returns it as string.
+	 *	Reads set file and returns it as string.
 	 *	@access		public
 	 *	@return		string
-	 *	@throws		RuntimeException			if File is not existing
-	 *	@throws		RuntimeException			if File is not readable
+	 *	@throws		IoException			if file is not existing
+	 *	@throws		IoException			if file is not readable
 	 */
  	public function readString(): string
 	{
@@ -337,11 +343,15 @@ class Reader
 	/**
 	 *	Checks if set filename is: existing, readable, writable
 	 *	@access		protected
-	 *	@oaram		boolean		$isReadable
-	 *	@param		boolean		$isWritable
+	 *	@oaram		boolean		$isReadable		Flag: enable readable check, default: off
+	 *	@param		boolean		$isWritable		Flag: enable writable check, default: off
+	 *	@param		boolean		$isOwner		Flag: enable owner check, default: off
+	 *	@param		boolean		$strict			Flag: throw exception on fail, default: on
 	 *	@return		bool
-	 *	@throws		RuntimeException			if File is not existing
-	 *	@throws		RuntimeException			if File is not readable
+	 *	@throws		IoException	if strict & file is not existing
+	 *	@throws		IoException	if strict & isReadable & file is not readable
+	 *	@throws		IoException	if strict & isWritable & file is not writable
+	 *	@throws		IoException	if strict & isOwner & file is not owned
 	 */
 	protected function check( bool $isReadable = FALSE, bool $isWritable = FALSE, bool $isOwner = FALSE, bool $strict = TRUE ): bool
 	{
@@ -349,27 +359,32 @@ class Reader
 		$isFile	= is_file( $this->fileName );
 		if( !$exists || !$isFile ){
 			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
+				throw new IoException( 'File is not existing', 0, $this->fileName );
 			return FALSE;
 		}
 		if( $isReadable && !is_readable( $this->fileName ) ){
 			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not readable' );
+				throw new IoException( 'File is not readable', 0, $this->fileName );
 			return FALSE;
 		}
 		if( $isWritable && !is_writable( $this->fileName ) ){
 			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
+				throw new IoException( 'File is not writable', 0, $this->fileName );
 			return FALSE;
 		}
 		if( $isOwner && !$this->checkIsOwner() ){
 			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not owned' );
+				throw new IoException( 'File is not owned', 0, $this->fileName );
 			return FALSE;
 		}
 		return TRUE;
 	}
 
+	/**
+	 *	Checks whether set file is owned by a given or current system user.
+	 *	@param		string|NULL		$user		System user, default: current system user
+	 *	@return		bool
+	 */
 	protected function checkIsOwner( ?string $user = NULL ): bool
 	{
 		$user	??= get_current_user();
@@ -381,7 +396,7 @@ class Reader
 		$owner	= posix_getpwuid( $uid );
 		if( !$owner )
 			return TRUE;
-		//		print_m( $owner );
+//		print_m( $owner );
 		return $user == $owner['name'];
 	}
 }

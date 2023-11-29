@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common;
 
-use Exception;
+use CeusMedia\Common\Exception\Deprecation as DeprecationException;
 
 /**
  *	Indicator for deprecated methods.
@@ -58,7 +58,7 @@ class Deprecation
 	 *	@access		public
 	 *	@param		string		$message	Message to show
 	 *	@return		void
-	 *	@throws		Exception				if set exception version reached detected library version
+	 *	@throws		DeprecationException	if set exception version reached detected library version
 	 */
 	public function message( string $message ): void
 	{
@@ -68,7 +68,7 @@ class Deprecation
 			$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
 		if( $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
-				throw new Exception( 'Deprecated: '.$message );
+				throw new DeprecationException( 'Deprecated: '.$message );
 		if( version_compare( $this->version, $this->errorVersion ) >= 0 )
 			trigger_error( $message.', triggered', E_USER_DEPRECATED );
 	}

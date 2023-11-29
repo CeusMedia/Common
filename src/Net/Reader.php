@@ -191,7 +191,7 @@ class Reader
 
 		foreach( $curlOptions as $key => $value ){
 			if( is_string( $key ) ){
-				if( !( preg_match( "@^CURLOPT_@", $key ) && defined( $key ) ) )
+				if( !( str_starts_with( $key, "CURLOPT_" ) && defined( $key ) ) )
 					throw new InvalidArgumentException( 'Invalid option constant key "'.$key.'"' );
 				$key	= constant( $key );
 			}
@@ -222,6 +222,7 @@ class Reader
 	 *	@param		string		$url			URL to request
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		string
+	 *	@throws		InvalidArgumentException	if no URL is set
 	 *	@throws		IoException
 	 *	@todo		Auth
 	 */

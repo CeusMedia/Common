@@ -41,54 +41,6 @@ use Throwable;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class IO extends Runtime
+class FileNotExisting extends IO
 {
-	/**	@var		string			$resource		Name or Value of resource which was not fully accessible */
-	protected string $resource		= '';
-
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		string			$message		Error Message
-	 *	@param		integer			$code			Error Code
-	 *	@param		string			$resource		Name or Value of unavailable Resource
-	 *	@param		Throwable|NULL	$previous		Previous exception
-	 *	@return		void
-	 */
-	public function __construct( string $message, int $code = 0, string $resource = '', ?Throwable $previous = NULL )
-	{
-		parent::__construct( $message, $code, $previous );
-		$this->resource	= $resource;
-	}
-
-	/**
-	 *	Returns Name of Source which was not fully accessible.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getResource(): string
-	{
-		return $this->resource;
-	}
-
-	/**
-	 *	Returns serial of exception.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function __serialize(): array
-	{
-		return [$this->message, $this->code, $this->file, $this->line, $this->resource];
-	}
-
-	/**
-	 *	Recreates an exception from its serial.
-	 *	@access		public
-	 *	@param		array		$data		Serial string of a serialized exception
-	 *	@return		void
-	 */
-	public function __unserialize( array $data ): void
-	{
-		[$this->message, $this->code, $this->file, $this->line, $this->resource]	= $data;
-	}
 }

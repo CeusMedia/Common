@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\Exception\Conversion as ConversionException;
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
@@ -49,11 +51,16 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$xml		XML string to read
 	 *	@return		Element
-	 *	@throws		Exception	if the XML data could not be parsed
+	 *	@throws		ConversionException		if the XML data could not be parsed
 	 */
 	public static function read( string $xml ): Element
 	{
-		return new Element( $xml );
+		try{
+			return new Element( $xml );
+		}
+		catch( Exception $e ){
+			throw new ConversionException( 'Parsing XML failed', 0, $e );
+		}
 	}
 
 	/**
@@ -62,7 +69,9 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$fileName	File name to XML file
 	 *	@return		Element
-	 *	@throws		Exception	if the XML data could not be parsed
+	 *	@throws		IoException				if file is not existing
+	 *	@throws		IoException				if file is not readable
+	 *	@throws		ConversionException		if the XML data could not be parsed
 	 */
 	public static function readFile( string $fileName ): Element
 	{
@@ -76,7 +85,8 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$url		URL to read XML from
 	 *	@return		Element
-	 *	@throws		Exception	if the XML data could not be parsed
+	 *	@throws		IoException				if fetching URL failed
+	 *	@throws		ConversionException		if the XML data could not be parsed
 	 */
 	public static function readUrl( string $url ): Element
 	{

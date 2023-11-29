@@ -61,10 +61,10 @@ class View
 
 	/**
 	 *	Resolves SQLSTATE Code and returns its Meaning.
+	 *	Returns 'unknown', if reading or parsing of SQLSTATE.xml failed
 	 *	@access		protected
 	 *	@static
 	 *	@return		string		$SQLSTATE
-	 *	@throws		Exception	if the XML data could not be parsed
 	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
 	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
 	 */
@@ -72,7 +72,12 @@ class View
 	{
 		$class1	= substr( $SQLSTATE, 0, 2 );
 		$class2	= substr( $SQLSTATE, 2, 3 );
-		$root	= XmlElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
+		try{
+			$root	= XmlElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
+		}
+		catch( \CeusMedia\Common\Exception\IO $e ){
+			return 'unknown';
+		}
 
 		$query	= 'class[@id="'.$class1.'"]/subclass[@id="000"]';
 		$result	= $root->xpath( $query );
