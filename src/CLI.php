@@ -1,10 +1,37 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+/**
+ *	Command Line Interface.
+ *
+ *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2015-2023 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
 namespace CeusMedia\Common;
 
 use CeusMedia\Common\Alg\Text\CamelCase;
 use CeusMedia\Common\Alg\UnitFormater;
 use CeusMedia\Common\CLI\Dimensions as CliDimensions;
+use CeusMedia\Common\Exception\Deprecation as DeprecationException;
 use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Permissions as FilePermissions;
 use CeusMedia\Common\FS\Folder;
@@ -12,6 +39,16 @@ use CeusMedia\Common\UI\DevOutput;
 use CeusMedia\Common\UI\Text;
 use RuntimeException;
 
+/**
+ *	Command Line Interface.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2015-2023 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
 class CLI
 {
 	protected string $base;
@@ -39,27 +76,28 @@ class CLI
 
 	/**
 	 *	Ensures that runtime environment is headless, like crontab execution.
+	 *	Being headless means, not having one of those environment variables: TERM, DISPLAY.
 	 *	@access		public
 	 *	@static
-	 *	@param		boolean		$strict			Flag: throw exception if not headless (default: yes)
 	 *	@return		boolean
+	 *	@throws		DeprecationException
 	 */
-	public static function checkIsHeadless( bool $strict = TRUE ): bool
+	public static function checkIsHeadless(): bool
 	{
-		if( getEnv( 'TERM' ) === FALSE )
-			return TRUE;
-		if( $strict )
-			throw new RuntimeException( 'Available in headless environment, only' );
-		return FALSE;
+		Deprecation::getInstance()
+			->setExceptionVersion( '1.1' )
+			->setErrorVersion( '1.0' )
+			->message( 'Use Env::checkIsHeadless or Env::isHeadless instead' );
+		return Env::checkIsHeadless();
 	}
 
-	public static function checkIsCli( bool $strict = TRUE ): bool
+	public static function checkIsCli(): bool
 	{
-		if( php_sapi_name() === 'cli' )
-			return TRUE;
-		if( $strict )
-			throw new RuntimeException( 'Available in CLI environment, only' );
-		return FALSE;
+		Deprecation::getInstance()
+			->setExceptionVersion( '1.1' )
+			->setErrorVersion( '1.0' )
+			->message( 'Use Env::checkIsHeadless or Env::isCli instead' );
+		return Env::checkIsCli();
 	}
 
 	public static function charTable( int $from = 2500, int $to = 2600 ): void
@@ -77,7 +115,7 @@ class CLI
 
 	public static function error( array|string|null $messages = NULL ): void
 	{
-		$isCli	= self::checkIsCLi( FALSE );
+		$isCli	= Env::isCLi();
 		if( !is_array( $messages ) )
 			$messages	= [$messages];
 		foreach( $messages as $message ){
@@ -105,7 +143,7 @@ class CLI
 	 */
 	public static function out( array|string|null $messages = NULL, bool $newLine = TRUE ): void
 	{
-		$isCli	= self::checkIsCLi( FALSE );
+		$isCli	= Env::isCLi();
 		if( !is_array( $messages ) )
 			$messages	= [$messages];
 		foreach( $messages as $message ){

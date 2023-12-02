@@ -30,6 +30,7 @@ namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
 use CeusMedia\Common\CLI;
+use CeusMedia\Common\Env;
 
 /**
  *	Console Output.
@@ -68,7 +69,7 @@ class Output
 	 */
 	public function newLine( string $string = '', int $sleep = 0 ): self
 	{
-		if( !CLI::checkIsHeadless( FALSE ) ){
+		if( Env::isCli() ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
 				$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
@@ -89,7 +90,7 @@ class Output
 	 */
 	public function sameLine( string $string = '', int $sleep = 0 ): self
 	{
-		if( !CLI::checkIsHeadless( FALSE ) ){
+		if( !Env::isHeadless() ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
 				$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );

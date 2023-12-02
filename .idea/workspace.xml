@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add new exceptions and update autoloaders.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Improve exception page.">
+      <change afterPath="$PROJECT_DIR$/src/Env.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/Page.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/Page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,24 +123,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Project.color": "3f0804",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "php.test.frameworks.configurable",
-    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Project.color&quot;: &quot;3f0804&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;php.test.frameworks.configurable&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Exception" />
@@ -251,7 +253,8 @@
       <workItem from="1700084798009" duration="13818000" />
       <workItem from="1700238631728" duration="5935000" />
       <workItem from="1700699222416" duration="16964000" />
-      <workItem from="1701050992011" duration="19945000" />
+      <workItem from="1701050992011" duration="20004000" />
+      <workItem from="1701482649460" duration="2983000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -561,14 +564,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00052" summary="Order compat9.">
-      <option name="closed" value="true" />
-      <created>1700715710153</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1700715710153</updated>
-    </task>
     <task id="LOCAL-00053" summary="Order compat9.">
       <option name="closed" value="true" />
       <created>1700716169496</created>
@@ -601,7 +596,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701230920935</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Improve exception page.">
+      <option name="closed" value="true" />
+      <created>1701293756493</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1701293756493</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -632,7 +635,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Update composer, make and rector files." />
     <MESSAGE value="Improve code strictness, according to PHPStan." />
     <MESSAGE value="Reach PHPStan level 1." />
     <MESSAGE value="Removed some very old UI graph and ADT tree node classes." />
@@ -657,7 +659,8 @@
     <MESSAGE value="Order compat9." />
     <MESSAGE value="Generate compat9." />
     <MESSAGE value="Add new exceptions and update autoloaders." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add new exceptions and update autoloaders." />
+    <MESSAGE value="Improve exception page." />
+    <option name="LAST_COMMIT_MESSAGE" value="Improve exception page." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
