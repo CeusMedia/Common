@@ -46,7 +46,7 @@ use InvalidArgumentException;
  */
 class LevelMap extends Dictionary
 {
-	/** @var	string	$divider	Level dividing sign */
+	/** @var	non-empty-string	$divider	Level dividing sign */
 	protected string $divider		= ".";
 
 	/**
@@ -106,7 +106,9 @@ class LevelMap extends Dictionary
 	 */
 	public function getKeySections( string $prefix = NULL ): array
 	{
-		$keys		= array_keys( $this->getAll( $prefix ) );
+		/** @var array $pairs */
+		$pairs		= $this->getAll( $prefix );
+		$keys		= array_keys( $pairs );
 		natcasesort( $keys );
 		$sections		= [];
 		$lastSection	= NULL;

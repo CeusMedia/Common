@@ -135,9 +135,9 @@ class SectionList
 	 *	@access		public
 	 *	@param		mixed		$entry			Content String of Entry
 	 *	@param		string|NULL	$section		Section of Entry
-	 *	@return		int
+	 *	@return		int|string
 	 */
-	public function getIndex( $entry, ?string $section = NULL ): int
+	public function getIndex( $entry, ?string $section = NULL ): int|string
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );

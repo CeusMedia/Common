@@ -164,11 +164,11 @@ class Builder
 	 *	@param		string			$type			Data Type
 	 *	@return		string
 	 */
-	private static function loop( $array, string $type ): string
+	private static function loop( array|object $array, string $type ): string
 	{
 		$builder	= new self();
 		$output		= NULL;
-		foreach( $array as $key => $value )
+		foreach( (array) $array as $key => $value )
 			$output	.= $builder->get( $key, $value, $type ).',';
 		return trim( $output, ',' );
 	}
