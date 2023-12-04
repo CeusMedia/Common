@@ -29,6 +29,7 @@
 namespace CeusMedia\Common\FS\File\JSON;
 
 use CeusMedia\Common\ADT\JSON\Parser as JsonParser;
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use RuntimeException;
 
@@ -134,10 +135,11 @@ class Reader
 	 *	@access		public
 	 *	@param		bool		$asArray		Flag: read into an array, default: no
 	 *	@param		bool		$storeData		Flag: copy read data in object for info (needs more memory), default: yes
-	 *	@return		object|array
+	 *	@return		object|array|string|int|float|NULL
 	 *	@throws		RuntimeException			if parsing failed
+	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
 	 */
-	public function read( bool $asArray = FALSE, bool $storeData = TRUE ): object|array
+	public function read( bool $asArray = FALSE, bool $storeData = TRUE ): object|array|string|int|float|NULL
 	{
 		$json	= FileReader::load( $this->filePath );
 		$json	= $this->applyFilters( $json );

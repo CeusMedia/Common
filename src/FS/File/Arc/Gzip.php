@@ -28,8 +28,10 @@
 
 namespace CeusMedia\Common\FS\File\Arc;
 
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Editor as FileEditor;
-use Exception;
+use RuntimeException;
 
 /**
  *	Base gzip File implementation.
@@ -47,12 +49,13 @@ class Gzip extends FileEditor
 	 *	@access		public
 	 *	@param		string		$fileName		URI of File
 	 *	@return		void
-	 *	@throws		Exception
+	 *	@throw		RuntimeException
+	 *	@throws		FileNotExistingException	if check and file is not existing, not readable or given path is not a file
 	 */
 	public function __construct( string $fileName )
 	{
 		if( !function_exists( "gzcompress" ) )
-			throw new Exception( "Gzip Extension is not available." );
+			throw new RuntimeException( "Gzip Extension is not available." );
 		parent::__construct( $fileName );
 	}
 
@@ -63,6 +66,7 @@ class Gzip extends FileEditor
 	 */
  	public function readString(): string
 	{
+		/** @noinspection PhpUnhandledExceptionInspection */
 		return gzuncompress( parent::readString() );
 	}
 
@@ -70,10 +74,14 @@ class Gzip extends FileEditor
 	 *	Writes a String to the File.
 	 *	@access		public
 	 *	@param		string		$string			String to write to File
-	 *	@return		int
+	 *	@return		integer|boolean		Number of written bytes or FALSE on fail
+	 *	@throws		IoException			if strict and file is not writable
+	 *	@throws		IoException			if strict and fallback file creation failed
+	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
-	public function writeString( string $string ): int
+	public function writeString( string $string, bool $strict = TRUE ): int|bool
 	{
-		return parent::writeString( gzcompress( $string ) );
+		/** @noinspection PhpComposerExtensionStubsInspection */
+		return parent::writeString( gzcompress( $string ), $strict );
 	}
 }

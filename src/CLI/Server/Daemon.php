@@ -60,7 +60,7 @@ class Daemon extends Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function main()
+	public function main(): void
 	{
 		while( TRUE ){
 			$this->serve();
@@ -74,7 +74,7 @@ class Daemon extends Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function serve()
+	public function serve(): void
 	{
 		echo "\n".time();
 	}
@@ -94,7 +94,7 @@ class Daemon extends Application
 	 *	@param		string|NULL		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( ?string $message = NULL )
+	protected function showUsage( ?string $message = NULL ): void
 	{
 		CLI::out();
 		CLI::out( 'Daemon v0.1' );
@@ -110,7 +110,7 @@ class Daemon extends Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function sleep()
+	public function sleep(): void
 	{
 		sleep(1);
 	}

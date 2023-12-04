@@ -28,6 +28,9 @@
 
 namespace CeusMedia\Common;
 
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
+use CeusMedia\Common\FS\File;
+use CeusMedia\Common\FS\File\INI\Reader as IniReader;
 use RuntimeException;
 
 /**
@@ -43,41 +46,6 @@ use RuntimeException;
 class Env
 {
 	protected string $workingPath;
-
-	/**
-	 *	Get environment variable.
-	 *	@param		string						$key
-	 *	@param		string|int|float|NULL		$default
-	 *	@return		string|int|float|NULL
-	 */
-	public static function get( string $key, string|int|float|null $default = NULL ): string|int|float|NULL
-	{
-		$pair	= getenv( $key );
-		if( FALSE !== $pair )
-			return $pair;
-		return $default;
-	}
-
-	public static function getAllAsJson(): string
-	{
-		$env	= getenv();
-		ksort( $env );
-		return json_encode( $env, JSON_PRETTY_PRINT );
-	}
-
-	/**
-	 *	Set environment variable.
-	 *	@param		string				$key
-	 *	@param		string|int|float	$value
-	 *	@return		bool
-	 */
-	public static function set( string $key, string|int|float $value ): bool
-	{
-		$assign	= $key.'='.$value;
-		if( is_string( $value ) )
-			$assign	= $key.'="'.$value.'"';
-		return putenv( $assign );
-	}
 
 	/**
 	 *	Ensures that runtime environment is headless, like crontab execution.
@@ -109,6 +77,27 @@ class Env
 	}
 
 	/**
+	 *	Get environment variable.
+	 *	@param		string						$key
+	 *	@param		string|int|float|NULL		$default
+	 *	@return		string|int|float|NULL
+	 */
+	public static function get( string $key, string|int|float|null $default = NULL ): string|int|float|NULL
+	{
+		$pair	= getenv( $key );
+		if( FALSE !== $pair )
+			return $pair;
+		return $default;
+	}
+
+	public static function getAllAsJson(): string
+	{
+		$env	= getenv();
+		ksort( $env );
+		return json_encode( $env, JSON_PRETTY_PRINT );
+	}
+
+	/**
 	 *	Indicates whether environment is headless, like crontab execution.
 	 *	Being headless means, not having one of those environment variables: TERM, DISPLAY.
 	 *	@access		public
@@ -129,6 +118,43 @@ class Env
 	public static function isCli(): bool
 	{
 		return 'cli' === php_sapi_name();
+	}
+
+	/**
+	 *	Load config file and set environment variables.
+	 *	This allows to load an .env file.
+	 *	@param		File|string		$file
+	 *	@return		void
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@noinspection	PhpDocMissingThrowsInspection
+	 */
+	public static function load( File|string $file ): void
+	{
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$file	= is_string( $file ) ? new File( $file ) : $file;
+		$reader	= new IniReader( $file, TRUE );
+		if( $reader->usesSections() )
+			foreach( $reader->getSections() as $section )
+				foreach( $reader->getProperties( TRUE, $section ) as $key => $value )
+					Env::set( str_replace( '.', '_', $section.'_'.$key ), $value );
+
+		else
+			foreach( $reader->getProperties() as $key => $value )
+				Env::set( str_replace( '.', '_', $key ), $value );
+	}
+
+	/**
+	 *	Set environment variable.
+	 *	@param		string				$key
+	 *	@param		string|int|float	$value
+	 *	@return		bool
+	 */
+	public static function set( string $key, string|int|float $value ): bool
+	{
+		$assign	= $key.'='.$value;
+		if( is_string( $value ) )
+			$assign	= $key.'="'.$value.'"';
+		return putenv( $assign );
 	}
 
 	public function __construct()

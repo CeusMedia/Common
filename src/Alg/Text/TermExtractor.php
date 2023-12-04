@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\Alg\Text;
 
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
 use CeusMedia\Common\FS\File\Editor as FileEditor;
 
 /**
@@ -45,6 +46,10 @@ class TermExtractor
 	public static array $blacklist					= [];
 	public static bool $backlistCaseSensitive		= FALSE;
 
+	/**
+	 *	@param		string		$text
+	 *	@return		array
+	 */
 	public static function getTerms( string $text ): array
 	{
 		$list	= [];
@@ -77,6 +82,11 @@ class TermExtractor
 		return $list;
 	}
 
+	/**
+	 *	@param		string		$fileName
+	 *	@return		void
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 */
 	public static function loadBlacklist( string $fileName ): void
 	{
 		$string	= FileEditor::load( $fileName );
@@ -88,6 +98,10 @@ class TermExtractor
 		self::setBlacklist( array_unique( $list ) );
 	}
 
+	/**
+	 *	@param		array		$list
+	 *	@return		void
+	 */
 	public static function setBlacklist( array $list ): void
 	{
 		self::$blacklist	= array_unique( $list );

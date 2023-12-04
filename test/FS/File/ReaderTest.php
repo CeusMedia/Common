@@ -8,6 +8,7 @@ declare( strict_types = 1 );
 
 namespace CeusMedia\CommonTest\FS\File;
 
+use CeusMedia\Common\Exception\FileNotExisting;
 use CeusMedia\Common\FS\File\Reader;
 use CeusMedia\CommonTest\BaseCase;
 use RuntimeException;
@@ -222,7 +223,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testLoadException()
 	{
-		$this->expectException( RuntimeException::class );
+		$this->expectException( FileNotExisting::class );
 		Reader::load( "not_existing" );
 	}
 
@@ -245,7 +246,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testLoadArrayException()
 	{
-		$this->expectException( RuntimeException::class );
+		$this->expectException( FileNotExisting::class );
 		Reader::loadArray( "not_existing" );
 	}
 
@@ -268,7 +269,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testReadStringException()
 	{
-		$this->expectException( RuntimeException::class );
+		$this->expectException( FileNotExisting::class );
 		$reader	= new Reader( "not_existing" );
 		$reader->readString();
 	}
@@ -292,7 +293,7 @@ class ReaderTest extends BaseCase
 	 */
 	public function testReadArrayException()
 	{
-		$this->expectException( RuntimeException::class );
+		$this->expectException( FileNotExisting::class );
 		$reader	= new Reader( "not_existing" );
 		$reader->readArray();
 	}

@@ -28,8 +28,10 @@
 
 namespace CeusMedia\Common\FS\File\Arc;
 
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Editor as FileEditor;
-use Exception;
+use RuntimeException;
 
 /**
  *	Base bzip File implementation.
@@ -47,13 +49,13 @@ class Bzip extends FileEditor
 	 *	@access		public
 	 *	@param		string		$fileName		URI of File
 	 *	@return		void
-	 *	@throw		Exception
 	 *	@throw		RuntimeException
+	 *	@throws		FileNotExistingException	if check and file is not existing, not readable or given path is not a file
 	 */
 	public function __construct( string $fileName )
 	{
 		if( !function_exists( "bzcompress" ) )
-			throw new Exception( 'Bzip2 Extension is not available.' );
+			throw new RuntimeException( 'Bzip2 Extension is not available.' );
 		parent::__construct( $fileName );
 	}
 
@@ -72,11 +74,15 @@ class Bzip extends FileEditor
 	 *	Writes a String to the File.
 	 *	@access		public
 	 *	@param		string		$string			String to write to File
-	 *	@return		int
+	 *	@param		boolean		$strict			Flag: throw exceptions, default: yes
+	 *	@return		integer|boolean		Number of written bytes or FALSE on fail
+	 *	@throws		IoException			if strict and file is not writable
+	 *	@throws		IoException			if strict and fallback file creation failed
+	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
-	public function writeString( string $string ): int
+	public function writeString( string $string, bool $strict = TRUE ): int|bool
 	{
 		$content	= bzcompress( $string );
-		return parent::writeString( $content );
+		return parent::writeString( $content, $strict );
 	}
 }

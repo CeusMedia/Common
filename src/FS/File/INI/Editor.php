@@ -30,6 +30,8 @@
 
 namespace CeusMedia\Common\FS\File\INI;
 
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 use InvalidArgumentException;
@@ -51,13 +53,13 @@ use RuntimeException;
 class Editor extends Reader
 {
 	/**	@var		array		$added			Added Properties */
-	protected $added			= [];
+	protected array $added			= [];
 
 	/**	@var		array		$renamed		Renamed Properties */
-	protected $renamed			= [];
+	protected array $renamed			= [];
 
 	/**	@var		array		$deleted		Deleted Properties */
-	protected $deleted			= [];
+	protected array $deleted			= [];
 
 	/**
 	 *	Activates a Property.
@@ -99,12 +101,12 @@ class Editor extends Reader
 	{
 		if( $section && !in_array( $section, $this->sections ) )
 			$this->addSection( $section );
-		$key = ( $state ? "" : $this->signDisabled ).$key;
+		$key = ( $state ? '' : $this->signDisabled ).$key;
 		$this->added[] = [
-			"key"		=> $key,
-			"value"		=> $value,
-			"comment"	=> $comment ?? '',
-			"section"	=> $section,
+			'key'		=> $key,
+			'value'		=> $value,
+			'comment'	=> $comment ?? '',
+			'section'	=> $section,
 		];
 		return is_int( $this->write() );
 	}
@@ -114,16 +116,19 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@param		string		$sectionName	Name of new Section
 	 *	@return		bool
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@throws		IoException			if file is not writable
+	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
 	public function addSection( string $sectionName ): bool
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
-		$lines		= FileReader::loadArray( $this->fileName );
-		$lines[]	= "[".$sectionName."]";
+		$lines		= FileReader::loadArray( $this->file );
+		$lines[]	= '['.$sectionName.']';
 		if( !in_array( $sectionName, $this->sections ) )
 			$this->sections[] = $sectionName;
-		$result		= FileWriter::saveArray( $this->fileName, $lines );
+		$result		= FileWriter::saveArray( $this->file->getPathName(), $lines );
 		$this->read();
 		return is_int( $result );
 	}
@@ -276,10 +281,10 @@ class Editor extends Reader
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
-		$content	= FileReader::load( $this->fileName );
+		$content	= FileReader::load( $this->file->getPathName() );
 		$regexp		= "/(.*)(".preg_quote( '['.$oldSection.']', '/' ).")(.*)/si";
 		$content	= preg_replace( $regexp, "$1[".$newSection."]$3", $content );
-		$result		= FileWriter::save( $this->fileName, $content );
+		$result		= FileWriter::save( $this->file->getPathName(), $content );
 		$this->added	= [];
 		$this->deleted	= [];
 		$this->renamed	= [];
@@ -342,9 +347,9 @@ class Editor extends Reader
 	 */
 	protected function write(): int
 	{
-		$file		= new FileWriter( $this->fileName );
+		$file		= new FileWriter( $this->file->getPathName() );
 		$newLines	= [];
-		$currentSection	= "";
+		$currentSection	= '';
 		foreach( $this->lines as $line ){
 			if( $this->usesSections() && preg_match( $this->patternSection, $line ) ){
 				$lastSection = $currentSection;
@@ -355,7 +360,7 @@ class Editor extends Reader
 							if( !trim( $newLines[count($newLines)-1] ) )
 								array_pop( $newLines );
 							$newLines[]	= $this->buildLine( $property['key'], $property['value'], $property['comment'] );
-							$newLines[]	= "";
+							$newLines[]	= '';
 							unset( $this->added[$nr] );
 						}
 #						else $newAdded[] = $property;
@@ -366,10 +371,10 @@ class Editor extends Reader
 					continue;
 			}
 			else if( preg_match( $this->patternProperty, $line ) ){
-				$pos		= strpos( $line, "=" );
+				$pos		= strpos( $line, '=' );
 				$key		= trim( substr( $line, 0, $pos ) );
-				$pureKey	= preg_replace( $this->patternDisabled, "", $key );
-				$parts		= explode(  "//", trim( substr( $line, $pos+1 ) ) );
+				$pureKey	= preg_replace( $this->patternDisabled, '', $key );
+				$parts		= explode(  '//', trim( substr( $line, $pos+1 ) ) );
 				if( count( $parts ) > 1 )
 					$comment = trim( $parts[1] );
 				if( $this->usesSections() ){
@@ -380,7 +385,7 @@ class Editor extends Reader
 							$newKey	= $key	= $this->renamed[$currentSection][$pureKey];
 							if( !$this->isActiveProperty( $newKey, $currentSection) )
 								$key = $this->signDisabled.$key;
-							$comment	= $this->comments[$currentSection][$newKey] ?? "";
+							$comment	= $this->comments[$currentSection][$newKey] ?? '';
 							$line = $this->buildLine( $key, $this->properties[$currentSection][$newKey], $comment );
 						}
 						else{
@@ -388,7 +393,7 @@ class Editor extends Reader
 								$key = substr( $key, 1 );
 							else if( !$this->isActiveProperty( $pureKey, $currentSection ) && !preg_match( $this->patternDisabled, $key ) )
 								$key = $this->signDisabled.$key;
-							$comment	= $this->comments[$currentSection][$pureKey] ?? "";
+							$comment	= $this->comments[$currentSection][$pureKey] ?? '';
 							$line = $this->buildLine( $key, $this->properties[$currentSection][$pureKey], $comment );
 						}
 					}

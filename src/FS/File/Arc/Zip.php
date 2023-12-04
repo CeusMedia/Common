@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\FS\File\Arc;
 
+use CeusMedia\Common\Exception\MissingExtension as MissingExtensionException;
 use RuntimeException;
 use ZipArchive;
 
@@ -101,11 +102,16 @@ class Zip
 		return TRUE;
 	}
 
+	/**
+	 *	@param		bool		$throwException
+	 *	@return		bool
+	 *	@throws		MissingExtensionException
+	 */
 	protected function checkSupport( bool $throwException = TRUE ): bool
 	{
 		$hasZipSupport	= self::hasSupport();
 		if( $throwException && !$hasZipSupport )
-			throw new RuntimeException( 'PHP extension for ZIP support is not loaded' );
+			throw new MissingExtensionException( 'PHP extension for ZIP support is not loaded' );
 		return $hasZipSupport;
 	}
 

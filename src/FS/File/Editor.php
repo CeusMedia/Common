@@ -28,6 +28,9 @@
 
 namespace CeusMedia\Common\FS\File;
 
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\FS\File;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -49,16 +52,16 @@ class Editor extends Reader
 	/**
 	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name or URI of File
-	 *	@param		integer		$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
-	 *	@param		string|NULL	$creationUser	UserName for chown()
-	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
-	 *	@return		void
+	 *	@param		File|string		$file			File Name or URI of File
+	 *	@param		integer			$creationMode	UNIX rights for chmod() as octal integer (starting with 0), default: 0640
+	 *	@param		string|NULL		$creationUser	UserName for chown()
+	 *	@param		string|NULL		$creationGroup	Group Name for chgrp()
+	 *	@throws		FileNotExistingException	if check and file is not existing, not readable or given path is not a file
 	 */
-	public function __construct( string $fileName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
+	public function __construct( File|string $file, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
-		parent::__construct( $fileName, FALSE );
-		$this->writer	= new Writer( $fileName, $creationMode, $creationUser, $creationGroup );
+		parent::__construct( $file, FALSE );
+		$this->writer	= new Writer( $this->file->getPathName(), $creationMode, $creationUser, $creationGroup );
 	}
 
 	public function appendString( string $string ): int
@@ -68,7 +71,7 @@ class Editor extends Reader
 
 	public function copy( string $fileName ): bool
 	{
-		return @copy( $this->fileName, $fileName );
+		return @copy( $this->file->getPathName(), $fileName );
 	}
 
 	public static function delete( string $fileName ): bool
@@ -106,9 +109,9 @@ class Editor extends Reader
 	{
 		if( !$fileName )
 			throw new InvalidArgumentException( 'No File Name given.' );
-		$result	= @rename( $this->fileName, $fileName );
+		$result	= @rename( $this->file->getPathName(), $fileName );
 		if( $result === FALSE )
-			throw new RuntimeException( 'File "'.$this->fileName.'" could not been renamed.' );
+			throw new RuntimeException( 'File "'.$this->file->getPathName().'" could not been renamed.' );
 		$this->__construct( $fileName );
 		return $result;
 	}
@@ -189,10 +192,14 @@ class Editor extends Reader
 	 *	Writes a String into the File and returns Length.
 	 *	@access		public
 	 *	@param		string		$string		string to write to file
-	 *	@return		int
+	 *	@param		boolean				$strict		Flag: throw exceptions, default: yes
+	 *	@return		integer|boolean		Number of written bytes or FALSE on fail
+	 *	@throws		IoException			if strict and file is not writable
+	 *	@throws		IoException			if strict and fallback file creation failed
+	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
-	public function writeString( string $string ): int
+	public function writeString( string $string, bool $strict = TRUE ): int|bool
 	{
-		return $this->writer->writeString( $string );
+		return $this->writer->writeString( $string, $strict );
 	}
 }

@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\FS\File\INI;
 
+use CeusMedia\Common\FS\File;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use InvalidArgumentException;
 use RuntimeException;
@@ -85,14 +86,14 @@ class Reader extends FileReader
 	/**
 	 *	Constructor, reads Property File.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		File|string		$file		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File contains Sections
 	 *	@param		bool		$reservedWords	Flag: interpret reserved Words like yes,no,true,false,null
 	 *	@return		void
 	 */
-	public function __construct( string $fileName, bool $usesSections = FALSE, bool $reservedWords = TRUE )
+	public function __construct( File|string $file, bool $usesSections = FALSE, bool $reservedWords = TRUE )
 	{
-		parent::__construct( $fileName );
+		parent::__construct( $file );
 		$this->usesSections			= $usesSections;
 		$this->reservedWords		= $reservedWords;
 		$this->read();
@@ -340,14 +341,14 @@ class Reader extends FileReader
 	/**
 	 *	Loads an INI File and returns an Array statically.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		File|string		$file		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File contains Sections
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		array
 	 */
-	public static function loadArray( string $fileName, bool $usesSections = FALSE, bool $activeOnly = TRUE ): array
+	public static function loadArray( File|string $file, bool $usesSections = FALSE, bool $activeOnly = TRUE ): array
 	{
-		$reader	= new self( $fileName, $usesSections );
+		$reader	= new self( $file, $usesSections );
 		return $reader->toArray( $activeOnly );
 	}
 

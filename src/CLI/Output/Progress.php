@@ -29,10 +29,9 @@
 
 namespace CeusMedia\Common\CLI\Output;
 
-use CeusMedia\Common\CLI;
 use CeusMedia\Common\CLI\Dimensions;
 use CeusMedia\Common\CLI\Output;
-
+use CeusMedia\Common\Env;
 use InvalidArgumentException;
 use RangeException;
 use RuntimeException;
@@ -75,7 +74,7 @@ class Progress
 	 */
 	public function __construct()
 	{
-		if( !CLI::checkIsHeadless( FALSE ) )
+		if( !Env::isHeadless() )
 			$this->width	= Dimensions::getWidth();
 		$this->width	= $this->width - 3;
 		$this->output	= new Output();
@@ -252,7 +251,7 @@ class Progress
 	 */
 	protected function renderLine( int $count ): string
 	{
-		if( CLI::checkIsHeadless( FALSE ) )
+		if( Env::isHeadless() )
 			return '';
 		$count		= min( $count, $this->total );
 		$timeLeft	= ceil( microtime( TRUE ) - $this->startTime );
