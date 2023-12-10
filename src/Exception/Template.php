@@ -28,6 +28,10 @@
 
 namespace CeusMedia\Common\Exception;
 
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 use RuntimeException;
 use Throwable;
 
@@ -40,8 +44,13 @@ use Throwable;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Template extends RuntimeException
+class Template extends Runtime
 {
+	use CreatableTrait;
+	use DescriptiveTrait;
+	use JsonableTrait;
+	use SerializableTrait;
+
 	public const FILE_NOT_FOUND			= 0;
 	public const FILE_LABELS_MISSING	= 1;
 	public const LABELS_MISSING			= 2;

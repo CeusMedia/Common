@@ -63,6 +63,7 @@
     }
   },
   "scripts": {
+    "dev:a": "php a.php",
     "dev:all": [
       "@dev:test-syntax",
       "@dev:phpstan",

@@ -29,6 +29,10 @@
 
 namespace CeusMedia\Common\Exception;
 
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 use Throwable;
 
 /**
@@ -43,6 +47,11 @@ use Throwable;
  */
 class IO extends Runtime
 {
+	use CreatableTrait;
+	use JsonableTrait;
+	use SerializableTrait;
+	use DescriptiveTrait;
+
 	/**	@var		string			$resource		Name or Value of resource which was not fully accessible */
 	protected string $resource		= '';
 
@@ -69,26 +78,5 @@ class IO extends Runtime
 	public function getResource(): string
 	{
 		return $this->resource;
-	}
-
-	/**
-	 *	Returns serial of exception.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function __serialize(): array
-	{
-		return [$this->message, $this->code, $this->file, $this->line, $this->resource];
-	}
-
-	/**
-	 *	Recreates an exception from its serial.
-	 *	@access		public
-	 *	@param		array		$data		Serial string of a serialized exception
-	 *	@return		void
-	 */
-	public function __unserialize( array $data ): void
-	{
-		[$this->message, $this->code, $this->file, $this->line, $this->resource]	= $data;
 	}
 }

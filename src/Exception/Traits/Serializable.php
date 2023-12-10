@@ -1,7 +1,8 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection SpellCheckingInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
- *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
+ *	Base Exception which can be serialized e.G. for NetServices.
  *
  *	Copyright (c) 2011-2023 Christian Würker (ceusmedia.de)
  *
@@ -19,34 +20,53 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_Exception
+ *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2011-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@see			http://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
  */
 
-namespace CeusMedia\Common\Exception;
+namespace CeusMedia\Common\Exception\Traits;
 
-use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
-use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
-use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
-use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
-use RuntimeException;
+use Exception;
+use Serializable as SerializableInterface;
 
 /**
- *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
+ *	Base Exception which can be serialized e.G. for NetServices.
  *	@category		Library
- *	@package		CeusMedia_Common_Exception
+ *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2011-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Runtime extends RuntimeException
+trait Serializable
 {
-	use CreatableTrait;
-	use DescriptiveTrait;
-	use JsonableTrait;
-	use SerializableTrait;
+	/**
+	 *	Returns serial of exception.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function __serialize(): array
+	{
+		return array_merge( get_object_vars( $this ), [
+			'trace'			=> $this->getTrace(),
+			'traceAsString'	=> $this->getTraceAsString(),
+			'previous'		=> $this->getPrevious(),
+		] );
+	}
+
+	/**
+	 *	Recreates an exception from its serial.
+	 *	@access		public
+	 *	@param		array		$data			Serial string of a serialized exception
+	 *	@return		void
+	 */
+	public function unserialize( array $data ): void
+	{
+		foreach( $data as $key => $value )
+			$this->$key	= $value;
+	}
 }

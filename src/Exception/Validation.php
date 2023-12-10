@@ -28,6 +28,10 @@
 
 namespace CeusMedia\Common\Exception;
 
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 use Throwable;
 
 /**
@@ -41,11 +45,16 @@ use Throwable;
  */
 class Validation extends Runtime
 {
+	use CreatableTrait;
+	use DescriptiveTrait;
+	use JsonableTrait;
+	use SerializableTrait;
+
 	/**	@var		array		$errors			List of Validation Errors */
 	protected array $errors		= [];
 
 	/**	@var		string		$form			Name Form in Validation File */
-	protected string $form		= "";
+	protected string $form		= '';
 
 	/**
 	 *	Constructor.
@@ -55,9 +64,9 @@ class Validation extends Runtime
 	 *	@param		Throwable|NULL	$previous		Previous exception
 	 *	@return		void
 	 */
-	public function __construct( string $message, array $errors = [], string $form = '', ?Throwable $previous = null )
+	public function __construct( string $message, int $code = 0, ?Throwable $previous = null, array $errors = [], string $form = '' )
 	{
-		parent::__construct( $message, 0, $previous );
+		parent::__construct( $message, $code, $previous );
 		$this->errors	= $errors;
 		$this->form		= $form;
 	}
@@ -75,7 +84,7 @@ class Validation extends Runtime
 	/**
 	 *	Returns Name of Form in Validation File.
 	 *	@access		public
-	 *	@return		string: string
+	 *	@return		string
 	 */
 	public function getForm(): string
 	{
@@ -83,23 +92,26 @@ class Validation extends Runtime
 	}
 
 	/**
-	 *	Returns serial of exception.
+	 *	Sets List of Validation Errors.
 	 *	@access		public
-	 *	@return		array
+	 *	@param		array		$errors
+	 *	@return		self
 	 */
-	public function __serialize(): array
+	public function setErrors( array $errors ): self
 	{
-		return [$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form];
+		$this->errors	= $errors;
+		return $this;
 	}
 
 	/**
-	 *	Recreates an exception from its serial.
+	 *	Sets Name of Form in Validation File.
 	 *	@access		public
-	 *	@param		array		$data			Serial string of a validation exception
-	 *	@return		void
+	 *	@param		string		$form
+	 *	@return		self
 	 */
-	public function __unserialize( array $data ): void
+	public function setForm( string $form ): self
 	{
-		[$this->message, $this->code, $this->file, $this->line, $this->errors, $this->form]	= $data;
+		$this->form	= $form;
+		return $this;
 	}
 }

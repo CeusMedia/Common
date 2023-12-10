@@ -28,6 +28,11 @@
 
 namespace CeusMedia\Common\Exception;
 
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
+
 /**
  *	Exception to indicate an error due to deprecation.
  *	@category		Library
@@ -39,4 +44,8 @@ namespace CeusMedia\Common\Exception;
  */
 class Deprecation extends Runtime
 {
+	use CreatableTrait;
+	use SerializableTrait;
+	use JsonableTrait;
+	use DescriptiveTrait;
 }

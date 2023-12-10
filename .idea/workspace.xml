@@ -4,13 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add exceptions and move methods from file reader to file.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Work on next PHPStan level.">
+      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Creatable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Descriptive.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Jsonable.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Serializable.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/JSON/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/JSON/Builder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Singleton.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Singleton.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/Template.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Exception/View.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Abstraction.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Conversion.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Conversion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Deprecation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Deprecation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/FileNotExisting.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/FileNotExisting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/IO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/IO.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Logic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Logic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/MissingExtension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/MissingExtension.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Runtime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Runtime.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/SQL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/SQL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Template.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Validation.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,6 +49,7 @@
     <setting file="file://$PROJECT_DIR$/src/Net/HTTP/Reader.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/tool/config/phpstan.neon" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/tool/config/rector.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$APPLICATION_HOME_DIR$/plugins/php-impl/lib/php.jar!/stubs/Core/Core_c.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -125,41 +138,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Project.color&quot;: &quot;3f0804&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;php.test.frameworks.configurable&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Composer Script.dev:a.executor": "Run",
+    "Project.color": "3f0804",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception/Traits",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Exception/Traits" />
       <recent name="$PROJECT_DIR$/src/Exception" />
       <recent name="$PROJECT_DIR$/test/XML" />
       <recent name="$PROJECT_DIR$/test/Alg/Obj" />
       <recent name="$PROJECT_DIR$/tool/Compatibility" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Exception/Traits" />
       <recent name="$PROJECT_DIR$/test/UI/assets" />
       <recent name="$PROJECT_DIR$/test/UI/HTML/assets" />
       <recent name="$PROJECT_DIR$/test/XML/RSS/assets" />
       <recent name="$PROJECT_DIR$/test/XML/assets" />
-      <recent name="$PROJECT_DIR$/test/XML/DOM/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.EditorTest.testRemoveIndex">
+  <component name="RunManager" selected="Composer Script.dev:a">
+    <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:a" />
+      <method v="2" />
+    </configuration>
     <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpstan" />
@@ -169,10 +188,6 @@
       <option name="commandLineParameters" value="" />
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:phpunit" />
-      <method v="2" />
-    </configuration>
-    <configuration name="ClockTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner class="CeusMedia\CommonTest\Alg\Time\ClockTest" file="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" scope="Class" />
       <method v="2" />
     </configuration>
     <configuration name="EditorTest.testRemoveIndex" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
@@ -188,22 +203,29 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Composer Script.dev:a" />
       <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
       <item itemvalue="PHPUnit.EditorTest.testRemoveIndex" />
       <item itemvalue="PHPUnit.ReaderTest" />
-      <item itemvalue="PHPUnit.ClockTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Composer Script.dev:phpstan" />
+        <item itemvalue="Composer Script.dev:a" />
         <item itemvalue="Composer Script.dev:phpunit" />
+        <item itemvalue="Composer Script.dev:phpstan" />
         <item itemvalue="PHPUnit.EditorTest.testRemoveIndex" />
         <item itemvalue="PHPUnit.ReaderTest" />
-        <item itemvalue="PHPUnit.ClockTest" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-php-predefined-ba97393d7c68-74080bdb84d3-com.jetbrains.php.sharedIndexes-PS-233.11799.232" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -258,7 +280,10 @@
       <workItem from="1700238631728" duration="5935000" />
       <workItem from="1700699222416" duration="16964000" />
       <workItem from="1701050992011" duration="20004000" />
-      <workItem from="1701482649460" duration="40915000" />
+      <workItem from="1701482649460" duration="41439000" />
+      <workItem from="1701916416736" duration="9499000" />
+      <workItem from="1702065668609" duration="33000" />
+      <workItem from="1702102398268" duration="22834000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -568,14 +593,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00055" summary="Generate compat9.">
-      <option name="closed" value="true" />
-      <created>1700736027358</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1700736027358</updated>
-    </task>
     <task id="LOCAL-00056" summary="Add new exceptions and update autoloaders.">
       <option name="closed" value="true" />
       <created>1701230920934</created>
@@ -608,7 +625,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701660478396</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Work on next PHPStan level.">
+      <option name="closed" value="true" />
+      <created>1701661651442</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1701661651442</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -639,7 +664,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Removed some very old UI graph and ADT tree node classes." />
     <MESSAGE value="Adjust unit tests." />
     <MESSAGE value="Adjust unit tests and fix (migration) bugs according to tests." />
     <MESSAGE value="Updated unit tests heavily." />
@@ -664,7 +688,8 @@
     <MESSAGE value="Improve exception page." />
     <MESSAGE value="Add class for system environment variables handling." />
     <MESSAGE value="Add exceptions and move methods from file reader to file." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add exceptions and move methods from file reader to file." />
+    <MESSAGE value="Work on next PHPStan level." />
+    <option name="LAST_COMMIT_MESSAGE" value="Work on next PHPStan level." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

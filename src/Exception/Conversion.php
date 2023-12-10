@@ -29,6 +29,11 @@
 
 namespace CeusMedia\Common\Exception;
 
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
+
 /**
  *	Exception for conversion, translation or transformation errors.
  *	Based on runtime exception.
@@ -41,4 +46,8 @@ namespace CeusMedia\Common\Exception;
  */
 class Conversion extends Runtime
 {
+	use CreatableTrait;
+	use DescriptiveTrait;
+	use JsonableTrait;
+	use SerializableTrait;
 }
