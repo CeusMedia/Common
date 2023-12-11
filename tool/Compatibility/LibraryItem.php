@@ -41,6 +41,8 @@ class LibraryItem
 		] );
 		$item->namespace	= 'CeusMedia\\Common'.$item->path9;
 
+		if( preg_match( '/\/Traits\//', $pathName ) )
+			$item->type		= self::TYPE_TRAIT;
 		if( in_array( $item->class9, ['Renderable', 'Interface_'] ) )
 			$item->type		= self::TYPE_INTERFACE;
 		else if( in_array( $item->class9, ['Abstraction', 'Program', 'Store', 'StaticStore', 'Singleton'] ) )

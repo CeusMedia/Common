@@ -31,7 +31,7 @@ use InvalidArgumentException;
 class View
 {
 	protected ?Throwable $exception		= NULL;
-
+	protected string $heading			= 'Exception:';
 
 	/**
 	 *	@param		Throwable|NULL		$exception
@@ -68,11 +68,9 @@ class View
 			throw new InvalidArgumentException( 'No exception set' );
 
 		$e	= $this->exception;
-		$lines	= [
-			'Exception caught:',
-			'- Message:     '.$e->getMessage(),
-			'- Code:        '.$e->getCode(),
-		];
+		$lines		= '' !== $this->heading ? [$this->heading] : [];
+		$lines[]	= '- Message:     '.$e->getMessage();
+		$lines[]	= '- Code:        '.$e->getCode();
 		if( in_array( Descriptive::class, class_uses( $e ), TRUE ) ){
 			/** @var Runtime $e */
 			if( '' !== $e->getDescription() )
@@ -101,6 +99,11 @@ class View
 		$lines[]	= '';
 		$lines[]	= $this->renderTraceBlock();
 
+		if( NULL !== $e->getPrevious() )
+			$lines[]	= PHP_EOL.self::getInstance( $e->getPrevious() )
+				->setHeading( 'Previous Exception:' )
+				->render();
+
 		return join( PHP_EOL, $lines ).PHP_EOL;
 	}
 
@@ -111,6 +114,16 @@ class View
 	public function setException( Throwable $exception ): self
 	{
 		$this->exception	= $exception;
+		return $this;
+	}
+
+	/**
+	 *	@param		?string		$heading
+	 *	@return		self
+	 */
+	public function setHeading( ?string $heading ): self
+	{
+		$this->heading	= $heading;
 		return $this;
 	}
 

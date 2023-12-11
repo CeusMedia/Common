@@ -8,26 +8,37 @@ trait Descriptive
 
 	protected string $suggestion	= '';
 
+	public function getAdditionalProperties(): array
+	{
+		$variables	= get_object_vars( $this );
+		foreach( $variables as $key => $value )
+			if( in_array( $key, ['message', 'code', 'file', 'line', 'trace', 'previous'], TRUE ) )
+				unset( $variables[$key] );
+		return $variables;
+	}
+
+	/**
+	 *	@return		string
+	 */
 	public function getDescription(): string
 	{
 		return $this->description;
 	}
 
-	public function getAdditionalProperties(): array
-	{
-		$variables	= get_object_vars( $this );
-		foreach( $variables as $key => $value )
-			if( in_array( $key, ['message', 'code', 'file', 'line', 'trace'], TRUE ) )
-				unset( $variables[$key] );
-		return $variables;
-	}
-
+	/**
+	 *	@return		string
+	 */
 	public function getSuggestion(): string
 	{
 		return $this->suggestion;
 	}
 
-	public function setSuggestion( string $suggestion ): self
+	/**
+	 * @param string $suggestion
+	 * @return static
+	 *
+	 */
+	public function setSuggestion( string $suggestion ): static
 	{
 		$this->suggestion	= $suggestion;
 		return $this;

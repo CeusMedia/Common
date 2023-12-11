@@ -4,25 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Work on next PHPStan level.">
-      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Creatable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Descriptive.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Jsonable.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Traits/Serializable.php" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add traits for exceptions and finish CLI exception view.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CLI/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Exception/View.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Abstraction.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Conversion.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Conversion.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Deprecation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Deprecation.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/FileNotExisting.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/FileNotExisting.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/IO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/IO.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Logic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Logic.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/MissingExtension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/MissingExtension.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Runtime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Runtime.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/SQL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/SQL.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Template.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Template.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Validation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Creatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Creatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Descriptive.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Descriptive.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compat8.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat8.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/compat9.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat9.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Compatibility/LibraryItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Compatibility/LibraryItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tool/Compatibility/Worker.php" beforeDir="false" afterPath="$PROJECT_DIR$/tool/Compatibility/Worker.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,6 +131,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Composer Script.dev:a.executor": "Run",
+    "Composer Script.dev:phpstan.executor": "Run",
     "Project.color": "3f0804",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -173,7 +164,7 @@
       <recent name="$PROJECT_DIR$/test/XML/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Composer Script.dev:a">
+  <component name="RunManager" selected="Composer Script.dev:phpstan">
     <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:a" />
@@ -212,9 +203,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Composer Script.dev:phpstan" />
         <item itemvalue="Composer Script.dev:a" />
         <item itemvalue="Composer Script.dev:phpunit" />
-        <item itemvalue="Composer Script.dev:phpstan" />
         <item itemvalue="PHPUnit.EditorTest.testRemoveIndex" />
         <item itemvalue="PHPUnit.ReaderTest" />
       </list>
@@ -283,7 +274,7 @@
       <workItem from="1701482649460" duration="41439000" />
       <workItem from="1701916416736" duration="9499000" />
       <workItem from="1702065668609" duration="33000" />
-      <workItem from="1702102398268" duration="22834000" />
+      <workItem from="1702102398268" duration="29613000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -593,14 +584,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00056" summary="Add new exceptions and update autoloaders.">
-      <option name="closed" value="true" />
-      <created>1701230920934</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1701230920935</updated>
-    </task>
     <task id="LOCAL-00057" summary="Improve exception page.">
       <option name="closed" value="true" />
       <created>1701293756493</created>
@@ -633,7 +616,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701661651442</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Add traits for exceptions and finish CLI exception view.">
+      <option name="closed" value="true" />
+      <created>1702229968871</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1702229968872</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -664,7 +655,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Adjust unit tests." />
     <MESSAGE value="Adjust unit tests and fix (migration) bugs according to tests." />
     <MESSAGE value="Updated unit tests heavily." />
     <MESSAGE value="Go for PHPStan level 5." />
@@ -689,7 +679,8 @@
     <MESSAGE value="Add class for system environment variables handling." />
     <MESSAGE value="Add exceptions and move methods from file reader to file." />
     <MESSAGE value="Work on next PHPStan level." />
-    <option name="LAST_COMMIT_MESSAGE" value="Work on next PHPStan level." />
+    <MESSAGE value="Add traits for exceptions and finish CLI exception view." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add traits for exceptions and finish CLI exception view." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

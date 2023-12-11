@@ -22,7 +22,7 @@ class Worker
 
 		@unlink( $filePath );
 		$handle	= fopen( $filePath, 'w+' );
-		fputs( $handle, '<?php'.PHP_EOL );
+		fputs( $handle, '<?php'.PHP_EOL.'/** @noinspection PhpMultipleClassDeclarationsInspection */'.PHP_EOL.PHP_EOL );
 		foreach( $list as $item )
 			fputs( $handle, $item );
 		fclose( $handle );
@@ -39,7 +39,7 @@ class Worker
 
 		@unlink( $filePath );
 		$handle	= fopen( $filePath, 'w+' );
-		fputs( $handle, '<?php'.PHP_EOL );
+		fputs( $handle, '<?php'.PHP_EOL.'/** @noinspection PhpMultipleClassDeclarationsInspection */'.PHP_EOL.PHP_EOL );
 		ksort( $namespaces );
 		foreach( $namespaces as $namespace => $lines ){
 			asort($lines);

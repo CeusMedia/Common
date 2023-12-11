@@ -2,17 +2,20 @@
 
 namespace CeusMedia\Common\Exception\Traits;
 
+use Throwable;
+
 trait Creatable
 {
-	public static function create( string $message = '', int $code = 0 ): self
+	public static function create( string $message = '', int $code = 0, ?Throwable $previous = NULL ): self
 	{
-		$e		= new static( $message, $code );
+		$class	= static::class;
+		$e		= new $class( $message, $code, $previous );
 		$trace	= $e->getTrace();
 		$top	= array_pop( $trace );
 		if( '' !== ( $top['file'] ?? '' ) ){
 			$e->file	= $top['file'];
 			$e->line	= $top['line'];
-			$e->trace	= $trace;
+//			$e->trace	= $trace;
 		}
 		return $e;
 	}
@@ -26,12 +29,6 @@ trait Creatable
 	public function setMessage( string $message ): self
 	{
 		$this->message	= $message;
-		return $this;
-	}
-
-	public function setPrevious( Throwable $previous ): self
-	{
-		$this->previous	= $previous;
 		return $this;
 	}
 }
