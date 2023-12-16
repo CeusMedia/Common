@@ -31,8 +31,8 @@ namespace CeusMedia\Common\Exception;
 use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
 use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
 use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Renderable as RenderableTrait;
 use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
-use RuntimeException;
 use Throwable;
 
 /**
@@ -47,9 +47,10 @@ use Throwable;
 class SQL extends Runtime
 {
 	use CreatableTrait;
-	use SerializableTrait;
-	use JsonableTrait;
 	use DescriptiveTrait;
+	use JsonableTrait;
+	use RenderableTrait;
+	use SerializableTrait;
 
 	/**	@var		string			$defaultMessage		Default Message if SQL Info Message is empty */
 	public static string $default	= "Unknown SQL Error.";

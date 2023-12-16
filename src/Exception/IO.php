@@ -32,6 +32,7 @@ namespace CeusMedia\Common\Exception;
 use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
 use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
 use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Renderable as RenderableTrait;
 use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 use Throwable;
 
@@ -48,9 +49,10 @@ use Throwable;
 class IO extends Runtime
 {
 	use CreatableTrait;
-	use JsonableTrait;
-	use SerializableTrait;
 	use DescriptiveTrait;
+	use JsonableTrait;
+	use RenderableTrait;
+	use SerializableTrait;
 
 	/**	@var		string			$resource		Name or Value of resource which was not fully accessible */
 	protected string $resource		= '';
@@ -60,14 +62,14 @@ class IO extends Runtime
 	 *	@access		public
 	 *	@param		string			$message		Error Message
 	 *	@param		integer			$code			Error Code
-	 *	@param		string			$resource		Name or Value of unavailable Resource
 	 *	@param		Throwable|NULL	$previous		Previous exception
+	 *	@param		string			$resource		Name or Value of unavailable Resource
 	 *	@return		void
 	 */
-	public function __construct( string $message, int $code = 0, string $resource = '', ?Throwable $previous = NULL )
+	public function __construct( string $message, int $code = 0, ?Throwable $previous = NULL, string $resource = '' )
 	{
 		parent::__construct( $message, $code, $previous );
-		$this->resource	= $resource;
+		$this->setResource( $resource );
 	}
 
 	/**
@@ -78,5 +80,16 @@ class IO extends Runtime
 	public function getResource(): string
 	{
 		return $this->resource;
+	}
+
+	/**
+	 *	Sets Name of Source which was not fully accessible.
+	 *	@param		string		$resource
+	 *	@return		self
+	 */
+	public function setResource( string $resource ): self
+	{
+		$this->resource	= $resource;
+		return $this;
 	}
 }

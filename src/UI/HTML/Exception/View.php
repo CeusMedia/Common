@@ -28,9 +28,11 @@
 
 namespace CeusMedia\Common\UI\HTML\Exception;
 
+use CeusMedia\Common\Exception\Runtime;
 use CeusMedia\Common\Exception\SQL as SqlException;
 use CeusMedia\Common\Exception\Logic as LogicException;
 use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\Exception\Traits\Descriptive;
 use CeusMedia\Common\UI\HTML\Tag;
 use CeusMedia\Common\XML\ElementReader as XmlElementReader;
 use Exception;
@@ -57,6 +59,102 @@ class View
 	public static function display( Throwable $exception )
 	{
 		print self::render( $exception );
+	}
+
+	/**
+	 *	@param		Throwable	$e
+	 *	@param		bool		$showTrace
+	 *	@param		bool		$showPrevious
+	 *	@return		string
+	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
+	 */
+	public static function render( Throwable $e, bool $showTrace = TRUE, bool $showPrevious = TRUE ): string
+	{
+		$list	= [];
+
+		$msg	= htmlentities( $e->getMessage(), ENT_COMPAT, 'UTF-8' );
+		$list[]	= Tag::create( 'dt', 'Message', ['class' => 'exception-message'] );
+		$list[]	= Tag::create( 'dd', $msg, ['class' => 'exception-message'] );
+
+		if( $e->getCode() !== 0 ){
+			$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
+			$list[]	= Tag::create( 'dt', 'Code', ['class' => 'exception-code'] );
+			$list[]	= Tag::create( 'dd', $code, ['class' => 'exception-code'] );
+		}
+
+		self::enlistAdditionalProperties( $list, $e );
+
+		$list[]	= Tag::create( 'dt', 'Type', ['class' => 'exception-type'] );
+		$list[]	= Tag::create( 'dd', get_class( $e ), ['class' => 'exception-type'] );
+
+		$pathName	= self::trimRootPath(  $e->getFile() );
+		$fileName	= '<span class="file">'.pathinfo( $pathName, PATHINFO_FILENAME ).'</span>';
+		$extension	= pathinfo( $pathName, PATHINFO_EXTENSION );
+		$extension	= '<span class="ext">'.( $extension ? '.'.$extension : '' ).'</span>';
+		$path		= '<span class="path">'.dirname( $pathName ).'/</span>';
+		$file		= $path.$fileName.$extension;
+
+		$list[]	= Tag::create( 'dt', 'File', ['class' => 'exception-file'] );
+		$list[]	= Tag::create( 'dd',$file, ['class' => 'exception-file'] );
+
+		$list[]	= Tag::create( 'dt', 'Line', ['class' => 'exception-line'] );
+		$list[]	= Tag::create( 'dd', (string) $e->getLine(), ['class' => 'exception-line'] );
+
+		if( $showTrace ){
+			$trace	= Trace::render( $e );
+			if( $trace ){
+				$list[]	= Tag::create( 'dt', 'Trace' );
+				$list[]	= Tag::create( 'dd', $trace );
+			}
+		}
+		if( $showPrevious ){
+			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() ){
+				$list[]	= Tag::create( 'dt', 'Previous' );
+				$list[]	= Tag::create( 'dd', View::render( $e->getPrevious() ) );
+			}
+		}
+		return Tag::create( 'dl', join( $list ), ['class' => 'exception'] );
+	}
+
+	/**
+	 *	@param		array			$list
+	 *	@param		Throwable		$e
+	 *	@return		void
+	 */
+	protected static function enlistAdditionalProperties( array & $list, Throwable $e ): void
+	{
+		if( in_array( Descriptive::class, class_uses( $e ), TRUE ) ){
+			/** @var Runtime $e */
+			if( '' !== $e->getDescription() ){
+				$list[]	= Tag::create( 'dt', 'Description', ['class' => 'exception-description'] );
+				$list[]	= Tag::create( 'dd', $e->getDescription(), ['class' => 'exception-description'] );
+			}
+
+			if( '' !== $e->getSuggestion() ){
+				$list[]	= Tag::create( 'dt', 'Suggestion', ['class' => 'exception-suggestion'] );
+				$list[]	= Tag::create( 'dd', $e->getSuggestion(), ['class' => 'exception-suggestion'] );
+			}
+			foreach( $e->getAdditionalProperties() as $key => $value ){
+				if( in_array( $key, ['description', 'suggestion', 'traceAsString', 'SQLSTATE'], TRUE ) )
+					continue;
+				switch( gettype( $value ) ){
+					case 'object':
+					case 'array':
+						$value	= json_encode( $value );
+						break;
+					default:
+						$value ??= '-empty-';
+				}
+				$list[]	= Tag::create( 'dt', ucfirst( $key ), ['class' => 'exception-'.$key] );
+				$list[]	= Tag::create( 'dd', $value, ['class' => 'exception-'.$key] );
+			}
+		}
+
+		if( $e instanceof SqlException && $e->getSQLSTATE() ){
+			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
+			$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
+			$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
+		}
 	}
 
 	/**
@@ -92,74 +190,6 @@ class View
 		}
 		return '';
 	}
-
-	/**
-	 *	@param		Throwable	$e
-	 *	@param		bool		$showTrace
-	 *	@param		bool		$showPrevious
-	 *	@return		string
-	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
-	 */
-	public static function render( Throwable $e, bool $showTrace = TRUE, bool $showPrevious = TRUE ): string
-	{
-		$list	= [];
-
-		$msg	= htmlentities( $e->getMessage(), ENT_COMPAT, 'UTF-8' );
-		$list[]	= Tag::create( 'dt', 'Message', ['class' => 'exception-message'] );
-		$list[]	= Tag::create( 'dd', $msg, ['class' => 'exception-message'] );
-
-		if( $e->getCode() !== 0 ){
-			$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
-			$list[]	= Tag::create( 'dt', 'Code', ['class' => 'exception-code'] );
-			$list[]	= Tag::create( 'dd', $code, ['class' => 'exception-code'] );
-		}
-
-		if( $e instanceof SqlException && $e->getSQLSTATE() ){
-			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
-			$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
-			$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
-		}
-		if( $e instanceof IoException  ){
-			$list[]	= Tag::create( 'dt', 'Resource', ['class' => 'exception-resource'] );
-			$list[]	= Tag::create( 'dd', $e->getResource(), ['class' => 'exception-resource'] );
-		}
-		if( $e instanceof LogicException ){
-			$list[]	= Tag::create( 'dt', 'Subject', ['class' => 'exception-subject'] );
-			$list[]	= Tag::create( 'dd', $e->getSubject(), ['class' => 'exception-subject'] );
-		}
-
-		$list[]	= Tag::create( 'dt', 'Type', ['class' => 'exception-type'] );
-		$list[]	= Tag::create( 'dd', get_class( $e ), ['class' => 'exception-type'] );
-
-		$pathName	= self::trimRootPath(  $e->getFile() );
-		$fileName	= '<span class="file">'.pathinfo( $pathName, PATHINFO_FILENAME ).'</span>';
-		$extension	= pathinfo( $pathName, PATHINFO_EXTENSION );
-		$extension	= '<span class="ext">'.( $extension ? '.'.$extension : '' ).'</span>';
-		$path		= '<span class="path">'.dirname( $pathName ).'/</span>';
-		$file		= $path.$fileName.$extension;
-
-		$list[]	= Tag::create( 'dt', 'File', ['class' => 'exception-file'] );
-		$list[]	= Tag::create( 'dd',$file, ['class' => 'exception-file'] );
-
-		$list[]	= Tag::create( 'dt', 'Line', ['class' => 'exception-line'] );
-		$list[]	= Tag::create( 'dd', (string) $e->getLine(), ['class' => 'exception-line'] );
-
-		if( $showTrace ){
-			$trace	= Trace::render( $e );
-			if( $trace ){
-				$list[]	= Tag::create( 'dt', 'Trace' );
-				$list[]	= Tag::create( 'dd', $trace );
-			}
-		}
-		if( $showPrevious ){
-			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() ){
-				$list[]	= Tag::create( 'dt', 'Previous' );
-				$list[]	= Tag::create( 'dd', View::render( $e->getPrevious() ) );
-			}
-		}
-		return Tag::create( 'dl', join( $list ), ['class' => 'exception'] );
-	}
-
 
 	/**
 	 *	Removes Document Root in File Names.

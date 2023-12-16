@@ -31,6 +31,7 @@ namespace CeusMedia\Common\Exception;
 use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
 use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
 use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Renderable as RenderableTrait;
 use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 
 /**
@@ -45,7 +46,8 @@ use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 class Deprecation extends Runtime
 {
 	use CreatableTrait;
-	use SerializableTrait;
-	use JsonableTrait;
 	use DescriptiveTrait;
+	use JsonableTrait;
+	use RenderableTrait;
+	use SerializableTrait;
 }

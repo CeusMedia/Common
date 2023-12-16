@@ -41,6 +41,7 @@ use Serializable as SerializableInterface;
  *	@copyright		2011-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@deprecated		use trait or exception using the trait, instead
  */
 class Serializable extends Exception
 {

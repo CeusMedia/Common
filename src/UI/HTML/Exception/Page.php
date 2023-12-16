@@ -80,7 +80,7 @@ class Page
 	 *	@param		string		$view		Exception View
 	 *	@return		string
 	 */
-	protected static function wrapExceptionViewWithHtmlPage( string $view ): string
+	public static function wrapExceptionViewWithHtmlPage( string $view ): string
 	{
 		$page	= new PageFrame();
 		$page->setTitle( 'Exception' );
@@ -91,7 +91,10 @@ class Page
 		$options	= ['foldTraces' => TRUE];
 		$script		= JQuery::buildPluginCall( 'cmExceptionView', 'dl.exception', $options );
 		$page->addHead( Tag::create( 'script', $script ) );
-		$page->addBody( Tag::create( 'h2', 'Error' ).$view );
+		$page->addBody( Tag::create( 'div', [
+			Tag::create( 'h2', 'Error' ),
+			$view
+		], ['class' => 'container'] ) );
 		return $page->build( ['style' => 'margin: 1em'] );
 	}
 }

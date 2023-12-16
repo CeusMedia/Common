@@ -63,7 +63,12 @@ class Worker
 	protected function generateCompat8Recursive( &$list, int &$count, string $path = '' ): void
 	{
 		$index		= new DirectoryIterator( $this->rootPath.'src/'.$path );
-		$template	= '%s %s extends %s{}'.PHP_EOL;
+		$templates	= [
+			LibraryItem::TYPE_CLASS				=> 'class %s extends %s{}',
+			LibraryItem::TYPE_ABSTRACT_CLASS	=> 'abstract class %s extends %s{}',
+			LibraryItem::TYPE_INTERFACE			=> 'interface %s extends %s{}',
+			LibraryItem::TYPE_TRAIT				=> 'trait %s{use %s;}',
+		];
 		foreach( $index as $entry ){
 			if( $entry->isDot() )
 				continue;
@@ -78,7 +83,7 @@ class Worker
 			if( in_array( $item->class9, ['Collection2', 'Compatibility'] ) )
 				continue;
 			$nsClass	= $item->namespace.'\\'.$item->class9;
-			$list[$item->class8]	= sprintf( $template, $item->declaration, $item->class8, $nsClass );
+			$list[$item->class8]	= sprintf( $templates[$item->type], $item->class8, $nsClass ).PHP_EOL;
 			$count++;
 		}
 	}
@@ -86,7 +91,13 @@ class Worker
 	protected function generateCompat9Recursive( &$namespaces, int &$count, string $path = '' ): void
 	{
 		$index		= new DirectoryIterator( $this->rootPath.'src/'.$path );
-		$template	= '%s %s extends \\%s{}';
+		$templates	= [
+			LibraryItem::TYPE_CLASS				=> 'class %s extends %s{}',
+			LibraryItem::TYPE_ABSTRACT_CLASS	=> 'abstract class %s extends %s{}',
+			LibraryItem::TYPE_INTERFACE			=> 'interface %s extends %s{}',
+			LibraryItem::TYPE_TRAIT				=> 'trait %s{use %s;}',
+		];
+//		$template	= '%s %s extends \\%s{}';
 		foreach( $index as $entry ){
 			if( $entry->isDot() )
 				continue;
@@ -103,7 +114,7 @@ class Worker
 				$namespaces[$item->namespace] = [];
 				arsort($namespaces);
 			}
-			$namespaces[$item->namespace][]	= sprintf( $template, $item->declaration, $item->class9, $item->class8 );
+			$namespaces[$item->namespace][]	= sprintf( $templates[$item->type], $item->class9, '\\'.$item->class8 );
 			$count++;
 		}
 	}
