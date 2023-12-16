@@ -302,6 +302,6 @@ class CLI
 		}
 		if( file_exists( $path ) )
 			return realpath( $path );
-		throw new IoException( 'Path is not existing', 0, $path );
+		throw IoException::create( 'Path is not existing' )->setResource( $path );
 	}
 }

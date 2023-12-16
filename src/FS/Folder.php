@@ -71,11 +71,14 @@ class Folder extends AbstractNode
 		if( $this->exists() ){
 			if( $strict ){
 				if( is_dir( $this->pathName ) )
-					throw new IOException( 'Folder is already existing', 0, $this->pathName );
+					throw IOException::create( 'Folder is already existing' )
+						->setResource( $this->pathName );
 				if( is_link( $this->pathName ) )
-					throw new IOException( 'A link with this name is already existing', 0, $this->pathName );
+					throw IOException::create( 'A link with this name is already existing' )
+						->setResource( $this->pathName );
 				if( is_file( $this->pathName ) )
-					throw new IOException( 'A file with this name is already existing', 0, $this->pathName );
+					throw IOException::create( 'A file with this name is already existing' )
+						->setResource( $this->pathName );
 			}
 			return FALSE;
 		}
@@ -125,12 +128,12 @@ class Folder extends AbstractNode
 	{
 		if( !file_exists( $this->pathName ) ){
 			if( $strict )
-				throw new IOException( 'Folder is not existing', 0, $this->pathName );
+				throw IOException::create( 'Folder is not existing' )->setResource( $this->pathName );
 			return FALSE;
 		}
 		if( !is_dir( $this->pathName ) ){
 			if( $strict )
-				throw new IOException( 'Not a folder', 0, $this->pathName );
+				throw IOException::create( 'Not a folder' )->setResource( $this->pathName );
 			return FALSE;
 		}
 		return TRUE;
@@ -218,7 +221,7 @@ class Folder extends AbstractNode
 		$target	= new Folder( $targetPath );
 		if( $target->exists() ){
 			if( $strict )
-				throw new IOException( 'Target folder is already existing', 0, $targetPath );
+				throw IOException::create( 'Target folder is already existing' )->setResource( $targetPath );
 			return FALSE;
 		}
 		if( !rename( $this->pathName, $targetPath ) )

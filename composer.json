@@ -90,6 +90,10 @@
     ],
     "dev:phpunit": [
       "@dev:install",
+      "vendor/bin/phpunit --configuration tool/config/phpunit10.xml --testsuite units --no-coverage --no-logging 2>&1"
+    ],
+    "dev:phpunit-coverage": [
+      "@dev:install",
       "XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration tool/config/phpunit10.xml --testsuite units"
     ],
     "dev:rector": [

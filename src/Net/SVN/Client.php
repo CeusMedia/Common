@@ -55,7 +55,7 @@ class Client
 	public function __construct( string $path )
 	{
 		if( !file_exists( $path ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		$this->path		= realpath( $path ).'/';
 		$this->pathExp	= '^('.str_replace( '/', '\/', $this->path ).')';
 	}
@@ -69,7 +69,7 @@ class Client
 	{
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		$status	= @svn_add( $url );
 		if( !$status )
 			svn_revert( $url );
@@ -141,7 +141,7 @@ class Client
 	{
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		return svn_ls( $url, $revision, $recurse );
 	}
 
@@ -154,7 +154,7 @@ class Client
 	{
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		return @svn_revert( $url );
 	}
 
@@ -168,7 +168,7 @@ class Client
 	{
 		$url		= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		return svn_status( $url,  $flags );
 	}
 }

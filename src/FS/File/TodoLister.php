@@ -44,32 +44,32 @@ use UnexpectedValueException;
  */
 class TodoLister
 {
-	/**	@var		int			$numberFound	Number of matching Files */
-	protected $numberFound		= 0;
+	/**	@var		int				$numberFound	Number of matching Files */
+	protected int $numberFound		= 0;
 
-	/**	@var		int			$numberLines	Number of scanned Lines in matching Files */
-	protected $numberLines		= 0;
+	/**	@var		int				$numberLines	Number of scanned Lines in matching Files */
+	protected int $numberLines		= 0;
 
-	/**	@var		int			$numberScanned	Total Number of scanned Files */
-	protected $numberScanned	= 0;
+	/**	@var		int				$numberScanned	Total Number of scanned Files */
+	protected int $numberScanned	= 0;
 
-	/**	@var		int			$numberTodos	Number of found Todos */
-	protected $numberTodos		= 0;
+	/**	@var		int				$numberTodos	Number of found Todos */
+	protected int $numberTodos		= 0;
 
-	/**	@var		string		$extension		Default File Extension */
-	protected $extension		= "php5";
+	/**	@var		string			$extension		Default File Extension */
+	protected string $extension		= 'php';
 
-	/**	@var		array		$extensions		Other File Extensions */
-	protected $extensions		= [];
+	/**	@var		array			$extensions		Other File Extensions */
+	protected array $extensions		= [];
 
-	/**	@var		array		$list			List of numberFound Files */
-	protected $list				= [];
+	/**	@var		array			$list			List of numberFound Files */
+	protected array $list			= [];
 
-	/**	@var		string		$pattern		Default Pattern */
-	protected $pattern			= "@todo";
+	/**	@var		string			$pattern		Default Pattern */
+	protected string $pattern		= '@todo';
 
-	/**	@var		array		$patterns		Other Patterns */
-	protected $patterns			= [];
+	/**	@var		array			$patterns		Other Patterns */
+	protected array $patterns		= [];
 
 	/**
 	 *	Constructor.
@@ -81,32 +81,6 @@ class TodoLister
 	{
 		$this->extensions	= $additionalExtensions;
 		$this->patterns		= $additionalPatterns;
-	}
-
-	private function getExtendedPattern( string $member = "pattern" ): string
-	{
-		$list1	= [$this->$member];
-		$list1	= array_merge( $list1, $this->{$member."s"} );
-		$list2	= [];
-		foreach( $list1 as $item )
-			$list2[]	= str_replace( ".", "\.", $item );
-		if( count( $list2 ) == 1 )
-			$pattern	= array_pop( $list2 );
-		else
-			$pattern	= "(".implode( "|", $list2 ).")";
-		if( $member == "extension" )
-			$pattern	.= "$";
-		return "%".$pattern."%";
-	}
-
-	protected function getExtensionPattern(): string
-	{
-		return $this->getExtendedPattern( "extension" );
-	}
-
-	protected function getIndexIterator( string $path, string $filePattern ): RegexIterator
-	{
-		return new RegexFilter( $path, $filePattern );
 	}
 
 	/**
@@ -165,11 +139,6 @@ class TodoLister
 		return $this->numberTodos;
 	}
 
-	protected function getPattern(): string
-	{
-		return $this->getExtendedPattern();
-	}
-
 	/**
 	 *	Scans a Path for Files with Pattern.
 	 *	@access		public
@@ -215,5 +184,36 @@ class TodoLister
 		catch( Exception $e ){
 			throw new RuntimeException( $e->getMessage(), $e->getCode(), $e );
 		}
+	}
+
+	protected function getExtensionPattern(): string
+	{
+		return $this->getExtendedPattern( 'extension' );
+	}
+
+	protected function getIndexIterator( string $path, string $filePattern ): RegexIterator
+	{
+		return new RegexFilter( $path, $filePattern );
+	}
+
+	protected function getPattern(): string
+	{
+		return $this->getExtendedPattern();
+	}
+
+	private function getExtendedPattern( string $member = 'pattern' ): string
+	{
+		$list1	= [$this->$member];
+		$list1	= array_merge( $list1, $this->{$member.'s'} );
+		$list2	= [];
+		foreach( $list1 as $item )
+			$list2[]	= str_replace( '.', '\.', $item );
+		if( 1 === count( $list2 ) )
+			$pattern	= array_pop( $list2 );
+		else
+			$pattern	= '('.implode( '|', $list2 ).')';
+		if( $member == 'extension' )
+			$pattern	.= "$";
+		return '%'.$pattern.'%';
 	}
 }

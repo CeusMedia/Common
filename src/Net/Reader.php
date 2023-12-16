@@ -209,9 +209,9 @@ class Reader
 		$error			= $curl->getInfo( CURL::INFO_ERROR );
 		$errno			= $curl->getInfo( CURL::INFO_ERRNO );
 		if( $errno )
-			throw new IoException( 'HTTP request failed: '.$error, $errno, $this->url );
+			throw IoException::create( 'HTTP request failed: '.$error, $errno )->setResource( $this->url );
 		if( !in_array( $code, ['200', '301', '303', '304', '307'] ) )
-			throw new IoException( 'HTTP request failed', $code, $this->url );
+			throw IoException::create( 'HTTP request failed', $code )->setResource( $this->url );
 		return $this->body;
 	}
 

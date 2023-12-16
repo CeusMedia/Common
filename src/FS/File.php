@@ -58,17 +58,20 @@ class File extends AbstractNode
 		if( $this->exists() ){
 			if( $strict ){
 				if( is_dir( $this->pathName ) )
-					throw new IoException( 'A folder with this name is already existing', 0, $this->pathName );
+					throw IoException::create( 'A folder with this name is already existing' )
+						->setResource( $this->pathName );
 				if( is_link( $this->pathName ) )
-					throw new IoException( 'A link with this name is already existing', 0, $this->pathName );
+					throw IoException::create( 'A link with this name is already existing' )
+						->setResource( $this->pathName );
 				if( is_file( $this->pathName ) )
-					throw new IoException( 'File is already existing', 0, $this->pathName );
+					throw IoException::create( 'File is already existing' )
+						->setResource( $this->pathName );
 			}
 			return FALSE;
 		}
 		if( !touch( $this->pathName ) ){
 			if( $strict )
-				throw new IoException( 'File creation failed', 0, $this->pathName );
+				throw IoException::create( 'File creation failed' )->setResource( $this->pathName );
 			return FALSE;
 		}
 		return TRUE;
@@ -79,11 +82,9 @@ class File extends AbstractNode
 	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: no
 	 *	@return		boolean
 	 *	@throws		FileNotExistingException	if strict and file is not existing, not readable or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function exists( bool $strict = FALSE ): bool
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		return $this->check( FALSE, FALSE, FALSE, $strict );
 	}
 
@@ -102,11 +103,9 @@ class File extends AbstractNode
 	 *	@param		bool		$strict			Flag: throw exception if anything goes wrong, default: yes
 	 *	@return		string|NULL
 	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getContent( bool $strict = TRUE ): string|NULL
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		if( !$this->check( TRUE, FALSE, FALSE, $strict ) )
 			return NULL;
 		$content	= file_get_contents( $this->pathName );
@@ -119,11 +118,9 @@ class File extends AbstractNode
 	 *	@return		string
 	 *	@throws		MissingExtensionException	if Fileinfo is not installed
 	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getEncoding(): string
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->check( TRUE );
 		if( function_exists( 'finfo_open' ) ){
 			$magicFile	= ini_get( 'mime_magic.magicfile' );
@@ -146,11 +143,9 @@ class File extends AbstractNode
 	 *	@access		public
 	 *	@return		string
 	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getExtension(): string
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->check();
 		$info = pathinfo( $this->pathName );
 		return $info['extension'];
@@ -164,11 +159,9 @@ class File extends AbstractNode
 	 *	@return		string|int
 	 *	@throws		RuntimeException			if Fileinfo is not installed
 	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getGroup( bool $resolveName = TRUE ): int|string
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->check();
 		$groupId	= filegroup( $this->pathName );
 		if( FALSE === $groupId )
@@ -188,11 +181,9 @@ class File extends AbstractNode
 	 *	@return		string
 	 *	@throws		MissingExtensionException	if Fileinfo is not installed
 	 *	@throws		FileNotExistingException	if strict and file is not existing, not a file or not readable
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getMimeType(): string
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->check( TRUE );
 		if( function_exists( 'finfo_open' ) ){
 			$magicFile	= ini_get( 'mime_magic.magicfile' );
@@ -233,11 +224,9 @@ class File extends AbstractNode
 	 *	@param		boolean		$resolveName	...
 	 *	@return		string|int
 	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getOwner( bool $resolveName = TRUE ): int|string
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->check();
 		$userId	= fileowner( $this->pathName );
 		if( FALSE === $userId )
@@ -255,11 +244,9 @@ class File extends AbstractNode
 	 *	@access		public
 	 *	@return		Permissions		File permissions object
 	 *	@throws		FileNotExistingException	if file is not existing or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getPermissions(): Permissions
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->check();
 		return new Permissions( $this->pathName );
 	}
@@ -269,11 +256,9 @@ class File extends AbstractNode
 	 *	@param		integer|NULL	$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		integer|string
 	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getSize( int $precision = NULL ): int|string
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->check();
 		$size	= filesize( $this->pathName );
 		if( $precision )
@@ -324,11 +309,9 @@ class File extends AbstractNode
 	 *	@return		bool		$strict			Flag: throw exceptions
 	 *	@return		bool
 	 *	@throws		FileNotExistingException	if strict and file is not existing, not readable or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function isReadable( bool $strict = FALSE ): bool
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		return $this->check( TRUE, FALSE, FALSE, $strict );
 	}
 
@@ -349,7 +332,8 @@ class File extends AbstractNode
 			return FALSE;
 		$bytes	= file_put_contents( $this->pathName, $content );
 		if( $bytes != strlen( $content ) )
-			throw new IoException( 'Number of written bytes does not match content length', 0, $this->pathName );
+			throw IoException::create( 'Number of written bytes does not match content length' )
+				->setResource( $this->pathName );
 		return $bytes;
 	}
 
@@ -371,27 +355,32 @@ class File extends AbstractNode
 	{
 		if( !file_exists( $this->getPathName() ) ){
 			if( $strict )
-				throw new FileNotExistingException( 'File is not existing', 0, $this->getPathName() );
+				throw FileNotExistingException::create( 'File is not existing' )
+					->setResource( $this->getPathName() );
 			return FALSE;
 		}
 		if( !is_file( $this->getPathName() ) ){
 			if( $strict )
-				throw new FileNotExistingException( 'Not a file', 0, $this->getPathName() );
+				throw FileNotExistingException::create( 'Not a file' )
+					->setResource( $this->getPathName() );
 			return FALSE;
 		}
 		if( $isReadable && !is_readable( $this->getPathName() ) ){
 			if( $strict )
-				throw new IoException( 'File is not readable', 0, $this->getPathName() );
+				throw IoException::create( 'File is not readable' )
+					->setResource( $this->getPathName() );
 			return FALSE;
 		}
 		if( $isWritable && !is_writable( $this->getPathName() ) ){
 			if( $strict )
-				throw new IoException( 'File is not writable', 0, $this->getPathName() );
+				throw IoException::create( 'File is not writable' )
+					->setResource( $this->getPathName() );
 			return FALSE;
 		}
 		if( $isOwner && !$this->isOwner() ){
 			if( $strict )
-				throw new IoException( 'File is not owned', 0, $this->getPathName() );
+				throw IoException::create( 'File is not owned' )
+					->setResource( $this->getPathName() );
 			return FALSE;
 		}
 		return TRUE;

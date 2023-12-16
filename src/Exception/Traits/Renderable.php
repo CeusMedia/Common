@@ -60,12 +60,12 @@ trait Renderable
 	 */
 	public function render(): string
 	{
-		/** @var Throwable $this */
 
 		$format	= 0 !== $this->format ? $this->format : ( Env::isCli() ? 1 : 2 );
+		/** @var Throwable $this */
 		return match( $format ){
-			1	=> CliView::getInstance($this)->render(),
 			2	=> HtmlView::render($this),
+			default	=> CliView::getInstance($this)->render(),
 		};
 	}
 

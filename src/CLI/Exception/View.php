@@ -19,6 +19,7 @@ use CeusMedia\Common\Exception\Runtime as RuntimeException;
 use CeusMedia\Common\Exception\SQL as SqlException;
 use CeusMedia\Common\Exception\Traits\Descriptive;
 use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use CeusMedia\Database\SQLSTATE;
 use Throwable;
 use InvalidArgumentException;
 
@@ -114,6 +115,16 @@ class View
 
 	protected static function enlistAdditionalProperties( array & $list, Throwable $e ): void
 	{
+		$blacklist	= ['description', 'suggestion', 'traceAsString'];
+		if( $e instanceof SqlException && $e->getSQLSTATE() ){
+			if( class_exists( '\\CeusMedia\\Database\\SQLSTATE' ) ){
+				$meaning	= SQLSTATE::getMeaning( $e->getSQLSTATE() );
+				if( NULL !== $meaning ){
+					$list[]			= '- SQLSTATE:    '.$e->getSQLSTATE().': '.$meaning;
+					$blacklist[]	= 'SQLSTATE';
+				}
+			}
+		}
 		if( in_array( Descriptive::class, class_uses( $e ), TRUE ) ){
 			/** @var RuntimeException $e */
 			if( '' !== $e->getDescription() )
@@ -121,7 +132,7 @@ class View
 			if( '' !== $e->getSuggestion() )
 				$list[]	= '- Suggestion:  '.$e->getSuggestion();
 			foreach( $e->getAdditionalProperties() as $key => $value ){
-				if( in_array( $key, ['description', 'suggestion', 'traceAsString'], TRUE ) )
+				if( in_array( $key, $blacklist, TRUE ) )
 					continue;
 				switch( gettype( $value ) ){
 					case 'object':
@@ -135,48 +146,6 @@ class View
 				$list[]	= '- '.$key.$value;
 			}
 		}
-		if( $e instanceof SqlException && $e->getSQLSTATE() ){
-			if( class_exists( '\\CeusMedia\\Database\\SQLSTATE' ) )
-				$meaning	= \CeusMedia\Database\SQLSTATE::resolve( $e->getSQLSTATE() );
-			else{
-				$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
-			}
-			$list[]	= '- SQLSTATE:    '.$e->getSQLSTATE().': '.$meaning;
-		}
-	}
-
-	/**
-	 *	Resolves SQLSTATE Code and returns its Meaning.
-	 *	Returns 'unknown', if reading or parsing of SQLSTATE.xml failed
-	 *	@access		protected
-	 *	@static
-	 *	@return		string		$SQLSTATE
-	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
-	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
-	 */
-	protected static function getMeaningOfSQLSTATE( string $SQLSTATE ): string
-	{
-		$class1	= substr( $SQLSTATE, 0, 2 );
-		$class2	= substr( $SQLSTATE, 2, 3 );
-		try{
-			$root	= XmlElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
-		}
-		catch( IoException|ConversionException $e ){
-			return 'unknown';
-		}
-
-		$query	= 'class[@id="'.$class1.'"]/subclass[@id="000"]';
-		$result	= $root->xpath( $query );
-		$class	= array_pop( $result );
-		if( $class ){
-			$query		= 'class[@id="'.$class1.'"]/subclass[@id="'.$class2.'"]';
-			$result		= $root->xpath( $query );
-			$subclass	= array_pop( $result );
-			if( $subclass )
-				return $class->getAttribute( 'meaning' ).' - '.$subclass->getAttribute( 'meaning' );
-			return $class->getAttribute( 'meaning' );
-		}
-		return '';
 	}
 
 	/**

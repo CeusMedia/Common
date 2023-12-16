@@ -30,11 +30,10 @@ namespace CeusMedia\Common\UI\HTML\Exception;
 
 use CeusMedia\Common\Exception\Runtime;
 use CeusMedia\Common\Exception\SQL as SqlException;
-use CeusMedia\Common\Exception\Logic as LogicException;
-use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Exception\Traits\Descriptive;
 use CeusMedia\Common\UI\HTML\Tag;
 use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use CeusMedia\Database\SQLSTATE;
 use Exception;
 use Throwable;
 
@@ -123,6 +122,17 @@ class View
 	 */
 	protected static function enlistAdditionalProperties( array & $list, Throwable $e ): void
 	{
+		$blacklist	= ['description', 'suggestion', 'traceAsString'];
+		if( $e instanceof SqlException && $e->getSQLSTATE() ){
+			if( class_exists( '\\CeusMedia\\Database\\SQLSTATE' ) ){
+				$meaning	= SQLSTATE::getMeaning( $e->getSQLSTATE() );
+				if( NULL !== $meaning ){
+					$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
+					$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
+					$blacklist[]	= 'SQLSTATE';
+				}
+			}
+		}
 		if( in_array( Descriptive::class, class_uses( $e ), TRUE ) ){
 			/** @var Runtime $e */
 			if( '' !== $e->getDescription() ){
@@ -135,7 +145,7 @@ class View
 				$list[]	= Tag::create( 'dd', $e->getSuggestion(), ['class' => 'exception-suggestion'] );
 			}
 			foreach( $e->getAdditionalProperties() as $key => $value ){
-				if( in_array( $key, ['description', 'suggestion', 'traceAsString', 'SQLSTATE'], TRUE ) )
+				if( in_array( $key, $blacklist, TRUE ) )
 					continue;
 				switch( gettype( $value ) ){
 					case 'object':
@@ -149,46 +159,6 @@ class View
 				$list[]	= Tag::create( 'dd', $value, ['class' => 'exception-'.$key] );
 			}
 		}
-
-		if( $e instanceof SqlException && $e->getSQLSTATE() ){
-			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
-			$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
-			$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
-		}
-	}
-
-	/**
-	 *	Resolves SQLSTATE Code and returns its Meaning.
-	 *	Returns 'unknown', if reading or parsing of SQLSTATE.xml failed
-	 *	@access		protected
-	 *	@static
-	 *	@return		string		$SQLSTATE
-	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
-	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
-	 */
-	protected static function getMeaningOfSQLSTATE( string $SQLSTATE ): string
-	{
-		$class1	= substr( $SQLSTATE, 0, 2 );
-		$class2	= substr( $SQLSTATE, 2, 3 );
-		try{
-			$root	= XmlElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
-		}
-		catch( \CeusMedia\Common\Exception\IO $e ){
-			return 'unknown';
-		}
-
-		$query	= 'class[@id="'.$class1.'"]/subclass[@id="000"]';
-		$result	= $root->xpath( $query );
-		$class	= array_pop( $result );
-		if( $class ){
-			$query		= 'class[@id="'.$class1.'"]/subclass[@id="'.$class2.'"]';
-			$result		= $root->xpath( $query );
-			$subclass	= array_pop( $result );
-			if( $subclass )
-				return $class->getAttribute( 'meaning' ).' - '.$subclass->getAttribute( 'meaning' );
-			return $class->getAttribute( 'meaning' );
-		}
-		return '';
 	}
 
 	/**
