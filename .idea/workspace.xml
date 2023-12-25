@@ -4,21 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add renderable trait for exceptions, using CLI and HTML exception view render strategies.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Applied changes to exception class constructors.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Exception/View.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Renderable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Renderable.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/TodoLister.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/TodoLister.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/Folder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/SVN/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/SVN/Client.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/View.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compat8.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat8.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compat9.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/compat9.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tool/config/phpunit10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tool/config/phpunit10.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +132,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/tool/config",
+    "last_opened_file_path": "/home/kriss/Web/labs/device-detector",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -214,9 +201,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Composer Script.dev:all" />
         <item itemvalue="Composer Script.dev:phpunit" />
         <item itemvalue="Composer Script.dev:phpstan" />
-        <item itemvalue="Composer Script.dev:all" />
         <item itemvalue="Composer Script.dev:create-docs" />
         <item itemvalue="Composer Script.dev:a" />
       </list>
@@ -225,7 +212,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-php-predefined-ba97393d7c68-74080bdb84d3-com.jetbrains.php.sharedIndexes-PS-233.11799.232" />
+        <option value="bundled-php-predefined-ba97393d7c68-b4dcf6bb9de9-com.jetbrains.php.sharedIndexes-PS-233.13135.108" />
       </set>
     </attachedChunks>
   </component>
@@ -285,7 +272,8 @@
       <workItem from="1701482649460" duration="41439000" />
       <workItem from="1701916416736" duration="9499000" />
       <workItem from="1702065668609" duration="33000" />
-      <workItem from="1702102398268" duration="62613000" />
+      <workItem from="1702102398268" duration="62855000" />
+      <workItem from="1703458227265" duration="5437000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -595,14 +583,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00060" summary="Work on next PHPStan level.">
-      <option name="closed" value="true" />
-      <created>1701661651442</created>
-      <option name="number" value="00060" />
-      <option name="presentableId" value="LOCAL-00060" />
-      <option name="project" value="LOCAL" />
-      <updated>1701661651442</updated>
-    </task>
     <task id="LOCAL-00061" summary="Add traits for exceptions and finish CLI exception view.">
       <option name="closed" value="true" />
       <created>1702229968871</created>
@@ -635,7 +615,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702696657488</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Applied changes to exception class constructors.">
+      <option name="closed" value="true" />
+      <created>1702701983856</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1702701983856</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -666,7 +654,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Go for PHPStan level 5." />
     <MESSAGE value="Fix bug." />
     <MESSAGE value="Refactored HTTP header section." />
     <MESSAGE value="Reach PHPStan level 5 in PHP 8.1." />
@@ -691,7 +678,8 @@
     <MESSAGE value="Add traits for exceptions and finish CLI exception view." />
     <MESSAGE value="Finish work on exception traits." />
     <MESSAGE value="Add renderable trait for exceptions, using CLI and HTML exception view render strategies." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add renderable trait for exceptions, using CLI and HTML exception view render strategies." />
+    <MESSAGE value="Applied changes to exception class constructors." />
+    <option name="LAST_COMMIT_MESSAGE" value="Applied changes to exception class constructors." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
