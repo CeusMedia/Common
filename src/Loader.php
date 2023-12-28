@@ -112,7 +112,7 @@ class Loader
 	public static function registerNew( array|string $extensions = NULL, ?string $prefix = NULL, ?string $path = NULL, ?string $logFile = NULL, int $verbose = 0 ): self
 	{
 		Deprecation::getInstance()
-			->setErrorVersion( '1.0' )
+			->setWarningVersion( '1.0' )
 			->setExceptionVersion( '1.1' )
 			->message( 'Loader::registerNew class is deprecated, please "new Loader(...)" or "Loader::create(...)->register()" or Loader::create with 6th argument instead!' );
 

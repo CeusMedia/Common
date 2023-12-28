@@ -38,6 +38,7 @@ class Deprecation
 	protected string $errorVersion;
 	protected string $exceptionVersion;
 	protected string $phpVersion;
+	protected string $warnVersion;
 
 	/**
 	 *	Creates a new deprecation object.
@@ -66,11 +67,20 @@ class Deprecation
 		$caller	= next( $trace );
 		if( isset( $caller['file'] ) )
 			$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
-		if( $this->exceptionVersion )
+
+		if( '' !== $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
 				throw new DeprecationException( 'Deprecated: '.$message );
-		if( version_compare( $this->version, $this->errorVersion ) >= 0 )
-			trigger_error( $message.', triggered', E_USER_DEPRECATED );
+
+		if( '' !== $this->errorVersion )
+			if( version_compare( $this->version, $this->errorVersion ) >= 0 ){
+				trigger_error( $message.', triggered', E_USER_DEPRECATED );
+				return;
+			}
+
+		if( '' !== $this->warnVersion )
+			if( version_compare( $this->version, $this->warnVersion ) >= 0 )
+				trigger_error( 'Deprecated: '.$message.', triggered', E_USER_WARNING );
 	}
 
 	/**
@@ -96,6 +106,19 @@ class Deprecation
 	public function setExceptionVersion( string $version ): self
 	{
 		$this->exceptionVersion		= $version;
+		return $this;
+	}
+
+	/**
+	 *	Set library version to start triggering a warning.
+	 *	Returns deprecation object for method chaining.
+	 *	@access		public
+	 *	@param		string		$version	Library version to start triggering a warning
+	 *	@return		Deprecation
+	 */
+	public function setWarningVersion( string $version ): self
+	{
+		$this->warnVersion		= $version;
 		return $this;
 	}
 
@@ -125,9 +148,11 @@ class Deprecation
 	 */
 	protected function onInit(): void
 	{
-		$iniFilePath		= dirname( __DIR__ ).'/Common.ini';
-		$iniFileData		= parse_ini_file( $iniFilePath, TRUE );
-		$this->version		= $iniFileData['project']['version'];
-		$this->errorVersion	= $this->version;
+		$iniFilePath			= dirname( __DIR__ ).'/Common.ini';
+		$iniFileData			= parse_ini_file( $iniFilePath, TRUE );
+		$this->version			= $iniFileData['project']['version'];
+		$this->errorVersion		= '';
+		$this->exceptionversion	= '';
+		$this->warnVersion		= '';
 	}
 }
