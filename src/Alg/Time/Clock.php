@@ -124,7 +124,7 @@ class Clock
 	public function start(): void
 	{
 		$this->microTimeStart	= microtime( TRUE );
-		$this->microTimeStop	= .0;
+		$this->microTimeStop	= $this->microTimeStart;
 		$this->microTimeLap		= .0;
 	}
 
