@@ -70,8 +70,8 @@
       "@dev:phpunit",
       "@dev:create-docs"
     ],
-    "dev:install": "composer install --quiet",
-    "dev:update": "composer update",
+    "dev:install": "composer install --ignore-platform-reqs --quiet",
+    "dev:update": "composer update --ignore-platform-reqs",
     "dev:create-docs": [
       "@dev:install",
       "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"

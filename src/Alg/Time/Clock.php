@@ -40,14 +40,18 @@ namespace CeusMedia\Common\Alg\Time;
  */
 class Clock
 {
-	const BASE_MICRO	= 6;
-	const BASE_MILLI	= 3;
 	const BASE_SEC		= 0;
+	const BASE_MILLI	= 3;
+	const BASE_MICRO	= 6;
+	const BASE_NANO		= 9;
+	const BASE_PICO		= 12;
 
 	const BASES			= [
-		self::BASE_MICRO,
-		self::BASE_MILLI,
 		self::BASE_SEC,
+		self::BASE_MILLI,
+		self::BASE_MICRO,
+		self::BASE_NANO,
+		self::BASE_PICO,
 	];
 
 	/**	@var	array		$laps				Array of Lap Times */
@@ -80,18 +84,18 @@ class Clock
 	/**
 	 *	Calculates the time difference between start and stop in microseconds.
 	 *	@access		public
-	 *	@param		int		$base		Time Base (BASE_SEC,BASE_MILLI[default],BASE_MICRO) or integer between 0 (sec) and 6 (µsec)
-	 *	@param		int		$round		Numbers after dot
+	 *	@param		int		$base			Time Base (BASE_*,default: BASE_MILLI) or integer between 0 (sec) and 6 (µsec) and 12 (psec)
+	 *	@param		int		$precision		Numbers after dot
 	 *	@return		float
 	 */
-	public function getTime( int $base = self::BASE_MILLI, int $round = 3 ): float
+	public function getTime( int $base = self::BASE_MILLI, int $precision = 3 ): float
 	{
-		if( self::BASE_MICRO === $base && 0 !== $round )
-			$round	= 0;
+		if( self::BASE_PICO === $base && 0 !== $precision )
+			$precision	= 0;
 		$time	= $this->microTimeStop - $this->microTimeStart;
 		if( self::BASE_SEC !== $base )
 			$time	= $time * 10 ** $base;
-		return 0 !== $round ? round( $time, $round ) : $time;
+		return round( $time, $precision );
 	}
 
 	/**
@@ -127,26 +131,26 @@ class Clock
 	/**
 	 *	Stops the watch and return the time difference between start and stop.
 	 *	@access		public
-	 *	@param		int		$base		Time Base (BASE_SEC,BASE_MILLI[default],BASE_MICRO) or integer between 0 (sec) and 6 (µsec)
-	 *	@param		int		$round		Numbers after dot
+	 *	@param		int		$base			Time Base (BASE_*,default: BASE_MILLI) or integer between 0 (sec) and 6 (µsec) and 12 (psec)
+	 *	@param		int		$precision		Numbers after dot
 	 *	@return		float
 	 */
-	public function stop( int $base = self::BASE_MILLI, int $round = 3 ): float
+	public function stop( int $base = self::BASE_MILLI, int $precision = 3 ): float
 	{
 		$this->microTimeStop 	= microtime( TRUE );
-		return $this->getTime( $base, $round );
+		return $this->getTime( $base, $precision );
 	}
 
 	/**
 	 *	Stops a lap on the watch and resets watch.
 	 *	@access		public
-	 *	@param		int		$base			Time Base (BASE_SEC,BASE_MILLI[default],BASE_MICRO) or integer between 0 (sec) and 6 (µsec)
-	 *	@param		int		$round			Numbers after dot
+	 *	@param		int		$base			Time Base (BASE_*,default: BASE_MILLI) or integer between 0 (sec) and 6 (µsec) and 12 (psec)
+	 *	@param		int		$precision		Numbers after dot
 	 *	@param		?string	$label			Lap title
 	 *	@param		?string	$description	Lap description
 	 *	@return		float
 	 */
-	public function stopLap( int $base = self::BASE_MILLI, int $round = 3, ?string $label = NULL, ?string $description = NULL ): float
+	public function stopLap(int $base = self::BASE_MILLI, int $precision = 3, ?string $label = NULL, ?string $description = NULL ): float
 	{
 		$microTimeLast	= $this->microTimeLap ?: $this->microTimeStart;
 		$microTimeNow	= microtime( TRUE );
@@ -154,8 +158,8 @@ class Clock
 		$totalMicro		= round( ( $microTimeNow - $this->microTimeStart ) * 1_000_000 );
 		$timeMicro		= round( ( $microTimeNow - $microTimeLast ) * 1_000_000 );
 
-		$total			= round( $totalMicro * 10 ** ($base - 6), $round );
-		$time			= round( $timeMicro * 10 ** ($base - 6), $round );
+		$total			= round( $totalMicro * 10 ** ($base - 6), $precision );
+		$time			= round( $timeMicro * 10 ** ($base - 6), $precision );
 
 		$this->laps[]	= [
 			'time'			=> $time,
