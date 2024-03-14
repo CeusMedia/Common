@@ -116,7 +116,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	static public function create( array $array ): self
 	{
-		return new Dictionary( $array );
+		return new static( $array );
 	}
 
 	/**
@@ -204,12 +204,12 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Attention: A given prefix will be cut from pair keys.
 	 *	By default, an array is returned. Alternatively another dictionary can be returned.
 	 *	@access		public
-	 *	@param		string|NULL	$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
-	 *	@param		boolean		$asDictionary	Flag: return list as dictionary object instead of an array
-	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
-	 *	@return		array|self	Map or dictionary object containing all or filtered pairs
+	 *	@param		string|NULL		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean			$asDictionary	Flag: return list as dictionary object instead of an array
+	 *	@param		boolean			$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		static|array	Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE )
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): static|array
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;

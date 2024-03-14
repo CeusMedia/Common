@@ -12,7 +12,7 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\CommonTest\CLI;
+namespace CeusMedia\CommonTest\CLI\Command;
 
 use CeusMedia\Common\CLI\Command\ArgumentParser;
 use CeusMedia\CommonTest\BaseCase;
@@ -25,7 +25,7 @@ use Exception;
  */
 class ArgumentParserTest extends BaseCase
 {
-	protected $parser;
+	protected ArgumentParserInstance $parser;
 
 	/**
 	 *	Setup for every Test.

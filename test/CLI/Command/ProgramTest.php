@@ -12,7 +12,7 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\CommonTest\CLI;
+namespace CeusMedia\CommonTest\CLI\Command;
 
 use CeusMedia\Common\CLI\Command\Program;
 use CeusMedia\CommonTest\BaseCase;

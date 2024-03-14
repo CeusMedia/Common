@@ -77,7 +77,7 @@ class Output
 			print( "\n" . $string );
 		}
 		if( $sleep )
-			sleep( $sleep );
+			sleep( $sleep );				// @codeCoverageIgnore
 		return $this;
 	}
 
@@ -100,7 +100,7 @@ class Output
 			print( "\r" . $string . $fill );
 		}
 		if( $sleep )
-			sleep( $sleep );
+			sleep( $sleep );				// @codeCoverageIgnore
 		return $this;
 	}
 

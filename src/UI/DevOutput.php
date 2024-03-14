@@ -104,7 +104,7 @@ class DevOutput
 			// Factor of Spaces for Indents
 			'indentFactor'		=> 2,
 			'stringTrimMask'	=> '...',
-			'stringMaxLength'	=> 50
+			'stringMaxLength'	=> 1500
 		]
 	];
 

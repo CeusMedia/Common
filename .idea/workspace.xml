@@ -4,12 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add constants for Alg\Time\Clock.">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Applied changes to exception class constructors.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/ArgumentParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/ArgumentParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/DevOutput.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/DevOutput.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/CLI/Command/ArgumentParserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/CLI/Command/ArgumentParserTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/CLI/Command/BackgroundProceess.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/CLI/Command/BackgroundProceess.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/CLI/Command/ProgramTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/CLI/Command/ProgramTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +46,11 @@
   </component>
   <component name="PhpServers">
     <servers>
-      <server host="flug.local" id="5339d3fa-e92d-441c-b94e-f5fba3a7b873" name="flug.local" port="443" use_path_mappings="true" />
+      <server host="flug.local" id="5339d3fa-e92d-441c-b94e-f5fba3a7b873" name="flug.local" port="443" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$/vendor/rector/rector/vendor/symfony/contracts/HttpClient/Test/Fixtures/web" remote-root="/vagrant/repositories/zf2/public" />
+        </path_mappings>
+      </server>
       <server host="localhost" id="ef841767-1329-43a2-979f-6ce7a789d39f" name="localhost" port="1080" use_path_mappings="true">
         <path_mappings>
           <mapping local-root="$PROJECT_DIR$/doc/packages" remote-root="/var/www/lib/GitLab/CeusMedia/Internal/Site/vendor/ceus-media/hydrogen-modules/src/App/Site" />
@@ -54,7 +61,7 @@
   <component name="PhpStanProjectConfiguration">
     <option name="selectedConfigurationId" value="c61c56cb-5e29-4b84-aa24-d12c040b91d8" />
   </component>
-  <component name="PhpWorkspaceProjectConfiguration">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1">
     <include_path>
       <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
       <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
@@ -108,7 +115,6 @@
       <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
       <path value="$PROJECT_DIR$/vendor/ceus-media/template-engine" />
-      <path value="$PROJECT_DIR$" />
     </include_path>
   </component>
   <component name="ProblemsViewState">
@@ -122,29 +128,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Composer Script.dev:a.executor": "Run",
-    "Composer Script.dev:all.executor": "Run",
-    "Composer Script.dev:create-docs.executor": "Run",
-    "Composer Script.dev:phpstan.executor": "Run",
-    "Composer Script.dev:phpunit.executor": "Run",
-    "Project.color": "3f0804",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/kriss/Web/labs/device-detector",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.webide.settings.project.settings.php",
-    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Composer Script.dev:a.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:all.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:create-docs.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:phpstan.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:phpunit.executor&quot;: &quot;Run&quot;,
+    &quot;Project.color&quot;: &quot;3f0804&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/labs/device-detector&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/tool/config" />
@@ -161,10 +167,10 @@
       <recent name="$PROJECT_DIR$/test/XML/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.ClockTest">
-    <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+  <component name="RunManager" selected="PHPUnit.OutputTest.testNewLine1">
+    <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:all" />
+      <option name="script" value="dev:a" />
       <method v="2" />
     </configuration>
     <configuration name="dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
@@ -183,13 +189,8 @@
       <option name="script" value="dev:phpunit" />
       <method v="2" />
     </configuration>
-    <configuration name="ClockTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <CommandLine>
-        <PhpTestInterpreterSettings>
-          <option name="interpreterName" value="PHP 8.1" />
-        </PhpTestInterpreterSettings>
-      </CommandLine>
-      <TestRunner class="CeusMedia\CommonTest\Alg\Time\ClockTest" configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" file="$PROJECT_DIR$/test/Alg/Time/ClockTest.php" scope="Class" use_alternative_configuration_file="true" />
+    <configuration name="OutputTest.testNewLine1" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\CLI\OutputTest" file="$PROJECT_DIR$/test/CLI/OutputTest.php" method="testNewLine1" scope="Method" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -197,19 +198,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Composer Script.dev:all" />
       <item itemvalue="Composer Script.dev:create-docs" />
+      <item itemvalue="Composer Script.dev:a" />
       <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
-      <item itemvalue="PHPUnit.ClockTest" />
+      <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
         <item itemvalue="Composer Script.dev:phpunit" />
-        <item itemvalue="PHPUnit.ClockTest" />
-        <item itemvalue="Composer Script.dev:all" />
         <item itemvalue="Composer Script.dev:phpstan" />
+        <item itemvalue="Composer Script.dev:a" />
         <item itemvalue="Composer Script.dev:create-docs" />
       </list>
     </recent_temporary>
@@ -217,7 +218,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-php-predefined-ba97393d7c68-b4dcf6bb9de9-com.jetbrains.php.sharedIndexes-PS-233.13135.108" />
+        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.14475.35" />
       </set>
     </attachedChunks>
   </component>
@@ -279,7 +280,15 @@
       <workItem from="1702065668609" duration="33000" />
       <workItem from="1702102398268" duration="62855000" />
       <workItem from="1703458227265" duration="5437000" />
-      <workItem from="1706931482066" duration="7687000" />
+      <workItem from="1710353446464" duration="31061000" />
+      <workItem from="1710384543237" duration="1289000" />
+    </task>
+    <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
+      <created>1658535322659</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1658535322659</updated>
     </task>
     <task id="LOCAL-00002" summary="Improve code strictness, according to PHPStan.">
       <created>1658621020873</created>
@@ -622,14 +631,7 @@
       <option name="project" value="LOCAL" />
       <updated>1702701983856</updated>
     </task>
-    <task id="LOCAL-00066" summary="Add constants for Alg\Time\Clock.">
-      <created>1706933028631</created>
-      <option name="number" value="00066" />
-      <option name="presentableId" value="LOCAL-00066" />
-      <option name="project" value="LOCAL" />
-      <updated>1706933028632</updated>
-    </task>
-    <option name="localTasksCounter" value="67" />
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,6 +662,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Fix bug." />
     <MESSAGE value="Refactored HTTP header section." />
     <MESSAGE value="Reach PHPStan level 5 in PHP 8.1." />
     <MESSAGE value="Work towards PHPStan level 6." />
@@ -684,8 +687,7 @@
     <MESSAGE value="Finish work on exception traits." />
     <MESSAGE value="Add renderable trait for exceptions, using CLI and HTML exception view render strategies." />
     <MESSAGE value="Applied changes to exception class constructors." />
-    <MESSAGE value="Add constants for Alg\Time\Clock." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add constants for Alg\Time\Clock." />
+    <option name="LAST_COMMIT_MESSAGE" value="Applied changes to exception class constructors." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -753,7 +755,7 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Common@SectionTest.xml" NAME="SectionTest Coverage Results" MODIFIED="1668745597866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/Common@SectionTest_testRemoveByName.xml" NAME="SectionTest.testRemoveByName Coverage Results" MODIFIED="1668745254334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/Common@SectionTest.xml" NAME="SectionTest Coverage Results" MODIFIED="1668745597866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
