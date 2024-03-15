@@ -57,6 +57,8 @@ class Editor extends Reader
 	 *	@param		string|NULL		$creationUser	UserName for chown()
 	 *	@param		string|NULL		$creationGroup	Group Name for chgrp()
 	 *	@throws		FileNotExistingException	if check and file is not existing, not readable or given path is not a file
+	 *	@throws		IoException					if file is a directory, a link or already existing
+	 *	@throws		IoException					if file creation failed
 	 */
 	public function __construct( File|string $file, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
@@ -123,6 +125,9 @@ class Editor extends Reader
 	 *	@param		string		$fileName		File Name to write to
 	 *	@param		string		$string			List of String to write to File
 	 *	@return		int
+	 *	@throws		IoException			if strict and file is not writable
+	 *	@throws		IoException			if strict and fallback file creation failed
+	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
 	public static function save( string $fileName, string $string ): int
 	{
@@ -137,6 +142,9 @@ class Editor extends Reader
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
+	 *	@throws		IoException			if strict and file is not writable
+	 *	@throws		IoException			if strict and fallback file creation failed
+	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
 	public static  function saveArray( string $fileName, array $array, string $lineBreak = "\n" ): int
 	{
@@ -182,6 +190,9 @@ class Editor extends Reader
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
+	 *	@throws		IoException			if strict and file is not writable
+	 *	@throws		IoException			if strict and fallback file creation failed
+	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
 	public function writeArray( array $array, string $lineBreak = "\n" ): int
 	{

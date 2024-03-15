@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add tests.">
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Cleanup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Editor.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Writer.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -164,7 +164,7 @@
       <recent name="$PROJECT_DIR$/test/XML/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="PHPUnit.OutputTest.testNewLine1">
+  <component name="RunManager" selected="Composer Script.dev:phpunit">
     <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:a" />
@@ -204,9 +204,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
         <item itemvalue="Composer Script.dev:phpunit" />
         <item itemvalue="Composer Script.dev:phpstan" />
+        <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
         <item itemvalue="Composer Script.dev:a" />
         <item itemvalue="Composer Script.dev:create-docs" />
       </list>
@@ -279,7 +279,7 @@
       <workItem from="1703458227265" duration="5437000" />
       <workItem from="1710353446464" duration="31061000" />
       <workItem from="1710384543237" duration="1437000" />
-      <workItem from="1710463157775" duration="592000" />
+      <workItem from="1710463157775" duration="2070000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -589,14 +589,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00063" summary="Add renderable trait for exceptions, using CLI and HTML exception view render strategies.">
-      <option name="closed" value="true" />
-      <created>1702696632196</created>
-      <option name="number" value="00063" />
-      <option name="presentableId" value="LOCAL-00063" />
-      <option name="project" value="LOCAL" />
-      <updated>1702696632197</updated>
-    </task>
     <task id="LOCAL-00064" summary="Add renderable trait for exceptions, using CLI and HTML exception view render strategies.">
       <option name="closed" value="true" />
       <created>1702696657488</created>
@@ -629,7 +621,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710385975047</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Cleanup">
+      <option name="closed" value="true" />
+      <created>1710463899285</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1710463899286</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -660,7 +660,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Refactored HTTP header section." />
     <MESSAGE value="Reach PHPStan level 5 in PHP 8.1." />
     <MESSAGE value="Work towards PHPStan level 6." />
     <MESSAGE value="Fix unit tests." />
@@ -685,7 +684,8 @@
     <MESSAGE value="Add renderable trait for exceptions, using CLI and HTML exception view render strategies." />
     <MESSAGE value="Applied changes to exception class constructors." />
     <MESSAGE value="Add tests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add tests." />
+    <MESSAGE value="Cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleanup" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

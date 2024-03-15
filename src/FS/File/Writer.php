@@ -62,15 +62,13 @@ class Writer
 	 *	@param		string|NULL		$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 *	@throws		RuntimeException			if no space is left on file system
-	 *	@throws		IoException					if file is a directory, a link or already existing
+	 *	@throws		IoException					if file is a directory or a link
 	 *	@throws		IoException					if file creation failed
 	 */
 	public function __construct( File|string $file, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->file	= is_string( $file ) ? new File( $file ) : $file;
 		$this->fileName	= $this->file->getPathName();
-		/** @noinspection PhpUnhandledExceptionInspection */
 		if( $creationMode && !$this->file->exists() )
 			$this->create( $creationMode, $creationUser, $creationGroup );
 	}
@@ -121,9 +119,14 @@ class Writer
 		return $this;
 	}
 
+	/**
+	 *	...
+	 *	@param		string		$fileName
+	 *	@return		bool
+	 *	@throws		IoException					if file is a directory or a link
+	 */
 	public static function delete( string $fileName ): bool
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$writer	= new Writer( $fileName, 0 );
 		return $writer->remove();
 	}

@@ -54,6 +54,7 @@ class Reader
 	 *	@param		File|string		$file		Name of File to load
 	 *	@return		string|NULL
 	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
+	 *	@throws		IoException					if strict and file is not readable
 	 */
 	public static function load( File|string $file ): string|NULL
 	{
