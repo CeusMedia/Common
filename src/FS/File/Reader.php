@@ -81,11 +81,9 @@ class Reader
 	 *	@param		File|string		$file		File Name or URI of File
 	 *	@return		void
 	 *	@throws		FileNotExistingException	if check and file is not existing, not readable or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function __construct( File|string $file, bool $check = TRUE )
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		$this->file	= is_string( $file ) ? new File( $file ) : $file;
 		if( $check )
 			$this->file->exists( TRUE ) && $this->file->isReadable( TRUE );
@@ -113,7 +111,6 @@ class Reader
 	 */
 	public function exists( bool $strict = FALSE ): bool
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		return $this->file->exists( $strict );
 	}
 
@@ -215,7 +212,6 @@ class Reader
 	 *	Returns canonical Path to the current File.
 	 *	@access		public
 	 *	@throws		FileNotExistingException	if file is not existing or given path is not a file
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function getPath(): string
 	{
@@ -262,11 +258,9 @@ class Reader
 	 *	Indicates whether a file is readable.
 	 *	@access		public
 	 *	@return		bool
-	 *	@noinspection	PhpDocMissingThrowsInspection
 	 */
 	public function isReadable(): bool
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
 		return $this->file->isReadable();
 	}
 
@@ -275,20 +269,24 @@ class Reader
 	 *	@access		public
 	 *	@return		array
 	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@throws		IoException					if strict and file is not readable
 	 */
  	public function readArray(): array
 	{
 		$content	= $this->readString();
-		return preg_split( '/\r?\n/', $content );
+		if( NULL === $content )
+			return [];
+		return preg_split( '/\r*\n/', $content );
 	}
 
 	/**
 	 *	Reads set file and returns it as string.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@throws		IoException					if strict and file is not readable
 	 */
- 	public function readString(): string
+ 	public function readString(): ?string
 	{
 		return $this->file->getContent();
 	}

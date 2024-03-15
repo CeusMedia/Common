@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Applied changes to exception class constructors.">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Add tests.">
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/ArgumentParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/ArgumentParser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CLI/Output.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UI/DevOutput.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/DevOutput.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/CLI/Command/ArgumentParserTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/CLI/Command/ArgumentParserTest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/CLI/Command/BackgroundProceess.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/CLI/Command/BackgroundProceess.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/CLI/Command/ProgramTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/CLI/Command/ProgramTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Reader.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,6 +111,7 @@
       <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
       <path value="$PROJECT_DIR$/vendor/ceus-media/template-engine" />
+      <path value="$PROJECT_DIR$" />
     </include_path>
   </component>
   <component name="ProblemsViewState">
@@ -281,7 +278,8 @@
       <workItem from="1702102398268" duration="62855000" />
       <workItem from="1703458227265" duration="5437000" />
       <workItem from="1710353446464" duration="31061000" />
-      <workItem from="1710384543237" duration="1289000" />
+      <workItem from="1710384543237" duration="1437000" />
+      <workItem from="1710463157775" duration="592000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -591,22 +589,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00061" summary="Add traits for exceptions and finish CLI exception view.">
-      <option name="closed" value="true" />
-      <created>1702229968871</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1702229968872</updated>
-    </task>
-    <task id="LOCAL-00062" summary="Finish work on exception traits.">
-      <option name="closed" value="true" />
-      <created>1702259990364</created>
-      <option name="number" value="00062" />
-      <option name="presentableId" value="LOCAL-00062" />
-      <option name="project" value="LOCAL" />
-      <updated>1702259990364</updated>
-    </task>
     <task id="LOCAL-00063" summary="Add renderable trait for exceptions, using CLI and HTML exception view render strategies.">
       <option name="closed" value="true" />
       <created>1702696632196</created>
@@ -631,7 +613,23 @@
       <option name="project" value="LOCAL" />
       <updated>1702701983856</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="Add tests.">
+      <option name="closed" value="true" />
+      <created>1710385871131</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1710385871132</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Add tests.">
+      <option name="closed" value="true" />
+      <created>1710385975047</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1710385975047</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -662,7 +660,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Fix bug." />
     <MESSAGE value="Refactored HTTP header section." />
     <MESSAGE value="Reach PHPStan level 5 in PHP 8.1." />
     <MESSAGE value="Work towards PHPStan level 6." />
@@ -687,7 +684,8 @@
     <MESSAGE value="Finish work on exception traits." />
     <MESSAGE value="Add renderable trait for exceptions, using CLI and HTML exception view render strategies." />
     <MESSAGE value="Applied changes to exception class constructors." />
-    <option name="LAST_COMMIT_MESSAGE" value="Applied changes to exception class constructors." />
+    <MESSAGE value="Add tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add tests." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

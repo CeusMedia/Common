@@ -103,13 +103,18 @@ class File extends AbstractNode
 	 *	@param		bool		$strict			Flag: throw exception if anything goes wrong, default: yes
 	 *	@return		string|NULL
 	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@throws		IoException					if strict and file is not readable
 	 */
 	public function getContent( bool $strict = TRUE ): string|NULL
 	{
 		if( !$this->check( TRUE, FALSE, FALSE, $strict ) )
 			return NULL;
 		$content	= file_get_contents( $this->pathName );
-		return FALSE !== $content ? $content : NULL;
+		if( FALSE !== $content )
+			return $content;
+		if( $strict )
+			throw new IoException( 'Reading file content failed' );
+		return NULL;
 	}
 
 	/**
