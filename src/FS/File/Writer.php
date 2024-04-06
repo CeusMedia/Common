@@ -163,14 +163,14 @@ class Writer
 	 *	@param		string|NULL			$user			Username for chown()
 	 *	@param		string|NULL			$group			Group Name for chgrp()
 	 *	@param		boolean				$strict			Flag: throw exceptions, default: yes
-	 *	@return		integer|boolean		Number of written bytes or FALSE on fail
+	 *	@return		int|FALSE			Number of written bytes or FALSE on fail
 	 *	@throws		RuntimeException	if file is not writable
 	 *	@throws		RuntimeException	if written length is unequal to string length
 	 *	@throws		IoException			if strict and file is not writable
 	 *	@throws		IoException			if strict and fallback file creation failed
 	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
-	public static function save( File|string $file, string $content, int $mode = 0640, ?string $user = NULL, ?string $group = NULL, bool $strict = TRUE ): int|bool
+	public static function save( File|string $file, string $content, int $mode = 0640, ?string $user = NULL, ?string $group = NULL, bool $strict = TRUE ): int|FALSE
 	{
 		$writer	= new Writer( $file, $mode, $user, $group );
 		return $writer->writeString( $content, $strict );
@@ -269,12 +269,12 @@ class Writer
 	 *	@access		public
 	 *	@param		string				$string		string to write to file
 	 *	@param		boolean				$strict		Flag: throw exceptions, default: yes
-	 *	@return		integer|boolean		Number of written bytes
+	 *	@return		int|FALSE			Number of written bytes or FALSE on fail
 	 *	@throws		IoException			if strict and file is not writable
 	 *	@throws		IoException			if strict and fallback file creation failed
 	 *	@throws		IoException			if number of written bytes does not match content length
 	 */
-	public function writeString( string $string, bool $strict = TRUE ): int|bool
+	public function writeString( string $string, bool $strict = TRUE ): int|FALSE
 	{
 		return $this->file->setContent( $string, $strict );
 	}

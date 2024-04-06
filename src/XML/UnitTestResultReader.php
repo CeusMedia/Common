@@ -44,10 +44,10 @@ use Exception;
 class UnitTestResultReader
 {
 	/**	@var		int			$date			Date of XML File */
-	protected $date;
+	protected int $date;
 
 	/**	@var		Element		$tree			XML Element Tree from XML File */
-	protected $tree;
+	protected Element $tree;
 
 	/**
 	 *	Constructor, reads XML.
@@ -59,7 +59,7 @@ class UnitTestResultReader
 	public function __construct( string $fileName )
 	{
 		$this->tree	= ElementReader::readFile( $fileName );
-		$this->date	= filemtime( $fileName );
+		$this->date	= (int) filemtime( $fileName );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class UnitTestResultReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getDate()
+	public function getDate(): int
 	{
 		return $this->date;
 	}

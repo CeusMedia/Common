@@ -45,7 +45,7 @@ use DOMException;
 class FileWriter
 {
 	/**	@var		string		$fileName		URI of OPML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.
@@ -65,10 +65,10 @@ class FileWriter
 	 *	@param		string		$fileName		URI of OPML File
 	 *	@param		Node		$tree			OPML Tree
 	 *	@param		string		$encoding		Encoding Type
-	 *	@return		int
+	 *	@return		int|FALSE
 	 *	@throws		DOMException;
 	 */
-	public static function save( string $fileName, Node $tree, string $encoding = "utf-8" ): int
+	public static function save( string $fileName, Node $tree, string $encoding = "utf-8" ): int|FALSE
 	{
 		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );
@@ -81,10 +81,10 @@ class FileWriter
 	 *	@access		public
 	 *	@param		Node		$tree		OPML Tree
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		int
+	 *	@return		int|FALSE
 	 *	@throws		DOMException;
 	 */
-	public function write( Node $tree, string $encoding = "utf-8" ): int
+	public function write( Node $tree, string $encoding = "utf-8" ): int|FALSE
 	{
 		return self::save( $this->fileName, $tree, $encoding );
 	}

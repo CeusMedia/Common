@@ -5,10 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Cleanup">
+      <change afterPath="$PROJECT_DIR$/src/ADT/URL/Parts.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/Data/Missing.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/NotSupported.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/String_.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/String_.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/URL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/URL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Deprecation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deprecation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Editor.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Reader.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/ObjectFileSerializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/ObjectFileSerializer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Element.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Element.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/OPML/FileWriter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/OPML/FileWriter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/GoogleBaseBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/GoogleBaseBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/SimpleParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/SimpleParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/UnitTestResultReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/UnitTestResultReader.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,9 +70,6 @@
         </path_mappings>
       </server>
     </servers>
-  </component>
-  <component name="PhpStanProjectConfiguration">
-    <option name="selectedConfigurationId" value="c61c56cb-5e29-4b84-aa24-d12c040b91d8" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1">
     <include_path>
@@ -125,34 +139,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Composer Script.dev:a.executor&quot;: &quot;Run&quot;,
-    &quot;Composer Script.dev:all.executor&quot;: &quot;Run&quot;,
-    &quot;Composer Script.dev:create-docs.executor&quot;: &quot;Run&quot;,
-    &quot;Composer Script.dev:phpstan.executor&quot;: &quot;Run&quot;,
-    &quot;Composer Script.dev:phpunit.executor&quot;: &quot;Run&quot;,
-    &quot;Project.color&quot;: &quot;3f0804&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/labs/device-detector&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
-    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Composer Script.dev:a.executor": "Run",
+    "Composer Script.dev:all.executor": "Run",
+    "Composer Script.dev:create-docs.executor": "Run",
+    "Composer Script.dev:phpstan.executor": "Run",
+    "Composer Script.dev:phpunit.executor": "Run",
+    "Project.color": "3f0804",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "settings.php.quality.tools.phpstan",
+    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Exception" />
       <recent name="$PROJECT_DIR$/tool/config" />
       <recent name="$PROJECT_DIR$/src/Exception/Traits" />
-      <recent name="$PROJECT_DIR$/src/Exception" />
       <recent name="$PROJECT_DIR$/test/XML" />
       <recent name="$PROJECT_DIR$/test/Alg/Obj" />
     </key>
@@ -164,15 +178,15 @@
       <recent name="$PROJECT_DIR$/test/XML/assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Composer Script.dev:phpunit">
+  <component name="RunManager" selected="Composer Script.dev:all">
     <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:a" />
       <method v="2" />
     </configuration>
-    <configuration name="dev:create-docs" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+    <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <option name="script" value="dev:create-docs" />
+      <option name="script" value="dev:all" />
       <method v="2" />
     </configuration>
     <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
@@ -195,7 +209,7 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Composer Script.dev:create-docs" />
+      <item itemvalue="Composer Script.dev:all" />
       <item itemvalue="Composer Script.dev:a" />
       <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="Composer Script.dev:phpunit" />
@@ -204,11 +218,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Composer Script.dev:phpunit" />
+        <item itemvalue="Composer Script.dev:all" />
         <item itemvalue="Composer Script.dev:phpstan" />
+        <item itemvalue="Composer Script.dev:phpunit" />
         <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
         <item itemvalue="Composer Script.dev:a" />
-        <item itemvalue="Composer Script.dev:create-docs" />
       </list>
     </recent_temporary>
   </component>
@@ -279,7 +293,8 @@
       <workItem from="1703458227265" duration="5437000" />
       <workItem from="1710353446464" duration="31061000" />
       <workItem from="1710384543237" duration="1437000" />
-      <workItem from="1710463157775" duration="2070000" />
+      <workItem from="1710463157775" duration="6320000" />
+      <workItem from="1711593381818" duration="7537000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -589,14 +604,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00064" summary="Add renderable trait for exceptions, using CLI and HTML exception view render strategies.">
-      <option name="closed" value="true" />
-      <created>1702696657488</created>
-      <option name="number" value="00064" />
-      <option name="presentableId" value="LOCAL-00064" />
-      <option name="project" value="LOCAL" />
-      <updated>1702696657488</updated>
-    </task>
     <task id="LOCAL-00065" summary="Applied changes to exception class constructors.">
       <option name="closed" value="true" />
       <created>1702701983856</created>
@@ -629,7 +636,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710463899286</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Cleanup">
+      <option name="closed" value="true" />
+      <created>1710465342099</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1710465342100</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

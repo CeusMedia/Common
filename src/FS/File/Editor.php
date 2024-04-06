@@ -76,6 +76,12 @@ class Editor extends Reader
 		return @copy( $this->file->getPathName(), $fileName );
 	}
 
+	/**
+	 *	Removes current File.
+	 *	@param		string		$fileName
+	 *	@return		bool
+	 *	@throws		IoException					if file is a directory or a link
+	 */
 	public static function delete( string $fileName ): bool
 	{
 		return Writer::delete( $fileName );

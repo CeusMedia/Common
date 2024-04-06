@@ -30,6 +30,7 @@
 
 namespace CeusMedia\Common\ADT\Collection;
 
+use CeusMedia\Common\Exception\Data\Missing as MissingDataException;
 use InvalidArgumentException;
 
 /**
@@ -57,6 +58,8 @@ class LevelMap extends Dictionary
 	public function __construct( array $array = [], string $divider = '.' )
 	{
 		parent::__construct( $array );
+		if( 0 === strlen( $divider ) )
+			throw new MissingDataException( 'Divider cannot be empty' );
 		$this->divider	= $divider;
 	}
 
@@ -68,7 +71,7 @@ class LevelMap extends Dictionary
 	 *	@return		mixed
 	 *	@throws		InvalidArgumentException	if key is invalid
 	 */
-	public function get( string $key, $default = NULL )
+	public function get( string $key, $default = NULL ): mixed
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )

@@ -152,7 +152,7 @@ class Deprecation
 		$iniFileData			= parse_ini_file( $iniFilePath, TRUE );
 		$this->version			= $iniFileData['project']['version'];
 		$this->errorVersion		= '';
-		$this->exceptionversion	= '';
+		$this->exceptionVersion	= '';
 		$this->warnVersion		= '';
 	}
 }

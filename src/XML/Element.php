@@ -62,8 +62,8 @@ class Element extends SimpleXMLElement
 //	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
 	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, string $nsURI = NULL ): void
 	{
-		if( $namespace ) {
-			$namespaces	= $this->getDocNamespaces();
+		if( NULL !== $namespace ) {
+			$namespaces	= $this->getDocNamespaces() ?: [];
 			$key		= $namespace.':'.$qualifiedName;
 			if( $this->hasAttribute( $qualifiedName, $namespace ) )
 				throw new RuntimeException( 'Attribute "'.$qualifiedName.'" is already set' );
@@ -100,12 +100,12 @@ class Element extends SimpleXMLElement
 	 *	@param		string|NULL		$value		Value of child element
 	 *	@param		string|NULL 	$namespace	Namespace prefix of child element
 	 *	@param		string|NULL		$nsURI		Namespace URI of child element
-	 *	@return		self
+	 *	@return		static|NULL
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
 //	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
 //	public function addChild( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
-	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
+	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): ?static
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();
@@ -144,9 +144,9 @@ class Element extends SimpleXMLElement
 	 *	Writes current XML Element as XML File.
 	 *	@access		public
 	 *	@param		string		$fileName		File name for XML file
-	 *	@return		int
+	 *	@return		int|FALSE
 	 */
-	public function asFile( string $fileName ): int
+	public function asFile( string $fileName ): int|FALSE
 	{
 		$xml	= $this->asXML();
 		return FileWriter::save( $fileName, $xml );

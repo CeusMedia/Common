@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	String Class wrapping most of the PHP functions in a usable way.
@@ -128,10 +129,8 @@ class String_
 	 *	@param		int				$limit			Number of characters after offset
 	 *	@return		int				Number of occurrences of string with borders
 	 */
-	public function countSubstring( $string, int $offset = 0, int $limit = 0 ): int
+	public function countSubstring( String_|string $string, int $offset = 0, int $limit = 0 ): int
 	{
-		if( !is_string( $string ) && !( $string instanceof String_ ) )
-			throw new InvalidArgumentException( 'No string given' );
 		if( !is_int( $offset ) )
 			throw new InvalidArgumentException( 'Offset must be integer' );
 		if( abs( $offset ) > $this->getLength() )
@@ -161,17 +160,15 @@ class String_
 	 *	If left and right is set,
 	 *	@access		public
 	 *	@param		int				$length			Length of resulting string
-	 *	@param		string|String_	$string			String to extend with
+	 *	@param		String_|string	$string			String to extend with
 	 *	@param		bool			$left			Extend left side
 	 *	@param		bool			$right			Extend right side
 	 *	@return		int
 	 */
-	public function extend( int $length, $string = " ", bool $left = FALSE, bool $right = TRUE ): int
+	public function extend( int $length, String_|string $string = " ", bool $left = FALSE, bool $right = TRUE ): int
 	{
 		if( $length < $this->getLength() )
 			throw new InvalidArgumentException( 'Length cannot be lower than string length' );
-		if( !is_string( $string ) && !( $string instanceof String_ ) )
-			throw new InvalidArgumentException( 'Padding string must be of string' );
 		if( 0 === strlen( trim( (string) $string ) ) )
 			throw new InvalidArgumentException( 'Padding string cannot be empty' );
 
@@ -344,7 +341,7 @@ class String_
 	 *	@see		http://www.php.net/manual/en/function.explode.php
 	 *	@see		http://www.php.net/manual/en/function.str-split.php
 	 */
-	public function split( $delimiter ): ArrayObject
+	public function split( int|string $delimiter ): ArrayObject
 	{
 		$list	= [$this->string];
 		if( is_int( $delimiter ) )

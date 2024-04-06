@@ -324,12 +324,12 @@ class File extends AbstractNode
 	 *	Write content into file
 	 *	@param		string		$content		Content to write into file
 	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: yes
-	 *	@return		boolean|integer				Number of written bytes or FALSE on fail
+	 *	@return		int|FALSE					Number of written bytes or FALSE on fail
 	 *	@throws		IoException					if strict and file is not writable
 	 *	@throws		IoException					if strict and fallback file creation failed
 	 *	@throws		IoException					if number of written bytes does not match content length
 	 */
-	public function setContent( string $content, bool $strict = TRUE ): bool|int
+	public function setContent( string $content, bool $strict = TRUE ): int|FALSE
 	{
 		if( !$this->exists() && !$this->create( 0777, $strict ) )
 			return FALSE;

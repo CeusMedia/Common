@@ -44,6 +44,7 @@ use UnexpectedValueException;
  *	@copyright		2006-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@phpstan-consistent-constructor
  */
 class Dictionary implements ArrayAccess, Countable, Iterator
 {
@@ -55,6 +56,18 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 
 	/**	@var		boolean			$caseSensitive	Flag: be case-sensitive on pair keys */
 	protected bool $caseSensitive	= TRUE;
+
+	/**
+	 *	Create a new instance.
+	 *	@static
+	 *	@access		public
+	 *	@param		array		$array		Map if initial pairs
+	 *	@return		static
+	 */
+	public static function create( array $array ): static
+	{
+		return new static( $array );
+	}
 
 	/**
 	 *	Constructor.
@@ -108,18 +121,6 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 *	Create a new instance.
-	 *	@static
-	 *	@access		public
-	 *	@param		array		$array		Map if initial pairs
-	 *	@return		self
-	 */
-	static public function create( array $array ): self
-	{
-		return new static( $array );
-	}
-
-	/**
 	 *	Returns current Value.
 	 *	@access		public
 	 *	@return		mixed
@@ -146,9 +147,9 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
 	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
-	 *	@return		self						Dictionary object containing filtered pairs
+	 *	@return		static						Dictionary object containing filtered pairs
 	 */
-	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): self
+	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): static
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
@@ -159,8 +160,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 			//  get prefix length
 			$length	= strlen( $prefix );
 			//  iterate all pairs
-			foreach( $this->pairs as $key => $value )
-			{
+			foreach( $this->pairs as $key => $value ){
 				//  pair key is shorter than prefix
 				if( strlen( $key ) <= $length )
 					//  skip this pair
@@ -180,7 +180,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 			}
 		}
 		//  return pair list as dictionary
-		return new self( $list );
+		return new static( $list );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		//  a dictionary object is to be returned
 		if( $asDictionary )
 			//  create dictionary for pair list
-			$list	= new self( $list, $caseSensitive );
+			$list	= new static( $list, $caseSensitive );
 		//  return pair list as array or dictionary
 		return $list;
 	}

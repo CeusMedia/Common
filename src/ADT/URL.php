@@ -30,6 +30,7 @@
 
 namespace CeusMedia\Common\ADT;
 
+use CeusMedia\Common\ADT\URL\Parts;
 use InvalidArgumentException;
 use RangeException;
 use RuntimeException;
@@ -50,8 +51,8 @@ class URL
 	/**	@var	URL|NULL			$defaultUrl */
 	protected ?self $defaultUrl		= NULL;
 
-	/**	@var	object				$parts */
-	protected object $parts;
+	/**	@var	Parts				$parts */
+	protected Parts $parts;
 
 	/**
 	 *	Constructor.
@@ -60,7 +61,7 @@ class URL
 	 *	@param		string				$url		URL string to represent
 	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
-	public function __construct( string $url, $defaultUrl = NULL )
+	public function __construct( string $url, URL|string|NULL $defaultUrl = NULL )
 	{
 		if( !is_null( $defaultUrl ) ){
 			if( is_string( $defaultUrl ) )
@@ -82,7 +83,7 @@ class URL
 	 * @param		URL|string|NULL		$defaultUrl
 	 * @return		self
 	 */
-	public static function create( string $url = NULL, $defaultUrl = NULL ): self
+	public static function create( string $url = NULL, URL|string|NULL $defaultUrl = NULL ): self
 	{
 		return new self( $url, $defaultUrl );
 	}
@@ -151,7 +152,7 @@ class URL
 	 *	@param		URL|string		$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string		... (to be implemented)
 	 */
-	public function getAbsoluteTo( $referenceUrl ): string
+	public function getAbsoluteTo( URL|string $referenceUrl ): string
 	{
 		if( is_string( $referenceUrl ) )
 			$referenceUrl	= new URL( $referenceUrl );
@@ -169,7 +170,7 @@ class URL
 	 *	@param		URL|string	$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string
 	 */
-	public function getRelativeTo( $referenceUrl ): string
+	public function getRelativeTo( URL|string $referenceUrl ): string
 	{
 		if( is_string( $referenceUrl ) )
 			$reference	= new self( $referenceUrl );
@@ -186,7 +187,7 @@ class URL
 		$query			= $this->getQuery() ? '?'.$this->getQuery() : '';
 		$fragment		= $this->getFragment() ? '#'.$this->getFragment() : '';
 		$referencePath	= $reference->getPath();
-		if( substr( $this->getPath(), 0, strlen( $referencePath ) ) === $referencePath )
+		if( str_starts_with( $this->getPath(), $referencePath ) )
 			return substr( $this->getPath(), strlen( $referencePath ) ).$query.$fragment;
 
 		$parts			= [];
@@ -266,7 +267,7 @@ class URL
 		$defaults	= [
 			'scheme'		=> $this->defaultUrl ? $this->defaultUrl->getScheme() : '',
 			'host'			=> $this->defaultUrl ? $this->defaultUrl->getHost() : '',
-			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : NULL,
+			'port'			=> $this->defaultUrl?->getPort(),
 			'user'			=> $this->defaultUrl ? $this->defaultUrl->getUsername() : '',
 			'pass'			=> $this->defaultUrl ? $this->defaultUrl->getPassword() : '',
 			'query'			=> '',
@@ -274,10 +275,10 @@ class URL
 		];
 		if( $this->defaultUrl && $this->defaultUrl->parts->path !== '/' ){
 			$regExp			= '@^'.preg_quote( $this->defaultUrl->parts->path ).'@';
-			$parts['path']	= preg_replace( $regExp, '/', $parts['path'] );
+			$parts['path']	= preg_replace( $regExp, '/', $parts['path'] ?? '' );
 		}
-		$this->parts	= (object) array_merge( $defaults, $parts );
-		$this->setPath( '/'.ltrim( $parts['path'] , '/' ) );
+		$this->parts	= Parts::fromArray( array_merge( $defaults, $parts ) );
+		$this->setPath( '/'.ltrim( $parts['path'] ?? '', '/' ) );
 		return $this;
 	}
 
@@ -340,7 +341,7 @@ class URL
 	 *	@param		array|string		$query
 	 *	@return		self
 	 */
-	public function setQuery( $query ): self
+	public function setQuery( array|string $query ): self
 	{
 		if( is_array( $query ) )
 			$query	= http_build_query( $query, '&' );

@@ -109,10 +109,10 @@ class Writer
 	 *	@param		array		$channelData	Array of Channel Information Pairs
 	 *	@param		array		$itemList		List of Item
 	 *	@param		string		$encoding		Encoding Type
-	 *	@return		int
+	 *	@return		int|FALSE
 	 *	@throws		Exception
 	 */
-	public static function save( string $fileName, array $channelData, array $itemList, string $encoding = "utf-8" ): int
+	public static function save( string $fileName, array $channelData, array $itemList, string $encoding = "utf-8" ): int|FALSE
 	{
 		$builder	= new Builder();
 		$builder->setChannelData( $channelData );
@@ -126,10 +126,10 @@ class Writer
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		int
+	 *	@return		int|FALSE
 	 *	@throws		Exception
 	 */
-	public function write( string $fileName, string $encoding = "utf-8" ): int
+	public function write( string $fileName, string $encoding = "utf-8" ): int|FALSE
 	{
 		return self::save( $fileName, $this->channelData, $this->itemList, $encoding );
 	}

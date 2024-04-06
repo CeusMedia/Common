@@ -1,8 +1,8 @@
-<?php /** @noinspection PhpComposerExtensionStubsInspection */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
- *	Serializer for Data Object into an XML File.
+ *	Exception for missing data.
+ *	Is serializable.
  *
  *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
@@ -20,40 +20,37 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_XML_DOM
+ *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
-namespace CeusMedia\Common\XML\DOM;
+namespace CeusMedia\Common\Exception\Data;
 
-use CeusMedia\Common\FS\File\Writer as FileWriter;
-use DOMException;
+use CeusMedia\Common\Exception\Runtime;
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Renderable as RenderableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 
 /**
- *	Serializer for Data Object into an XML File.
+ *	Exception for missing data.
+ *	Is serializable.
  *	@category		Library
- *	@package		CeusMedia_Common_XML_DOM
+ *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ObjectFileSerializer
+class Missing extends Runtime
 {
-	/**
-	 *	Writes XML String from an Object to a File.
-	 *	@access		public
-	 *	@static
-	 *	@param		mixed		$object			Object to serialize
-	 *	@param		string		$fileName		XML File to write to
-	 *	@return		int|FALSE
-	 *	@throws		DOMException
-	 */
-	public static function serialize( mixed $object, string $fileName ): int|FALSE
-	{
-		return FileWriter::save( $fileName, ObjectSerializer::serialize( $object ) );
-	}
+	use CreatableTrait;
+	use DescriptiveTrait;
+	use JsonableTrait;
+	use RenderableTrait;
+	use SerializableTrait;
 }

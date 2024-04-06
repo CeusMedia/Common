@@ -1,8 +1,7 @@
-<?php /** @noinspection PhpComposerExtensionStubsInspection */
-/** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
 
 /**
- *	Serializer for Data Object into an XML File.
+ *	...
  *
  *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
  *
@@ -20,40 +19,58 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_XML_DOM
+ *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
 
-namespace CeusMedia\Common\XML\DOM;
-
-use CeusMedia\Common\FS\File\Writer as FileWriter;
-use DOMException;
+namespace CeusMedia\Common\ADT\URL;
 
 /**
- *	Serializer for Data Object into an XML File.
+ *	...
  *	@category		Library
- *	@package		CeusMedia_Common_XML_DOM
+ *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2023 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@see			http://www.w3.org/Addressing/URL/url-spec.html
+ *	@todo			code doc
+ *	@phpstan-consistent-constructor
  */
-class ObjectFileSerializer
+class Parts
 {
+	public ?string $scheme		= NULL;
+	public ?string $host		= NULL;
+	public ?int $port			= NULL;
+	public ?string $user		= NULL;
+	public ?string $pass		= NULL;
+	public ?string $path		= NULL;
+	public ?string $query		= NULL;
+	public ?string $fragment	= NULL;
+
 	/**
-	 *	Writes XML String from an Object to a File.
-	 *	@access		public
-	 *	@static
-	 *	@param		mixed		$object			Object to serialize
-	 *	@param		string		$fileName		XML File to write to
-	 *	@return		int|FALSE
-	 *	@throws		DOMException
+	 *	@param		array		$array
+	 *	@return		self
 	 */
-	public static function serialize( mixed $object, string $fileName ): int|FALSE
+	public static function fromArray( array $array ): self
 	{
-		return FileWriter::save( $fileName, ObjectSerializer::serialize( $object ) );
+		$parts	= new self();
+		foreach( $array as $key => $value ){
+			if( property_exists( $parts, $key ) )
+				$parts->$key	= $value;
+		}
+		return $parts;
+	}
+
+	/**
+	 *	@return		array
+	 */
+	public function toArray(): array
+	{
+		return get_object_vars( $this );
 	}
 }

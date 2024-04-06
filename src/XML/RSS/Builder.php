@@ -46,16 +46,16 @@ use Exception;
 class Builder
 {
 	/**	@var	DomBuilder		$builder			Instance of XML_DOM_Builder */
-	protected $builder;
+	protected DomBuilder $builder;
 
 	/**	@var	array			$channel			Array of Channel Data */
-	protected $channel			= [];
+	protected array $channel			= [];
 
 	/**	@var	array			$items				Array of Items */
-	protected $items			= [];
+	protected array $items			= [];
 
 	/**	@var	array			$channelElements	Array of Elements of Channel */
-	protected $channelElements	= [
+	protected array $channelElements	= [
 		"title"				=> TRUE,
 		"description"		=> TRUE,
 		"link"				=> TRUE,
@@ -74,7 +74,7 @@ class Builder
 	];
 
 	/**	@var	array			$itemElements		Array of Elements of Items */
-	protected $itemElements	= [
+	protected array $itemElements	= [
 		"title"				=> TRUE,
 		"description"		=> FALSE,
 		"link"				=> FALSE,
@@ -88,7 +88,7 @@ class Builder
 	];
 
 	/**	@var	array			$namespaces		Array or RSS Namespaces */
-	protected $namespaces	= [];
+	protected array $namespaces	= [];
 
 	/**
 	 *	Constructor.
@@ -210,11 +210,11 @@ class Builder
 	 *	@param		string|int		$timestamp		Timestamp or formatted date
 	 *	@return		string
 	 */
-	protected function getDate( $timestamp ): string
+	protected function getDate( string|int $timestamp ): string
 	{
-		if( preg_match( '@^[0-9]+$@', $timestamp ) )
-			$timestamp	= date( "r", $timestamp );
-		return $timestamp;
+		if( preg_match( '@^[0-9]+$@', (string) $timestamp ) )
+			$timestamp	= date( "r", (int) $timestamp );
+		return (string) $timestamp;
 	}
 
 	/**
