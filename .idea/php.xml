@@ -146,7 +146,6 @@
   </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="config" value="$PROJECT_DIR$/tool/config/phpstan.neon" />
-    <option name="fullProject" value="true" />
     <option name="level" value="7" />
     <option name="transferred" value="true" />
   </component>

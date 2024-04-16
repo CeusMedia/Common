@@ -1,9 +1,10 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
- *	...
+ *	Exception for anything no being enabled.
+ *	Is serializable (to PHP, JSON), renderable and describable.
  *
- *	Copyright (c) 2010-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,44 +20,36 @@
  *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_CLI_Fork_Server
+ *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2024 Christian Würker
+ *	@copyright		2024 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
-namespace CeusMedia\Common\CLI\Fork\Server;
+namespace CeusMedia\Common\Exception;
 
-use RuntimeException;
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Renderable as RenderableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 
 /**
- *	...
- *
+ *	Exception for anything no being enabled.
+ *	Is serializable (to PHP, JSON), renderable and describable.
  *	@category		Library
- *	@package		CeusMedia_Common_CLI_Fork_Server
+ *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2024 Christian Würker
+ *	@copyright		2024 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Dynamic extends Abstraction
+class NotEnabled extends Runtime
 {
-	protected ?string $scriptFile		= NULL;
-
-	public function setScriptFile( string $scriptFile ): self
-	{
-		$this->scriptFile	= $scriptFile;
-		return $this;
-	}
-
-	protected function handleRequest( string $request ): string
-	{
-		if( NULL === $this->scriptFile || 0 === strlen( trim( $this->scriptFile ) ) )
-			throw new RuntimeException( 'No script for a dynamic server set' );
-		if( !file_exists( $this->scriptFile ) )
-			throw new RuntimeException( 'Script for a dynamic server is not existing' );
-
-		return require_once( $this->scriptFile );
-	}
+	use CreatableTrait;
+	use DescriptiveTrait;
+	use JsonableTrait;
+	use RenderableTrait;
+	use SerializableTrait;
 }

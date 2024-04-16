@@ -10,7 +10,7 @@ use RuntimeException;
 /**
  *	Output Methods for Development.
  *
- *	Copyright (c) 2009-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,13 +23,13 @@ use RuntimeException;
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 /**
@@ -37,18 +37,19 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class VariableDump
 {
 	/**	@var	string		$noteOpen		Sign for opening Notes */
-	public static string $noteOpen		    = "<em>";
-	/**	@var	string		$noteClose		Sign for closing Notes */
-	public static string $noteClose	        = "</em>";
+	public static string $noteOpen			= '<em>';
 
-	public static int $count                = 0;
+	/**	@var	string		$noteClose		Sign for closing Notes */
+	public static string $noteClose			= '</em>';
+
+	public static int $count				= 0;
 
 	/**
 	 *	Builds and returns a Tree Display of a Variable, recursively.
@@ -66,7 +67,7 @@ class VariableDump
 			self::$count	= 0;
 		$type		= gettype( $mixed );
 		$children	= [];
-		$keyLabel	= ( $key !== NULL ) ? htmlentities( $key, ENT_QUOTES, 'UTF-8' )." -> " : "";
+		$keyLabel	= ( $key !== NULL ) ? htmlentities( $key, ENT_QUOTES, 'UTF-8' ).' -> ' : '';
 		$event		= NULL;
 		self::$count++;
 		switch( $type ){
@@ -75,8 +76,8 @@ class VariableDump
 				foreach( $mixed as $childKey => $childValue )
 					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
 				if( $key === NULL )
-					$keyLabel	= self::$noteOpen."Array".self::$noteClose;
-				$mixed		= "";
+					$keyLabel	= self::$noteOpen.'Array'.self::$noteClose;
+				$mixed		= '';
 				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
 				break;
 			case 'object':
@@ -85,15 +86,15 @@ class VariableDump
 				foreach( $vars as $childKey => $childValue )
 					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
 				$keyLabel	= self::$noteOpen.get_class( $mixed ).self::$noteClose;
-				$mixed		= "";
+				$mixed		= '';
 				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
 				break;
 			case 'boolean':
-				$mixed	= self::$noteOpen.( $mixed ? "TRUE" : "FALSE" ).self::$noteClose;
+				$mixed	= self::$noteOpen.( $mixed ? 'TRUE' : 'FALSE' ).self::$noteClose;
 				break;
 			case 'NULL':
 				if( $mixed === NULL )
-					$mixed	= self::$noteOpen."NULL".self::$noteClose;
+					$mixed	= self::$noteOpen.'NULL'.self::$noteClose;
 				break;
 			case 'unknown type':
 				throw new RuntimeException( 'Unknown type' );
@@ -102,13 +103,13 @@ class VariableDump
 					$mixed	= str_repeat( '*', 8 );
 				break;
 		}
-		$children	= $children ? "\n".HtmlElements::unorderedList( $children, $level + 2 ) : "";
+		$children	= $children ? "\n".HtmlElements::unorderedList( $children, $level + 2 ) : '';
 		$pair		= $keyLabel.htmlentities( $mixed, ENT_QUOTES, 'UTF-8' );
 		$label		= HtmlTag::create( 'span', $pair, array( 'onclick' => $event ) );
-		$classes	= array( $type );
+		$classes	= [$type];
 		if( $closed )
-			$classes[]	= "closed";
-		return HtmlElements::ListItem( $label.$children, $level + 1, array( 'class' => implode( " ", $classes ) ) );
+			$classes[]	= 'closed';
+		return HtmlElements::ListItem( $label.$children, $level + 1, ['class' => implode( ' ', $classes )] );
 	}
 
 	/**

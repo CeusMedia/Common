@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Autoloader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2023 Christian Würker
+ *	@copyright		2018-2024 Christian Würker
  *	@license		http://www.opensource.org/licenses/mit-license.html  MIT License
  *	@link			https://github.com/CeusMedia/Common
  *	@author			Jonathan H. Wage <jonwage@gmail.com>
@@ -53,7 +53,7 @@ namespace CeusMedia\Common\FS\Autoloader;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Autoloader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2023 Christian Würker
+ *	@copyright		2018-2024 Christian Würker
  *	@license		http://www.opensource.org/licenses/mit-license.html  MIT License
  *	@link			https://github.com/CeusMedia/Common
  *	@author			Jonathan H. Wage <jonwage@gmail.com>

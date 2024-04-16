@@ -4,28 +4,406 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Cleanup">
-      <change afterPath="$PROJECT_DIR$/src/ADT/URL/Parts.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Data/Missing.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/NotSupported.php" afterDir="false" />
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Work towards PHPStan level 7.">
+      <change afterPath="$PROJECT_DIR$/src/Exception/NotEnabled.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Bitmask.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Bitmask.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/CSS/Property.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/CSS/Property.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/CSS/Rule.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/CSS/Rule.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/CSS/Sheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/CSS/Sheet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Queue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Queue.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Stack.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Stack.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Constant.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Constant.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Event/Callback.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Event/Callback.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Event/Data.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Event/Data.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Event/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Event/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/DirectedAcyclicWeighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/DirectedAcyclicWeighted.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/DirectedWeighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/DirectedWeighted.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Edge.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Edge.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/EdgeSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/EdgeSet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Node.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/NodeSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/NodeSet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Weighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Weighted.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/JSON/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/JSON/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/JSON/Converter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/JSON/Converter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/JSON/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/JSON/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/JSON/Pretty.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/JSON/Pretty.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Multiplexer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Multiplexer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Null_.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Null_.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Object_.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Object_.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/OptionObject.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/OptionObject.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Registry.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Registry.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Singleton.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Singleton.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/StringBuffer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/StringBuffer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ADT/String_.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/String_.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Time/Delay.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Time/Delay.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Tree/MagicNode.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Tree/MagicNode.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Tree/Menu/Collection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Tree/Menu/Collection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Tree/Menu/Item.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Tree/Menu/Item.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Tree/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Tree/Node.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ADT/URL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/URL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/URL/Compare.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/URL/Compare.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/URL/Inference.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/URL/Inference.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/URL/Parts.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/URL/Parts.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/URN.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/URN.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/VCard.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/VCard.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/ColorConverter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/ColorConverter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Crypt/Caesar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Crypt/Caesar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Crypt/PasswordStrength.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Crypt/PasswordStrength.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Crypt/Rot13.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Crypt/Rot13.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/HtmlMetaTagReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/HtmlMetaTagReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/HtmlParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/HtmlParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/ID.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/ID.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Obj/Constant.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Obj/Constant.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Obj/Delegation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Obj/Delegation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Obj/EventHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Obj/EventHandler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Obj/Factory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Obj/Factory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Obj/MethodFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Obj/MethodFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Parcel/Factory.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Parcel/Factory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Parcel/Packer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Parcel/Packer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Parcel/Packet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Parcel/Packet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Randomizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Randomizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Search/Binary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Search/Binary.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Search/Interpolation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Search/Interpolation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Search/Strange.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Search/Strange.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/SgmlTagReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/SgmlTagReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Sort/Bubble.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Sort/Bubble.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Sort/Gnome.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Sort/Gnome.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Sort/Insertion.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Sort/Insertion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Sort/MapList.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Sort/MapList.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Sort/Quick.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Sort/Quick.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Sort/Selection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Sort/Selection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/CamelCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/CamelCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/EncodingConverter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/EncodingConverter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/Extender.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/Extender.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/Filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/Filter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/PascalCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/PascalCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/SnakeCase.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/SnakeCase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/TermExtractor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/TermExtractor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/Trimmer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/Trimmer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Text/Unicoder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Text/Unicoder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Clock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Clock.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Converter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Converter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Time/Duration.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/Duration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Time/DurationPhraseRanges.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/DurationPhraseRanges.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Time/DurationPhraser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Time/DurationPhraser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Tree/Menu/Converter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Tree/Menu/Converter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Turing/Machine.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Turing/Machine.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/UnitFormater.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/UnitFormater.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/UnitParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/UnitParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/UnusedVariableFinder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/UnusedVariableFinder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Validation/DefinitionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Validation/DefinitionValidator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Validation/LanguageValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Validation/LanguageValidator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Validation/PredicateValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Validation/PredicateValidator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Alg/Validation/Predicates.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Alg/Validation/Predicates.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Application.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Application.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/ArgumentParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/ArgumentParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Color.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Color.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Command/ArgumentParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Command/ArgumentParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Command/BackgroundProcess.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Command/BackgroundProcess.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Command/Program.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Command/Program.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Dimensions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Dimensions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Downloader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Downloader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Exception/View.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Abstraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Abstraction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Server/Abstraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Server/Abstraction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Server/Client/Abstraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Server/Client/Abstraction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Server/Client/WebProxy.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Server/Client/WebProxy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Server/Dynamic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Server/Dynamic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Server/Reflect.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Server/Reflect.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Fork/Worker/Abstraction.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Fork/Worker/Abstraction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Progress.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Progress.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/Table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Output/TableBorderTheme.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Output/TableBorderTheme.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Prompt.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Prompt.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Question.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/RequestReceiver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/RequestReceiver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Server/Cron/Daemon.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Server/Cron/Daemon.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Server/Cron/Job.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Server/Cron/Job.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Server/Cron/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Server/Cron/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Server/Daemon.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Server/Daemon.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CLI/Shell.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/CLI/Shell.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Deprecation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Deprecation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Env.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Env.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Conversion.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Conversion.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Data/Ambiguous.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Data/Ambiguous.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Data/Missing.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Data/Missing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Deprecation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Deprecation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/FileNotExisting.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/FileNotExisting.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/IO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/IO.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Logic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Logic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/MissingExtension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/MissingExtension.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/NotSupported.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/NotSupported.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Runtime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Runtime.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/SQL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/SQL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Serializable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Serializable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Template.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Creatable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Creatable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Descriptive.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Descriptive.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Jsonable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Jsonable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Renderable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Renderable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Traits/Serializable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Traits/Serializable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Exception/Validation.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Validation.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/AbstractNode.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/AbstractNode.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Autoloader/Psr0.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Autoloader/Psr0.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Autoloader/Psr4.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Autoloader/Psr4.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Arc/Bzip.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Arc/Bzip.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Arc/Gzip.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Arc/Gzip.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Arc/Tar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Arc/Tar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Arc/TarBzip.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Arc/TarBzip.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Arc/TarGzip.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Arc/TarGzip.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Arc/Zip.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Arc/Zip.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Backup.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Backup.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/BackupCleaner.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/BackupCleaner.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Block/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Block/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Block/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Block/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Combiner.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Combiner.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Compressor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Compressor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Converter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Converter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Theme/Combiner.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Theme/Combiner.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Theme/Finder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Theme/Finder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Theme/Minimizer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Theme/Minimizer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSS/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSS/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CSV/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CSV/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/CodeLineCounter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/CodeLineCounter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Collection/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Collection/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Collection/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Collection/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Collection/SectionReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Collection/SectionReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Collection/SectionWriter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Collection/SectionWriter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Collection/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Collection/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Configuration/Converter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Configuration/Converter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Configuration/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Configuration/Reader.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Gantt/CalendarBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Gantt/CalendarBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Gantt/MeetingCollector.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Gantt/MeetingCollector.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Gantt/MeetingReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Gantt/MeetingReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/ICal/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/ICal/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/ICal/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/ICal/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI/Creator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI/Creator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI/SectionEditor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI/SectionEditor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/INI/SectionReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/INI/SectionReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Iterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Iterator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/JSON/Config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/JSON/Config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/JSON/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/JSON/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/JSON/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/JSON/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Lock.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Lock.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/File.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/File.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/JSON/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/JSON/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/JSON/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/JSON/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/ShortReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/ShortReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/ShortWriter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/ShortWriter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/Tracker/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/Tracker/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/Tracker/ShortReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/Tracker/ShortReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Log/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Log/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/NameFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/NameFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/PHP/Check/MethodOrder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PHP/Check/MethodOrder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/PHP/Check/MethodVisibility.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PHP/Check/MethodVisibility.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/PHP/Encoder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PHP/Encoder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/PHP/Lister.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PHP/Lister.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/PHP/Test/Creator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PHP/Test/Creator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/PdfToImage.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/PdfToImage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Permissions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/RecursiveIterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/RecursiveIterator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/RecursiveNameFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/RecursiveNameFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/RecursiveRegexFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/RecursiveRegexFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/RecursiveTodoLister.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/RecursiveTodoLister.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/RegexFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/RegexFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/SyntaxChecker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/SyntaxChecker.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/TodoLister.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/TodoLister.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/Unicoder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Unicoder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/VCard/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/VCard/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/VCard/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/VCard/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/VCard/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/VCard/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/VCard/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/VCard/Writer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/FS/File/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/YAML/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/YAML/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/File/YAML/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/YAML/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/CodeLineCounter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/CodeLineCounter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Editor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Editor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Iterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Iterator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Lister.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Lister.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/MethodSortCheck.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/MethodSortCheck.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/MethodVisibilityCheck.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/MethodVisibilityCheck.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/RecursiveIterator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/RecursiveIterator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/RecursiveLister.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/RecursiveLister.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/RecursiveRegexFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/RecursiveRegexFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/RegexFilter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/RegexFilter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/SyntaxChecker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/SyntaxChecker.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Treeview/Json.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Treeview/Json.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Folder/Treeview/JsonExtended.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Folder/Treeview/JsonExtended.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/FS/Link.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/Link.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Loader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Loader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/DDNSS.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/DDNSS.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Dyn.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Dyn.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/ClosureCompiler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/ClosureCompiler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/Maps/Geocoder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/Maps/Geocoder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/Request.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Google/Sitemap/Submit.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Google/Sitemap/Submit.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Gravatar.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Gravatar.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/API/Premailer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/API/Premailer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/AtomServerTime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/AtomServerTime.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/AtomTime.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/AtomTime.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/CURL.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/CURL.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Connectivity.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Connectivity.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Connection.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Connection.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/FTP/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/FTP/Writer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Cookie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Cookie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/CrossDomainProxy.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/CrossDomainProxy.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Download.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Download.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Field.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Field/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Field/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Renderer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Renderer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Header/Section.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Method.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Method.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/PartitionCookie.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/PartitionCookie.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/PartitionSession.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/PartitionSession.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request/QueryParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request/QueryParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Compressor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Compressor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Decompressor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Decompressor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Response/Sender.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Response/Sender.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Session.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Session.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Browser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Browser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Charset.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Charset.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Encoding.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Encoding.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Language.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/Language.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/MimeType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/MimeType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/OS.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Sniffer/OS.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Status.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Status.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/UploadErrorHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/UploadErrorHandler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/SVN/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/SVN/Client.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Site/Crawler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Site/Crawler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Site/MapBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Site/MapBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Site/MapCreator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Site/MapCreator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/Site/MapWriter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/Site/MapWriter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/JID.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/JID.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/XMPP/MessageSender.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/XMPP/MessageSender.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Renderable.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Renderable.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/DevOutput.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/DevOutput.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/CollapsePanel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/CollapsePanel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/ContextMenu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/ContextMenu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Elements.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Elements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/Page.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/Page.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/Trace.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/Trace.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/TraceViewer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/TraceViewer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Exception/View.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Exception/View.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/FormElements.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/FormElements.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Index.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Indicator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Indicator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/JQuery.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/JQuery.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Ladder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Ladder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Options.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Options.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/PageFrame.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/PageFrame.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Pagination.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Pagination.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Paging.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Paging.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Panel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Panel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Table.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tabs.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tabs.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tag.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tag.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tree/ArrayView.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tree/ArrayView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tree/FolderCheckView.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tree/FolderCheckView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tree/FolderView.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tree/FolderView.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tree/LayerMenu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tree/LayerMenu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tree/Menu.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tree/Menu.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/HTML/Tree/VariableDump.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/HTML/Tree/VariableDump.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Captcha.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Captcha.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Creator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Creator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Drawer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Drawer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Error.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Error.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Exif.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Exif.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Filter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Filter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Graphviz/Graph.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Graphviz/Graph.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Graphviz/Renderer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Graphviz/Renderer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Histogram.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Histogram.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Modifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Modifier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Printer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Printer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Processing.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Processing.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Rotator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Rotator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/ThumbnailCreator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/ThumbnailCreator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Image/Watermark.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Image/Watermark.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/JS/CodeMirror.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/JS/CodeMirror.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/OutputBuffer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/OutputBuffer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/SVG/BarAcross.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/SVG/BarAcross.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/SVG/Chart.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/SVG/Chart.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/SVG/ChartData.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/SVG/ChartData.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/SVG/PieGraph.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/SVG/PieGraph.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Template.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Template.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/Text.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/Text.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UI/VariableDumper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/UI/VariableDumper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Atom/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Atom/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Atom/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Atom/Reader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Atom/Validator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Atom/Validator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Converter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Converter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/FeedIdentifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/FeedIdentifier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/FileEditor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/FileEditor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/FileReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/FileReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/FileWriter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/FileWriter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Formater.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Formater.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/GoogleSitemapBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/GoogleSitemapBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/GoogleSitemapWriter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/GoogleSitemapWriter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Node.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/ObjectDeserializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/ObjectDeserializer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/ObjectFileDeserializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/ObjectFileDeserializer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/DOM/ObjectFileSerializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/ObjectFileSerializer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/ObjectSerializer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/ObjectSerializer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/PEAR/PackageReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/PEAR/PackageReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/Storage.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/Storage.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/SyntaxValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/SyntaxValidator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/UrlReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/UrlReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/DOM/XPathQuery.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/DOM/XPathQuery.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/Element.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Element.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/ElementReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/ElementReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/FeedIdentifier.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/FeedIdentifier.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Namespaces.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Namespaces.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/OPML/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/OPML/Builder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/OPML/FileReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/OPML/FileReader.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/OPML/FileWriter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/OPML/FileWriter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/OPML/Outline.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/OPML/Outline.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/OPML/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/OPML/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RPC/Client.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RPC/Client.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/RSS/Builder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Builder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/RSS/GoogleBaseBuilder.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/GoogleBaseBuilder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/Parser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Parser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Reader.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/RSS/SimpleParser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/SimpleParser.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/RSS/SimpleReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/SimpleReader.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/RSS/Writer.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/RSS/Writer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/XML/UnitTestResultReader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/UnitTestResultReader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/Validator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/Validator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/XML/XSL/Transformator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/XML/XSL/Transformator.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,29 +517,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Composer Script.dev:a.executor": "Run",
-    "Composer Script.dev:all.executor": "Run",
-    "Composer Script.dev:create-docs.executor": "Run",
-    "Composer Script.dev:phpstan.executor": "Run",
-    "Composer Script.dev:phpunit.executor": "Run",
-    "Project.color": "3f0804",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "settings.php.quality.tools.phpstan",
-    "two.files.diff.last.used.file": "/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Composer Script.dev:a.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:all.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:create-docs.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:phpstan.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:phpunit.executor&quot;: &quot;Run&quot;,
+    &quot;Project.color&quot;: &quot;3f0804&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.php.quality.tools.phpstan&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/Exception" />
@@ -294,7 +672,9 @@
       <workItem from="1710353446464" duration="31061000" />
       <workItem from="1710384543237" duration="1437000" />
       <workItem from="1710463157775" duration="6320000" />
-      <workItem from="1711593381818" duration="7537000" />
+      <workItem from="1711593381818" duration="7751000" />
+      <workItem from="1712368616932" duration="728000" />
+      <workItem from="1713230017949" duration="1823000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -604,14 +984,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00065" summary="Applied changes to exception class constructors.">
-      <option name="closed" value="true" />
-      <created>1702701983856</created>
-      <option name="number" value="00065" />
-      <option name="presentableId" value="LOCAL-00065" />
-      <option name="project" value="LOCAL" />
-      <updated>1702701983856</updated>
-    </task>
     <task id="LOCAL-00066" summary="Add tests.">
       <option name="closed" value="true" />
       <created>1710385871131</created>
@@ -644,7 +1016,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710465342100</updated>
     </task>
-    <option name="localTasksCounter" value="70" />
+    <task id="LOCAL-00070" summary="Work towards PHPStan level 7.">
+      <option name="closed" value="true" />
+      <created>1712367539217</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1712367539217</updated>
+    </task>
+    <option name="localTasksCounter" value="71" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -675,7 +1055,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Reach PHPStan level 5 in PHP 8.1." />
     <MESSAGE value="Work towards PHPStan level 6." />
     <MESSAGE value="Fix unit tests." />
     <MESSAGE value="Add PHPUnit file for version 10." />
@@ -700,7 +1079,8 @@
     <MESSAGE value="Applied changes to exception class constructors." />
     <MESSAGE value="Add tests." />
     <MESSAGE value="Cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleanup" />
+    <MESSAGE value="Work towards PHPStan level 7." />
+    <option name="LAST_COMMIT_MESSAGE" value="Work towards PHPStan level 7." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
