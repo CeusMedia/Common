@@ -34,6 +34,7 @@ use Countable;
 use InvalidArgumentException;
 use Iterator;
 use OutOfRangeException;
+use ReturnTypeWillChange;
 use UnexpectedValueException;
 
 /**
@@ -91,7 +92,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@throws		OutOfRangeException			if key is not existing
 	 *	@throws		UnexpectedValueException	if cast is not possible (like between string and array and vise versa)
 	 */
-	public function cast( $value, string $key )
+	public function cast( mixed $value, string $key )
 	{
 		if( strtolower( gettype( $value ) ) === "resource" )
 			throw new InvalidArgumentException( 'Cannot cast resource' );
@@ -125,8 +126,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	#[\ReturnTypeWillChange]
-	public function current()
+	#[ReturnTypeWillChange]
+	public function current(): mixed
 	{
 		if( $this->position >= $this->count() )
 			return NULL;
@@ -190,7 +191,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( string $key, $default = NULL )
+	public function get( string $key, mixed $default = NULL ): mixed
 	{
 		if( $this->has( $key ) )
 			return $this->pairs[( !$this->caseSensitive ? strtolower( $key ) : $key )];
@@ -207,9 +208,9 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string|NULL		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
 	 *	@param		boolean			$asDictionary	Flag: return list as dictionary object instead of an array
 	 *	@param		boolean			$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
-	 *	@return		static|array	Map or dictionary object containing all or filtered pairs
+	 *	@return		self|array		Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): static|array
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): self|array
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
@@ -223,7 +224,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 		//  a dictionary object is to be returned
 		if( $asDictionary )
 			//  create dictionary for pair list
-			$list	= new static( $list, $caseSensitive );
+			$list	= new self( $list, $caseSensitive );
 		//  return pair list as array or dictionary
 		return $list;
 	}
@@ -244,7 +245,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		mixed		$value		Value to get Key of
 	 *	@return		int|string|NULL			Key of value if found, otherwise NULL
 	 */
-	public function getKeyOf( $value )
+	public function getKeyOf( mixed $value ): int|string|null
 	{
 		$key		= array_search( $value, $this->pairs, TRUE );
 		return $key === FALSE ? NULL : $key;
@@ -276,8 +277,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		int|string|NULL
 	 */
-	#[\ReturnTypeWillChange]
-	public function key()
+	#[ReturnTypeWillChange]
+	public function key(): int|string|null
 	{
 		$keys	= array_keys( $this->pairs );
 		return $this->position < $this->count() ? $keys[$this->position] : NULL;
@@ -288,8 +289,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	#[\ReturnTypeWillChange]
-	public function next()
+	#[ReturnTypeWillChange]
+	public function next(): void
 	{
 		$this->position++;
 	}
@@ -311,8 +312,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		mixed
 	 */
-	#[\ReturnTypeWillChange]
-	public function offsetGet( $offset )
+	#[ReturnTypeWillChange]
+	public function offsetGet( $offset ): mixed
 	{
 		return $this->get( $offset );
 	}
@@ -324,7 +325,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$value		Value of Key
 	 *	@return		boolean
 	 */
-	#[\ReturnTypeWillChange]
+	#[ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ): bool
     {
 		return $this->set( $offset, $value );
@@ -336,7 +337,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		boolean
 	 */
-	#[\ReturnTypeWillChange]
+	#[ReturnTypeWillChange]
 	public function offsetUnset( $offset ): bool
 	{
 		return $this->remove( $offset );
@@ -373,8 +374,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	#[\ReturnTypeWillChange]
-	public function rewind()
+	#[ReturnTypeWillChange]
+	public function rewind(): void
 	{
 		$this->position	= 0;
 	}
@@ -386,7 +387,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		mixed		$value		Value of Key, NULL will remove pair from list
 	 *	@return		boolean
 	 */
-	public function set( string $key, $value ): bool
+	public function set( string $key, mixed $value ): bool
 	{
 		//  check if pair is already existing
 		if( $this->has( $key ) ){

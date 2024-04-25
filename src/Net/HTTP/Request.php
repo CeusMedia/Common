@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\Net\HTTP;
 
+use ArrayAccess;
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
@@ -46,7 +47,7 @@ use RuntimeException;
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Finish implementation: this is bastard of request and response
  */
-class Request extends Dictionary
+class Request implements ArrayAccess
 {
 	/** @var		HeaderSection	$headers		Object of collected HTTP Headers */
 	public HeaderSection $headers;
@@ -72,11 +73,16 @@ class Request extends Dictionary
 
 	protected array $sources		= [];
 
+	protected Dictionary $parameters;
+
+	/**	@var		boolean			$caseSensitive	Flag: be case-sensitive on pair keys */
+	protected bool $caseSensitive	= TRUE;
+
 	public function __construct( ?string $protocol = NULL, ?string $version = NULL )
 	{
-		parent::__construct();
-		$this->method	= new Method();
-		$this->headers	= new HeaderSection();
+		$this->method		= new Method();
+		$this->headers		= new HeaderSection();
+		$this->parameters	= new Dictionary();
 		if( !empty( $protocol ) )
 			$this->setProtocol( $protocol );
 		if( !empty( $version ) )
@@ -108,6 +114,16 @@ class Request extends Dictionary
 		return $this;
 	}
 
+	/**
+	 *	Returns size of parameters dictionary.
+	 *	@access		public
+	 *	@return		integer
+	 */
+	public function count(): int
+	{
+		return $this->parameters->count();
+	}
+
 	public function fromEnv( bool $useSession = FALSE, bool $useCookie = FALSE ): self
 	{
 		//  store HTTP method
@@ -128,20 +144,21 @@ class Request extends Dictionary
 		//  retrieve requested path
 		$this->root	= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
 		$this->path	= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
-		if( strpos( $this->path, '?' ) !== FALSE )
+		if( str_contains( $this->path, '?' ) )
 			$this->path = substr( $this->path, 0, strpos( $this->path, '?' ) );
 
 		/*  --  APPLY ALL SOURCES TO ONE COLLECTION OF REQUEST ARGUMENT PAIRS  --  */
 		foreach( $this->sources as $values )
-			$this->pairs	= array_merge( $this->pairs, $values );
+			foreach( $values as $key => $value )
+				$this->parameters->set( $key, $value );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
 		$this->headers->addFieldPairs( self::getAllEnvHeaders() );
 
 		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' );
+		$this->ip		= getEnv( 'REMOTE_ADDR' ) ?: '';
 		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
-			$this->ip = $this->headers->getFieldsByName( 'X-Forwarded-For', TRUE );					//  get original IP address of request
+			$this->ip = (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue();			//  get original IP address of request
 
 		//  store raw POST, PUT or FILE data
 		$this->body	= file_get_contents( "php://input" );
@@ -153,6 +170,34 @@ class Request extends Dictionary
 		/** @noinspection PhpUnhandledExceptionInspection */
 		throw new Exception( 'Not implemented' );
 //		return $this;
+	}
+
+	/**
+	 *	Return a value of parameter dictionary by its Key.
+	 *	@access		public
+	 *	@param		string		$key		Key in dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
+	 *	@return		mixed
+	 */
+	public function get( string $key, mixed $default = NULL ): mixed
+	{
+		return $this->parameters->get( $key, $default );
+	}
+
+	/**
+	 *	Returns all Pairs of Dictionary as an Array.
+	 *	Using a filter prefix, all pairs with keys starting with prefix are returned.
+	 *	Attention: A given prefix will be cut from pair keys.
+	 *	By default, an array is returned. Alternatively another dictionary can be returned.
+	 *	@access		public
+	 *	@param		string|NULL		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean			$asDictionary	Flag: return list as dictionary object instead of an array
+	 *	@param		boolean			$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		Dictionary|array				Map or dictionary object containing all or filtered pairs
+	 */
+	public function getAll( string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
+	{
+		return $this->parameters->getAll( $prefix, $asDictionary, $caseSensitive );
 	}
 
 	/**
@@ -291,6 +336,16 @@ class Request extends Dictionary
 	}
 
 	/**
+	 *	Return list of parameter pair keys.
+	 *	@access		public
+	 *	@return		array		List of parameter pair keys
+	 */
+	public function getKeys(): array
+	{
+		return $this->parameters->getKeys();
+	}
+
+	/**
 	 *	Return request method object.
 	 *	@access		public
 	 *	@return		Method
@@ -338,6 +393,17 @@ class Request extends Dictionary
 	}
 
 	/**
+	 *	Indicates whether a parameter key is existing.
+	 *	@access		public
+	 *	@param		string		$key		Parameter key in dictionary
+	 *	@return		boolean
+	 */
+	public function has( string $key ): bool
+	{
+		return $this->parameters->has( $key );
+	}
+
+	/**
 	 *	Indicates whether a pair is existing in a request source by its key.
 	 *	@access		public
 	 *	@param		string		$key		...
@@ -353,6 +419,69 @@ class Request extends Dictionary
 	public function isAjax(): bool
 	{
 		return $this->headers->hasField( 'X-Requested-With' );
+	}
+
+	/**
+	 *	Indicates whether a Key is existing.
+	 *	@access		public
+	 *	@param		string		$offset		Key in Dictionary
+	 *	@return		boolean
+	 */
+	public function offsetExists( $offset ): bool
+	{
+		return $this->parameters->has( $offset );
+	}
+
+	/**
+	 *	Return a Value of Dictionary by its Key.
+	 *	@access		public
+	 *	@param		string		$offset		Key in Dictionary
+	 *	@return		mixed
+	 */
+	public function offsetGet( $offset ): mixed
+	{
+		return $this->parameters->get( $offset );
+	}
+
+	/**
+	 *	Sets Value of Key in Dictionary.
+	 *	@access		public
+	 *	@param		string		$offset		Key in Dictionary
+	 *	@param		string		$value		Value of Key
+	 *	@return		void
+	 */
+	public function offsetSet( $offset, $value ): void
+	{
+		$this->parameters->set( $offset, $value );
+	}
+
+	/**
+	 *	Removes a Value from Dictionary by its Key.
+	 *	@access		public
+	 *	@param		string		$offset		Key in Dictionary
+	 *	@return		void
+	 */
+	public function offsetUnset( $offset ): void
+	{
+		$this->parameters->remove( $offset );
+	}
+
+	/**
+	 *	Removes a Value from Dictionary by its Key.
+	 *	@access		public
+	 *	@param		string		$key		Key in Dictionary
+	 *	@return		self
+	 */
+	public function remove( string $key ): self
+	{
+		$this->parameters->remove( $key );
+		return $this;
+	}
+
+	public function set( string $key, mixed $value ): self
+	{
+		$this->parameters->set( $key, $value );
+		return $this;
 	}
 
 	public function setAjax( bool $isAjax = TRUE ): self

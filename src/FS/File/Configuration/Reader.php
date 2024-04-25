@@ -82,7 +82,7 @@ class Reader extends Dictionary
 	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( string $key, $default = NULL )
+	public function get( string $key, mixed $default = NULL ): mixed
 	{
 		//  no Key given
 		if( empty( $key ) )
@@ -112,7 +112,7 @@ class Reader extends Dictionary
 					continue;
 				}
 				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 )
+				if( str_starts_with( $pairKey, $key ) )
 					//  collect Pair
 					$list[substr( $pairKey, $length )]	= $pairValue;
 			}
@@ -179,7 +179,7 @@ class Reader extends Dictionary
 	 *	@param		string		$fileName		File Name of Configuration File
 	 *	@return		void
 	 */
-	protected function loadIniFile( string $fileName )
+	protected function loadIniFile( string $fileName ): void
 	{
 		if( self::$iniQuickLoad ){
 			$array	= parse_ini_file( $fileName, TRUE );
@@ -212,7 +212,7 @@ class Reader extends Dictionary
 	 *	@param		string		$fileName		File Name of Configuration File
 	 *	@return		void
 	 */
-	protected function loadJsonFile( string $fileName )
+	protected function loadJsonFile( string $fileName ): void
 	{
 		$json	= FileReader::load( $fileName );
 		$array	= JsonConverter::convertToArray( $json );
@@ -228,7 +228,7 @@ class Reader extends Dictionary
 	 *	@return		void
 	 *	@throws		Exception
 	 */
-	protected function loadXmlFile( string $fileName )
+	protected function loadXmlFile( string $fileName ): void
 	{
 		//  get root element of XML file
 		$root	= XmlElementReader::readFile( $fileName );
@@ -252,7 +252,7 @@ class Reader extends Dictionary
 	 *	@param		string|NULL		$path			Path to this section
 	 *	@return		void
 	 */
-	protected function loadXmlSection( XmlElement $node, ?string $path = NULL )
+	protected function loadXmlSection( XmlElement $node, ?string $path = NULL ): void
 	{
 		//  extend path by delimiter
 		$path	.= $path ? '.' : '';
@@ -292,7 +292,7 @@ class Reader extends Dictionary
 	 *	@param		string		$fileName		File Name of Configuration File
 	 *	@return		void
 	 */
-	protected function loadYamlFile( string $fileName )
+	protected function loadYamlFile( string $fileName ): void
 	{
 		$array	= YamlFileReader::load( $fileName );
 		foreach( $array as $sectionName => $sectionData )
@@ -329,7 +329,7 @@ class Reader extends Dictionary
 				continue;
 			}
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 ){
+			if( str_starts_with( $pairKey, $key ) ){
 				//  remove Pair
 				unset( $this->pairs[$pairKey] );
 				//  count removed Pairs

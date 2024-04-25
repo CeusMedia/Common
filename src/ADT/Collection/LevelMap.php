@@ -71,7 +71,7 @@ class LevelMap extends Dictionary
 	 *	@return		mixed
 	 *	@throws		InvalidArgumentException	if key is invalid
 	 */
-	public function get( string $key, $default = NULL ): mixed
+	public function get( string $key, mixed $default = NULL ): mixed
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )
@@ -195,11 +195,11 @@ class LevelMap extends Dictionary
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string			$key		Key in Dictionary
-	 *	@param		string|array	$value		Value of Key
+	 *	@param		mixed			$value		Value of Key
 	 *	@param		bool			$sort		Flag: sort by Keys after Insertion
 	 *	@return		bool
 	 */
-	public function set(string $key, $value, bool $sort = TRUE ): bool
+	public function set( string $key, mixed $value, bool $sort = TRUE ): bool
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )
