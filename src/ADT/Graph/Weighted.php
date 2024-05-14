@@ -46,9 +46,9 @@ use InvalidArgumentException;
 class Weighted
 {
 	/**	@var	NodeSet			$nodeSet		Set of Nodes */
-	protected $nodeSet;
+	protected NodeSet $nodeSet;
 	/**	@var	EdgeSet			$edgeSet		Set of Edges */
-	protected $edgeSet;
+	protected EdgeSet $edgeSet;
 
 	/**
 	 *	Constructor.
@@ -476,7 +476,7 @@ class Weighted
 	 *	@throws		Exception
 	 *	@throws		InvalidArgumentException
 	 */
-	public function makeTransitive()
+	public function makeTransitive(): void
 	{
 		$nodes = $this->getNodes();
 		foreach( $nodes as $source ){
@@ -500,31 +500,33 @@ class Weighted
 	 *	@access		public
 	 *	@param		Node		$source		Source Node of this Edge
 	 *	@param		Node		$target		Target Node of this Edge
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeEdge( Node $source, Node $target )
+	public function removeEdge( Node $source, Node $target ): self
 	{
 		if( $source->getNodeName() < $target->getNodeName() )
 			$this->edgeSet->removeEdge( $source, $target );
 		else
 			$this->edgeSet->removeEdge( $target, $source );
+		return $this;
 	}
 
 	/**
 	 *	Removes a Node.
 	 *	@access		public
 	 *	@param		Node		$node		Node to be removed
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeNode( Node $node )
+	public function removeNode( Node $node ): self
 	{
 		foreach( $this->getNodes() as $_node )
 			//  remove all Edges of Node
 			$this->removeEdge( $_node, $node );
 		//  remove Node
 		$this->nodeSet->removeNode( $node );
+		return $this;
 	}
 
 	/**
@@ -533,7 +535,7 @@ class Weighted
 	 *	@return		void
 	 *	@throws		Exception
 	 */
-	public function shortest()
+	public function shortest(): void
 	{
 		$nodes = $this->getNodes();
 		foreach( $nodes as $target ){

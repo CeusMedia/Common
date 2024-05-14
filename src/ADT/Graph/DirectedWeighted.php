@@ -188,23 +188,24 @@ class DirectedWeighted extends Weighted
 	 *	@access		public
 	 *	@param		Node		$source		Source Node of this Edge
 	 *	@param		Node		$target		Target Node of this Edge
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeEdge( Node $source, Node $target )
+	public function removeEdge( Node $source, Node $target ): self
 	{
 		if( $this->isEdge( $source, $target ) )
 			$this->edgeSet->removeEdge( $source, $target );
+		return $this;
 	}
 
 	/**
 	 *	 Removes a Node.
 	 *	@access		public
 	 *	@param		Node		$node		Node to be removed
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeNode( Node $node )
+	public function removeNode( Node $node ): self
 	{
 		foreach( $this->getNodes() as $_node ){
 			if( $this->isEdge( $_node, $node ) )
@@ -216,6 +217,7 @@ class DirectedWeighted extends Weighted
 		}
 		//  remove Node
 		$this->nodeSet->removeNode( $node );
+		return $this;
 	}
 
 	/**

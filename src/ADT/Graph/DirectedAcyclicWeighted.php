@@ -66,14 +66,15 @@ class DirectedAcyclicWeighted extends DirectedWeighted
 	 *	@access		public
 	 *	@param		Node		$source		Source Node of this Edge
 	 *	@param		Node		$target		Target Node of this Edge
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
- 	public function removeEdge( Node $source, Node $target )
+ 	public function removeEdge( Node $source, Node $target ): self
 	{
 		$value	= $this->getEdgeValue( $source, $target );
 		$this->edgeSet->removeEdge( $source, $target );
 		if( !$this->isCoherent() )
 			$this->edgeSet->addEdge( $source, $target, $value );
+		return $this;
 	}
 }

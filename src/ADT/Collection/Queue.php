@@ -43,7 +43,7 @@ use RuntimeException;
 class Queue implements Countable
 {
 	/**	@var		array		$queue			Array of all elements in queue */
- 	protected $queue			= [];
+ 	protected array $queue		= [];
 
 	/**
 	 *	Constructor.
@@ -72,7 +72,7 @@ class Queue implements Countable
 	 *	@return		mixed
 	 *	@throws		RuntimeException	if queue is empty
 	 */
-	public function bottom()
+	public function bottom(): mixed
 	{
 		if( !count( $this->queue ) )
 			throw new RuntimeException( 'Queue is empty.' );
@@ -95,7 +95,7 @@ class Queue implements Countable
 	 *	@param		mixed		$item		Item to find in the Queue
 	 *	@return		bool
 	 */
-	public function has( $item ): bool
+	public function has( mixed $item ): bool
 	{
 		return in_array( $item, $this->queue, TRUE );
 	}
@@ -116,7 +116,7 @@ class Queue implements Countable
 	 *	@return		mixed
 	 *	@throws		RuntimeException	if queue is empty
 	 */
-	public function pop()
+	public function pop(): mixed
 	{
 		if( !count( $this->queue ) )
 			throw new RuntimeException( 'Queue is empty.' );
@@ -129,7 +129,7 @@ class Queue implements Countable
 	 *	@param		mixed		$item		Item to add to the Queue
 	 *	@return		self
 	 */
-	public function push( $item ): self
+	public function push( mixed $item ): self
 	{
 		$this->queue[] = $item;
 		return $this;
@@ -150,7 +150,7 @@ class Queue implements Countable
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function top()
+	public function top(): mixed
 	{
 		return $this->pop();
 	}

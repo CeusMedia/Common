@@ -43,7 +43,7 @@ use Exception;
 class NodeSet implements Countable
 {
 	/**	@var		array			$nodes			array of all Nodes */
- 	protected $nodes = [];
+ 	protected array $nodes = [];
 
 	/**
 	 *	Adds a new Node and returns reference of this Node.
@@ -143,25 +143,23 @@ class NodeSet implements Countable
 	 */
 	public function isNode( Node $node ): bool
 	{
-		foreach( $this->nodes as $_node )
-			if( $_node == $node )
-				return TRUE;
-		return FALSE;
+		return in_array( $node, $this->nodes, TRUE );
 	}
 
 	/**
 	 *	Removing a node.
 	 *	@access		public
 	 *	@param		Node		$node			Node to be removed
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeNode( Node $node )
+	public function removeNode( Node $node ): self
 	{
 		if( !$this->isNode( $node ) )
 			throw new Exception( 'Edge is not existing.' );
 		$index = $this->getNodeIndex( $node );
 		unset( $this->nodes[$index] );
 		sort( $this->nodes );
+		return $this;
 	}
 }

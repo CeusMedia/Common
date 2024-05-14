@@ -40,7 +40,7 @@ namespace CeusMedia\Common\ADT\Graph;
 class Node
 {
 	/**	@var	string		$nodeName 		Name of this Node */
-	protected $nodeName;
+	protected string $nodeName;
 
 	/**	@var	mixed		$nodeValue		Value of this Node */
 	protected $nodeValue;

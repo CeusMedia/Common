@@ -29,13 +29,15 @@
 
 namespace CeusMedia\Common\ADT\Collection;
 
+use CeusMedia\Common\Exception\Data\InvalidTypeCast as InvalidTypeCastException;
+
 use ArrayAccess;
 use Countable;
-use InvalidArgumentException;
 use Iterator;
 use OutOfRangeException;
 use ReturnTypeWillChange;
 use UnexpectedValueException;
+
 
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
@@ -87,15 +89,15 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		mixed		$value		Value to cast
 	 *	@param		string		$key		Key in Dictionary
-	 *	@return		mixed
-	 *	@throws		InvalidArgumentException	if value is a resource
+	 *	@return		bool|int|float|string|array|object|NULL
+	 *	@throws		InvalidTypeCastException	if value is a resource
 	 *	@throws		OutOfRangeException			if key is not existing
 	 *	@throws		UnexpectedValueException	if cast is not possible (like between string and array and vise versa)
 	 */
-	public function cast( mixed $value, string $key )
+	public function cast( mixed $value, string $key ): bool|int|float|string|array|object|NULL
 	{
 		if( strtolower( gettype( $value ) ) === "resource" )
-			throw new InvalidArgumentException( 'Cannot cast resource' );
+			throw InvalidTypeCastException::create( 'Cannot cast resource' );
 		if( !$this->has( $key ) )
 			throw new OutOfRangeException( 'Invalid key "'.$key.'"' );
 

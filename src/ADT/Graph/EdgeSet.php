@@ -44,7 +44,7 @@ use InvalidArgumentException;
 class EdgeSet implements Countable
 {
 	/**	@var		Edge[]				$edges			Array of all Edges */
-	protected $edges = [];
+	protected array $edges = [];
 
 	/**
 	 *	Adds a new Edge and returns reference of this Edge.
@@ -147,15 +147,16 @@ class EdgeSet implements Countable
 	 *	@access		public
 	 *	@param		Node		$sourceNode		Source Node of this Edge
 	 *	@param		Node		$targetNode		Target Node of this Edge
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeEdge( Node $sourceNode, Node $targetNode )
+	public function removeEdge( Node $sourceNode, Node $targetNode ): self
 	{
 		if( !$this->isEdge( $sourceNode, $targetNode ) )
 			throw new Exception( 'Edge is not existing.' );
 		$index = $this->getEdgeIndex( $sourceNode, $targetNode );
 		unset( $this->edges[$index] );
 		sort( $this->edges );
+		return $this;
 	}
 }

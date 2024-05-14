@@ -43,7 +43,7 @@ use InvalidArgumentException;
 class Sheet
 {
 	/**	@var		Rule[]			$rules		List of CSS rule objects */
-	public $rules		= [];
+	public array $rules				= [];
 
 	/**
 	 *	Constructor.
@@ -85,9 +85,7 @@ class Sheet
 	public function get( string $selector, string $key ): ?Property
 	{
 		$rule = $this->getRuleBySelector( $selector );
-		if( !$rule )
-			return NULL;
-		return $rule->getPropertyByKey( $key );
+		return $rule?->getPropertyByKey($key);
 	}
 
 	/**

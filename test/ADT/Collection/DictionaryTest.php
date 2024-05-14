@@ -15,6 +15,7 @@ declare( strict_types = 1 );
 namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Exception\Data\InvalidTypeCast as InvalidTypeCastException;
 use CeusMedia\CommonTest\BaseCase;
 
 /**
@@ -25,7 +26,7 @@ use CeusMedia\CommonTest\BaseCase;
 class DictionaryTest extends BaseCase
 {
 	/**	@var	Dictionary		$list		Instance of Dictionary */
-	private $dictionary;
+	private Dictionary $dictionary;
 
 	public function setUp(): void
 	{
@@ -38,7 +39,7 @@ class DictionaryTest extends BaseCase
 		$this->dictionary->set( 'key5', new Dictionary( array( '0', '1' ) ) );
 	}
 
-	public function testConstruct()
+	public function testConstruct(): void
 	{
 		$dictionary	= new Dictionary();
 		$assertion	= 0;
@@ -64,7 +65,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testCast()
+	public function testCast(): void
 	{
 		$assertion	= 2;
 		$creation	= $this->dictionary->cast( "2", 'key0' );
@@ -82,16 +83,16 @@ class DictionaryTest extends BaseCase
 
 	/**
 	 */
-	public function testCastException1()
+	public function testCastException1(): void
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( InvalidTypeCastException::class );
 		$fp	= fopen( __FILE__, 'r' );
 		$this->dictionary->cast( $fp, 'key1' );
 	}
 
 	/**
 	 */
-	public function testCastException2()
+	public function testCastException2(): void
 	{
 		$this->expectException( 'OutOfRangeException' );
 		$this->dictionary->cast( 'whatever', 'invalid' );
@@ -99,27 +100,27 @@ class DictionaryTest extends BaseCase
 
 	/**
 	 */
-	public function testCastException3()
+	public function testCastException3(): void
 	{
 		$this->expectException( 'UnexpectedValueException' );
 		$this->dictionary->cast( [], 'key1' );
 	}
 
-	public function testCount()
+	public function testCount(): void
 	{
 		$assertion	= 6;
 		$creation	= $this->dictionary->count();
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testCountableInterface()
+	public function testCountableInterface(): void
 	{
 		$assertion	= 6;
 		$creation	= count( $this->dictionary );
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testFlush()
+	public function testFlush(): void
 	{
 		$this->dictionary->next();
 		$this->dictionary->next();
@@ -133,7 +134,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( 'value1', $this->dictionary->current() );
 	}
 
-	public function testGet()
+	public function testGet(): void
 	{
 		$assertion	= "value2";
 		$creation	= $this->dictionary->get( 'key2' );
@@ -148,7 +149,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetWithDefault()
+	public function testGetWithDefault(): void
 	{
 		$assertion	= "value2";
 		$creation	= $this->dictionary->get( 'key2', -1 );
@@ -163,7 +164,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetAll()
+	public function testGetAll(): void
 	{
 		$assertion	= array(
 			'key0'	=> 0,
@@ -177,7 +178,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetAllWithPrefix()
+	public function testGetAllWithPrefix(): void
 	{
 		$dictionary	= new Dictionary( array(
 			'A.a'		=> 0,
@@ -212,7 +213,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetKeyOf()
+	public function testGetKeyOf(): void
 	{
 		$assertion	= 'key2';
 		$creation	= $this->dictionary->getKeyOf( 'value2' );
@@ -233,7 +234,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testHas()
+	public function testHas(): void
 	{
 		$creation	= $this->dictionary->has( 'key2' );
 		$this->assertTrue( $creation );
@@ -245,7 +246,7 @@ class DictionaryTest extends BaseCase
 		$this->assertFalse( $creation );
 	}
 
-	public function testRemove()
+	public function testRemove(): void
 	{
 		$this->dictionary->remove( 'key2' );
 		$creation	= $this->dictionary->has( 'key2' );
@@ -257,7 +258,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testIterator()
+	public function testIterator(): void
 	{
 		$list	= [];
 		foreach( $this->dictionary as $key => $value )
@@ -265,7 +266,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $list, $this->dictionary->getAll() );
 	}
 
-	public function testRemove2()
+	public function testRemove2(): void
 	{
 		foreach( $this->dictionary->getKeys() as $key )
 			$this->dictionary->remove( $key );
@@ -275,7 +276,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testSet()
+	public function testSet(): void
 	{
 		$this->dictionary->set( 'key2', 'value2#' );
 		$assertion	= 'value2#';
@@ -289,20 +290,20 @@ class DictionaryTest extends BaseCase
 	}
 
 	//  --  TESTS OF ARRAY ACCESS INTERFACE  --  //
-	public function testOffsetExists()
+	public function testOffsetExists(): void
 	{
 		$creation	= isset( $this->dictionary['key2'] );
 		$this->assertTrue( $creation );
 	}
 
-	public function testOffsetGet()
+	public function testOffsetGet(): void
 	{
 		$assertion	= "value2";
 		$creation	=$this->dictionary['key2'];
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testOffsetSet()
+	public function testOffsetSet(): void
 	{
 		$this->dictionary['key2']	= "value2#";
 		$assertion	= "value2#";
@@ -315,7 +316,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testOffsetUnset()
+	public function testOffsetUnset(): void
 	{
 		unset( $this->dictionary['key2'] );
 		$creation	= $this->dictionary->has( 'key2' );
@@ -327,7 +328,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testOffsetUnset2()
+	public function testOffsetUnset2(): void
 	{
 		foreach( $this->dictionary as $key => $value )
 			unset( $this->dictionary[$key] );
@@ -338,12 +339,8 @@ class DictionaryTest extends BaseCase
 	}
 
 	//  --  TESTS OF ITERATOR INTERFACE  --  //
-	public function testKey()
+	public function testKey(): void
 	{
-		$assertion	= 'key0';
-		$creation	= $this->dictionary->key();
-		$this->assertEquals( $assertion, $creation );
-
 		$assertion	= 'key0';
 		$creation	= $this->dictionary->key();
 		$this->assertEquals( $assertion, $creation );
@@ -358,15 +355,11 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testCurrent()
+	public function testCurrent(): void
 	{
-		$assertion	= 0;
-		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 0;
-		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		$expected	= 0;
+		$this->assertEquals( $expected, $this->dictionary->current() );
+		$this->assertEquals( $expected, $this->dictionary->current() );
 
 		$this->dictionary->next();
 		$assertion	= 'value1';
@@ -378,14 +371,13 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testNext()
+	public function testNext(): void
 	{
 		$assertion	= 0;
 		$creation	= $this->dictionary->current();
 		$this->assertEquals( $assertion, $creation );
 
-		$creation	= $this->dictionary->next();
-		$this->assertNull( $creation );
+		$this->dictionary->next();
 
 		$assertion	= 'value1';
 		$creation	= $this->dictionary->current();
@@ -404,7 +396,7 @@ class DictionaryTest extends BaseCase
 		$this->assertNull( $creation );
 	}
 
-	public function testRewind()
+	public function testRewind(): void
 	{
 		$assertion	= 0;
 		$creation	= $this->dictionary->current();
@@ -421,7 +413,7 @@ class DictionaryTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
- 	public function testValid()
+ 	public function testValid(): void
 	{
 		$this->dictionary->next();
 		$creation	= $this->dictionary->valid();

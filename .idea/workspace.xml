@@ -5,12 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update copyright and secure linked URLs.">
-      <change beforePath="$PROJECT_DIR$/.idea/Common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Common.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Exception/Data/InvalidTypeCast.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/CSS/Sheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/CSS/Sheet.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/LevelMap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/FS/File/Configuration/Reader.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/FS/File/Configuration/Reader.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Queue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Queue.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Stack.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Stack.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/DirectedAcyclicWeighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/DirectedAcyclicWeighted.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/DirectedWeighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/DirectedWeighted.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Edge.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Edge.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/EdgeSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/EdgeSet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Node.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/NodeSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/NodeSet.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Weighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Weighted.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/ADT/Collection/DictionaryTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/ADT/Collection/DictionaryTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -203,9 +214,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Composer Script.dev:phpunit" />
         <item itemvalue="Composer Script.dev:phpstan" />
         <item itemvalue="Composer Script.dev:all" />
-        <item itemvalue="Composer Script.dev:phpunit" />
         <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
         <item itemvalue="Composer Script.dev:a" />
       </list>

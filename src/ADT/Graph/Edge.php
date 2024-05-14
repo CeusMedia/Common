@@ -40,11 +40,11 @@ namespace CeusMedia\Common\ADT\Graph;
 class Edge
 {
 	/**	@var		Node		$sourceNode		Source Node of Edge */
- 	protected $sourceNode;
+ 	protected Node $sourceNode;
 	/**	@var		Node		$targetNode		Target Node of Edge */
-	protected $targetNode;
+	protected Node $targetNode;
 	/**	@var		int			$edgeValue		Value of Edge */
-	protected $edgeValue		= 1;
+	protected int $edgeValue	= 1;
 
 	/**
 	 *	Constructor.
@@ -92,32 +92,35 @@ class Edge
 	 *	Setting the Value of this Edge.
 	 *	@access		public
 	 *	@param		int					$edgeValue		Value of this Edge
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setEdgeValue( int $edgeValue )
+	public function setEdgeValue( int $edgeValue ): self
 	{
 		$this->edgeValue = $edgeValue;
+		return $this;
 	}
 
 	/**
 	 *	Setting the Source Node of this Edge.
 	 *	@access		public
 	 *	@param		Node		$sourceNode		Source Node of this Edge
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setSourceNode( Node $sourceNode )
+	public function setSourceNode( Node $sourceNode ): self
 	{
 		$this->sourceNode = $sourceNode;
+		return $this;
 	}
 
 	/**
 	 *	Setting the Target Node of this Edge.
 	 *	@access		public
 	 *	@param		Node		$targetNode		Target Node of this Edge
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setTargetNode( Node $targetNode )
+	public function setTargetNode( Node $targetNode ): self
 	{
 		$this->targetNode = $targetNode;
+		return $this;
 	}
 }

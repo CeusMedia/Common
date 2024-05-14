@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
 
 /**
  *	Collects and Manages Request Data.
@@ -89,7 +90,7 @@ class Receiver extends Dictionary
 		//  store HTTP method
 		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
 		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
-		if( strpos( $this->path, '?' ) !== FALSE )
+		if( str_contains( $this->path, '?' ) )
 			$this->path	= substr( $this->path, 0, strpos( $this->path, '?' ) );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
@@ -129,7 +130,7 @@ class Receiver extends Dictionary
 	 *	@return		mixed		Value of key in source or NULL if not set
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 */
-	public function getFromSource( string $key, string $source, bool $strict = FALSE )
+	public function getFromSource( string $key, string $source, bool $strict = FALSE ): mixed
 	{
 		$data	= $this->getAllFromSource( $source );
 		if( isset( $data[$key] ) )
@@ -167,7 +168,7 @@ class Receiver extends Dictionary
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
 	 *	@return		HeaderField[]|HeaderField|NULL	List of collected HTTP Header Fields with given Header Name
 	 */
-	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): array|HeaderField|NULL
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
