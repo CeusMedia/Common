@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of FS_File_Block_Reader.
  *	@package		Tests.FS.File.Block

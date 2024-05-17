@@ -1,7 +1,11 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
- *	TestUnit of T File.
+ *	TestUnit of Tar File.
  *	@package		Tests.FS.File.Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
@@ -19,28 +23,29 @@ use CeusMedia\CommonTest\BaseCase;
 class TarTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName;
+	private string $fileName;
 
-	public function setUp(): void
-	{
-		$this->path	= dirname( __FILE__ )."/";
-		$this->fileName	= $this->path."test.tar";
-	}
+	protected string $path;
 
-	public function tearDown(): void
-	{
-		@unlink( $this->fileName );
-	}
-
-	public function testAddFile()
+	public function testAddFile(): void
 	{
 		$arc	= new Tar();
 		$arc->addFile( $this->path."TarTest.php" );
 
 		$this->assertTrue( $arc->save( $this->fileName ) > 0 );
 
-		$assertion	= TRUE;
 		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
+	}
+
+	protected function setUp(): void
+	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."test.tar";
+	}
+
+	protected function tearDown(): void
+	{
+		@unlink( $this->fileName );
 	}
 }

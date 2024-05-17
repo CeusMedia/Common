@@ -24,24 +24,6 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ProgramTest extends BaseCase
 {
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-	}
-
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-	}
-
 //	/**
 //	 *	Tests Method '__construct'.
 //	 *	@access		public
@@ -56,23 +38,41 @@ class ProgramTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRun()
+	public function testRun(): void
 	{
 		$program	= new TestProgram;
 		$assertion	= 2;
 		$creation	= $program->run( "arg1" );
 		$this->assertEquals( $assertion, $creation );
 	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
+	}
 }
 class TestProgram extends Program
 {
-	public $testOptions	= array(
+	public array $testOptions	= array(
 		'user'		=> "@[a-z]@i",
 		'password'	=> "@[a-z]@i",
 		'force'		=> "",
 		"long"		=> "@[0-9]@",
 	);
-	public $testShortcuts	= array(
+	public array $testShortcuts	= array(
 		'f'		=> 'force',
 		'u'		=> 'user',
 		'p'		=> 'password',

@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of List Writer.
  *	@package		Tests.FS.File.Collection
@@ -20,47 +24,24 @@ use CeusMedia\CommonTest\BaseCase;
 class WriterTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName;
+	private string $fileName;
 
-	/**
-	 *	Set up for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->fileName	= dirname( __FILE__ )."/writer.list";
-		$this->writer	= new Writer( $this->fileName );
-	}
-
-	/**
-	 *	Clean up.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-		@unlink( $this->fileName );
-	}
+	private Writer $writer;
 
 	/**
 	 *	Tests Method 'add'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testAdd()
+	public function testAdd(): void
 	{
-		$assertion	= TRUE;
-		$creation	= $this->writer->add( 'line1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->add( 'line1' ) );
 
 		$assertion	= array( "line1" );
 		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= TRUE;
-		$creation	= $this->writer->add( 'line2' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->add( 'line2' ) );
 
 		$assertion	= array( "line1", "line2" );
 		$creation	= Reader::read( $this->fileName );
@@ -72,7 +53,7 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testAddException()
+	public function testAddException(): void
 	{
 		$this->writer->add( 'line1' );
 		$this->expectException( 'DomainException' );
@@ -84,14 +65,12 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemove()
+	public function testRemove(): void
 	{
 		$this->writer->add( 'line1' );
 		$this->writer->add( 'line2' );
 
-		$assertion	= TRUE;
-		$creation	= $this->writer->remove( 'line1' );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->remove( 'line1' ) );
 
 		$assertion	= array( "line2" );
 		$creation	= Reader::read( $this->fileName );
@@ -103,7 +82,7 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemoveException()
+	public function testRemoveException(): void
 	{
 		$this->writer->add( 'line1' );
 		$this->writer->remove( 'line1' );
@@ -116,21 +95,18 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemoveIndex()
+	public function testRemoveIndex(): void
 	{
 		$this->writer->add( 'line1' );
 		$this->writer->add( 'line2' );
 
-		$assertion	= TRUE;
-		$creation	= $this->writer->removeIndex( 1 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $this->writer->removeIndex( 1 ) );
 
 		$assertion	= array( "line1" );
 		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
-		$creation	= $this->writer->removeIndex( 0 );
-		$this->assertEquals( 0, $creation );
+		$this->assertEquals( 0, $this->writer->removeIndex( 0 ) );
 
 		$assertion	= [];
 		$creation	= Reader::read( $this->fileName );
@@ -142,7 +118,7 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemoveIndexException()
+	public function testRemoveIndexException(): void
 	{
 		$this->expectException( 'DomainException' );
 		$this->writer->removeIndex( 10 );
@@ -153,7 +129,7 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSave()
+	public function testSave(): void
 	{
 		$lines	= array(
 			'line1',
@@ -167,5 +143,26 @@ class WriterTest extends BaseCase
 		$assertion	= $lines;
 		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Set up for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->fileName	= dirname( __FILE__ )."/writer.list";
+		$this->writer	= new Writer( $this->fileName );
+	}
+
+	/**
+	 *	Clean up.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
+		@unlink( $this->fileName );
 	}
 }

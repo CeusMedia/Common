@@ -28,30 +28,11 @@ class ArgumentParserTest extends BaseCase
 	protected ArgumentParserInstance $parser;
 
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->parser	= new ArgumentParserInstance();
-	}
-
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-	}
-
-	/**
 	 *	Tests Method 'getArguments'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetArguments()
+	public function testGetArguments(): void
 	{
 		$arguments	= array( 'a' => "b" );
 		$this->parser->setProtectedVar( 'parsed', TRUE );
@@ -67,7 +48,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetArgumentsException()
+	public function testGetArgumentsException(): void
 	{
 		$this->expectException( 'RuntimeException' );
 
@@ -82,7 +63,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetOptions()
+	public function testGetOptions(): void
 	{
 		$options	= array( 'a' => "b" );
 		$this->parser->setProtectedVar( 'parsed', TRUE );
@@ -98,7 +79,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetOptionsException()
+	public function testGetOptionsException(): void
 	{
 		$this->expectException( 'RuntimeException' );
 
@@ -113,7 +94,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParse()
+	public function testParse(): void
 	{
 		$options	= array(
 			'alpha'	=> "@[a-z]@i",
@@ -157,7 +138,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException1()
+	public function testParseException1(): void
 	{
 		$this->expectException( 'RuntimeException' );
 		$this->parser->setNumberOfMandatoryArguments( 2 );
@@ -169,7 +150,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException2()
+	public function testParseException2(): void
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
@@ -181,7 +162,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException3()
+	public function testParseException3(): void
 	{
 		$this->expectException( 'RuntimeException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
@@ -193,7 +174,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException4()
+	public function testParseException4(): void
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
@@ -205,7 +186,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetNumberOfMandatoryArguments()
+	public function testSetNumberOfMandatoryArguments(): void
 	{
 		$this->parser->setNumberOfMandatoryArguments( 1 );
 
@@ -225,7 +206,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetPossibleOptions()
+	public function testSetPossibleOptions(): void
 	{
 		$options	= array( 'a' => "b" );
 		$this->parser->setPossibleOptions( $options );
@@ -240,7 +221,7 @@ class ArgumentParserTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetShortcuts()
+	public function testSetShortcuts(): void
 	{
 		$options	= array( 'a' => "b" );
 		$this->parser->setPossibleOptions( $options );
@@ -249,17 +230,36 @@ class ArgumentParserTest extends BaseCase
 		$creation	= $this->parser->getProtectedVar( 'possibleOptions' );
 		$this->assertEquals( $assertion, $creation );
 	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->parser	= new ArgumentParserInstance();
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
+	}
 }
 class ArgumentParserInstance extends ArgumentParser
 {
-	public function getProtectedVar( $varName )
+	public function getProtectedVar( string $varName ): mixed
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );
 		return $this->$varName;
 	}
 
-	public function setProtectedVar( $varName, $varValue )
+	public function setProtectedVar( string $varName, mixed $varValue ): void
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );

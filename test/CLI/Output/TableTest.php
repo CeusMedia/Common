@@ -24,7 +24,7 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class TableTest extends BaseCase
 {
-	protected $table;
+	protected Table $table;
 
 	/**
 	 *    Setup for every Test.
@@ -53,7 +53,7 @@ class TableTest extends BaseCase
 	{
 	}
 
-	public function testRenderBorderSingle()
+	public function testRenderBorderSingle(): void
 	{
 		$actual		= $this->table->render();
 		$expected	= <<<EOT
@@ -68,7 +68,7 @@ EOT . PHP_EOL;
 		$this->assertEquals( $expected, $actual );
 	}
 
-	public function testRenderBorderNone()
+	public function testRenderBorderNone(): void
 	{
 
 		$this->table->setBorderStyle( Table::BORDER_STYLE_NONE );
@@ -81,7 +81,7 @@ EOT . PHP_EOL;
 		$this->assertEquals( $expected, $actual );
 	}
 
-	public function testRenderBorderDouble()
+	public function testRenderBorderDouble(): void
 	{
 		$this->table->setBorderStyle( Table::BORDER_STYLE_DOUBLE );
 		$actual		= $this->table->render();
@@ -97,7 +97,7 @@ EOT . PHP_EOL;
 		$this->assertEquals( $expected, $actual );
 	}
 
-	public function testRenderBorderMixed()
+	public function testRenderBorderMixed(): void
 	{
 		$this->table->setBorderStyle( Table::BORDER_STYLE_MIXED );
 		$actual		= $this->table->render();
@@ -113,7 +113,7 @@ EOT . PHP_EOL;
 		$this->assertEquals( $expected, $actual );
 	}
 
-	public function testRenderBorderMixedSizeMax()
+	public function testRenderBorderMixedSizeMax(): void
 	{
 		$this->table->setBorderStyle( Table::BORDER_STYLE_MIXED );
 		$this->table->setSizeMode( Table::SIZE_MODE_MAX );

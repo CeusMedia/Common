@@ -92,7 +92,7 @@ class Deprecation
 	 */
 	public function setErrorVersion( string $version ): self
 	{
-		$this->errorVersion		= $version;
+		$this->errorVersion	= $version;
 		return $this;
 	}
 

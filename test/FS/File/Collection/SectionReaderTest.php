@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Collection Section Reader.
  *	@package		Tests.FS.File.Collection
@@ -19,9 +23,9 @@ use CeusMedia\CommonTest\BaseCase;
 class SectionReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName;
+	private string $fileName;
 
-	private $sectionList	= array(
+	private array $sectionList	= array(
 		"section1"	=> array(
 			"line1",
 			"line2",
@@ -32,21 +36,21 @@ class SectionReaderTest extends BaseCase
 		),
 	);
 
-	public function setUp(): void
-	{
-		$this->fileName		= dirname( __FILE__ )."/section.read.list";
-	}
-
-	public function testRead()
+	public function testRead(): void
 	{
 		$reader		= new SectionReader( $this->fileName );
 		$creation	= $reader->read();
 		$this->assertEquals( $this->sectionList, $creation );
 	}
 
-	public function testLoad()
+	public function testLoad(): void
 	{
 		$creation	= SectionReader::load( $this->fileName );
 		$this->assertEquals( $this->sectionList, $creation );
+	}
+
+	protected function setUp(): void
+	{
+		$this->fileName		= dirname( __FILE__ )."/section.read.list";
 	}
 }

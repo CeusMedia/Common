@@ -20,6 +20,9 @@ class PdfToImageTest extends BaseCase
 {
 	public function testConvert()
 	{
+		if( !extension_loaded( 'imagick' ) )
+			self::markTestSkipped( 'Extension "imagick" not loaded' );
+
 		$sourceFile		= __DIR__.'/test1.pdf';
 		$targetFile		= __DIR__.'/test1.pdf.png';
 
@@ -30,6 +33,9 @@ class PdfToImageTest extends BaseCase
 
 	public function testWrite()
 	{
+		if( !extension_loaded( 'imagick' ) )
+			self::markTestSkipped( 'Extension "imagick" not loaded' );
+
 		$sourceFile		= __DIR__.'/test1.pdf';
 		$targetFile		= __DIR__.'/test1.pdf.png';
 

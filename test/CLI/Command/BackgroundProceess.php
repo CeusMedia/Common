@@ -29,37 +29,18 @@ class BackgroundProcessTest extends BaseCase
 	protected BackgroundProcess $process;
 
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->process	= new BackgroundProcess();
-	}
-
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-	}
-
-	/**
 	 *	Tests Method 'getArguments'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testNewInstance()
+	public function testNewInstance(): void
 	{
 		$assertion	= new BackgroundProcess;
 		$creation	= BackgroundProcess::newInstance();
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testSetCommand()
+	public function testSetCommand(): void
 	{
 		$command	= 'ls -lah';
 		$process	= new BackgroundProcessInstance();
@@ -83,30 +64,48 @@ class BackgroundProcessTest extends BaseCase
 		$this->assertEquals( 0, $creation );
 	}
 
-	public function testSetCommand_Exception1()
+	public function testSetCommand_Exception1(): void
 	{
 		$this->expectException( InvalidArgumentException::class );
 		$this->process->setCommand( '' );
 	}
 
-	public function testSetCommand_Exception2()
+	public function testSetCommand_Exception2(): void
 	{
 		$this->expectException( InvalidArgumentException::class );
 		$command	= 'sleep 1';
 		$this->process->setCommand( $command )->start()->setCommand( $command );
 	}
 
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->process	= new BackgroundProcess();
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
+	}
 }
 class BackgroundProcessInstance extends BackgroundProcess
 {
-	public function getProtectedVar( $varName )
+	public function getProtectedVar( string $varName ): mixed
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );
 		return $this->$varName;
 	}
 
-	public function setProtectedVar( $varName, $varValue )
+	public function setProtectedVar( string $varName, mixed $varValue ): void
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );

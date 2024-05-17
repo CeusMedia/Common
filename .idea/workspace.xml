@@ -146,6 +146,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;1.0.x&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -205,8 +206,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Composer Script.dev:all" />
       <item itemvalue="Composer Script.dev:a" />
+      <item itemvalue="Composer Script.dev:all" />
       <item itemvalue="Composer Script.dev:phpstan" />
       <item itemvalue="Composer Script.dev:phpunit" />
       <item itemvalue="PHPUnit.phpunit.xml" />
@@ -294,6 +295,7 @@
       <workItem from="1712368616932" duration="728000" />
       <workItem from="1713230017949" duration="2235000" />
       <workItem from="1714004563132" duration="4812000" />
+      <workItem from="1714139118203" duration="602000" />
     </task>
     <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
       <created>1658535322659</created>
@@ -767,7 +769,4 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Common@SectionTest_testRemoveByName.xml" NAME="SectionTest.testRemoveByName Coverage Results" MODIFIED="1668745254334" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/Common@SectionTest.xml" NAME="SectionTest Coverage Results" MODIFIED="1668745597866" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="PhpCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-  </component>
-</project>
+    <S

@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Gzip File.
  *	@package		Tests.FS.File.Arc
@@ -19,36 +23,24 @@ use CeusMedia\CommonTest\BaseCase;
 class GzipTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName;
+	private string $fileName;
 
-	public function setUp(): void
-	{
-		if( !extension_loaded( 'zlib' ) )
-			$this->markTestSkipped( 'Support for bzip2 is missing' );
-		$this->path	= dirname( __FILE__ )."/";
-		$this->fileName	= $this->path."test.gz";
-	}
+	protected string $path;
 
-	public function tearDown(): void
-	{
-		@unlink( $this->fileName );
-	}
-
-	public function testWriteString()
+	public function testWriteString(): void
 	{
 		$arc	= new Gzip( $this->fileName );
 		$arc->writeString( "test" );
 
-		$assertion	= TRUE;
 		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( $creation );
 
 		$assertion	= "test";
 		$creation	= gzuncompress( file_get_contents( $this->fileName ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testReadString()
+	public function testReadString(): void
 	{
 		$arc	= new Gzip( $this->fileName );
 		$arc->writeString( "test" );
@@ -56,5 +48,18 @@ class GzipTest extends BaseCase
 		$assertion	= "test";
 		$creation	= $arc->readString();
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	protected function setUp(): void
+	{
+		if( !extension_loaded( 'zlib' ) )
+			$this->markTestSkipped( 'Support for bzip2 is missing' );
+		$this->path	= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."test.gz";
+	}
+
+	protected function tearDown(): void
+	{
+		@unlink( $this->fileName );
 	}
 }

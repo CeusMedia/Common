@@ -24,14 +24,14 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class OutputTest extends BaseCase
 {
-	public function testAppend1()
+	public function testAppend1(): void
 	{
 		$output	= new Output();
 		$this->expectOutputString( "\rtest" );
 		$output->append( 'test' );
 	}
 
-	public function testAppend2()
+	public function testAppend2(): void
 	{
 		$output	= new Output();
 		$this->expectOutputString( "\rabc\rabcXYZ" );
@@ -39,14 +39,14 @@ class OutputTest extends BaseCase
 		$output->append( 'XYZ' );
 	}
 
-	public function testNewLine1()
+	public function testNewLine1(): void
 	{
 		$output	= new Output();
 		$this->expectOutputString( PHP_EOL.'test' );
 		$output->newLine( 'test' );
 	}
 
-	public function testNewLine_withMaxLineLength1()
+	public function testNewLine_withMaxLineLength1(): void
 	{
 		$output	= new Output();
 		$output->setMaxLineLength( 20 );
@@ -54,7 +54,7 @@ class OutputTest extends BaseCase
 		$output->newLine( '12345678901234567890' );
 	}
 
-	public function testNewLine_withMaxLineLength2()
+	public function testNewLine_withMaxLineLength2(): void
 	{
 		$output	= new Output();
 		$output->setMaxLineLength( 20 );
@@ -62,7 +62,7 @@ class OutputTest extends BaseCase
 		$output->newLine( '1234567890ABC1234567890' );
 	}
 
-	public function testNewLine_withMaxLineLength3()
+	public function testNewLine_withMaxLineLength3(): void
 	{
 		$output	= new Output();
 		$output->setMaxLineLength( 20 );
@@ -71,14 +71,14 @@ class OutputTest extends BaseCase
 		$output->newLine( '1234' );
 	}
 
-	public function testSameLine1()
+	public function testSameLine1(): void
 	{
 		$output	= new Output();
 		$this->expectOutputString( "\rtest" );
 		$output->sameLine( 'test' );
 	}
 
-	public function testSameLine2()
+	public function testSameLine2(): void
 	{
 		$output	= new Output();
 		$this->expectOutputString( "\rabc\rXYZ" );
@@ -86,7 +86,7 @@ class OutputTest extends BaseCase
 		$output->sameLine( 'XYZ' );
 	}
 
-	public function testSameLine3()
+	public function testSameLine3(): void
 	{
 		$output	= new Output();
 		$this->expectOutputString( "\r123456\rabc   " );
@@ -94,7 +94,7 @@ class OutputTest extends BaseCase
 		$output->sameLine( 'abc   ' );
 	}
 
-	public function testSameLine_withMaxLineLength1()
+	public function testSameLine_withMaxLineLength1(): void
 	{
 		$output	= new Output();
 		$output->setMaxLineLength( 20 );
@@ -102,7 +102,7 @@ class OutputTest extends BaseCase
 		$output->sameLine( '12345678901234567890' );
 	}
 
-	public function testSameLine_withMaxLineLength2()
+	public function testSameLine_withMaxLineLength2(): void
 	{
 		$output	= new Output();
 		$output->setMaxLineLength( 20 );
@@ -110,7 +110,7 @@ class OutputTest extends BaseCase
 		$output->sameLine( '1234567890ABC1234567890' );
 	}
 
-	public function testSameLine_withMaxLineLength3()
+	public function testSameLine_withMaxLineLength3(): void
 	{
 		$output	= new Output();
 		$output->setMaxLineLength( 20 );
