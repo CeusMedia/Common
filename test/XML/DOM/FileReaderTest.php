@@ -81,7 +81,7 @@ class FileReaderTest extends BaseCase
 
 		$assertion	= $tree;
 		$creation	= $reader->read();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -135,7 +135,7 @@ class FileReaderTest extends BaseCase
 
 		$assertion	= $tree;
 		$creation	= FileReader::load( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

@@ -51,11 +51,11 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= true;
 		$creation	= $this->reader->equals( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= false;
 		$creation	= $this->reader->equals( __FILE__ );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -67,12 +67,12 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= true;
 		$creation	= $this->reader->exists();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$reader		= new Reader( "no_existing", FALSE );
 		$assertion	= false;
 		$creation	= $reader->exists();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= basename( $this->fileName );
 		$creation	= $this->reader->getBasename();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= $this->fileName;
 		$creation	= $this->reader->getFilename();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= "test";
 		$creation	= $this->reader->getExtension();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetGroup()
@@ -116,7 +116,7 @@ class ReaderTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= $this->reader->getGroup();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetOwner()
@@ -124,7 +124,7 @@ class ReaderTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= $this->reader->getOwner();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -136,12 +136,12 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= str_replace( "\\", "/", dirname( realpath( $this->fileName ) ) )."/";
 		$creation	= $this->reader->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$reader		= new Reader( "test", FALSE );
 		$assertion	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 		$creation	= $this->reader->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetPermissions()
@@ -149,7 +149,7 @@ class ReaderTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= $this->reader->getPermissions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -164,15 +164,15 @@ class ReaderTest extends BaseCase
 
 		$assertion	= $size;
 		$creation	= $reader->getSize();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= round( $size / 1024, 3 )." KB";
 		$creation	= $reader->getSize( 3 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= round( $size / 1024, 1 )." KB";
 		$creation	= $reader->getSize( 1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -184,7 +184,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= filemtime( $this->fileName );
 		$creation	= $this->reader->getDate();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -196,12 +196,12 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= true;
 		$creation	= $this->reader->isReadable();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$reader		= new Reader( "not_existing", FALSE );
 		$assertion	= false;
 		$creation	= $reader->isReadable();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= $this->fileContent;
 		$creation	= Reader::load( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -236,7 +236,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= explode( "\n", $this->fileContent );
 		$creation	= Reader::loadArray( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -259,7 +259,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= $this->fileContent;
 		$creation	= $this->reader->readString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -283,7 +283,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= explode( "\n", $this->fileContent );
 		$creation	= $this->reader->readArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

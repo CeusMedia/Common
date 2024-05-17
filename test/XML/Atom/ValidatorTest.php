@@ -52,7 +52,7 @@ class ValidatorTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= Validator::getErrors();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -65,6 +65,6 @@ class ValidatorTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= Validator::getFirstError();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

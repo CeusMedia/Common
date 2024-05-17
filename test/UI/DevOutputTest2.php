@@ -13,13 +13,13 @@ class Test_UI_DevOutput extends BaseCase
 	 * @covers		UI_DevOutput::printM
 	 */
 	public function testPrintM1(){
-		$this->assertTrue( TRUE );
+		self::assertTrue( TRUE );
 
 		new DevOutput();
 		$r = print_m( 'a', NUll, NULL, TRUE );
-		$this->assertEquals( PHP_EOL.'[S] a'.PHP_EOL, $r );
+		self::assertEquals( PHP_EOL.'[S] a'.PHP_EOL, $r );
 
-		$this->assertEquals( [], [] );
+		self::assertEquals( [], [] );
 
 	}
 }

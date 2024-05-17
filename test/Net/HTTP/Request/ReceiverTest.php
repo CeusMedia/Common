@@ -36,21 +36,21 @@ class ReceiverTest extends BaseCase
 	{
 		$assertion	= 3;
 		$creation	= $this->receiver->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
 		$creation	= count( $this->receiver );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGet()
 	{
 		$assertion	= "value3";
 		$creation	= $this->receiver->get( 'key3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		$assertion	= null;
 		$creation	= $this->receiver->get( 'key4' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAll()
@@ -61,27 +61,27 @@ class ReceiverTest extends BaseCase
 			'key3' => 'value3',
 			);
 		$creation	= $this->receiver->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetKeyOf()
 	{
 		$assertion	= 'key2';
 		$creation	= $this->receiver->getKeyOf( 'value2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		$assertion	= null;
 		$creation	= $this->receiver->getKeyOf( 'value4' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testHas()
 	{
 		$assertion	= true;
 		$creation	= $this->receiver->has( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		$assertion	= false;
 		$creation	= $this->receiver->has( 'key4' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testRemove()
@@ -89,7 +89,7 @@ class ReceiverTest extends BaseCase
 		$this->receiver->remove( 'key2' );
 		$assertion	= false;
 		$creation	= $this->receiver->has( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testSet()
@@ -97,7 +97,7 @@ class ReceiverTest extends BaseCase
 		$this->receiver->set( 'key4', 'value4' );
 		$assertion	= 'value4';
 		$creation	= $this->receiver->get( 'key4' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 /*	public function testToString()
@@ -105,7 +105,7 @@ class ReceiverTest extends BaseCase
 		$this->receiver->remove( 'key3' );
 		$assertion	= "{(key1=>value1), (key2=>value2)}";
 		$creation	= $this->receiver->__toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 */
 
@@ -114,14 +114,14 @@ class ReceiverTest extends BaseCase
 	{
 		$assertion	= true;
 		$creation	= isset( $this->receiver['key2'] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetGet()
 	{
 		$assertion	= "value2";
 		$creation	= $this->receiver['key2'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetSet()
@@ -129,7 +129,7 @@ class ReceiverTest extends BaseCase
 		$this->receiver['key4']	= "value4";
 		$assertion	= "value4";
 		$creation	= $this->receiver['key4'];;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetUnset()
@@ -137,7 +137,7 @@ class ReceiverTest extends BaseCase
 		unset( $this->receiver['key2'] );
 		$assertion	= false;
 		$creation	= $this->receiver->has( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	//  --  TESTS OF ITERATOR INTERFACE  --  //
@@ -145,14 +145,14 @@ class ReceiverTest extends BaseCase
 	{
 		$assertion	= 'key1';
 		$creation	= $this->receiver->key();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCurrent()
 	{
 		$assertion	= 'value1';
 		$creation	= $this->receiver->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testNext()
@@ -160,7 +160,7 @@ class ReceiverTest extends BaseCase
 		$this->receiver->next();
 		$assertion	= 'value2';
 		$creation	= $this->receiver->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testRewind()
@@ -169,7 +169,7 @@ class ReceiverTest extends BaseCase
 		$this->receiver->rewind();
 		$assertion	= 'value1';
 		$creation	= $this->receiver->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testValid()
@@ -180,7 +180,7 @@ class ReceiverTest extends BaseCase
 		$this->receiver->next();
 		$assertion	= false;
 		$creation	= $this->receiver->valid();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAllFromSource()
@@ -188,6 +188,6 @@ class ReceiverTest extends BaseCase
 		$_GET['key1']	= "value2";
 		$assertion	= array( 'key1' => "value2" );
 		$creation	= $this->receiver->getAllFromSource( 'get' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

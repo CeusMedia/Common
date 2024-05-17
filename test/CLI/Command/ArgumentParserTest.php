@@ -40,7 +40,7 @@ class ArgumentParserTest extends BaseCase
 
 		$assertion	= $arguments;
 		$creation	= $this->parser->getArguments();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class ArgumentParserTest extends BaseCase
 
 		$assertion	= $options;
 		$creation	= $this->parser->getOptions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class ArgumentParserTest extends BaseCase
 			"Argument2"
 		);
 		$creation	= $parser->getArguments();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$assertion	= array(
@@ -130,7 +130,7 @@ class ArgumentParserTest extends BaseCase
 		);
 		$creation	= $parser->getOptions();
 		ksort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -192,13 +192,13 @@ class ArgumentParserTest extends BaseCase
 
 		$assertion	= 1;
 		$creation	= $this->parser->getProtectedVar( 'numberArguments' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->parser->setNumberOfMandatoryArguments( 2 );
 
 		$assertion	= 2;
 		$creation	= $this->parser->getProtectedVar( 'numberArguments' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -213,7 +213,7 @@ class ArgumentParserTest extends BaseCase
 
 		$assertion	= $options;
 		$creation	= $this->parser->getProtectedVar( 'possibleOptions' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -228,7 +228,7 @@ class ArgumentParserTest extends BaseCase
 
 		$assertion	= $options;
 		$creation	= $this->parser->getProtectedVar( 'possibleOptions' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

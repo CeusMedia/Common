@@ -34,11 +34,11 @@ class BzipTest extends BaseCase
 		$arc	= new Bzip( $this->fileName );
 		$arc->writeString( "test" );
 
-		$this->assertFileExists( $this->fileName );
+		self::assertFileExists( $this->fileName );
 
 		$assertion	= bzcompress( "test" );
 		$creation	= file_get_contents( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testReadString(): void
@@ -48,7 +48,7 @@ class BzipTest extends BaseCase
 
 		$assertion	= "test";
 		$creation	= $arc->readString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	protected function setUp(): void

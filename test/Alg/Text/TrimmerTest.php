@@ -53,19 +53,19 @@ class TrimmerTest extends BaseCase
 	 */
 	public function testTrim()
 	{
-		$this->assertEquals( $this->string, Trimmer::trim( $this->string ) );
+		self::assertEquals( $this->string, Trimmer::trim( $this->string ) );
 
 		$assertion	= "abc...";
 		$creation	= Trimmer::trim( $this->string, 6 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "abc---";
 		$creation	= Trimmer::trim( $this->string, 6, '---' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "ÄÄ-";
 		$creation	= Trimmer::trim( "ÄÄÖÖÜÜ", 3, '-' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -108,45 +108,45 @@ class TrimmerTest extends BaseCase
 	 */
 	public function testTrimCentric()
 	{
-		$this->assertEquals( $this->string, Trimmer::trimCentric( $this->string ) );
+		self::assertEquals( $this->string, Trimmer::trimCentric( $this->string ) );
 
 		$assertion	= "ab...p";
 		$creation	= Trimmer::trimCentric( $this->string, 6 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "a...p";
 		$creation	= Trimmer::trimCentric( $this->string, 5 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "ab...p";
 		$creation	= Trimmer::trimCentric( $this->string, 6 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "ab---p";
 		$creation	= Trimmer::trimCentric( $this->string, 6, '---' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "ab...op";
 		$creation	= Trimmer::trimCentric( $this->string, 7 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "Ä-Ü";
 		$creation	= Trimmer::trimCentric( "ÄÄÖÖÜÜ", 3, '-' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testTrimLeft()
 	{
 		$assertion	= "abcdefghijklmnop";
 		$creation	= Trimmer::trimLeft( $this->string, 60 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "...efghijklmnop";
 		$creation	= Trimmer::trimLeft( $this->string, 15 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "...nop";
 		$creation	= Trimmer::trimLeft( $this->string, 6 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

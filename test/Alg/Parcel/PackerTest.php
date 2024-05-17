@@ -84,7 +84,7 @@ class PackerTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= ParcelPacker::__construct();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class PackerTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= ParcelPacker::calculatePackage();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -114,7 +114,7 @@ class PackerTest extends BaseCase
 		);
 		$assertion	= 8;
 		$creation	= $this->packer->calculatePrice( $articles );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$articles	= array(
 			'a'	=> 2,
@@ -123,7 +123,7 @@ class PackerTest extends BaseCase
 		);
 		$assertion	= 10;
 		$creation	= $this->packer->calculatePrice( $articles );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class PackerTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= ParcelPacker::getPacket();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -173,6 +173,6 @@ class PackerTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= ParcelPacker::replacePacket();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

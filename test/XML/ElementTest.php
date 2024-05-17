@@ -48,11 +48,11 @@ class ElementTest extends BaseCase
 		$element->image[3]->addAttribute( 'testKey', "testValue" );
 		$assertion	= "testValue";
 		$creation	= $element->image[3]->getAttribute( 'testKey' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '<image name="Banner 4" file="pic4.jpg" testKey="testValue"/>';
 		$creation	= $element->image[3]->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddAttributeWithNamespace()
@@ -63,11 +63,11 @@ class ElementTest extends BaseCase
 
 		$assertion	= "testValue";
 		$creation	= $element->image[3]->getAttribute( 'testKey', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '<image name="Banner 4" file="pic4.jpg" my:testKey="testValue"/>';
 		$creation	= $element->image[3]->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddAttributeWithUnregisteredNamespace()
@@ -78,11 +78,11 @@ class ElementTest extends BaseCase
 
 		$assertion	= "testValue";
 		$creation	= $element->image[3]->getAttribute( 'testKey', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '<image xmlns:my="http://my.image.ns/" name="Banner 4" file="pic4.jpg" my:testKey="testValue"/>';
 		$creation	= $element->image[3]->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddChild()
@@ -92,13 +92,13 @@ class ElementTest extends BaseCase
 
 		$assertion	= 5;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$image->addAttribute( "name", "Banner 5" );
 		$image->addAttribute( "file", "pic5.jpg" );
 		$assertion	= "Banner 5";
 		$creation	= $element->image[4]->getAttribute( "name" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddChildWithNamespace()
@@ -109,23 +109,23 @@ class ElementTest extends BaseCase
 
 		$assertion	= 4;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $element->countChildren( 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'TestAttribute';
 		$creation	= (string) $element->children( 'my', TRUE )->getAttribute( 'name' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'TestContent';
 		$creation	= (string) $element->children( 'my', TRUE )->getValue();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $element->children( 'my', TRUE )->asXml();
 		$assertion	= '<my:image name="TestAttribute">TestContent</my:image>';
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddChildWithUnregisteredNamespace()
@@ -136,23 +136,23 @@ class ElementTest extends BaseCase
 
 		$assertion	= 4;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $element->countChildren( 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'TestAttribute';
 		$creation	= (string) $element->children( 'my', TRUE )->getAttribute( 'name' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'TestContent';
 		$creation	= (string) $element->children( 'my', TRUE )->getValue();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $element->children( 'my', TRUE )->asXml();
 		$assertion	= '<my:image xmlns:my="http://my.image.ns/" name="TestAttribute">TestContent</my:image>';
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddChildCData()
@@ -162,11 +162,11 @@ class ElementTest extends BaseCase
 
 		$assertion	= 5;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '<image><![CDATA[äöü&]]></image>';
 		$creation	= $element->image[4]->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddChildCDataWithNamespace()
@@ -176,11 +176,11 @@ class ElementTest extends BaseCase
 
 		$assertion	= 1;
 		$creation	= $element->countChildren( 'my', TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '<my:image><![CDATA[äöü&]]></my:image>';
 		$creation	= $element->children( 'my', TRUE )->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddChildCDataWithUnregisteredNamespace()
@@ -190,11 +190,11 @@ class ElementTest extends BaseCase
 
 		$assertion	= 1;
 		$creation	= $element->countChildren( 'my', TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '<my:image xmlns:my="http://my.image.ns/"><![CDATA[äöü&]]></my:image>';
 		$creation	= $element->children( 'my', TRUE )->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAsFile()
@@ -203,7 +203,7 @@ class ElementTest extends BaseCase
 		$element->asFile( $this->fileWrite);
 		$assertion	= $this->xml;
 		$creation	= file_get_contents( $this->fileWrite );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAsXml()
@@ -211,7 +211,7 @@ class ElementTest extends BaseCase
 		$element	= new Element( $this->xml );
 		$assertion	= $this->xml;
 		$creation	= $element->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCountAttributes()
@@ -219,7 +219,7 @@ class ElementTest extends BaseCase
 		$element	= new Element( $this->xml );
 		$assertion	= 2;
 		$creation	= $element->image[2]->countAttributes();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCountAttributesWithNamespace()
@@ -232,11 +232,11 @@ class ElementTest extends BaseCase
 
 		$assertion	= 0;
 		$creation	= $element->image[4]->countAttributes();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
 		$creation	= $element->image[4]->countAttributes( 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCountChildren()
@@ -244,7 +244,7 @@ class ElementTest extends BaseCase
 		$element	= new Element( $this->xml );
 		$assertion	= 4;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCountChildrenWithNamespace()
@@ -252,12 +252,12 @@ class ElementTest extends BaseCase
 		$element	= new Element( $this->xmlNs );
 		$assertion	= 0;
 		$creation	= $element->countChildren( 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$image		= $element->addChild( "image", 'TestContent', 'my', 'http://my.image.ns/' );
 		$assertion	= 1;
 		$creation	= $element->countChildren( 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttribute()
@@ -265,7 +265,7 @@ class ElementTest extends BaseCase
 		$element	= new Element( $this->xml );
 		$assertion	= "pic3.jpg";
 		$creation	= $element->image[2]->getAttribute( 'file' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttributeWithNamespace()
@@ -275,15 +275,15 @@ class ElementTest extends BaseCase
 
 		$assertion	= FALSE;
 		$creation	= $element->image[0]->hasAttribute( 'lang' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $element->image[0]->hasAttribute( 'lang', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "de";
 		$creation	= $element->image[0]->getAttribute( 'lang', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttributeNames()
@@ -294,7 +294,7 @@ class ElementTest extends BaseCase
 			'file',
 		);
 		$creation	= $element->image[2]->getAttributeNames();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttributeNamesWithNamespace()
@@ -309,7 +309,7 @@ class ElementTest extends BaseCase
 			'attr3',
 		);
 		$creation	= $element->image[2]->getAttributeNames( 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttributes()
@@ -320,7 +320,7 @@ class ElementTest extends BaseCase
 			'file'	=> "pic3.jpg",
 		);
 		$creation	= $element->image[2]->getAttributes();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttributesWithNamespace()
@@ -335,7 +335,7 @@ class ElementTest extends BaseCase
 			'attr3'	=> 'value3',
 		);
 		$creation	= $element->image[2]->getAttributes( 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testHasAttribute()
@@ -343,12 +343,12 @@ class ElementTest extends BaseCase
 		$element	= new Element( $this->xml );
 		$assertion	= true;
 		$creation	= $element->image[2]->hasAttribute( 'name' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element	= new Element( $this->xml );
 		$assertion	= false;
 		$creation	= $element->image[2]->hasAttribute( 'id' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testHasAttributeWithNamespace()
@@ -356,12 +356,12 @@ class ElementTest extends BaseCase
 		$element	= new Element( $this->xmlNs );
 		$assertion	= FALSE;
 		$creation	= $element->image[2]->hasAttribute( 'name', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->addAttribute( 'name', 'me', 'my' );
 		$assertion	= TRUE;
 		$creation	= $element->image[2]->hasAttribute( 'name' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testRemoveAttribute()
@@ -371,7 +371,7 @@ class ElementTest extends BaseCase
 
 		$assertion	= FALSE;
 		$creation	= $element->image[2]->hasAttribute( 'name' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testRemoveAttributeWithNamespace()
@@ -381,19 +381,19 @@ class ElementTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= $element->image[2]->hasAttribute( 'name', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->removeAttribute( 'name' );
 
 		$assertion	= TRUE;
 		$creation	= $element->image[2]->hasAttribute( 'name', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->removeAttribute( 'name', 'my' );
 
 		$assertion	= FALSE;
 		$creation	= $element->image[2]->hasAttribute( 'name', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testRemove(){
@@ -402,7 +402,7 @@ class ElementTest extends BaseCase
 
 		$assertion	= 3;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testRemoveChild(){
@@ -410,13 +410,13 @@ class ElementTest extends BaseCase
 
 		$assertion	= 4;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->removeChild( 'image', 3 );
 
 		$assertion	= 3;
 		$creation	= $element->countChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testSetAttribute(){
@@ -426,23 +426,23 @@ class ElementTest extends BaseCase
 
 		$assertion	= 'test';
 		$creation	= $element->image[2]->getAttribute( 'name' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->setAttribute( 'attr1', 'value1' );
 
 		$assertion	= TRUE;
 		$creation	= $element->image[2]->hasAttribute( 'attr1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value1';
 		$creation	= $element->image[2]->getAttribute( 'attr1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->setAttribute( 'attr1', NULL );
 
 		$assertion	= FALSE;
 		$creation	= $element->image[2]->hasAttribute( 'attr1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testSetAttributeWithNamespace(){
@@ -452,29 +452,29 @@ class ElementTest extends BaseCase
 
 		$assertion	= 'value1';
 		$creation	= $element->image[2]->getAttribute( 'attr1', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->setAttribute( 'attr2', 'value2', 'my' );
 
 		$assertion	= TRUE;
 		$creation	= $element->image[2]->hasAttribute( 'attr1', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value2';
 		$creation	= $element->image[2]->getAttribute( 'attr2', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->setAttribute( 'attr1', 'value3', 'my');
 
 		$assertion	= 'value3';
 		$creation	= $element->image[2]->getAttribute( 'attr1', 'my' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->setAttribute( 'attr2', NULL, 'my');
 
 		$assertion	= FALSE;
 		$creation	= $element->image[2]->hasAttribute( 'attr2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testSetValue(){
@@ -484,13 +484,13 @@ class ElementTest extends BaseCase
 
 		$assertion	= 'Nice one';
 		$creation	= (string) $element->image[2];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$element->image[2]->setValue( NULL );
 
 		$assertion	= '';
 		$creation	= (string) $element->image[2];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testSetValueWithCData(){
@@ -500,11 +500,11 @@ class ElementTest extends BaseCase
 
 		$assertion	= 'äöü&';
 		$creation	= (string) $element->image[2];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$assertion	= '<image name="Banner 3" file="pic3.jpg"><![CDATA[äöü&]]></image>';
 		$creation	= (string) $element->image[2]->asXml();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
  }

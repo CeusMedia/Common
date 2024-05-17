@@ -55,15 +55,15 @@ class NodeTest extends BaseCase
 
 		$assertion	= "tag1";
 		$creation	= $node->getNodeName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "content1";
 		$creation	= $node->getContent();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $attributes;
 		$creation	= $node->getAttributes();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -76,28 +76,28 @@ class NodeTest extends BaseCase
 		//  add Leaf
 		$leaf		= new Node( "testLeaf2", "testContent2" );
 		$creation	= $this->node->addChild( $leaf );
-		$this->assertEquals( $leaf, $creation );
+		self::assertEquals( $leaf, $creation );
 
 		//  get added Leaf
 		$creation	= $this->node->getChild( "testLeaf2" );
-		$this->assertEquals( $leaf, $creation );
+		self::assertEquals( $leaf, $creation );
 
 		//  count Children
-		$this->assertCount( 2, $this->node->getChildren() );
+		self::assertCount( 2, $this->node->getChildren() );
 
 		//  add Node
 		$node		= new Node( "testNode3", "testContent3" );
 		$creation	= $this->node->addChild( $node );
-		$this->assertEquals( $node, $creation );
+		self::assertEquals( $node, $creation );
 
 		//  get added Node
 		$creation	= $this->node->getChild( "testNode3" );
-		$this->assertEquals( $node, $creation );
+		self::assertEquals( $node, $creation );
 
 		//  count Children
 		$assertion	= 3;
 		$creation	= count( $this->node->getChildren() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -110,15 +110,15 @@ class NodeTest extends BaseCase
 		//  get Attribute
 		$assertion	= "testValue";
 		$creation	= $this->node->getAttribute( "testKey" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  get invalid Attribute
 		$creation	= $this->node->getAttribute( "testKey1" );
-		$this->assertNull( $creation );
+		self::assertNull( $creation );
 
 		//  get invalid Attribute
 		$creation	= $this->node->getAttribute( "TESTKEY" );
-		$this->assertNull( $creation );
+		self::assertNull( $creation );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class NodeTest extends BaseCase
 	{
 		$assertion	= array( "testKey" => "testValue" );
 		$creation	= $this->node->getAttributes();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -143,7 +143,7 @@ class NodeTest extends BaseCase
 		//  get Leaf Child
 		$assertion	= $this->leaf;
 		$creation	= $this->node->getChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class NodeTest extends BaseCase
 		//  get Leaf Child
 		$assertion	= array( $this->leaf, $this->leaf );
 		$creation	= $this->node->getChildren( $this->leaf->getNodeName() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -182,7 +182,7 @@ class NodeTest extends BaseCase
 		//  get Children
 		$assertion	= array( $this->leaf );
 		$creation	= $this->node->getChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -194,7 +194,7 @@ class NodeTest extends BaseCase
 	{
 		$assertion	= "testContent";
 		$creation	= $this->node->getContent();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -206,7 +206,7 @@ class NodeTest extends BaseCase
 	{
 		$assertion	= "testNode";
 		$creation	= $this->node->getNodeName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class NodeTest extends BaseCase
 	public function testHasAttributes()
 	{
 		$creation	= $this->node->hasAttributes();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -229,15 +229,15 @@ class NodeTest extends BaseCase
 	{
 		//  test valid Attribute
 		$creation	= $this->node->hasAttribute( "testKey" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  test invalid Attribute
 		$creation	= $this->node->hasAttribute( "testKey1" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		//  test invalid Attribute
 		$creation	= $this->node->hasAttribute( "TESTKEY" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -249,13 +249,13 @@ class NodeTest extends BaseCase
 	{
 		//  test Children
 		$creation	= $this->node->hasChild( $this->leaf->getNodeName() );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  remove Children
 		$this->node->removeChild( $this->leaf->getNodeName() );
 
 		$creation	= $this->node->hasChild( $this->leaf->getNodeName() );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -267,12 +267,12 @@ class NodeTest extends BaseCase
 	{
 		//  test Children
 		$creation	= $this->node->hasChildren();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  remove Children
 		$this->node->removeChild( $this->leaf->getNodeName() );
 		$creation	= $this->node->hasChildren();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -283,7 +283,7 @@ class NodeTest extends BaseCase
 	public function testHasContent()
 	{
 		$creation	= $this->node->hasContent();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -295,19 +295,19 @@ class NodeTest extends BaseCase
 	{
 		//  remove Attribute
 		$creation	= $this->node->removeAttribute( "testKey" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  check Attribute
 		$creation	= $this->node->hasAttribute( "testKey" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		//  check Attributes
 		$creation	= $this->node->hasAttributes();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		//  try to delete Attribute again
 		$creation	= $this->node->removeAttribute( "testKey" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 	}
 
 	/**
@@ -319,15 +319,15 @@ class NodeTest extends BaseCase
 	{
 		//  remove Children
 		$creation	= $this->node->removeChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  test Children
 		$creation	= $this->node->hasChild( $this->leaf->getNodeName() );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		//  try to remove Children again
 		$creation	= $this->node->removeChild( $this->leaf->getNodeName() );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  add 2 Children with same Node Name
 		$this->node->addChild( new Node( "leaf" ) );
@@ -336,23 +336,23 @@ class NodeTest extends BaseCase
 		//  test Children
 		$assertion	= 2;
 		$creation	= count( $this->node->getChildren() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  remove first Child
 		$creation	= $this->node->removeChild( "leaf" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  test Children
 		$assertion	= 1;
 		$creation	= count( $this->node->getChildren() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  remove second Child
 		$creation	= $this->node->removeChild( "leaf" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  test Children
-		$this->assertCount( 0, $this->node->getChildren() );
+		self::assertCount( 0, $this->node->getChildren() );
 	}
 
 	/**
@@ -364,15 +364,15 @@ class NodeTest extends BaseCase
 	{
 		//  remove Content
 		$creation	= $this->node->removeContent();
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  check Content
 		$creation	= $this->node->hasContent();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		//  try to delete Content again
 		$creation	= $this->node->removeContent();
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 	}
 
 	/**
@@ -384,25 +384,25 @@ class NodeTest extends BaseCase
 	{
 		//  set Attribute
 		$creation	= $this->node->setAttribute( "testKey2", "testValue2" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  check Attribute
 		$assertion	= "testValue2";
 		$creation	= $this->node->getAttribute( "testKey2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  try to set Attribute again
 		$creation	= $this->node->setAttribute( "testKey2", "testValue2" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  try to overwrite an Attribute
 		$creation	= $this->node->setAttribute( "testKey2", "testValue3" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  check overwritten Attribute
 		$assertion	= "testValue3";
 		$creation	= $this->node->getAttribute( "testKey2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -414,16 +414,16 @@ class NodeTest extends BaseCase
 	{
 		//  set Content
 		$creation	= $this->node->setContent( "testContent2" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  check Content
 		$assertion	= "testContent2";
 		$creation	= $this->node->getContent();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  try to set Content again
 		$creation	= $this->node->setContent( "testContent2" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 	}
 
 	/**
@@ -435,15 +435,15 @@ class NodeTest extends BaseCase
 	{
 		//  set Node Name
 		$creation	= $this->node->setNodeName( "testNode2" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 
 		//  check NodeName
 		$assertion	= "testNode2";
 		$creation	= $this->node->getNodeName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  try to set Node Name again
 		$creation	= $this->node->setNodeName( "testNode2" );
-		$this->assertEquals( $this->node, $creation );
+		self::assertEquals( $this->node, $creation );
 	}
 }

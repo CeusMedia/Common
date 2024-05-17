@@ -37,7 +37,7 @@ class BackgroundProcessTest extends BaseCase
 	{
 		$assertion	= new BackgroundProcess;
 		$creation	= BackgroundProcess::newInstance();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testSetCommand(): void
@@ -48,20 +48,20 @@ class BackgroundProcessTest extends BaseCase
 
 		$assertion	= $command;
 		$creation	= $process->getProtectedVar( 'command' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$process->start();
 		$creation	= $process->getProtectedVar( 'pid' );
-		$this->assertIsInt( $creation );
-		$this->assertGreaterThan( 1, $creation );
+		self::assertIsInt( $creation );
+		self::assertGreaterThan( 1, $creation );
 
 		$process->setCommand( $command );
 		$creation	= $process->getProtectedVar( 'command' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $process->getProtectedVar( 'pid' );
-		$this->assertIsInt( $creation );
-		$this->assertEquals( 0, $creation );
+		self::assertIsInt( $creation );
+		self::assertEquals( 0, $creation );
 	}
 
 	public function testSetCommand_Exception1(): void

@@ -51,14 +51,14 @@ class SectionTest extends BaseCase
 		$assertion	= array(
 			new Field( 'expires', $expires1 ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 
 		$section->addField( new Field( 'expires', $expires2 ) );
 		$assertion	= array(
 			new Field( 'expires', $expires1 ),
 			new Field( 'expires', $expires2 ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 
 		$section->addField( new Field( 'date', $date ) );
 		$assertion	= array(
@@ -66,7 +66,7 @@ class SectionTest extends BaseCase
 			new Field( 'expires', $expires2 ),
 			new Field( 'date', $date ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 	}
 
 	public function testAddFieldPair()
@@ -80,14 +80,14 @@ class SectionTest extends BaseCase
 		$assertion	= array(
 			new Field( 'expires', $expires1 ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 
 		$section->addFieldPair( 'expires', $expires2 );
 		$assertion	= array(
 			new Field( 'expires', $expires1 ),
 			new Field( 'expires', $expires2 ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 
 		$section->addFieldPair( 'date', $date );
 		$assertion	= array(
@@ -95,7 +95,7 @@ class SectionTest extends BaseCase
 			new Field( 'expires', $expires2 ),
 			new Field( 'date', $date ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 	}
 
 	public function testAddFields()
@@ -114,7 +114,7 @@ class SectionTest extends BaseCase
 			new Field( 'expires', $expires1 ),
 			new Field( 'date', $date1 ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 
 		$section->addFields( array(
 			new Field( 'expires', $expires2 ),
@@ -126,7 +126,7 @@ class SectionTest extends BaseCase
 			new Field( 'date', $date1 ),
 			new Field( 'date', $date2 ),
 		);
-		$this->assertEquals( $assertion, $section->getFields() );
+		self::assertEquals( $assertion, $section->getFields() );
 	}
 
 	/**
@@ -145,36 +145,36 @@ class SectionTest extends BaseCase
 			new Field( 'key', 'value' ),
 		);
 		$actual		= $section->getField( 'expires' );
-		$this->assertNotNull( $actual );
-		$this->assertEquals( $expires, $actual->getValue() );
+		self::assertNotNull( $actual );
+		self::assertEquals( $expires, $actual->getValue() );
 
 		$actual		= $section->getField( 'key' );
-		$this->assertNotNull( $actual );
-		$this->assertEquals( 'value', $actual->getValue() );
+		self::assertNotNull( $actual );
+		self::assertEquals( 'value', $actual->getValue() );
 
-		$this->assertNull( $section->getField( 'invalid' ) );
+		self::assertNull( $section->getField( 'invalid' ) );
 	}
 
 	public function testGetFieldsByName(): void
 	{
 		$actual	= $this->section->getFieldsByName( 'key' );
 
-		$this->assertIsArray( $actual );
-		$this->assertCount( 1, $actual );
-		$this->assertEquals( 'value', $actual[0]->getValue() );
+		self::assertIsArray( $actual );
+		self::assertCount( 1, $actual );
+		self::assertEquals( 'value', $actual[0]->getValue() );
 
 		$actual	= $this->section->getFieldsByName( 'date' );
-		$this->assertIsArray( $actual );
-		$this->assertCount( 1, $actual );
+		self::assertIsArray( $actual );
+		self::assertCount( 1, $actual );
 
 		$actual	= $this->section->getFieldsByName( 'ExPiReS' );
-		$this->assertIsArray( $actual );
-		$this->assertCount( 1, $actual );
-		$this->assertTrue( $actual[0]->getValue() > time() );
+		self::assertIsArray( $actual );
+		self::assertCount( 1, $actual );
+		self::assertTrue( $actual[0]->getValue() > time() );
 
 		$actual	= $this->section->getFieldsByName( 'invalid' );
-		$this->assertIsArray( $actual );
-		$this->assertCount( 0, $actual );
+		self::assertIsArray( $actual );
+		self::assertCount( 0, $actual );
 	}
 
 	public function testGetFields()
@@ -189,7 +189,7 @@ class SectionTest extends BaseCase
 			new Field( 'key', 'value' ),
 		);
 		$creation	= $section->getFields();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetSectionedFields()
@@ -205,24 +205,24 @@ class SectionTest extends BaseCase
 				'key'		=> [new Field( 'key', 'value' )],
 			],
 		];
-		$this->assertEquals( $expected, $this->section->getSectionedFields() );
+		self::assertEquals( $expected, $this->section->getSectionedFields() );
 	}
 
 	public function testHasField()
 	{
-		$this->assertTrue( $this->section->hasField( 'key' ) );
-		$this->assertTrue( $this->section->hasField( 'DATE' ) );
-		$this->assertTrue( $this->section->hasField( 'eXpIrEs' ) );
-		$this->assertFalse( $this->section->hasField( 'invalid' ) );
+		self::assertTrue( $this->section->hasField( 'key' ) );
+		self::assertTrue( $this->section->hasField( 'DATE' ) );
+		self::assertTrue( $this->section->hasField( 'eXpIrEs' ) );
+		self::assertFalse( $this->section->hasField( 'invalid' ) );
 	}
 
 	public function testRemoveByName(): void
 	{
 		$this->section->removeByName( 'date' );
-		$this->assertTrue( $this->section->hasField( 'key' ) );
-		$this->assertFalse( $this->section->hasField( 'DATE' ) );
-		$this->assertFalse( $this->section->hasField( 'date' ) );
-		$this->assertTrue( $this->section->hasField( 'eXpIrEs' ) );
-		$this->assertFalse( $this->section->hasField( 'invalid' ) );
+		self::assertTrue( $this->section->hasField( 'key' ) );
+		self::assertFalse( $this->section->hasField( 'DATE' ) );
+		self::assertFalse( $this->section->hasField( 'date' ) );
+		self::assertTrue( $this->section->hasField( 'eXpIrEs' ) );
+		self::assertFalse( $this->section->hasField( 'invalid' ) );
 	}
 }

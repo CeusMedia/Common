@@ -28,29 +28,29 @@ class Rot13Test extends BaseCase
 	{
 		$assertion	= "nopqrs";
 		$creation	= Rot13::encrypt( 'abcdef' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "123456";
 		$creation	= Rot13::encrypt( '123456' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '!"§$%&/()=';
 		$creation	= Rot13::encrypt( '!"§$%&/()=' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testDecrypt()
 	{
 		$assertion	= "abcdef";
 		$creation	= Rot13::decrypt( 'nopqrs' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "123456";
 		$creation	= Rot13::decrypt( '123456' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '!"§$%&/()=';
 		$creation	= Rot13::decrypt( '!"§$%&/()=' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -29,7 +29,7 @@ class FieldTest extends BaseCase
 		$header	= new Field( "key", "value" );
 
 		$creation	= (bool) strlen( $header->toString() );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	public function testToString()
@@ -37,11 +37,11 @@ class FieldTest extends BaseCase
 		$header	= new Field( "key", "value" );
 		$assertion	= "Key: value";
 		$creation	= $header->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$header	= new Field( "key-with-more-words", "value" );
 		$assertion	= "Key-With-More-Words: value";
 		$creation	= $header->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

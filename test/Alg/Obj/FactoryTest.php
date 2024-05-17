@@ -50,7 +50,7 @@ final class FactoryTest extends BaseCase
 		$factory	= new ObjectFactory();
 		$creation	= $factory->create( ObjectFactoryTestClass::class, [-1] );
 
-		$this->assertEquals( -3, $creation->callableMethod( 3 ) );
+		self::assertEquals( -3, $creation->callableMethod( 3 ) );
 	}
 
 /*	public function testCallException1()

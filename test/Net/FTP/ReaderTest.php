@@ -43,21 +43,21 @@ class ReaderTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->reader->getFile( "test1.txt", "test_getFile" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "test1";
 		$creation	= file_get_contents( "test_getFile" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->reader->getFile( "folder/test3.txt", "test_getFile" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "test3";
 		$creation	= file_get_contents( "test_getFile" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->reader->getFile( "not_existing", "test_getFile" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -71,20 +71,20 @@ class ReaderTest extends BaseCase
 		$files		= $this->reader->getFileList( "folder" );
 		$assertion	= 2;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test3.txt";
 		$creation	= $files[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test4.txt";
 		$creation	= $files[1]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= $this->reader->getFileList( "", TRUE );
 		$assertion	= 4;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -98,25 +98,25 @@ class ReaderTest extends BaseCase
 		$folders	= $this->reader->getFolderList();
 		$assertion	= 1;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "folder";
 		$creation	= $folders[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$folders	= $this->reader->getFolderList( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "nested";
 		$creation	= $folders[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$folders	= $this->reader->getFolderList( "", TRUE );
 		$assertion	= 2;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -134,7 +134,7 @@ class ReaderTest extends BaseCase
 				$files[]	= $entry['name'];
 		$assertion	= array( 'test1.txt', 'test2.txt' );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= [];
 		$list		= $this->reader->getList();
@@ -142,7 +142,7 @@ class ReaderTest extends BaseCase
 			$files[]	= $entry['name'];
 		$assertion	= array( 'folder', 'test1.txt', 'test2.txt' );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= [];
 		$list		= $this->reader->getList( "folder" );
@@ -150,7 +150,7 @@ class ReaderTest extends BaseCase
 			$files[]	= $entry['name'];
 		$assertion	= array( 'nested', 'test3.txt', 'test4.txt' );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -163,13 +163,13 @@ class ReaderTest extends BaseCase
 		$this->checkFtpConfig();
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->reader->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->reader->setPath( "folder" );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->reader->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -182,19 +182,19 @@ class ReaderTest extends BaseCase
 		$this->checkFtpConfig();
 		$assertion	= '0777';
 		$creation	= $this->reader->getPermissionsAsOctal( "drwxrwxrwx" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0000';
 		$creation	= $this->reader->getPermissionsAsOctal( "d---------" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0751';
 		$creation	= $this->reader->getPermissionsAsOctal( "drwxr-x--x" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0642';
 		$creation	= $this->reader->getPermissionsAsOctal( "drw-r---w-" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -208,16 +208,16 @@ class ReaderTest extends BaseCase
 		$files		= $this->reader->searchFile( "test1.txt" );
 		$assertion	= 1;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test1.txt";
 		$creation	= $files[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= $this->reader->searchFile( "@\.txt$@", TRUE, TRUE );
 		$assertion	= 4;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -231,23 +231,23 @@ class ReaderTest extends BaseCase
 		$folders	= $this->reader->searchFolder( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "folder";
 		$creation	= $folders[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$folders	= $this->reader->searchFolder( "@e@", TRUE, TRUE );
 		$assertion	= 2;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$names		= [];
 		foreach( $folders as $folder )
 			$names[]	= $folder['name'];
 		$assertion	= array( "folder", "folder/nested" );;
 		$creation	= $names;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -259,28 +259,28 @@ class ReaderTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->reader->setPath( "not_existing" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->reader->setPath( "folder" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->reader->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->reader->setPath( "/".$this->path."folder" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->reader->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->reader->setPath( "/".$this->path."folder/nested" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder/nested";
 		$creation	= $this->reader->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

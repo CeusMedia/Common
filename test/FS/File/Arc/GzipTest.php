@@ -33,11 +33,11 @@ class GzipTest extends BaseCase
 		$arc->writeString( "test" );
 
 		$creation	= file_exists( $this->fileName );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "test";
 		$creation	= gzuncompress( file_get_contents( $this->fileName ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testReadString(): void
@@ -47,7 +47,7 @@ class GzipTest extends BaseCase
 
 		$assertion	= "test";
 		$creation	= $arc->readString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	protected function setUp(): void

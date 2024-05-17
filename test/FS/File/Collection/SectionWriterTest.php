@@ -42,14 +42,14 @@ class SectionWriterTest extends BaseCase
 		$writer		= new SectionWriter( $this->fileName );
 		$writer->write( $this->sectionList );
 		$creation	= SectionReader::load( $this->fileName );
-		$this->assertEquals( $this->sectionList, $creation );
+		self::assertEquals( $this->sectionList, $creation );
 	}
 
 	public function testSave(): void
 	{
 		SectionWriter::save( $this->fileName, $this->sectionList );
 		$creation	= SectionReader::load( $this->fileName );
-		$this->assertEquals( $this->sectionList, $creation );
+		self::assertEquals( $this->sectionList, $creation );
 	}
 
 	protected function setUp(): void

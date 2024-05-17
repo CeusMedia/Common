@@ -37,19 +37,19 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->add( 'line3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line2", "line3" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->editor->add( 'line4' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line2", "line3", "line4" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -72,11 +72,11 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->edit( "line2", "line3" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line3" );
 		$creation	= $this->editor->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class EditorTest extends BaseCase
 			"line2",
 		);
 		$creation	= $this->editor->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -114,11 +114,11 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->remove( 'line1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line2" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -142,18 +142,18 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->removeIndex( 1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->editor->removeIndex( 0 );
-		$this->assertEquals( 0, $creation );
+		self::assertEquals( 0, $creation );
 
 		$assertion	= [];
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= "{line1, line2}";
 		$creation	= "".$this->editor;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

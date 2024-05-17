@@ -59,24 +59,24 @@ final class ConstantTest extends BaseCase
 			'C_3'		=> 3,
 		);
 		$creation		= $this->object->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion		= array(
 			'1'		=> 1,
 		);
 		$creation		= $this->object->getAll( 'A' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		$creation		= $this->object->getAll( 'A_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion		= array(
 			'1'		=> 1,
 			'2'		=> 2,
 		);
 		$creation		= $this->object->getAll( 'B' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		$creation		= $this->object->getAll( 'B_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion		= array(
 			'1'		=> 1,
@@ -84,24 +84,24 @@ final class ConstantTest extends BaseCase
 			'3'		=> 3,
 		);
 		$creation		= $this->object->getAll( 'C' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		$creation		= $this->object->getAll( 'C_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion		= [];
 		$creation		= $this->object->getAll( 'D' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetKeyByValue()
 	{
 		$assertion		= 'C_3';
 		$creation		= $this->object->getKeyByValue( 3 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion		= '3';
 		$creation		= $this->object->getKeyByValue( 3, 'C' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetKeyByValueException1()
@@ -120,11 +120,11 @@ final class ConstantTest extends BaseCase
 	{
 		$assertion		= '3';
 		$creation		= $this->object->getValue( 'C_3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion		= '3';
 		$creation		= $this->object->getValue( '3', 'C' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetValueException1()

@@ -65,7 +65,7 @@ class TableTest extends BaseCase
 │ 3 │ 2 │
 └───┴───┘
 EOT . PHP_EOL;
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	public function testRenderBorderNone(): void
@@ -78,7 +78,7 @@ EOT . PHP_EOL;
  1   2 
  3   2 
 EOT . PHP_EOL;
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	public function testRenderBorderDouble(): void
@@ -94,7 +94,7 @@ EOT . PHP_EOL;
 ║ 3 ║ 2 ║
 ╚═══╩═══╝
 EOT . PHP_EOL;
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	public function testRenderBorderMixed(): void
@@ -110,7 +110,7 @@ EOT . PHP_EOL;
 ║ 3 │ 2 ║
 ╚═══╧═══╝
 EOT . PHP_EOL;
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	public function testRenderBorderMixedSizeMax(): void
@@ -127,6 +127,6 @@ EOT . PHP_EOL;
 ║                                  3 │                                  2 ║
 ╚════════════════════════════════════╧════════════════════════════════════╝
 EOT . PHP_EOL;
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 }

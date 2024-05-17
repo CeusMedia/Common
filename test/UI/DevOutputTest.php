@@ -47,7 +47,7 @@ class DevOutputTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= DevOutput::indentSign();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -61,12 +61,12 @@ class DevOutputTest extends BaseCase
 		$array		= array( 'a' => 1, 'b' => "2" );
 		$assertion	= "  [I] a => 1\n  [S] b => 2\n";
 		$creation	= $output->printMixed( $array, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[I] a => 1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[S] b => 2<br/>";
 		$creation	= $output->printMixed( $array, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -79,20 +79,20 @@ class DevOutputTest extends BaseCase
 		$output		= new DevOutput();
 		$assertion	= "[B] TRUE\n";
 		$creation	= $output->printMixed( TRUE, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "[B] FALSE\n";
 		$creation	= $output->printMixed( FALSE, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[B] <em>TRUE</em><br/>";
 		$creation	= $output->printMixed( TRUE, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "[B] <em>FALSE</em><br/>";
 		$creation	= $output->printMixed( FALSE, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -105,12 +105,12 @@ class DevOutputTest extends BaseCase
 		$output		= new DevOutput();
 		$assertion	= "[F] 3.1415926\n";
 		$creation	= $output->printMixed( (double) 3.1415926, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[F] 3.1415926<br/>";
 		$creation	= $output->printMixed( (double) 3.1415926, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -123,12 +123,12 @@ class DevOutputTest extends BaseCase
 		$output		= new DevOutput();
 		$assertion	= "[F] 3.1415926\n";
 		$creation	= $output->printMixed( (float) 3.1415926, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[F] 3.1415926<br/>";
 		$creation	= $output->printMixed( (float) 3.1415926, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -141,12 +141,12 @@ class DevOutputTest extends BaseCase
 		$output		= new DevOutput();
 		$assertion	= "[I] 3\n";
 		$creation	= $output->printMixed( (int) 3.1415926, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[I] 3<br/>";
 		$creation	= $output->printMixed( (int) 3.1415926, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -158,11 +158,11 @@ class DevOutputTest extends BaseCase
 	{
 		$assertion	= "\n[S] 123\n";
 		$creation	= print_m( "123", NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "<br/>[S] 123<br/>";
 		$creation	= print_m( "123", NULL, NULL, TRUE, 'html' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -175,12 +175,12 @@ class DevOutputTest extends BaseCase
 		$output		= new DevOutput();
 		$assertion	= "[S] 123\n";
 		$creation	= $output->printMixed( "123", 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[S] 123<br/>";
 		$creation	= $output->printMixed( "123", 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -193,12 +193,12 @@ class DevOutputTest extends BaseCase
 		$output		= new DevOutput();
 		$assertion	= "[N] NULL\n";
 		$creation	= $output->printMixed( NULL, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[N] <em>NULL</em><br/>";
 		$creation	= $output->printMixed( NULL, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -212,12 +212,12 @@ class DevOutputTest extends BaseCase
 		$object		= (object) array( 'a' => 1, 'b' => "2" );
 		$assertion	= "[O] stdClass\n  [I] a => 1\n  [S] b => 2\n";
 		$creation	= $output->printMixed( $object, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[O] <b>stdClass</b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[I] a => 1<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[S] b => 2<br/>";
 		$creation	= $output->printMixed( $object, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -231,13 +231,13 @@ class DevOutputTest extends BaseCase
 		$resource	= fopen( __FILE__, "r" );
 		$assertion	= "[R] Resource id #\n";
 		$creation	= $output->printMixed( $resource, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion,preg_replace( "/[0-9]/", "", $creation ) );
+		self::assertEquals( $assertion,preg_replace( "/[0-9]/", "", $creation ) );
 
 		$output->setChannel( 'html' );
 		$resource	= fopen( __FILE__, "r" );
 		$assertion	= "[R] Resource id #<br/>";
 		$creation	= $output->printMixed( $resource, 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion,preg_replace( "/[0-9]/", "", $creation ) );
+		self::assertEquals( $assertion,preg_replace( "/[0-9]/", "", $creation ) );
 	}
 
 	/**
@@ -250,12 +250,12 @@ class DevOutputTest extends BaseCase
 		$output		= new DevOutput();
 		$assertion	= "[S] 123\n";
 		$creation	= $output->printMixed( "123", 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$output->setChannel( 'html' );
 		$assertion	= "[S] 123<br/>";
 		$creation	= $output->printMixed( "123", 0, NULL, NULL, NULL, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -268,7 +268,7 @@ class DevOutputTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= DevOutput::remark();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -281,6 +281,6 @@ class DevOutputTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= DevOutput::showDOM();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -28,7 +28,7 @@ class ConstantTest extends BaseCase
 	{
 		$assertion	= [];
 		$creation	= Constant::getAll( 'INVALID_PREFIX_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'INI_USER'				=> 1,
@@ -40,7 +40,7 @@ class ConstantTest extends BaseCase
 			'INI_SCANNER_TYPED'		=> 2,
 		);
 		$creation	= Constant::getAll( 'INI_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'INI_USER'		=> 1,
@@ -49,7 +49,7 @@ class ConstantTest extends BaseCase
 			'INI_ALL'		=> 7,
 		);
 		$creation	= Constant::getAll( 'INI_', 'SCANNER_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAllException1()
@@ -62,11 +62,11 @@ class ConstantTest extends BaseCase
 	{
 		$assertion	= 'JSON_ERROR_NONE';
 		$creation	= Constant::getKeyByValue( 'JSON_ERROR', JSON_ERROR_NONE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'JSON_ERROR_DEPTH';
 		$creation	= Constant::getKeyByValue( 'JSON_ERROR_', JSON_ERROR_DEPTH );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetByKeyValueException1()

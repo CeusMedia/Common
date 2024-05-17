@@ -32,78 +32,78 @@ class CollectionTest extends BaseCase
 	{
 		$func	= function( int $item ): bool{ return $item !== 2; };			//  long syntax
 		$result	= $this->collection->filter( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [1, 3], $result->getValues() );
-		$this->assertEquals( [1, 3], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [1, 3], $result->getValues() );
+		self::assertEquals( [1, 3], $this->collection->getValues() );
 
 		$this->setUp();
 		$func	= fn( int $item ) => $item !== 2;								//  short syntax
 		$result	= $this->collection->filter( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [1, 3], $result->getValues() );
-		$this->assertEquals( [1, 3], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [1, 3], $result->getValues() );
+		self::assertEquals( [1, 3], $this->collection->getValues() );
 	}
 
 	public function testFilterToCopy(): void
 	{
 		$func	= function( int $item ): bool{ return $item !== 2; };			//  long syntax
 		$result	= $this->collection->filterToCopy( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [1, 3], $result->getValues() );
-		$this->assertEquals( [1, 2, 3], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [1, 3], $result->getValues() );
+		self::assertEquals( [1, 2, 3], $this->collection->getValues() );
 
 		$this->setUp();
 		$func	= fn( int $item ) => $item !== 2;								//  short syntax
 		$result	= $this->collection->filterToCopy( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [1, 3], $result->getValues() );
-		$this->assertEquals( [1, 2, 3], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [1, 3], $result->getValues() );
+		self::assertEquals( [1, 2, 3], $this->collection->getValues() );
 	}
 
 	public function testGetDictionary(): void
 	{
 		$dictionary	= $this->collection->getDictionary();
-		$this->assertInstanceOf( Collection\Dictionary::class, $dictionary );
-		$this->assertEquals( [1, 2, 3], array_values( $dictionary->getAll() ) );
-		$this->assertEquals( [0, 1, 2], array_keys( $dictionary->getAll() ) );
+		self::assertInstanceOf( Collection\Dictionary::class, $dictionary );
+		self::assertEquals( [1, 2, 3], array_values( $dictionary->getAll() ) );
+		self::assertEquals( [0, 1, 2], array_keys( $dictionary->getAll() ) );
 	}
 
 	public function testGetIterator(): void
 	{
-		$this->assertInstanceOf( \Traversable::class, $this->collection->getIterator() );
+		self::assertInstanceOf( \Traversable::class, $this->collection->getIterator() );
 	}
 
 	public function testMap(): void
 	{
 		$func	= function( int & $item ){ $item *= 2; };						//  long syntax
 		$result	= $this->collection->map( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [2, 4, 6], $result->getValues() );
-		$this->assertEquals( [2, 4, 6], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [2, 4, 6], $result->getValues() );
+		self::assertEquals( [2, 4, 6], $this->collection->getValues() );
 
 		$this->setUp();
 		$func	= fn( int & $item ) => $item *= 2;								//  short syntax
 		$result	= $this->collection->map( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [2, 4, 6], $result->getValues() );
-		$this->assertEquals( [2, 4, 6], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [2, 4, 6], $result->getValues() );
+		self::assertEquals( [2, 4, 6], $this->collection->getValues() );
 	}
 
 	public function testMapToCopy(): void
 	{
 		$func	= function( $item ): int{ return $item * 2; };					//  long syntax
 		$result	= $this->collection->mapToCopy( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [2, 4, 6], $result->getValues() );
-		$this->assertEquals( [1, 2, 3], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [2, 4, 6], $result->getValues() );
+		self::assertEquals( [1, 2, 3], $this->collection->getValues() );
 
 		$this->setUp();
 
 		$func	= fn( int $item ) => $item * 2;									//  short syntax
 		$result	= $this->collection->mapToCopy( $func );
-		$this->assertInstanceOf( Collection::class, $result );
-		$this->assertEquals( [2, 4, 6], $result->getValues() );
-		$this->assertEquals( [1, 2, 3], $this->collection->getValues() );
+		self::assertInstanceOf( Collection::class, $result );
+		self::assertEquals( [2, 4, 6], $result->getValues() );
+		self::assertEquals( [1, 2, 3], $this->collection->getValues() );
 	}
 
 	protected function setUp(): void

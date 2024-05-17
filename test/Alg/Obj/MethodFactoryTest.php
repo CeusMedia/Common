@@ -52,7 +52,7 @@ final class MethodFactoryTest extends BaseCase
 		$factory->setMethod( 'callableMethod', [3] );
 		$creation	= $factory->call();
 
-		$this->assertEquals( 6, $creation );
+		self::assertEquals( 6, $creation );
 	}
 
 	public function testCallException1()

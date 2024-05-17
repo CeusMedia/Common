@@ -38,15 +38,15 @@ class LevelMapTest extends BaseCase
 	{
 		$assertion	= "value_11";
 		$creation	= $this->map->get( 'level1.key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "value_121";
 		$creation	= $this->map->get( 'level1.level2.key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "value_1231";
 		$creation	= $this->map->get( 'level1.level2.level3.key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'key1'					=> "value_11",
@@ -57,7 +57,7 @@ class LevelMapTest extends BaseCase
 			'level2.level3.key2'	=> "value_1232",
 		);
 		$creation	= $this->map->get( 'level1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'key1'			=> "value_121",
@@ -66,22 +66,22 @@ class LevelMapTest extends BaseCase
 			'level3.key2'	=> "value_1232",
 		);
 		$creation	= $this->map->get( 'level1.level2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'key1'	=> "value_1231",
 			'key2'	=> "value_1232",
 		);
 		$creation	= $this->map->get( 'level1.level2.level3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= $this->map->get( 'not_existing' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= $this->map->get( 'level1.not_existing' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -103,22 +103,22 @@ class LevelMapTest extends BaseCase
 	public function testHas()
 	{
 		$creation	= $this->map->has( 'level1.key2' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->map->has( 'level1.level2.key2' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->map->has( 'level1.level2.level3.key2' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->map->has( "not_existing" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->map->has( "level1.not_existing" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->map->has( 'level1' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -141,15 +141,15 @@ class LevelMapTest extends BaseCase
 	{
 		$this->map->remove( 'level1.key2' );
 		$creation	= $this->map->has( 'level1.key2' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$this->map->remove( 'level1.level2.level3' );
 
 		$creation	= $this->map->has( 'level1.level2.level3' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->map->has( 'level1.level2.level3.key1' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$assertion	= array(
 			'level1.key1'			=> "value_11",
@@ -157,7 +157,7 @@ class LevelMapTest extends BaseCase
 			'level1.level2.key2'	=> "value_122",
 		);
 		$creation	= $this->map->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -181,20 +181,20 @@ class LevelMapTest extends BaseCase
 		$this->map->set( 'level1.key3', "value_13" );
 
 		$creation	= $this->map->has( 'level1.key3' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "value_13";
 		$creation	= $this->map->get( 'level1.key3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->map->set( 'level1.level2.level3.level4.key1', "value_12341" );
 
 		$creation	= $this->map->has( 'level1.level2.level3.level4.key1' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "value_12341";
 		$creation	= $this->map->get( 'level1.level2.level3.level4.key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -211,7 +211,7 @@ class LevelMapTest extends BaseCase
 
 		$this->map->set( 'array', $data, FALSE );
 		$creation	= $this->map->get( 'array' );
-		$this->assertSame( $data, $creation );
+		self::assertSame( $data, $creation );
 
 		$this->map->set( 'array', $data );
 		$assertion	= array(
@@ -219,7 +219,7 @@ class LevelMapTest extends BaseCase
 			'key2' => "value2",
 		);
 		$creation	= $this->map->get( 'array' );
-		$this->assertSame( $assertion, $creation );
+		self::assertSame( $assertion, $creation );
 
 	}
 
@@ -239,7 +239,7 @@ class LevelMapTest extends BaseCase
 		ksort( $data );
 		$assertion	= $data;
 		$creation	= $map->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -257,7 +257,7 @@ class LevelMapTest extends BaseCase
 
 		$assertion	= $data;
 		$creation	= $map->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

@@ -44,40 +44,40 @@ class DictionaryTest extends BaseCase
 		$dictionary	= new Dictionary();
 		$assertion	= 0;
 		$creation	= $dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $dictionary->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$dictionary	= new Dictionary( array( 1, 2, 3 ) );
 		$assertion	= 3;
 		$creation	= $dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( 1, 2, 3 );
 		$creation	= $dictionary->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$dictionary	= new Dictionary( array( 'a' => 'b', 'b' => 'c', 'c' => 'd' ) );
 		$assertion	= array( 'a' => 'b', 'b' => 'c', 'c' => 'd' );
 		$creation	= $dictionary->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCast(): void
 	{
 		$assertion	= 2;
 		$creation	= $this->dictionary->cast( "2", 'key0' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
 		$creation	= $this->dictionary->cast( M_PI, 'key0' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= (string) M_PI;
 		$creation	= $this->dictionary->cast( M_PI, 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 	}
 
@@ -110,58 +110,58 @@ class DictionaryTest extends BaseCase
 	{
 		$assertion	= 6;
 		$creation	= $this->dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCountableInterface(): void
 	{
 		$assertion	= 6;
 		$creation	= count( $this->dictionary );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testFlush(): void
 	{
 		$this->dictionary->next();
 		$this->dictionary->next();
-		$this->assertEquals( 'value2', $this->dictionary->current() );
-		$this->assertEquals( 'value2', $this->dictionary->current() );
+		self::assertEquals( 'value2', $this->dictionary->current() );
+		self::assertEquals( 'value2', $this->dictionary->current() );
 		$this->dictionary->flush();
-		$this->assertEquals( 0, $this->dictionary->count() );
+		self::assertEquals( 0, $this->dictionary->count() );
 		$this->dictionary->set( 'key1', 'value1' );
 		$this->dictionary->set( 'key2', 'value2' );
 		$this->dictionary->set( 'key3', 'value3' );
-		$this->assertEquals( 'value1', $this->dictionary->current() );
+		self::assertEquals( 'value1', $this->dictionary->current() );
 	}
 
 	public function testGet(): void
 	{
 		$assertion	= "value2";
 		$creation	= $this->dictionary->get( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( 'value3-1', 'value3-2' );
 		$creation	= $this->dictionary->get( 'key3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= NULL;
 		$creation	= $this->dictionary->get( 'invalid' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetWithDefault(): void
 	{
 		$assertion	= "value2";
 		$creation	= $this->dictionary->get( 'key2', -1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( 'value3-1', 'value3-2' );
 		$creation	= $this->dictionary->get( 'key3', -1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= -1;
 		$creation	= $this->dictionary->get( 'invalid', -1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAll(): void
@@ -175,7 +175,7 @@ class DictionaryTest extends BaseCase
 			'key5'	=> new Dictionary( array( '0', '1' ) ),
 		);
 		$creation	= $this->dictionary->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAllWithPrefix(): void
@@ -194,68 +194,68 @@ class DictionaryTest extends BaseCase
 
 		$assertion	= array( '1' => 7, '2' => 8  );
 		$creation	= $dictionary->getAll( 'B.b.' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( '.1' => 7, '.2' => 8  );
 		$creation	= $dictionary->getAll( 'B.b' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( 'a.1' => 5, 'a.2' => 6, 'b.1' => 7, 'b.2' => 8  );
 		$creation	= $dictionary->getAll( 'B.' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( '.a.1' => 5, '.a.2' => 6, '.b.1' => 7, '.b.2' => 8  );
 		$creation	= $dictionary->getAll( 'B' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( 'a' => 0, 'a.1' => 1, 'a.2' => 2, 'b.1' => 3, 'b.2' => 4 );
 		$creation	= $dictionary->getAll( 'A.' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetKeyOf(): void
 	{
 		$assertion	= 'key2';
 		$creation	= $this->dictionary->getKeyOf( 'value2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'key0';
 		$creation	= $this->dictionary->getKeyOf( 0 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= null;
 		$creation	= $this->dictionary->getKeyOf( 'invalid' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$array		= $this->dictionary->get( 'key3' );
 		$assertion	= 0;
 		$creation	= array_search( 'value3-1', $array );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testHas(): void
 	{
 		$creation	= $this->dictionary->has( 'key2' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->dictionary->has( 'invalid' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->dictionary->has( '0' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	public function testRemove(): void
 	{
 		$this->dictionary->remove( 'key2' );
 		$creation	= $this->dictionary->has( 'key2' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$this->dictionary->remove( 'invalid' );
 		$assertion	= 5;
 		$creation	= $this->dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testIterator(): void
@@ -263,7 +263,7 @@ class DictionaryTest extends BaseCase
 		$list	= [];
 		foreach( $this->dictionary as $key => $value )
 			$list[$key]	= $value;
-		$this->assertEquals( $list, $this->dictionary->getAll() );
+		self::assertEquals( $list, $this->dictionary->getAll() );
 	}
 
 	public function testRemove2(): void
@@ -273,7 +273,7 @@ class DictionaryTest extends BaseCase
 
 		$assertion	= 0;
 		$creation	= $this->dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testSet(): void
@@ -281,26 +281,26 @@ class DictionaryTest extends BaseCase
 		$this->dictionary->set( 'key2', 'value2#' );
 		$assertion	= 'value2#';
 		$creation	= $this->dictionary->get( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary->set( 'key6', 'value6' );
 		$assertion	= 'value6';
 		$creation	= $this->dictionary->get( 'key6' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	//  --  TESTS OF ARRAY ACCESS INTERFACE  --  //
 	public function testOffsetExists(): void
 	{
 		$creation	= isset( $this->dictionary['key2'] );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	public function testOffsetGet(): void
 	{
 		$assertion	= "value2";
 		$creation	=$this->dictionary['key2'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetSet(): void
@@ -308,24 +308,24 @@ class DictionaryTest extends BaseCase
 		$this->dictionary['key2']	= "value2#";
 		$assertion	= "value2#";
 		$creation	= $this->dictionary['key2'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary['key6']	= "value6";
 		$assertion	= "value6";
 		$creation	= $this->dictionary['key6'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetUnset(): void
 	{
 		unset( $this->dictionary['key2'] );
 		$creation	= $this->dictionary->has( 'key2' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		unset( $this->dictionary['key2'] );
 		$assertion	= 5;
 		$creation	= $this->dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetUnset2(): void
@@ -335,7 +335,7 @@ class DictionaryTest extends BaseCase
 
 		$assertion	= 0;
 		$creation	= count( $this->dictionary );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	//  --  TESTS OF ITERATOR INTERFACE  --  //
@@ -343,101 +343,101 @@ class DictionaryTest extends BaseCase
 	{
 		$assertion	= 'key0';
 		$creation	= $this->dictionary->key();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary->next();
 		$assertion	= 'key1';
 		$creation	= $this->dictionary->key();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 6;
 		$creation	= $this->dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCurrent(): void
 	{
 		$expected	= 0;
-		$this->assertEquals( $expected, $this->dictionary->current() );
-		$this->assertEquals( $expected, $this->dictionary->current() );
+		self::assertEquals( $expected, $this->dictionary->current() );
+		self::assertEquals( $expected, $this->dictionary->current() );
 
 		$this->dictionary->next();
 		$assertion	= 'value1';
 		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 6;
 		$creation	= $this->dictionary->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testNext(): void
 	{
 		$assertion	= 0;
 		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary->next();
 
 		$assertion	= 'value1';
 		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary->next();
 		$this->dictionary->next();
 		$assertion	= array( 'value3-1', 'value3-2' );
 		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary->next();
 		$this->dictionary->next();
 		$this->dictionary->next();
 		$creation	= $this->dictionary->current();
-		$this->assertNull( $creation );
+		self::assertNull( $creation );
 	}
 
 	public function testRewind(): void
 	{
 		$assertion	= 0;
 		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary->next();
 		$assertion	= 'value1';
 		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->dictionary->rewind();
 		$assertion	= 0;
 		$creation	= $this->dictionary->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
  	public function testValid(): void
 	{
 		$this->dictionary->next();
 		$creation	= $this->dictionary->valid();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$this->dictionary->next();
 		$creation	= $this->dictionary->valid();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$this->dictionary->next();
 		$creation	= $this->dictionary->valid();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$this->dictionary->next();
 		$creation	= $this->dictionary->valid();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$this->dictionary->next();
 		$creation	= $this->dictionary->valid();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$this->dictionary->next();
 		$creation	= $this->dictionary->valid();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	//  --  TEST OF ITERATOR AGGREGATE INTERFACE  --  //
@@ -452,6 +452,6 @@ class DictionaryTest extends BaseCase
 			'key3' => 'value3',
 			);
 		$creation	= $array;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}*/
 }

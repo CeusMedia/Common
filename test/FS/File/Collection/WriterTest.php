@@ -35,17 +35,17 @@ class WriterTest extends BaseCase
 	 */
 	public function testAdd(): void
 	{
-		$this->assertTrue( $this->writer->add( 'line1' ) );
+		self::assertTrue( $this->writer->add( 'line1' ) );
 
 		$assertion	= array( "line1" );
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
-		$this->assertTrue( $this->writer->add( 'line2' ) );
+		self::assertTrue( $this->writer->add( 'line2' ) );
 
 		$assertion	= array( "line1", "line2" );
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -70,11 +70,11 @@ class WriterTest extends BaseCase
 		$this->writer->add( 'line1' );
 		$this->writer->add( 'line2' );
 
-		$this->assertTrue( $this->writer->remove( 'line1' ) );
+		self::assertTrue( $this->writer->remove( 'line1' ) );
 
 		$assertion	= array( "line2" );
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -100,17 +100,17 @@ class WriterTest extends BaseCase
 		$this->writer->add( 'line1' );
 		$this->writer->add( 'line2' );
 
-		$this->assertTrue( $this->writer->removeIndex( 1 ) );
+		self::assertTrue( $this->writer->removeIndex( 1 ) );
 
 		$assertion	= array( "line1" );
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
-		$this->assertEquals( 0, $this->writer->removeIndex( 0 ) );
+		self::assertEquals( 0, $this->writer->removeIndex( 0 ) );
 
 		$assertion	= [];
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -138,11 +138,11 @@ class WriterTest extends BaseCase
 		);
 		$assertion	= TRUE;
 		$creation	= Writer::save( $this->fileName, $lines );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $lines;
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

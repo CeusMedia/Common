@@ -52,17 +52,17 @@ class UnicoderTest extends BaseCase
 		$coder		= new Unicoder( utf8_decode( "äöüÄÖÜß" ) );
 		$assertion	= "äöüÄÖÜß";
 		$creation	= $coder->getString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$coder		= new Unicoder( "äöüÄÖÜß" );
 		$assertion	= "äöüÄÖÜß";
 		$creation	= $coder->getString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$coder		= new Unicoder( "äöüÄÖÜß", TRUE );
 		$assertion	= utf8_encode( "äöüÄÖÜß" );
 		$creation	= $coder->getString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class UnicoderTest extends BaseCase
 	{
 		$assertion	= "ÄÖÜäöü&§$%@µ";
 		$creation	= (string) new Unicoder( utf8_decode( "ÄÖÜäöü&§$%@µ" ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class UnicoderTest extends BaseCase
 	public function testIsUnicode1()
 	{
 		$creation	= Unicoder::isUnicode( "äöüÄÖÜß" );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class UnicoderTest extends BaseCase
 	public function testIsUnicode2()
 	{
 		$creation	= Unicoder::isUnicode( utf8_decode( "äöüÄÖÜß" ) );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( FALSE, $creation );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class UnicoderTest extends BaseCase
 	{
 		$assertion	= "äöüÄÖÜß";
 		$creation	= Unicoder::convertToUnicode( utf8_decode( "äöüÄÖÜß" ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class UnicoderTest extends BaseCase
 	{
 		$assertion	= "äöüÄÖÜß";
 		$creation	= Unicoder::convertToUnicode( "äöüÄÖÜß" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -132,7 +132,7 @@ class UnicoderTest extends BaseCase
 	{
 		$assertion	= utf8_encode( "äöüÄÖÜß" );
 		$creation	= Unicoder::convertToUnicode( "äöüÄÖÜß", TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -145,11 +145,11 @@ class UnicoderTest extends BaseCase
 		$coder		= new Unicoder( "abc" );
 		$assertion	= "abc";
 		$creation	= $coder->getString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$coder		= new Unicoder( utf8_decode( "ÄÖÜäöü&§$%@µ" ) );
 		$assertion	= "ÄÖÜäöü&§$%@µ";
 		$creation	= $coder->getString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

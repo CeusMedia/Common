@@ -60,7 +60,7 @@ class PacketTest extends BaseCase
 
 		$assertion	= $packetName;
 		$creation	= $packet->getName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -72,7 +72,7 @@ class PacketTest extends BaseCase
 	{
 		$assertion	= "[testPacket] {testArticle1:1, testArticle2:1, testArticle3:1} (90%)";
 		$creation	= (string) $this->packet;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -86,23 +86,23 @@ class PacketTest extends BaseCase
 
 		$assertion	= 0;
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$packet->addArticle( 'testArticle1', 0.1 );
 
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( 1, $creation );
+		self::assertEquals( 1, $creation );
 
 		$packet->addArticle( 'testArticle1', 0.1 );
 
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( 1, $creation );
+		self::assertEquals( 1, $creation );
 
 		$packet->addArticle( 'testArticle2', 0.2 );
 
 		$assertion	= 2;
 		$creation	= count( $packet->getArticles() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class PacketTest extends BaseCase
 
 		$assertion	= 3;
 		$creation	= count( $articles );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'testArticle1'	=> 1,
@@ -124,7 +124,7 @@ class PacketTest extends BaseCase
 			'testArticle3'	=> 1,
 		);
 		$creation	= $articles;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class PacketTest extends BaseCase
 	{
 		$assertion	= "testPacket";
 		$creation	= $this->packet->getName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -148,7 +148,7 @@ class PacketTest extends BaseCase
 	{
 		$assertion	= 0.9;
 		$creation	= $this->packet->getVolume();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -159,12 +159,12 @@ class PacketTest extends BaseCase
 	public function testHasVolumeLeft()
 	{
 		$creation	= $this->packet->hasVolumeLeft( 0.05 );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->packet->hasVolumeLeft( 0.1 );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->packet->hasVolumeLeft( 0.2 );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 }

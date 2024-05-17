@@ -36,11 +36,11 @@ class LanguageTest extends BaseCase
 		$accept		= "de-de,de-at;q=0.8,de;q=0.6,en-us;q=0.4,en;q=0.2";
 		$assertion	= "de";
 		$creation	= Language::getLanguageFromString( $accept, $this->allowed, $this->default );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$accept		= "da, en-gb;q=0.8, en;q=0.7";
 		$assertion	= "en";
 		$creation	= Language::getLanguageFromString( $accept, $this->allowed, $this->default );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

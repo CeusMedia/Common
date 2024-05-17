@@ -58,11 +58,11 @@ class MethodVisibilityTest extends BaseCase
 
 		$assertion	= $fileName;
 		$creation	= $checker->getProtectedVar( 'fileName' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $checker->getProtectedVar( 'checked' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class MethodVisibilityTest extends BaseCase
 		$checker	= new MethodVisibility( $this->fileTemp1 );
 		$assertion	= TRUE;
 		$creation	= $checker->check();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class MethodVisibilityTest extends BaseCase
 		$checker	= new MethodVisibility( $this->fileTemp2 );
 		$assertion	= FALSE;
 		$creation	= $checker->check();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -113,7 +113,7 @@ class MethodVisibilityTest extends BaseCase
 		$checker->check();
 		$assertion	= [];
 		$creation	= $checker->getMethods();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -131,6 +131,6 @@ class MethodVisibilityTest extends BaseCase
 			'delta'
 		);
 		$creation	= $checker->getMethods();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

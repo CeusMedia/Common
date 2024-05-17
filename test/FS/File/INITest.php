@@ -47,7 +47,7 @@ class INITest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= INI::__construct();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -62,11 +62,11 @@ class INITest extends BaseCase
 
 		$assertion	= 'value1';
 		$creation	= $file->get( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value11';
 		$creation	= $file->get( 'key1.key11' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -81,15 +81,15 @@ class INITest extends BaseCase
 
 		$assertion	= 'value1';
 		$creation	= $file->get( 'key1', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value2';
 		$creation	= $file->get( 'key2', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value11';
 		$creation	= $file->get( 'key1.key11', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 
@@ -105,15 +105,15 @@ class INITest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= $file->has( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $file->has( 'key1.key11' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $file->has( 'not_existing' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -128,19 +128,19 @@ class INITest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= $file->has( 'key1', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $file->has( 'key1.key11', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $file->has( 'not_existing', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $file->has( 'not_existing', 'not_existing' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -157,20 +157,20 @@ class INITest extends BaseCase
 		$assertion	= TRUE;
 		$data		= parse_ini_file( $fileName.'.copy' );
 		$creation	= isset( $data['key1'] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $file->remove( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$data		= parse_ini_file( $fileName.'.copy' );
 		$creation	= isset( $data['key1'] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $file->remove( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		unlink( $fileName.'.copy' );
 	}
@@ -189,20 +189,20 @@ class INITest extends BaseCase
 		$assertion	= TRUE;
 		$data		= parse_ini_file( $fileName.'.copy', TRUE );
 		$creation	= isset( $data['section1']['key1'] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $file->remove( 'key1', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$data		= parse_ini_file( $fileName.'.copy', TRUE );
 		$creation	= isset( $data['section1']['key1'] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $file->remove( 'key1', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		unlink( $fileName.'.copy' );
 	}
@@ -221,16 +221,16 @@ class INITest extends BaseCase
 		$assertion	= FALSE;
 		$data		= parse_ini_file( $fileName.'.copy' );
 		$creation	= isset( $data['key3'] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $file->set( 'key3', 'value3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value3';
 		$data		= parse_ini_file( $fileName.'.copy' );
 		$creation	= $data['key3'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		unlink( $fileName.'.copy' );
 	}
@@ -248,16 +248,16 @@ class INITest extends BaseCase
 		$assertion	= FALSE;
 		$data		= parse_ini_file( $fileName.'.copy', TRUE );
 		$creation	= isset( $data['section1']['key3'] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $file->set( 'key3', 'value3', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value3';
 		$data		= parse_ini_file( $fileName.'.copy', TRUE );
 		$creation	= $data['section1']['key3'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		unlink( $fileName.'.copy' );
 	}

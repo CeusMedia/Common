@@ -14,6 +14,7 @@ declare( strict_types = 1 );
 
 namespace CeusMedia\CommonTest\UI\Image;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\UI\Image\ThumbnailCreator;
 use CeusMedia\CommonTest\BaseCase;
 
@@ -24,32 +25,14 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ThumbnailCreatorTest extends BaseCase
 {
-	protected $assertFile;
-	protected $sourceFile;
-	protected $targetFile;
+	protected string $assertFile;
+	protected string $sourceFile;
+	protected string $targetFile;
 
 	/** @var string  */
-	protected $path;
+	protected string $path;
 
-	public function setUp(): void
-	{
-		if( !extension_loaded( 'gd' ) )
-			$this->markTestSkipped( 'Missing gd support' );
-
-		$this->path	= dirname( __FILE__ )."/assets/";
-		$this->assertFile	= $this->path."assertThumbnail.png";
-		$this->sourceFile	= $this->path."sourceThumbnail.png";
-		$this->targetFile	= $this->path."targetThumbnail.png";
-	}
-
-	public function tearDown(): void
-	{
-		@unlink( $this->path."targetThumbnail.gif" );
-		@unlink( $this->path."targetThumbnail.png" );
-		@unlink( $this->path."targetThumbnail.jpg" );
-	}
-
-	public function testThumbizeGif()
+	public function testThumbizeGif(): void
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.gif";
@@ -64,16 +47,16 @@ class ThumbnailCreatorTest extends BaseCase
 
 		$assertion	= true;
 		$creation	= file_exists( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
-		$file		= new FS_File_Reader( $assertFile );
-		$this->assertTrue( $file->equals( $targetFile ) );
+		$file		= new FileReader( $assertFile );
+		self::assertTrue( $file->equals( $targetFile ) );
 	}
 
 	/**
 	 * @todo	remove in 0.7.7
 	 */
-	public function testThumbizeJpg()
+	public function testThumbizeJpg(): void
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.jpg";
@@ -88,13 +71,13 @@ class ThumbnailCreatorTest extends BaseCase
 
 		$assertion	= true;
 		$creation	= file_exists( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
-		$file		= new FS_File_Reader( $assertFile );
-		$this->assertTrue( $file->equals( $targetFile ) );
+		$file		= new FileReader( $assertFile );
+		self::assertTrue( $file->equals( $targetFile ) );
 	}
 
-	public function testThumbizePng()
+	public function testThumbizePng(): void
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.png";
@@ -109,14 +92,14 @@ class ThumbnailCreatorTest extends BaseCase
 
 		$assertion	= true;
 		$creation	= file_exists( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$image	= imagecreatefrompng( $this->targetFile );
-		$this->assertEquals( 16, imagesx( $image ) );
-		$this->assertEquals( 16, imagesy( $image ) );
+		self::assertEquals( 16, imagesx( $image ) );
+		self::assertEquals( 16, imagesy( $image ) );
 	}
 
-	public function testThumbizeByLimit()
+	public function testThumbizeByLimit(): void
 	{
 		$this->markTestSkipped( 'No image tests.' );
 		if( file_exists( $this->targetFile ) )
@@ -127,16 +110,34 @@ class ThumbnailCreatorTest extends BaseCase
 
 		$assertion	= true;
 		$creation	= file_exists( $this->targetFile );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$image	= imagecreatefrompng( $this->targetFile );
-		$this->assertEquals( 16, imagesx( $image ) );
-		$this->assertEquals( 16, imagesy( $image ) );
+		self::assertEquals( 16, imagesx( $image ) );
+		self::assertEquals( 16, imagesy( $image ) );
 	}
 
-	public function testThumbizeExceptions()
+	public function testThumbizeExceptions(): void
 	{
 		$this->expectException( 'Exception' );
 		$creator	= new ThumbnailCreator( __FILE__, "notexisting.txt" );
+	}
+
+	protected function setUp(): void
+	{
+		if( !extension_loaded( 'gd' ) )
+			$this->markTestSkipped( 'Missing gd support' );
+
+		$this->path	= dirname( __FILE__ )."/assets/";
+		$this->assertFile	= $this->path."assertThumbnail.png";
+		$this->sourceFile	= $this->path."sourceThumbnail.png";
+		$this->targetFile	= $this->path."targetThumbnail.png";
+	}
+
+	protected function tearDown(): void
+	{
+		@unlink( $this->path."targetThumbnail.gif" );
+		@unlink( $this->path."targetThumbnail.png" );
+		@unlink( $this->path."targetThumbnail.jpg" );
 	}
 }

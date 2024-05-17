@@ -62,7 +62,7 @@ class HtmlParserTest extends BaseCase
 		$document	= new HtmlParser();
 		$creation	= $document->getDocument();
 
-		$this->assertInstanceOf( DOMDocument::class, $creation );
+		self::assertInstanceOf( DOMDocument::class, $creation );
 	}
 
 	/**
@@ -74,21 +74,21 @@ class HtmlParserTest extends BaseCase
 	{
 		$assertion	= "Description Meta Tag";
 		$creation	= $this->parser->getDescription();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html><meta name="DC.Description" content="Dublin Core Description">' );
 
 		$assertion	= "Dublin Core Description";
 		$creation	= $parser->getDescription( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
 		$creation	= $parser->getDescription( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= $document;
 		$creation	= $this->parser->getDocument();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -128,28 +128,28 @@ class HtmlParserTest extends BaseCase
 	{
 		$assertion	= "icon.ico";
 		$creation	= $this->parser->getFavoriteIcon();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<HTML><LINK REL="ICON" HREF="icon.png"></HTML>' );
 
 		$assertion	= "icon.png";
 		$creation	= $parser->getFavoriteIcon();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<link rel="shortcut icon" href="./images/favicon.ico" />' );
 
 		$assertion	= "./images/favicon.ico";
 		$creation	= $parser->getFavoriteIcon();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
 		$creation	= $parser->getFavoriteIcon( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -177,11 +177,11 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 1;
 		$creation	= count( $blocks );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "alert('this is a test');";
 		$creation	= trim( $blocks[0] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -195,22 +195,22 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 2;
 		$creation	= count( $urls );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "script.js";
 		$creation	= $urls[0];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "javascript.js";
 		$creation	= $urls[1];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 
 		$assertion	= [];
 		$creation	= $parser->getJavaScriptUrls();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -225,14 +225,14 @@ class HtmlParserTest extends BaseCase
 			'123'
 		);
 		$creation	= $this->parser->getKeyWords();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= [];
 		$creation	= $parser->getKeyWords( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -257,14 +257,14 @@ class HtmlParserTest extends BaseCase
 	{
 		$assertion	= "de";
 		$creation	= $this->parser->getLanguage();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
 		$creation	= $parser->getLanguage( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -291,7 +291,7 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 5;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'content-language'	=> "de",
@@ -301,13 +301,13 @@ class HtmlParserTest extends BaseCase
 			'expires'			=> "Sat, 01 Dec 2001 00:00:00 GMT",
 		);
 		$creation	= $tags;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 		$assertion	= [];
 		$creation	= $parser->getMetaTags();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -321,11 +321,11 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 2;
 		$creation	= count( $blocks );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "#test {\n\tcolor: red;\n\t}";
 		$creation	= trim( $blocks[0] );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -339,22 +339,22 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 2;
 		$creation	= count( $urls );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "style.css";
 		$creation	= $urls[0];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "print.css";
 		$creation	= $urls[1];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser	= new HtmlParser();
 		$parser->parseHtml( "<html>" );
 
 		$assertion	= [];
 		$creation	= $parser->getStyleSheetUrls();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 	}
 
@@ -369,41 +369,41 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 20;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$tags		= $this->parser->getTags( 'link' );
 
 		$assertion	= 4;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'link';
 		$creation	= $tags[0]->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$tags		= $this->parser->getTags( 'meta', 'name' );
 
 		$assertion	= 2;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'meta';
 		$creation	= $tags[0]->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$tags		= $this->parser->getTags( 'link', 'rel', 'icon' );
 
 		$assertion	= 1;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'link';
 		$creation	= $tags[0]->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "icon";
 		$creation	= $tags[0]->getAttribute( 'rel' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -417,25 +417,25 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 3;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'meta';
 		$creation	= $tags[0]->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$tags		= $this->parser->getTagsByAttribute( 'http-equiv', 'content-language' );
 
 		$assertion	= 1;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'meta';
 		$creation	= $tags[0]->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'de';
 		$creation	= $tags[0]->getAttribute( 'content' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -448,23 +448,23 @@ class HtmlParserTest extends BaseCase
 		$tag		= $this->parser->getTagById( 'test' );
 
 		$creation	= (bool) $tag;
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "ul";
 		$creation	= $tag->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "id";
 		$creation	= $tag->attributes->item(0)->name;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test";
 		$creation	= $tag->attributes->item(0)->value;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= NULL;
 		$creation	= $this->parser->getTagById( 'not_existing', FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -489,11 +489,11 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 5;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'meta';
 		$creation	= $tags[0]->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -508,11 +508,11 @@ class HtmlParserTest extends BaseCase
 
 		$assertion	= 2;
 		$creation	= count( $tags );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'meta';
 		$creation	= $tags[0]->tagName;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -523,10 +523,10 @@ class HtmlParserTest extends BaseCase
 	public function testHasTagById()
 	{
 		$creation	= $this->parser->hasTagById( 'test' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->parser->hasTagById( 'not_existing' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -538,21 +538,21 @@ class HtmlParserTest extends BaseCase
 	{
 		$assertion	= "HTML Parser Test";
 		$creation	= $this->parser->getTitle();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html><meta http-equiv="DC.Title" content="Dublin Core"></html>' );
 
 		$assertion	= "Dublin Core";
 		$creation	= $parser->getTitle( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$parser		= new HtmlParser();
 		$parser->parseHtml( '<html>' );
 
 		$assertion	= "";
 		$creation	= $parser->getTitle( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -583,7 +583,7 @@ class HtmlParserTest extends BaseCase
 		$parser->parseHtml( $html );
 		$assertion	= $document;
 		$creation	= $parser->getDocument();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -600,6 +600,6 @@ class HtmlParserTest extends BaseCase
 		$parser->parseHtmlFile( $this->fileName );
 		$assertion	= $document;
 		$creation	= $parser->getDocument();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

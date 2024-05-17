@@ -53,7 +53,7 @@ class PanelTest extends BaseCase
 		$panel		= new Panel();
 		$assertion	= '<div id="a1" class="panel default"><div class="panelContent"><div class="panelContentInner"></div></div></div>';
 		$creation	= $panel->build( "a1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -69,7 +69,7 @@ class PanelTest extends BaseCase
 		$panel->setContent( "content1" );
 		$assertion	= '<div id="a1" class="panel default"><div class="panelHead"><div class="panelHeadInner">header1</div></div><div class="panelContent"><div class="panelContentInner">content1</div></div><div class="panelFoot"><div class="panelFootInner">footer1</div></div></div>';
 		$creation	= $panel->build( "a1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class PanelTest extends BaseCase
 	{
 		$assertion	= '<div id="a1" class="panel default"><div class="panelContent"><div class="panelContentInner"></div></div></div>';
 		$creation	= Panel::create( "a1", NULL, NULL );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class PanelTest extends BaseCase
 	{
 		$assertion	= '<div id="a1" class="panel default"><div class="panelHead"><div class="panelHeadInner">header1</div></div><div class="panelContent"><div class="panelContentInner">content1</div></div><div class="panelFoot"><div class="panelFootInner">footer1</div></div></div>';
 		$creation	= Panel::create( "a1", "content1", "header1", NULL, "footer1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -108,12 +108,12 @@ class PanelTest extends BaseCase
 		$panel->setContent( "1" );
 		$assertion	= "1";
 		$creation	= $panel->getProtectedVar( 'content' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$panel->setContent( "a2" );
 		$assertion	= "a2";
 		$creation	= $panel->getProtectedVar( 'content' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -128,12 +128,12 @@ class PanelTest extends BaseCase
 		$panel->setHeader( "1" );
 		$assertion	= "1";
 		$creation	= $panel->getProtectedVar( 'header' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$panel->setHeader( "a2" );
 		$assertion	= "a2";
 		$creation	= $panel->getProtectedVar( 'header' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -148,12 +148,12 @@ class PanelTest extends BaseCase
 		$panel->setFooter( "1" );
 		$assertion	= "1";
 		$creation	= $panel->getProtectedVar( 'footer' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$panel->setFooter( "a2" );
 		$assertion	= "a2";
 		$creation	= $panel->getProtectedVar( 'footer' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }
 class Test_PanelInstance extends Panel

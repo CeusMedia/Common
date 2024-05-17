@@ -63,12 +63,12 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertIniToJson( $sourceFile, $targetFile );
 
-		$this->assertIsInt( $length );
-		$this->assertGreaterThanOrEqual( 0, $length );
+		self::assertIsInt( $length );
+		self::assertGreaterThanOrEqual( 0, $length );
 
 		$assertion	= file_get_contents( $assertFile );
 		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -84,9 +84,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertIniToXml( $sourceFile, $targetFile );
 
-		$this->assertIsInt( $length );
-		$this->assertGreaterThan( 0, $length );
-		$this->assertFileEquals( $assertFile, $targetFile );
+		self::assertIsInt( $length );
+		self::assertGreaterThan( 0, $length );
+		self::assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -102,9 +102,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertJsonToIni( $sourceFile, $targetFile );
 
-		$this->assertIsInt( $length );
-		$this->assertGreaterThan( 0, $length );
-		$this->assertFileEquals( $assertFile, $targetFile );
+		self::assertIsInt( $length );
+		self::assertGreaterThan( 0, $length );
+		self::assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -120,9 +120,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertJsonToXml( $sourceFile, $targetFile );
 
-		$this->assertIsInt( $length );
-		$this->assertGreaterThan( 0, $length );
-		$this->assertFileEquals( $assertFile, $targetFile );
+		self::assertIsInt( $length );
+		self::assertGreaterThan( 0, $length );
+		self::assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -138,9 +138,9 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertXmlToIni( $sourceFile, $targetFile );
 
-		$this->assertIsInt( $length );
-		$this->assertGreaterThan( 0, $length );
-		$this->assertFileEquals( $assertFile, $targetFile );
+		self::assertIsInt( $length );
+		self::assertGreaterThan( 0, $length );
+		self::assertFileEquals( $assertFile, $targetFile );
 	}
 
 	/**
@@ -156,8 +156,8 @@ class ConverterTest extends BaseCase
 
 		$length		= Converter::convertXmlToJson( $sourceFile, $targetFile );
 
-		$this->assertIsInt( $length );
-		$this->assertGreaterThan( 0, $length );
-		$this->assertFileEquals( $assertFile, $targetFile );
+		self::assertIsInt( $length );
+		self::assertGreaterThan( 0, $length );
+		self::assertFileEquals( $assertFile, $targetFile );
 	}
 }

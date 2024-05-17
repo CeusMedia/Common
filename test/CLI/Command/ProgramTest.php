@@ -43,7 +43,7 @@ class ProgramTest extends BaseCase
 		$program	= new TestProgram;
 		$assertion	= 2;
 		$creation	= $program->run( "arg1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

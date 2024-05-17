@@ -77,7 +77,7 @@ class RecursiveNameFilterTest extends BaseCase
 
 		$assertion	= array( $search, $search );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$search	= "not_existing_file";
 		$filter	= new RecursiveNameFilter( $this->path, $search );
@@ -88,6 +88,6 @@ class RecursiveNameFilterTest extends BaseCase
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

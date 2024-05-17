@@ -55,7 +55,7 @@ class ReaderTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= is_object( $mock );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -67,12 +67,12 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= array( 'id', 'col1', 'col2' );
 		$creation	= $this->reader->getHeaders();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$reader		= new Reader( $this->filePath, FALSE, ';' );
 		$assertion	= [];
 		$creation	= $reader->getHeaders();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -84,15 +84,15 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= 2;
 		$creation	= $this->reader->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->reader->count();
-		$this->assertEquals( $assertion, $creation, 'Not same size on 2nd attempt' );
+		self::assertEquals( $assertion, $creation, 'Not same size on 2nd attempt' );
 
 		$reader		= new Reader( $this->filePath, FALSE, ';' );
 		$assertion	= 3;
 		$creation	= $reader->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -116,7 +116,7 @@ class ReaderTest extends BaseCase
 		);
 		$creation	= $this->reader->toArray();
 //print(json_encode($creation, JSON_PRETTY_PRINT));
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$reader		= new Reader( $this->filePath, FALSE, ';' );
 		$assertion	= array(
@@ -129,6 +129,6 @@ class ReaderTest extends BaseCase
 			)
 		);
 		$creation	= $reader->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

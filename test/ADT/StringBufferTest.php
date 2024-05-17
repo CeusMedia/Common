@@ -55,7 +55,7 @@ class StringBufferTest extends BaseCase
 		$buffer		= new StringBuffer( "construct" );
 		$assertion	= "construct";
 		$creation	= $buffer->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -67,7 +67,7 @@ class StringBufferTest extends BaseCase
 	{
 		$assertion	= 4;
 		$creation	= $this->buffer->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class StringBufferTest extends BaseCase
 		$assertion	= "tet";
 		$this->buffer->deleteCharAt( 2 );
 		$creation	= $this->buffer->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class StringBufferTest extends BaseCase
 	{
 		$assertion	= "t";
 		$creation	= $this->buffer->getCharAt( 3 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -104,13 +104,13 @@ class StringBufferTest extends BaseCase
 	{
 		$assertion	= 0;
 		$creation	= $this->buffer->key();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->buffer->next();
 
 		$assertion	= 1;
 		$creation	= $this->buffer->key();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -122,13 +122,13 @@ class StringBufferTest extends BaseCase
 	{
 		$assertion	= "t";
 		$creation	= $this->buffer->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->buffer->next();
 
 		$assertion	= "e";
 		$creation	= $this->buffer->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -141,7 +141,7 @@ class StringBufferTest extends BaseCase
 		$assertion	= "te123st";
 		$this->buffer->insert( 2, "123" );
 		$creation	= $this->buffer->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -155,7 +155,7 @@ class StringBufferTest extends BaseCase
 
 		$assertion	= "";
 		$creation	= $this->buffer->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -169,13 +169,13 @@ class StringBufferTest extends BaseCase
 
 		$assertion	= "e";
 		$creation	= $this->buffer->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->buffer->rewind();
 
 		$assertion	= "t";
 		$creation	= $this->buffer->current();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -188,7 +188,7 @@ class StringBufferTest extends BaseCase
 		$assertion	= "text";
 		$this->buffer->setCharAt( 2, "x" );
 		$creation	= $this->buffer->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -200,6 +200,6 @@ class StringBufferTest extends BaseCase
 	{
 		$assertion	= "test";
 		$creation	= $this->buffer->toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

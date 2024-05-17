@@ -32,10 +32,10 @@ class TarTest extends BaseCase
 		$arc	= new Tar();
 		$arc->addFile( $this->path."TarTest.php" );
 
-		$this->assertTrue( $arc->save( $this->fileName ) > 0 );
+		self::assertTrue( $arc->save( $this->fileName ) > 0 );
 
 		$creation	= file_exists( $this->fileName );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	protected function setUp(): void

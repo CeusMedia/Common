@@ -48,7 +48,7 @@ class FilterTest extends BaseCase
 			/*<!--Comment//-->*/";
 		$assertion	= "This is plain Text.";
 		$creation	= trim( Filter::stripComments( $text ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -64,7 +64,7 @@ class FilterTest extends BaseCase
 			<script>alert("hello");</script>';
 		$assertion	= "This is plain Text.";
 		$creation	= trim( Filter::stripScripts( $text ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -88,7 +88,7 @@ class FilterTest extends BaseCase
 			';
 		$assertion	= "This is plain Text.";
 		$creation	= trim( Filter::stripStyles( $text ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -106,7 +106,7 @@ This is plain Text.
 ';
 		$assertion	= "Hello\nThis is plain Text.\nTest";
 		$creation	= trim( Filter::stripTags( $text ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -127,6 +127,6 @@ This is plain Text.
 			<tag name="test" attribute="value"></tag>
 			<tag name="test" attribute="value">This is plain Text.</tag>';
 		$creation	= Filter::stripEventAttributes( $text );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

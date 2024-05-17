@@ -50,7 +50,7 @@ class WriterTest extends BaseCase
 		{
 			$assertion	= 0777;
 			$creation	= $this->writer->changeRights( "rightsTest", 0777 );
-			$this->assertEquals( $assertion, $creation );
+			self::assertEquals( $assertion, $creation );
 		}
 	}
 
@@ -63,12 +63,12 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->copyFile( "source.txt", "target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."target.txt" );
 
 		$creation	= $this->writer->copyFile( "folder/source.txt", "folder/target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."folder/target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."folder/target.txt" );
 	}
 
 	/**
@@ -82,8 +82,8 @@ class WriterTest extends BaseCase
 		$this->writer->setPath( "folder" );
 
 		$creation	= $this->writer->copyFile( "source.txt", "target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."folder/target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."folder/target.txt" );
 	}
 
 	/**
@@ -119,12 +119,12 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->copyFolder( "folder", "copy" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."copy" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."copy" );
 
 		$assertion	= 1;
 		$creation	= count( $this->reader->getFileList( "copy" ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -136,8 +136,8 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->createFolder( "created" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."created" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."created" );
 	}
 
 	/**
@@ -150,13 +150,13 @@ class WriterTest extends BaseCase
 		$this->checkFtpConfig();
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->writer->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->writer->setPath( "folder" );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->writer->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -168,9 +168,9 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->moveFile( "source.txt", "target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."target.txt" );
-		$this->assertFileDoesNotExist( $this->local."source.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."target.txt" );
+		self::assertFileDoesNotExist( $this->local."source.txt" );
 	}
 
 	/**
@@ -182,12 +182,12 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->moveFolder( "folder", "moved" );
-		$this->assertTrue( $creation );
-		$this->assertFileDoesNotExist( $this->local."folder" );
-		$this->assertFileExists( $this->local."moved" );
+		self::assertTrue( $creation );
+		self::assertFileDoesNotExist( $this->local."folder" );
+		self::assertFileExists( $this->local."moved" );
 
 		$creation	= $this->writer->moveFolder( "moved", "moved" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -199,12 +199,12 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->putFile( $this->local."source.txt", "target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."target.txt" );
 
 		$assertion	= "source file";
 		$creation	= file_get_contents( $this->local."target.txt" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -216,8 +216,8 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->removeFile( "folder/source.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileDoesNotExist( $this->local."folder/source.txt" );
+		self::assertTrue( $creation );
+		self::assertFileDoesNotExist( $this->local."folder/source.txt" );
 	}
 
 	/**
@@ -229,8 +229,8 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->removeFolder( "folder" );
-		$this->assertTrue( $creation );
-		$this->assertFileDoesNotExist( $this->local."folder" );
+		self::assertTrue( $creation );
+		self::assertFileDoesNotExist( $this->local."folder" );
 	}
 
 	/**
@@ -242,9 +242,9 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->renameFile( "source.txt", "renamed.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."renamed.txt" );
-		$this->assertFileDoesNotExist( $this->local."source.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."renamed.txt" );
+		self::assertFileDoesNotExist( $this->local."source.txt" );
 	}
 
 	/**
@@ -256,21 +256,21 @@ class WriterTest extends BaseCase
 	{
 		$this->checkFtpConfig();
 		$creation	= $this->writer->setPath( "not_existing" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->writer->setPath( "folder" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->writer->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->writer->setPath( "/".$this->path."folder" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->writer->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

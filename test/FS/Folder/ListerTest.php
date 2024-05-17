@@ -56,7 +56,7 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -64,7 +64,7 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class ListerTest extends TestCase
 		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -100,7 +100,7 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->lister1->setExtensions( array( "php" ) );
 		$index	= $this->lister1->getList();
@@ -109,12 +109,12 @@ class ListerTest extends TestCase
 		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class ListerTest extends TestCase
 		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -138,7 +138,7 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -167,14 +167,14 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= Lister::getFileList( $this->folder, "@^file$@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -190,12 +190,12 @@ class ListerTest extends TestCase
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -221,14 +221,14 @@ class ListerTest extends TestCase
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= Lister::getFolderList( $this->folder, "@^sub1$@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array( 'sub1' );
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -247,7 +247,7 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -255,7 +255,7 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -282,12 +282,12 @@ class ListerTest extends TestCase
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= Lister::getMixedList( $this->folder, "@^sub1$@" );
 		$list	= $this->getListFromIndex( $index );
@@ -295,11 +295,11 @@ class ListerTest extends TestCase
 		$assertion	= array( 'sub1' );
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $list['files'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= Lister::getMixedList( $this->folder, "@^file@" );
 		$list	= $this->getListFromIndex( $index );
@@ -307,7 +307,7 @@ class ListerTest extends TestCase
 		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -315,7 +315,7 @@ class ListerTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= Lister::getMixedList( $this->folder, "@^file$@" );
 		$list	= $this->getListFromIndex( $index );
@@ -323,12 +323,12 @@ class ListerTest extends TestCase
 		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -349,7 +349,7 @@ class ListerTest extends TestCase
 		$creation	= $list['folders'];
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -359,17 +359,17 @@ class ListerTest extends TestCase
 		$creation	= $list['files'];
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= Lister::getMixedList( $this->folder, "@sub3$@", FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( '.sub3' );
 		$creation	= $list['folders'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $list['files'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

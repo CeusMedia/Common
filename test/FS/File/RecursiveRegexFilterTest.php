@@ -83,7 +83,7 @@ class RecursiveRegexFilterTest extends BaseCase
 			"test4.test"
 		);
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$search	= "@^test1@";
@@ -95,7 +95,7 @@ class RecursiveRegexFilterTest extends BaseCase
 
 		$assertion	= array( "test1.test" );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$search	= "@not_existing_file@";
@@ -107,7 +107,7 @@ class RecursiveRegexFilterTest extends BaseCase
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class RecursiveRegexFilterTest extends BaseCase
 
 		$assertion	= array( "test2.test" );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 
@@ -141,7 +141,7 @@ class RecursiveRegexFilterTest extends BaseCase
 		sort( $files );
 		$assertion	= array( "test1.test",  "test2.test",  "test3.test",  "test4.test" );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 
@@ -155,6 +155,6 @@ class RecursiveRegexFilterTest extends BaseCase
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

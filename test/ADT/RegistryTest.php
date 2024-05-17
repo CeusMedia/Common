@@ -41,7 +41,7 @@ class RegistryTest extends BaseCase
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 		$assertion	= "value1";
 		$creation	= $this->registry->get( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -54,7 +54,7 @@ class RegistryTest extends BaseCase
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 		$assertion	= "value1";
 		$creation	= Registry::getStatic( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class RegistryTest extends BaseCase
 	{
 		$value	= 'value2';
 		Registry::setStatic( 'key2', $value );
-		$this->assertEquals( 'value2', $GLOBALS['REFERENCES']['key2'] );
+		self::assertEquals( 'value2', $GLOBALS['REFERENCES']['key2'] );
 	}
 
 	/**
@@ -79,7 +79,7 @@ class RegistryTest extends BaseCase
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 
 		$creation	= $this->registry->has( 'key1' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -94,7 +94,7 @@ class RegistryTest extends BaseCase
 		$this->registry->remove( 'key1' );
 
 		$creation	= $this->registry->has( 'key1' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -107,6 +107,6 @@ class RegistryTest extends BaseCase
 		$data		= array( "value3" );
 		$this->registry->set( 'key3', $data );
 		$creation	= $GLOBALS['REFERENCES']['key3'];
-		$this->assertEquals( $data, $creation );
+		self::assertEquals( $data, $creation );
 	}
 }

@@ -33,7 +33,7 @@ class ParserTest extends BaseCase
 			'constant'	=> 'JSON_ERROR_NONE',
 			'message'	=> 'No error',
 		);
-		$this->assertEquals( $info, $parser->getInfo() );
+		self::assertEquals( $info, $parser->getInfo() );
 
 		$json	= '"a"';
 		$info	= (object) array(
@@ -42,8 +42,8 @@ class ParserTest extends BaseCase
 			'constant'	=> 'JSON_ERROR_NONE',
 			'message'	=> 'No error',
 		);
-		$this->assertEquals( 'a', $parser->parse( $json ) );
-		$this->assertEquals( $info, $parser->getInfo() );
+		self::assertEquals( 'a', $parser->parse( $json ) );
+		self::assertEquals( $info, $parser->getInfo() );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class ParserTest extends BaseCase
 				'constant'	=> 'JSON_ERROR_SYNTAX',
 				'message'	=> 'Syntax error',
 			);
-			$this->assertEquals( $parser->getInfo(), $info );
+			self::assertEquals( $parser->getInfo(), $info );
 		}
 	}
 }

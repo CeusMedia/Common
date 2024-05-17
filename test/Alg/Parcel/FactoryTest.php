@@ -82,15 +82,15 @@ class FactoryTest extends BaseCase
 
 		$assertion	= $this->packets;
 		$creation	= $this->factory->getProtectedVar( 'packets' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->articles;
 		$creation	= $this->factory->getProtectedVar( 'articles' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->volumes;
 		$creation	= $this->factory->getProtectedVar( 'volumes' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class FactoryTest extends BaseCase
 
 		$assertion	= $packet;
 		$creation	= $this->factory->produce( 'large', array( 'a' => 3, 'b' => 2 ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

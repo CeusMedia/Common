@@ -65,6 +65,6 @@ class ObjectSerializerTest extends BaseCase
 	{
 		$assertion	= file_get_contents( $this->fileName );
 		$creation	= $this->serializer->serialize( $this->object );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

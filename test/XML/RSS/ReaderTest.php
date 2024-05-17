@@ -22,22 +22,10 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ReaderTest extends BaseCase
 {
-	protected $file;
-	protected $serial;
-	protected $reader;
-	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
-
-	/**
-	 *	Sets up Leaf.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->file		= dirname( __FILE__ )."/assets/reader.xml";
-		$this->serial	= dirname( __FILE__ )."/assets/reader.serial";
-		$this->reader	= new Reader();
-	}
+	protected string $file;
+	protected string $serial;
+	protected Reader $reader;
+	protected string $url		= 'https://www.rssboard.org/files/sample-rss-2.xml';
 
 	/**
 	 *	Tests Method 'readUrl'.
@@ -52,18 +40,18 @@ class ReaderTest extends BaseCase
 
 		$assertion	= "http://www.nasa.gov/";
 		$creation	= $rss['channelData']['link'];
-		$this->assertEquals( $assertion, $creation );
-		$this->assertCount( 5, $rss['itemList'] );
+		self::assertEquals( $assertion, $creation );
+		self::assertCount( 5, $rss['itemList'] );
 
 		$oldest		= end($rss['itemList']);
 
-    $expected	= "NASA Plans Coverage of Roscosmos Spacewalk Outside Space Station";
-		$this->assertEquals( $expected, $oldest['title'] );
+		$expected	= "NASA Plans Coverage of Roscosmos Spacewalk Outside Space Station";
+		self::assertEquals( $expected, $oldest['title'] );
 
-		$this->assertTrue( strlen( trim( $oldest['description'] ) ) > 0 );
+		self::assertTrue( strlen( trim( $oldest['description'] ) ) > 0 );
 
 		$expected	= "http://liftoff.msfc.nasa.gov/news/2003/news-laundry.asp";
-		$this->assertEquals( $expected, $oldest['link'] );
+		self::assertEquals( $expected, $oldest['link'] );
 	}
 
 	/**
@@ -76,7 +64,7 @@ class ReaderTest extends BaseCase
 		$assertion	= unserialize( file_get_contents( $this->serial ) );
 		$creation	= $this->reader->readFile( $this->file );
 #		file_put_contents( $this->serial, serialize( $creation ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 
@@ -91,6 +79,18 @@ class ReaderTest extends BaseCase
 
 		$assertion	= unserialize( file_get_contents( $this->serial ) );
 		$creation	= $this->reader->readXml( $xml );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Sets up Leaf.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->file		= dirname( __FILE__ )."/assets/reader.xml";
+		$this->serial	= dirname( __FILE__ )."/assets/reader.serial";
+		$this->reader	= new Reader();
 	}
 }

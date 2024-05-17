@@ -39,12 +39,12 @@ class BitmaskTest extends BaseCase
 	public function testFromArray()
 	{
 		$obj	= Bitmask::fromArray( [self::BIT_1, self::BIT_2, self::BIT_16] );
-		$this->assertTrue( $obj->has( static::BIT_16 ) );
-		$this->assertFalse( $obj->has( static::BIT_8 ) );
-		$this->assertFalse( $obj->has( static::BIT_4 ) );
-		$this->assertTrue( $obj->has( static::BIT_2 ) );
-		$this->assertTrue( $obj->has( static::BIT_1 ) );
-		$this->assertEquals( static::BIT_1 + static::BIT_2 + static::BIT_16, $obj->get() );
+		self::assertTrue( $obj->has( static::BIT_16 ) );
+		self::assertFalse( $obj->has( static::BIT_8 ) );
+		self::assertFalse( $obj->has( static::BIT_4 ) );
+		self::assertTrue( $obj->has( static::BIT_2 ) );
+		self::assertTrue( $obj->has( static::BIT_1 ) );
+		self::assertEquals( static::BIT_1 + static::BIT_2 + static::BIT_16, $obj->get() );
 	}
 
 	/**
@@ -57,29 +57,29 @@ class BitmaskTest extends BaseCase
 		$obj	= new Bitmask();
 		$obj->add( static::BIT_2 );
 
-		$this->assertEquals( static::BIT_2, $obj->get() & static::BIT_2 );
-		$this->assertEquals( static::BIT_2, $obj->get() );
+		self::assertEquals( static::BIT_2, $obj->get() & static::BIT_2 );
+		self::assertEquals( static::BIT_2, $obj->get() );
 
 		$obj->set( 31 );
-		$this->assertEquals( static::BIT_16, $obj->get() & static::BIT_16 );
-		$this->assertEquals( static::BIT_8, $obj->get() & static::BIT_8 );
-		$this->assertEquals( static::BIT_4, $obj->get() & static::BIT_4 );
-		$this->assertEquals( static::BIT_2, $obj->get() & static::BIT_2 );
-		$this->assertEquals( static::BIT_1, $obj->get() & static::BIT_1 );
+		self::assertEquals( static::BIT_16, $obj->get() & static::BIT_16 );
+		self::assertEquals( static::BIT_8, $obj->get() & static::BIT_8 );
+		self::assertEquals( static::BIT_4, $obj->get() & static::BIT_4 );
+		self::assertEquals( static::BIT_2, $obj->get() & static::BIT_2 );
+		self::assertEquals( static::BIT_1, $obj->get() & static::BIT_1 );
 
 		$obj->set( 0 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_16 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_8 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_4 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_2 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_1 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_16 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_8 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_4 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_2 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_1 );
 
 		$obj->set( 18 );
-		$this->assertEquals( static::BIT_16, $obj->get() & static::BIT_16 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_8 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_4 );
-		$this->assertEquals( static::BIT_2, $obj->get() & static::BIT_2 );
-		$this->assertEquals( static::BIT_0, $obj->get() & static::BIT_1 );
+		self::assertEquals( static::BIT_16, $obj->get() & static::BIT_16 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_8 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_4 );
+		self::assertEquals( static::BIT_2, $obj->get() & static::BIT_2 );
+		self::assertEquals( static::BIT_0, $obj->get() & static::BIT_1 );
 	}
 
 	/**
@@ -92,32 +92,32 @@ class BitmaskTest extends BaseCase
 		$obj	= new Bitmask();
 		$obj->add( static::BIT_2 );
 
-		$this->assertFalse( $obj->has( static::BIT_16 ) );
-		$this->assertFalse( $obj->has( static::BIT_8 ) );
-		$this->assertFalse( $obj->has( static::BIT_4 ) );
-		$this->assertTrue( $obj->has( static::BIT_2 ) );
-		$this->assertFalse( $obj->has( static::BIT_1 ) );
+		self::assertFalse( $obj->has( static::BIT_16 ) );
+		self::assertFalse( $obj->has( static::BIT_8 ) );
+		self::assertFalse( $obj->has( static::BIT_4 ) );
+		self::assertTrue( $obj->has( static::BIT_2 ) );
+		self::assertFalse( $obj->has( static::BIT_1 ) );
 
 		$obj->set( 31 );
-		$this->assertTrue( $obj->has( static::BIT_16 ) );
-		$this->assertTrue( $obj->has( static::BIT_8 ) );
-		$this->assertTrue( $obj->has( static::BIT_4 ) );
-		$this->assertTrue( $obj->has( static::BIT_2 ) );
-		$this->assertTrue( $obj->has( static::BIT_1 ) );
+		self::assertTrue( $obj->has( static::BIT_16 ) );
+		self::assertTrue( $obj->has( static::BIT_8 ) );
+		self::assertTrue( $obj->has( static::BIT_4 ) );
+		self::assertTrue( $obj->has( static::BIT_2 ) );
+		self::assertTrue( $obj->has( static::BIT_1 ) );
 
 		$obj->set( 0 );
-		$this->assertFalse( $obj->has( static::BIT_16 ) );
-		$this->assertFalse( $obj->has( static::BIT_8 ) );
-		$this->assertFalse( $obj->has( static::BIT_4 ) );
-		$this->assertFalse( $obj->has( static::BIT_2 ) );
-		$this->assertFalse( $obj->has( static::BIT_1 ) );
+		self::assertFalse( $obj->has( static::BIT_16 ) );
+		self::assertFalse( $obj->has( static::BIT_8 ) );
+		self::assertFalse( $obj->has( static::BIT_4 ) );
+		self::assertFalse( $obj->has( static::BIT_2 ) );
+		self::assertFalse( $obj->has( static::BIT_1 ) );
 
 		$obj->set( 18 );
-		$this->assertTrue( $obj->has( static::BIT_16 ) );
-		$this->assertFalse( $obj->has( static::BIT_8 ) );
-		$this->assertFalse( $obj->has( static::BIT_4 ) );
-		$this->assertTrue( $obj->has( static::BIT_2 ) );
-		$this->assertFalse( $obj->has( static::BIT_1 ) );
+		self::assertTrue( $obj->has( static::BIT_16 ) );
+		self::assertFalse( $obj->has( static::BIT_8 ) );
+		self::assertFalse( $obj->has( static::BIT_4 ) );
+		self::assertTrue( $obj->has( static::BIT_2 ) );
+		self::assertFalse( $obj->has( static::BIT_1 ) );
 	}
 
 	/**
@@ -131,21 +131,21 @@ class BitmaskTest extends BaseCase
 
 		$original	= static::BIT_16 | static::BIT_8 | static::BIT_4 | static::BIT_2 | static::BIT_1;
 		$obj->set( $original );
-		$this->assertEquals( $original, $obj->get() );
+		self::assertEquals( $original, $obj->get() );
 
 		$obj->remove( static::BIT_16 );
-		$this->assertEquals( static::BIT_8 | static::BIT_4 | static::BIT_2 | static::BIT_1, $obj->get() );
+		self::assertEquals( static::BIT_8 | static::BIT_4 | static::BIT_2 | static::BIT_1, $obj->get() );
 
 		$obj->remove( static::BIT_8 );
-		$this->assertEquals( static::BIT_4 | static::BIT_2 | static::BIT_1, $obj->get() );
+		self::assertEquals( static::BIT_4 | static::BIT_2 | static::BIT_1, $obj->get() );
 
 		$obj->remove( static::BIT_1 );
-		$this->assertEquals( static::BIT_4 | static::BIT_2, $obj->get() );
+		self::assertEquals( static::BIT_4 | static::BIT_2, $obj->get() );
 
 		$obj->remove( static::BIT_2 );
-		$this->assertEquals( static::BIT_4, $obj->get() );
+		self::assertEquals( static::BIT_4, $obj->get() );
 
 		$obj->remove( static::BIT_4 );
-		$this->assertEquals( static::BIT_0, $obj->get() );
+		self::assertEquals( static::BIT_0, $obj->get() );
 	}
 }

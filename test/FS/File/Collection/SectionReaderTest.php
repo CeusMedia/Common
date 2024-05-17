@@ -40,13 +40,13 @@ class SectionReaderTest extends BaseCase
 	{
 		$reader		= new SectionReader( $this->fileName );
 		$creation	= $reader->read();
-		$this->assertEquals( $this->sectionList, $creation );
+		self::assertEquals( $this->sectionList, $creation );
 	}
 
 	public function testLoad(): void
 	{
 		$creation	= SectionReader::load( $this->fileName );
-		$this->assertEquals( $this->sectionList, $creation );
+		self::assertEquals( $this->sectionList, $creation );
 	}
 
 	protected function setUp(): void

@@ -38,7 +38,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= 2;
 		$creation	= $this->reader->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -50,11 +50,11 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= 0;
 		$creation	= $this->reader->getIndex( "line1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $this->reader->getIndex( "line2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ReaderTest extends BaseCase
 			"line2",
 		);
 		$creation	= $this->reader->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -90,8 +90,8 @@ class ReaderTest extends BaseCase
 	 */
 	public function testHasItem(): void
 	{
-		$this->assertTrue( $this->reader->hasItem( "line1" ) );
-		$this->assertTrue( $this->reader->hasItem( "line3" ) );
+		self::assertTrue( $this->reader->hasItem( "line1" ) );
+		self::assertTrue( $this->reader->hasItem( "line3" ) );
 	}
 
 	/**
@@ -106,14 +106,14 @@ class ReaderTest extends BaseCase
 			"line2",
 		);
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$fileName	= dirname( $this->fileName )."/empty.list";
 		file_put_contents( $fileName, "" );
 
 		$assertion	= [];
 		$creation	= Reader::read( $fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		unlink( $fileName );
 	}
@@ -138,7 +138,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= "{line1, line2}";
 		$creation	= "".$this->reader;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

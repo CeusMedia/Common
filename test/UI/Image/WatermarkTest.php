@@ -67,11 +67,11 @@ class WatermarkTest extends BaseCase
 		$quality	= 98;
 		$mark		= MockAntiProtection::getInstance( Watermark::class, $this->path."sourceWatermark.png", $alpha, $quality );
 
-		$this->assertEquals( $alpha, $mark->getProtectedVar( 'alpha' ) );
-		$this->assertEquals( $quality, $mark->getProtectedVar( 'quality' ) );
+		self::assertEquals( $alpha, $mark->getProtectedVar( 'alpha' ) );
+		self::assertEquals( $quality, $mark->getProtectedVar( 'quality' ) );
 
 		$height		= 100;
-		$this->assertEquals( $height, $mark->getProtectedVar( 'stamp' )->getHeight() );
+		self::assertEquals( $height, $mark->getProtectedVar( 'stamp' )->getHeight() );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class WatermarkTest extends BaseCase
 		$mark->setMargin( 10, 10 );
 		$mark->markImage( $this->path."sourceWatermark.png", $this->path."targetWatermark.png" );
 
-		$this->assertFileEquals( $this->path."targetWatermark.png", $this->path."assertWatermark.png", "Watermark file not identical." );
+		self::assertFileEquals( $this->path."targetWatermark.png", $this->path."assertWatermark.png", "Watermark file not identical." );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class WatermarkTest extends BaseCase
 		$alpha	= 75;
 		$this->mark->setAlpha( $alpha );
 
-		$this->assertEquals( $alpha, $this->mark->getProtectedVar( 'alpha' ) );
+		self::assertEquals( $alpha, $this->mark->getProtectedVar( 'alpha' ) );
 	}
 
 	/**
@@ -110,8 +110,8 @@ class WatermarkTest extends BaseCase
 	public function testSetMargin()
 	{
 		$this->mark->setMargin( 1, 2 );
-		$this->assertEquals( 1, $this->mark->getProtectedVar( 'marginX' ) );
-		$this->assertEquals( 2, $this->mark->getProtectedVar( 'marginY' ) );
+		self::assertEquals( 1, $this->mark->getProtectedVar( 'marginX' ) );
+		self::assertEquals( 2, $this->mark->getProtectedVar( 'marginY' ) );
 	}
 
 	/**
@@ -125,11 +125,11 @@ class WatermarkTest extends BaseCase
 
 		$assertion	= 'center';
 		$creation	= $this->mark->getProtectedVar( 'positionH' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'middle';
 		$creation	= $this->mark->getProtectedVar( 'positionV' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -164,7 +164,7 @@ class WatermarkTest extends BaseCase
 		$this->mark->setQuality( 80 );
 
 		$creation	= $this->mark->getProtectedVar( 'quality' );
-		$this->assertEquals( 80, $creation );
+		self::assertEquals( 80, $creation );
 	}
 
 	/**
@@ -177,14 +177,14 @@ class WatermarkTest extends BaseCase
 		$this->mark->setStamp( $this->path."sourceWatermark.png" );
 		$stamp		= $this->mark->getProtectedVar( 'stamp' );
 
-		$this->assertIsObject( $stamp->getResource() );
-		$this->assertInstanceOf( \GdImage::class, $stamp->getResource() );
+		self::assertIsObject( $stamp->getResource() );
+		self::assertInstanceOf( \GdImage::class, $stamp->getResource() );
 
 		$creation	= $stamp->getWidth();
-		$this->assertEquals( 100, $creation );
+		self::assertEquals( 100, $creation );
 
 		$creation	= $stamp->getHeight();
-		$this->assertEquals( 100, $creation );
+		self::assertEquals( 100, $creation );
 	}
 }
 

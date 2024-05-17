@@ -49,7 +49,7 @@ final class DelegationTest extends BaseCase
 		$delegation->addClass( DelegationTestClass::class, [3] );
 		$actual		= $delegation->doSomething( 6 );
 
-		$this->assertEquals( 18, $actual );
+		self::assertEquals( 18, $actual );
 	}
 
 	public function testCallException1()

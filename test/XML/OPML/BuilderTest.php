@@ -81,7 +81,7 @@ class BuilderTest extends BaseCase
 			->addOutline( ( new OpmlOutline() )->setAttribute( 'title', 'Test 1-1' ) ) );
 		$actual		= $this->builder->build();
 		$expected	= file_get_contents( $this->path."buildResult.xml" );
-		$this->assertEquals( $expected, $actual );
+		self::assertEquals( $expected, $actual );
 	}
 
 	/**

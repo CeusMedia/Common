@@ -28,33 +28,33 @@ class CaesarTest extends BaseCase
 	{
 		$assertion	= "nopqrs";
 		$creation	= Caesar::encrypt( 'abcdef', 13 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "NOPQRS";
 		$creation	= Caesar::encrypt( 'ABCDEF', 13 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "123456";
 		$creation	= Caesar::encrypt( '123456', 13 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '!"§$%&/()=';
 		$creation	= Caesar::encrypt( '!"§$%&/()=', 13 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testDecrypt()
 	{
 		$assertion	= "abcdef";
 		$creation	= Caesar::decrypt( 'nopqrs', 13 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "123456";
 		$creation	= Caesar::decrypt( '123456', 13 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '!"§$%&/()=';
 		$creation	= Caesar::decrypt( '!"§$%&/()=', 13 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

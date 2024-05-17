@@ -53,15 +53,15 @@ class CamelCaseTest extends BaseCase
 
 		$assertion	= "testAlphaTestRdfString";
 		$creation	= CamelCase::encode( $string1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRdfString";
 		$creation	= CamelCase::encode( $string1, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRDFString";
 		$creation	= CamelCase::encode( $string1, FALSE  );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -75,15 +75,15 @@ class CamelCaseTest extends BaseCase
 
 		$assertion	= "testAlphaTestRdfString";
 		$creation	= CamelCase::encode( $string2 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRdfString";
 		$creation	= CamelCase::encode( $string2, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRDFString";
 		$creation	= CamelCase::encode( $string2, FALSE  );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -97,11 +97,11 @@ class CamelCaseTest extends BaseCase
 
 		$assertion	= "test alpha test rdf string";
 		$creation	= CamelCase::decode( $string1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test_alpha_test_rdf_string";
 		$creation	= CamelCase::decode( $string1, '_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class CamelCaseTest extends BaseCase
 
 		$assertion	= "TestAlphaTestRdfString";
 		$creation	= CamelCase::toPascalCase( $string1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class CamelCaseTest extends BaseCase
 
 		$assertion	= "test_alpha_test_rdf_string";
 		$creation	= CamelCase::toSnakeCase( $string1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -145,15 +145,15 @@ class CamelCaseTest extends BaseCase
 		$string4	= "TestAlphaTestRdf String";
 
 		$creation	= CamelCase::validate( $string1 );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( TRUE, $creation );
 
 		$creation	= CamelCase::validate( $string2 );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( TRUE, $creation );
 
 		$creation	= CamelCase::validate( $string3 );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( FALSE, $creation );
 
 		$creation	= CamelCase::validate( $string4 );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( FALSE, $creation );
 	}
 }

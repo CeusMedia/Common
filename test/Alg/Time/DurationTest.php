@@ -79,7 +79,7 @@ final class DurationTest extends BaseCase
 
 		foreach( $this->durations as $duration => $assertion ){
 			$creation	= $obj->convertDurationToSeconds( $duration );
-			$this->assertEquals( $assertion, $creation );
+			self::assertEquals( $assertion, $creation );
 		}
 
 		$hour	= 3600;
@@ -88,7 +88,7 @@ final class DurationTest extends BaseCase
 		$durations	= [];
 		foreach( $durations as $duration => $assertion ){
 			$creation	= $obj->convertDurationToSeconds( $duration );
-			$this->assertEquals( $assertion, $creation );
+			self::assertEquals( $assertion, $creation );
 		}
 	}
 
@@ -102,7 +102,7 @@ final class DurationTest extends BaseCase
 		$obj	= new Duration();
 		foreach( $this->durations as $assertion => $seconds ){
 			$creation	= $obj->convertSecondsToDuration( $seconds, ' ' );
-			$this->assertEquals( $assertion, $creation );
+			self::assertEquals( $assertion, $creation );
 		}
 
 		$hour	= 3600;
@@ -111,7 +111,7 @@ final class DurationTest extends BaseCase
 		$durations	= [];
 		foreach( $durations as $assertion => $seconds ){
 			$creation	= $obj->convertSecondsToDuration( $seconds, ' ' );
-			$this->assertEquals( $assertion, $creation );
+			self::assertEquals( $assertion, $creation );
 		}
 	}
 
@@ -133,7 +133,7 @@ final class DurationTest extends BaseCase
 		);
 		foreach( $durations as $duration => $assertion ){
 			$creation	= $obj->sanitize( $duration );
-			$this->assertEquals( $assertion, $creation );
+			self::assertEquals( $assertion, $creation );
 		}
 	}
 }

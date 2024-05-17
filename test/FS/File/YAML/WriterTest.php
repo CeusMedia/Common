@@ -61,7 +61,7 @@ class WriterTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -75,12 +75,12 @@ class WriterTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= is_int( $writer->write( $this->data ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= $this->data;
 		$creation	= Reader::load( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -92,11 +92,11 @@ class WriterTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= is_int( Writer::save( $this->fileName, $this->data ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= $this->data;
 		$creation	= Reader::load( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

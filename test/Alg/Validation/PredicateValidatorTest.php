@@ -34,16 +34,16 @@ class PredicateValidatorTest extends BaseCase
 	public function testIsClass()
 	{
 		$creation	= $this->validator->isClass( "abc123", "alpha" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->validator->isClass( "abc123", "digit" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->validator->isClass( "abc123", "id" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->validator->isClass( "123abc", "id" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	public function testIsClassException()
@@ -55,24 +55,24 @@ class PredicateValidatorTest extends BaseCase
 	public function testValidate()
 	{
 		$creation	= $this->validator->validate( "1", "hasValue" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->validator->validate( "", "hasValue" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->validator->validate( "1", "isGreater", 0 );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->validator->validate( "1", "isGreater", 1 );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->validator->validate( "1", "isLess", 2 );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->validator->validate( "1", "isLess", 1 );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->validator->validate( "01.71.2008", "isAfter", time() );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 }

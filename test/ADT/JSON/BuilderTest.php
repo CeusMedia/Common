@@ -50,13 +50,13 @@ class BuilderTest extends BaseCase
 		$builder	= new Builder();
 		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
 		$creation	= $builder->encode( $data );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$data		= array( array( 1, 2 ), array( 3, 4 ) );
 		$builder	= new Builder();
 		$assertion	= "[[1,2],[3,4]]";
 		$creation	= $builder->encode( $data );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -69,12 +69,12 @@ class BuilderTest extends BaseCase
 		$data		= array( 1, 2.3, "string", TRUE, NULL, $this->object );
 		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
 		$creation	= Builder::encode( $data );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$data		= array( array( 1, 2 ), array( 3, 4 ) );
 		$assertion	= "[[1,2],[3,4]]";
 		$creation	= Builder::encode( $data );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 	}
 

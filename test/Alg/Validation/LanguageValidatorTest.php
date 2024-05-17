@@ -76,15 +76,15 @@ class LanguageValidatorTest extends BaseCase
 	{
 		$assertion	= "en";
 		$creation	= $this->validator->getLanguage( "da,en-us;q=0.7,en;q=0.3" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "fr";
 		$creation	= $this->validator->getLanguage( "da,fr;q=0.3" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "en";
 		$creation	= $this->validator->getLanguage( "" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -96,14 +96,14 @@ class LanguageValidatorTest extends BaseCase
 	{
 		$assertion	= "en";
 		$creation	= LanguageValidator::validate( "da,en-us;q=0.7,en;q=0.3", array( "en", "fr" ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "fr";
 		$creation	= LanguageValidator::validate( "da,fr;q=0.3", array( "en", "fr" ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "en";
 		$creation	= LanguageValidator::validate( "", array( "en", "fr" ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

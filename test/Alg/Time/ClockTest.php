@@ -45,7 +45,7 @@ final class ClockTest extends BaseCase
 		$watch		= Mock::getInstance( Clock::class );
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microTimeStart' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -63,7 +63,7 @@ final class ClockTest extends BaseCase
 
 		$assertion	= $time - 1;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -81,7 +81,7 @@ final class ClockTest extends BaseCase
 
 		$assertion	= $time;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}*/
 
 	/**
@@ -99,7 +99,7 @@ final class ClockTest extends BaseCase
 
 		$assertion	= $time - 1;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -112,7 +112,7 @@ final class ClockTest extends BaseCase
 		$watch	= Mock::getInstance( Clock::class );
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microTimeStart' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -126,7 +126,7 @@ final class ClockTest extends BaseCase
 		$watch->stop();
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->stop() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -144,7 +144,7 @@ final class ClockTest extends BaseCase
 
 		$assertion	= $time - 1;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -162,7 +162,7 @@ final class ClockTest extends BaseCase
 
 		$assertion	= $time - 0.001;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -180,15 +180,15 @@ final class ClockTest extends BaseCase
 
 		$assertion	= 123.457;
 		$creation	= $watch->getTime( 3, 3 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 123457;
 		$creation	= $watch->getTime( 6, 0 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 0.123;
 		$creation	= $watch->getTime( 0 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

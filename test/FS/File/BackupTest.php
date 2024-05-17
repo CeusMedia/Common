@@ -53,9 +53,9 @@ class BackupTest extends BaseCase
 		file_put_contents( $this->filePath, "change-0" );
 		$this->file->store();
 		file_put_contents( $this->filePath, "change-1" );
-		$this->assertEquals( "change-0", $this->file->getContent( 1 ) );
-		$this->assertEquals( "change-0", $this->file->getContent( -1 ) );
-		$this->assertEquals( $this->time, $this->file->getContent( 0 ) );
+		self::assertEquals( "change-0", $this->file->getContent( 1 ) );
+		self::assertEquals( "change-0", $this->file->getContent( -1 ) );
+		self::assertEquals( $this->time, $this->file->getContent( 0 ) );
 	}
 
 	/**
@@ -85,37 +85,37 @@ class BackupTest extends BaseCase
 	}
 
 	public function testGetVersions1(){
-		$this->assertEquals( [], $this->file->getVersions() );
+		self::assertEquals( [], $this->file->getVersions() );
 	}
 
 	public function testGetVersions2(){
 		$this->file->store();
-		$this->assertEquals( array( 0 ), array_keys( $this->file->getVersions() ) );
+		self::assertEquals( array( 0 ), array_keys( $this->file->getVersions() ) );
 	}
 
 	public function testGetVersions3(){
 		$this->file->store();
 		$this->file->store();
-		$this->assertEquals( array( 0, 1 ), array_keys( $this->file->getVersions() ) );
+		self::assertEquals( array( 0, 1 ), array_keys( $this->file->getVersions() ) );
 	}
 
 	public function testMove(){
 		$this->file->store();
 		$this->file->store();
 
-		$this->assertTrue( file_exists( $this->filePath ) );
-		$this->assertTrue( file_exists( $this->filePath.'~' ) );
-		$this->assertTrue( file_exists( $this->filePath.'.~1~' ) );
+		self::assertTrue( file_exists( $this->filePath ) );
+		self::assertTrue( file_exists( $this->filePath.'~' ) );
+		self::assertTrue( file_exists( $this->filePath.'.~1~' ) );
 
 		$target	= $this->path.'text.txt';
 		$this->file->move( $target );
-		$this->assertTrue( file_exists( $target ) );
-		$this->assertTrue( file_exists( $target.'~' ) );
-		$this->assertTrue( file_exists( $target.'.~1~' ) );
+		self::assertTrue( file_exists( $target ) );
+		self::assertTrue( file_exists( $target.'~' ) );
+		self::assertTrue( file_exists( $target.'.~1~' ) );
 
-		$this->assertFalse( file_exists( $this->filePath ) );
-		$this->assertFalse( file_exists( $this->filePath.'~' ) );
-		$this->assertFalse( file_exists( $this->filePath.'.~1~' ) );
+		self::assertFalse( file_exists( $this->filePath ) );
+		self::assertFalse( file_exists( $this->filePath.'~' ) );
+		self::assertFalse( file_exists( $this->filePath.'.~1~' ) );
 
 		$this->file->move( $this->filePath );
 	}
@@ -129,19 +129,19 @@ class BackupTest extends BaseCase
 
 	public function testRemove1(){
 		$this->file->store();
-		$this->assertTrue( file_exists( $this->filePath.'~' ) );
+		self::assertTrue( file_exists( $this->filePath.'~' ) );
 		$this->file->remove();
-		$this->assertTrue( !file_exists( $this->filePath.'~' ) );
+		self::assertTrue( !file_exists( $this->filePath.'~' ) );
 
 		$this->file->store();
 		$this->file->remove( -1 );
-		$this->assertTrue( !file_exists( $this->filePath.'~' ) );
+		self::assertTrue( !file_exists( $this->filePath.'~' ) );
 
 		$this->file->store();
 		$this->file->store();
 		$this->file->remove( -1 );
 		$this->file->remove( -1 );
-		$this->assertTrue( !file_exists( $this->filePath.'~' ) );
+		self::assertTrue( !file_exists( $this->filePath.'~' ) );
 	}
 
 	public function testRemove2(){
@@ -153,7 +153,7 @@ class BackupTest extends BaseCase
 		$this->file->store();
 
 		$this->file->remove( 1 );
-		$this->assertEquals( "change-2", file_get_contents( $this->filePath.'.~1~' ) );
+		self::assertEquals( "change-2", file_get_contents( $this->filePath.'.~1~' ) );
 	}
 
 	public function testRemove3(){
@@ -166,10 +166,10 @@ class BackupTest extends BaseCase
 		file_put_contents( $this->filePath, "change-3" );
 
 		$this->file->remove( 0 );
-		$this->assertEquals( "change-1", file_get_contents( $this->filePath.'~' ) );
+		self::assertEquals( "change-1", file_get_contents( $this->filePath.'~' ) );
 
 		$this->file->remove( 0 );
-		$this->assertEquals( "change-2", file_get_contents( $this->filePath.'~' ) );
+		self::assertEquals( "change-2", file_get_contents( $this->filePath.'~' ) );
 	}
 
 	/**
@@ -204,24 +204,24 @@ class BackupTest extends BaseCase
 		$this->file->store();
 		file_put_contents( $this->filePath, "changed" );
 		$this->file->restore();
-		$this->assertEquals( $this->time, file_get_contents( $this->filePath ) );
-		$this->assertTrue( file_exists( $this->filePath.'~' ) );
+		self::assertEquals( $this->time, file_get_contents( $this->filePath ) );
+		self::assertTrue( file_exists( $this->filePath.'~' ) );
 
 		$this->file->store();
 		file_put_contents( $this->filePath, "changed" );
 		$this->file->restore( -1 );
-		$this->assertEquals( $this->time, file_get_contents( $this->filePath ) );
-		$this->assertTrue( file_exists( $this->filePath.'~' ) );
+		self::assertEquals( $this->time, file_get_contents( $this->filePath ) );
+		self::assertTrue( file_exists( $this->filePath.'~' ) );
 	}
 
 	public function testRestore2(){
 		$this->file->store();
 		file_put_contents( $this->filePath, "changed" );
-		$this->assertEquals( "changed", file_get_contents( $this->filePath ) );
+		self::assertEquals( "changed", file_get_contents( $this->filePath ) );
 
 		$this->file->restore( -1, TRUE );
-		$this->assertEquals( $this->time, file_get_contents( $this->filePath ) );
-		$this->assertTrue( !file_exists( $this->filePath.'~' ) );
+		self::assertEquals( $this->time, file_get_contents( $this->filePath ) );
+		self::assertTrue( !file_exists( $this->filePath.'~' ) );
 	}
 
 	public function testRestore3(){
@@ -232,10 +232,10 @@ class BackupTest extends BaseCase
 		file_put_contents( $this->filePath, "change-2" );
 		$this->file->store();
 		file_put_contents( $this->filePath, "change-3" );
-		$this->assertEquals( $this->file->getVersion(), 2 );
+		self::assertEquals( $this->file->getVersion(), 2 );
 
 		$this->file->restore( 1 );
-		$this->assertEquals( "change-1", file_get_contents( $this->filePath ) );
+		self::assertEquals( "change-1", file_get_contents( $this->filePath ) );
 	}
 
 	public function testRestoreWithRemoveForwards(){
@@ -246,19 +246,19 @@ class BackupTest extends BaseCase
 		file_put_contents( $this->filePath, "change-2" );
 		$this->file->store();
 		file_put_contents( $this->filePath, "change-3" );
-		$this->assertEquals( $this->file->getVersion(), 2 );
+		self::assertEquals( $this->file->getVersion(), 2 );
 
 		$this->file->restore( 0, TRUE );
-		$this->assertEquals( "change-0", file_get_contents( $this->filePath ) );
-		$this->assertTrue( file_exists( $this->filePath.'~' ) );
+		self::assertEquals( "change-0", file_get_contents( $this->filePath ) );
+		self::assertTrue( file_exists( $this->filePath.'~' ) );
 
 		$this->file->restore( 0, TRUE );
-		$this->assertEquals( "change-1", file_get_contents( $this->filePath ) );
-		$this->assertTrue( file_exists( $this->filePath.'~' ) );
+		self::assertEquals( "change-1", file_get_contents( $this->filePath ) );
+		self::assertTrue( file_exists( $this->filePath.'~' ) );
 
 		$this->file->restore( 0, TRUE );
-		$this->assertEquals( "change-2", file_get_contents( $this->filePath ) );
-		$this->assertFalse( file_exists( $this->filePath.'~' ) );
+		self::assertEquals( "change-2", file_get_contents( $this->filePath ) );
+		self::assertFalse( file_exists( $this->filePath.'~' ) );
 	}
 
 	public function testRestoreWithPreservedTimestamp(){
@@ -266,10 +266,10 @@ class BackupTest extends BaseCase
 		touch( $this->filePath, $timestamp );
 		clearstatcache();
 		$this->file->store();
-		$this->assertEquals( $timestamp, filemtime( $this->filePath.'~' ) );
+		self::assertEquals( $timestamp, filemtime( $this->filePath.'~' ) );
 
 		$this->file->restore();
-		$this->assertEquals( filemtime( $this->filePath ), $timestamp );
+		self::assertEquals( filemtime( $this->filePath ), $timestamp );
 	}
 
 	/**
@@ -298,11 +298,11 @@ class BackupTest extends BaseCase
 	public function testSetContent(){
 		$this->file->store();
 		$this->file->setContent( 0, 'new content' );
-		$this->assertEquals( 'new content', file_get_contents( $this->filePath.'~' ) );
+		self::assertEquals( 'new content', file_get_contents( $this->filePath.'~' ) );
 
 		$this->file->store();
 		$this->file->setContent( 1, 'even newer content' );
-		$this->assertEquals( 'even newer content', file_get_contents( $this->filePath.'.~1~' ) );
+		self::assertEquals( 'even newer content', file_get_contents( $this->filePath.'.~1~' ) );
 	}
 
 	/**
@@ -331,25 +331,25 @@ class BackupTest extends BaseCase
 
 	public function testStore(){
 		$this->file->store();
-		$this->assertTrue( file_exists( $this->filePath.'~' ) );
-		$this->assertEquals( $this->time, file_get_contents( $this->filePath.'~' ) );
-		$this->assertEquals( filemtime( $this->filePath ), filemtime( $this->filePath.'~' ) );
+		self::assertTrue( file_exists( $this->filePath.'~' ) );
+		self::assertEquals( $this->time, file_get_contents( $this->filePath.'~' ) );
+		self::assertEquals( filemtime( $this->filePath ), filemtime( $this->filePath.'~' ) );
 
 		$this->file->store();
-		$this->assertTrue( file_exists( $this->filePath.'.~1~' ) );
-		$this->assertEquals( $this->time, file_get_contents( $this->filePath.'.~1~' ) );
+		self::assertTrue( file_exists( $this->filePath.'.~1~' ) );
+		self::assertEquals( $this->time, file_get_contents( $this->filePath.'.~1~' ) );
 
 		$this->file->store();
-		$this->assertTrue( file_exists( $this->filePath.'.~2~' ) );
-		$this->assertEquals( $this->time, file_get_contents( $this->filePath.'.~2~' ) );
+		self::assertTrue( file_exists( $this->filePath.'.~2~' ) );
+		self::assertEquals( $this->time, file_get_contents( $this->filePath.'.~2~' ) );
 	}
 
 	public function testStoreWithPreservedTimestamp(){
 		$timestamp	= filemtime( $this->filePath ) + 10;
 		$result		= touch( $this->filePath, $timestamp );
 		clearstatcache();
-		$this->assertTrue( $result );
-		$this->assertEquals( $timestamp, filemtime( $this->filePath ) );
+		self::assertTrue( $result );
+		self::assertEquals( $timestamp, filemtime( $this->filePath ) );
 	}
 
 	/**

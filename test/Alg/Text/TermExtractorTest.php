@@ -66,7 +66,7 @@ class TermExtractorTest extends BaseCase
 			"cc"	=> 3
 		);
 		$creation	= TermExtractor::getTerms( $text );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class TermExtractorTest extends BaseCase
 	{
 		$assertion	= $this->terms1;
 		$creation	= TermExtractor::getTerms( $this->text );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class TermExtractorTest extends BaseCase
 		TermExtractor::loadBlackList( $this->black );
 		$assertion	= $this->terms2;
 		$creation	= TermExtractor::getTerms( $this->text );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class TermExtractorTest extends BaseCase
 		$assertion	= explode( "\n", file_get_contents( $this->black ) );
 		TermExtractor::loadBlacklist( $this->black );
 		$creation	= TermExtractor::$blacklist;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -119,6 +119,6 @@ class TermExtractorTest extends BaseCase
 		$assertion	= array_unique( $list );
 		TermExtractor::setBlacklist( $list );
 		$creation	= TermExtractor::$blacklist;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

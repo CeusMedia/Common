@@ -38,11 +38,11 @@ class CharsetTest extends BaseCase
 		$accept		= "iso-8859-5, unicode-1-1;q=0.8";
 		$assertion	= "iso-8859-5";
 		$creation	= Charset::getCharsetFromString( $accept, $this->allowed, $this->default );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$accept		= "ISO-8859-1,utf-8;q=0.7,*;q=0.7";
 		$assertion	= "iso-8859-1";
 		$creation	= Charset::getCharsetFromString( $accept, $this->allowed, $this->default );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

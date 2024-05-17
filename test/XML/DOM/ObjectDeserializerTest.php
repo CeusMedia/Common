@@ -67,6 +67,6 @@ class ObjectDeserializerTest extends BaseCase
 		$xml		= file_get_contents( dirname( __FILE__ ).'/assets/deserializer.xml' );
 		$assertion	= $this->object;
 		$creation	= $this->deserializer->deserialize( $xml );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

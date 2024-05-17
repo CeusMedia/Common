@@ -55,7 +55,7 @@ class StringTest extends BaseCase
 		$string		= new String_( "construct" );
 		$assertion	= "construct";
 		$creation	= (string) $string;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -67,8 +67,8 @@ class StringTest extends BaseCase
 	{
 		$assertion	= "Some content";
 		$creation	= $this->string->capitalize();
-		$this->assertEquals( $assertion, (string) $this->string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $this->string );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -81,8 +81,8 @@ class StringTest extends BaseCase
 		$string		= new String_( "Some Content" );
 		$assertion	= "Some Content";
 		$creation	= $string->capitalize();
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( FALSE, $creation );
 	}
 
 	/**
@@ -94,8 +94,8 @@ class StringTest extends BaseCase
 	{
 		$assertion	= "Some Content";
 		$creation	= $this->string->capitalize( " " );
-		$this->assertEquals( $assertion, (string) $this->string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $this->string );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -108,14 +108,14 @@ class StringTest extends BaseCase
 		$string		= new String_( "some-content" );
 		$assertion	= "Some-Content";
 		$creation	= $string->capitalize( "-" );
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( TRUE, $creation );
 
 		$string		= new String_( "some-content" );
 		$assertion	= "Some-content";
 		$creation	= $string->capitalize( "#" );
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -128,14 +128,14 @@ class StringTest extends BaseCase
 		$string		= new String_( "some-content some-how" );
 		$assertion	= "Some-Content some-How";
 		$creation	= $string->capitalize( "-" );
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( TRUE, $creation );
 
 		$string		= new String_( "some-content some-how" );
 		$assertion	= "Some-content some-how";
 		$creation	= $string->capitalize( "#" );
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -147,8 +147,8 @@ class StringTest extends BaseCase
 	{
 		$assertion	= "Some Content";
 		$creation	= $this->string->capitalizeWords();
-		$this->assertEquals( $assertion, (string) $this->string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $this->string );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -160,8 +160,8 @@ class StringTest extends BaseCase
 	{
 		$assertion	= "Some Content";
 		$creation	= $this->string->capitalizeWords( " " );
-		$this->assertEquals( $assertion, (string) $this->string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $this->string );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -174,8 +174,8 @@ class StringTest extends BaseCase
 		$string		= new String_( "some  content" );
 		$assertion	= "Some  Content";
 		$creation	= $string->capitalizeWords( " " );
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( TRUE, $creation );
 	}
 
 	/**
@@ -188,8 +188,8 @@ class StringTest extends BaseCase
 		$string		= new String_( "Some content" );
 		$assertion	= "Some content";
 		$creation	= $string->capitalizeWords( "-" );
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( FALSE, $creation );
 	}
 
 	/**
@@ -202,8 +202,8 @@ class StringTest extends BaseCase
 		$string		= new String_( "Some-content" );
 		$assertion	= "Some-content";
 		$creation	= $string->capitalizeWords( " " );
-		$this->assertEquals( $assertion, (string) $string );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( $assertion, (string) $string );
+		self::assertEquals( FALSE, $creation );
 	}
 
 	/**
@@ -215,7 +215,7 @@ class StringTest extends BaseCase
 	{
 		$assertion	= 12;
 		$creation	= $this->string->getLength();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -227,6 +227,6 @@ class StringTest extends BaseCase
 	{
 		$assertion	= "some content";
 		$creation	= (string) $this->string;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

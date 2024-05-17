@@ -53,15 +53,15 @@ class PascalCaseTest extends BaseCase
 
 		$assertion	= "TestAlphaTestRdfString";
 		$creation	= PascalCase::encode( $string1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRdfString";
 		$creation	= PascalCase::encode( $string1, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
 		$creation	= PascalCase::encode( $string1, FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -75,15 +75,15 @@ class PascalCaseTest extends BaseCase
 
 		$assertion	= "TestAlphaTestRdfString";
 		$creation	= PascalCase::encode( $string2 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRdfString";
 		$creation	= PascalCase::encode( $string2, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
 		$creation	= PascalCase::encode( $string2, FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -97,11 +97,11 @@ class PascalCaseTest extends BaseCase
 
 		$assertion	= "test alpha test rdf string";
 		$creation	= PascalCase::decode( $string1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test_alpha_test_rdf_string";
 		$creation	= PascalCase::decode( $string1, '_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -115,7 +115,7 @@ class PascalCaseTest extends BaseCase
 
 		$assertion	= "testAlphaTestRdfString";
 		$creation	= PascalCase::toCamelCase( $string1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class PascalCaseTest extends BaseCase
 
 		$assertion	= "test_alpha_test_rdf_string";
 		$creation	= PascalCase::decode( $string1, '_' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -145,15 +145,15 @@ class PascalCaseTest extends BaseCase
 		$string4	= "testAlphaTestRdf String";
 
 		$creation	= PascalCase::validate( $string1 );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( TRUE, $creation );
 
 		$creation	= PascalCase::validate( $string2 );
-		$this->assertEquals( TRUE, $creation );
+		self::assertEquals( TRUE, $creation );
 
 		$creation	= PascalCase::validate( $string3 );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( FALSE, $creation );
 
 		$creation	= PascalCase::validate( $string4 );
-		$this->assertEquals( FALSE, $creation );
+		self::assertEquals( FALSE, $creation );
 	}
 }

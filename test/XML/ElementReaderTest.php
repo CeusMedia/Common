@@ -47,11 +47,11 @@ class ElementReaderTest extends BaseCase
 
 		$assertion	= 'NASA Space Station News';
 		$creation	= (string) $element->channel->title;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'http://www.nasa.gov/';
 		$creation	= (string) $element->channel->link;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -65,10 +65,10 @@ class ElementReaderTest extends BaseCase
 
 		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'http://liftoff.msfc.nasa.gov/';
 		$creation	= (string) $element->channel->link;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

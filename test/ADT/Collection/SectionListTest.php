@@ -61,7 +61,7 @@ class SectionListTest extends BaseCase
 		$this->list->addEntry( 'entry13', 'section1' );
 		$assertion	= 3;
 		$creation	= $this->list->countEntries( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -85,7 +85,7 @@ class SectionListTest extends BaseCase
 		$this->list->addSection( 'section3' );
 		$assertion	= 3;
 		$creation	= $this->list->countSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class SectionListTest extends BaseCase
 
 		$assertion	= 0;
 		$creation	= $this->list->countSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -111,11 +111,11 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= 2;
 		$creation	= $this->list->countEntries( "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
 		$creation	= $this->list->countEntries( "section2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= 2;
 		$creation	= $this->list->countSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= "entry11";
 		$creation	= $this->list->getEntry( 0, 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -162,7 +162,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= array( "entry11", "entry12" );
 		$creation	= $this->list->getEntries( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -185,11 +185,11 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= 1;
 		$creation	= $this->list->getIndex( "entry12" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $this->list->getIndex( "entry12", "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -211,7 +211,7 @@ class SectionListTest extends BaseCase
 			)
 		);
 		$creation	= $this->list->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= "section2";
 		$creation	= $this->list->getSectionOfEntry( "entry21" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -246,7 +246,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= array( "section1", "section2" );
 		$creation	= $this->list->getSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -259,12 +259,12 @@ class SectionListTest extends BaseCase
 		$this->list->removeEntry( "entry11", "section1" );
 		$assertion	= array( "entry12" );
 		$creation	= $this->list->getEntries( "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->list->removeEntry( "entry12" );
 		$assertion	= [];
 		$creation	= $this->list->getEntries( "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -288,7 +288,7 @@ class SectionListTest extends BaseCase
 		$this->list->removeSection( "section1" );
 		$assertion	= array( "section2" );
 		$creation	= $this->list->getSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

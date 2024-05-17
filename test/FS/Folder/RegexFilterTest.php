@@ -48,7 +48,7 @@ class RegexFilterTest extends TestCase
 		);
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -56,7 +56,7 @@ class RegexFilterTest extends TestCase
 		);
 		$creation	= $files;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class RegexFilterTest extends TestCase
 		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -92,7 +92,7 @@ class RegexFilterTest extends TestCase
 		);
 		$creation	= $files;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class RegexFilterTest extends TestCase
 		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -117,7 +117,7 @@ class RegexFilterTest extends TestCase
 			);
 		$creation	= $files;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -133,11 +133,11 @@ class RegexFilterTest extends TestCase
 
 		$assertion	= [];
 		$creation	= $folders;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -154,12 +154,12 @@ class RegexFilterTest extends TestCase
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -176,12 +176,12 @@ class RegexFilterTest extends TestCase
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -203,11 +203,11 @@ class RegexFilterTest extends TestCase
 		$creation	= $folders;
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }
