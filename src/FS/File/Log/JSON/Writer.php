@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\FS\File\Log\JSON;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+
 /**
  *	Writer for Log Files containing JSON Serials.
  *	@category		Library
@@ -75,7 +77,7 @@ class Writer
 	public static function noteData( string $fileName, array $data ): bool
 	{
 		$data	= array_merge( ['timestamp' => time()], $data );
-		$serial	= json_encode( $data )."\n";
+		$serial	= JsonEncoder::create()->encode( $data )."\n";
 		if( !file_exists( dirname( $fileName ) ) )
 			mkDir( dirname( $fileName ), 0700, TRUE );
 		return error_log( $serial, 3, $fileName );

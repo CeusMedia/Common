@@ -27,6 +27,8 @@
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
+
 /**
  *	Sniffer for Languages accepted by an HTTP Request.
  *	@category		Library
@@ -51,7 +53,7 @@ class Language
 	 */
 	public static function getLanguage( array $allowed, ?string $default = NULL ): ?string
 	{
-		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' );
+		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' ) ?: '';
 		return self::getLanguageFromString( $accept, $allowed, $default );
 	}
 
@@ -66,11 +68,13 @@ class Language
 	 */
 	public static function getLanguageFromString( string $string, array $allowed, ?string $default = NULL ): ?string
 	{
+		if( 0 === count( $allowed ) )
+			throw new DataMissingException( 'List of allowed languages cannot be empty' );
 		if( !$default)
 			$default = $allowed[0];
 		if( !$string )
 			return $default;
-		$accepted	= preg_split( '/,\s*/', $string );
+		$accepted	= preg_split( '/,\s*/', $string ) ?: [];
 		$currentLanguage	= $default;
 		$currentQuality		= 0;
 		foreach( $accepted as $accept ){

@@ -52,9 +52,11 @@ class Download
 	 *	Also applies content length and last modification date if parameters are set.
 	 *	@static
 	 *	@access		protected
+	 *	@param		int|NULL		$size			File size to send
+	 *	@param		int|NULL		$timestamp		File date (as UNIX timestamp) to send
 	 *	@return		void
 	 */
-	protected static function applyDefaultHeaders( ?int $size = NULL, ?int $timestamp = NULL )
+	protected static function applyDefaultHeaders( ?int $size = NULL, ?int $timestamp = NULL ): void
 	{
 		header( "Pragma: public" );
 		header( "Expires: -1" );
@@ -72,7 +74,7 @@ class Download
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected static function disableCompression()
+	protected static function disableCompression(): void
 	{
 		if( function_exists( 'apache_setenv' ) )
 			@apache_setenv( 'no-gzip', '1' );
@@ -88,7 +90,7 @@ class Download
 	 *	@param		boolean			$andExit		Flag: quit execution afterwards, default: yes
 	 *	@return		void
 	 */
-	public static function sendFile( string $url, ?string $filename = NULL, bool $andExit = TRUE )
+	public static function sendFile( string $url, ?string $filename = NULL, bool $andExit = TRUE ): void
 	{
 		$filename	= strlen( $filename ) ? $filename : basename( $url );
 		//  avoid messing with path
@@ -98,12 +100,13 @@ class Download
 		self::clearOutputBuffers();
 		self::setMimeType();
 		self::disableCompression();
-		self::applyDefaultHeaders( filesize( $url ), filemtime( $url ) );
+		self::applyDefaultHeaders( filesize( $url ) ?: NULL, filemtime( $url ) ?: NULL );
 		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
 		$fp = @fopen( $url, "rb" );
-		if( !$fp )
+		if( FALSE === $fp )
 			header("HTTP/1.0 500 Internal Server Error");
-		fpassthru( $fp );
+		else
+			fpassthru( $fp );
 		if( $andExit )
 			exit;
 	}
@@ -117,7 +120,7 @@ class Download
 	 *	@param		boolean			$andExit		Flag: quit execution afterwards, default: yes
 	 *	@return		void
 	 */
-	public static function sendString( string $string, string $filename, bool $andExit = TRUE )
+	public static function sendString( string $string, string $filename, bool $andExit = TRUE ): void
 	{
 		self::clearOutputBuffers();
 		self::setMimeType();
@@ -135,7 +138,7 @@ class Download
 	 *	@access		private
 	 *	@return		void
 	 */
-	private static function setMimeType()
+	private static function setMimeType(): void
 	{
 		$UserBrowser = '';
 		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
@@ -152,7 +155,7 @@ class Download
 	 *	@access		private
 	 *	@return		void
 	 */
-	private static function clearOutputBuffers()
+	private static function clearOutputBuffers(): void
 	{
 		while( ob_get_level() )
 			ob_end_clean();

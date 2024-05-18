@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\ADT;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\FS\File\VCard\Builder as VCardFileBuilder;
 use CeusMedia\Common\FS\File\VCard\Parser as VCardFileParser;
 use InvalidArgumentException;
@@ -208,7 +209,7 @@ class VCard
 	 *	@param		string		$json					JSON String
 	 *	@return		void
 	 */
-	public function fromJson( string $json )
+	public function fromJson( string $json ): void
 	{
 		self::__construct();
 		$data	= json_decode( $json, TRUE );
@@ -223,7 +224,7 @@ class VCard
 	 *	@param		string		$string			Serialized VCard String
 	 *	@return		void
 	 */
-	public function fromString( string $string )
+	public function fromString( string $string ): void
 	{
 		self::__construct();
 		VCardFileParser::parseInto( $string, $this );
@@ -480,7 +481,7 @@ class VCard
 	 */
 	public function toJson(): string
 	{
-		return json_encode( $this->types );
+		return JsonEncoder::create()->encode( $this->types );
 	}
 
 	/**
@@ -502,7 +503,7 @@ class VCard
 	 *	@param		string		$data					Serialized VCard String
 	 *	@return		void
 	 */
-	public function unserialize( $data )
+	public function unserialize( string $data ): void
 	{
 		$this->fromString( $data );
 	}

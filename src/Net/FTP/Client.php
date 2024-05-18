@@ -80,11 +80,7 @@ class Client
 			$this->writer		= new Writer( $this->connection );
 		}
 		catch( Exception $e ){
-			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
-				//  throw exception and transport inner exception
-				throw new RuntimeException( 'FTP connection failed ', 0, $e );
-			//  throw exception
-			throw new RuntimeException( 'FTP connection failed ', 0 );
+			throw new RuntimeException( 'FTP connection failed ', 0, $e );
 		}
 	}
 

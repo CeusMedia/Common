@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\ADT\Tree;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+
 /**
  *	Magic Node.
  *	@category		Library
@@ -149,7 +151,7 @@ class MagicNode
 	 */
 	public function toJson(): string
 	{
-		return json_encode( $this->toArray() );
+		return JsonEncoder::create()->encode( $this->toArray() );
 	}
 
 	/**

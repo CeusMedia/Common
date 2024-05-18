@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\UI\HTML;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+
 /**
  *	Builder for jQuery Plugin Calls for HTML Documents.
  *	@category		Library
@@ -56,7 +58,7 @@ class JQuery
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );
-		$options		= json_encode( $options );
+		$options		= JsonEncoder::create()->encode( $options );
 		$show			= $selector ? '.show()' : "";
 		$selector		= $selector ? '("'.$selector.'")' : "";
 		return $outerIndent.self::$jQueryFunctionName.'(document).ready(function(){

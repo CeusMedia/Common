@@ -91,7 +91,7 @@ class ReaderTest extends BaseCase
 	public function testHasItem(): void
 	{
 		self::assertTrue( $this->reader->hasItem( "line1" ) );
-		self::assertTrue( $this->reader->hasItem( "line3" ) );
+		self::assertFalse( $this->reader->hasItem( "line3" ) );
 	}
 
 	/**

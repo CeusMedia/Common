@@ -4,25 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update copyright and secure linked URLs.">
-      <change afterPath="$PROJECT_DIR$/src/Exception/Data/InvalidTypeCast.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/CSS/Sheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/CSS/Sheet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Dictionary.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Queue.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Queue.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/SectionList.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Collection/Stack.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Collection/Stack.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/DirectedAcyclicWeighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/DirectedAcyclicWeighted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/DirectedWeighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/DirectedWeighted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Edge.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Edge.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/EdgeSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/EdgeSet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Node.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Node.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/NodeSet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/NodeSet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ADT/Graph/Weighted.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/ADT/Graph/Weighted.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Net/HTTP/Request/Receiver.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/ADT/Collection/DictionaryTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/test/ADT/Collection/DictionaryTest.php" afterDir="false" />
-    </list>
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update ADTs to use less mixed type." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -181,9 +163,24 @@
       <option name="script" value="dev:a" />
       <method v="2" />
     </configuration>
+    <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:a" />
+      <method v="2" />
+    </configuration>
     <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
       <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
       <option name="script" value="dev:all" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:all" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan" />
       <method v="2" />
     </configuration>
     <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
@@ -197,8 +194,22 @@
       <option name="script" value="dev:phpunit" />
       <method v="2" />
     </configuration>
+    <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="commandLineParameters" value="" />
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpunit" />
+      <method v="2" />
+    </configuration>
     <configuration name="OutputTest.testNewLine1" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
       <TestRunner class="CeusMedia\CommonTest\CLI\OutputTest" file="$PROJECT_DIR$/test/CLI/OutputTest.php" method="testNewLine1" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="OutputTest.testNewLine1" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\CLI\OutputTest" file="$PROJECT_DIR$/test/CLI/OutputTest.php" method="testNewLine1" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
     </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -605,14 +616,6 @@
       <option name="project" value="LOCAL" />
       <updated>1696509198239</updated>
     </task>
-    <task id="LOCAL-00067" summary="Add tests.">
-      <option name="closed" value="true" />
-      <created>1710385975047</created>
-      <option name="number" value="00067" />
-      <option name="presentableId" value="LOCAL-00067" />
-      <option name="project" value="LOCAL" />
-      <updated>1710385975047</updated>
-    </task>
     <task id="LOCAL-00068" summary="Cleanup">
       <option name="closed" value="true" />
       <created>1710463899285</created>
@@ -645,7 +648,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713232027762</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="Update ADTs to use less mixed type.">
+      <option name="closed" value="true" />
+      <created>1715646270892</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1715646270893</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -676,7 +687,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Fix unit tests." />
     <MESSAGE value="Add PHPUnit file for version 10." />
     <MESSAGE value="Add unit tests." />
     <MESSAGE value="Update unit tests." />
@@ -701,7 +711,8 @@
     <MESSAGE value="Cleanup" />
     <MESSAGE value="Work towards PHPStan level 7." />
     <MESSAGE value="Update copyright and secure linked URLs." />
-    <option name="LAST_COMMIT_MESSAGE" value="Update copyright and secure linked URLs." />
+    <MESSAGE value="Update ADTs to use less mixed type." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update ADTs to use less mixed type." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

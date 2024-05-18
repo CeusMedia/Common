@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
 use CeusMedia\Common\FS\File;
 use CeusMedia\Common\FS\File\INI\Reader as IniReader;
@@ -94,7 +95,7 @@ class Env
 	{
 		$env	= getenv();
 		ksort( $env );
-		return json_encode( $env, JSON_PRETTY_PRINT );
+		return JsonEncoder::create()->encode( $env );
 	}
 
 	/**

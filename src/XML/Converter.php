@@ -30,6 +30,8 @@
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+use CeusMedia\Common\Exception\Conversion as ConversionException;
 use CeusMedia\Common\XML\DOM\Parser;
 use CeusMedia\Common\XML\DOM\Node as DomNode;
 #use DOMNode;
@@ -55,11 +57,12 @@ class Converter
 	 *	@param		string		$xml		XML string
 	 *	@return		string		JSON representation of XML string
 	 *	@throws		Exception
+	 *	@throws		ConversionException
 	 */
 	public static function toJson( string $xml ): string
 	{
 		$object	= self::toPlainObject( $xml );
-		return json_encode( $object );
+		return JsonEncoder::create()->encode( $object );
 	}
 
 	/**

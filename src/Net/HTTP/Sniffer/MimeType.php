@@ -27,6 +27,8 @@
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
+
 /**
  *	Sniffer for Mime Types accepted by an HTTP Request.
  *	@category		Library
@@ -48,6 +50,8 @@ class MimeType
 	 */
 	public static function getMimeType( array $allowed, ?string $default = NULL ): ?string
 	{
+		if( 0 === count( $allowed ) )
+			throw new DataMissingException( 'List of allowed mime types cannot be empty' );
 		if( !$default)
 			$default = $allowed[0];
 		$pattern	= '@^([a-z*+]+(/[a-z*+]+)*)(?:;\s*q=(0(?:\.\d{1,3})?|1(?:\.0{1,3})?))?$@i';
@@ -57,7 +61,7 @@ class MimeType
 
 		$quality	= 0;
 		$mimeType	= $default;
-		foreach( preg_split( '/,\s*/', $accepted ) as $accept ){
+		foreach( preg_split( '/,\s*/', $accepted ) ?: [] as $accept ){
 			if( !preg_match ( $pattern, $accept, $matches ) )
 				continue;
 			$mimeCode = explode ( '/', $matches[1] );

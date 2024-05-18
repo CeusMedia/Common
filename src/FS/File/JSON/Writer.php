@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\FS\File\JSON;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\ADT\JSON\Pretty as JsonPretty;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 
@@ -76,16 +77,10 @@ class Writer
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
 	 */
-	public function write( $value, bool $format = FALSE ): int
+	public function write( mixed $value, bool $format = FALSE ): int
 	{
-		if( $format ){
-			if( version_compare( phpversion(), '5.4.0' ) >= 0 )
-				$json	= json_encode( $value, JSON_PRETTY_PRINT );
-			else
-				$json	= JsonPretty::print( json_encode( $value ) );
-		}
-		else
-			$json	= json_encode( $value );
+		$flags	= $format ? JSON_PRETTY_PRINT : 0;
+		$json	= JsonEncoder::create()->encode( $value, $flags );
 		return FileWriter::save( $this->filePath, $json );
 	}
 }

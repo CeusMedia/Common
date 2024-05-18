@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\Exception\Traits;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 use JsonException;
 use Throwable;
@@ -71,7 +72,7 @@ trait Jsonable
 					'previous'	=> $this->getPrevious(),
 				];
 			}
-			return json_encode( $data, JSON_PRETTY_PRINT|JSON_THROW_ON_ERROR );
+			return JsonEncoder::create()->encode( $data, JSON_PRETTY_PRINT );
 		}
 		catch( JsonException $e ){
 			return NULL;

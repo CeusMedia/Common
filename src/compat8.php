@@ -286,13 +286,11 @@ class Net_HTTP_Response_Decompressor extends CeusMedia\Common\Net\HTTP\Response\
 class Net_HTTP_Response_Parser extends CeusMedia\Common\Net\HTTP\Response\Parser{}
 class Net_HTTP_Response_Sender extends CeusMedia\Common\Net\HTTP\Response\Sender{}
 class Net_HTTP_Session extends CeusMedia\Common\Net\HTTP\Session{}
-class Net_HTTP_Sniffer_Browser extends CeusMedia\Common\Net\HTTP\Sniffer\Browser{}
 class Net_HTTP_Sniffer_Charset extends CeusMedia\Common\Net\HTTP\Sniffer\Charset{}
 class Net_HTTP_Sniffer_Client extends CeusMedia\Common\Net\HTTP\Sniffer\Client{}
 class Net_HTTP_Sniffer_Encoding extends CeusMedia\Common\Net\HTTP\Sniffer\Encoding{}
 class Net_HTTP_Sniffer_Language extends CeusMedia\Common\Net\HTTP\Sniffer\Language{}
 class Net_HTTP_Sniffer_MimeType extends CeusMedia\Common\Net\HTTP\Sniffer\MimeType{}
-class Net_HTTP_Sniffer_OS extends CeusMedia\Common\Net\HTTP\Sniffer\OS{}
 class Net_HTTP_Status extends CeusMedia\Common\Net\HTTP\Status{}
 class Net_HTTP_UploadErrorHandler extends CeusMedia\Common\Net\HTTP\UploadErrorHandler{}
 class Net_Reader extends CeusMedia\Common\Net\Reader{}

@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\UI\HTML\Exception;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\Runtime;
 use CeusMedia\Common\Exception\SQL as SqlException;
 use CeusMedia\Common\Exception\Traits\Descriptive;
@@ -150,7 +151,7 @@ class View
 				switch( gettype( $value ) ){
 					case 'object':
 					case 'array':
-						$value	= json_encode( $value );
+						$value	= JsonEncoder::create()->encode( $value );
 						break;
 					default:
 						$value ??= '-empty-';

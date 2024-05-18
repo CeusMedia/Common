@@ -29,10 +29,11 @@
 
 namespace CeusMedia\Common\FS\Folder\Treeview;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Exception\Conversion as ConversionException;
 use CeusMedia\Common\UI\HTML\Tag;
 use DirectoryIterator;
-use JsonException;
 use SplFileInfo;
 
 /**
@@ -67,7 +68,7 @@ class Json
 	 *	@param			string		$path
 	 *	@return			string
 	 *	@noinspection	PhpUnused
-	 *	@throws			JsonException
+	 *	@throws			ConversionException
 	 */
 	public function buildJson( string $path = '' ): string
 	{
@@ -85,7 +86,7 @@ class Json
 				$files[]		= $this->buildFileItem( $entry );
 		}
 		$list	= [...$folders, ...$files];
-		$json	= json_encode( $list, JSON_THROW_ON_ERROR );
+		$json	= JsonEncoder::create()->encode( $list );
 		if( $this->logFile )
 			$this->log( $path, count( $list ), strlen( $json ), (int) $clock->stop( 6, 0 ) );
 		return $json;

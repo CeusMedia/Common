@@ -28,6 +28,10 @@
 
 namespace CeusMedia\Common\Net\HTTP;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+use CeusMedia\Common\Exception\Conversion as ConversionException;
+use Throwable;
+
 /**
  *	Partitioned Cookie Management.
  *	@category		Library
@@ -40,7 +44,7 @@ namespace CeusMedia\Common\Net\HTTP;
 class PartitionCookie extends Cookie
 {
 	/**	@var		string		$partition		Name of partition in cookie */
-	protected $partition;
+	protected string $partition;
 
 	/**
 	 *	Constructor.
@@ -52,7 +56,7 @@ class PartitionCookie extends Cookie
 	 *	@param		boolean			$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		void
 	 */
-	public function __construct ( string $partition, string $path = "/", ?string $domain = NULL, bool $secure = FALSE, bool $httpOnly = FALSE )
+	public function __construct ( string $partition, string $path = '/', ?string $domain = NULL, bool $secure = FALSE, bool $httpOnly = FALSE )
 	{
 		parent::__construct();
 		$this->partition	= $partition;
@@ -67,12 +71,13 @@ class PartitionCookie extends Cookie
 	/**
 	 *	Returns a Cookie by its key.
 	 *	@access		public
-	 *	@param		string		$key			Key of Cookie
-	 *	@return		mixed
+	 *	@param		string			$key			Key of Cookie
+	 *	@param		string|NULL		$default		Default value
+	 *	@return		string|NULL
 	 */
-	public function get( string $key )
+	public function get( string $key, ?string $default = NULL ): ?string
 	{
-		$key	= str_replace( ".", "_", $key );
+		$key	= str_replace( '.', '_', $key );
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
 		return NULL;
@@ -90,7 +95,7 @@ class PartitionCookie extends Cookie
 	 */
 	public function remove( string $key, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		$key	= str_replace( ".", "_", $key );
+		$key	= str_replace( '.', '_', $key );
 		if( !isset( $this->data[$key] ) )
 			return FALSE;
 		unset( $this->data[$key] );
@@ -111,7 +116,7 @@ class PartitionCookie extends Cookie
 	 */
 	public function set( string $key, $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		$key	= str_replace( ".", "_", $key );
+		$key	= str_replace( '.', '_', $key );
 		$this->data[$key] = $value;
 		return $this->save( $expires, $path, $domain, $secure, $httpOnly );
 	}
@@ -130,12 +135,19 @@ class PartitionCookie extends Cookie
 	 */
 	protected function save( int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		return setcookie( $this->partition, json_encode( $this->data ), [
+		try{
+			$json	= JsonEncoder::create()->encode( $this->data );
+		}
+		catch ( Throwable $t ) {
+			throw ConversionException::create( 'Conversion to JSON failed: '.$t->getMessage() );
+		}
+		$options	= [
 			'expires'		=> $expires ? time() + $expires : $expires,
 			'path'			=> $path ?? $this->path,
 			'domain'		=> $domain ?? $this->domain,
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
-		]);
+		];
+		return setcookie( $this->partition, $json, $options );
 	}
 }

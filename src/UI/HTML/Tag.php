@@ -122,11 +122,7 @@ class Tag implements Renderable
 			$data		= self::renderData( $data );
 		}
 		catch( InvalidArgumentException $e ) {
-			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
-				//  throw exception and transport inner exception
-				throw new RuntimeException( 'Invalid attributes', 0, $e );
-			//  throw exception
-			throw new RuntimeException( 'Invalid attributes', 0 );
+			throw new RuntimeException( 'Invalid attributes', 0, $e );
 		}
 		//  no node content defined, not even an empty string
 		if( $content === NULL || $content === FALSE )
@@ -167,7 +163,7 @@ class Tag implements Renderable
 	 *	@param		string		$key		Key of attribute to get
 	 *	@return		mixed|NULL
 	 */
-	public function getAttribute( string $key )
+	public function getAttribute( string $key ): mixed
 	{
 		if( !array_key_exists( $key, $this->attributes ) )
 			return NULL;
@@ -342,6 +338,10 @@ class Tag implements Renderable
 		return join( $delimiter, $array );
 	}
 
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	protected static function renderData( array $data = [] ): string
 	{
 		$list	= [];
@@ -352,10 +352,15 @@ class Tag implements Renderable
 		return self::renderAttributes( $list, TRUE );
 	}
 
+	/**
+	 *	@param		array		$attributes
+	 *	@param		bool		$allowOverride
+	 *	@throws		InvalidArgumentException	if an attributes key is invalid
+	 *	@throws		InvalidArgumentException	if attribute is already set and override is off
+	 *	@return		string
+	 */
 	protected static function renderAttributes( array $attributes = [], bool $allowOverride = FALSE ): string
 	{
-		if( !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
 		$list	= [];
 		foreach( $attributes as $key => $value ) {
 			//  no valid attribute key defined

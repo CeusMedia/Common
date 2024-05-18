@@ -362,13 +362,11 @@ namespace CeusMedia\Common\Net\HTTP\Response{
 	class Parser extends \Net_HTTP_Response_Parser{}
 	class Sender extends \Net_HTTP_Response_Sender{}}
 namespace CeusMedia\Common\Net\HTTP\Sniffer{
-	class Browser extends \Net_HTTP_Sniffer_Browser{}
 	class Charset extends \Net_HTTP_Sniffer_Charset{}
 	class Client extends \Net_HTTP_Sniffer_Client{}
 	class Encoding extends \Net_HTTP_Sniffer_Encoding{}
 	class Language extends \Net_HTTP_Sniffer_Language{}
-	class MimeType extends \Net_HTTP_Sniffer_MimeType{}
-	class OS extends \Net_HTTP_Sniffer_OS{}}
+	class MimeType extends \Net_HTTP_Sniffer_MimeType{}}
 namespace CeusMedia\Common\Net\SVN{
 	class Client extends \Net_SVN_Client{}}
 namespace CeusMedia\Common\Net\Site{

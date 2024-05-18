@@ -33,6 +33,7 @@
 
 namespace CeusMedia\Common\Net\API;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Net\HTTP\Post;
 use CeusMedia\Common\Net\Reader as NetReader;
@@ -112,7 +113,7 @@ class Premailer
 		$params['remove_comments']	= (bool) $params['remove_comments'];
 		$params['fetchresult']		= true;
 
-		$requestId	= md5( json_encode( $params ) );
+		$requestId	= md5( JsonEncoder::create()->encode( $params ) );
 		$cacheKey	= 'premailer_'.$requestId.'.data';
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return json_decode( $this->cache->get( $cacheKey ) );
@@ -133,7 +134,7 @@ class Premailer
 			};
 		}
 		$response->requestId	= $requestId;
-		$this->cache && $this->cache->set( $cacheKey, json_encode( $response ) );
+		$this->cache && $this->cache->set( $cacheKey, JsonEncoder::create()->encode( $response ) );
 		return $this->response	= $response;
 	}
 

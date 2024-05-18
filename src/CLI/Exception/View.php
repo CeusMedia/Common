@@ -13,6 +13,7 @@
 
 namespace CeusMedia\Common\CLI\Exception;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\Conversion as ConversionException;
 use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Exception\Runtime as RuntimeException;
@@ -137,7 +138,7 @@ class View
 				switch( gettype( $value ) ){
 					case 'object':
 					case 'array':
-						$value	= json_encode( $value );
+						$value	= JsonEncoder::create()->encode( $value );
 						break;
 					default:
 						$value ??= '-empty-';

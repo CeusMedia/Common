@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\Net\API;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
@@ -105,7 +106,7 @@ class Dyn
 			'timestamp'	=> $this->lastCheck
 		];
 		$data	= array_merge( $last,  $data );
-		return FileWriter::save( $this->cacheFile, json_encode( $data ) );
+		return FileWriter::save( $this->cacheFile, JsonEncoder::create()->encode( $data ) );
 	}
 
 	/**

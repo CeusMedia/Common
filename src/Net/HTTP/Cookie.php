@@ -76,15 +76,16 @@ class Cookie
 	/**
 	 *	Returns a setting by its key name.
 	 *	@access		public
-	 *	@param		string		$key			Key name of cookie
-	 *	@return		mixed
+	 *	@param		string			$key			Key name of cookie
+	 *	@param		string|NULL		$default		Default value
+	 *	@return		string|NULL
 	 */
-	public function get( string $key )
+	public function get( string $key, ?string $default = NULL ): string|NULL
 	{
 		$key	= str_replace( ".", "_", $key );
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
-		return NULL;
+		return $default;
 	}
 
 	/**
@@ -150,13 +151,14 @@ class Cookie
 	{
 		$key		= str_replace( ".", "_", $key );
 		$this->data[$key]	=& $value;
-		return setcookie( $key, $value, [
+		$options	= [
 			'expires'		=> $expires ? time() + $expires : $expires,
 			'path'			=> $path ?? $this->path,
 			'domain'		=> $domain ?? $this->domain,
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
-		]);
+		];
+		return setcookie( $key, $value, $options );
 	}
 
 	/**

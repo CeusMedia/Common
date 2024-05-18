@@ -45,13 +45,13 @@ use Exception;
 class CrossDomainProxy
 {
 	/**	@var		string		$url				URL of Service Request */
-	protected		$url		= "";
+	protected string $url;
 
-	/**	@var		string		$username			Username of HTTP Basic Authentication */
-	protected		$username	= "";
+	/**	@var		string|NULL		$username			Username of HTTP Basic Authentication */
+	protected ?string $username	= NULL;
 
-	/**	@var		string		$password			Password of HTTP Basic Authentication */
-	protected		$password	= "";
+	/**	@var		string|NULL		$password			Password of HTTP Basic Authentication */
+	protected ?string $password	= NULL;
 
 	/**
 	 *	Constructor.
@@ -75,7 +75,7 @@ class CrossDomainProxy
 	 *	@return		string|bool
 	 *	@throws		Exception
 	 */
-	public function forward( bool $throwException = FALSE )
+	public function forward( bool $throwException = FALSE ): bool|string
 	{
 		//  get GET Query String
 		$query	= getEnv( 'QUERY_STRING' );
@@ -94,7 +94,7 @@ class CrossDomainProxy
 	 *	@return		string|bool
 	 *	@throws		Exception
 	 */
-	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE )
+	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE ): bool|string
 	{
 		//  open cURL Handler
 		$curl	= curl_init();
@@ -117,8 +117,7 @@ class CrossDomainProxy
 		//  get Request Method
 		$method	= getEnv( 'REQUEST_METHOD' );
 		//  Request Method is POST
-		if( $method == "POST" )
-		{
+		if( $method == "POST" ){
 			//  build POST Parameters
 			$data	= http_build_query( $_POST, '', "&" );
 			//  set POST Request on cURL Handler
