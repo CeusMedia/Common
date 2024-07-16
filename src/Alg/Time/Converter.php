@@ -208,8 +208,6 @@ class Converter
 				}
 
 				$timestamp = mktime( $parts['hour'], $parts['minute'], $parts['second'], $parts['month'], $parts['day'], $parts['year'] );
-				print_m( get_defined_vars() );
-				die;
 			}
 		}
 		return $timestamp;
