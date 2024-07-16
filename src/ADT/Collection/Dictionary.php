@@ -38,7 +38,6 @@ use OutOfRangeException;
 use ReturnTypeWillChange;
 use UnexpectedValueException;
 
-
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *	@category		Library
@@ -150,9 +149,9 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
 	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
-	 *	@return		static						Dictionary object containing filtered pairs
+	 *	@return		Dictionary					Dictionary object containing filtered pairs
 	 */
-	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): static
+	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): Dictionary
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
@@ -183,7 +182,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 			}
 		}
 		//  return pair list as dictionary
-		return new static( $list );
+		return new self( $list );
 	}
 
 	/**
