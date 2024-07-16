@@ -5,11 +5,12 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use CeusMedia\Common\UI\DevOutput;
 use CeusMedia\Common\CLI;
 use CeusMedia\Common\CLI\Question;
+use CeusMedia\Common\Env;
 
 new DevOutput;
 
 try{
-	CLI::checkIsCli();
+	Env::checkIsCli();
 
 	$input		= new Question( "What is your name", Question::TYPE_STRING, 'Mr. Unknown' );
 	CLI::out( 'Result: '.$input->ask() );

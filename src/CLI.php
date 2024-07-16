@@ -96,7 +96,7 @@ class CLI
 		Deprecation::getInstance()
 			->setExceptionVersion( '1.1' )
 			->setErrorVersion( '1.0' )
-			->message( 'Use Env::checkIsHeadless or Env::isCli instead' );
+			->message( 'Use Env::checkIsCli or Env::isCli instead' );
 		return Env::checkIsCli();
 	}
 
