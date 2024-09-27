@@ -72,12 +72,12 @@ class Indicator extends OptionObject
 	/**
 	 *	Builds HTML of Indicator.
 	 *	@access		public
-	 *	@param		int			$found		Amount of positive Cases
-	 *	@param		int			$count		Amount of all Cases
-	 *	@param		int|NULL	$length		Length of inner Indicator Bar
+	 *	@param		int				$found		Amount of positive Cases
+	 *	@param		int				$count		Amount of all Cases
+	 *	@param		int|string|NULL	$length		Length of inner Indicator Bar
 	 *	@return		string
 	 */
-	public function build( int $found, int $count, ?int $length = NULL ): string
+	public function build( int $found, int $count, int|string|NULL $length = NULL ): string
 	{
 		$length			= is_null( $length ) ? $this->getOption( 'length' ) : $length;
 		$found			= min( $found, $count );
@@ -193,11 +193,11 @@ class Indicator extends OptionObject
 	/**
 	 *	Builds HTML Code of Indicator Bar.
 	 *	@access		protected
-	 *	@param		float		$ratio		Ratio (between 0 and 1)
-	 *	@param		int			$length		Length of Indicator
+	 *	@param		float			$ratio		Ratio (between 0 and 1)
+	 *	@param		int|string		$length		Length of Indicator
 	 *	@return		string
 	 */
-	protected function renderBar( float $ratio, int $length = 100 ): string
+	protected function renderBar( float $ratio, int|string $length = 100 ): string
 	{
 		$width		= max( 0, min( 100, $ratio * 100 ) );
 		$cssDiv		= ['width' => $width.'%'];

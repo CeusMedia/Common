@@ -27,6 +27,8 @@ parameters:
 			- ../../src/Exception/Abstraction.php
 			- ../../src/Exception/Interface_.php
 	checkMissingIterableValueType: false
-	checkGenericClassInNonGenericObjectType: false
 	reportMaybesInPropertyPhpDocTypes: false
 	treatPhpDocTypesAsCertain: false
+	ignoreErrors:
+		-
+			identifier: missingType.generics

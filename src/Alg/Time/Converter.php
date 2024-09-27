@@ -207,7 +207,14 @@ class Converter
 							$parts[$name] = $matches2[array_search( $key, $matches1 )];
 				}
 
-				$timestamp = mktime( $parts['hour'], $parts['minute'], $parts['second'], $parts['month'], $parts['day'], $parts['year'] );
+				$timestamp = mktime(
+					intval( $parts['hour'] ),
+					intval( $parts['minute'] ),
+					intval( $parts['second'] ),
+					intval( $parts['month'] ),
+					intval( $parts['day'] ),
+					intval( $parts['year'] )
+				);
 			}
 		}
 		return $timestamp;

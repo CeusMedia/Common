@@ -95,9 +95,9 @@ class Response
 	/**
 	 *	Returns response message body.
 	 *	@access		public
-	 *	@return		string		Response message body
+	 *	@return		?string		Response message body
 	 */
-	public function getBody(): string
+	public function getBody(): ?string
 	{
 		return $this->body;
 	}
