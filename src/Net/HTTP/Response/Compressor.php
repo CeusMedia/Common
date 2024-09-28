@@ -28,8 +28,8 @@
 
 namespace CeusMedia\Common\Net\HTTP\Response;
 
+use CeusMedia\Common\Exception\NotSupported as NotSupportedException;
 use CeusMedia\Common\Net\HTTP\Response as Response;
-use InvalidArgumentException;
 
 /**
  *	Compressor for HTTP Request Body Strings.
@@ -47,44 +47,40 @@ class Compressor
 	 *	@access		public
 	 *	@param		Response		$response			Response Object
 	 *	@param		string|NULL		$type				Compression type (gzip|deflate)
-	 *	@param		boolean			$sendLengthHeader	Flag: add Content-Length Header
-	 *	@return		void
+	 *	@return		Response
+	 *	@throws		NotSupportedException				if compression type is not supported
 	 */
-	public static function compressResponse( Response $response, ?string $type = NULL, bool $sendLengthHeader = TRUE )
+	public static function compressResponse( Response $response, ?string $type = NULL ): Response
 	{
-		if( !$type )
-			return;
-		$response->setBody( self::compressString( $response->getBody(), $type ) );
-		//  send Encoding Header
-		$response->addHeaderPair( 'Content-Encoding', $type, TRUE );
-		//  send Encoding Header
-		$response->addHeaderPair( 'Vary', "Accept-Encoding", TRUE );
-		if( $sendLengthHeader )
-			//  send Content-Length Header
-			$response->addHeaderPair( 'Content-Length', (string) strlen( $response->getBody() ), TRUE );
+		if( NULL === $type )
+			return $response;
+
+		$clone	= clone $response;
+		$clone->setBody( self::compressString( $clone->getBody(), $type ) );
+
+		//  send Encoding Headers
+		$clone->addHeaderPair( 'Content-Encoding', $type, TRUE );
+		$clone->addHeaderPair( 'Vary', "Accept-Encoding", TRUE );
+		$clone->setHeader( 'Content-Length', $clone->getBodyLength() );
+		return $clone;
 	}
 
 	/**
-	 *	Applied HTTP Compression to a String.
+	 *	Applies HTTP Compression to a String.
 	 *	@access		public
 	 *	@param		string			$content		String to be compressed
-	 *	@param		string|NULL		$type				Compression type (gzip|deflate)
-	 *	@return		string			Compressed String.
+	 *	@param		string|NULL		$type			Compression type (gzip|deflate)
+	 *	@return		string			Compressed String
+	 *	@throws		NotSupportedException			if type is not supported
 	 */
 	public static function compressString( string $content, ?string $type = NULL ): string
 	{
-		switch( $type ){
-			case NULL:
-				return $content;
-			case 'deflate':
-				//  compress Content
-				return gzdeflate( $content );
-			case 'gzip':
-				//  compress Content
-				return gzencode( $content, 9 );
-			//  no valid Compression Method set
-			default:
-				throw new InvalidArgumentException( 'Compression "'.$type.'" is not supported' );
-		}
+		return match( $type ){
+			NULL		=> $content,
+			'deflate'	=> gzdeflate( $content ),
+			'gzip'		=> gzencode( $content, 9 ),
+			default		=> throw NotSupportedException::create()
+				->setMessage( 'Compression "' . $type . '" is not supported' )
+		};
 	}
 }

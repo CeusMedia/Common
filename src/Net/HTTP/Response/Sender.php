@@ -28,9 +28,10 @@
 
 namespace CeusMedia\Common\Net\HTTP\Response;
 
+use CeusMedia\Common\Exception\NotSupported as NotSupportedException;
+use CeusMedia\Common\Net\HTTP\Request as Request;
 use CeusMedia\Common\Net\HTTP\Response as Response;
 use CeusMedia\Common\Net\HTTP\Response\Compressor as ResponseCompressor;
-use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
 
 /**
  *	Parser for HTTP Response containing Headers and Body.
@@ -43,11 +44,45 @@ use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
  */
 class Sender
 {
+	public static array $supportedCompressions = ['gzip', 'deflate'];
+
 	/**	@var		string|NULL			$compression	Type of compression to use (gzip, deflate), default: NULL */
-	protected $compression;
+	protected ?string $compression		= NULL;
 
 	/**	@var		Response|NULL		$response		Response object */
-	protected $response;
+	protected ?Response $response		= NULL;
+
+	/**
+	 *	Send Response statically.
+	 *	@access		public
+	 *	@param		Response		$response			Response Object
+	 *	@param		string|NULL		$compression		Type of compression (gzip|deflate)
+	 *	@param		boolean			$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
+	 *	@param		boolean			$andExit			Flag: after afterwards (default: no)
+	 *	@return		Response		Finally sent response object
+	 *	@throws		NotSupportedException				if compression type is not supported
+	 */
+	public static function sendResponse( Response $response, ?string $compression = NULL, bool $sendLengthHeader = TRUE, bool $andExit = FALSE ): Response
+	{
+		$sender	= new self( $response );
+		$sender->setCompression( $compression );
+		return $sender->send( $sendLengthHeader, $andExit );
+	}
+
+	/**
+	 *	Send Response statically.
+	 *	@access		public
+	 *	@param		Response		$response			Response Object
+	 *	@param		Request			$request			Request Object
+	 *	@param		boolean			$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
+	 *	@param		boolean			$andExit			Flag: after afterwards (default: no)
+	 *	@return		Response		Finally sent response object
+	 */
+	public static function sendResponseForRequest( Response $response, Request $request, bool $sendLengthHeader = TRUE, bool $andExit = FALSE ): Response
+	{
+		$sender	= new self( $response, $request );
+		return $sender->send( $sendLengthHeader, $andExit );
+	}
 
 	/**
 	 *	Constructor.
@@ -55,10 +90,12 @@ class Sender
 	 *	@param		Response|NULL		$response	Response Object
 	 *	@return		void
 	 */
-	public function  __construct( ?Response $response = NULL )
+	public function __construct( ?Response $response = NULL, ?Request $request = NULL )
 	{
-		if( $response !== NULL )
+		if( NULL !== $response )
 			$this->setResponse( $response );
+		if( NULL !== $request )
+			$this->negotiateCompressionByRequestHeader( $request );
 	}
 
 	/**
@@ -66,26 +103,21 @@ class Sender
 	 *	@access		public
 	 *	@param		boolean		$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
 	 *	@param		boolean		$andExit			Flag: after afterwards (default: no)
-	 *	@return		integer		Number of sent Bytes or exits if wished so
-	 *	@todo		remove compression parameter
+	 *	@return		Response	Number of sent Bytes or exits if wished so
+	 *	@throws		NotSupportedException			if compression type is not supported
 	 */
-	public function send( bool $sendLengthHeader = TRUE, bool $andExit = FALSE ): int
+	public function send( bool $sendLengthHeader = TRUE, bool $andExit = FALSE ): Response
 	{
 		$response	= clone( $this->response );
-		$body		= $response->getBody();
-		$length		= strlen( $body );
-		if( function_exists( 'mb_strlen' ) )
-			$length	= mb_strlen( $body );
 
 		/*  --  COMPRESSION  --  */
-		if( $this->compression )
-			ResponseCompressor::compressResponse(
-				$response,
-				$this->compression,
-				$sendLengthHeader
-			);
-		else if( $sendLengthHeader )
-			$response->addHeaderPair( 'Content-Length', (string) $length, TRUE );
+		try{
+			$response	= ResponseCompressor::compressResponse( $response, $this->compression );
+		}
+		catch( NotSupportedException ){
+			$this->compression = NULL;
+			return $this->send( $sendLengthHeader, $andExit );
+		}
 
 		/*  --  HTTP BASIC INFORMATION  --  */
 		$status	= $response->getStatus();
@@ -96,32 +128,19 @@ class Sender
 		] ) );
 		header( 'Status: '.$status );
 
+		if( !$sendLengthHeader )
+			$response->headers->removeByName( 'Content-Length' );
+
 		/*  --  HTTP HEADER FIELDS  --  */
 		foreach( $response->getHeaders() as $header )
-			header( $header->toString(), false );
+			header( $header->toString(), FALSE );
 
 		/*  --  SEND BODY  --  */
 		print( $response->getBody() );
 		flush();
 		if( $andExit )
 			exit;
-		return strlen( $response->getBody() );
-	}
-
-	/**
-	 *	Send Response statically.
-	 *	@access		public
-	 *	@param		Response		$response			Response Object
-	 *	@param		string|NULL		$compression		Type of compression (gzip|deflate)
-	 *	@param		boolean			$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
-	 *	@param		boolean			$exit				Flag: after afterwards (default: no)
-	 *	@return		integer			Number of sent Bytes
-	 */
-	public static function sendResponse( Response $response, ?string $compression = NULL, bool $sendLengthHeader = TRUE, bool $exit = FALSE ): int
-	{
-		$sender	= new ResponseSender( $response );
-		$sender->setCompression( $compression );
-		return $sender->send( $sendLengthHeader, $exit );
+		return $response;
 	}
 
 	/**
@@ -146,5 +165,33 @@ class Sender
 	{
 		$this->response	= $response;
 		return $this;
+	}
+
+	//  --  PROTECTED  --  //
+
+	/**
+	 *	Match accepted encodings of request with supported compressions.
+	 *	Returns first matching compression type.
+	 *	@param		Request		$request
+	 *	@return		?string
+	 */
+	protected function negotiateCompressionByRequestHeader( Request $request ): ?string
+	{
+		$header	= $request->getHeader( 'Accept-Encoding', FALSE );
+		if( NULL === $header )
+			return NULL;
+
+		/** @var array $acceptedEncodings */
+		$acceptedEncodings	= $header->getValue( TRUE );
+		$matchingEncodings	= array_intersect(
+			self::$supportedCompressions,
+			array_keys( $acceptedEncodings )
+		);
+		if( [] === $matchingEncodings )
+			return NULL;
+
+		$match	= current( $matchingEncodings );
+		$this->setCompression( $match );
+		return $match;
 	}
 }

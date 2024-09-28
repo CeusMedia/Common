@@ -49,6 +49,7 @@ class Response
 	protected string $protocol		= 'HTTP';
 	protected string $status		= '200 OK';
 	protected string $version		= '1.0';
+	protected ?Request $request		= NULL;
 
 	/**
 	 *	Constructor.
@@ -82,12 +83,12 @@ class Response
 	/**
 	 *	Adds an HTTP header.
 	 *	@access		public
-	 *	@param		string		$name			HTTP header name
-	 *	@param		string		$value			HTTP header value
-	 *	@param		boolean		$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
+	 *	@param		string				$name			HTTP header name
+	 *	@param		string|int|float	$value			HTTP header value
+	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeaderPair( string $name, string $value, bool $emptyBefore = FALSE ): void
+	public function addHeaderPair( string $name, string|int|float $value, bool $emptyBefore = FALSE ): void
 	{
 		$this->headers->setField( new HeaderField( $name, $value ), $emptyBefore );
 	}
@@ -100,6 +101,20 @@ class Response
 	public function getBody(): ?string
 	{
 		return $this->body;
+	}
+
+	/**
+	 *	Returns length of body or 0.
+	 *	This method exists to use mbstring (multibyte string) support
+	 *	@return		int
+	 */
+	public function getBodyLength(): int
+	{
+		if( NULL === $this->body )
+			return 0;
+		if( function_exists( 'mb_strlen' ) )
+			return mb_strlen( $this->body );
+		return strlen( $this->body );
 	}
 
 	/**
@@ -186,11 +201,17 @@ class Response
 		return $this->headers->hasField( $key );
 	}
 
-	public function send( string $compression = NULL, bool $sendLengthHeader = TRUE, bool $exit = TRUE ): int
+	/**
+	 *	@param		string|NULL		$compression
+	 *	@param		boolean			$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
+	 *	@param		boolean			$andExit			Flag: after afterwards (default: no)
+	 *	@return		Response
+	 */
+	public function send( ?string $compression = NULL, bool $sendLengthHeader = TRUE, bool $andExit = TRUE ): Response
 	{
-		$sender	= new ResponseSender( $this );
+		$sender	= new ResponseSender( $this, $this->request );
 		$sender->setCompression( $compression );
-		return $sender->send( $sendLengthHeader, $exit );
+		return $sender->send( $sendLengthHeader, $andExit );
 	}
 
 	/**
@@ -201,19 +222,19 @@ class Response
 	 */
 	public function setBody( string $body ): self
 	{
-		$this->body		= trim( $body );
-		$this->headers->setFieldPair( "Content-Length", strlen( $this->body ) );
+		$this->body		= $body;
+		$this->headers->setFieldPair( 'Content-Length', $this->getBodyLength() );
 		return $this;
 	}
 
 	/**
 	 *	Sets response HTTP header, overriding before set values.
 	 *	@access		public
-	 *	@param		string		$key		HTTP header name
-	 *	@param		string		$value		HTTP header value
+	 *	@param		string				$key		HTTP header name
+	 *	@param		string|int|float	$value		HTTP header value
 	 *	@return		self
 	 */
-	public function setHeader( string $key, string $value ): self
+	public function setHeader( string $key, string|int|float $value ): self
 	{
 		$this->addHeaderPair( $key, $value, TRUE );
 		return $this;
@@ -232,6 +253,18 @@ class Response
 	}
 
 	/**
+	 *	Sets response protocol. Set initially to HTTP.
+	 *	@access		public
+	 *	@param		Request		$request		Request Object
+	 *	@return		self
+	 */
+	public function setRequest( Request $request ): self
+	{
+		$this->request	= $request;
+		return $this;
+	}
+
+	/**
 	 *	Sets response protocol.
 	 *	You can set a pure (integer) status code (e.G. 200) and the status message (e.G. OK) will be added automatically.
 	 *	You can also set the complete HTTP status containing code and message (e.G. "200 OK").
@@ -242,7 +275,7 @@ class Response
 	 *	@see		https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	 *	@see		http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 	 */
-	public function setStatus( $status, bool $strict = FALSE ): self
+	public function setStatus( int|string $status, bool $strict = FALSE ): self
 	{
 		//  strict mode: always resolve status message
 		$status	= $strict ? (int) $status : $status;
@@ -280,7 +313,7 @@ class Response
 		//  add header fields and line break
 		$lines[]	= $this->headers->render();
 		//  response body is set
-		if( strlen( $this->body ) )
+		if( 0 !== $this->getBodyLength() )
 			//  add response body
 			$lines[]	= $this->body;
 		//  glue parts with line break and return result
