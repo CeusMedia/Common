@@ -16,7 +16,7 @@
     "jabber": "cwuerker@ceusmedia.de"
   },
   "require": {
-    "php": "^8",
+    "php": "^8.1",
     "psr/simple-cache": "^3.0"
   },
   "require-dev": {
