@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Converts a String between Encodings using ICONV.
  *

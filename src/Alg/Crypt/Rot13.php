@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Wrapper of ROT13 Functions
  *

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Sorting numeric arrays with the Quicksort algorithm.
  *

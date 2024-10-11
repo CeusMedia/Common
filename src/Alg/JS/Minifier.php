@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	PHP implementation of Douglas Crockford's JSMin.
  *

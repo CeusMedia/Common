@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Calculates a Score for the Strength of a Password.
  *

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Sorts a List of Maps (=associative Arrays) by one Column or many Columns.
  *

@@ -1,4 +1,6 @@
-<?php /** @noinspection ALL */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
 
 /**
  *	Converter for Strings using Pascal Case.

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
  *

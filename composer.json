@@ -63,7 +63,6 @@
     }
   },
   "scripts": {
-    "dev:a": "php a.php",
     "dev:all": [
       "@dev:test-syntax",
       "@dev:phpstan",
@@ -110,6 +109,7 @@
     ]
   },
   "scripts-descriptions": {
+    "dev:all": "test-syntax + phpstan + phpunit + create-docs",
     "dev:create-docs": "Create API documentation",
     "dev:install": "Installs project dependencies for Development stage",
     "dev:update": "Updates project dependencies for Development stage",

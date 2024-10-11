@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Filters HTML Content by stripping out unwanted Content Types like Scripts or Styles.
  *
