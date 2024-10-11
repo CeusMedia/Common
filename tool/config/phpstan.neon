@@ -26,9 +26,8 @@ parameters:
 			- ../../src/compat9.php
 			- ../../src/Exception/Abstraction.php
 			- ../../src/Exception/Interface_.php
-	checkMissingIterableValueType: false
 	reportMaybesInPropertyPhpDocTypes: false
 	treatPhpDocTypesAsCertain: false
 	ignoreErrors:
-		-
-			identifier: missingType.generics
+		- identifier: missingType.generics
+		- identifier: missingType.iterableValue
