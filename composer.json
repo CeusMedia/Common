@@ -66,7 +66,7 @@
     "dev:all": [
       "@dev:test-syntax",
       "@dev:phpstan",
-      "@dev:phpunit",
+      "@dev:phpunit-coverage",
       "@dev:create-docs"
     ],
     "dev:install": "composer install --ignore-platform-reqs --quiet",

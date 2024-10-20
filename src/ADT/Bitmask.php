@@ -38,7 +38,7 @@ namespace CeusMedia\Common\ADT;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Bitmask
+class Bitmask implements \Stringable
 {
 	/** @var	int		$bits */
 	protected int $bits	= 0;
@@ -58,21 +58,30 @@ class Bitmask
 
 	/**
 	 *	Constructor.
-	 *	@param int $bits
+	 *	@param		self|int		$bits
 	 */
-	public function __construct( int $bits = 0 )
+	public function __construct( self|int $bits = 0 )
 	{
 		$this->set( $bits );
 	}
 
 	/**
-	 *	Sets a bit in bitmask.
-	 *	@param		int		$bit
-	 *	@return		self
+	 *	Implements Stringable interface.
+	 *	@return		string
 	 */
-	public function add( int $bit ): self
+	public function __toString(): string
 	{
-		$this->bits |= $bit;
+		return (string) $this->get();
+	}
+
+	/**
+	 *	Sets bits or a bit in bitmask.
+	 *	@param		self|int		$bits
+	 *	@return		static
+	 */
+	public function add( self|int $bits ): static
+	{
+		$this->bits |= ( is_object( $bits ) ? $bits->get() : $bits );
 		return $this;
 	}
 
@@ -86,34 +95,58 @@ class Bitmask
 	}
 
 	/**
-	 *	Checks whether bit is set or not.
-	 *	@param		int		$bit		Bit to check
+	 *	Checks whether a bit is or bits are set or not.
+	 *	@param		self|int		$bits		Bit(s) to check
 	 *	@return		bool
 	 */
-	public function has( int $bit ): bool
+	public function has( self|int $bits ): bool
 	{
-		return (bool)( $this->bits & $bit );
+		return (bool)( $this->bits & ( is_object( $bits ) ? $bits->get() : $bits ) );
 	}
 
 	/**
-	 *	Removes bit from bitmask.
-	 *	@param		int		$bit		Bit to remove
-	 *	@return		self
+	 *	Removes a bit, bits or a bitmask from bitmask.
+	 *	@param		self|int		$bits		Bit, bits or bitmask to remove
+	 *	@return		static
 	 */
-	public function remove( int $bit ): self
+	public function remove( self|int $bits ): static
 	{
-		$this->bits	^= $bit;
+		$this->bits	^= is_object( $bits ) ? $bits->get() : $bits;
 		return $this;
 	}
 
 	/**
 	 *	Sets bits of bitmask by integer.
-	 *	@param		int		$bits
-	 *	@return		self
+	 *	@param		self|int		$bits
+	 *	@return		static
 	 */
-	public function set( int $bits ): self
+	public function set( self|int $bits ): static
 	{
-		$this->bits	= $bits;
+		$this->bits	= ( is_object( $bits ) ? $bits->get() : $bits );
 		return $this;
+	}
+
+	/**
+	 *	Returns new bitmask with added bits.
+	 *	@param		self|int		$bits
+	 *	@return		static
+	 */
+	public function with( self|int $bits ): static
+	{
+		$mask	= clone $this;
+		$mask->add( is_object( $bits ) ? $bits->get() : $bits );
+		return $mask;
+	}
+
+	/**
+	 *	Returns new bitmask with removed bits.
+	 *	@param		self|int		$bits
+	 *	@return		static
+	 */
+	public function without( self|int $bits ): static
+	{
+		$mask	= clone $this;
+		$mask->remove( $bits );
+		return $mask;
 	}
 }
