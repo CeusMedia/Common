@@ -198,6 +198,10 @@ class BitmaskTest extends BaseCase
 	{
 		$obj		= new Bitmask();
 
+		self::assertEquals( static::BIT_0, $obj->get() );
+		self::assertEquals( static::BIT_0, $obj->remove( 7 )->get() );
+
+
 		$original	= static::BIT_16 | static::BIT_8 | static::BIT_4 | static::BIT_2 | static::BIT_1;
 		$obj->set( $original );
 		self::assertEquals( $original, $obj->get() );

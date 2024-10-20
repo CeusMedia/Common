@@ -111,7 +111,8 @@ class Bitmask implements \Stringable
 	 */
 	public function remove( self|int $bits ): static
 	{
-		$this->bits	^= is_object( $bits ) ? $bits->get() : $bits;
+		$bits		= is_object( $bits ) ? $bits->get() : $bits;
+		$this->bits	^= ( $this->bits & $bits );
 		return $this;
 	}
 
