@@ -44,14 +44,25 @@ use CeusMedia\Common\Exception\Runtime as RuntimeException;
  */
 class Password
 {
+	protected string $prompt	= 'Enter Password: ';
+
 	/**
-	 *	Asks for hidden input.
-	 *	@param		string		$prompt
-	 *	@return		string
+	 *	@param		string|NULL			$prompt
+	 *	@return		self
 	 *	@throws		NotSupportedException	on Windows
 	 *	@throws		RuntimeException		if invoking bash failed
 	 */
-	public function get( string $prompt = 'Enter Password: ' ): string
+	public static function getInstance( string $prompt = NULL ): self
+	{
+		return new self( $prompt );
+	}
+
+	/**
+	 *	@param		string|NULL				$prompt
+	 *	@throws		NotSupportedException	on Windows
+	 *	@throws		RuntimeException		if invoking bash failed
+	 */
+	public function __construct( string $prompt = NULL )
 	{
 		if( str_starts_with( PHP_OS, 'WIN' ) )
 			throw new NotSupportedException( 'Not supported on Windows' );
@@ -60,8 +71,18 @@ class Password
 		if( 'OK' !== rtrim( shell_exec( $command ) ) )
 			throw new RuntimeException( 'Cant invoke bash' );
 
+		if( NULL !== $prompt )
+			$this->prompt	= $prompt;
+	}
+
+	/**
+	 *	Asks for hidden input.
+	 *	@return		string
+	 */
+	public function ask(): string
+	{
 		$command = "/usr/bin/env bash -c 'read -s -p \""
-			. addslashes( $prompt )
+			. addslashes( $this->prompt )
 			. "\" mypassword && echo \$mypassword'";
 		$password	= rtrim( shell_exec( $command ) );
 		echo PHP_EOL;
