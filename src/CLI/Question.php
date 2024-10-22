@@ -224,7 +224,7 @@ class Question
 				$options	= [$this->rangeFrom.'-'.$this->rangeTo];
 			}
 		}
-		if( strlen( trim( $this->default ) ) )
+		if( strlen( trim( $this->default ?? '' ) ) )
 			$message	.= " [".$this->default."]";
 		if( is_array( $options ) && count( $options ) )
 			$message	.= " (".implode( "|", $options ).")";
