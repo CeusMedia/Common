@@ -50,7 +50,7 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@param		bool			$asDictionary		Flag: return as ADT\Collection\Dictionary
 	 *	@return		array|Dictionary
-	 *	@throws		ReflectionException
+	 *	@throws		ReflectionException					if reflection on class failed / class not exists
 	 */
 	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE ): Dictionary|array
 	{
@@ -68,7 +68,7 @@ class Constant
 	 *	@param		mixed				$value
 	 *	@param		string|NULL			$prefix
 	 *	@return		string
-	 *	@throws		ReflectionException
+	 *	@throws		ReflectionException		if reflection on class failed / class not exists
 	 *	@throws		RangeException			if no constant having this value is defined (within this prefix)
 	 *	@throws		AmbiguousDataException	if there are several constants having this value (within this prefix)
 	 */
@@ -94,7 +94,8 @@ class Constant
 	 *	@param		string			$constantKey
 	 *	@param		string|NULL		$prefix
 	 *	@return		mixed
-	 *	@throws		ReflectionException
+	 *	@throws		DomainException			if constant is not defined
+	 *	@throws		ReflectionException		if reflection on class failed
 	 */
 	public function getValue( string $constantKey, ?string $prefix = NULL )
 	{
@@ -102,7 +103,7 @@ class Constant
 		if( array_key_exists( $constantKey, $constants ) )
 			return $constants[$constantKey];
 		$constantKey	= $prefix ? rtrim( $prefix, '_' ).'_'.$constantKey : $constantKey;
-		$message	= 'Constant "%s" is not defined in class "%s"';
+		$message		= 'Constant "%s" is not defined in class "%s"';
 		throw new DomainException( sprintf( $message, $constantKey, $this->className ) );
 	}
 
@@ -110,7 +111,7 @@ class Constant
 	 *	@param		string			$constantKey
 	 *	@param		string|NULL		$prefix
 	 *	@return		bool
-	 *	@throws		ReflectionException
+	 *	@throws		ReflectionException		if reflection on class failed / class not exists
 	 */
 	public function hasKey( string $constantKey, ?string $prefix = NULL ): bool
 	{
@@ -138,7 +139,7 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@param		bool			$asDictionary		Flag: return as ADT\Collection\Dictionary
 	 *	@return		array|Dictionary
-	 *	@throws		ReflectionException
+	 *	@throws		ReflectionException					if reflection on class failed / class not exists
 	 */
 	public static function staticGetAll( string $className, ?string $prefix = NULL, bool $asDictionary = FALSE )
 	{

@@ -26,7 +26,7 @@ use CeusMedia\CommonTest\BaseCase;
  */
 final class ConstantTest extends BaseCase
 {
-	protected $object;
+	protected object $object;
 
 	/**
 	 *	Setup for every Test.
@@ -93,7 +93,7 @@ final class ConstantTest extends BaseCase
 		self::assertEquals( $assertion, $creation );
 	}
 
-	public function testGetKeyByValue()
+	public function testGetKeyByValue(): void
 	{
 		$assertion		= 'C_3';
 		$creation		= $this->object->getKeyByValue( 3 );
@@ -104,19 +104,19 @@ final class ConstantTest extends BaseCase
 		self::assertEquals( $assertion, $creation );
 	}
 
-	public function testGetKeyByValueException1()
+	public function testGetKeyByValueException1(): void
 	{
 		$this->expectException( 'RangeException' );
 		$this->object->getKeyByValue( 3, 'A' );
 	}
 
-	public function testGetKeyByValueException2()
+	public function testGetKeyByValueException2(): void
 	{
 		$this->expectException( AmbiguousDataException::class );
 		$this->object->getKeyByValue( 1 );
 	}
 
-	public function testGetValue()
+	public function testGetValue(): void
 	{
 		$assertion		= '3';
 		$creation		= $this->object->getValue( 'C_3' );
@@ -127,13 +127,13 @@ final class ConstantTest extends BaseCase
 		self::assertEquals( $assertion, $creation );
 	}
 
-	public function testGetValueException1()
+	public function testGetValueException1(): void
 	{
 		$this->expectException( 'DomainException' );
 		$this->object->getValue( 'A_2' );
 	}
 
-	public function testGetValueException2()
+	public function testGetValueException2(): void
 	{
 		$this->expectException( 'DomainException' );
 		$this->object->getValue( '2', 'A' );
