@@ -52,7 +52,6 @@ class Page
 	 *	@param		?int			$andExitWithCode	Flag: if set, finish with exit code (0: ok, *: whatever)
 	 *	@return		void
 	 *	@static
-	 *	@throws		Exception		if the SQL meaning XML data could not be parsed
 	 */
 	public static function display( Throwable $e, ?int $andExitWithCode = NULL ): void
 	{
