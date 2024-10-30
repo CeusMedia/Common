@@ -54,8 +54,8 @@ class HtmlMetaTagReader
 	public static function getMetaTags( string $string, int $transformKeys = self::TRANSFORM_NO ): array
 	{
 		$metaTags	= [];
-		preg_match_all( "@<meta.*/?>@", $string, $tags );
-		if( isset( $tags[0] ) ){
+		$match		= preg_match_all( "@<meta.*/?>@", $string, $tags );
+		if( FALSE !== $match ){
 			foreach( $tags[0] as $tag ){
 				//  read HTML Tag Attributes
 				$attributes	= SgmlTagReader::getAttributes( $tag, self::TRANSFORM_LOWERCASE );

@@ -260,9 +260,9 @@ class Creator
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line ){
 			$matches	= [];
-			if( preg_match( '@throw new (\w+)Exception@', $line, $matches ) )
-				if( isset( $matches[1] ) )
-					$exceptions[]	= $matches[1].'Exception';
+			$match		= preg_match( '@throw new (\w+)Exception@', $line, $matches );
+			if( 0 !== $match )
+				$exceptions[]	= $matches[1].'Exception';
 		}
 		return $exceptions;
 	}
