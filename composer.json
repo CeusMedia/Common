@@ -37,6 +37,7 @@
     "ext-xsl": "*",
     "ext-zip": "*",
     "ext-zlib": "*",
+    "ceus-media/database": "^0.6 || 0.6.x-dev",
     "ceus-media/doc-creator": "^1 | 1.0.x-dev",
     "ceus-media/php-parser": "^0.4 | 0.4.x-dev",
     "michelf/php-markdown": "^1.7",

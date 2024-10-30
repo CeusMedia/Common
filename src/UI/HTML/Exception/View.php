@@ -33,9 +33,7 @@ use CeusMedia\Common\Exception\Runtime;
 use CeusMedia\Common\Exception\SQL as SqlException;
 use CeusMedia\Common\Exception\Traits\Descriptive;
 use CeusMedia\Common\UI\HTML\Tag;
-use CeusMedia\Common\XML\ElementReader as XmlElementReader;
 use CeusMedia\Database\SQLSTATE;
-use Exception;
 use Throwable;
 
 /**
@@ -54,9 +52,8 @@ class View
 	 *	@access		public
 	 *	@param		Throwable	$exception		Exception
 	 *	@return		void
-	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
 	 */
-	public static function display( Throwable $exception )
+	public static function display( Throwable $exception ): void
 	{
 		print self::render( $exception );
 	}
@@ -66,7 +63,6 @@ class View
 	 *	@param		bool		$showTrace
 	 *	@param		bool		$showPrevious
 	 *	@return		string
-	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
 	 */
 	public static function render( Throwable $e, bool $showTrace = TRUE, bool $showPrevious = TRUE ): string
 	{
@@ -117,7 +113,7 @@ class View
 	}
 
 	/**
-	 *	@param		array			$list
+	 *	@param		array			$list		Reference to current property list
 	 *	@param		Throwable		$e
 	 *	@return		void
 	 */

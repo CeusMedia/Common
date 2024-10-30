@@ -32,7 +32,7 @@ namespace CeusMedia\Common\Exception\Traits;
 use CeusMedia\Common\CLI\Exception\View as CliView;
 use CeusMedia\Common\UI\HTML\Exception\View as HtmlView;
 use CeusMedia\Common\Env;
-use Exception;
+use OutOfBoundsException;
 use Throwable;
 
 /**
@@ -56,16 +56,14 @@ trait Renderable
 
 	/**
 	 *	@return		string
-	 *	@throws		Exception
 	 */
 	public function render(): string
 	{
-
 		$format	= 0 !== $this->format ? $this->format : ( Env::isCli() ? 1 : 2 );
 		/** @var Throwable $this */
 		return match( $format ){
-			2	=> HtmlView::render($this),
-			default	=> CliView::getInstance($this)->render(),
+			2	=> HtmlView::render( $this ),
+			default	=> CliView::getInstance( $this )->render(),
 		};
 	}
 
@@ -78,7 +76,7 @@ trait Renderable
 	public function setFormat( int $format ): static
 	{
 		if( !in_array( $format, [0, 1, 2] ) )
-			throw new \OutOfBoundsException( 'Invalid format' );
+			throw new OutOfBoundsException( 'Invalid format' );
 		$this->format	= $format;
 		return $this;
 	}

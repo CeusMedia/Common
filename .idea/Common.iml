@@ -11,6 +11,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/doc-creator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/template-engine" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/event-dispatcher" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/database" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/psr/cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

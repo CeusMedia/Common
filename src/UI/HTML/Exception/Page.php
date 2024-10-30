@@ -67,7 +67,6 @@ class Page
 	 *	@param		Throwable		$e			Exception to render View for
 	 *	@return		string
 	 *	@static
-	 *	@throws		Exception		if the SQL meaning XML data could not be parsed
 	 */
 	public static function render( Throwable $e ): string
 	{

@@ -65,6 +65,9 @@
       <path value="$PROJECT_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
       <path value="$PROJECT_DIR$/vendor/ceus-media/template-engine" />
       <path value="$PROJECT_DIR$" />
+      <path value="$PROJECT_DIR$/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/cache" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/database" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
