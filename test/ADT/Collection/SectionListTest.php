@@ -16,6 +16,7 @@ namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\SectionList;
 use CeusMedia\CommonTest\BaseCase;
+use OutOfBoundsException;
 
 /**
 *	TestUnit of ADT\Collection\SectionList.
@@ -24,32 +25,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class SectionListTest extends BaseCase
 {
-	/**	@var	array		$list		Instance of SectionList */
-	private $list;
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->list	= new SectionList();
-		$this->list->addEntry( 'entry11', 'section1' );
-		$this->list->addEntry( 'entry12', 'section1' );
-		$this->list->addEntry( 'entry21', 'section2' );
-		$this->list->addEntry( 'entry22', 'section2' );
-		$this->list->addEntry( 'entry23', 'section2' );
-	}
-
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-	}
+	/**	@var	SectionList		$list		Instance of SectionList */
+	private SectionList $list;
 
 	/**
 	 *	Tests Method 'addEntry'.
@@ -86,6 +63,18 @@ class SectionListTest extends BaseCase
 		$assertion	= 3;
 		$creation	= $this->list->countSections();
 		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstruct(): void
+	{
+		$initial	= ['section1' => ['item 1'], 'section2' => ['item 2', 'item 3']];
+		$list = new SectionList( $initial );
+		self::assertEquals( $initial, $list->getList() );
 	}
 
 	/**
@@ -190,6 +179,17 @@ class SectionListTest extends BaseCase
 		$assertion	= 1;
 		$creation	= $this->list->getIndex( "entry12", "section1" );
 		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'getIndex'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetIndex_OutOfBoundsException()
+	{
+		$this->expectException( OutOfBoundsException::class );
+		$this->list->getIndex( "entry12", "invalid_section" );
 	}
 
 	/**
@@ -300,5 +300,27 @@ class SectionListTest extends BaseCase
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->list->removeSection( "invalid" );
+	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->list	= new SectionList();
+		$this->list->addEntry( 'entry11', 'section1' );
+		$this->list->addEntry( 'entry12', 'section1' );
+		$this->list->addEntry( 'entry21', 'section2' );
+		$this->list->addEntry( 'entry22', 'section2' );
+		$this->list->addEntry( 'entry23', 'section2' );
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
 	}
 }

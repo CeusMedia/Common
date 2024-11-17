@@ -28,7 +28,9 @@
 
 namespace CeusMedia\Common\ADT\Collection;
 
+use CeusMedia\Common\Net\HTTP\Header\Section;
 use InvalidArgumentException;
+use OutOfBoundsException;
 
 /**
  *	Implementation of a Section List using an Array.
@@ -46,6 +48,20 @@ class SectionList
 
 	/**	@var		array		$list		List of sectioned  Items */
 	protected array $list		= [];
+
+	/**
+	 *	Constructor.
+	 *	Allows to start with initial list of sectioned items.
+	 *	@param		array		$initial
+	 */
+	public function __construct( array $initial = [] )
+	{
+		foreach( $initial as $section => $items ){
+			$this->list[$section] = [];
+			foreach( $items as $item )
+				$this->list[$section][] = $item;
+		}
+	}
 
 	/**
 	 *	Adds an Entry to a Section of the List.
@@ -141,13 +157,14 @@ class SectionList
 	 *	@param		mixed		$entry			Content String of Entry
 	 *	@param		string|NULL	$section		Section of Entry
 	 *	@return		int|string
+	 *	@throws		OutOfBoundsException		if given section is not existing
 	 */
 	public function getIndex( mixed $entry, ?string $section = NULL ): int|string
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );
 		if( !isset( $this->list[$section] ) )
-			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
+			throw new OutOfBoundsException( 'Invalid Section "'.$section.'".' );
 		$index	= array_search( $entry, $this->list[$section], TRUE );
 		if( FALSE === $index )
 			return -1;
