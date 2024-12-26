@@ -51,7 +51,6 @@
   "autoload": {
     "psr-4": {
       "CeusMedia\\Common\\": "src/",
-      "CeusMedia\\CommonTest\\": "test/"
     },
     "files": ["src/global.php"]
   },
