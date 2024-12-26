@@ -58,13 +58,13 @@ trait Creatable
 		return $e;
 	}
 
-	public function setCode( int $code = 0 ): self
+	public function setCode( int $code = 0 ): static
 	{
 		$this->code	= $code;
 		return $this;
 	}
 
-	public function setMessage( string $message ): self
+	public function setMessage( string $message ): static
 	{
 		$this->message	= $message;
 		return $this;

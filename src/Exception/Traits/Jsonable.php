@@ -30,9 +30,10 @@
 namespace CeusMedia\Common\Exception\Traits;
 
 use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
 use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 use JsonException;
-use Throwable;
 
 /**
  *	Allows exception to be converted to JSON.
@@ -54,12 +55,8 @@ trait Jsonable
 	{
 		try{
 			$classParts	= explode( '\\', static::class );
-			if( in_array( SerializableTrait::class, class_uses( $this ) ) ){
-				$data	= array_merge( [
-					'class'		=> static::class,
-					'type'		=> end( $classParts ),
-				], $this->__serialize() );
-			}
+			if( in_array( SerializableTrait::class, class_uses( $this ) ) )
+				$data	= $this->__serialize();
 			else {
 				$data	= [
 					'class'		=> static::class,
@@ -71,6 +68,15 @@ trait Jsonable
 					'trace'		=> $this->getTrace(),
 					'previous'	=> $this->getPrevious(),
 				];
+				if( in_array( DescriptiveTrait::class, class_uses( $this ) ) ){
+					foreach( $this->getAdditionalProperties() as $key => $value ){
+						$data[$key] = $value;
+					}
+				}
+			}
+			if( NULL !== $data['previous'] ){
+				if( in_array( JsonableTrait::class, class_uses( $data['previous'] ) ) )
+					$data['previous']	= json_decode( $data['previous']->getJson(), FALSE );
 			}
 			return JsonEncoder::create()->encode( $data, JSON_PRETTY_PRINT );
 		}

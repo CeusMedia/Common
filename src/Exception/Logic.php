@@ -61,12 +61,12 @@ class Logic extends Runtime
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string			$message		Exception message
-	 *	@param		string			$subject		Subject on which this logic exception happened
 	 *	@param		integer			$code			Exception code
 	 *	@param		Throwable|NULL	$previous		Previous exception
+	 *	@param		string			$subject		Subject on which this logic exception happened
 	 *	@return		void
 	 */
-	public function __construct( string $message, string $subject = '', int $code = 0, ?Throwable $previous = NULL )
+	public function __construct( string $message, int $code = 0, ?Throwable $previous = NULL, string $subject = '' )
 	{
 		parent::__construct( $message, $code, $previous );
 		$this->subject	= $subject;
@@ -80,5 +80,16 @@ class Logic extends Runtime
 	public function getSubject(): string
 	{
 		return $this->subject;
+	}
+
+	/**
+	 *	Sets subject on which this logic exception happened if set.
+	 *	@param		string		$subject
+	 *	@return		static
+	 */
+	public function setSubject( string $subject ): static
+	{
+		$this->subject	= $subject;
+		return $this;
 	}
 }

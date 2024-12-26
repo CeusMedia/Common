@@ -51,10 +51,14 @@ trait Serializable
 	 */
 	public function __serialize(): array
 	{
+		$classParts	= explode( '\\', static::class );
 		return array_merge( get_object_vars( $this ), [
 			'trace'			=> $this->getTrace(),
 			'traceAsString'	=> $this->getTraceAsString(),
 			'previous'		=> $this->getPrevious(),
+		], [
+			'class'		=> static::class,
+			'type'		=> end( $classParts ),
 		] );
 	}
 

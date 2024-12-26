@@ -99,9 +99,9 @@ class Validation extends Runtime
 	 *	Sets List of Validation Errors.
 	 *	@access		public
 	 *	@param		array		$errors
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setErrors( array $errors ): self
+	public function setErrors( array $errors ): static
 	{
 		$this->errors	= $errors;
 		return $this;
@@ -111,9 +111,9 @@ class Validation extends Runtime
 	 *	Sets Name of Form in Validation File.
 	 *	@access		public
 	 *	@param		string		$form
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setForm( string $form ): self
+	public function setForm( string $form ): static
 	{
 		$this->form	= $form;
 		return $this;

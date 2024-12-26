@@ -87,9 +87,9 @@ class IO extends Runtime
 	/**
 	 *	Sets Name of Source which was not fully accessible.
 	 *	@param		string		$resource
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setResource( string $resource ): self
+	public function setResource( string $resource ): static
 	{
 		$this->resource	= $resource;
 		return $this;
