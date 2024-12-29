@@ -49,7 +49,7 @@ class QueryParser
 	 *	@param		string		$separatorPair		Separator Sign between Key and Value
 	 *	@return		array
 	 */
-	public static function toArray( $query, $separatorPairs = "&", $separatorPair = "=" )
+	public static function toArray( string $query, string $separatorPairs = '&', string $separatorPair = '=' ): array
 	{
 		$list	= [];
 		//  cut query into pairs

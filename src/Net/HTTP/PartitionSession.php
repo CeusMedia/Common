@@ -44,7 +44,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
 class PartitionSession extends Dictionary
 {
 	/**	@var	array		$session			Reference to Session with Partitions */
-	protected $session;
+	protected array $session;
 
 	/**
 	 *	Constructor.
@@ -111,7 +111,7 @@ class PartitionSession extends Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function clear()
+	public function clear(): void
 	{
 		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )

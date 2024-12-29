@@ -91,9 +91,9 @@ class UploadErrorHandler
 	 *	Sets Error Messages.
 	 *	@access		public
 	 *	@param		array		$messages		Map of Error Messages assigned to official PHP Upload Error Codes Constants
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setMessages( array $messages ): self
+	public function setMessages( array $messages ): static
 	{
 		$this->messages	= array_merge( $this->messages, $messages );
 		return $this;

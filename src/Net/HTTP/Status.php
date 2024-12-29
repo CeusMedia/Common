@@ -126,9 +126,9 @@ class Status
 	 */
 	public static function getText( int $code ): string
 	{
-		if( !array_key_exists( $code, self::$codes ) )
+		if( !array_key_exists( $code, static::$codes ) )
 			throw new InvalidArgumentException( 'Unknown HTTP status code: '.$code );
-		return self::$codes[$code];
+		return static::$codes[$code];
 	}
 
 	/**
@@ -140,10 +140,10 @@ class Status
 	 */
 	public static function getCode( string $text ): int
 	{
-		if( $code = array_search( $text, self::$codes ) )
+		if( $code = array_search( $text, static::$codes ) )
 			return $code;
 		$__text	= trim( strtolower( preg_replace( "/[^a-z ]/i", "", $text ) ) );
-		foreach( self::$codes as $code => $_text )
+		foreach( static::$codes as $code => $_text )
 			if( strtolower( $_text ) === $__text )
 				return $code;
 		throw new InvalidArgumentException( 'No HTTP status code found for status text "'.$text.'"' );
@@ -151,7 +151,7 @@ class Status
 
 	public static function isCode( int $code ): bool
 	{
-		return array_key_exists( $code, self::$codes );
+		return array_key_exists( $code, static::$codes );
 	}
 
 
@@ -164,7 +164,7 @@ class Status
 	 */
 	public static function sendHeader( int $code, string $protocol = "HTTP/1.0" ): void
 	{
-		$text = self::getText( $code );
+		$text = static::getText( $code );
 		header( $protocol.' '.$code.' '.$text );
 	}
 }

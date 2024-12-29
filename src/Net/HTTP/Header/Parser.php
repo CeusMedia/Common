@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for HTTP Headers.
  *
@@ -54,7 +55,7 @@ class Parser
 		$lines		= explode( PHP_EOL, trim( $string ) );
 		foreach( $lines as $line )
 		{
-			if( preg_match( '@^HTTP/@', $line ) )
+			if( str_starts_with( $line, 'HTTP/' ) )
 				continue;
 			if( strlen( trim( $line ) ) )
 				$section->addField( FieldParser::parse( $line ) );

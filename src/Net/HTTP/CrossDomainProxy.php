@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
@@ -81,7 +82,7 @@ class CrossDomainProxy
 		$query	= getEnv( 'QUERY_STRING' );
 		//  build Service Request URL
 		$url	= $this->url."?".$query;
-		return self::requestUrl( $url, $this->username, $this->password, $throwException );
+		return static::requestUrl( $url, $this->username, $this->password, $throwException );
 	}
 
 	/**
@@ -117,7 +118,7 @@ class CrossDomainProxy
 		//  get Request Method
 		$method	= getEnv( 'REQUEST_METHOD' );
 		//  Request Method is POST
-		if( $method == "POST" ){
+		if( 'POST' === $method ){
 			//  build POST Parameters
 			$data	= http_build_query( $_POST, '', "&" );
 			//  set POST Request on cURL Handler
@@ -126,7 +127,7 @@ class CrossDomainProxy
 			curl_setopt( $curl, CURLOPT_POSTFIELDS, $data );
 		}
 		//  neither POST nor GET
-		else if( $method != "GET" )
+		else if( 'GET' !== $method )
 			//  throw Exception
 			throw new Exception( 'Invalid Request Method.' );
 

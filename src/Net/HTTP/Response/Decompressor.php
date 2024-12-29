@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Decompressor for HTTP Request Body Strings.
@@ -49,13 +50,13 @@ class Decompressor
 	 *	@param		Response		$response		HTTP Response Object
 	 *	@return		void
 	 */
-	public static function decompressResponse( Response $response )
+	public static function decompressResponse( Response $response ): void
 	{
 		$encodings	= $response->getHeader( 'Content-Encoding' );
 		if( count( $encodings ) !== 0 ){
 			$body	= $response->getBody();
 			foreach( array_reverse( $encodings ) as $encoding )
-				$body	= self::decompressString( $body, $encoding );
+				$body	= static::decompressString( $body, $encoding );
 			$response->setBody( $body );
 		}
 	}
@@ -75,10 +76,10 @@ class Decompressor
 		ob_start();
 		switch( strtolower( $type ) ){
 			case 'deflate':
-				$content	= self::inflate( $content );
+				$content	= static::inflate( $content );
 				break;
 			case 'gzip':
-				$content	= self::ungzip( $content );
+				$content	= static::ungzip( $content );
 				break;
 			default:
 				ob_end_clean();

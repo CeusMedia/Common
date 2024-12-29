@@ -97,10 +97,10 @@ class Download
 		$url		= str_replace( '../', '', $url );
 		if( !file_exists( $url ) )
 			throw new RuntimeException( 'File "'.$url.'" is not existing' );
-		self::clearOutputBuffers();
-		self::setMimeType();
-		self::disableCompression();
-		self::applyDefaultHeaders( filesize( $url ) ?: NULL, filemtime( $url ) ?: NULL );
+		static::clearOutputBuffers();
+		static::setMimeType();
+		static::disableCompression();
+		static::applyDefaultHeaders( filesize( $url ) ?: NULL, filemtime( $url ) ?: NULL );
 		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
 		$fp = @fopen( $url, "rb" );
 		if( FALSE === $fp )
@@ -122,10 +122,10 @@ class Download
 	 */
 	public static function sendString( string $string, string $filename, bool $andExit = TRUE ): void
 	{
-		self::clearOutputBuffers();
-		self::setMimeType();
-		self::disableCompression();
-		self::applyDefaultHeaders( strlen( $string ) );
+		static::clearOutputBuffers();
+		static::setMimeType();
+		static::disableCompression();
+		static::applyDefaultHeaders( strlen( $string ) );
 		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
 		print( $string );
 		if( $andExit )
@@ -135,10 +135,10 @@ class Download
 	/**
 	 *	Sends Mime Type Header.
 	 *	@static
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	private static function setMimeType(): void
+	protected static function setMimeType(): void
 	{
 		$UserBrowser = '';
 		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
@@ -155,7 +155,7 @@ class Download
 	 *	@access		private
 	 *	@return		void
 	 */
-	private static function clearOutputBuffers(): void
+	protected static function clearOutputBuffers(): void
 	{
 		while( ob_get_level() )
 			ob_end_clean();

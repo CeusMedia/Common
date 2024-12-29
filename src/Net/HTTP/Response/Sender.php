@@ -64,7 +64,8 @@ class Sender
 	 */
 	public static function sendResponse( Response $response, ?string $compression = NULL, bool $sendLengthHeader = TRUE, bool $andExit = FALSE ): Response
 	{
-		$sender	= new self( $response );
+		$className	= static::class;
+		$sender		= new $className( $response );
 		$sender->setCompression( $compression );
 		return $sender->send( $sendLengthHeader, $andExit );
 	}
@@ -80,7 +81,8 @@ class Sender
 	 */
 	public static function sendResponseForRequest( Response $response, Request $request, bool $sendLengthHeader = TRUE, bool $andExit = FALSE ): Response
 	{
-		$sender	= new self( $response, $request );
+		$className	= static::class;
+		$sender		= new $className( $response, $request );
 		return $sender->send( $sendLengthHeader, $andExit );
 	}
 
@@ -147,9 +149,9 @@ class Sender
 	 *	Set compression to use.
 	 *	@access		public
 	 *	@param		string|NULL		$compression		Compression to use: gzip, deflate
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setCompression( ?string $compression ): self
+	public function setCompression( ?string $compression ): static
 	{
 		$this->compression	= $compression;
 		return $this;
@@ -159,9 +161,9 @@ class Sender
 	 *	Set response to send
 	 *	@access		public
 	 *	@param		Response		$response	Response Object
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setResponse( Response $response ): self
+	public function setResponse( Response $response ): static
 	{
 		$this->response	= $response;
 		return $this;
@@ -184,7 +186,7 @@ class Sender
 		/** @var array $acceptedEncodings */
 		$acceptedEncodings	= $header->getValue( TRUE );
 		$matchingEncodings	= array_intersect(
-			self::$supportedCompressions,
+			static::$supportedCompressions,
 			array_keys( $acceptedEncodings )
 		);
 		if( [] === $matchingEncodings )

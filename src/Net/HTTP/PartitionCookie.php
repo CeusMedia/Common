@@ -114,7 +114,7 @@ class PartitionCookie extends Cookie
 	 *	@param		boolean|NULL	$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		bool
 	 */
-	public function set( string $key, $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
+	public function set( string $key, mixed $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
 		$key	= str_replace( '.', '_', $key );
 		$this->data[$key] = $value;

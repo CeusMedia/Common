@@ -97,7 +97,7 @@ class Method
 	 */
 	public function is( string $method ): bool
 	{
-		return $this->method === strtoupper( trim( $method ) );
+		return strtoupper( trim( $method ) ) === $this->method;
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Method
 	 */
 	public function isConnect(): bool
 	{
-		return $this->is( self::METHOD_CONNECT );
+		return $this->is( static::METHOD_CONNECT );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Method
 	 */
 	public function isGet(): bool
 	{
-		return $this->is( self::METHOD_GET );
+		return $this->is( static::METHOD_GET );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Method
 	 */
 	public function isDelete(): bool
 	{
-		return $this->is( self::METHOD_DELETE );
+		return $this->is( static::METHOD_DELETE );
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Method
 	 */
 	public function isHead(): bool
 	{
-		return $this->is( self::METHOD_HEAD );
+		return $this->is( static::METHOD_HEAD );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Method
 	 */
 	public function isOptions(): bool
 	{
-		return $this->is( self::METHOD_OPTIONS );
+		return $this->is( static::METHOD_OPTIONS );
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Method
 	 */
 	public function isPatch(): bool
 	{
-		return $this->is( self::METHOD_PATCH );
+		return $this->is( static::METHOD_PATCH );
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Method
 	 */
 	public function isPost(): bool
 	{
-		return $this->is( self::METHOD_POST );
+		return $this->is( static::METHOD_POST );
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Method
 	 */
 	public function isPut(): bool
 	{
-		return $this->is( self::METHOD_PUT );
+		return $this->is( static::METHOD_PUT );
 	}
 
 	/**
@@ -187,20 +187,20 @@ class Method
 	 */
 	public function isTrace(): bool
 	{
-		return $this->is( self::METHOD_TRACE );
+		return $this->is( static::METHOD_TRACE );
 	}
 
 	/**
 	 *	Set request method.
 	 *	@access		public
 	 *	@param		string		$method		Request method to set
-	 *	@return		self
+	 *	@return		static
 	 *	@throws		BadMethodCallException	if given method is not supported
 	 */
-	public function set( string $method ): self
+	public function set( string $method ): static
 	{
 		$method		= strtoupper( $method );
-		if( !in_array( $method, self::$methods ) )
+		if( !in_array( $method, static::$methods ) )
 			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
 		$this->method	= $method;
 		return $this;

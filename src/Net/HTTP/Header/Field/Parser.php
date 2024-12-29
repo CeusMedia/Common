@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Parser for HTTP Header Fields.
  *
@@ -91,7 +92,7 @@ class Parser
 	{
 		if( !preg_match( '/^\S+:\s*.+$/', trim( $headerFieldString ) ) )
 		 	throw new InvalidArgumentException( 'Given string is not an HTTP header' );
-		[$key, $value]	= preg_split( '/:/', trim( $headerFieldString ), 2 );
+		[$key, $value]	= explode( ':', trim( $headerFieldString ), 2 );
 		$value	= trim( $value );
 		if( $decodeQualifiedValues )
 			$value	= self::decodeQualifiedValues( $value );

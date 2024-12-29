@@ -62,7 +62,7 @@ class Parser
 				break;
 			}
 			if( 0 === count( $response->headers->getFields() ) )
-				$response	= self::parseHeadersFromString( $part );
+				$response	= static::parseHeadersFromString( $part );
 		}
 		$body	= implode( "\r\n\r\n", $parts );
 

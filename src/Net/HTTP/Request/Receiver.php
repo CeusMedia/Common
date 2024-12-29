@@ -106,7 +106,7 @@ class Receiver extends Dictionary
 	/**
 	 *	Reads and returns Data from Sources.
 	 *	@access		public
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
 	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
@@ -125,7 +125,7 @@ class Receiver extends Dictionary
 	 *	Returns value or null by its key in a specified source.
 	 *	@access		public
 	 *	@param		string		$key		...
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
 	 *	@return		mixed		Value of key in source or NULL if not set
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
@@ -208,7 +208,7 @@ class Receiver extends Dictionary
 	 *	Indicates whether a pair is existing in a request source by its key.
 	 *	@access		public
 	 *	@param		string		$key		...
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@return		bool
 	 */
 	public function hasInSource( string $key, string $source ): bool

@@ -147,7 +147,7 @@ class Cookie
 	 *	@param		boolean|NULL	$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		boolean
 	 */
-	public function set( string $key, $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
+	public function set( string $key, mixed $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
 		$key		= str_replace( ".", "_", $key );
 		$this->data[$key]	=& $value;
@@ -165,9 +165,9 @@ class Cookie
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		string		$domain			Domain of cookie
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setDomain( string $domain ): self
+	public function setDomain( string $domain ): static
 	{
 		$this->domain	= $domain;
 		return $this;
@@ -177,9 +177,9 @@ class Cookie
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		boolean		$httpOnly		Flag: allow access via HTTP protocol only
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setHttpOnly( bool $httpOnly ): self
+	public function setHttpOnly( bool $httpOnly ): static
 	{
 		$this->httpOnly	= $httpOnly;
 		return $this;
@@ -189,9 +189,9 @@ class Cookie
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		string		$path			Default path of cookie
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setPath( string $path ): self
+	public function setPath( string $path ): static
 	{
 		$this->path = $path;
 		return $this;
@@ -201,9 +201,9 @@ class Cookie
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setSecure( bool $secure ): self
+	public function setSecure( bool $secure ): static
 	{
 		$this->secure = $secure;
 		return $this;

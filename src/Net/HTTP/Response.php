@@ -73,11 +73,12 @@ class Response
 	 *	@access		public
 	 *	@param		HeaderField		$field			HTTP header field object
 	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
-	 *	@return		void
+	 *	@return		static
 	 */
-	public function addHeader( HeaderField $field, bool $emptyBefore = FALSE ): void
+	public function addHeader( HeaderField $field, bool $emptyBefore = FALSE ): static
 	{
 		$this->headers->setField( $field, $emptyBefore );
+		return $this;
 	}
 
 	/**
@@ -86,11 +87,12 @@ class Response
 	 *	@param		string				$name			HTTP header name
 	 *	@param		string|int|float	$value			HTTP header value
 	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
-	 *	@return		void
+	 *	@return		static
 	 */
-	public function addHeaderPair( string $name, string|int|float $value, bool $emptyBefore = FALSE ): void
+	public function addHeaderPair( string $name, string|int|float $value, bool $emptyBefore = FALSE ): static
 	{
 		$this->headers->setField( new HeaderField( $name, $value ), $emptyBefore );
+		return $this;
 	}
 
 	/**
@@ -218,9 +220,9 @@ class Response
 	 *	Sets response message body.
 	 *	@access		public
 	 *	@param		string		$body			Response message body
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setBody( string $body ): self
+	public function setBody( string $body ): static
 	{
 		$this->body		= $body;
 		$this->headers->setFieldPair( 'Content-Length', $this->getBodyLength() );
@@ -232,9 +234,9 @@ class Response
 	 *	@access		public
 	 *	@param		string				$key		HTTP header name
 	 *	@param		string|int|float	$value		HTTP header value
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setHeader( string $key, string|int|float $value ): self
+	public function setHeader( string $key, string|int|float $value ): static
 	{
 		$this->addHeaderPair( $key, $value, TRUE );
 		return $this;
@@ -244,9 +246,9 @@ class Response
 	 *	Sets response protocol. Set initially to HTTP.
 	 *	@access		public
 	 *	@param		string		$protocol		Response protocol
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setProtocol( string $protocol ): self
+	public function setProtocol( string $protocol ): static
 	{
 		$this->protocol	= $protocol;
 		return $this;
@@ -256,9 +258,9 @@ class Response
 	 *	Sets response protocol. Set initially to HTTP.
 	 *	@access		public
 	 *	@param		Request		$request		Request Object
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setRequest( Request $request ): self
+	public function setRequest( Request $request ): static
 	{
 		$this->request	= $request;
 		return $this;
@@ -271,11 +273,11 @@ class Response
 	 *	@access		public
 	 *	@param		int|string		$status			Response status code (as integer) or status code with message (e.G. 404 Not Found)
 	 *	@param		boolean			$strict			Flag: ignore given status message and resolve using Net_HTTP_Status
-	 *	@return		self
+	 *	@return		static
 	 *	@see		https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	 *	@see		http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 	 */
-	public function setStatus( int|string $status, bool $strict = FALSE ): self
+	public function setStatus( int|string $status, bool $strict = FALSE ): static
 	{
 		//  strict mode: always resolve status message
 		$status	= $strict ? (int) $status : $status;
@@ -292,9 +294,9 @@ class Response
 	 *	Sets response protocol version.
 	 *	@access		public
 	 *	@param		string		$version		Response protocol version
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setVersion( string $version ): self
+	public function setVersion( string $version ): static
 	{
 		$this->version	= $version;
 		return $this;

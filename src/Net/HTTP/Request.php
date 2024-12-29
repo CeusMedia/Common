@@ -93,9 +93,9 @@ class Request implements ArrayAccess
 	 *	Adds an HTTP header object.
 	 *	@access		public
 	 *	@param		HeaderField		$field		HTTP header field object
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addHeader( HeaderField $field ): self
+	public function addHeader( HeaderField $field ): static
 	{
 		$this->headers->addField( $field );
 		return $this;
@@ -106,9 +106,9 @@ class Request implements ArrayAccess
 	 *	@access		public
 	 *	@param		string			$name		HTTP header name
 	 *	@param		string			$value		HTTP header value
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addHeaderPair( string $name, string $value ): self
+	public function addHeaderPair( string $name, string $value ): static
 	{
 		$this->headers->addField( new HeaderField( $name, $value ) );
 		return $this;
@@ -124,7 +124,7 @@ class Request implements ArrayAccess
 		return $this->parameters->count();
 	}
 
-	public function fromEnv( bool $useSession = FALSE, bool $useCookie = FALSE ): self
+	public function fromEnv( bool $useSession = FALSE, bool $useCookie = FALSE ): static
 	{
 		//  store HTTP method
 		$this->method->set( getEnv( 'REQUEST_METHOD' ) );
@@ -153,7 +153,7 @@ class Request implements ArrayAccess
 				$this->parameters->set( $key, $value );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
-		$this->headers->addFieldPairs( self::getAllEnvHeaders() );
+		$this->headers->addFieldPairs( static::getAllEnvHeaders() );
 
 		//  store IP of requesting client
 		$this->ip		= getEnv( 'REMOTE_ADDR' ) ?: '';
@@ -165,7 +165,7 @@ class Request implements ArrayAccess
 		return $this;
 	}
 
-	public function fromString( string $request ): self
+	public function fromString( string $request ): static
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
 		throw new Exception( 'Not implemented' );
@@ -203,7 +203,7 @@ class Request implements ArrayAccess
 	/**
 	 *	Reads and returns Data from Sources.
 	 *	@access		public
-	 *	@param		string		$source			Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source			Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@param		boolean		$asDictionary	Flag: return map as dictionary
 	 *	@param		boolean		$strict			Flag: throw exception for invalid source, otherwise return NULL
 	 *	@return		Dictionary|array			Pairs in source (or empty array if not set on strict is off)
@@ -267,7 +267,7 @@ class Request implements ArrayAccess
 	 *	Returns value or null by its key in a specified source.
 	 *	@access		public
 	 *	@param		string		$key		...
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		mixed		Value of key in source or NULL if not set
@@ -320,7 +320,7 @@ class Request implements ArrayAccess
 	 *	@param		boolean			$latestOnly	Flag: return latest header field, only
 	 *	@return		HeaderField[]|HeaderField|NULL	List of HTTP header fields with given header name or singe field if latestOnly
 	 */
-	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): array|HeaderField|null
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): array|HeaderField|NULL
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
@@ -407,7 +407,7 @@ class Request implements ArrayAccess
 	 *	Indicates whether a pair is existing in a request source by its key.
 	 *	@access		public
 	 *	@param		string		$key		...
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@return		bool
 	 */
 	public function hasInSource( string $key, string $source ): bool
@@ -470,21 +470,21 @@ class Request implements ArrayAccess
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function remove( string $key ): self
+	public function remove( string $key ): static
 	{
 		$this->parameters->remove( $key );
 		return $this;
 	}
 
-	public function set( string $key, mixed $value ): self
+	public function set( string $key, mixed $value ): static
 	{
 		$this->parameters->set( $key, $value );
 		return $this;
 	}
 
-	public function setAjax( bool $isAjax = TRUE ): self
+	public function setAjax( bool $isAjax = TRUE ): static
 	{
 		$field	= new HeaderField( 'X-Requested-With', 'XMLHttpRequest' );
 		if( $isAjax )
@@ -497,9 +497,9 @@ class Request implements ArrayAccess
 	/**
 	 *	...
 	 *	@param		string		$protocol
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setProtocol( string $protocol ): self
+	public function setProtocol( string $protocol ): static
 	{
 		$this->protocol	= $protocol;
 		return $this;
@@ -508,9 +508,9 @@ class Request implements ArrayAccess
 	/**
 	 *	...
 	 *	@param		string		$version
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setVersion( string $version ): self
+	public function setVersion( string $version ): static
 	{
 		$this->version	= $version;
 		return $this;

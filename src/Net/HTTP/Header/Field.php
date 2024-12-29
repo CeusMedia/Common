@@ -98,7 +98,7 @@ class Field
 		return $this->value;
 	}
 
-	public function setName( string $name ): self
+	public function setName( string $name ): static
 	{
 		if( !trim( $name ) )
 			throw new InvalidArgumentException( 'Field name cannot be empty' );
@@ -109,9 +109,9 @@ class Field
 	/**
 	 *	Converts to string, internally.
 	 *	@param		float|int|string		$value
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setValue( float|int|string $value ): self
+	public function setValue( float|int|string $value ): static
 	{
 		$this->value	= (string) $value;
 		return $this;

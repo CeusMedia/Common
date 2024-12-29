@@ -165,7 +165,7 @@ class Section
 
 	protected array $fields			= [];
 
-	public function addField( HeaderField $field ): self
+	public function addField( HeaderField $field ): static
 	{
 		return $this->setField( $field, FALSE );
 	}
@@ -173,9 +173,9 @@ class Section
 	/**
 	 *	@param		string				$name
 	 *	@param		string|float|int	$value
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addFieldPair( string $name, $value ): self
+	public function addFieldPair( string $name, string|float|int $value ): static
 	{
 		$field	= new HeaderField( $name, $value );
 		return $this->addField( $field );
@@ -185,16 +185,16 @@ class Section
 	 *	Add header fields from assoc array.
 	 *	@access		public
 	 *	@param		array		$fieldPairs		Map of header field names and values
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addFieldPairs( array $fieldPairs = [] ): self
+	public function addFieldPairs( array $fieldPairs = [] ): static
 	{
 		foreach( $fieldPairs as $key => $value )
 			$this->addFieldPair( $key, $value );
 		return $this;
 	}
 
-	public function addFields( array $fields = [] ): self
+	public function addFields( array $fields = [] ): static
 	{
 		foreach( $fields as $field )
 			$this->addField( $field );
@@ -214,7 +214,7 @@ class Section
 	public function getFields(): array
 	{
 		$list	= [];
-		foreach( $this->fields as $name => $fields )
+		foreach( $this->fields as $fields )
 			foreach( $fields as $field )
 				$list[]	= $field;
 		return $list;
@@ -225,16 +225,17 @@ class Section
 	 *	@param		bool		$latestOnly
 	 *	@return		array<HeaderField>|HeaderField|NULL
 	 */
-	public function getFieldsByName( string $name, bool $latestOnly = FALSE )
+	public function getFieldsByName( string $name, bool $latestOnly = FALSE ): array|Field|NULL
 	{
 		if( $latestOnly )
 			return $this->getField( $name );
 		return $this->fields[strtolower( $name )] ?? [];
 	}
 
-	public static function getInstance(): self
+	public static function getInstance(): static
 	{
-		return new self();
+		$className	= static::class;
+		return new $className();
 	}
 
 	public function getSectionedFields(): array
@@ -263,7 +264,7 @@ class Section
 		return 0 !== count( $this->fields[strtolower( $name )] ?? [] );
 	}
 
-	public function removeField( HeaderField $field ): self
+	public function removeField( HeaderField $field ): static
 	{
 		$name			= strtolower( $field->getName() );
 		foreach( $this->fields[$name] ?? [] as $nr => $item )
@@ -272,14 +273,14 @@ class Section
 		return $this;
 	}
 
-	public function removeByName( string $name ): self
+	public function removeByName( string $name ): static
 	{
 		$name	= strtolower( $name );
 		$this->fields[$name]	= [];
 		return $this;
 	}
 
-	public function setField( HeaderField $field, bool $emptyBefore = TRUE ): self
+	public function setField( HeaderField $field, bool $emptyBefore = TRUE ): static
 	{
 		$name		= strtolower( $field->getName() );
 		$fields		= !$emptyBefore ? ( $this->fields[$name] ?? [] ) : [];
@@ -288,7 +289,7 @@ class Section
 		return $this;
 	}
 
-	public function setFieldPair( string $name, string|int|float $value, bool $emptyBefore = TRUE ): self
+	public function setFieldPair( string $name, string|int|float $value, bool $emptyBefore = TRUE ): static
 	{
 		$this->setField( new HeaderField( $name, $value ), $emptyBefore );
 		return $this;

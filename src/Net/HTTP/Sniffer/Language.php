@@ -54,7 +54,7 @@ class Language
 	public static function getLanguage( array $allowed, ?string $default = NULL ): ?string
 	{
 		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' ) ?: '';
-		return self::getLanguageFromString( $accept, $allowed, $default );
+		return static::getLanguageFromString( $accept, $allowed, $default );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Language
 		$currentLanguage	= $default;
 		$currentQuality		= 0;
 		foreach( $accepted as $accept ){
-			if( !preg_match( self::$pattern, $accept, $matches ) )
+			if( !preg_match( static::$pattern, $accept, $matches ) )
 				continue;
 			$languageCode = explode ( '-', $matches[1] );
 			$languageQuality =  isset( $matches[2] ) ? (float) $matches[2] : 1.0;

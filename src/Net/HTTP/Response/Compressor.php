@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Compressor for HTTP Request Body Strings.
@@ -56,7 +57,7 @@ class Compressor
 			return $response;
 
 		$clone	= clone $response;
-		$clone->setBody( self::compressString( $clone->getBody(), $type ) );
+		$clone->setBody( static::compressString( $clone->getBody(), $type ) );
 
 		//  send Encoding Headers
 		$clone->addHeaderPair( 'Content-Encoding', $type, TRUE );

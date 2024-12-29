@@ -54,7 +54,7 @@ class Charset
 	public static function getCharset( array $allowed, ?string $default = NULL ): ?string
 	{
 		$accepted	= getEnv( 'HTTP_ACCEPT_CHARSET' ) ?: '';
-		return self::getCharsetFromString( $accepted, $allowed, $default );
+		return static::getCharsetFromString( $accepted, $allowed, $default );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Charset
 		$currentCharset	= $default;
 		$currentQuality	= 0;
 		foreach( $accepted as $accept ){
-			if( !preg_match ( self::$pattern, $accept, $matches ) )
+			if( !preg_match ( static::$pattern, $accept, $matches ) )
 				continue;
 			$charsetQuality	= isset( $matches[2] ) ? (float) $matches[2] : 1.0;
 			if( $charsetQuality > $currentQuality ){
