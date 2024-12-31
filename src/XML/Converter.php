@@ -77,13 +77,11 @@ class Converter
 	{
 		$parser		= new Parser();
 		$document	= $parser->parse( $xml );
-		$children	= $document->getChildren();
-		$rootNode	= array_shift( $children );
-		$rootName	= $rootNode->getNodeName();
+		$rootName	= $document->getNodeName();
 		$object		= (object) [
 			$rootName => new stdClass()
 		];
-		self::convertToObjectRecursive( $rootNode, $object->$rootName );
+		self::convertToObjectRecursive( $document, $object->$rootName );
 		return $object;
 	}
 

@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Validator for XML Syntax.
@@ -42,10 +43,10 @@ use DOMDocument;
 class SyntaxValidator
 {
 	/**	@var	DOMDocument|NULL		$document	DOM Document of Syntax is valid */
-	protected $document	= NULL;
+	protected ?DOMDocument $document	= NULL;
 
 	/**	@var	string|NULL				$errors		Parsing Errors if Syntax is invalid */
-	protected $errors	= '';
+	protected ?string $errors			= '';
 
 	/**
 	 *	Returns DOM Document Object of XML Document if Syntax is valid.

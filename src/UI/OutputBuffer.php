@@ -1,7 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
- *	Buffer for Standard Output Channel.
+ *	Buffer for standard output channel.
  *
  *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
@@ -31,7 +31,7 @@ namespace CeusMedia\Common\UI;
 use RuntimeException;
 
 /**
- *	Buffer for Standard Output Channel.
+ *	Buffer for standard output channel.
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -42,12 +42,12 @@ use RuntimeException;
 class OutputBuffer
 {
 	/**	@var		boolean		$isOpen		Flag: Buffer opened */
-	protected $isOpen = FALSE;
+	protected bool $isOpen = FALSE;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		boolean		$open		Flag: open Buffer with Instance
+	 *	@param		boolean		$open		Flag: open buffer with instance
 	 *	@return		void
 	 */
 	public function __construct ( bool $open = TRUE )
@@ -57,56 +57,92 @@ class OutputBuffer
 	}
 
 	/**
-	 *	Clears Output Buffer.
+	 *	Clears output buffer, if open.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		static
 	 */
-	public function clear()
+	public function clear(): static
 	{
-		ob_clean();
+		if( $this->checkStatus( TRUE, FALSE ) )
+			ob_clean();
+		return $this;
 	}
 
 	/**
-	 *	Closes Output Buffer.
+	 *	Closes output buffer.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		static
 	 */
-	public function close()
+	public function close(): static
 	{
+		$this->checkStatus( TRUE, TRUE );
 		ob_end_clean();
 		$this->isOpen = FALSE;
+		return $this;
 	}
 
 	/**
-	 *	Return Content and clear Output Buffer.
+	 *	Sends content of output buffer to standard output stream.
+	 *	Does not close the buffer, but clears it.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		static
 	 */
-	public function flush()
+	public function flush(): static
 	{
 		ob_flush();
+		return $this;
 	}
 
 	/**
-	 *	Returns Content of Output Buffer.
+	 *	Return content and clear output buffer.
 	 *	@access		public
-	 *	@param		boolean		$clear		Flag: clear Output Buffer afterwards
+	 *	@return		static
+	 */
+	public function flushAndClose(): static
+	{
+		ob_flush();
+		$this->close();
+		return $this;
+	}
+
+	/**
+	 *	Returns content of open output buffer.
+	 *	@access		public
+	 *	@param		boolean		$clear		Flag: clear output buffer afterwards
 	 *	@return		string
+	 *	@throws		RuntimeException		if buffer is not open
 	 */
 	public function get( bool $clear = FALSE ): string
 	{
-		if( !$this->isOpen() )
-			throw new RuntimeException( 'Output Buffer is not open.' );
-		return $clear ? ob_get_clean() : ob_get_contents();
-	}
-
-	public function has(): bool
-	{
-		return strlen( $this->get() ) !== 0;
+		$this->checkStatus( TRUE, TRUE );
+		$content	= ob_get_contents();
+		if( $clear )
+			ob_clean();
+		return $content;
 	}
 
 	/**
-	 *	Indicates whether Output Buffer is open.
+	 *	Returns content if open and closes output buffer.
+	 *	@return		string
+	 */
+	public function getAndClose(): string
+	{
+		$content	= $this->get( TRUE );
+		$this->close();
+		return $content;
+	}
+
+	/**
+	 *	Indicates whether output buffer is open and has content.
+	 *	@return bool
+	 */
+	public function has(): bool
+	{
+		return $this->isOpen && '' !== $this->get();
+	}
+
+	/**
+	 *	Indicates whether output buffer is open.
 	 *	@access		public
 	 *	@return		bool
 	 */
@@ -116,16 +152,33 @@ class OutputBuffer
 	}
 
 	/**
-	 *	Opens Output Buffer.
+	 *	Opens output buffer.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		static
 	 *	@throws		RuntimeException		if buffer is open, already
 	 */
-	public function open()
+	public function open(): static
 	{
-		if( $this->isOpen() )
-			throw new RuntimeException( 'Output Buffer is already open.' );
+		$this->checkStatus( FALSE, TRUE );
 		ob_start();
 		$this->isOpen = TRUE;
+		return $this;
+	}
+
+	/**
+	 *	@param		bool		$shouldBeOpen
+	 *	@param		bool		$strict			Flag: throw exception, default: no
+	 *	@return		bool
+	 */
+	protected function checkStatus( bool $shouldBeOpen = TRUE, bool $strict = FALSE ): bool
+	{
+		if( $shouldBeOpen && $this->isOpen || !$shouldBeOpen && !$this->isOpen )
+			return TRUE;
+		if( !$strict )
+			return FALSE;
+		if( $shouldBeOpen )
+			throw new RuntimeException( 'Output Buffer is not open.' );
+		$this->close();
+		throw new RuntimeException( 'Output Buffer is already open.' );
 	}
 }

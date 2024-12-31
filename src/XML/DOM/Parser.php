@@ -31,7 +31,6 @@ namespace CeusMedia\Common\XML\DOM;
 
 use CeusMedia\Common\ADT\OptionObject;
 use DOMDocument;
-use DOMElement;
 use DOMNode;
 use Exception;
 
@@ -47,10 +46,10 @@ use Exception;
 class Parser extends OptionObject
 {
 	/**	@var	DOMDocument|NULL		$document		DOM Document */
-	protected $document			= NULL;
+	protected ?DOMDocument $document	= NULL;
 
 	/**	@var	array			$attributes		List of DOM Document Options */
-	protected $attributes	= [
+	protected array $attributes			= [
 		"version",
 		"encoding",
 		"standalone",
@@ -73,19 +72,21 @@ class Parser extends OptionObject
 	 *	Loads XML String into DOM Document Object before parsing.
 	 *	@access		public
 	 *	@param		string		$xml			XML to be parsed
-	 *	@return		void
+	 *	@return		static
 	 *	@throws		Exception
 	 */
-	protected function loadXml( string $xml )
+	protected function loadXml( string $xml ): static
 	{
 		$xsv	= new SyntaxValidator;
 		if( !$xsv->validate( $xml ) )
 			throw new Exception( "XML Document is not valid: ".$xsv->getErrors() );
+
 		$this->document	= $xsv->getDocument();
 		$this->clearOptions();
 		foreach( $this->attributes as $attribute )
 			if( isset( $this->document->$attribute ) )
 				$this->setOption( $attribute, $this->document->$attribute );
+		return $this;
 	}
 
 	/**
@@ -103,11 +104,10 @@ class Parser extends OptionObject
 			$root	= $root->nextSibling;
 
 		$tree	= new Node( $root->nodeName );
-		if( $root->hasAttributes()){
-			$attributeNodes	= $root->attributes;
-			foreach( $attributeNodes as $attributeNode )
+		if( $root->hasAttributes())
+			foreach( $root->attributes as $attributeNode )
 				$tree->setAttribute( $attributeNode->nodeName, $attributeNode->nodeValue );
-		}
+
 		$this->parseRecursive( $root, $tree );
 		return $tree;
 	}
@@ -121,33 +121,26 @@ class Parser extends OptionObject
 	 */
 	protected function parseRecursive( DOMNode  $root, Node $tree ): bool
 	{
-		if( $child = $root->firstChild ){
-			while( $child ){
-				$attributes	= $child->hasAttributes()? $child->attributes : [];
-				switch( $child->nodeType ){
-					case XML_ELEMENT_NODE:
-						$node = new Node( $child->nodeName );
-						if( !$this->parseRecursive( $child, $node ) ){
-	#						$node->setContent( utf8_decode( $child->textContent ) );
-							$node->setContent( $child->textContent );
-						}
-						foreach( $attributes as $attribute)
-							$node->setAttribute( $attribute->nodeName, stripslashes( $attribute->nodeValue ) );
-						$tree->addChild( $node );
-						break;
-					case XML_TEXT_NODE:
-						if( strlen( trim( $child->textContent ) ) )
-							return FALSE;
-						else if( isset( $attributes['type'] ) && preg_match( "/.*ml/i", $attributes['type'] ) )
-							return FALSE;
-						break;
-					case XML_CDATA_SECTION_NODE:
-						$tree->setContent( stripslashes( $child->textContent ) );
-						break;
-					default:
-						break;
-				}
-				$child = $child->nextSibling;
+		foreach( $root->childNodes as $child ){
+			$attributes	= $child->hasAttributes()? $child->attributes : [];
+			switch( $child->nodeType ){
+				case XML_ELEMENT_NODE:
+					$node = new Node( $child->nodeName );
+					if( !$this->parseRecursive( $child, $node ) )
+						$node->setContent( $child->textContent );
+					foreach( $attributes as $attribute)
+						$node->setAttribute( $attribute->nodeName, stripslashes( $attribute->nodeValue ) );
+					$tree->addChild( $node );
+					break;
+				case XML_TEXT_NODE:
+					if( '' !== trim( $child->textContent ) )
+						return FALSE;
+					else if( isset( $attributes['type'] ) && preg_match( "/.*ml/i", $attributes['type'] ) )
+						return FALSE;
+					break;
+				case XML_CDATA_SECTION_NODE:
+					$tree->setContent( stripslashes( $child->textContent ) );
+					break;
 			}
 		}
 		return TRUE;
