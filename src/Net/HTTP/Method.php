@@ -201,7 +201,7 @@ class Method
 	{
 		$method		= strtoupper( $method );
 		if( !in_array( $method, static::$methods ) )
-			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
+			throw new BadMethodCallException( 'HTTP method "'.$method.'" is not supported' );
 		$this->method	= $method;
 		return $this;
 	}

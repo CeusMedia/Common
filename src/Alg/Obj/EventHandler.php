@@ -46,10 +46,10 @@ use RuntimeException;
 class EventHandler
 {
 	/**	@var		array			$callbacks			Map of registered Callback Methods on Events */
-	protected $callbacks			= [];
+	protected array $callbacks		= [];
 
 	/**	@var		int				$counter			Number of handled Event Callback Method Calls */
-	protected $counter				= 0;
+	protected int $counter			= 0;
 
 	/**
 	 *	Registers a Method to call on an Event.

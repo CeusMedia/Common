@@ -96,6 +96,21 @@ class Factory
 		return $reflectedClass->newInstanceArgs( $arguments );
 	}
 
+	/**
+	 *	Creates an instance of a class using Reflection.
+	 *	DOES NOT call constructor on instance.
+	 *	@param		string			$className
+	 *	@return		object			Instance of class, but without constructor call
+	 *	@throws		ReflectionException
+	 */
+	public static function createObjectWithoutConstruction( string $className ): object
+	{
+		if( !class_exists( $className ) )
+			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );
+		$reflectedClass	= new ReflectionClass( $className );
+		return $reflectedClass->newInstanceWithoutConstructor();
+	}
+
 	public function getArguments(): array
 	{
 		return $this->arguments;

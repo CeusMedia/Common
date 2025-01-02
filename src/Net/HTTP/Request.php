@@ -127,7 +127,7 @@ class Request implements ArrayAccess
 	public function fromEnv( bool $useSession = FALSE, bool $useCookie = FALSE ): static
 	{
 		//  store HTTP method
-		$this->method->set( getEnv( 'REQUEST_METHOD' ) );
+		$this->method->set( getEnv( 'REQUEST_METHOD' ) ?: 'GET' );
 
 		$this->sources	= [
 			"GET"		=> &$_GET,
