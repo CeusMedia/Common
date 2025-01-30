@@ -24,8 +24,6 @@ parameters:
 		analyseAndScan:
 			- ../../src/compat8.php
 			- ../../src/compat9.php
-			- ../../src/Exception/Abstraction.php
-			- ../../src/Exception/Interface_.php
 	reportMaybesInPropertyPhpDocTypes: false
 	treatPhpDocTypesAsCertain: false
 	ignoreErrors:
