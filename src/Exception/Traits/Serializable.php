@@ -4,7 +4,7 @@
 /**
  *	Base Exception which can be serialized e.G. for NetServices.
  *
- *	Copyright (c) 2011-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2025 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2024 Christian Würker
+ *	@copyright		2011-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
@@ -38,7 +38,7 @@ use Serializable as SerializableInterface;
  *	@category		Library
  *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2024 Christian Würker
+ *	@copyright		2011-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */

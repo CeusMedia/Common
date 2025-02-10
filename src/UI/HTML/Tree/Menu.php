@@ -10,7 +10,7 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 /**
  *	Builder for Tree Menu.
  *
- *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +37,7 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
