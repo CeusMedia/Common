@@ -3,12 +3,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" packagePrefix="CeusMedia\CommonTest\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="CeusMedia\Common\" />
-      <sourceFolder url="file://$MODULE_DIR$/tool/Compatibility" isTestSource="true" packagePrefix="CeusMedia\CommonTool\Compatibility\" />
-      <sourceFolder url="file://$MODULE_DIR$/tool/Go" isTestSource="true" packagePrefix="CeusMedia\CommonTool\Go\" />
-      <sourceFolder url="file://$MODULE_DIR$/tool/Migration" isTestSource="true" packagePrefix="CeusMedia\CommonTool\Migration\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/doc-creator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/template-engine" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/event-dispatcher" />
