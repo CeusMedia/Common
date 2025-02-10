@@ -62,6 +62,11 @@
       <path value="$PROJECT_DIR$/vendor/ceus-media/cache" />
       <path value="$PROJECT_DIR$/vendor/ceus-media/database" />
       <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/vendor/symfony/options-resolver" />
+      <path value="$PROJECT_DIR$/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/markdown" />
+      <path value="$PROJECT_DIR$/vendor/kzykhys/ciconia" />
+      <path value="$PROJECT_DIR$/vendor/league/html-to-markdown" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1">
