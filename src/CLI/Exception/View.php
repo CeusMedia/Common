@@ -6,7 +6,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2024 Christian Würker
+ *	@copyright		2018-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -30,7 +30,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2024 Christian Würker
+ *	@copyright		2018-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
