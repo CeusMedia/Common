@@ -3,7 +3,7 @@
 /**
  *	JSON Reader.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,19 +16,20 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\File\JSON;
 
 use CeusMedia\Common\ADT\JSON\Parser as JsonParser;
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use RuntimeException;
 
@@ -37,17 +38,17 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Reader
 {
-	protected static $defaultFilters	= ['comments'];
-	protected $filePath;
-	protected $filters					= [];
-	protected $data;
-	protected $parser;
+	protected static array $defaultFilters	= ['comments'];
+	protected string $filePath;
+	protected array $filters				= [];
+	protected object|array|NULL $data		= NULL;
+	protected JsonParser $parser;
 
 	/**
 	 *	Constructor.
@@ -70,7 +71,7 @@ class Reader
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( bool $asConstantKey = FALSE )
+	public function getError( bool $asConstantKey = FALSE ): int|string
 	{
 		return $this->parser->getError( $asConstantKey );
 	}
@@ -123,7 +124,7 @@ class Reader
 	 *	@param		bool		$asArray		Flag: read into an array, default: no
 	 *	@return		object|array
 	 */
-	public static function load( string $filePath, bool $asArray = FALSE )
+	public static function load( string $filePath, bool $asArray = FALSE ): object|array
 	{
 		$reader	= new Reader( $filePath );
 		return $reader->read( $asArray );
@@ -134,10 +135,11 @@ class Reader
 	 *	@access		public
 	 *	@param		bool		$asArray		Flag: read into an array, default: no
 	 *	@param		bool		$storeData		Flag: copy read data in object for info (needs more memory), default: yes
-	 *	@return		object|array
+	 *	@return		object|array|string|int|float|NULL
 	 *	@throws		RuntimeException			if parsing failed
+	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
 	 */
-	public function read( bool $asArray = FALSE, bool $storeData = TRUE )
+	public function read( bool $asArray = FALSE, bool $storeData = TRUE ): object|array|string|int|float|NULL
 	{
 		$json	= FileReader::load( $this->filePath );
 		$json	= $this->applyFilters( $json );
@@ -154,7 +156,7 @@ class Reader
 	 *	@param		array		$defaultFilters		List of filters to set for each new instance
 	 *	@noinspection	PhpUnused
 	 */
-	public static function setDefaultFilters( array $defaultFilters )
+	public static function setDefaultFilters( array $defaultFilters ): void
 	{
 		self::$defaultFilters	= $defaultFilters;
 	}

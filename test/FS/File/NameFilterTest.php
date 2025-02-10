@@ -64,7 +64,7 @@ class NameFilterTest extends BaseCase
 
 		$assertion	= array( $search );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$search	= "not_existing_file";
 		$filter	= new NameFilter( $this->path, $search );
@@ -75,6 +75,6 @@ class NameFilterTest extends BaseCase
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -24,9 +24,9 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ElementReaderTest extends BaseCase
 {
-	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
+	protected string $url		= 'https://www.rssboard.org/files/sample-rss-2.xml';
 
-	protected $file;
+	protected string $file;
 
 	public function setUp(): void
 	{
@@ -47,11 +47,11 @@ class ElementReaderTest extends BaseCase
 
 		$assertion	= 'NASA Space Station News';
 		$creation	= (string) $element->channel->title;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'http://www.nasa.gov/';
-		$creation	= (string )$element->channel->link;
-		$this->assertEquals( $assertion, $creation );
+		$creation	= (string) $element->channel->link;
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -65,10 +65,10 @@ class ElementReaderTest extends BaseCase
 
 		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'http://liftoff.msfc.nasa.gov/';
-		$creation	= (string )$element->channel->link;
-		$this->assertEquals( $assertion, $creation );
+		$creation	= (string) $element->channel->link;
+		self::assertEquals( $assertion, $creation );
 	}
 }

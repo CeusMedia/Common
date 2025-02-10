@@ -16,6 +16,7 @@ namespace CeusMedia\CommonTest\ADT\Collection;
 
 use CeusMedia\Common\ADT\Collection\SectionList;
 use CeusMedia\CommonTest\BaseCase;
+use OutOfBoundsException;
 
 /**
 *	TestUnit of ADT\Collection\SectionList.
@@ -24,32 +25,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class SectionListTest extends BaseCase
 {
-	/**	@var	array		$list		Instance of SectionList */
-	private $list;
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->list	= new SectionList();
-		$this->list->addEntry( 'entry11', 'section1' );
-		$this->list->addEntry( 'entry12', 'section1' );
-		$this->list->addEntry( 'entry21', 'section2' );
-		$this->list->addEntry( 'entry22', 'section2' );
-		$this->list->addEntry( 'entry23', 'section2' );
-	}
-
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-	}
+	/**	@var	SectionList		$list		Instance of SectionList */
+	private SectionList $list;
 
 	/**
 	 *	Tests Method 'addEntry'.
@@ -61,7 +38,7 @@ class SectionListTest extends BaseCase
 		$this->list->addEntry( 'entry13', 'section1' );
 		$assertion	= 3;
 		$creation	= $this->list->countEntries( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -85,7 +62,19 @@ class SectionListTest extends BaseCase
 		$this->list->addSection( 'section3' );
 		$assertion	= 3;
 		$creation	= $this->list->countSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstruct(): void
+	{
+		$initial	= ['section1' => ['item 1'], 'section2' => ['item 2', 'item 3']];
+		$list = new SectionList( $initial );
+		self::assertEquals( $initial, $list->getList() );
 	}
 
 	/**
@@ -99,7 +88,7 @@ class SectionListTest extends BaseCase
 
 		$assertion	= 0;
 		$creation	= $this->list->countSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -111,11 +100,11 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= 2;
 		$creation	= $this->list->countEntries( "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
 		$creation	= $this->list->countEntries( "section2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -127,7 +116,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= 2;
 		$creation	= $this->list->countSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -139,7 +128,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= "entry11";
 		$creation	= $this->list->getEntry( 0, 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -162,7 +151,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= array( "entry11", "entry12" );
 		$creation	= $this->list->getEntries( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -185,11 +174,22 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= 1;
 		$creation	= $this->list->getIndex( "entry12" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $this->list->getIndex( "entry12", "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'getIndex'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetIndex_OutOfBoundsException()
+	{
+		$this->expectException( OutOfBoundsException::class );
+		$this->list->getIndex( "entry12", "invalid_section" );
 	}
 
 	/**
@@ -211,7 +211,7 @@ class SectionListTest extends BaseCase
 			)
 		);
 		$creation	= $this->list->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= "section2";
 		$creation	= $this->list->getSectionOfEntry( "entry21" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -246,7 +246,7 @@ class SectionListTest extends BaseCase
 	{
 		$assertion	= array( "section1", "section2" );
 		$creation	= $this->list->getSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -259,12 +259,12 @@ class SectionListTest extends BaseCase
 		$this->list->removeEntry( "entry11", "section1" );
 		$assertion	= array( "entry12" );
 		$creation	= $this->list->getEntries( "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->list->removeEntry( "entry12" );
 		$assertion	= [];
 		$creation	= $this->list->getEntries( "section1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -288,7 +288,7 @@ class SectionListTest extends BaseCase
 		$this->list->removeSection( "section1" );
 		$assertion	= array( "section2" );
 		$creation	= $this->list->getSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -300,5 +300,27 @@ class SectionListTest extends BaseCase
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->list->removeSection( "invalid" );
+	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->list	= new SectionList();
+		$this->list->addEntry( 'entry11', 'section1' );
+		$this->list->addEntry( 'entry12', 'section1' );
+		$this->list->addEntry( 'entry21', 'section2' );
+		$this->list->addEntry( 'entry22', 'section2' );
+		$this->list->addEntry( 'entry23', 'section2' );
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
 	}
 }

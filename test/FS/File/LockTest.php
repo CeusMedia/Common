@@ -49,14 +49,14 @@ class LockTest extends BaseCase
 	public function test__construct()
 	{
 		$lock	= new Lock( 'test.lock' );
-		$this->assertEquals( 0, $lock->getExpiration() );
-		$this->assertEquals( 2, $lock->getTimeout() );
-		$this->assertEquals( 0.1, $lock->getSleep() );
+		self::assertEquals( 0, $lock->getExpiration() );
+		self::assertEquals( 2, $lock->getTimeout() );
+		self::assertEquals( 0.1, $lock->getSleep() );
 
 		$lock	= new Lock( 'test.lock', 200, 100, 1 );
-		$this->assertEquals( 200, $lock->getExpiration() );
-		$this->assertEquals( 100, $lock->getTimeout() );
-		$this->assertEquals( 1, $lock->getSleep() );
+		self::assertEquals( 200, $lock->getExpiration() );
+		self::assertEquals( 100, $lock->getTimeout() );
+		self::assertEquals( 1, $lock->getSleep() );
 	}
 
 	/**
@@ -66,8 +66,8 @@ class LockTest extends BaseCase
 	 */
 	public function testLock()
 	{
-		$this->assertTrue( $this->lock->lock( FALSE ) );
-		$this->assertFalse( $this->lock->lock( FALSE ) );
+		self::assertTrue( $this->lock->lock( FALSE ) );
+		self::assertFalse( $this->lock->lock( FALSE ) );
  	}
 
 	/**
@@ -78,7 +78,7 @@ class LockTest extends BaseCase
 	public function testLockException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$this->assertTrue( $this->lock->lock() );
+		self::assertTrue( $this->lock->lock() );
 		$creation	= $this->lock->lock();
 	}
 
@@ -89,11 +89,11 @@ class LockTest extends BaseCase
 	 */
 	public function testUnlock()
 	{
-		$this->assertTrue( $this->lock->lock() );
-		$this->assertTrue( $this->lock->isLocked() );
-		$this->assertTrue( $this->lock->unlock() );
-		$this->assertFalse( $this->lock->isLocked() );
-		$this->assertFalse( $this->lock->unlock() );
+		self::assertTrue( $this->lock->lock() );
+		self::assertTrue( $this->lock->isLocked() );
+		self::assertTrue( $this->lock->unlock() );
+		self::assertFalse( $this->lock->isLocked() );
+		self::assertFalse( $this->lock->unlock() );
 	}
 
 	/**
@@ -103,11 +103,11 @@ class LockTest extends BaseCase
 	 */
 	public function testIsLocked()
 	{
-		$this->assertFalse( $this->lock->isLocked() );
-		$this->assertTrue( $this->lock->lock() );
-		$this->assertTrue( $this->lock->isLocked() );
-		$this->assertTrue( $this->lock->unlock() );
-		$this->assertFalse( $this->lock->isLocked() );
+		self::assertFalse( $this->lock->isLocked() );
+		self::assertTrue( $this->lock->lock() );
+		self::assertTrue( $this->lock->isLocked() );
+		self::assertTrue( $this->lock->unlock() );
+		self::assertFalse( $this->lock->isLocked() );
 	}
 
 	/**
@@ -118,7 +118,7 @@ class LockTest extends BaseCase
 	public function testSetExpiration()
 	{
 		$this->lock->setExpiration( 100 );
-		$this->assertEquals( 100, $this->lock->getExpiration() );
+		self::assertEquals( 100, $this->lock->getExpiration() );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class LockTest extends BaseCase
 	public function testSetSleep()
 	{
 		$this->lock->setSleep( 100 );
-		$this->assertEquals( 100, $this->lock->getSleep() );
+		self::assertEquals( 100, $this->lock->getSleep() );
 	}
 
 	/**
@@ -140,6 +140,6 @@ class LockTest extends BaseCase
 	public function testSetTimeout()
 	{
 		$this->lock->setTimeout( 100 );
-		$this->assertEquals( 100, $this->lock->getTimeout() );
+		self::assertEquals( 100, $this->lock->getTimeout() );
 	}
 }

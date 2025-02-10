@@ -1,5 +1,8 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 require_once __DIR__.'/../../vendor/autoload.php';
+
+use CeusMedia\Common\CLI\Output\Table as CliTable;
 
 $data	= [
 	[ 1, 'a', 'AAA' ],
@@ -7,8 +10,8 @@ $data	= [
 	[ 369, 'ccccc', 'C' ],
 ];
 
-$t = new CLI_Output_Table();
+$t = new CliTable();
 $t->setData( $data );
-$t->setSizeMode( CLI_Output_Table::SIZE_MODE_MIN );
-$t->setBorderStyle( CLI_Output_Table::BORDER_STYLE_MIXED );
+$t->setSizeMode( CliTable::SIZE_MODE_MIN );
+$t->setBorderStyle( CliTable::BORDER_STYLE_MIXED );
 print( $t->render() );

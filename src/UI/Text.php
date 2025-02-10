@@ -1,16 +1,37 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+/**
+ *	...
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
 namespace CeusMedia\Common\UI;
 
 use CeusMedia\Common\Alg\UnitFormater;
 
+/**
+ *	...
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
 class Text
 {
-	public static $defaultLineLength		= 76;
+	public static int $defaultLineLength		= 76;
 
 	public static function line( string $sign, int $length = NULL ): string
 	{
-		$length	= self::realizeLength( $length, 1 );
+		$length	= self::realizeLength( $length ?? 0, 1 );
 		return str_repeat( $sign, $length );
 	}
 

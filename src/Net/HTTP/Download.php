@@ -3,7 +3,7 @@
 /**
  *	Download Provider for Files and Strings.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,8 +37,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
  *	@todo			integrate MIME type detection
@@ -52,9 +52,11 @@ class Download
 	 *	Also applies content length and last modification date if parameters are set.
 	 *	@static
 	 *	@access		protected
+	 *	@param		int|NULL		$size			File size to send
+	 *	@param		int|NULL		$timestamp		File date (as UNIX timestamp) to send
 	 *	@return		void
 	 */
-	protected static function applyDefaultHeaders( ?int $size = NULL, ?int $timestamp = NULL )
+	protected static function applyDefaultHeaders( ?int $size = NULL, ?int $timestamp = NULL ): void
 	{
 		header( "Pragma: public" );
 		header( "Expires: -1" );
@@ -72,7 +74,7 @@ class Download
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected static function disableCompression()
+	protected static function disableCompression(): void
 	{
 		if( function_exists( 'apache_setenv' ) )
 			@apache_setenv( 'no-gzip', '1' );
@@ -88,22 +90,23 @@ class Download
 	 *	@param		boolean			$andExit		Flag: quit execution afterwards, default: yes
 	 *	@return		void
 	 */
-	public static function sendFile( string $url, ?string $filename = NULL, bool $andExit = TRUE )
+	public static function sendFile( string $url, ?string $filename = NULL, bool $andExit = TRUE ): void
 	{
 		$filename	= strlen( $filename ) ? $filename : basename( $url );
 		//  avoid messing with path
 		$url		= str_replace( '../', '', $url );
 		if( !file_exists( $url ) )
 			throw new RuntimeException( 'File "'.$url.'" is not existing' );
-		self::clearOutputBuffers();
-		self::setMimeType();
-		self::disableCompression();
-		self::applyDefaultHeaders( filesize( $url ), filemtime( $url ) );
+		static::clearOutputBuffers();
+		static::setMimeType();
+		static::disableCompression();
+		static::applyDefaultHeaders( filesize( $url ) ?: NULL, filemtime( $url ) ?: NULL );
 		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
 		$fp = @fopen( $url, "rb" );
-		if( !$fp )
+		if( FALSE === $fp )
 			header("HTTP/1.0 500 Internal Server Error");
-		fpassthru( $fp );
+		else
+			fpassthru( $fp );
 		if( $andExit )
 			exit;
 	}
@@ -117,12 +120,12 @@ class Download
 	 *	@param		boolean			$andExit		Flag: quit execution afterwards, default: yes
 	 *	@return		void
 	 */
-	public static function sendString( string $string, string $filename, bool $andExit = TRUE )
+	public static function sendString( string $string, string $filename, bool $andExit = TRUE ): void
 	{
-		self::clearOutputBuffers();
-		self::setMimeType();
-		self::disableCompression();
-		self::applyDefaultHeaders( strlen( $string ) );
+		static::clearOutputBuffers();
+		static::setMimeType();
+		static::disableCompression();
+		static::applyDefaultHeaders( strlen( $string ) );
 		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
 		print( $string );
 		if( $andExit )
@@ -132,10 +135,10 @@ class Download
 	/**
 	 *	Sends Mime Type Header.
 	 *	@static
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	private static function setMimeType()
+	protected static function setMimeType(): void
 	{
 		$UserBrowser = '';
 		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
@@ -152,7 +155,7 @@ class Download
 	 *	@access		private
 	 *	@return		void
 	 */
-	private static function clearOutputBuffers()
+	protected static function clearOutputBuffers(): void
 	{
 		while( ob_get_level() )
 			ob_end_clean();

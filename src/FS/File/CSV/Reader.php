@@ -18,9 +18,9 @@ use RuntimeException;
  */
 class Reader implements Countable
 {
-	public static $maxRowSize	= 4096;
+	public static int $maxRowSize	= 4096;
 
-	protected $iterator;
+	protected Iterator $iterator;
 
 	/**
 	 *	Constructor.

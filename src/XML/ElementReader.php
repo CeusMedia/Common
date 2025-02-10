@@ -3,7 +3,7 @@
 /**
  *	Reader for XML Elements from File or URL.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,18 +16,20 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\Exception\Conversion as ConversionException;
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
@@ -37,8 +39,8 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class ElementReader
@@ -49,11 +51,16 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$xml		XML string to read
 	 *	@return		Element
-	 *	@throws		Exception	if the XML data could not be parsed
+	 *	@throws		ConversionException		if the XML data could not be parsed
 	 */
 	public static function read( string $xml ): Element
 	{
-		return new Element( $xml );
+		try{
+			return new Element( $xml );
+		}
+		catch( Exception $e ){
+			throw new ConversionException( 'Parsing XML failed', 0, $e );
+		}
 	}
 
 	/**
@@ -62,7 +69,9 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$fileName	File name to XML file
 	 *	@return		Element
-	 *	@throws		Exception	if the XML data could not be parsed
+	 *	@throws		IoException				if file is not existing
+	 *	@throws		IoException				if file is not readable
+	 *	@throws		ConversionException		if the XML data could not be parsed
 	 */
 	public static function readFile( string $fileName ): Element
 	{
@@ -76,7 +85,8 @@ class ElementReader
 	 *	@access		public
 	 *	@param		string		$url		URL to read XML from
 	 *	@return		Element
-	 *	@throws		Exception	if the XML data could not be parsed
+	 *	@throws		IoException				if fetching URL failed
+	 *	@throws		ConversionException		if the XML data could not be parsed
 	 */
 	public static function readUrl( string $url ): Element
 	{

@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Evaluator for XPath Queries.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -32,6 +33,7 @@ use CeusMedia\Common\ADT\OptionObject;
 use CeusMedia\Common\Net\Reader as NetReader;
 use CeusMedia\Common\XML\Validator;
 use DOMDocument;
+use DOMNode;
 use DOMNodeList;
 use DOMXpath;
 use InvalidArgumentException;
@@ -42,17 +44,17 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class XPathQuery extends OptionObject
 {
 	/**	@var		DOMDocument|NULL	$document		DOM Document Object */
-	public $document	= NULL;
+	public ?DOMDocument $document		= NULL;
 
 	/**	@var		DOMXPath|NULL		$xPath			DOM XPath Object */
-	public $xPath		= NULL;
+	public ?DOMXPath $xPath				= NULL;
 
 	/**
 	 *	Returns identified Type of Feed.
@@ -73,7 +75,7 @@ class XPathQuery extends OptionObject
 	 *	@return		DOMNodeList|FALSE|mixed
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
-	public function evaluate( string $path, $node = NULL )
+	public function evaluate( string $path, ?DOMNode $node = NULL ): mixed
 	{
 		if( !$this->xPath )
 			throw new RuntimeException( 'No XML loaded yet.' );
@@ -151,10 +153,12 @@ class XPathQuery extends OptionObject
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
-	 *	@return		DOMNodeList|FALSE|mixed
+	 *	@param		string			$path
+	 *	@param		DOMNode|NULL	$node
+	 *	@return		DOMNodeList|FALSE
 	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
-	public function query( string $path, $node = NULL )
+	public function query( string $path, ?DOMNode $node = NULL ): DOMNodeList|FALSE
 	{
 		if( !$this->xPath )
 			throw new RuntimeException( 'No XML loaded yet.' );

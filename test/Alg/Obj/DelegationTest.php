@@ -43,16 +43,16 @@ final class DelegationTest extends BaseCase
 	}
 
 
-	public function testCall()
+	public function testCall(): void
 	{
 		$delegation	= new Delegation();
 		$delegation->addClass( DelegationTestClass::class, [3] );
 		$actual		= $delegation->doSomething( 6 );
 
-		$this->assertEquals( 18, $actual );
+		self::assertEquals( 18, $actual );
 	}
 
-	public function testCallException1()
+	public function testCallException1(): void
 	{
 		$this->expectException( 'BadMethodCallException' );
 		$this->expectExceptionMessage( 'Method "notExisting" is not existing in added objects');
@@ -62,7 +62,7 @@ final class DelegationTest extends BaseCase
 		$delegation->notExisting( 6 );
 	}
 
-	public function testCallException2()
+	public function testCallException2(): void
 	{
 		$this->expectException( 'RuntimeException' );
 		$this->expectExceptionMessage( 'Method "doSomething" is already set');

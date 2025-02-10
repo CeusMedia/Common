@@ -2,8 +2,9 @@
 
 /**
  *	Exception for Templates.
+ *	Is serializable (to PHP, JSON), renderable and describable.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,32 +17,43 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Exception;
 
-use RuntimeException;
+use CeusMedia\Common\Exception\Traits\Creatable as CreatableTrait;
+use CeusMedia\Common\Exception\Traits\Descriptive as DescriptiveTrait;
+use CeusMedia\Common\Exception\Traits\Jsonable as JsonableTrait;
+use CeusMedia\Common\Exception\Traits\Renderable as RenderableTrait;
+use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
 use Throwable;
 
 /**
  *	Exception for Templates.
+ *	Is serializable (to PHP, JSON), renderable and describable.
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Template extends RuntimeException
+class Template extends Runtime
 {
+	use CreatableTrait;
+	use DescriptiveTrait;
+	use JsonableTrait;
+	use RenderableTrait;
+	use SerializableTrait;
+
 	public const FILE_NOT_FOUND			= 0;
 	public const FILE_LABELS_MISSING	= 1;
 	public const LABELS_MISSING			= 2;

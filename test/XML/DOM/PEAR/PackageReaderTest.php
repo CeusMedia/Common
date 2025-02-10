@@ -52,6 +52,6 @@ class PackageReaderTest extends BaseCase
 	{
 		$assertion	= unserialize( file_get_contents( $this->path."package.serial" ) );
 		$creation	= $this->reader->getPackageDataFromXmlFile( $this->path."package.xml" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

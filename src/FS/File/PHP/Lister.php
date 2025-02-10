@@ -2,7 +2,7 @@
 /**
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -15,13 +15,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,26 +36,26 @@ use RecursiveIteratorIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
 class Lister extends FilterIterator
 {
-	public $extensions			= [];
+	public array $extensions			= [];
 
-	public $ignoreFolders		= [];
+	public array $ignoreFolders			= [];
 
-	public $ignoreFiles			= [];
+	public array $ignoreFiles			= [];
 
-	public $skippedFiles		= [];
+	public array $skippedFiles			= [];
 
-	public $skippedFolders		= [];
+	public array $skippedFolders		= [];
 
-	protected $path;
+	protected string $path;
 
-	protected $verbose;
+	protected bool $verbose;
 
 	public function __construct( string $path, array $extensions = [], array $ignoreFolders = [], array $ignoreFiles = [], bool $verbose = TRUE )
 	{

@@ -5,7 +5,7 @@
  *	It is a Dictionary where Keys can contain Dots.
  *	All Method work with complete Keys and single Values or Prefix Keys and Arrays.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,18 +18,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\ADT\Collection;
 
+use CeusMedia\Common\Exception\Data\Missing as MissingDataException;
 use InvalidArgumentException;
 
 /**
@@ -39,18 +40,26 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
  */
 class LevelMap extends Dictionary
 {
+	/** @var	non-empty-string	$divider	Level dividing sign */
 	protected string $divider		= ".";
 
-	public function __construct( array $array = [], string $divider = "." )
+	/**
+	 *	Constructor.
+	 *	@param		array		$array
+	 *	@param		string		$divider		Level dividing sign
+	 */
+	public function __construct( array $array = [], string $divider = '.' )
 	{
 		parent::__construct( $array );
+		if( 0 === strlen( $divider ) )
+			throw new MissingDataException( 'Divider cannot be empty' );
 		$this->divider	= $divider;
 	}
 
@@ -62,7 +71,7 @@ class LevelMap extends Dictionary
 	 *	@return		mixed
 	 *	@throws		InvalidArgumentException	if key is invalid
 	 */
-	public function get( string $key, $default = NULL )
+	public function get( string $key, mixed $default = NULL ): mixed
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )
@@ -81,14 +90,9 @@ class LevelMap extends Dictionary
 		//  get Length of Prefix Key outside the Loop
 		$length		= strlen( $key );
 		//  iterate all stores Pairs
-		foreach( $this->pairs as $pairKey => $pairValue )
-		{
-			//  pre-check for Performance
-			if( $pairKey[0] !== $key[0] )
-				//  skip Pair
-				continue;
+		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 )
+			if( str_starts_with( $pairKey, $key ) )
 				//  collect Pair
 				$list[substr( $pairKey, $length )]	= $pairValue;
 		}
@@ -105,7 +109,9 @@ class LevelMap extends Dictionary
 	 */
 	public function getKeySections( string $prefix = NULL ): array
 	{
-		$keys		= array_keys( $this->getAll( $prefix ) );
+		/** @var array $pairs */
+		$pairs		= $this->getAll( $prefix );
+		$keys		= array_keys( $pairs );
 		natcasesort( $keys );
 		$sections		= [];
 		$lastSection	= NULL;
@@ -144,15 +150,9 @@ class LevelMap extends Dictionary
 		$key		.= $this->divider;
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue )
-		{
-			//  pre-check for Performance
-			if( $pairKey[0] !== $key[0] )
-				//  skip Pair
-				continue;
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 )
+			if( str_starts_with( $pairKey, $key ) )
 				return TRUE;
-		}
 		return FALSE;
 	}
 
@@ -180,14 +180,9 @@ class LevelMap extends Dictionary
 		//  prepare Prefix Key to search for
 		$key		.= $this->divider;
 		//  iterate all stores Pairs
-		foreach( $this->pairs as $pairKey => $pairValue )
-		{
-			//  pre-check for Performance
-			if( $pairKey[0] !== $key[0] )
-				//  skip Pair
-				continue;
+		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 ){
+			if( str_starts_with( $pairKey, $key ) ){
 				//  remove Pair
 				unset( $this->pairs[$pairKey] );
 				$count++;
@@ -200,11 +195,11 @@ class LevelMap extends Dictionary
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string			$key		Key in Dictionary
-	 *	@param		string|array	$value		Value of Key
+	 *	@param		mixed			$value		Value of Key
 	 *	@param		bool			$sort		Flag: sort by Keys after Insertion
 	 *	@return		bool
 	 */
-	public function set(string $key, $value, bool $sort = TRUE ): bool
+	public function set( string $key, mixed $value, bool $sort = TRUE ): bool
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )

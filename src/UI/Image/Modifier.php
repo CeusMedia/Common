@@ -4,7 +4,7 @@
 /**
  *	Abstract basic class for all image modifying classes.
  *
- *	Copyright (c) 2009-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,19 +17,20 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\UI\Image;
 
 use Exception;
+use GdImage;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -38,29 +39,29 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 abstract class Modifier
 {
-	/*	@var		int			$quality		Quality of Target Image */
-	protected $quality;
+	/*	@var		int				$quality		Quality of Target Image */
+	protected int $quality;
 
-	/*	@var		array		$size			Sizes of Source Image */
-	protected $sourceInfo		= [];
+	/*	@var		array			$sourceInfo		Sizes of Source Image */
+	protected array $sourceInfo		= [];
 
-	/*	@var		string		$source			Source image */
-	protected $source;
+	/*	@var		GdImage|NULL	$source			Source image */
+	protected ?GdImage $source		= NULL;
 
-	/*	@var		string		$sourceUri		Source image URI */
-	protected $sourceUri;
+	/*	@var		string|NULL		$sourceUri		Source image URI */
+	protected ?string $sourceUri	= NULL;
 
-	/*	@var		string		$target			Target image */
-	protected $target;
+	/*	@var		GdImage|NULL	$target			Target image */
+	protected ?GdImage $target		= NULL;
 
-	/*	@var		string		$targetUri		Target image URI */
-	protected $targetUri;
+	/*	@var		string|NULL		$targetUri		Target image URI */
+	protected ?string $targetUri	= NULL;
 
 	/**
 	 *	Constructor.
@@ -79,23 +80,16 @@ abstract class Modifier
 		$this->setQuality( $quality );
 	}
 
-	public function loadImage()
+	public function loadImage(): void
 	{
 		if( !$this->sourceUri )
 			throw new RuntimeException( 'No source image URI set' );
-		switch( $this->sourceInfo[2] ){
-			case IMAGETYPE_GIF:
-				$this->source	= imagecreatefromgif( $this->sourceUri );
-				break;
-			case IMAGETYPE_JPEG:
-				$this->source	= imagecreatefromjpeg( $this->sourceUri );
-				break;
-			case IMAGETYPE_PNG:
-				$this->source	= imagecreatefrompng( $this->sourceUri );
-				break;
-			default:
-				throw new Exception( 'Image type "'.$this->sourceInfo['mime'].'" is no supported' );
-		}
+		$this->source = match( $this->sourceInfo[2] ){
+			IMAGETYPE_GIF	=> imagecreatefromgif($this->sourceUri),
+			IMAGETYPE_JPEG	=> imagecreatefromjpeg($this->sourceUri),
+			IMAGETYPE_PNG	=> imagecreatefrompng($this->sourceUri),
+			default			=> throw new Exception('Image type "' . $this->sourceInfo['mime'] . '" is no supported'),
+		};
 	}
 
 	/**
@@ -112,17 +106,13 @@ abstract class Modifier
 			throw new RuntimeException( 'No modification applied' );
 		if( !$this->targetUri )
 			throw new RuntimeException( 'No target image URI set' );
-		$type	= $type ? $type : $this->sourceInfo[2];
-		switch( $type ){
-			case IMAGETYPE_GIF:
-				return imagegif( $this->target, $this->targetUri );
-			case IMAGETYPE_JPEG:
-				return imagejpeg( $this->target, $this->targetUri, $this->quality );
-			case IMAGETYPE_PNG:
-				return imagepng( $this->target, $this->targetUri );
-			default:
-				throw new Exception( 'Image Type "'.$type.'" is no supported' );
-		}
+		$type	= $type ?: $this->sourceInfo[2];
+		return match( $type ){
+			IMAGETYPE_GIF	=> imagegif($this->target, $this->targetUri),
+			IMAGETYPE_JPEG	=> imagejpeg($this->target, $this->targetUri, $this->quality),
+			IMAGETYPE_PNG	=> imagepng($this->target, $this->targetUri),
+			default			=> throw new Exception('Image Type "' . $type . '" is no supported'),
+		};
 	}
 
 	/**

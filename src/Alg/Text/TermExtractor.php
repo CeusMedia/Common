@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Extracts Terms from a Text Document.
  *
- *	Copyright (c) 2009-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,18 +18,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Alg\Text;
 
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
 use CeusMedia\Common\FS\File\Editor as FileEditor;
 
 /**
@@ -35,8 +38,8 @@ use CeusMedia\Common\FS\File\Editor as FileEditor;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
@@ -45,6 +48,10 @@ class TermExtractor
 	public static array $blacklist					= [];
 	public static bool $backlistCaseSensitive		= FALSE;
 
+	/**
+	 *	@param		string		$text
+	 *	@return		array
+	 */
 	public static function getTerms( string $text ): array
 	{
 		$list	= [];
@@ -77,6 +84,11 @@ class TermExtractor
 		return $list;
 	}
 
+	/**
+	 *	@param		string		$fileName
+	 *	@return		void
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 */
 	public static function loadBlacklist( string $fileName ): void
 	{
 		$string	= FileEditor::load( $fileName );
@@ -88,6 +100,10 @@ class TermExtractor
 		self::setBlacklist( array_unique( $list ) );
 	}
 
+	/**
+	 *	@param		array		$list
+	 *	@return		void
+	 */
 	public static function setBlacklist( array $list ): void
 	{
 		self::$blacklist	= array_unique( $list );

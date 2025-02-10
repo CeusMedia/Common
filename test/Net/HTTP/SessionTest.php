@@ -38,7 +38,7 @@ class SessionTest extends BaseCase
 		$this->session->clear();
 		$assertion	= [];
 		$creation	= $_SESSION;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCount()
@@ -46,7 +46,7 @@ class SessionTest extends BaseCase
 		$_SESSION['key1']	= "value1";
 		$assertion	= 1;
 		$creation	= $this->session->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGet()
@@ -54,7 +54,7 @@ class SessionTest extends BaseCase
 		$_SESSION['key1']	= "value1";
 		$assertion	= "value1";
 		$creation	= $this->session->get( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAll()
@@ -63,7 +63,7 @@ class SessionTest extends BaseCase
 		$_SESSION['key2']	= "value2";
 		$assertion	= $_SESSION;
 		$creation	= $this->session->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testHas()
@@ -71,7 +71,7 @@ class SessionTest extends BaseCase
 		$_SESSION['key3']	= "value3";
 		$assertion	= "value3";
 		$creation	= $this->session->get( 'key3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetExists()
@@ -79,7 +79,7 @@ class SessionTest extends BaseCase
 		$_SESSION['key4']	= "value4";
 
 		$creation	= isset( $this->session['key4'] );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 	}
 
@@ -88,7 +88,7 @@ class SessionTest extends BaseCase
 		$_SESSION['key5']	= "value5";
 		$assertion	= "value5";
 		$creation	= $this->session['key5'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetSet()
@@ -96,7 +96,7 @@ class SessionTest extends BaseCase
 		$this->session['key6']	= "value6";
 		$assertion	= "value6";
 		$creation	= $_SESSION['key6'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetUnset()
@@ -105,7 +105,7 @@ class SessionTest extends BaseCase
 		unset( $this->session['key7'] );
 
 		$creation	= isset( $_SESSION['key7'] );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	public function testRemove()
@@ -114,7 +114,7 @@ class SessionTest extends BaseCase
 		$this->session->remove( 'key8' );
 
 		$creation	= isset( $_SESSION['key8'] );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	public function testSet()
@@ -123,6 +123,6 @@ class SessionTest extends BaseCase
 		$this->session->set( 'key9', "value9" );
 		$assertion	= "value9";
 		$creation	= $_SESSION['key9'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -48,28 +48,28 @@ class RandomizerTest extends BaseCase
 		$string		= $this->randomizer->get( 1 );
 
 		$creation	= is_string( $string );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= 1;
 		$creation	= strlen( $string );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= (bool) preg_match( "@^[a-zA-Z0-9]$@", $string );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$this->randomizer->useLarges	= FALSE;
 		$this->randomizer->useDigits	= FALSE;
 		$string		= $this->randomizer->get( 20 );
 
 		$creation	= is_string( $string );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= 20;
 		$creation	= strlen( $string );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= (bool) preg_match( "@^[a-z]{20}$@", $string );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class RandomizerTest extends BaseCase
 	{
 		$strong		= $this->randomizer->get( 15, 30 );
 
-		$this->assertIsString( $strong );
+		self::assertIsString( $strong );
 	}
 
 	/**
@@ -94,7 +94,7 @@ class RandomizerTest extends BaseCase
 		$this->randomizer->unique	= TRUE;
 		$random		= $this->randomizer->get( 45 );
 		$unique		= join( array_keys( array_flip( str_split( $random ) ) ) );
-		$this->assertEquals( $unique, $random );
+		self::assertEquals( $unique, $random );
 	}
 
 	/**
@@ -107,8 +107,8 @@ class RandomizerTest extends BaseCase
 		$this->randomizer->unique	= FALSE;
 		$string		= $this->randomizer->get( 240 );
 
-		$this->assertIsString( $string );
-		$this->assertEquals( 240, strlen( $string ) );
+		self::assertIsString( $string );
+		self::assertEquals( 240, strlen( $string ) );
 	}
 
 	/**

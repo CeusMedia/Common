@@ -4,7 +4,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,22 +17,24 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder_Treeview
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\Folder\Treeview;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Exception\Conversion as ConversionException;
 use CeusMedia\Common\UI\HTML\Tag;
 use DirectoryIterator;
-use JsonException;
+use SplFileInfo;
 
 /**
  *	...
@@ -40,8 +42,8 @@ use JsonException;
  *	@package		CeusMedia_Common_FS_Folder_Treeview
  *	@todo			Code Doc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Json
@@ -49,10 +51,10 @@ class Json
 	protected string $basePath;
 	protected ?string $logFile;
 
-	public string $classLeaf		= "file";
-	public string $classNode		= "folder";
+	public string $classLeaf		= 'file';
+	public string $classNode		= 'folder';
 
-	public string $fileUrl			= "./?file=";
+	public string $fileUrl			= './?file=';
 	public ?string $fileTarget		= NULL;
 
 	public function __construct( string $basePath, ?string $logFile = NULL )
@@ -66,7 +68,7 @@ class Json
 	 *	@param			string		$path
 	 *	@return			string
 	 *	@noinspection	PhpUnused
-	 *	@throws			JsonException
+	 *	@throws			ConversionException
 	 */
 	public function buildJson( string $path = '' ): string
 	{
@@ -74,8 +76,9 @@ class Json
 		$index		= new DirectoryIterator( $this->basePath.$path );
 		$folders	= [];
 		$files		= [];
+		/** @var SplFileInfo $entry */
 		foreach( $index as $entry ){
-			if( substr( $entry->getFilename(), 0, 1 ) == "." )
+			if( str_starts_with( $entry->getFilename(), '.' ) )
 				continue;
 			if( $entry->isDir() )
 				$folders[]	= $this->buildFolderItem( $entry );
@@ -83,14 +86,14 @@ class Json
 				$files[]		= $this->buildFileItem( $entry );
 		}
 		$list	= [...$folders, ...$files];
-		$json	= json_encode( $list, JSON_THROW_ON_ERROR );
+		$json	= JsonEncoder::create()->encode( $list );
 		if( $this->logFile )
 			$this->log( $path, count( $list ), strlen( $json ), (int) $clock->stop( 6, 0 ) );
 		return $json;
 	}
 
 
-	protected function buildFileItem( $entry ): array
+	protected function buildFileItem( SplFileInfo $entry ): array
 	{
 		$label		= $entry->getFilename();
 		$url		= $this->getFileUrl( $entry );
@@ -105,7 +108,7 @@ class Json
 		];
 	}
 
-	protected function buildFolderItem( $entry ): array
+	protected function buildFolderItem( SplFileInfo $entry ): array
 	{
 		return [
 			'text'			=> $entry->getFilename(),
@@ -115,28 +118,28 @@ class Json
 		];
 	}
 
-	protected function getFileExtension( $entry ): string
+	protected function getFileExtension( SplFileInfo $entry ): string
 	{
 		return pathinfo( $entry->getPathname(), PATHINFO_EXTENSION );
 	}
 
-	protected function getFileUrl( $entry ): string
+	protected function getFileUrl( SplFileInfo $entry ): string
 	{
 		return $this->fileUrl.rawurlencode( $this->getPathName( $entry ) );
 	}
 
-	protected function getPathname( $entry ): string
+	protected function getPathname( SplFileInfo $entry ): string
 	{
 		$path	= str_replace( "\\", "/", $entry->getPathname() );
 		$base	= str_replace( "\\", "/", $this->basePath );
 		return substr( $path, strlen( $base ) );
 	}
 
-	protected function hasChildren( $entry ): bool
+	protected function hasChildren( SplFileInfo $entry ): bool
 	{
 		$childIndex	= new DirectoryIterator( $entry->getPathname() );
 		foreach( $childIndex as $child ){
-			if( substr( $child->getFilename(), 0, 1 ) == "." )
+			if( str_starts_with( $child->getFilename(), '.' ) )
 				continue;
 			if( $child->isLink() )
 				continue;

@@ -56,7 +56,7 @@ class RecursiveRegexFilterTest extends TestCase
 		);
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -73,7 +73,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$creation	= $files;
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -101,7 +101,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -118,7 +118,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$creation	= $files;
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -135,7 +135,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$assertion	= [];
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -152,7 +152,7 @@ class RecursiveRegexFilterTest extends TestCase
 		$creation	= $files;
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -168,11 +168,11 @@ class RecursiveRegexFilterTest extends TestCase
 
 		$assertion	= [];
 		$creation	= $folders;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -195,12 +195,12 @@ class RecursiveRegexFilterTest extends TestCase
 		);
 		$creation	= $folders;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -220,11 +220,11 @@ class RecursiveRegexFilterTest extends TestCase
 			'sub1sub2',
 		);
 		$creation	= $folders;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -246,10 +246,10 @@ class RecursiveRegexFilterTest extends TestCase
 		$creation	= $folders;
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

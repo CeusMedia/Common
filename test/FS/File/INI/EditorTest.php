@@ -84,19 +84,19 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->activateProperty( 'key5' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= in_array( 'key5', array_keys( $this->list->getProperties( TRUE ) ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->activateProperty( 'key5', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= in_array( 'key5', array_keys( $this->sections->getProperties( TRUE, 'section2' ) ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -152,27 +152,27 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->addProperty( 'key6', "new_value6" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= in_array( 'key6', array_keys( $this->list->getProperties( TRUE ) ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->addProperty( 'key6', "new_value6", NULL, TRUE, 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= in_array( 'key6', array_keys( $this->sections->getProperties( TRUE, 'section1' ) ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->addProperty( 'key7', "new_value7", 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= in_array( 'key7', array_keys( $this->sections->getProperties( TRUE, 'section2' ) ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -184,11 +184,11 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->sections->addSection( 'test_section' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->hasSection( 'test_section' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -211,19 +211,19 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->deactivateProperty( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->list->isActiveProperty( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->deactivateProperty( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->isActiveProperty( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -279,19 +279,19 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->deleteProperty( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->list->hasProperty( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->deleteProperty( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->hasProperty( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -325,27 +325,27 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->renameProperty( 'key2', 'key2renamed' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->list->hasProperty( 'key2renamed' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->list->hasProperty( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->renameProperty( 'key3', 'key3renamed', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->hasProperty( 'key3renamed', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->hasProperty( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -379,15 +379,15 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->sections->renameSection( 'section2', 'section2renamed' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->hasSection( 'section2renamed' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->hasSection( 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -410,11 +410,11 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->sections->removeSection( 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->hasSection( 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -448,19 +448,19 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->setComment( 'key1', "new comment of key 1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "new comment of key 1";
 		$creation	= $this->list->getComment( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->setComment( 'key3', "new comment of key 3", 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "new comment of key 3";
 		$creation	= $this->sections->getComment( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -494,29 +494,29 @@ class EditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->setProperty( 'key2', "new_value_of KEY 2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "new_value_of KEY 2";
 		$creation	= $this->list->getProperty( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->list->setProperty( 'key2', "new_value_of KEY '2'" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "new_value_of KEY '2'";
 		$creation	= $this->list->getProperty( 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->list->setProperty( 'key_x', "new_value_of KEY 'x'" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 #remark( );
 
 		$assertion	= "new_value_of KEY 'x'";
 		$creation	= $this->list->getProperty( 'key_x' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -529,18 +529,18 @@ class EditorTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->setProperty( 'key3', "new_value_of KEY 3", 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "new_value_of KEY 3";
 		$creation	= $this->sections->getProperty( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->setProperty( 'key_x', "new_value_of KEY 'x'", 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "new_value_of KEY 'x'";
 		$creation	= $this->sections->getProperty( 'key_x', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

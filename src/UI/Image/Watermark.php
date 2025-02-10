@@ -4,7 +4,7 @@
 /**
  *	Mark Image with another Image.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2005-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2005-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,35 +36,35 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2005-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2005-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Watermark
 {
 	/**	@var		array		$size			Array of Information of Stamp Image */
-	protected $size;
+	protected array $size;
 
 	/**	@var		Creator		$stamp			File Name of Stamp Image */
-	protected $stamp;
+	protected Creator $stamp;
 
 	/**	@var		int			$quality		Quality of resulting JPEG Image */
-	protected $quality;
+	protected int $quality;
 
 	/**	@var		string		$positionH		Horizontal Position of Stamp Image (left, center, right) */
-	protected $positionH		= 'right';
+	protected string $positionH		= 'right';
 
 	/**	@var		string		$positionV		Vertical Position of Stamp Image (top, middle, bottom) */
-	protected $positionV		= 'bottom';
+	protected string $positionV		= 'bottom';
 
 	/**	@var		int			$marginX		Horizontal Margin of Stamp Image */
-	protected $marginX			= 0;
+	protected int $marginX			= 0;
 
 	/**	@var		int			$marginY		Vertical Margin of Stamp Image */
-	protected $marginY			= 0;
+	protected int $marginY			= 0;
 
 	/**	@var		int			$alpha			Opacity of Stamp Image */
-	protected $alpha;
+	protected int $alpha;
 
 	/**
 	 *	Constructor.
@@ -177,9 +177,9 @@ class Watermark
 	 *	@access		public
 	 *	@param		string		$horizontal 	Horizontal Position of Stamp Image (left,center,right)
 	 *	@param		string		$vertical 		Vertical Position of Stamp Image (top,middle,bottom)
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setPosition( string $horizontal, string $vertical )
+	public function setPosition( string $horizontal, string $vertical ): self
 	{
 		if( in_array( $horizontal, ['left', 'center', 'right'] ) )
 			$this->positionH	= $horizontal;
@@ -189,6 +189,7 @@ class Watermark
 			$this->positionV	= $vertical;
 		else
 			throw new InvalidArgumentException( 'Vertical Position "'.$horizontal.'" must be on of (top, middle, bottom).' );
+		return $this;
 	}
 
 	/**

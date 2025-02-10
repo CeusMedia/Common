@@ -85,11 +85,11 @@ class BuilderTest extends BaseCase
 	{
 		$assertion	= new XmlDomBuilder();
 		$creation	= $this->builder->getProtectedVar( 'builder' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "timezone";
 		$creation	= key( array_slice( $this->builder->getProtectedVar( 'channel' ), 0, 1 ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -109,12 +109,12 @@ class BuilderTest extends BaseCase
 
 		$assertion	= 1;
 		$creation	= count( $this->builder->getProtectedVar( 'items' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$items		= $this->builder->getProtectedVar( 'items' );
 		$assertion	= $item;
 		$creation	= array_pop( $items );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -128,7 +128,7 @@ class BuilderTest extends BaseCase
 		$this->builder->setItemList( $this->setup['items'] );
 
 		$this->builder->build();
-		$this->assertXmlFileEqualsXmlFile( $this->file, $this->path."builder2.xml" );
+		self::assertXmlFileEqualsXmlFile( $this->file, $this->path."builder2.xml" );
 	}
 
 	/**
@@ -154,11 +154,11 @@ class BuilderTest extends BaseCase
 
 		$assertion	= $count + 1;
 		$creation	= count( $this->builder->getProtectedVar( 'channel' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( 'key1' => "value1" );
 		$creation	= array_slice( $this->builder->getProtectedVar( 'channel' ), -1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -177,7 +177,7 @@ class BuilderTest extends BaseCase
 
 		$assertion	= $count + 2;
 		$creation	= count( $this->builder->getProtectedVar( 'channel' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -192,11 +192,11 @@ class BuilderTest extends BaseCase
 
 		$assertion	= count( $items );
 		$creation	= count( $this->builder->getProtectedVar( 'items' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $items;
 		$creation	= $this->builder->getProtectedVar( 'items' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }
 

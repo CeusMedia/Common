@@ -65,9 +65,9 @@ class CaptchaTest extends BaseCase
 	{
 		$word		= $this->captcha->generateWord();
 
-		$this->assertIsString( $word );
-		$this->assertDoesNotMatchRegularExpression( "@[0-9]@", $word );
-		$this->assertDoesNotMatchRegularExpression( "@[A-Z]@", $word );
+		self::assertIsString( $word );
+		self::assertDoesNotMatchRegularExpression( "@[0-9]@", $word );
+		self::assertDoesNotMatchRegularExpression( "@[A-Z]@", $word );
 
 		$captcha	= new Captcha();
 		$captcha->useLarges	= TRUE;
@@ -76,8 +76,8 @@ class CaptchaTest extends BaseCase
 		$captcha->font		= $this->path."tahoma.ttf";
 		$word		= $captcha->generateWord();
 
-		$this->assertIsString( $word );
-		$this->assertMatchesRegularExpression( "@[A-Z]|[0-9]@", $word );
+		self::assertIsString( $word );
+		self::assertMatchesRegularExpression( "@[A-Z]|[0-9]@", $word );
 	}
 
 	/**
@@ -89,18 +89,18 @@ class CaptchaTest extends BaseCase
 	{
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 
-		$this->assertIsInt( $result );
-		$this->assertGreaterThan( 0, $result );
+		self::assertIsInt( $result );
+		self::assertGreaterThan( 0, $result );
 
 		$oldImage	= file_get_contents( $this->path."captcha.created.jpg" );
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 		$newImage	= file_get_contents( $this->path."captcha.created.jpg" );
 
-		$this->assertIsInt( $result );
-		$this->assertGreaterThan( 0, $result );
+		self::assertIsInt( $result );
+		self::assertGreaterThan( 0, $result );
 
 		$creation	= $newImage	!= $oldImage;
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -116,18 +116,18 @@ class CaptchaTest extends BaseCase
 
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 
-		$this->assertIsInt( $result );
-		$this->assertGreaterThan( 0, $result );
+		self::assertIsInt( $result );
+		self::assertGreaterThan( 0, $result );
 
 		$oldImage	= file_get_contents( $this->path."captcha.created.jpg" );
 		$result		= $this->captcha->generateImage( "abc123", $this->path."captcha.created.jpg" );
 		$newImage	= file_get_contents( $this->path."captcha.created.jpg" );
 
-		$this->assertIsInt( $result );
-		$this->assertGreaterThan( 0, $result );
+		self::assertIsInt( $result );
+		self::assertGreaterThan( 0, $result );
 
 		$creation	= $newImage	== $oldImage;
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**

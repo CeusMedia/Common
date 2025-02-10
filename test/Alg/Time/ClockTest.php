@@ -15,9 +15,9 @@ declare( strict_types = 1 );
 namespace CeusMedia\CommonTest\Alg\Time;
 
 use CeusMedia\Common\Alg\Time\Clock;
-use CeusMedia\CommonTest\Alg\Time\ClockMockAntiProtection as Mock;
 use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\CommonTest\MockAntiProtection;
+use CeusMedia\CommonTest\MockAntiProtection as Mock;
 
 /**
  *	TestUnit of Clock.
@@ -26,16 +26,6 @@ use CeusMedia\CommonTest\MockAntiProtection;
  */
 final class ClockTest extends BaseCase
 {
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		MockAntiProtection::createMockClass( Clock::class );
-	}
-
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
@@ -52,10 +42,10 @@ final class ClockTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$watch	= new Mock();
+		$watch		= Mock::getInstance( Clock::class );
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microTimeStart' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -67,13 +57,13 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microTime( TRUE );
 
-		$watch	= new Mock();
+		$watch	= Mock::getInstance( Clock::class );
 		$watch->setProtectedVar( 'microTimeStart', $time - 2 );
 		$watch->sleep( 1 );
 
 		$assertion	= $time - 1;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -91,7 +81,7 @@ final class ClockTest extends BaseCase
 
 		$assertion	= $time;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}*/
 
 	/**
@@ -103,13 +93,13 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microtime( TRUE );
 
-		$watch	= new Mock();
+		$watch	= Mock::getInstance( Clock::class );
 		$watch->setProtectedVar( 'microTimeStart', $time );
 		$watch->speed( 1 );
 
 		$assertion	= $time - 1;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -119,10 +109,10 @@ final class ClockTest extends BaseCase
 	 */
 	public function testStart()
 	{
-		$watch	= new Mock();
+		$watch	= Mock::getInstance( Clock::class );
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microTimeStart' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -132,11 +122,11 @@ final class ClockTest extends BaseCase
 	 */
 	public function testStop()
 	{
-		$watch	= new Mock();
+		$watch	= Mock::getInstance( Clock::class );
 		$watch->stop();
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->stop() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -148,13 +138,13 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microtime( TRUE );
 
-		$watch	= new Mock();
+		$watch	= Mock::getInstance( Clock::class );
 		$watch->setProtectedVar( 'microTimeStart', $time - 2 );
 		$watch->usleep( 1000000 );
 
 		$assertion	= $time - 1;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -166,13 +156,13 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microtime( TRUE );
 
-		$watch	= new Mock();
+		$watch	= Mock::getInstance( Clock::class );
 		$watch->setProtectedVar( 'microTimeStart', $time );
 		$watch->uspeed( 1000 );
 
 		$assertion	= $time - 0.001;
 		$creation	= $watch->getProtectedVar( 'microTimeStart' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -182,21 +172,33 @@ final class ClockTest extends BaseCase
 	 */
 	public function testGetTime()
 	{
-		$watch	= new Mock();
+    /** @var MockAntiProtection $watch */
+		$watch	= Mock::getInstance( Clock::class );
 
-		$watch->setProtectedVar( 'microTimeStart', (float) time().".00000000" );
-		$watch->setProtectedVar( 'microTimeStop', (float) time().".12345678" );
+		$watch->setProtectedVar( 'microTimeStop', (float) ( time().".12345678" ) );
+		$watch->setProtectedVar( 'microTimeStart', (float) ( time().".00000000" ) );
 
 		$assertion	= 123.457;
 		$creation	= $watch->getTime( 3, 3 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 123457;
 		$creation	= $watch->getTime( 6, 0 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 0.123;
 		$creation	= $watch->getTime( 0 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		Mock::createMockClass( Clock::class );
 	}
 }
+

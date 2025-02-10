@@ -79,7 +79,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::__toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -92,7 +92,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::create();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -105,7 +105,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::get();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -118,7 +118,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getAbsolute();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -143,7 +143,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getRelative();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -156,7 +156,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getAbsoluteTo();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -182,16 +182,16 @@ class URLTest extends BaseCase
 		$url2	= new URL( 'http://abc.de/path/nested/abc' );
 
 		$expected	= 'nested/abc';
-		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
+		self::assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
 
 		$url2	= new URL( 'http://abc.de/abc' );
 		$expected	= '../abc';
-		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
+		self::assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
 
 		$url1	= new URL( 'http://abc.de/a/b/c/' );
 		$url2	= new URL( 'http://abc.de/d/e/f/g?p=1' );
 		$expected	= '../../../d/e/f/g?p=1';
-		$this->assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
+		self::assertEquals( $expected, $url2->getRelativeTo( $url1 ) );
 	}
 
 	/**
@@ -204,7 +204,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getFragment();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getHost();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -230,7 +230,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getPassword();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -242,23 +242,23 @@ class URLTest extends BaseCase
 	{
 		$assertion	= '/';
 		$creation	= $this->create( '/' )->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '/a';
 		$creation	= $this->create( 'a' )->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '/path';
 		$creation	= $this->create( 'https://domain.tld/path' )->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '/path/to/somewhere/';
 		$creation	= $this->create( 'https://domain.tld/path/to/somewhere/' )->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '/path/to/somewhere';
 		$creation	= $this->create( 'https://domain.tld/path/to/somewhere?width=queryPart#havingFragment' )->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -271,7 +271,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getPort();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -284,7 +284,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getQuery();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -297,7 +297,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getScheme();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -310,7 +310,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::getUsername();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -323,7 +323,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::isAbsolute();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -336,7 +336,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::isRelative();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -404,7 +404,7 @@ class URLTest extends BaseCase
 			'with=query'		=> $object->getQuery(),
 			'havingFragment'	=> $object->getFragment(),
 		) as $key => $value )
-			$this->assertEquals( $key, $value );
+			self::assertEquals( $key, $value );
 
 //		$this->markTestIncomplete( 'Incomplete Test' );
 	}
@@ -443,7 +443,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::setAuth();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -456,7 +456,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::setDefault();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -481,7 +481,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::setFragment();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -494,11 +494,11 @@ class URLTest extends BaseCase
 		$object		= $this->create( '/' );
 		$assertion	= 'myhost.net';
 		$creation	= $object->setHost( $assertion )->getHost();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '';
 		$creation	= $object->setHost( $assertion )->getHost();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -511,11 +511,11 @@ class URLTest extends BaseCase
 		$object		= $this->create( '/' );
 		$assertion	= 'test123';
 		$creation	= $object->setPassword( $assertion )->getPassword();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '';
 		$creation	= $object->setPassword( $assertion )->getPassword();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -528,7 +528,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::setPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -553,7 +553,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::setQuery();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -566,7 +566,7 @@ class URLTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= URL::setScheme();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -579,10 +579,10 @@ class URLTest extends BaseCase
 		$object		= $this->create( '/' );
 		$assertion	= 'frank_the-Tank';
 		$creation	= $object->setUsername( $assertion )->getUsername();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '';
 		$creation	= $object->setUsername( $assertion )->getUsername();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -96,12 +96,12 @@ class QueryParserTest extends BaseCase
 		$query		= "";
 		$assertion	= [];
 		$creation	= QueryParser::toArray( $query );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$query		= "&&&";
 		$assertion	= [];
 		$creation	= QueryParser::toArray( $query );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -119,7 +119,7 @@ class QueryParserTest extends BaseCase
 			'd'	=> NULL,
 		);
 		$creation	= QueryParser::toArray( $query );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -137,7 +137,7 @@ class QueryParserTest extends BaseCase
 			'd'	=> NULL,
 		);
 		$creation	= QueryParser::toArray( $query, ";", "," );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -154,7 +154,7 @@ class QueryParserTest extends BaseCase
 			'long'	=> "a-z0-9._:#",
 		);
 		$creation	= QueryParser::toArray( $query );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -173,7 +173,7 @@ class QueryParserTest extends BaseCase
 			),
 		);
 		$creation	= QueryParser::toArray( $query );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class QueryParserTest extends BaseCase
 			)
 		);
 		$creation	= QueryParser::toArray( $query );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -212,7 +212,7 @@ class QueryParserTest extends BaseCase
 			)
 		);
 		$creation	= QueryParser::toArray( $query, ";", "," );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -230,6 +230,6 @@ class QueryParserTest extends BaseCase
 			'::key4'	=> "123",
 		);
 		$creation	= QueryParser::toArray( $query );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

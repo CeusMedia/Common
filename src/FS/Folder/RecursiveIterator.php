@@ -3,7 +3,7 @@
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
- *	Copyright (c) 2008-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2008-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,27 +38,27 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2008-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class RecursiveIterator extends FilterIterator
 {
 	/**	@var		 string		$path				Path to iterate */
-	protected $path;
+	protected string $path;
 
 	/**	@var		 bool		$showFiles			Flag: show Files */
-	protected $showFiles;
+	protected bool $showFiles;
 
 	/**	@var		 bool		$showFolders		Flag: show Folders */
-	protected $showFolders;
+	protected bool $showFolders;
 
 	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
-	protected $stripDotEntries;
+	protected bool $stripDotEntries;
 
-	protected $realPath;
+	protected string $realPath;
 
-	protected $realPathLength;
+	protected int $realPathLength;
 
 	/**
 	 *	Constructor.
@@ -111,11 +111,11 @@ class RecursiveIterator extends FilterIterator
 		//  skip all folders and files starting with a dot
 		if( $this->stripDotEntries ){
 			//  found file or folder is hidden
-			if( substr( $innerIterator->getFilename(), 0, 1 ) === "." )
+			if( str_starts_with( $innerIterator->getFilename(), '.' ) )
 				return FALSE;
 
 			//  inner path is hidden
-			if( substr( $innerIterator->getSubPathname(), 0, 1 ) === "." )
+			if( str_starts_with( $innerIterator->getSubPathname(), '.' ) )
 				return FALSE;
 
 			//  be nice to Windows

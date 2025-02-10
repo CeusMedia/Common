@@ -6,14 +6,15 @@ declare(strict_types=1);
 /**
  *	Indicator for deprecated methods.
  *	@category		Library
+ *	@package		CeusMedia_Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common;
 
-use Exception;
+use CeusMedia\Common\Exception\Deprecation as DeprecationException;
 
 /**
  *	Indicator for deprecated methods.
@@ -25,8 +26,9 @@ use Exception;
  *			->message(  'Use method ... instead' );
  *
  *	@category		Library
+ *	@package		CeusMedia_Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@phpstan-consistent-constructor
  */
@@ -36,6 +38,7 @@ class Deprecation
 	protected string $errorVersion;
 	protected string $exceptionVersion;
 	protected string $phpVersion;
+	protected string $warnVersion;
 
 	/**
 	 *	Creates a new deprecation object.
@@ -56,7 +59,7 @@ class Deprecation
 	 *	@access		public
 	 *	@param		string		$message	Message to show
 	 *	@return		void
-	 *	@throws		Exception				if set exception version reached detected library version
+	 *	@throws		DeprecationException	if set exception version reached detected library version
 	 */
 	public function message( string $message ): void
 	{
@@ -64,11 +67,20 @@ class Deprecation
 		$caller	= next( $trace );
 		if( isset( $caller['file'] ) )
 			$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
-		if( $this->exceptionVersion )
+
+		if( '' !== $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
-				throw new Exception( 'Deprecated: '.$message );
-		if( version_compare( $this->version, $this->errorVersion ) >= 0 )
-			trigger_error( $message.', triggered', E_USER_DEPRECATED );
+				throw new DeprecationException( 'Deprecated: '.$message );
+
+		if( '' !== $this->errorVersion )
+			if( version_compare( $this->version, $this->errorVersion ) >= 0 ){
+				trigger_error( $message.', triggered', E_USER_DEPRECATED );
+				return;
+			}
+
+		if( '' !== $this->warnVersion )
+			if( version_compare( $this->version, $this->warnVersion ) >= 0 )
+				trigger_error( 'Deprecated: '.$message.', triggered', E_USER_WARNING );
 	}
 
 	/**
@@ -80,7 +92,7 @@ class Deprecation
 	 */
 	public function setErrorVersion( string $version ): self
 	{
-		$this->errorVersion		= $version;
+		$this->errorVersion	= $version;
 		return $this;
 	}
 
@@ -94,6 +106,19 @@ class Deprecation
 	public function setExceptionVersion( string $version ): self
 	{
 		$this->exceptionVersion		= $version;
+		return $this;
+	}
+
+	/**
+	 *	Set library version to start triggering a warning.
+	 *	Returns deprecation object for method chaining.
+	 *	@access		public
+	 *	@param		string		$version	Library version to start triggering a warning
+	 *	@return		Deprecation
+	 */
+	public function setWarningVersion( string $version ): self
+	{
+		$this->warnVersion		= $version;
 		return $this;
 	}
 
@@ -123,9 +148,11 @@ class Deprecation
 	 */
 	protected function onInit(): void
 	{
-		$iniFilePath		= dirname( __DIR__ ).'/Common.ini';
-		$iniFileData		= parse_ini_file( $iniFilePath, TRUE );
-		$this->version		= $iniFileData['project']['version'];
-		$this->errorVersion	= $this->version;
+		$iniFilePath			= dirname( __DIR__ ).'/Common.ini';
+		$iniFileData			= parse_ini_file( $iniFilePath, TRUE );
+		$this->version			= $iniFileData['project']['version'];
+		$this->errorVersion		= '';
+		$this->exceptionVersion	= '';
+		$this->warnVersion		= '';
 	}
 }

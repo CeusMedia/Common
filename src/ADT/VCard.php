@@ -3,7 +3,7 @@
 /**
  *	Data Object for vCard.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,36 +16,36 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@link			http://www.ietf.org/rfc/rfc2426.txt
+ *	@link			https://www.ietf.org/rfc/rfc2426.txt
  */
 
 namespace CeusMedia\Common\ADT;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\FS\File\VCard\Builder as VCardFileBuilder;
 use CeusMedia\Common\FS\File\VCard\Parser as VCardFileParser;
 use InvalidArgumentException;
-use Serializable;
 
 /**
  *	Data Object for vCard.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@link			http://www.ietf.org/rfc/rfc2426.txt
+ *	@link			https://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  */
-class VCard implements Serializable
+class VCard
 {
 	/**	@var		array		$types					Array of VCard Types (Entities) */
 	private array $types;
@@ -70,15 +70,28 @@ class VCard implements Serializable
 				'honorificSuffixes'	=> NULL,
 			],
 			'nickname'	=> [],
-			'org'		=> [
+			'org'			=> [
 				'name'		=> NULL,
 				'unit'		=> NULL
 			],
 			'role'		=> NULL,
-			'tel'		=> [],
+			'tel'			=> [],
 			'title'		=> NULL,
-			'url'		=> [],
+			'url'			=> [],
 		];
+	}
+
+	/**
+	 *	@return		array
+	 */
+	public function __serialize(): array
+	{
+		return $this->types;
+	}
+
+	public function __unserialize( array $data ): void
+	{
+		$this->types = $data;
 	}
 
 	/**
@@ -196,7 +209,7 @@ class VCard implements Serializable
 	 *	@param		string		$json					JSON String
 	 *	@return		void
 	 */
-	public function fromJson( string $json )
+	public function fromJson( string $json ): void
 	{
 		self::__construct();
 		$data	= json_decode( $json, TRUE );
@@ -211,7 +224,7 @@ class VCard implements Serializable
 	 *	@param		string		$string			Serialized VCard String
 	 *	@return		void
 	 */
-	public function fromString( string $string )
+	public function fromString( string $string ): void
 	{
 		self::__construct();
 		VCardFileParser::parseInto( $string, $this );
@@ -364,6 +377,7 @@ class VCard implements Serializable
 		return $this->toString();
 	}
 
+
 	/**
 	 *	Sets Name a one formatted String.
 	 *	@access		public
@@ -467,7 +481,7 @@ class VCard implements Serializable
 	 */
 	public function toJson(): string
 	{
-		return json_encode( $this->types );
+		return JsonEncoder::create()->encode( $this->types );
 	}
 
 	/**
@@ -489,7 +503,7 @@ class VCard implements Serializable
 	 *	@param		string		$data					Serialized VCard String
 	 *	@return		void
 	 */
-	public function unserialize( $data )
+	public function unserialize( string $data ): void
 	{
 		$this->fromString( $data );
 	}

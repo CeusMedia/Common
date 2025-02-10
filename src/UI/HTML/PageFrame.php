@@ -5,7 +5,7 @@
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -40,8 +40,8 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class PageFrame
@@ -61,13 +61,13 @@ class PageFrame
 	protected string $docType		= 'XHTML_10_STRICT';
 	protected array $docTypes		= [
 		'HTML_5'					=> '<!DOCTYPE html>',
-		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
-		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
-		'XHTML_10_TRANSITIONAL'		=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-		'XHTML_10_FRAMESET'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
-		'HTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
-		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
-		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
+		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
+		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
+		'XHTML_10_TRANSITIONAL'		=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+		'XHTML_10_FRAMESET'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
+		'HTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "https://www.w3.org/TR/html4/strict.dtd">',
+		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">',
+		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "https://www.w3.org/TR/html4/frameset.dtd">',
 	];
 	protected array $prefixes		= [];
 	protected ?string $profile		= NULL;
@@ -102,9 +102,9 @@ class PageFrame
 	 *	Adds further HTML to Body.
 	 *	@access		public
 	 *	@param		string|Renderable		$string			HTML String for Head
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addBody( $string ): self
+	public function addBody( string|Renderable $string ): static
 	{
 		$this->body[]	= $string instanceof Renderable ? $string->render() : $string;
 		return $this;
@@ -113,10 +113,10 @@ class PageFrame
 	/**
 	 *	Adds a favourite Icon to the Page (supports ICO and other Formats).
 	 *	@access		public
-	 *	@param		string|URL		$url			URL of Icon or Image
-	 *	@return		self
+	 *	@param		URL|string		$url			URL of Icon or Image
+	 *	@return		static
 	 */
-	public function addFavouriteIcon( $url ): self
+	public function addFavouriteIcon( URL|string $url ): static
 	{
 		$url	= $url instanceof URL ? $url->get() : $url;
 		$ext	= strtolower( pathinfo( $url, PATHINFO_EXTENSION ) );
@@ -137,9 +137,9 @@ class PageFrame
 	 *	Adds further HTML to Head.
 	 *	@access		public
 	 *	@param		string|Renderable		$string			HTML String for Head
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addHead( $string ): self
+	public function addHead( string|Renderable $string ): static
 	{
 		$this->head[]	= $string instanceof Renderable ? $string->render() : $string;
 		return $this;
@@ -151,9 +151,9 @@ class PageFrame
 	 *	@param		URL|string		$uri			URI to Script
 	 *	@param		string|NULL		$type			MIME Type of Script
 	 *	@param		string|NULL		$charset		Charset of Script
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addJavaScript( $uri, ?string $type = NULL, ?string $charset = NULL ): self
+	public function addJavaScript( URL|string $uri, ?string $type = NULL, ?string $charset = NULL ): static
 	{
 		$typeDefault	= 'text/javascript';
 		if( isset( $this->metaTags["http-equiv:content-script-type"] ) )
@@ -173,9 +173,9 @@ class PageFrame
 	 *	@param		URL|string		$uri			URI to linked resource
 	 *	@param		string			$relation		Relation to resource like stylesheet, canonical etc.
 	 *	@param		string|NULL		$type			Type of resource
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addLink( $uri, string $relation, ?string $type = NULL ): self
+	public function addLink( URL|string $uri, string $relation, ?string $type = NULL ): static
 	{
 		$this->links[]	= [
 			'uri'		=> $uri instanceof URL ? $uri->get() : $uri,
@@ -191,9 +191,9 @@ class PageFrame
 	 *	@param		string		$type			Meta Tag Key Type (name|http-equiv)
 	 *	@param		string		$key			Meta Tag Key Name
 	 *	@param		string		$value			Meta Tag Value
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addMetaTag( string $type, string $key, string $value ): self
+	public function addMetaTag( string $type, string $key, string $value ): static
 	{
 		$metaData	= [
 			$type		=> $key,
@@ -206,15 +206,20 @@ class PageFrame
 	/**
 	 *	@param		string			$prefix
 	 *	@param		URL|string		$namespace
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addPrefix( string $prefix, $namespace ): self
+	public function addPrefix( string $prefix, URL|string $namespace ): static
 	{
 		$this->prefixes[$prefix]	= $namespace instanceof URL ? $namespace->get() : $namespace;
 		return $this;
 	}
 
-	public function addScript( string $script, string $type = "text/javascript" ): self
+	/**
+	 *	@param		string		$script
+	 *	@param		string		$type
+	 *	@return		static
+	 */
+	public function addScript( string $script, string $type = "text/javascript" ): static
 	{
 		$this->addHead( Tag::create( 'script', $script, ['type' => $type] ) );
 		return $this;
@@ -226,10 +231,10 @@ class PageFrame
 	 *	@param		URL|string		$uri			URI to CSS File
 	 *	@param		string			$media			Media Type (all|screen|print|...), default: screen
 	 *	@param		string|NULL		$type			Content Type, by default 'text/css'
-	 *	@return		self
-	 *	@see		http://www.w3.org/TR/html4/types.html#h-6.13
+	 *	@return		static
+	 *	@see		https://www.w3.org/TR/html4/types.html#h-6.13
 	 */
-	public function addStylesheet( $uri, string $media = "all", ?string $type = NULL ): self
+	public function addStylesheet( URL|string $uri, string $media = "all", ?string $type = NULL ): static
 	{
 		$typeDefault	= 'text/css';
 		if( isset( $this->metaTags["http-equiv:content-style-type"] ) )
@@ -296,7 +301,7 @@ class PageFrame
 		$attributes	= ['lang' => $this->language];
 		if( is_int( strpos( $docType, 'xhtml' ) )/* || $this->docType == 'HTML_5'*/ ){
 			$attributes	= ['xml:lang' => $this->language] + $attributes;
-			$attributes	= ['xmlns' => "http://www.w3.org/1999/xhtml"] + $attributes;
+			$attributes	= ['xmlns' => "https://www.w3.org/1999/xhtml"] + $attributes;
 		}
 		if( $this->prefixes ){
 			$list	= [];
@@ -345,9 +350,9 @@ class PageFrame
 	 *	Sets base URI for all referencing resources.
 	 *	@access		public
 	 *	@param		URL|string		$uri			Base URI for all referencing resources
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setBaseHref( $uri ): self
+	public function setBaseHref( URL|string $uri ): static
 	{
 		$this->baseHref	= $uri instanceof URL ? $uri->get() : $uri;
 		return $this;
@@ -357,9 +362,9 @@ class PageFrame
 	 *	Sets body of HTML page.
 	 *	@access		public
 	 *	@param		string|Renderable		$string			Body of HTML page
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setBody( $string ): self
+	public function setBody( string|Renderable $string ): static
 	{
 		$this->body		= [$string instanceof Renderable ? $string->render() : $string];
 		return $this;
@@ -370,9 +375,9 @@ class PageFrame
 	 *	Removes link having been set before.
 	 *	@access		public
 	 *	@param		URL|string		$url			URL of canonical link
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setCanonicalLink( $url ): self
+	public function setCanonicalLink( URL|string $url ): static
 	{
 		$url	= $url instanceof URL ? $url->get() : $url;
 		foreach( $this->links as $nr => $link )
@@ -386,10 +391,10 @@ class PageFrame
 	 *	Sets document type of page.
 	 *	@access		public
 	 *	@param		string		$docType		Document type to set
-	 *	@return		self
-	 *	@see		http://www.w3.org/QA/2002/04/valid-dtd-list.html
+	 *	@return		static
+	 *	@see		https://www.w3.org/QA/2002/04/valid-dtd-list.html
 	 */
-	public function setDocType( string $docType ): self
+	public function setDocType( string $docType ): static
 	{
 		$key		= str_replace( [' ', '-'], '_', trim( $docType ) );
 		$key		= preg_replace( "/[^A-Z\d_]/", '', strtoupper( $key ) );
@@ -405,9 +410,9 @@ class PageFrame
 	 *	Sets Application Heading in Body.
 	 *	@access		public
 	 *	@param		string|Renderable		$heading		Application Heading
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setHeading( $heading ): self
+	public function setHeading( string|Renderable $heading ): static
 	{
 		$this->heading	= $heading instanceof Renderable ? $heading->render() : $heading;
 		return $this;
@@ -415,15 +420,19 @@ class PageFrame
 
 	/**
 	 *	@param		URL|string		$url
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setHeadProfileUrl( $url ): self
+	public function setHeadProfileUrl( URL|string $url ): static
 	{
 		$this->profile	= $url instanceof URL ? $url->get() : $url;
 		return $this;
 	}
 
-	public function setLanguage( string $language ): self
+	/**
+	 *	@param		string		$language
+	 *	@return		static
+	 */
+	public function setLanguage( string $language ): static
 	{
 		$this->language	= $language;
 		return $this;
@@ -435,13 +444,13 @@ class PageFrame
 	 *	@param		string		$title			Page Title
 	 *	@param		string		$mode			Concat mode: set, append, prepend
 	 *	@param		string		$separator		Default: " | "
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setTitle( string $title, string $mode = 'set', string $separator = ' | ' ): self
+	public function setTitle( string $title, string $mode = 'set', string $separator = ' | ' ): static
 	{
-		if( $mode == 'append' )
+		if( 'append' === $mode )
 			$title	= $this->title.$separator.$title;
-		else if( $mode == 'prepend' )
+		else if( 'prepend' === $mode )
 			$title	= $title.$separator.$this->title;
 		$this->title	= $title;
 		return $this;

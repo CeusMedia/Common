@@ -54,7 +54,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= Reader::class;
 		$creation	= get_class( new Reader( $this->path.'valid.json' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class ReaderTest extends BaseCase
 		$this->expectException( 'RuntimeException' );
 		$assertion	= TRUE;
 		$creation	= new Reader( $this->path.'notexisting.json' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= $this->dataValid;
 		$creation	= Reader::load( $this->path.'valid.json' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -93,7 +93,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $filename );
 		$assertion	= $this->dataValid;
 		$creation	= $reader->read();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -111,7 +111,7 @@ class ReaderTest extends BaseCase
 		}
 		catch( Exception $e ){
 		}
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -123,6 +123,6 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $filename );
 		$assertion	= NULL;
 		$creation	= $reader->read();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -3,7 +3,7 @@
 /**
  *	Registry Pattern Implementation to store Objects.
  *
- *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -33,14 +33,14 @@ namespace CeusMedia\Common\ADT;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 abstract class Singleton
 {
-	/**	@var		Singleton		$instance		Instance of Singleton */
-	protected static $instance;
+	/**	@var		Singleton|NULL		$instance		Instance of Singleton */
+	protected static ?Singleton $instance;
 
 	/**
 	 *	Constructor is disabled from public context.
@@ -67,7 +67,7 @@ abstract class Singleton
 	 *	@abstract
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Single instance of this Singleton class
+	 *	@return		Singleton		Single instance of this Singleton class
 	 */
 	abstract public static function getInstance(): self;
 
@@ -77,14 +77,18 @@ abstract class Singleton
 	 *	Use this method in the 'getInstance()' implementation.
 	 *	@access		public
 	 *	@param		string			$className		Name of Singleton class
-	 *	@return		self
+	 *	@return		Singleton
 	 */
-	protected static function buildInstance( string $className ): self
+	protected static function buildInstance( string $className ): Singleton
 	{
 		//  no instance built, yet
-		if( NULL === self::$instance )
+		if( NULL === self::$instance ){
 			//  build a single instance and store it
-			self::$instance	= new $className;
+			/** @var Singleton $singleton */
+			$singleton	= new $className;
+			self::$instance	= $singleton;
+
+		}
 		//  return stored instance
 		return self::$instance;
 	}

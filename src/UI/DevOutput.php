@@ -4,7 +4,7 @@
 /**
  *	Output Methods for Development.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -39,8 +39,8 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class DevOutput
@@ -57,11 +57,11 @@ class DevOutput
 		self::CHANNEL_CONSOLE
 	];
 
-	public $channel;
+	public string $channel;
 
-	public static $defaultChannel	= self::CHANNEL_AUTO;
+	public static string $defaultChannel	= self::CHANNEL_AUTO;
 
-	public static $channelSettings	= [
+	public static array $channelSettings	= [
 		self::CHANNEL_HTML	=> [
 			// Sign for Line Break
 			'lineBreak'			=> "<br/>",
@@ -104,11 +104,9 @@ class DevOutput
 			// Factor of Spaces for Indents
 			'indentFactor'		=> 2,
 			'stringTrimMask'	=> '...',
-			'stringMaxLength'	=> 50
+			'stringMaxLength'	=> 1500
 		]
 	];
-
-	protected $settings;
 
 	/**
 	 *	Constructor.
@@ -177,7 +175,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printBoolean( bool $bool, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printBoolean( bool $bool, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$key = ( $key !== NULL ) ? $key." => " : "";
@@ -195,7 +193,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printFloat( float $float, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printFloat( float $float, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$key = ( $key !== NULL ) ? $key." => " : "";
@@ -213,7 +211,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printInteger( int $integer, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printInteger( int $integer, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$key = ( $key !== NULL ) ? $key." => " : "";
@@ -393,7 +391,7 @@ class DevOutput
 		echo $text.$param;
 	}
 
-	public function getChannel()
+	public function getChannel(): string
 	{
 		return $this->channel;
 	}

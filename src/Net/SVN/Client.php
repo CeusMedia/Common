@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpComposerExtensionStubsInspection */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Simple Subversion client.
  *
- *	Copyright (c) 2011-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_SVN
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2011-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,36 +39,50 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_SVN
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2011-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Client
 {
-	protected $user;
-	protected $group;
-	protected $mode;
-	protected $path;
-	protected $pathExp;
+	protected string $path;
+	protected string $pathExp;
 
-	public function __construct( $path ){
+	/**
+	 *	@param		string		$path
+	 *	@throws		IoException
+	 */
+	public function __construct( string $path )
+	{
 		if( !file_exists( $path ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		$this->path		= realpath( $path ).'/';
 		$this->pathExp	= '^('.str_replace( '/', '\/', $this->path ).')';
 	}
 
-	public function add( $path ){
+	/**
+	 *	@param		string		$path
+	 *	@return		bool
+	 *	@throws		IoException
+	 */
+	public function add( string $path ): bool
+	{
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		$status	= @svn_add( $url );
 		if( !$status )
 			svn_revert( $url );
 		return $status;
 	}
 
-	public function authenticate( $username, $password ){
+	/**
+	 *	@param		string		$username
+	 *	@param		string		$password
+	 *	@return		void
+	 */
+	public function authenticate( string $username, string $password ): void
+	{
 		svn_auth_set_parameter( SVN_AUTH_PARAM_NON_INTERACTIVE, 'true');
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_USERNAME, $username );
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_PASSWORD, $password );
@@ -76,13 +91,24 @@ class Client
 		svn_auth_set_parameter( SVN_AUTH_PARAM_NO_AUTH_CACHE, 'true');
 	}
 
-	public function commit( $msg, $list ){
+	/**
+	 *	@param		string		$msg
+	 *	@param		array		$list
+	 *	@return		array
+	 */
+	public function commit( string $msg, array $list ): array
+	{
 		foreach( $list as $nr => $item )
 			$list[$nr]	= realpath( $item );
 		return svn_commit( $msg, $list );
 	}
 
-	public function getRelativePath( $path ){
+	/**
+	 *	@param		string		$path
+	 *	@return		array|string|string[]
+	 */
+	public function getRelativePath( string $path ): array|string
+	{
 		//  Windows fix
 		$path	= str_replace( '\\', '/', $path );
 		if( preg_match( '/'.$this->pathExp.'/U', $path ) )
@@ -90,7 +116,13 @@ class Client
 		return $path;
 	}
 
-	public function info( $path = '' ){
+	/**
+	 *	@param		string		$path
+	 *	@return		XmlElement
+	 *	@throws		Exception
+	 */
+	public function info( string $path = '' ): XmlElement
+	{
 		$path	= $this->path.$path;
 		if( !strlen( `svn info $path` ) )
 			throw new Exception( 'Path '.$path.' is not under SVN conrol' );
@@ -98,24 +130,45 @@ class Client
 		return new XmlElement( $xml );
 	}
 
-	public function ls( $path, $revision = SVN_REVISION_HEAD, $recurse = FALSE ){
+	/**
+	 *	@param		string		$path
+	 *	@param		int			$revision
+	 *	@param		bool		$recurse
+	 *	@return		array
+	 *	@throws		IoException
+	 */
+	public function ls( string $path, int $revision = SVN_REVISION_HEAD, bool $recurse = FALSE ): array
+	{
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		return svn_ls( $url, $revision, $recurse );
 	}
 
-	public function revert( $path ){
+	/**
+	 *	@param		string		$path
+	 *	@return		bool
+	 *	@throws		IoException
+	 */
+	public function revert( string $path ): bool
+	{
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		return @svn_revert( $url );
 	}
 
-	public function status( $path = '.', $flags = 0 ){
+	/**
+	 *	@param		string		$path
+	 *	@param		int			$flags
+	 *	@return		array
+	 *	@throws		IoException
+	 */
+	public function status( string $path = '.', int $flags = 0 ): array
+	{
 		$url		= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new IoException( 'Invalid path', 0, $path );
+			throw IoException::create( 'Invalid path' )->setResource( $path );
 		return svn_status( $url,  $flags );
 	}
 }

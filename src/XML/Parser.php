@@ -4,7 +4,7 @@
 /**
  *	Parses XML String and returns Array or Object Structure.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -31,14 +31,15 @@ namespace CeusMedia\Common\XML;
 
 use CeusMedia\Common\XML\DOM\Node;
 use RuntimeException;
+use XMLParser;
 
 /**
  *	Parses XML String and returns Array or Object Structure.
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement reading from stream + Unit Test
  */
@@ -87,9 +88,9 @@ class Parser
 
 	/**
 	 *	@access		protected
-	 *	@return		resource
+	 *	@return		XMLParser
 	 */
-	protected function createParser()
+	protected function createParser(): XMLParser
 	{
 		$parser		= xml_parser_create();
 		xml_set_object( $parser, $this );
@@ -106,7 +107,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleCDataForArray( $parser, string $cdata )
+	protected function handleCDataForArray( $parser, string $cdata ): void
 	{
 		if( strlen( ltrim( $cdata ) ) > 0 ){
 			$pointer	= count( $this->last ) - 2;
@@ -124,7 +125,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleCDataForObject( $parser, string $cdata )
+	protected function handleCDataForObject( $parser, string $cdata ): void
 	{
 		if( strlen( ltrim( $cdata ) ) <= 0 )
 			return;
@@ -139,11 +140,11 @@ class Parser
 
 	/**
 	 *	@access		protected
-	 *	@param		resource		$parser
+	 *	@param		XMLParser		$parser
 	 *	@return		void
 	 *	@throws		RuntimeException
 	 */
-	protected function handleError( $parser ): void
+	protected function handleError( XMLParser $parser ): void
 	{
 		$msg	= "XML error: %s at line %d";
 		$error	= xml_error_string( xml_get_error_code( $parser ) );
@@ -159,7 +160,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagCloseForArray( $parser, string $tag )
+	protected function handleTagCloseForArray( $parser, string $tag ): void
 	{
 		array_pop( $this->last );
 	}
@@ -172,7 +173,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagCloseForObject( $parser, string $tag )
+	protected function handleTagCloseForObject( $parser, string $tag ): void
 	{
 		array_pop( $this->last );
 	}
@@ -186,7 +187,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagOpenForArray( $parser, string $tag, array $attributes )
+	protected function handleTagOpenForArray( $parser, string $tag, array $attributes ): void
 	{
 		$count	= count( $this->last ) - 1;
 		$this->last[$count][]	= [
@@ -208,7 +209,7 @@ class Parser
 	 *	@return		void
 	 *	@noinspection PhpUnusedParameterInspection
 	 */
-	protected function handleTagOpenForObject( $parser, string $tag, array $attributes )
+	protected function handleTagOpenForObject( $parser, string $tag, array $attributes ): void
 	{
 		$count		= count( $this->last ) - 1;
 		$parentNode	=& $this->last[$count];
@@ -220,12 +221,12 @@ class Parser
 	/**
 	 *	@access		protected
 	 *	@param		Node|array		$data
-	 *	@param		$parser
+	 *	@param		XMLParser		$parser
 	 *	@param		string $xml
 	 *	@return		array|mixed
 	 *	@throws		RuntimeException
 	 */
-	protected function parse( $data, $parser, string $xml )
+	protected function parse( $data, XMLParser $parser, string $xml )
 	{
 		$this->last = [&$data];
 		if( xml_parse( $parser, $xml ) !== 1 )

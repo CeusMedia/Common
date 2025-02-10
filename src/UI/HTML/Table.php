@@ -3,7 +3,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -35,28 +35,28 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
 class Table
 {
-	protected $bodyRows	= [];
+	protected array $bodyRows	= [];
 
-	protected $footRows	= [];
+	protected array $footRows	= [];
 
-	protected $headRows	= [];
+	protected array $headRows	= [];
 
-	protected $summary	= NULL;
+	protected ?string $summary	= NULL;
 
-	protected $columns	= [];
+	protected array $columns	= [];
 
-	protected $caption	= NULL;
+	protected ?string $caption	= NULL;
 
-	protected $class	= NULL;
+	protected ?string $class	= NULL;
 
-	protected $id		= NULL;
+	protected ?string $id		= NULL;
 
 	public function __construct( array $attributes = [] )
 	{
@@ -169,7 +169,11 @@ class Table
 		return $this;
 	}
 
-	public function addRow( array $cells = [] )
+	/**
+	 *	@param		array		$cells
+	 *	@return		void
+	 */
+	public function addRow( array $cells = [] ): void
 	{
 		$this->bodyRows[]	= [];
 		foreach( $cells as $key => $value ){

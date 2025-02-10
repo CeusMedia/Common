@@ -5,7 +5,7 @@
 /**
  *	Converts XML strings statically to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
  *
- *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,18 +18,20 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Ceus Media
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Ceus Media
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+use CeusMedia\Common\Exception\Conversion as ConversionException;
 use CeusMedia\Common\XML\DOM\Parser;
 use CeusMedia\Common\XML\DOM\Node as DomNode;
 #use DOMNode;
@@ -42,8 +44,8 @@ use stdClass;
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Ceus Media
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Ceus Media
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Converter
@@ -55,11 +57,12 @@ class Converter
 	 *	@param		string		$xml		XML string
 	 *	@return		string		JSON representation of XML string
 	 *	@throws		Exception
+	 *	@throws		ConversionException
 	 */
 	public static function toJson( string $xml ): string
 	{
 		$object	= self::toPlainObject( $xml );
-		return json_encode( $object );
+		return JsonEncoder::create()->encode( $object );
 	}
 
 	/**
@@ -74,13 +77,11 @@ class Converter
 	{
 		$parser		= new Parser();
 		$document	= $parser->parse( $xml );
-		$children	= $document->getChildren();
-		$rootNode	= array_shift( $children );
-		$rootName	= $rootNode->getNodeName();
+		$rootName	= $document->getNodeName();
 		$object		= (object) [
 			$rootName => new stdClass()
 		];
-		self::convertToObjectRecursive( $rootNode, $object->$rootName );
+		self::convertToObjectRecursive( $document, $object->$rootName );
 		return $object;
 	}
 

@@ -58,12 +58,12 @@ class QueueTest extends BaseCase
 		$queue		= new Queue( $array );
 		$assertion	= $array;
 		$creation	= $queue->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$queue		= new Queue( array( 1 ) );
 		$assertion	= array( 1 );
 		$creation	= $queue->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class QueueTest extends BaseCase
 	{
 		$assertion	= 3;
 		$creation	= $this->queue->bottom();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -101,16 +101,16 @@ class QueueTest extends BaseCase
 	{
 		$assertion	= 3;
 		$creation	= $this->queue->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
 		$creation	= count( $this->queue );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$queue		= new Queue();
 		$assertion	= 0;
 		$creation	= count( $queue );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class QueueTest extends BaseCase
 	{
 		$assertion	= 1;
 		$creation	= $this->queue->pop();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -149,11 +149,11 @@ class QueueTest extends BaseCase
 		$assertion	= 4;
 		$this->queue->push( 4 );
 		$creation	= $this->queue->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 4;
 		$creation	= $this->queue->bottom();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -164,10 +164,10 @@ class QueueTest extends BaseCase
 	public function testHas()
 	{
 		$creation	= $this->queue->has( 1 );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->queue->has( 4 );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -178,11 +178,11 @@ class QueueTest extends BaseCase
 	public function testIsEmpty()
 	{
 		$creation	= $this->queue->isEmpty();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$queue		= new Queue();
 		$creation	= $queue->isEmpty();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -194,7 +194,7 @@ class QueueTest extends BaseCase
 	{
 		$assertion	= $this->array;
 		$creation	= $this->queue->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -206,7 +206,7 @@ class QueueTest extends BaseCase
 	{
 		$assertion	= 1;
 		$creation	= $this->queue->top();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -218,6 +218,6 @@ class QueueTest extends BaseCase
 	{
 		$assertion	= "(1|2|3)";
 		$creation	= (string) $this->queue;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

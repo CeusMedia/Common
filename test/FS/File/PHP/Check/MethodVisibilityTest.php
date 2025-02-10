@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.
@@ -11,6 +12,7 @@ namespace CeusMedia\CommonTest\FS\File\PHP\Check;
 use CeusMedia\Common\FS\File\PHP\Check\MethodVisibility;
 use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\CommonTest\MockAntiProtection;
+use RuntimeException;
 
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.
@@ -19,6 +21,10 @@ use CeusMedia\CommonTest\MockAntiProtection;
  */
 class MethodVisibilityTest extends BaseCase
 {
+	private string $path;
+	private string $fileTemp1;
+	private string $fileTemp2;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -52,11 +58,11 @@ class MethodVisibilityTest extends BaseCase
 
 		$assertion	= $fileName;
 		$creation	= $checker->getProtectedVar( 'fileName' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $checker->getProtectedVar( 'checked' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -66,7 +72,7 @@ class MethodVisibilityTest extends BaseCase
 	 */
 	public function testConstructException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( RuntimeException::class );
 		$index	= new MethodVisibility( "not_existing" );
 	}
 
@@ -80,7 +86,7 @@ class MethodVisibilityTest extends BaseCase
 		$checker	= new MethodVisibility( $this->fileTemp1 );
 		$assertion	= TRUE;
 		$creation	= $checker->check();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -93,7 +99,7 @@ class MethodVisibilityTest extends BaseCase
 		$checker	= new MethodVisibility( $this->fileTemp2 );
 		$assertion	= FALSE;
 		$creation	= $checker->check();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -107,7 +113,7 @@ class MethodVisibilityTest extends BaseCase
 		$checker->check();
 		$assertion	= [];
 		$creation	= $checker->getMethods();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -125,6 +131,6 @@ class MethodVisibilityTest extends BaseCase
 			'delta'
 		);
 		$creation	= $checker->getMethods();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

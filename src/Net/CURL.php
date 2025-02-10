@@ -5,7 +5,7 @@
 /**
  *	cURL Wrapper
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,18 +18,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net;
 
+use CurlHandle;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -38,8 +39,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class CURL
@@ -76,9 +77,9 @@ class CURL
 	/**
 	 *	Current cURL session.
 	 *	@access private
-	 *	@var resource|NULL
+	 *	@var CurlHandle|NULL
 	 */
-	private $handle;
+	private ?CurlHandle $handle;
 
 	/**
 	 *	Array of parsed HTTP header.
@@ -113,7 +114,7 @@ class CURL
 	 *	@access		public
 	 *	@param		string|NULL		$url 		URL to be accessed.
 	 *	@return		void
-	 *	@link		http://www.php.net/curl_init
+	 *	@link		https://www.php.net/curl_init
 	 */
 	public function __construct( ?string $url = NULL )
 	{
@@ -139,9 +140,9 @@ class CURL
 	 *	Close cURL session and free resources.
 	 *	@access		public
 	 *	@return		void
-	 *	@link		http://www.php.net/curl_close
+	 *	@link		https://www.php.net/curl_close
 	 */
-	public function close()
+	public function close(): void
 	{
 		curl_close( $this->handle );
 		$this->handle = NULL;
@@ -153,10 +154,10 @@ class CURL
 	 *	@param		bool		$breakOnError		Flag: throw an Exception if an error has occurred, default: no
 	 *	@param		bool		$parseHeaders		Flag: parse response HTTP header, default: yes
 	 *	@return		string
-	 *	@link		http://www.php.net/curl_exec
-	 *	@link		http://www.php.net/curl_getinfo
-	 *	@link		http://www.php.net/curl_errno
-	 *	@link		http://www.php.net/curl_error
+	 *	@link		https://www.php.net/curl_exec
+	 *	@link		https://www.php.net/curl_getinfo
+	 *	@link		https://www.php.net/curl_errno
+	 *	@link		https://www.php.net/curl_error
 	 *	@throws		RuntimeException	if protocol of URL is invalid
 	 *	@throws		RuntimeException	if request failed, having breakOnError enabled
 	 */
@@ -277,7 +278,7 @@ class CURL
 		$this->caseless = [];
 		$headers	= preg_split( "/(\r\n)+/", $section );
 		foreach( $headers as $header ){
-			if( !( trim( $header ) && !preg_match( '/^HTTP/', $header ) ) )
+			if( !( trim( $header ) && !str_starts_with( $header, 'HTTP' ) ) )
 				continue;
 			$pair	= preg_split( "/\s*:\s*/", $header, 2 );
 			$caselessTag = strtoupper( $pair[0] );
@@ -294,8 +295,8 @@ class CURL
 	 *	@param		mixed		$option		One of the valid CURLOPT defines.
 	 *	@param		mixed		$value		the value of the cURL option.
 	 *	@return		void
-	 *	@link		http://www.php.net/curl_setopt
-	 *	@link		http://www.php.net/manual/en/function.curl-setopt.php
+	 *	@link		https://www.php.net/curl_setopt
+	 *	@link		https://www.php.net/manual/en/function.curl-setopt.php
 	 */
 	public function setOption( $option, $value )
 	{

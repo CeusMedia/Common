@@ -3,7 +3,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,19 +16,18 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net;
 
-use InvalidArgumentException;
 use RangeException;
 
 /**
@@ -37,8 +36,8 @@ use RangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Connectivity
@@ -55,10 +54,10 @@ class Connectivity
 		self::METHOD_PING,
 	];
 
-	protected $status		= self::STATUS_UNKNOWN;
-	protected $method		= self::METHOD_SOCKET;
-	protected $target		= 'google.com';
-	protected $callbackOnChange;
+	protected int $status		= self::STATUS_UNKNOWN;
+	protected int $method		= self::METHOD_SOCKET;
+	protected string $target		= 'google.com';
+	protected mixed $callbackOnChange;
 
 	/**
 	 *	Constructor.
@@ -76,7 +75,7 @@ class Connectivity
 	 *	@return		void
 	 *	@throws		RangeException			if given method is unsupported
 	 */
-	public function check()
+	public function check(): void
 	{
 		$currentStatus	= $this->status;
 		switch( $this->method ){
@@ -100,7 +99,7 @@ class Connectivity
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function checkUsingSocket()
+	public function checkUsingSocket(): void
 	{
 		$conn	= @fsockopen( 'google.com', 443);
 		$this->status = $conn ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
@@ -113,7 +112,7 @@ class Connectivity
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function checkUsingSystemPing()
+	public function checkUsingSystemPing(): void
 	{
 		$response = NULL;
 		@exec( "ping -c 1 google.com 2>&1 1> /dev/null", $response, $code );
@@ -147,9 +146,9 @@ class Connectivity
 	/**
 	 *	Register callback function to be executed after status has changed.
 	 *	@access		public
-	 * 	@param		mixed	    $callback	Function to be executed after status has changed
-	 *	@return 	self					for method chaining
-	 *  @noinspection           PhpMissingParamTypeInspection
+	 *	@param		mixed		$callback	Function to be executed after status has changed
+	 *	@return		self					for method chaining
+	 *  @noinspection						PhpMissingParamTypeInspection
 	 */
 	public function setCallbackOnChange( $callback ): self
 	{
@@ -161,7 +160,7 @@ class Connectivity
 	 *	...
 	 *	@access 	public
 	 *	@param		integer		$method			Method to use for checking
-	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
+	 *	@param		boolean		$resetStatus	Flag: resets status after method has been changed
 	 *	@return 	self						for method chaining
 	 */
 	public function setMethod( int $method, bool $resetStatus = TRUE ): self
@@ -180,7 +179,7 @@ class Connectivity
 	 *	Set target (domain or IP) to check connectivity against.
 	 *	@access 	public
 	 *	@param		string		$domainOrIp		Method to use for checking
-	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
+	 *	@param		boolean		$resetStatus	Flag: resets status after method has been changed
 	 *	@return 	self						for method
 	 */
 	public function setTarget( string $domainOrIp, bool $resetStatus = TRUE ): self

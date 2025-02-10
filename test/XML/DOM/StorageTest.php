@@ -60,7 +60,7 @@ class StorageTest extends BaseCase
 	{
 		$assertion	= "value11";
 		$creation	= $this->storage->get( "tests.test1.key1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -72,15 +72,15 @@ class StorageTest extends BaseCase
 	{
 		//  remove Value
 		$creation	= $this->storage->remove( "tests.test1.key1" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check Value
 		$creation	= $this->storage->get( "tests.test1.key1" );
-		$this->assertNull( $creation );
+		self::assertNull( $creation );
 
 		//  try to remove Value again
 		$creation	= $this->storage->remove( "tests.test1.key1" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -92,15 +92,15 @@ class StorageTest extends BaseCase
 	{
 		//  remove Value and write
 		$creation	= $this->storage->remove( "tests.test1.key1", true );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  remove Value and write
 		$creation	= substr_count( file_get_contents( $this->fileName ), "value11" );
-		$this->assertEquals( 0, $creation );
+		self::assertEquals( 0, $creation );
 
 		//  try to remove Value again
 		$creation	= $this->storage->remove( "tests.test1.key1", true );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -112,16 +112,16 @@ class StorageTest extends BaseCase
 	{
 		//  set Value
 		$creation	= $this->storage->set( "tests.test2.key1", "value21" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check Value
 		$assertion	= "value21";
 		$creation	= $this->storage->get( "tests.test2.key1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  try to set Value again
 		$creation	= $this->storage->set( "tests.test2.key1", "value21" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -133,15 +133,15 @@ class StorageTest extends BaseCase
 	{
 		//  set Value and write
 		$creation	= $this->storage->set( "tests.test2.key2", "value22", true );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check Value in File
 		$assertion	= 1;
 		$creation	= substr_count( file_get_contents( $this->fileName ), "value22" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  try to set Value again
 		$creation	= $this->storage->set( "tests.test2.key2", "value22", true );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 }

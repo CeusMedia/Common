@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -15,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -32,29 +33,23 @@ namespace CeusMedia\Common\Net\HTTP\Sniffer;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Client
 {
-	/**	@var		object		$browser		Instance of Net_HTTP_Sniffer_Browser */
-	protected $browser;
+	/**	@var		Charset			$charSet		Instance of Net_HTTP_Sniffer_Charset */
+	protected Charset $charSet;
 
-	/**	@var		object		$charSet		Instance of Net_HTTP_Sniffer_Charset */
-	protected $charSet;
+	/**	@var		Encoding		$encoding		Instance of Net_HTTP_Sniffer_Encoding */
+	protected Encoding $encoding;
 
-	/**	@var		object		$encoding		Instance of Net_HTTP_Sniffer_Encoding */
-	protected $encoding;
+	/**	@var		Language		$language		Instance of Net_HTTP_Sniffer_Language */
+	protected Language $language;
 
-	/**	@var		object		$language		Instance of Net_HTTP_Sniffer_Language */
-	protected $language;
-
-	/**	@var		object		$mimeType		Instance of Net_HTTP_Sniffer_MimeType */
-	protected $mimeType;
-
-	/**	@var		object		$system			Instance of Net_HTTP_Sniffer_OS */
-	protected $system;
+	/**	@var		MimeType		$mimeType		Instance of Net_HTTP_Sniffer_MimeType */
+	protected MimeType $mimeType;
 
 	/**
 	 *	Constructor.
@@ -63,22 +58,20 @@ class Client
 	 */
 	public function __construct()
 	{
-		$this->browser	= new Browser();
 		$this->charSet	= new Charset();
 		$this->encoding	= new Encoding();
 		$this->language	= new Language();
 		$this->mimeType	= new MimeType();
-		$this->system	= new OS();
 	}
 
 	/**
 	 *	Returns IP address of Request.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|FALSE
 	 */
-	public function getIp()
+	public function getIp(): string|FALSE
 	{
-		return getEnv( 'REMOTE_ADDR' );
+		return getEnv( 'REMOTE_ADDR' ) ;
 	}
 
 	/**
@@ -87,7 +80,7 @@ class Client
 	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
 	 */
-	public function getLanguage( $allowed )
+	public function getLanguage( array $allowed ): string
 	{
 		return $this->language->getLanguage( $allowed  );
 	}
@@ -98,18 +91,18 @@ class Client
 	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
 	 */
-	public function getCharset( $allowed )
+	public function getCharset( array $allowed ): string
 	{
 		return $this->charSet->getCharset( $allowed );
 	}
 
 	/**
-	 *	Returns preferred allowed and accepted Mime Type of an HTTP Request.
+	 *	Returns preferred allowed and accepted Mime-Type of an HTTP Request.
 	 *	@access		public
-	 *	@param		array		$allowed			Array of Mime Types supported and allowed by the Application
-	 *	@return		string
+	 *	@param		array		$allowed			Array of Mime-Types supported and allowed by the Application
+	 *	@return		string|NULL
 	 */
-	public function getMimeType( $allowed )
+	public function getMimeType( array $allowed ): ?string
 	{
 		return $this->mimeType->getMimeType( $allowed  );
 	}
@@ -118,50 +111,10 @@ class Client
 	 *	Returns preferred allowed and accepted Encoding Methods of an HTTP Request.
 	 *	@access		public
 	 *	@param		array		$allowed			Array of Encoding Methods supported and allowed by the Application
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getEncoding( $allowed )
+	public function getEncoding( array $allowed ): ?string
 	{
 		return $this->encoding->getEncoding( $allowed  );
-	}
-
-	/**
-	 *	Returns determined Information of the Client's Operating System.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getOS()
-	{
-		return $this->system->getOS();
-	}
-
-	/**
-	 *	Returns preferred allowed and accepted Character Set of an HTTP Request.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getBrowser()
-	{
-		return $this->browser->getBrowser();
-	}
-
-	/**
-	 *	Indicates whether a HTTP Request is sent by a Search Engine Robot.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function isRobot(): bool
-	{
-		return $this->browser->isRobot();
-	}
-
-	/**
-	 *	Indicates whether a HTTP Request is sent by a Browser.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function isBrowser(): bool
-	{
-		return $this->browser->isBrowser();
 	}
 }

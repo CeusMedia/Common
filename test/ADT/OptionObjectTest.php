@@ -45,7 +45,7 @@ class OptionObjectTest extends BaseCase
 		$object		= new OptionObject();
 		$assertion	= [];
 		$creation	= $object->getOptions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$pairs		= array(
 			'key1'	=> "param1",
@@ -55,7 +55,7 @@ class OptionObjectTest extends BaseCase
 		$object		= new OptionObject( $pairs );
 		$assertion	= $pairs;
 		$creation	= $object->getOptions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -77,18 +77,18 @@ class OptionObjectTest extends BaseCase
 	public function testClearOptions()
 	{
 		$creation	= $this->object->clearOptions();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= [];
 		$creation	= $this->object->getOptions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->object->clearOptions();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$assertion	= [];
 		$creation	= $this->object->getOptions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -100,7 +100,7 @@ class OptionObjectTest extends BaseCase
 	{
 		$assertion	= 4;
 		$creation	= $this->object->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -116,11 +116,11 @@ class OptionObjectTest extends BaseCase
 
 		$assertion	= $optionKeys;
 		$creation	= array_keys( $object->getOptions() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= NULL;
 		$creation	= $object->getOption( "key1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -146,25 +146,25 @@ class OptionObjectTest extends BaseCase
 		//  get String
 		$assertion	= "value1";
 		$creation	= $this->object->getOption( "string1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  get Boolean
 		$creation	= $this->object->getOption( "boolean1" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  get Double
 		$assertion	= M_PI;
 		$creation	= $this->object->getOption( "double1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  get Array
 		$assertion	= array( "key" => "value" );
 		$creation	= $this->object->getOption( "array1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  get NULL
 		$creation	= $this->object->getOption( "not_existing", FALSE );
-		$this->assertNull( $creation );
+		self::assertNull( $creation );
 	}
 
 	/**
@@ -193,7 +193,7 @@ class OptionObjectTest extends BaseCase
 			"array1"	=> array( "key" => "value" )
 		);
 		$creation	= $this->object->getOptions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -205,11 +205,11 @@ class OptionObjectTest extends BaseCase
 	{
 		//  check existing Option
 		$creation	= $this->object->hasOption( "string1" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check not existing Option
 		$creation	= $this->object->hasOption( "string2" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -221,11 +221,11 @@ class OptionObjectTest extends BaseCase
 	{
 		//  check existing Option
 		$creation	= isset( $this->object["string1"] );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check not existing Option
 		$creation	= isset( $this->object["string2"] );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -238,21 +238,21 @@ class OptionObjectTest extends BaseCase
 		//  get String
 		$assertion	= "value1";
 		$creation	= $this->object["string1"];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  get Boolean
 		$creation	= $this->object["boolean1"];
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  get Double
 		$assertion	= M_PI;
 		$creation	= $this->object["double1"];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  get Array
 		$assertion	= array( "key" => "value" );
 		$creation	= $this->object["array1"];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -267,12 +267,12 @@ class OptionObjectTest extends BaseCase
 
 		//  check set Option
 		$creation	= isset( $this->object["string2"] );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check set Option
 		$assertion	= "value2";
 		$creation	= $this->object["string2"];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  overwrite to set Option again
 		$this->object["string2"] = "value2-2";
@@ -280,7 +280,7 @@ class OptionObjectTest extends BaseCase
 		//  check set Option
 		$assertion	= "value2-2";
 		$creation	= $this->object["string2"];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -295,7 +295,7 @@ class OptionObjectTest extends BaseCase
 
 		//  check removed Option
 		$creation	= isset( $this->object["string1"] );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -307,15 +307,15 @@ class OptionObjectTest extends BaseCase
 	{
 		//  remove Option
 		$creation	= $this->object->removeOption( "string1" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check removed Option
 		$creation	= $this->object->hasOption( "string1" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		//  try to remove Option again
 		$creation	= $this->object->removeOption( "string1" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -327,28 +327,28 @@ class OptionObjectTest extends BaseCase
 	{
 		//  set Option
 		$creation	= $this->object->setOption( "string2", "value2" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check set Option
 		$creation	= $this->object->hasOption( "string2" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check set Option
 		$assertion	= "value2";
 		$creation	= $this->object->getOption( "string2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		//  try to set Option again
 		$creation	= $this->object->setOption( "string2", "value2" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		//  overwrite Option
 		$creation	= $this->object->setOption( "string2", "value2-2" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		//  check set Option
 		$assertion	= "value2-2";
 		$creation	= $this->object->getOption( "string2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

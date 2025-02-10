@@ -46,7 +46,7 @@ class ReaderTest extends BaseCase
 		);
 		$reader		= new Reader( $this->fileName );
 		$creation	= $reader->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$assertion	= array(
@@ -61,7 +61,7 @@ class ReaderTest extends BaseCase
 		);
 		$reader		= new Reader( $this->fileName, TRUE );
 		$creation	= $reader->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testContructNotReserved()
@@ -81,7 +81,7 @@ class ReaderTest extends BaseCase
 			'email2'	=> "example@example.com"
 		);
 		$creation	= $reader->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testContructReserved()
@@ -102,7 +102,7 @@ class ReaderTest extends BaseCase
 			'email2'	=> "example@example.com"
 		);
 		$creation	= $reader->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -114,32 +114,32 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= "comment 2";
 		$creation	= $this->list->getComment( "key2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= $this->list->getComment( "key3" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= $this->list->getComment( "key5" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$assertion	= "comment 2";
 		$creation	= $this->sections->getComment( "key2", 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= $this->sections->getComment( "key2", 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= $this->sections->getComment( "key5", 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= $this->sections->getComment( "key3", 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		try
 		{
@@ -183,7 +183,7 @@ class ReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->list->getCommentedProperties();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'section1'	=> array(
@@ -222,7 +222,7 @@ class ReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->sections->getCommentedProperties( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -237,7 +237,7 @@ class ReaderTest extends BaseCase
 			"key2"	=> "comment 2",
 		);
 		$creation	= $this->list->getComments();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'section1'	=> array(
@@ -248,18 +248,18 @@ class ReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->sections->getComments();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			"key1"	=> "comment 1",
 			"key2"	=> "comment 2",
 		);
 		$creation	= $this->sections->getComments( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $this->sections->getComments( 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		try
 		{
@@ -283,7 +283,7 @@ class ReaderTest extends BaseCase
 			"key4"	=> "value4",
 		);
 		$creation	= $this->list->getProperties();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'section1'	=> array(
@@ -296,14 +296,14 @@ class ReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->sections->getProperties();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			"key1"	=> "value1",
 			"key2"	=> "value2",
 		);
 		$creation	= $this->sections->getProperties( FALSE, 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			"key3"	=> "value3",
@@ -311,7 +311,7 @@ class ReaderTest extends BaseCase
 			"key5"	=> "disabled",
 		);
 		$creation	= $this->sections->getProperties( FALSE, 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		try
 		{
@@ -330,15 +330,15 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= "value3";
 		$creation	= $this->list->getProperty( 'key3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "disabled";
 		$creation	= $this->list->getProperty( 'key5', NULL, FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "value3";
 		$creation	= $this->sections->getProperty( 'key3', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -398,7 +398,7 @@ class ReaderTest extends BaseCase
 			"key4",
 		);
 		$creation	= $this->list->getPropertyList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'section1'	=> array(
@@ -411,7 +411,7 @@ class ReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->sections->getPropertyList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -423,23 +423,23 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->hasProperty( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->list->hasProperty( 'key5' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->list->hasProperty( 'key6' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->hasProperty( 'key1', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->hasProperty( 'key1', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		try
 		{
@@ -476,7 +476,7 @@ class ReaderTest extends BaseCase
 			'section2',
 		);
 		$creation	= $this->sections->getSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -488,11 +488,11 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->sections->hasSection( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->hasSection( 'section3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -515,20 +515,20 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->isActiveProperty( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->list->isActiveProperty( 'key5' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->isActiveProperty( 'key1', 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->sections->isActiveProperty( 'key1', 'section2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -567,7 +567,7 @@ class ReaderTest extends BaseCase
 			"key4"	=> "value4",
 		);
 		$creation	= $this->list->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			"key1"	=> "value1",
@@ -577,7 +577,7 @@ class ReaderTest extends BaseCase
 			"key5"	=> "disabled",
 		);
 		$creation	= $this->list->toArray( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'section1'	=> array(
@@ -590,7 +590,7 @@ class ReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->sections->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'section1'	=> array(
@@ -604,7 +604,7 @@ class ReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->sections->toArray( FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -616,10 +616,10 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= FALSE;
 		$creation	= $this->list->usesSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->usesSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

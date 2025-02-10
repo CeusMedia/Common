@@ -45,7 +45,7 @@ return static function (RectorConfig $rectorConfig): void {
 		// Set 5.6
 		PowToExpRector::class,
 		//	# inspired by level in psalm - https://github.com/vimeo/psalm/blob/82e0bcafac723fdf5007a31a7ae74af1736c9f6f/tests/FileManipulationTest.php#L1063
-		AddDefaultValueForUndefinedVariableRector::class,
+#		AddDefaultValueForUndefinedVariableRector::class,
 		// Set 7.1
 		CountOnNullRector::class,
 		// Set 7.3

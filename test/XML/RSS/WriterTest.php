@@ -17,7 +17,6 @@ namespace CeusMedia\CommonTest\XML\RSS;
 use CeusMedia\Common\XML\RSS\Writer;
 use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\CommonTest\MockAntiProtection;
-use CeusMedia\CommonTest\XML\RSS\WriterMockAntiProtection as Mock;
 
 /**
  *	TestUnit of XML RSS Writer.
@@ -26,50 +25,22 @@ use CeusMedia\CommonTest\XML\RSS\WriterMockAntiProtection as Mock;
  */
 class WriterTest extends BaseCase
 {
-	protected $writer;
-	protected $path;
-	protected $assert;
-	protected $serial;
-	protected $file;
+	protected Writer $writer;
+	protected string $path;
+	protected string $assert;
+	protected string $serial;
+	protected string $file;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		string	$name
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct( string $name = '' )
 	{
-		parent::__construct();
+		parent::__construct( $name );
 		MockAntiProtection::createMockClass( Writer::class );
-	}
-
-	/**
-	 *	Sets up Builder.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		/** @noinspection PhpUndefinedClassInspection */
-		$this->writer	= new Mock();
-		$this->path		= dirname( __FILE__ )."/assets/";
-		$this->assert	= $this->path."reader.xml";
-		$this->file		= $this->path."writer.xml";
-		$this->serial	= $this->path."reader.serial";
-
-#		$this->timeZone	= date_default_timezone_get();
-#		date_default_timezone_set( 'GMT' );
-	}
-
-	/**
-	 *	Sets down Writer.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown(): void
-	{
-		@unlink( $this->file );
-#		date_default_timezone_set( $this->timeZone );
 	}
 
 	/**
@@ -77,13 +48,13 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testAddItem()
+	public function testAddItem(): void
 	{
 		$data	= array( 'key1' => 'value2' );
 		$this->writer->addItem( $data );
 		$itemList	= $this->writer->getProtectedVar( 'itemList' );
-		$this->assertCount( 1, $itemList );
-		$this->assertEquals( $data, current( $itemList ) );
+		self::assertCount( 1, $itemList );
+		self::assertEquals( $data, current( $itemList ) );
 	}
 
 	/**
@@ -98,7 +69,7 @@ class WriterTest extends BaseCase
 			'key2'	=> 'value2',
 		);
 		$this->writer->setChannelData( $data );
-		$this->assertEquals( $data, $this->writer->getProtectedVar( 'channelData' ) );
+		self::assertEquals( $data, $this->writer->getProtectedVar( 'channelData' ) );
 	}
 
 	/**
@@ -106,7 +77,7 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetChannelPair()
+	public function testSetChannelPair(): void
 	{
 		$data		= array(
 			'key1'	=> 'value1',
@@ -114,7 +85,7 @@ class WriterTest extends BaseCase
 		);
 		$this->writer->setChannelPair( 'key1', 'value1' );
 		$this->writer->setChannelPair( 'key2', 'value2' );
-		$this->assertEquals( $data, $this->writer->getProtectedVar( 'channelData' ) );
+		self::assertEquals( $data, $this->writer->getProtectedVar( 'channelData' ) );
 	}
 
 	/**
@@ -122,11 +93,11 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetItemList()
+	public function testSetItemList(): void
 	{
 		$data	= array( 'key1', 'key2' );
 		$this->writer->setItemList( $data );
-		$this->assertEquals( $data, $this->writer->getProtectedVar( 'itemList' ) );
+		self::assertEquals( $data, $this->writer->getProtectedVar( 'itemList' ) );
 	}
 
 	/**
@@ -134,16 +105,13 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testWrite()
+	public function testWrite(): void
 	{
 		$writer	= new Writer();
 		$data	= unserialize( file_get_contents( $this->serial ) );
-		foreach( $data['channelData'] as $key => $value  )
-		{
-			if( is_array( $value ) )
-			{
-				foreach( $value as $subKey => $subValue )
-				{
+		foreach( $data['channelData'] as $key => $value  ){
+			if( is_array( $value ) ){
+				foreach( $value as $subKey => $subValue ){
 					$subKey	= $key.ucFirst( $subKey );
 					$writer->setChannelPair( $subKey, $subValue );
 				}
@@ -156,8 +124,36 @@ class WriterTest extends BaseCase
 
 		$assertion	= 2545;
 		$creation	= $writer->write( $this->file );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
-		$this->assertXmlFileEqualsXmlFile( $this->assert, $this->file );
+		self::assertXmlFileEqualsXmlFile( $this->assert, $this->file );
+	}
+
+	/**
+	 *	Sets up Builder.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->writer	= MockAntiProtection::getInstance( Writer::class );
+		$this->path		= dirname( __FILE__ )."/assets/";
+		$this->assert	= $this->path."reader.xml";
+		$this->file		= $this->path."writer.xml";
+		$this->serial	= $this->path."reader.serial";
+
+#		$this->timeZone	= date_default_timezone_get();
+#		date_default_timezone_set( 'GMT' );
+	}
+
+	/**
+	 *	Sets down Writer.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function tearDown(): void
+	{
+		@unlink( $this->file );
+#		date_default_timezone_set( $this->timeZone );
 	}
 }

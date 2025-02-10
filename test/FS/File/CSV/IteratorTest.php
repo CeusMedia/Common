@@ -55,23 +55,23 @@ class IteratorTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= is_object( $mock );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $mock->getProtectedVar( 'useHeaders' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '|';
 		$creation	= $mock->getProtectedVar( 'delimiter' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '#';
 		$creation	= $mock->getProtectedVar( 'enclosure' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->filePath;
 		$creation	= $mock->getProtectedVar( 'filePath' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -83,11 +83,11 @@ class IteratorTest extends BaseCase
 	{
 		$assertion	= array( 'id', 'col1', 'col2' );
 		$creation	= $this->iterator->getHeaders();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$iterator	= new Iterator( $this->filePath, FALSE );
 		$creation	= $iterator->getHeaders();
-		$this->assertEquals( [], $creation );
+		self::assertEquals( [], $creation );
 	}
 
 	/**
@@ -99,12 +99,12 @@ class IteratorTest extends BaseCase
 	{
 		$assertion	= ';';
 		$creation	= $this->iterator->getDelimiter();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$iterator	= new Iterator( $this->filePath, TRUE, '_' );
 		$assertion	= '_';
 		$creation	= $iterator->getDelimiter();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -116,12 +116,12 @@ class IteratorTest extends BaseCase
 	{
 		$assertion	= '"';
 		$creation	= $this->iterator->getEnclosure();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$iterator	= new Iterator( $this->filePath, TRUE, ';', '_' );
 		$assertion	= '_';
 		$creation	= $iterator->getEnclosure();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -133,11 +133,11 @@ class IteratorTest extends BaseCase
 	{
 		$assertion	= $this->iterator;
 		$creation	= $this->iterator->setDelimiter( '#' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '#';
 		$creation	= $this->iterator->getDelimiter();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -149,10 +149,10 @@ class IteratorTest extends BaseCase
 	{
 		$assertion	= $this->iterator;
 		$creation	= $this->iterator->setEnclosure( '#' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '#';
 		$creation	= $this->iterator->getEnclosure();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

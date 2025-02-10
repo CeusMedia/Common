@@ -66,7 +66,7 @@ class ObjectTest extends BaseCase
 	{
 		$assertion	= TestObjectClass::class;
 		$creation	= $this->object->getClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class ObjectTest extends BaseCase
 	{
 		$assertion	= $this->methods;
 		$creation	= $this->object->getMethods();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class ObjectTest extends BaseCase
 			'vars'		=> $this->vars,
 		);
 		$creation	= $this->object->getObjectInfo();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -105,13 +105,13 @@ class ObjectTest extends BaseCase
 	 */
 	public function testGetParent()
 	{
-		$this->assertEquals( Object_::class, $this->object->getParent() );
+		self::assertEquals( Object_::class, $this->object->getParent() );
 
 		$object		= new Object_();
-		$this->assertEquals( NULL, $object->getParent() );
+		self::assertEquals( NULL, $object->getParent() );
 
 		$object		= new ChildTestObjectClass();
-		$this->assertEquals( TestObjectClass::class, $object->getParent() );
+		self::assertEquals( TestObjectClass::class, $object->getParent() );
 	}
 
 	/**
@@ -123,7 +123,7 @@ class ObjectTest extends BaseCase
 	{
 		$assertion	= $this->vars;
 		$creation	= $this->object->getVars();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -134,19 +134,19 @@ class ObjectTest extends BaseCase
 	public function testHasMethod()
 	{
 		$creation	= $this->object->hasMethod( 'getClass' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->hasMethod( 'publicMethod' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->hasMethod( 'protectedMethod' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->hasMethod( 'privateMethod', FALSE );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->hasMethod( 'privateMethod' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -157,13 +157,13 @@ class ObjectTest extends BaseCase
 	public function testIsInstanceOf()
 	{
 		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\Object_' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->isInstanceOf( "NOT_A_PARENT_CLASS" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -174,13 +174,13 @@ class ObjectTest extends BaseCase
 	public function testIsSubclassOf()
 	{
 		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\Object_' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->object->isSubclassOf( "NOT_A_PARENT_CLASS" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class ObjectTest extends BaseCase
 	{
 		$assertion	= serialize( $this->object );
 		$creation	= $this->object->serialize();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }
 class TestObjectClass extends Object_

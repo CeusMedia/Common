@@ -3,7 +3,7 @@
 /**
  *	Base Implementation of a Unix Demon.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,8 +36,8 @@ use CeusMedia\Common\CLI;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Daemon extends Application
@@ -51,7 +51,7 @@ class Daemon extends Application
 	public function __construct( int $timeLimit = 10 )
 	{
 		set_time_limit( $timeLimit );
-		ob_implicit_flush( 1 );
+		ob_implicit_flush( TRUE );
 		parent::__construct();
 	}
 
@@ -60,7 +60,7 @@ class Daemon extends Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function main()
+	public function main(): void
 	{
 		while( TRUE ){
 			$this->serve();
@@ -74,7 +74,7 @@ class Daemon extends Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function serve()
+	public function serve(): void
 	{
 		echo "\n".time();
 	}
@@ -94,7 +94,7 @@ class Daemon extends Application
 	 *	@param		string|NULL		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( ?string $message = NULL )
+	protected function showUsage( ?string $message = NULL ): void
 	{
 		CLI::out();
 		CLI::out( 'Daemon v0.1' );
@@ -110,7 +110,7 @@ class Daemon extends Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function sleep()
+	public function sleep(): void
 	{
 		sleep(1);
 	}

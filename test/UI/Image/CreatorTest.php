@@ -55,8 +55,8 @@ class CreatorTest extends BaseCase
 		imagepng( $creator->getResource(), $this->path."targetCreator1.png" );
 
 		$image	= imagecreatefrompng( $this->path."targetCreator1.png" );
-		$this->assertEquals( 100, imagesx( $image ) );
-		$this->assertEquals( 200, imagesy( $image ) );
+		self::assertEquals( 100, imagesx( $image ) );
+		self::assertEquals( 200, imagesy( $image ) );
 	}
 
 	public function testLoadImagePng()
@@ -67,7 +67,7 @@ class CreatorTest extends BaseCase
 		imagepng( $image->getResource(), $this->path."targetCreator.png" );
 
 		$file		= new FileReader( $this->path."sourceCreator.png" );
-		$this->assertTrue( $file->equals( $this->path."targetCreator.png" ) );
+		self::assertTrue( $file->equals( $this->path."targetCreator.png" ) );
 	}
 
 	public function testLoadImageJpeg()
@@ -76,7 +76,7 @@ class CreatorTest extends BaseCase
 		$image	= new Creator();
 		$image->loadImage( $this->path."sourceCreator.jpg" );
 
-		$this->assertIsResource( $image->getResource() );
+		self::assertIsResource( $image->getResource() );
 	}
 
 	public function testLoadImageGif()
@@ -87,7 +87,7 @@ class CreatorTest extends BaseCase
 		imagegif( $creator->getResource(), $this->path."targetCreator.gif" );
 
 		$file		= new FileReader( $this->path."sourceCreator.gif" );
-		$this->assertTrue( $file->equals( $this->path."targetCreator.gif" ) );
+		self::assertTrue( $file->equals( $this->path."targetCreator.gif" ) );
 	}
 
 	public function testLoadImageException1()
@@ -108,25 +108,26 @@ class CreatorTest extends BaseCase
 	{
 		$assertion	= 256;
 		$creation	= $this->creator->getWidth();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetHeight()
 	{
 		$assertion	= 256;
 		$creation	= $this->creator->getHeight();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetType()
 	{
 		$assertion	= IMAGETYPE_PNG;
 		$creation	= $this->creator->getType();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function test_get_returnsResource()
 	{
-		$this->assertIsResource( $this->creator->getResource() );
+		$gdObject	= $this->creator->getResource();
+		self::assertIsObject( $gdObject );
 	}
 }

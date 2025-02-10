@@ -10,6 +10,7 @@ namespace CeusMedia\CommonTest\FS\File;
 
 use CeusMedia\Common\FS\File\Permissions;
 use CeusMedia\CommonTest\BaseCase;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of FS_File_Permissions.
@@ -58,7 +59,7 @@ class PermissionsTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= is_object( $instance );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -68,7 +69,7 @@ class PermissionsTest extends BaseCase
 	 */
 	public function test__constructException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		new Permissions( 'not_existing' );
 	}
 
@@ -81,7 +82,7 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= '0777';
 		$creation	= $this->permissions->getAsOctal();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -91,7 +92,7 @@ class PermissionsTest extends BaseCase
 	 */
 	public function testGetAsOctalException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		$permissions	= new Permissions( 'not_existing' );
 		$permissions->getAsOctal();
 	}
@@ -105,7 +106,7 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= 'rwxrwxrwx';
 		$creation	= $this->permissions->getAsString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -115,7 +116,7 @@ class PermissionsTest extends BaseCase
 	 */
 	public function testGetAsStringException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		$permissions	= new Permissions( 'not_existing' );
 		$permissions->getAsString();
 	}
@@ -129,7 +130,7 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= '0777';
 		$creation	= Permissions::getOctalFromFile( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -141,27 +142,27 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= '0600';
 		$creation	= Permissions::getOctalFromString( 'rw-------' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0644';
 		$creation	= Permissions::getOctalFromString( 'rw-r--r--' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0750';
 		$creation	= Permissions::getOctalFromString( 'rwxr-x---' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0770';
 		$creation	= Permissions::getOctalFromString( 'rwxrwx---' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0775';
 		$creation	= Permissions::getOctalFromString( 'rwxrwxr-x' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0777';
 		$creation	= Permissions::getOctalFromString( 'rwxrwxrwx' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -173,7 +174,7 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= 'rwxrwxrwx';
 		$creation	= Permissions::getStringFromFile( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -185,31 +186,31 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= 'rw-------';
 		$creation	= Permissions::getStringFromOctal( "0600" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'rw-------';
 		$creation	= Permissions::getStringFromOctal( '0600' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'rw-r--r--';
 		$creation	= Permissions::getStringFromOctal( '0644' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxr-x---';
 		$creation	= Permissions::getStringFromOctal( '0750' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxrwx---';
 		$creation	= Permissions::getStringFromOctal( '0770' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxrwxr-x';
 		$creation	= Permissions::getStringFromOctal( '0775' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxrwxrwx';
 		$creation	= Permissions::getStringFromOctal( '0777' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -221,15 +222,15 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->permissions->setByOctal( "0770" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "0770";
 		$creation	= $this->permissions->getAsOctal();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "rwxrwx---";
 		$creation	= $this->permissions->getAsString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -241,14 +242,14 @@ class PermissionsTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->permissions->setByString( 'rwxrwx---' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "0770";
 		$creation	= $this->permissions->getAsOctal();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxrwx---';
 		$creation	= $this->permissions->getAsString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -3,7 +3,7 @@
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,18 +16,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\File\INI;
 
+use CeusMedia\Common\FS\File;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use InvalidArgumentException;
 use RuntimeException;
@@ -37,8 +38,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Reader extends FileReader
@@ -85,14 +86,14 @@ class Reader extends FileReader
 	/**
 	 *	Constructor, reads Property File.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		File|string		$file		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File contains Sections
 	 *	@param		bool		$reservedWords	Flag: interpret reserved Words like yes,no,true,false,null
 	 *	@return		void
 	 */
-	public function __construct( string $fileName, bool $usesSections = FALSE, bool $reservedWords = TRUE )
+	public function __construct( File|string $file, bool $usesSections = FALSE, bool $reservedWords = TRUE )
 	{
-		parent::__construct( $fileName );
+		parent::__construct( $file );
 		$this->usesSections			= $usesSections;
 		$this->reservedWords		= $reservedWords;
 		$this->read();
@@ -340,14 +341,14 @@ class Reader extends FileReader
 	/**
 	 *	Loads an INI File and returns an Array statically.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		File|string		$file		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File contains Sections
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		array
 	 */
-	public static function loadArray( string $fileName, bool $usesSections = FALSE, bool $activeOnly = TRUE ): array
+	public static function loadArray( File|string $file, bool $usesSections = FALSE, bool $activeOnly = TRUE ): array
 	{
-		$reader	= new self( $fileName, $usesSections );
+		$reader	= new self( $file, $usesSections );
 		return $reader->toArray( $activeOnly );
 	}
 
@@ -418,7 +419,7 @@ class Reader extends FileReader
 					else if( strtolower( $value ) === "null" )
 						$value	= NULL;
 				}
-				if( preg_match( '@^".*"$@', $value ) )
+				if( preg_match( '@^".*"$@', $value ?? '' ) )
 					$value	= substr( stripslashes( $value ), 1, -1 );
 				if( $this->usesSections() && isset( $currentSection ) )
 					$this->properties[$currentSection][$key] = $value;

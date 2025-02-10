@@ -4,7 +4,7 @@
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -33,32 +33,33 @@ use CeusMedia\Common\UI\HTML\JQuery as JQuery;
 use Exception;
 
 /**
- *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
+ *	Tabbed Content Builder - builds Tab List and::$version Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Tabs
 {
-	/**	@var		int			$counter	Internal Tab Counter for creating unique IDs for Tabs and Contents */
-	protected static $counter	= 0;
+	public static int $version	= 2;
 
-	/**	@var		array		$pairs		List of Content Divs */
-	protected $divs	= [];
+	/**	@var		int				$counter	Internal Tab Counter for creating unique IDs for Tabs and Contents */
+	protected static int $counter	= 0;
 
-	/**	@var		array		$options	Array of Options for the jQuery Plugin Call */
-	protected $options	= [
+	/**	@var		array			$pairs		List of Content Divs */
+	protected array $divs			= [];
+
+	/**	@var		array			$options	Array of Options for the jQuery Plugin Call */
+	protected array $options		= [
 		'navClass'	=> "tabs-nav"
 	];
 
-	/**	@var		array		$tabs		List of Tab Labels */
-	protected $tabs	= [];
+	/**	@var		array			$tabs		List of Tab Labels */
+	protected array $tabs			= [];
 
-	public static $version	= 2;
 
 	/**
 	 *	Constructor, can set Tabs.
@@ -80,10 +81,10 @@ class Tabs
 	 *	@param		string			$label			Label of Tab
 	 *	@param		string			$content		Content related to Tab
 	 *	@param		string|NULL		$fragmentId	...
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception		if fragment ID is set, already
 	 */
-	public function addTab( string $label, string $content, ?string $fragmentId = NULL )
+	public function addTab( string $label, string $content, ?string $fragmentId = NULL ): self
 	{
 		if( is_null( $fragmentId ) ){
 			$this->tabs[]	= $label;
@@ -95,6 +96,7 @@ class Tabs
 			$this->tabs[$fragmentId]	= $label;
 			$this->divs[$fragmentId]	= $content;
 		}
+		return $this;
 	}
 
 	/**

@@ -12,7 +12,7 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\CommonTest\CLI;
+namespace CeusMedia\CommonTest\CLI\Command;
 
 use CeusMedia\Common\CLI\Command\BackgroundProcess;
 use CeusMedia\CommonTest\BaseCase;
@@ -26,14 +26,63 @@ use InvalidArgumentException;
  */
 class BackgroundProcessTest extends BaseCase
 {
-	protected $process;
+	protected BackgroundProcess $process;
+
+	/**
+	 *	Tests Method 'getArguments'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testNewInstance(): void
+	{
+		$assertion	= new BackgroundProcess;
+		$creation	= BackgroundProcess::newInstance();
+		self::assertEquals( $assertion, $creation );
+	}
+
+	public function testSetCommand(): void
+	{
+		$command	= 'ls -lah';
+		$process	= new BackgroundProcessInstance();
+		$process->setCommand( $command );
+
+		$assertion	= $command;
+		$creation	= $process->getProtectedVar( 'command' );
+		self::assertEquals( $assertion, $creation );
+
+		$process->start();
+		$creation	= $process->getProtectedVar( 'pid' );
+		self::assertIsInt( $creation );
+		self::assertGreaterThan( 1, $creation );
+
+		$process->setCommand( $command );
+		$creation	= $process->getProtectedVar( 'command' );
+		self::assertEquals( $assertion, $creation );
+
+		$creation	= $process->getProtectedVar( 'pid' );
+		self::assertIsInt( $creation );
+		self::assertEquals( 0, $creation );
+	}
+
+	public function testSetCommand_Exception1(): void
+	{
+		$this->expectException( InvalidArgumentException::class );
+		$this->process->setCommand( '' );
+	}
+
+	public function testSetCommand_Exception2(): void
+	{
+		$this->expectException( InvalidArgumentException::class );
+		$command	= 'sleep 1';
+		$this->process->setCommand( $command )->start()->setCommand( $command );
+	}
 
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp(): void
+	protected function setUp(): void
 	{
 		$this->process	= new BackgroundProcess();
 	}
@@ -43,70 +92,20 @@ class BackgroundProcessTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown(): void
+	protected function tearDown(): void
 	{
 	}
-
-	/**
-	 *	Tests Method 'getArguments'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testNewInstance()
-	{
-		$assertion	= new BackgroundProcess;
-		$creation	= BackgroundProcess::newInstance();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	public function testSetCommand()
-	{
-		$command	= 'ls -lah';
-		$process	= new BackgroundProcessInstance();
-		$process->setCommand( $command );
-
-		$assertion	= $command;
-		$creation	= $process->getProtectedVar( 'command' );
-		$this->assertEquals( $assertion, $creation );
-
-		$process->start();
-		$creation	= $process->getProtectedVar( 'pid' );
-		$this->assertIsInt( $creation );
-		$this->assertGreaterThan( 1, $creation );
-
-		$process->setCommand( $command );
-		$creation	= $process->getProtectedVar( 'command' );
-		$this->assertEquals( $assertion, $creation );
-
-		$creation	= $process->getProtectedVar( 'pid' );
-		$this->assertIsInt( $creation );
-		$this->assertEquals( 0, $creation );
-	}
-
-	public function testSetCommand_Exception1()
-	{
-		$this->expectException( InvalidArgumentException::class );
-		$this->process->setCommand( '' );
-	}
-
-	public function testSetCommand_Exception2()
-	{
-		$this->expectException( InvalidArgumentException::class );
-		$command	= 'sleep 1';
-		$this->process->setCommand( $command )->start()->setCommand( $command );
-	}
-
 }
 class BackgroundProcessInstance extends BackgroundProcess
 {
-	public function getProtectedVar( $varName )
+	public function getProtectedVar( string $varName ): mixed
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );
 		return $this->$varName;
 	}
 
-	public function setProtectedVar( $varName, $varValue )
+	public function setProtectedVar( string $varName, mixed $varValue ): void
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
 			throw new Exception( 'Var "'.$varName.'" is not declared.' );

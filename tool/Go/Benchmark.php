@@ -1,16 +1,21 @@
 <?php
+
+namespace CeusMedia\CommonTool\Go;
+
+use CeusMedia\Common\Alg\UnitFormater;
+
 /**
  *	@deorecated not needed once Go is gone
  */
 require_once dirname( __FILE__ ).'/Library.php';
-class Go_Benchmark
+class Benchmark
 {
 	public function __construct()
 	{
 		define( 'LB', "\n" );
-		$path	= Go_Library::getLibraryPath();
+		$path	= Library::getLibraryPath();
 		require_once( $path.'autoload.php' );
-		$path	= Go_Library::getSourcePath();
+		$path	= Library::getSourcePath();
 
 		echo LB.'Memory Usage on start:';
 		echo LB.'----------------------';
@@ -19,7 +24,7 @@ class Go_Benchmark
 
 		echo LB.'Loading... ';
 		$start		= microtime( TRUE );
-		$data	= Go_Library::listClasses( $path );
+		$data	= Library::listClasses( $path );
 
 		$number	= 0;
 		foreach( $data['files'] as $file )
@@ -34,14 +39,14 @@ class Go_Benchmark
 		echo LB;
 	}
 
-	function showMemoryUsage()
+	function showMemoryUsage(): void
 	{
+		define( 'LB', "\n" );
 		$usage	= memory_get_usage();
 		$limit	= (int) ini_get( 'memory_limit' ) * 1024 * 1024;
 		$ratio	= round( $usage / $limit * 100, 3 )."%";
-		echo LB.'Limit: '.Alg_UnitFormater::formatBytes( $limit );
-		echo LB.'Usage: '.Alg_UnitFormater::formatBytes( $usage );
+		echo LB.'Limit: '. UnitFormater::formatBytes( $limit );
+		echo LB.'Usage: '. UnitFormater::formatBytes( $usage );
 		echo LB.'Ratio: '.$ratio;
 	}
 }
-?>

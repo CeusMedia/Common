@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -35,8 +36,8 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			use Net_Reader or Net_CURL
  *	@todo			implement time out and http status code check
@@ -45,13 +46,13 @@ use Exception;
 class CrossDomainProxy
 {
 	/**	@var		string		$url				URL of Service Request */
-	protected		$url		= "";
+	protected string $url;
 
-	/**	@var		string		$username			Username of HTTP Basic Authentication */
-	protected		$username	= "";
+	/**	@var		string|NULL		$username			Username of HTTP Basic Authentication */
+	protected ?string $username	= NULL;
 
-	/**	@var		string		$password			Password of HTTP Basic Authentication */
-	protected		$password	= "";
+	/**	@var		string|NULL		$password			Password of HTTP Basic Authentication */
+	protected ?string $password	= NULL;
 
 	/**
 	 *	Constructor.
@@ -75,13 +76,13 @@ class CrossDomainProxy
 	 *	@return		string|bool
 	 *	@throws		Exception
 	 */
-	public function forward( bool $throwException = FALSE )
+	public function forward( bool $throwException = FALSE ): bool|string
 	{
 		//  get GET Query String
 		$query	= getEnv( 'QUERY_STRING' );
 		//  build Service Request URL
 		$url	= $this->url."?".$query;
-		return self::requestUrl( $url, $this->username, $this->password, $throwException );
+		return static::requestUrl( $url, $this->username, $this->password, $throwException );
 	}
 
 	/**
@@ -94,7 +95,7 @@ class CrossDomainProxy
 	 *	@return		string|bool
 	 *	@throws		Exception
 	 */
-	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE )
+	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE ): bool|string
 	{
 		//  open cURL Handler
 		$curl	= curl_init();
@@ -117,8 +118,7 @@ class CrossDomainProxy
 		//  get Request Method
 		$method	= getEnv( 'REQUEST_METHOD' );
 		//  Request Method is POST
-		if( $method == "POST" )
-		{
+		if( 'POST' === $method ){
 			//  build POST Parameters
 			$data	= http_build_query( $_POST, '', "&" );
 			//  set POST Request on cURL Handler
@@ -127,7 +127,7 @@ class CrossDomainProxy
 			curl_setopt( $curl, CURLOPT_POSTFIELDS, $data );
 		}
 		//  neither POST nor GET
-		else if( $method != "GET" )
+		else if( 'GET' !== $method )
 			//  throw Exception
 			throw new Exception( 'Invalid Request Method.' );
 

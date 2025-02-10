@@ -72,10 +72,10 @@ class ReaderTest extends BaseCase
 		$response	= $this->reader->read();
 		$assertion	= "200";
 		$creation	= $this->reader->getInfo( NetCURL::INFO_HTTP_CODE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= (bool) count( $this->reader->getInfo() );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -110,7 +110,7 @@ class ReaderTest extends BaseCase
 	{
 		$assertion	= $this->url;
 		$creation	= $this->reader->getUrl();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -123,7 +123,7 @@ class ReaderTest extends BaseCase
 		$response	= $this->reader->read();
 
 		$creation	= (bool) preg_match( $this->needle, $response );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -148,7 +148,7 @@ class ReaderTest extends BaseCase
 		$response	= NetReader::readUrl( $this->url );
 
 		$creation	= (bool) preg_match( $this->needle, $response );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -162,7 +162,7 @@ class ReaderTest extends BaseCase
 
 		$assertion	= "UnitTest1";
 		$creation	= $this->reader->getUserAgent();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -176,7 +176,7 @@ class ReaderTest extends BaseCase
 
 		$assertion	= "test.com";
 		$creation	= $this->reader->getUrl();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

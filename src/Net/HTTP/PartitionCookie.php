@@ -3,7 +3,7 @@
 /**
  *	Partitioned Cookie Management.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,31 +16,35 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+use CeusMedia\Common\Exception\Conversion as ConversionException;
+use Throwable;
 
 /**
  *	Partitioned Cookie Management.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class PartitionCookie extends Cookie
 {
 	/**	@var		string		$partition		Name of partition in cookie */
-	protected $partition;
+	protected string $partition;
 
 	/**
 	 *	Constructor.
@@ -52,7 +56,7 @@ class PartitionCookie extends Cookie
 	 *	@param		boolean			$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		void
 	 */
-	public function __construct ( string $partition, string $path = "/", ?string $domain = NULL, bool $secure = FALSE, bool $httpOnly = FALSE )
+	public function __construct ( string $partition, string $path = '/', ?string $domain = NULL, bool $secure = FALSE, bool $httpOnly = FALSE )
 	{
 		parent::__construct();
 		$this->partition	= $partition;
@@ -67,12 +71,13 @@ class PartitionCookie extends Cookie
 	/**
 	 *	Returns a Cookie by its key.
 	 *	@access		public
-	 *	@param		string		$key			Key of Cookie
-	 *	@return		mixed
+	 *	@param		string			$key			Key of Cookie
+	 *	@param		string|NULL		$default		Default value
+	 *	@return		string|NULL
 	 */
-	public function get( string $key )
+	public function get( string $key, ?string $default = NULL ): ?string
 	{
-		$key	= str_replace( ".", "_", $key );
+		$key	= str_replace( '.', '_', $key );
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
 		return NULL;
@@ -90,7 +95,7 @@ class PartitionCookie extends Cookie
 	 */
 	public function remove( string $key, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		$key	= str_replace( ".", "_", $key );
+		$key	= str_replace( '.', '_', $key );
 		if( !isset( $this->data[$key] ) )
 			return FALSE;
 		unset( $this->data[$key] );
@@ -109,9 +114,9 @@ class PartitionCookie extends Cookie
 	 *	@param		boolean|NULL	$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		bool
 	 */
-	public function set( string $key, $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
+	public function set( string $key, mixed $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		$key	= str_replace( ".", "_", $key );
+		$key	= str_replace( '.', '_', $key );
 		$this->data[$key] = $value;
 		return $this->save( $expires, $path, $domain, $secure, $httpOnly );
 	}
@@ -130,12 +135,19 @@ class PartitionCookie extends Cookie
 	 */
 	protected function save( int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
-		return setcookie( $this->partition, json_encode( $this->data ), [
+		try{
+			$json	= JsonEncoder::create()->encode( $this->data );
+		}
+		catch ( Throwable $t ) {
+			throw ConversionException::create( 'Conversion to JSON failed: '.$t->getMessage() );
+		}
+		$options	= [
 			'expires'		=> $expires ? time() + $expires : $expires,
 			'path'			=> $path ?? $this->path,
 			'domain'		=> $domain ?? $this->domain,
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
-		]);
+		];
+		return setcookie( $this->partition, $json, $options );
 	}
 }

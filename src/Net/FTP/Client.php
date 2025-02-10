@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Client for FTP Connections.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,19 +17,20 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net\FTP;
 
 use Exception;
+use FTP\Connection as FtpConnection;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -37,8 +39,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Client
@@ -78,11 +80,7 @@ class Client
 			$this->writer		= new Writer( $this->connection );
 		}
 		catch( Exception $e ){
-			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
-				//  throw exception and transport inner exception
-				throw new RuntimeException( 'FTP connection failed ', 0, $e );
-			//  throw exception
-			throw new RuntimeException( 'FTP connection failed ', 0 );
+			throw new RuntimeException( 'FTP connection failed ', 0, $e );
 		}
 	}
 
@@ -202,12 +200,12 @@ class Client
 		return $this->connection->getPath();
 	}
 
-	public function getPermissionsAsOctal( $permissions ): string
+	public function getPermissionsAsOctal( string $permissions ): string
 	{
 		return $this->reader->getPermissionsAsOctal( $permissions );
 	}
 
-	public function getResource()
+	public function getResource(): FtpConnection
 	{
 		return $this->connection->getResource();
 	}

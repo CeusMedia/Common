@@ -5,7 +5,7 @@
 /**
  *	Premailer API PHP class.
  *
- *	Copyright (c) 2012-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,26 +18,28 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://premailer.dialect.ca/api
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net\API;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Net\HTTP\Post;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
 use Psr\SimpleCache\CacheInterface as SimpleCacheInterface;
+use Psr\SimpleCache\InvalidArgumentException as SimpleCacheInvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -51,11 +53,11 @@ use RuntimeException;
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://premailer.dialect.ca/api
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -65,7 +67,7 @@ class Premailer
 
 	protected ?SimpleCacheInterface $cache	= NULL;
 
-	protected $response;
+	protected mixed $response;
 
 	public static array $options = [
 		//  string  - Which document handler to use (hpricot (default) or nokigiri)
@@ -97,8 +99,9 @@ class Premailer
 	 *	@param		array		$params
 	 *	@return		mixed
 	 *	@throws		Exception
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
-	protected function convert( array $params )
+	protected function convert( array $params ): mixed
 	{
 		if( !$params['base_url'] )
 			unset( $params['base_url'] );
@@ -110,7 +113,7 @@ class Premailer
 		$params['remove_comments']	= (bool) $params['remove_comments'];
 		$params['fetchresult']		= true;
 
-		$requestId	= md5( json_encode( $params ) );
+		$requestId	= md5( JsonEncoder::create()->encode( $params ) );
 		$cacheKey	= 'premailer_'.$requestId.'.data';
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return json_decode( $this->cache->get( $cacheKey ) );
@@ -124,18 +127,14 @@ class Premailer
 			CURLOPT_SSL_VERIFYPEER	=> 0,
 		] ) );
 		if( $response->status != 201 ){
-			switch( $response->status){
-				case 400:
-					throw new Exception( 'Content missing', 400 );
-				case 403:
-					throw new Exception( 'Access forbidden', 403 );
-				case 500:
-				default:
-					throw new Exception( 'Error', $response->status );
-			}
+			throw match( $response->status ){
+				400		=> new Exception( 'Content missing', 400 ),
+				403		=> new Exception( 'Access forbidden', 403 ),
+				default	=> new Exception( 'Error', $response->status ),
+			};
 		}
 		$response->requestId	= $requestId;
-		$this->cache && $this->cache->set( $cacheKey, json_encode( $response ) );
+		$this->cache && $this->cache->set( $cacheKey, JsonEncoder::create()->encode( $response ) );
 		return $this->response	= $response;
 	}
 
@@ -147,6 +146,7 @@ class Premailer
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
 	 *	@throws		Exception
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function convertFromUrl( string $url, array $params = [] ): object
 	{
@@ -164,6 +164,7 @@ class Premailer
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
 	 *	@throws		Exception
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function convertFromHtml( string $html, array $params = [] ): object
 	{
@@ -178,6 +179,7 @@ class Premailer
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 *	@throws		IoException
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function getHtml(): string
 	{
@@ -196,6 +198,7 @@ class Premailer
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 *	@throws		IoException
+	 *	@throws		SimpleCacheInvalidArgumentException
 	 */
 	public function getPlainText(): string
 	{
@@ -209,8 +212,9 @@ class Premailer
 		return $text;
 	}
 
-	public function setCache( SimpleCacheInterface $cache )
+	public function setCache( SimpleCacheInterface $cache ): self
 	{
 		$this->cache	= $cache;
+		return $this;
 	}
 }

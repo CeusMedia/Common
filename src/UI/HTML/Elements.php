@@ -8,7 +8,7 @@
 /**
  *	Builds HTML Components.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,13 +38,13 @@ namespace CeusMedia\Common\UI\HTML;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Elements extends FormElements
 {
-	public static function CheckboxLabel( $name, $value, $checked, $text, $class = 'checklabel' ): string
+	public static function CheckboxLabel( string $name, string $value, bool $checked, string $text, string $class = 'checklabel' ): string
 	{
 		$checkBox	= self::CheckBox( $name, $value, $checked );
 		$checkSpan	= Tag::create( "span", $checkBox, ['class' => "checkbox"] );
@@ -83,9 +83,13 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo		Signature Documentation
+	 *	@param		string			$name
+	 *	@param		mixed			$value
+	 *	@param		string			$text
+	 *	@param		string|NULL		$class
+	 *	@return		string
 	 */
-	public static function CheckButton( string $name, $value, $text, $class = FALSE ): string
+	public static function CheckButton( string $name, mixed $value, string $text, ?string $class = NULL ): string
 	{
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
 		$code = '
@@ -119,7 +123,15 @@ class Elements extends FormElements
 		return $code;
 	}
 
-	public static function MailLink( $address, $label, ?string $class = "mail", bool $crypt = TRUE ): string
+	/**
+	 *	@static
+	 *	@param		string		$address
+	 *	@param		string		$label
+	 *	@param		string|NULL	$class
+	 *	@param		bool		$crypt
+	 *	@return		string
+	 */
+	public static function MailLink( string $address, string $label, ?string $class = "mail", bool $crypt = TRUE ): string
 	{
 		if( $crypt ){
 			$crypt	= $address;
@@ -134,9 +146,13 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo	Signature Documentation
+	 *	@param		string		$name
+	 *	@param		mixed		$content
+	 *	@param		bool		$open
+	 *	@param		string|NULL	$class
+	 *	@return		string
 	 */
-	public static function FoldingArea( string $name, $content, $open = FALSE, ?string $class = NULL ): string
+	public static function FoldingArea( string $name, mixed $content, bool $open = FALSE, ?string $class = NULL ): string
 	{
 		$ins_state	= " style=\"display: ".( $open ? "block" : "none" )."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -146,9 +162,13 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo	Signature Documentation
+	 *	@param		string		$name
+	 *	@param		string		$value
+	 *	@param		string		$text
+	 *	@param		string|NULL	$class
+	 *	@return		string
 	 */
-	public static function FoldingButton( string $name, $value, $text, ?string $class = NULL ): string
+	public static function FoldingButton( string $name, string $value, string $text, ?string $class = NULL ): string
 	{
 		$onClick = "switchFoldingButton('".$name."', '".( $class ? $class."_" : "" )."'); switchFoldingArea('".$name."'); return false;";
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
@@ -188,9 +208,10 @@ class Elements extends FormElements
 
 	/**
 	 *	@static
-	 *	@todo		Signature Documentation
+	 *	@param		string		$name
+	 *	@return		string
 	 */
-	public static function Anchor( $name ): string
+	public static function Anchor( string $name ): string
 	{
 		$code	= "<a name='".$name."'></a>";
 		return $code;
@@ -305,7 +326,14 @@ class Elements extends FormElements
 		return $code;
 	}
 
-	public static function Heading( $label, int $level, ?string $class = NULL ): string
+	/**
+	 *	@static
+	 *	@param		string		$label
+	 *	@param		int			$level
+	 *	@param		string|NULL	$class
+	 *	@return		string
+	 */
+	public static function Heading( string $label, int $level, ?string $class = NULL ): string
 	{
 		return Tag::create( 'h'.$level, $label, ['class' => $class] );
 	}
@@ -323,7 +351,7 @@ class Elements extends FormElements
 	 */
 	public static function Image( $url, $title, string $class = "", ?int $width = NULL, ?int $height = NULL ): string
 	{
-		$attributes	= [
+		$attributes	= array(
 			'src'		=> $url,
 			'class'		=> $class		?: NULL,
 			'width'		=> $width		?: NULL,
@@ -332,7 +360,7 @@ class Elements extends FormElements
 			'title'		=> $title		?: NULL,
 			'hspace'	=> 0,
 			'vspace'	=> 0,
-		];
+		);
 		$code	= Tag::create( "img", NULL, $attributes );
 		return $code;
 	}

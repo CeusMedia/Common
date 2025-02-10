@@ -55,11 +55,11 @@ class SgmlTagReaderTest extends BaseCase
 	{
 		$assertion	= "a";
 		$creation	= SgmlTagReader::getNodeName( $this->tag1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "body";
 		$creation	= SgmlTagReader::getNodeName( $this->tag2 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -75,14 +75,14 @@ class SgmlTagReaderTest extends BaseCase
 			'class'		=> "test-class other"
 		);
 		$creation	= SgmlTagReader::getAttributes( $this->tag1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'font-color'	=> "#FF0000",
 			'onFocus'		=> "this.blur()",
 		);
 		$creation	= SgmlTagReader::getAttributes( $this->tag2 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -94,11 +94,11 @@ class SgmlTagReaderTest extends BaseCase
 	{
 		$assertion	= "Google";
 		$creation	= SgmlTagReader::getContent( $this->tag1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "";
 		$creation	= SgmlTagReader::getContent( $this->tag2 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -118,6 +118,6 @@ class SgmlTagReaderTest extends BaseCase
 			)
 		);
 		$creation	= SgmlTagReader::getTagData( $this->tag1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

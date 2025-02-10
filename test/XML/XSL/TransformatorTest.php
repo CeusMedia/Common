@@ -53,7 +53,7 @@ class TransformatorTest extends BaseCase
 	{
 		$assertion	= $this->result;
 		$creation	= $this->transformator->transform();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -66,6 +66,6 @@ class TransformatorTest extends BaseCase
 		$this->transformator->transformToFile( $this->path."output.html" );
 		$assertion	= $this->result;
 		$creation	= file_get_contents( $this->path."output.html" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

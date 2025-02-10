@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of FS_File_Block_Writer.
  *	@package		Tests.FS.File.Block
@@ -19,11 +23,37 @@ use CeusMedia\CommonTest\BaseCase;
 class WriterTest extends BaseCase
 {
 	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function test__construct(): void
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= Writer::__construct();
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'writeBlocks'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testWriteBlocks(): void
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= Writer::writeBlocks();
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp(): void
+	protected function setUp(): void
 	{
 	}
 
@@ -32,33 +62,7 @@ class WriterTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown(): void
+	protected function tearDown(): void
 	{
-	}
-
-	/**
-	 *	Tests Method '__construct'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function test__construct()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Writer::__construct();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'writeBlocks'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testWriteBlocks()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Writer::writeBlocks();
-		$this->assertEquals( $assertion, $creation );
 	}
 }

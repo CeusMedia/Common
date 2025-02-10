@@ -1,10 +1,10 @@
 /vendor
 /composer.lock
 /Test/results.*
-/tool/config/.phpunit.cache
 /tool/config/.phpunit.result.cache
 /.phpunit.result.cache
 /doc/*
 ;/.idea
-/.idea/workspace.xml
-/.idea/shelf
+/tool/config/.phpunit.cache/
+/demo/UI/SVG/test.svg
+/test/FS/File/test1.pdf.png_

@@ -3,7 +3,7 @@
 /**
  *	Data class for triggered events.
  *
- *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -33,34 +33,34 @@ namespace CeusMedia\Common\ADT\Event;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Event
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Data
 {
-	/**	@var	mixed|NULL		$arguments		Data given by trigger */
-	public $arguments;
+	/**	@var	array			$arguments		Data given by trigger */
+	public array $arguments 	= [];
 
-	/**	@var	mixed|NULL		$caller			Object which triggered bound event */
-	public $caller;
+	/**	@var	object|NULL		$caller			Object which triggered bound event */
+	public ?object $caller		= NULL;
 
 	/**	@var	mixed|NULL		$data			Data bound on event */
 	public $data;
 
-	/**	@var	Handler		$handler		Reference to event handler instance */
+	/**	@var	Handler			$handler		Reference to event handler instance */
 	protected Handler $handler;
 
-	/**	@var	mixed|NULL		$key			Name bound event, eg. "start.my"  */
-	public $key;
+	/**	@var	string|NULL		$key			Name bound event, e.g. "start.my"  */
+	public ?string $key			= NULL;
 
-	/**	@var	string|NULL		$trigger		Name of trigger, eg. "start" */
-	public ?string $trigger;
+	/**	@var	string|NULL		$trigger		Name of trigger, e.g. "start" */
+	public ?string $trigger		= NULL;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Handler	$handler		Event handler instance
+	 *	@param		Handler		$handler		Event handler instance
 	 *	@return		void
 	 */
 	public function __construct( Handler $handler )
@@ -73,7 +73,7 @@ class Data
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function stop()
+	public function stop(): void
 	{
 		$this->handler->stopEvent( $this->trigger );
 	}

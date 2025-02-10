@@ -1,11 +1,18 @@
 <?php
+
+namespace CeusMedia\CommonTool\Go;
+
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	@deorecated not needed once Go is gone
  */
-class Go_Application
+class Application
 {
-	private $basePath;
-	private	$messages	= array(
+	private string $basePath;
+	private	array $messages	= array(
 		'title'						=> " > >  GO  > >   -  get & organize CeusMedia::Common\n",
 		'config_missing'			=> "No Config File '%s' found.\nCeusMedia::Common must be installed and configured.\nGO must be within installation path.",
 		'command_invalid'			=> "No valid command set.\nPlease append 'help' for further information!\n",
@@ -13,15 +20,15 @@ class Go_Application
 		'subject_test_invalid'		=> "No valid test subject set (benchmark,syntax,self,units).",
 		'tool_create_doc'			=> "No documentation tool set (creator,phpdoc).",
 	);
-	private $configFile				= 'Common.ini';
+	private string $configFile				= 'Common.ini';
 
-	public function autoload( $className )
+	public function autoload( string $className ): void
 	{
-		if( preg_match( '/^Go_/', $className ) )													//  is it a GO class ?
+		if( str_starts_with( $className, 'Go_' ) )													//  is it a GO class ?
 			require_once $this->basePath.'Go/'.preg_replace( '/^Go_/', '', $className ).'.php';		//  then require it
 	}
 
-	public function __construct( $clearScreen = FALSE )
+	public function __construct( bool $clearScreen = FALSE )
 	{
 		spl_autoload_register( array( $this, 'autoload' ) );
 		if( !empty( $_SERVER['SERVER_ADDR'] ) )
@@ -32,21 +39,18 @@ class Go_Application
 
 #		Go_Library::$configFile	= $this->configFile;
 		$this->basePath		= dirname( __DIR__ ).'/';
-		$this->configFile	= Go_Library::getConfigFile();											//  point to Configuration File
+		$this->configFile	= Library::getConfigFile();											//  point to Configuration File
 
 		$arguments	= array_slice( $_SERVER['argv'], 1 );											//  get given arguments
 
-		try
-		{
+		try{
 			if( !$arguments )																		//  no arguments given
 				throw new InvalidArgumentException( $this->messages['command_invalid'] );
 			$command	= strtolower( $arguments[0] );												//  extract command
-			if( file_exists( $this->configFile ) )													//  Common installed and configured
-			{
+			if( file_exists( $this->configFile ) ){													//  Common installed and configured
 				require_once( 'autoload.php' );														//  enable autoload of Common
 			}
-			else if( !( $command == "install" || $command == "configure" ) )						//  anything else but installation is impossible
-			{
+			else if( !( $command == "install" || $command == "configure" ) ){						//  anything else but installation is impossible
 				$message	= sprintf( $this->messages['config_missing'], $this->configFile );
 				throw new RuntimeException( $message );
 			}
@@ -56,16 +60,14 @@ class Go_Application
 #		{
 #			$this->showUsage( $e->getMessage() );													//  show usage and message
 #		}
-		catch( Exception $e )																		//  catch any other exception
-		{
+		catch( Exception $e ){																		//  catch any other exception
 			print( "\nERROR: ".$e->getMessage()."\n" );												//  show message only
 		}
 	}
 
-	private function handle( $configFile, $command, $arguments )
+	private function handle( $configFile, string $command, array $arguments ): void
 	{
-		switch( $command )
-		{
+		switch( $command ){
 			case '-h':
 			case '--help':
 			case '/?':
@@ -77,13 +79,12 @@ class Go_Application
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
 				$subject	= strtolower( $arguments[1] );
-				switch( $subject )
-				{
+				switch( $subject ){
 					case 'doc':
-						new Go_DocCreator( array_slice( $arguments, 3 ) );
+						new DocCreator( array_slice( $arguments, 3 ) );
 						break;
 					case 'test':
-						new Go_UnitTestCreator( array_slice( $arguments, 2 ) );
+						new UnitTestCreator( array_slice( $arguments, 2 ) );
 						break;
 					default:
 						throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
@@ -93,20 +94,19 @@ class Go_Application
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				$subject	= strtolower( $arguments[1] );
-				switch( $subject )
-				{
+				switch( $subject ){
 					case 'benchmark':
-						new Go_Benchmark();
+						new Benchmark();
 						break;
 					case 'syntax':
-						new Go_ClassSyntaxTester( $arguments );
+						new ClassSyntaxTester( $arguments );
 						break;
 					case 'self':
-						new Go_SelfTester( $arguments );
+						new SelfTester( $arguments );
 						break;
 					case 'units':
 						$className	= empty( $arguments[2] ) ? NULL : $arguments[2];
-						new Go_UnitTester( $className );
+						new UnitTester( $className );
 						break;
 					default:
 						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
@@ -117,9 +117,9 @@ class Go_Application
 		}
 	}
 
-	public function showUsage( $message = NULL )
+	public function showUsage( ?string $message = NULL ): void
 	{
-		if( $message )
+		if( NULL !== $message )
 			$message	= "\nERROR: ".$message."\n";
 		$text	= file_get_contents( $this->basePath.'Go/usage.txt' );
 		$make	= file_get_contents( $this->basePath.'Go/make.txt' );
@@ -127,4 +127,3 @@ class Go_Application
 		print( "\n".$text."\n".$message );
 	}
 }
-?>

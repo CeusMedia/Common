@@ -3,7 +3,7 @@
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,8 +38,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
@@ -55,7 +55,7 @@ class RecursiveRegexFilter extends RegexIterator
 	private string $filePattern;
 
 	/**	@var	string				$contentPattern	Regular Expression to match with File Content */
-	private $contentPattern;
+	private ?string $contentPattern;
 
 	/**
 	 *	Constructor.
@@ -64,7 +64,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@param		string		$filePattern	Regular Expression to match with File Name
 	 *	@return		void
 	 */
-	public function __construct( $path, $filePattern, $contentPattern = NULL )
+	public function __construct( string $path, string $filePattern, ?string $contentPattern = NULL )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -131,7 +131,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->numberFound		= 0;
 		$this->numberScanned	= 0;

@@ -3,7 +3,7 @@
 /**
  *	Validates an XML Element built form an Atom XML String against most of the ATOM Rules.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,14 +16,14 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,17 +37,17 @@ use CeusMedia\Common\XML\Element as XmlElement;
  *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Validator
 {
 	/**	@var		array			$errors			List of broken Atom Rules */
-	protected $errors	= [];
+	protected array $errors	= [];
 
 	/**	@var		array			$rules			Error Messages of Atom Rules */
-	protected $rules	= [
+	protected array $rules	= [
 		'feed_author'		=> "Feed element MUST contain one or more author elements, unless all of the feed element's child entry elements contain at least one author element.",
 		'feed_generator'	=> "Feed element MUST NOT contain more than one generator element.",
 		'feed_icon'			=> "Feed element MUST NOT contain more than one icon element.",
@@ -121,33 +121,33 @@ class Validator
 	protected function validate( XmlElement $xmlElement ): array
 	{
 		$errors	= [];
-		foreach( $xmlElement->getDocNamespaces() as $prefix => $namespace ){
+		foreach( $xmlElement->getDocNamespaces() ?: [] as $prefix => $namespace ){
 			$prefix	= $prefix ?: "atom";
 			$xmlElement->registerXPathNamespace( $prefix, $namespace );
 		}
 		$key	= "//atom:feed/";
-		if( !count( $xmlElement->xpath( $key.'atom:author' ) ) )
+		if( !count( $xmlElement->xpath( $key.'atom:author' ) ?: [] ) )
 			foreach( $xmlElement->entry as $entry )
 				if( !$entry->author )
 					$errors[]	= "feed_author";
-		if( count( $xmlElement->xpath( $key.'atom:generator' ) ) > 1 )
+		if( count( $xmlElement->xpath( $key.'atom:generator' ) ?: [] ) > 1 )
 			$errors[]	= "feed_generator";
-		if( count( $xmlElement->xpath( $key.'atom:icon' ) ) > 1 )
+		if( count( $xmlElement->xpath( $key.'atom:icon' ) ?: [] ) > 1 )
 			$errors[]	= "feed_icon";
-		if( count( $xmlElement->xpath( $key.'atom:logo' ) ) > 1 )
+		if( count( $xmlElement->xpath( $key.'atom:logo' ) ?: [] ) > 1 )
 			$errors[]	= "feed_logo";
-		if( count( $xmlElement->xpath( $key.'atom:id' ) ) != 1 )
+		if( count( $xmlElement->xpath( $key.'atom:id' ) ?: [] ) != 1 )
 			$errors[]	= "feed_id";
-		if( count( $xmlElement->xpath( $key.'atom:rights' ) ) > 1 )
+		if( count( $xmlElement->xpath( $key.'atom:rights' ) ?: [] ) > 1 )
 			$errors[]	= "feed_rights";
-		if( count( $xmlElement->xpath( $key.'atom:subtitle' ) ) > 1 )
+		if( count( $xmlElement->xpath( $key.'atom:subtitle' ) ?: [] ) > 1 )
 			$errors[]	= "feed_subtitle";
-		if( count( $xmlElement->xpath( $key.'atom:title' ) ) != 1 )
+		if( count( $xmlElement->xpath( $key.'atom:title' ) ?: [] ) != 1 )
 			$errors[]	= "feed_title";
-		if( count( $xmlElement->xpath( $key.'atom:updated' ) ) != 1 )
+		if( count( $xmlElement->xpath( $key.'atom:updated' ) ?: [] ) != 1 )
 			$errors[]	= "feed_updated";
 		$ids	= [];
-		foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) as $link ){
+		foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) ?: [] as $link ){
 			$id	= "";
 			if( $link->hasAttribute( 'type' ) )
 				$id	= $link->getAttribute( 'type' );
@@ -160,32 +160,32 @@ class Validator
 			$ids[]	= $id;
 		}
 
-		$numberEntries	= count( $xmlElement->xpath( $key.'atom:entry' ) );
+		$numberEntries	= count( $xmlElement->xpath( $key.'atom:entry' ) ?: [] );
 		for( $i=1; $i<=$numberEntries; $i++ ){
 			$key	= "//atom:feed/atom:entry[$i]/";
-			if( !count( $xmlElement->xpath( $key.'atom:author' ) ) && !count( $xmlElement->xpath( '//atom:feed/atom:author' ) ) )
+			if( !count( $xmlElement->xpath( $key.'atom:author' ) ?: [] ) && !count( $xmlElement->xpath( '//atom:feed/atom:author' ) ?: [] ) )
 				$errors[]	= "entry_author";
-			if( count( $xmlElement->xpath( $key.'atom:content' ) ) > 1 )
+			if( count( $xmlElement->xpath( $key.'atom:content' ) ?: [] ) > 1 )
 				$errors[]	= "entry_content";
-			if( count( $xmlElement->xpath( $key.'atom:id' ) ) != 1 )
+			if( count( $xmlElement->xpath( $key.'atom:id' ) ?: [] ) != 1 )
 				$errors[]	= "entry_id";
-			if( !count( $xmlElement->xpath( $key.'atom:content' ) ) && !count( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) ) )
+			if( !count( $xmlElement->xpath( $key.'atom:content' ) ?: [] ) && !count( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) ?: [] ) )
 				$errors[]	= "entry_link_alt";
-			if( count( $xmlElement->xpath( $key.'atom:published' ) ) > 1 )
+			if( count( $xmlElement->xpath( $key.'atom:published' ) ?: [] ) > 1 )
 				$errors[]	= "entry_published";
-			if( count( $xmlElement->xpath( $key.'atom:rights' ) ) > 1 )
+			if( count( $xmlElement->xpath( $key.'atom:rights' ) ?: [] ) > 1 )
 				$errors[]	= "entry_rights";
-			if( count( $xmlElement->xpath( $key.'atom:source' ) ) > 1 )
+			if( count( $xmlElement->xpath( $key.'atom:source' ) ?: [] ) > 1 )
 				$errors[]	= "entry_source";
-			if( count( $xmlElement->xpath( $key.'atom:summary' ) ) > 1 )
+			if( count( $xmlElement->xpath( $key.'atom:summary' ) ?: [] ) > 1 )
 				$errors[]	= "entry_summary";
-			if( count( $xmlElement->xpath( $key.'atom:title' ) ) != 1 )
+			if( count( $xmlElement->xpath( $key.'atom:title' ) ?: [] ) != 1 )
 				$errors[]	= "entry_title";
-			if( count( $xmlElement->xpath( $key.'atom:updated' ) ) != 1 )
+			if( count( $xmlElement->xpath( $key.'atom:updated' ) ?: [] ) != 1 )
 				$errors[]	= "entry_updated";
 
 			$keys	= [];
-			foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) as $link ){
+			foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) ?: [] as $link ){
 				$key	= "";
 				if( $link->hasAttribute( 'type' ) )
 					$key	= $link->getAttribute( 'type' );

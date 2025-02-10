@@ -3,7 +3,7 @@
 /**
  *	HTTP status code handling.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -35,13 +35,14 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Status
 {
-	protected static $codes	= [
+	/** @var array<int,string> $codes */
+	protected static array $codes	= [
 		100 => "Continue",
 		101 => "Switching Protocols",
 		102 => "Processing",
@@ -125,9 +126,9 @@ class Status
 	 */
 	public static function getText( int $code ): string
 	{
-		if( !array_key_exists( $code, self::$codes ) )
+		if( !array_key_exists( $code, static::$codes ) )
 			throw new InvalidArgumentException( 'Unknown HTTP status code: '.$code );
-		return self::$codes[$code];
+		return static::$codes[$code];
 	}
 
 	/**
@@ -139,10 +140,10 @@ class Status
 	 */
 	public static function getCode( string $text ): int
 	{
-		if( $code = array_search( $text, self::$codes ) )
+		if( $code = array_search( $text, static::$codes ) )
 			return $code;
 		$__text	= trim( strtolower( preg_replace( "/[^a-z ]/i", "", $text ) ) );
-		foreach( self::$codes as $code => $_text )
+		foreach( static::$codes as $code => $_text )
 			if( strtolower( $_text ) === $__text )
 				return $code;
 		throw new InvalidArgumentException( 'No HTTP status code found for status text "'.$text.'"' );
@@ -150,7 +151,7 @@ class Status
 
 	public static function isCode( int $code ): bool
 	{
-		return array_key_exists( $code, self::$codes );
+		return array_key_exists( $code, static::$codes );
 	}
 
 
@@ -161,9 +162,9 @@ class Status
 	 *	@param		string		$protocol		HTTP protocol, default: HTTP/1.0
 	 *	@return		void
 	 */
-	public static function sendHeader( int $code, string $protocol = "HTTP/1.0" )
+	public static function sendHeader( int $code, string $protocol = "HTTP/1.0" ): void
 	{
-		$text = self::getText( $code );
+		$text = static::getText( $code );
 		header( $protocol.' '.$code.' '.$text );
 	}
 }

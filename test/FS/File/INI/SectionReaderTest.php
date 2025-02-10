@@ -51,7 +51,7 @@ class SectionReaderTest extends BaseCase
 		);
 		$reader		= new SectionReader( $this->fileName );
 		$creation	= $reader->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -72,14 +72,14 @@ class SectionReaderTest extends BaseCase
 			),
 		);
 		$creation	= $this->reader->getProperties();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			"key3"	=> "value3",
 			"key4"	=> "value4",
 		);
 		$creation	= $this->reader->getProperties( "section2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class SectionReaderTest extends BaseCase
 	{
 		$assertion	= "value2";
 		$creation	= $this->reader->getProperty( 'section1', 'key2' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class SectionReaderTest extends BaseCase
 	{
 		$assertion	= array( 'section1', 'section2' );
 		$creation	= $this->reader->getSections();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -148,11 +148,11 @@ class SectionReaderTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->reader->hasProperty( 'section1', 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->reader->hasProperty( 'section2', 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -164,10 +164,10 @@ class SectionReaderTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->reader->hasSection( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->reader->hasSection( 'section3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

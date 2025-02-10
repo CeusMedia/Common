@@ -55,7 +55,7 @@ class NodeTest extends BaseCase
 		$this->node->addChild( "string", "testString" );
 		$assertion	= "testString";
 		$creation	= $this->node->getChild( "string" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -82,7 +82,7 @@ class NodeTest extends BaseCase
 
 		$assertion	= 0;
 		$creation	= count( $this->node->getChildren() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -100,7 +100,7 @@ class NodeTest extends BaseCase
 			'int'		=> 1,
 		);
 		$creation	= $this->node->getChildren();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -115,11 +115,11 @@ class NodeTest extends BaseCase
 
 		$assertion	= "testString";
 		$creation	= $this->node->getChild( 'string' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $this->node->getChild( 'int' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -143,10 +143,10 @@ class NodeTest extends BaseCase
 		$this->node->addChild( 'string', "testString" );
 
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->node->hasChild( "not_existing" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -157,12 +157,12 @@ class NodeTest extends BaseCase
 	public function testHasChildren()
 	{
 		$creation	= $this->node->hasChildren();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$this->node->addChild( 'string', "testString" );
 
 		$creation	= $this->node->hasChildren( "not_existing" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -175,15 +175,15 @@ class NodeTest extends BaseCase
 		$this->node->addChild( 'string', "testString" );
 
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->node->removeChild( 'string' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->node->hasChild( "string" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->node->removeChild( 'string' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 }

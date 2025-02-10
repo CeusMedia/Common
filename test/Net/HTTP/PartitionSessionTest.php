@@ -24,7 +24,7 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class PartitionSessionTest extends BaseCase
 {
-	private $session;
+	private PartitionSession $session;
 
 	public function setUp(): void
 	{
@@ -46,7 +46,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->clear();
 		$assertion	= [];
 		$creation	= $this->session->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCount()
@@ -54,7 +54,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->set( 'key1', "value1" );
 		$assertion	= 1;
 		$creation	= $this->session->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGet()
@@ -62,7 +62,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->set( 'key1', "value1" );
 		$assertion	= "value1";
 		$creation	= $this->session->get( 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAll()
@@ -71,7 +71,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->set( 'key2', "value2" );
 		$assertion	= array( 'key1' => 'value1', 'key2' => 'value2' );
 		$creation	= $this->session->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testHas()
@@ -79,7 +79,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->set( 'key3', "value3" );
 		$assertion	= "value3";
 		$creation	= $this->session->get( 'key3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetExists()
@@ -87,7 +87,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->set( 'key4', "value4" );
 
 		$creation	= isset( $this->session['key4'] );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 	}
 
@@ -96,7 +96,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->set( 'key5', "value5" );
 		$assertion	= "value5";
 		$creation	= $this->session['key5'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetSet()
@@ -104,7 +104,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session['key6']	= "value6";
 		$assertion	= "value6";
 		$creation	= $this->session->get( 'key6' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetUnset()
@@ -113,7 +113,7 @@ class PartitionSessionTest extends BaseCase
 		unset( $this->session['key7'] );
 
 		$creation	= $this->session->has( 'key7' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	public function testRemove()
@@ -122,7 +122,7 @@ class PartitionSessionTest extends BaseCase
 		$this->session->remove( 'key8' );
 
 		$creation	= $this->session->has( 'key8' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	public function testSet()
@@ -131,6 +131,6 @@ class PartitionSessionTest extends BaseCase
 		$this->session->set( 'key9', "value9" );
 		$assertion	= "value9";
 		$creation	= $this->session->get( 'key9' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

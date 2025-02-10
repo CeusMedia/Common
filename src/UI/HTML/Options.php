@@ -3,7 +3,7 @@
 /**
  *	Wrapper of jQuery plugin 'cmOptions' to create HTML and JavaScript.
  *
- *	Copyright (c) 2009-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -33,20 +33,20 @@ namespace CeusMedia\Common\UI\HTML;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2009-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Options
 {
-	protected $async	= TRUE;
-	protected $cache	= TRUE;
-	protected $class	= 'cmOptions';
-	protected $data		= [];
-	protected $name		= NULL;
-	protected $options	= [];
-	protected $selected	= '';
-	protected $url		= NULL;
+	protected bool $async		= TRUE;
+	protected bool $cache		= TRUE;
+	protected string $class		= 'cmOptions';
+	protected array $data		= [];
+	protected ?string $name		= NULL;
+	protected array $options	= [];
+	protected string $selected	= '';
+	protected ?string $url		= NULL;
 
 	/**
 	 *	Constructor.
@@ -76,13 +76,13 @@ class Options
 	 */
 	public function buildScript(): string
 	{
-		$options	= [
+		$options	= array(
 			'url'		=> $this->url,
 			'async'		=> $this->async,
 			'cache'		=> $this->cache,
 			'data'		=> $this->data,
 			'selected'	=> $this->selected
-		];
+		);
 		return JQuery::buildPluginCall( 'ajaxOptions', "select[name='".$this->name."']", $options );
 	}
 

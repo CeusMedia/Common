@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
 
 /**
  *	Collects and Manages Request Data.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -40,8 +41,8 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Receiver extends Dictionary
@@ -89,7 +90,7 @@ class Receiver extends Dictionary
 		//  store HTTP method
 		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
 		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
-		if( strpos( $this->path, '?' ) !== FALSE )
+		if( str_contains( $this->path, '?' ) )
 			$this->path	= substr( $this->path, 0, strpos( $this->path, '?' ) );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
@@ -105,7 +106,7 @@ class Receiver extends Dictionary
 	/**
 	 *	Reads and returns Data from Sources.
 	 *	@access		public
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
 	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
@@ -124,12 +125,12 @@ class Receiver extends Dictionary
 	 *	Returns value or null by its key in a specified source.
 	 *	@access		public
 	 *	@param		string		$key		...
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
 	 *	@return		mixed		Value of key in source or NULL if not set
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 */
-	public function getFromSource( string $key, string $source, bool $strict = FALSE )
+	public function getFromSource( string $key, string $source, bool $strict = FALSE ): mixed
 	{
 		$data	= $this->getAllFromSource( $source );
 		if( isset( $data[$key] ) )
@@ -167,7 +168,7 @@ class Receiver extends Dictionary
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
 	 *	@return		HeaderField[]|HeaderField|NULL	List of collected HTTP Header Fields with given Header Name
 	 */
-	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE ): array|HeaderField|NULL
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
@@ -207,7 +208,7 @@ class Receiver extends Dictionary
 	 *	Indicates whether a pair is existing in a request source by its key.
 	 *	@access		public
 	 *	@param		string		$key		...
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		string		$source		Source key (not case-sensitive) (get,post,files[,session,cookie])
 	 *	@return		bool
 	 */
 	public function hasInSource( string $key, string $source ): bool

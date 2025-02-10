@@ -3,7 +3,7 @@
 /**
  *	Argument Parser for Console Applications using an Automaton.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,8 +37,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class ArgumentParser
@@ -97,7 +97,7 @@ class ArgumentParser
 	 *	@param		string		$string		String of Arguments and Options
 	 *	@return		void
 	 */
-	public function parse( string $string )
+	public function parse( string $string ): void
 	{
 		$this->foundArguments	= [];
 		$this->foundOptions		= [];
@@ -250,7 +250,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onEndOfLine( string $option )
+	protected function onEndOfLine( string $option ): void
 	{
 		if( $this->status == self::STATUS_READ_ARGUMENT )
 			$this->foundArguments[]	= $this->buffer;
@@ -277,7 +277,7 @@ class ArgumentParser
 	 *	@param		string		$sign		Sign to handle
 	 *	@return		void
 	 */
-	protected function onReadArgument( string $sign )
+	protected function onReadArgument( string $sign ): void
 	{
 		if( $sign == " " ){
 			$this->foundArguments[]	= $this->buffer;
@@ -295,7 +295,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionKey( string $sign, string &$option )
+	protected function onReadOptionKey( string $sign, string &$option ): void
 	{
 		if( in_array( $sign, [" ", ":", "="], TRUE ) ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
@@ -322,7 +322,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReadOptionValue( string $sign, string $option )
+	protected function onReadOptionValue( string $sign, string $option ): void
 	{
 		//  illegal Option following
 //		if( $sign === "-" )
@@ -358,7 +358,7 @@ class ArgumentParser
 	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onReady( string $sign, string &$option )
+	protected function onReady( string $sign, string &$option ): void
 	{
 		if( $sign == "-" ){
 			$option	= "";

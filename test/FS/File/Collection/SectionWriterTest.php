@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Collection Section Writer.
  *	@package		Tests.FS.File.Collection
@@ -20,8 +24,9 @@ use CeusMedia\CommonTest\BaseCase;
 class SectionWriterTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName;
-	private $sectionList	= array(
+	private string $fileName;
+
+	private array $sectionList	= array(
 		"section1"	=> array(
 			"line1",
 			"line2",
@@ -32,23 +37,23 @@ class SectionWriterTest extends BaseCase
 		),
 	);
 
-	public function setUp(): void
-	{
-		$this->fileName		= dirname( __FILE__ )."/section.write.list";
-	}
-
-	public function testWrite()
+	public function testWrite(): void
 	{
 		$writer		= new SectionWriter( $this->fileName );
 		$writer->write( $this->sectionList );
 		$creation	= SectionReader::load( $this->fileName );
-		$this->assertEquals( $this->sectionList, $creation );
+		self::assertEquals( $this->sectionList, $creation );
 	}
 
-	public function testSave()
+	public function testSave(): void
 	{
 		SectionWriter::save( $this->fileName, $this->sectionList );
 		$creation	= SectionReader::load( $this->fileName );
-		$this->assertEquals( $this->sectionList, $creation );
+		self::assertEquals( $this->sectionList, $creation );
+	}
+
+	protected function setUp(): void
+	{
+		$this->fileName		= dirname( __FILE__ )."/section.write.list";
 	}
 }

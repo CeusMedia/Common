@@ -1,10 +1,37 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+/**
+ *	Command Line Interface.
+ *
+ *	Copyright (c) 2015-2024 Christian Würker (ceusmedia.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
 namespace CeusMedia\Common;
 
 use CeusMedia\Common\Alg\Text\CamelCase;
 use CeusMedia\Common\Alg\UnitFormater;
 use CeusMedia\Common\CLI\Dimensions as CliDimensions;
+use CeusMedia\Common\Exception\Deprecation as DeprecationException;
 use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Permissions as FilePermissions;
 use CeusMedia\Common\FS\Folder;
@@ -12,17 +39,27 @@ use CeusMedia\Common\UI\DevOutput;
 use CeusMedia\Common\UI\Text;
 use RuntimeException;
 
+/**
+ *	Command Line Interface.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
 class CLI
 {
 	protected string $base;
 
-	protected $logger;
+	protected ?object $logger		= NULL;
 
-	protected $size;
+	protected object $size;
 
-	protected $log;
+	protected string $logFile		= 'cli.log';
 
-	static protected $mimeTypeLabels	= [
+	static protected array $mimeTypeLabels	= [
 		'application/xml'		=> 'XML',
 		'text/plain'			=> 'Text',
 		'text/x-php'			=> 'PHP',
@@ -39,30 +76,31 @@ class CLI
 
 	/**
 	 *	Ensures that runtime environment is headless, like crontab execution.
+	 *	Being headless means, not having one of those environment variables: TERM, DISPLAY.
 	 *	@access		public
 	 *	@static
-	 *	@param		boolean		$strict			Flag: throw exception if not headless (default: yes)
 	 *	@return		boolean
+	 *	@throws		DeprecationException
 	 */
-	public static function checkIsHeadless( bool $strict = TRUE ): bool
+	public static function checkIsHeadless(): bool
 	{
-		if( getEnv( 'TERM' ) === FALSE )
-			return TRUE;
-		if( $strict )
-			throw new RuntimeException( 'Available in headless environment, only' );
-		return FALSE;
+		Deprecation::getInstance()
+			->setExceptionVersion( '1.1' )
+			->setErrorVersion( '1.0' )
+			->message( 'Use Env::checkIsHeadless or Env::isHeadless instead' );
+		return Env::checkIsHeadless();
 	}
 
-	public static function checkIsCLi( bool $strict = TRUE ): bool
+	public static function checkIsCli(): bool
 	{
-		if( php_sapi_name() === 'cli' )
-			return TRUE;
-		if( $strict )
-			throw new RuntimeException( 'Available in CLI environment, only' );
-		return FALSE;
+		Deprecation::getInstance()
+			->setExceptionVersion( '1.1' )
+			->setErrorVersion( '1.0' )
+			->message( 'Use Env::checkIsCli or Env::isCli instead' );
+		return Env::checkIsCli();
 	}
 
-	public static function charTable( int $from = 2500, int $to = 2600 )
+	public static function charTable( int $from = 2500, int $to = 2600 ): void
 	{
 		print PHP_EOL;
 		for($i=$from/10; $i<$to/10; $i++){
@@ -75,9 +113,9 @@ class CLI
 		}
 	}
 
-	public static function error( $messages = NULL )
+	public static function error( array|string|null $messages = NULL ): void
 	{
-		$isCli	= self::checkIsCLi( FALSE );
+		$isCli	= Env::isCLi();
 		if( !is_array( $messages ) )
 			$messages	= [$messages];
 		foreach( $messages as $message ){
@@ -98,9 +136,14 @@ class CLI
 		$isCli ? fwrite( STDERR, PHP_EOL ) : print( PHP_EOL );
 	}
 
-	public static function out( $messages = NULL, $newLine = TRUE )
+	/**
+	 * @param string[]|string|NULL $messages
+	 * @param bool $newLine
+	 * @return void
+	 */
+	public static function out( array|string|null $messages = NULL, bool $newLine = TRUE ): void
 	{
-		$isCli	= self::checkIsCLi( FALSE );
+		$isCli	= Env::isCLi();
 		if( !is_array( $messages ) )
 			$messages	= [$messages];
 		foreach( $messages as $message ){
@@ -136,14 +179,13 @@ class CLI
 		return $this->size->getWidth();
 	}
 
-	public function log( $message )
+	public function log( string $message ): bool
 	{
-		if( is_object( $this->log ) ){
+		if( is_object( $this->logger ) ){
 			$this->logger->log( $message );
-			return;
+			return TRUE;
 		}
-		$logFile	= $this->log ?? 'cli.log';
-		error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, $logFile );
+		return error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, 3, $this->logFile );
 	}
 
 	 /**
@@ -153,7 +195,7 @@ class CLI
 	 *	@return		void
 	 *	@throws		IoException
 	 */
-	public function ls( string $path = NULL, bool $mimeType = TRUE )
+	public function ls( string $path = NULL, bool $mimeType = TRUE ): void
 	{
 		$path	??= '.';
 		$path	= $this->realizePath( $path );
@@ -260,6 +302,6 @@ class CLI
 		}
 		if( file_exists( $path ) )
 			return realpath( $path );
-		throw new IoException( 'Path is not existing', 0, $path );
+		throw IoException::create( 'Path is not existing' )->setResource( $path );
 	}
 }

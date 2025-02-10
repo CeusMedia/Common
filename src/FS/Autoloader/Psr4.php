@@ -1,8 +1,28 @@
 <?php /**	@noinspection PhpMultipleClassDeclarationsInspection */
 
+/**
+ *	PSR4 Autoloader
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Autoloader
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
 namespace CeusMedia\Common\FS\Autoloader;
 
 /**
+ *	PSR4 Autoloader.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Autoloader
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2018-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ *
  *	An example of a general-purpose implementation that includes the optional
  *	functionality of allowing multiple base directories for a single namespace
  *	prefix.
@@ -64,7 +84,9 @@ class Psr4
 	 *
 	 *	@var		array
 	 */
-	protected array $prefixes = [];
+	protected array $prefixes 			= [];
+
+	protected string $fileExtension		= 'php';
 
 	/**
 	 *	Creates loader instance statically.
@@ -74,17 +96,6 @@ class Psr4
 	public static function getInstance(): self
 	{
 		return new self();
-	}
-
-	/**
-	 *	Register loader with SPL autoloader stack.
-	 *
-	 *	@return		self
-	 */
-	public function register(): self
-	{
-		spl_autoload_register( [$this, 'loadClass'] );
-		return $this;
 	}
 
 	/**
@@ -139,6 +150,18 @@ class Psr4
 		return $this;
 	}
 
+
+	/**
+	 *	Gets the file extension of class files in the namespaces of this class loader.
+	 *
+	 * @return			string		$fileExtension
+	 * @noinspection	PhpUnused
+	 */
+	public function getFileExtension(): string
+	{
+		return $this->fileExtension;
+	}
+
 	/**
 	 *	Loads the class file for a given class name.
 	 *
@@ -177,6 +200,30 @@ class Psr4
 	}
 
 	/**
+	 *	Register loader with SPL autoloader stack.
+	 *
+	 *	@return		self
+	 */
+	public function register(): self
+	{
+		spl_autoload_register( [$this, 'loadClass'] );
+		return $this;
+	}
+
+	/**
+	 *	Sets the file extension of class files in the namespaces of this class loader.
+	 *
+	 *	@param			string		$fileExtension
+	 *	@return			self
+	 *	@noinspection	PhpUnused
+	 */
+	public function setFileExtension( string $fileExtension ): self
+	{
+		$this->fileExtension = $fileExtension;
+		return $this;
+	}
+
+	/**
 	 *	Load the mapped file for a namespace prefix and relative class.
 	 *
 	 *	@param		string			$prefix			The namespace prefix.
@@ -184,7 +231,7 @@ class Psr4
 	 *	@return		string|FALSE	Boolean false if no mapped file can be loaded, or the
 	 * name of the mapped file that was loaded.
 	 */
-	protected function loadMappedFile( string $prefix, string $relativeClass )
+	protected function loadMappedFile( string $prefix, string $relativeClass ): string|FALSE
 	{
 		// are there any base directories for this namespace prefix?
 		if( isset( $this->prefixes[$prefix]) === FALSE ){
@@ -196,10 +243,10 @@ class Psr4
 
 			// replace the namespace prefix with the base directory,
 			// replace namespace separators with directory separators
-			// in the relative class name, append with .php
+			// in the relative class name, append with dot and set file extension
 			$file = $baseDir
 				  . str_replace( '\\', '/', $relativeClass )
-				  . '.php';
+				  . '.'.$this->fileExtension;
 
 			// if the mapped file exists, require it
 			if( $this->requireFile( $file ) ){
@@ -220,10 +267,9 @@ class Psr4
 	 */
 	protected function requireFile( string $file ): bool
 	{
-		if( file_exists( $file ) ){
-			require $file;
-			return TRUE;
-		}
-		return FALSE;
+		if( !file_exists( $file ) )
+			return FALSE;
+		require $file;
+		return TRUE;
 	}
 }

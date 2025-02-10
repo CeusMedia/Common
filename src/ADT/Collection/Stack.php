@@ -3,7 +3,7 @@
 /**
  *	Stack Implementation based on an Array. LIFO - last in first out.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,18 +16,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\ADT\Collection;
 
+use CeusMedia\Common\Renderable;
 use Countable;
 use RuntimeException;
 
@@ -36,11 +37,11 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Stack implements Countable
+class Stack implements Countable, Renderable
 {
 	public string $delimiter	= '|';
 
@@ -65,7 +66,7 @@ class Stack implements Countable
 	 */
 	public function __toString(): string
 	{
-		return "(".implode( $this->delimiter, $this->stack ).")";
+		return $this->render();
 	}
 
 	/**
@@ -73,7 +74,7 @@ class Stack implements Countable
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function bottom()
+	public function bottom(): mixed
 	{
 		if( !count( $this->stack ) )
 			throw new RuntimeException( 'Stack is empty.' );
@@ -96,7 +97,7 @@ class Stack implements Countable
 	 *	@param		mixed		$item		Item to find in the Stack
 	 *	@return		bool
 	 */
-	public function has( $item ): bool
+	public function has( mixed $item ): bool
 	{
 		return in_array( $item, $this->stack, TRUE );
 	}
@@ -108,7 +109,7 @@ class Stack implements Countable
 	 */
 	public function isEmpty(): bool
 	{
-		return ( 0 === $this->count() );
+		return 0 === $this->count();
 	}
 
 	/**
@@ -116,7 +117,7 @@ class Stack implements Countable
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function pop()
+	public function pop(): mixed
 	{
 		if( $this->isEmpty() )
 			throw new RuntimeException( 'Stack is already empty.' );
@@ -129,9 +130,19 @@ class Stack implements Countable
 	 *	@param		mixed		$item		Item to add to the Stack
 	 *	@return		int
 	 */
-	public function push( $item ): int
+	public function push( mixed $item ): int
 	{
 		return array_push( $this->stack, $item );
+	}
+
+	/**
+	 *	Returns the stack as a string.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function render(): string
+	{
+		return '('.implode( $this->delimiter, $this->stack ).')';
 	}
 
 	/**
@@ -149,7 +160,7 @@ class Stack implements Countable
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function top()
+	public function top(): mixed
 	{
 		if( !count( $this->stack ) )
 			throw new RuntimeException( 'Stack is empty.' );

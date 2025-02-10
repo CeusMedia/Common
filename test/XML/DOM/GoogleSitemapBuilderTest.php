@@ -49,7 +49,7 @@ class GoogleSitemapBuilderTest extends BaseCase
 
 		$assertion	= file_get_contents( $this->xmlFile );
 		$creation	= $builder->build( "http://www.example.com/" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -66,6 +66,6 @@ class GoogleSitemapBuilderTest extends BaseCase
 
 		$assertion	= file_get_contents( $this->xmlFile );
 		$creation	= GoogleSitemapBuilder::buildSitemap( $links, "http://www.example.com/" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

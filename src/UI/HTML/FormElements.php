@@ -3,7 +3,7 @@
 /**
  *	Builder for HTML Form Components.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -33,8 +33,8 @@ namespace CeusMedia\Common\UI\HTML;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class FormElements
@@ -358,14 +358,14 @@ class FormElements
 	 */
 	public static function Password( string $name, ?string $class = NULL, $readOnly = FALSE, ?int $tabIndex = NULL, ?int $maxLength = NULL ): string
 	{
-		$attributes	= [
+		$attributes	= array(
 			'id'		=> $name,
 			'type'		=> "password",
 			'name'		=> $name,
 			'class'		=> $class,
 			'tabindex'	=> $tabIndex,
 			'maxlength'	=> $maxLength,
-		];
+		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
 		return Tag::create( "input", NULL, $attributes );
@@ -384,7 +384,7 @@ class FormElements
 	 */
 	public static function Radio( string $name, $value, bool $checked = FALSE, ?string $class = NULL, $readOnly = FALSE ): string
 	{
-		$attributes	= [
+		$attributes	= array(
 			'id'		=> $name.'_'.$value,
 			'type'		=> "radio",
 			'name'		=> $name,
@@ -392,7 +392,7 @@ class FormElements
 			'class'		=> $class,
 			'checked'	=> $checked		? "checked" : NULL,
 			'disabled'	=> $readOnly	? "disabled" : NULL,
-		];
+		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
 		return Tag::create( "input", NULL, $attributes );

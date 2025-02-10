@@ -58,12 +58,12 @@ class StackTest extends BaseCase
 		$stack		= new Stack( $array );
 		$assertion	= $array;
 		$creation	= $stack->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$stack		= new Stack( array( 1 ) );
 		$assertion	= array( 1 );
 		$creation	= $stack->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -75,7 +75,7 @@ class StackTest extends BaseCase
 	{
 		$assertion	= 1;
 		$creation	= $this->stack->bottom();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -101,12 +101,12 @@ class StackTest extends BaseCase
 	{
 		$assertion	= 3;
 		$creation	= $this->stack->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$stack		= new Stack();
 		$assertion	= 0;
 		$creation	= $stack->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -117,10 +117,10 @@ class StackTest extends BaseCase
 	public function testHas()
 	{
 		$creation	= $this->stack->has( 1 );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->stack->has( 5 );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -131,11 +131,11 @@ class StackTest extends BaseCase
 	public function testIsEmpty()
 	{
 		$creation	= $this->stack->isEmpty();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$stack		= new Stack();
 		$creation	= $stack->isEmpty();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -147,15 +147,15 @@ class StackTest extends BaseCase
 	{
 		$assertion	= 3;
 		$creation	= $this->stack->pop();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 2;
 		$creation	= $this->stack->pop();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $this->stack->pop();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -182,11 +182,11 @@ class StackTest extends BaseCase
 	{
 		$assertion	= 4;
 		$creation	= $this->stack->push( 4 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 4;
 		$creation	= $this->stack->pop();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -198,7 +198,7 @@ class StackTest extends BaseCase
 	{
 		$assertion	= $this->array;
 		$creation	= $this->stack->toArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -210,7 +210,7 @@ class StackTest extends BaseCase
 	{
 		$assertion	= 3;
 		$creation	= $this->stack->top();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -222,6 +222,6 @@ class StackTest extends BaseCase
 	{
 		$assertion	= "(1|2|3)";
 		$creation	= (string) $this->stack;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

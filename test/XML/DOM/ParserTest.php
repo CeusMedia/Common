@@ -52,8 +52,8 @@ class ParserTest extends BaseCase
 		$this->parser->parse( $xml );
 		$document	= $this->parser->getDocument();
 
-		$this->assertIsObject( $document );
-		$this->assertInstanceOf( DOMDocument::class, $document );
+		self::assertIsObject( $document );
+		self::assertInstanceOf( DOMDocument::class, $document );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class ParserTest extends BaseCase
 		$xml	= $this->builder->build( $tree );
 		$assertion	= $tree;
 		$creation	= $this->parser->parse( $xml );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testParse2()
@@ -104,9 +104,9 @@ class ParserTest extends BaseCase
 		$xml	= file_get_contents( __DIR__.'/assets/books.xml' );
 		$root	= $this->parser->parse( $xml );
 		$actual	= $root->getChildByIndex(1)->getNodeName();
-		$this->assertEquals('book', $actual);
+		self::assertEquals('book', $actual);
 
 		$actual	= $root->getChildByIndex(2)->getChild('price')->getContent();
-		$this->assertEquals('49.99', $actual);
+		self::assertEquals('49.99', $actual);
 	}
 }

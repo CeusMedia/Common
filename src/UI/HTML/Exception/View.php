@@ -3,7 +3,7 @@
 /**
  *	Visualisation of Exception.
  *
- *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,24 +16,24 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\UI\HTML\Exception;
 
+use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
+use CeusMedia\Common\Exception\Runtime;
 use CeusMedia\Common\Exception\SQL as SqlException;
-use CeusMedia\Common\Exception\Logic as LogicException;
-use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\Exception\Traits\Descriptive;
 use CeusMedia\Common\UI\HTML\Tag;
-use CeusMedia\Common\XML\ElementReader as XmlElementReader;
-use Exception;
+use CeusMedia\Database\SQLSTATE;
 use Throwable;
 
 /**
@@ -41,8 +41,8 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class View
@@ -52,40 +52,10 @@ class View
 	 *	@access		public
 	 *	@param		Throwable	$exception		Exception
 	 *	@return		void
-	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
 	 */
-	public static function display( Throwable $exception )
+	public static function display( Throwable $exception ): void
 	{
 		print self::render( $exception );
-	}
-
-	/**
-	 *	Resolves SQLSTATE Code and returns its Meaning.
-	 *	@access		protected
-	 *	@static
-	 *	@return		string		$SQLSTATE
-	 *	@throws		Exception	if the XML data could not be parsed
-	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
-	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
-	 */
-	protected static function getMeaningOfSQLSTATE( $SQLSTATE ): string
-	{
-		$class1	= substr( $SQLSTATE, 0, 2 );
-		$class2	= substr( $SQLSTATE, 2, 3 );
-		$root	= XmlElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
-
-		$query	= 'class[@id="'.$class1.'"]/subclass[@id="000"]';
-		$result	= $root->xpath( $query );
-		$class	= array_pop( $result );
-		if( $class ){
-			$query		= 'class[@id="'.$class1.'"]/subclass[@id="'.$class2.'"]';
-			$result		= $root->xpath( $query );
-			$subclass	= array_pop( $result );
-			if( $subclass )
-				return $class->getAttribute( 'meaning' ).' - '.$subclass->getAttribute( 'meaning' );
-			return $class->getAttribute( 'meaning' );
-		}
-		return '';
 	}
 
 	/**
@@ -93,7 +63,6 @@ class View
 	 *	@param		bool		$showTrace
 	 *	@param		bool		$showPrevious
 	 *	@return		string
-	 *	@throws		Exception	if the SQL meaning XML data could not be parsed
 	 */
 	public static function render( Throwable $e, bool $showTrace = TRUE, bool $showPrevious = TRUE ): string
 	{
@@ -109,19 +78,7 @@ class View
 			$list[]	= Tag::create( 'dd', $code, ['class' => 'exception-code'] );
 		}
 
-		if( $e instanceof SqlException && $e->getSQLSTATE() ){
-			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
-			$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
-			$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
-		}
-		if( $e instanceof IoException  ){
-			$list[]	= Tag::create( 'dt', 'Resource', ['class' => 'exception-resource'] );
-			$list[]	= Tag::create( 'dd', $e->getResource(), ['class' => 'exception-resource'] );
-		}
-		if( $e instanceof LogicException ){
-			$list[]	= Tag::create( 'dt', 'Subject', ['class' => 'exception-subject'] );
-			$list[]	= Tag::create( 'dd', $e->getSubject(), ['class' => 'exception-subject'] );
-		}
+		self::enlistAdditionalProperties( $list, $e );
 
 		$list[]	= Tag::create( 'dt', 'Type', ['class' => 'exception-type'] );
 		$list[]	= Tag::create( 'dd', get_class( $e ), ['class' => 'exception-type'] );
@@ -155,6 +112,51 @@ class View
 		return Tag::create( 'dl', join( $list ), ['class' => 'exception'] );
 	}
 
+	/**
+	 *	@param		array			$list		Reference to current property list
+	 *	@param		Throwable		$e
+	 *	@return		void
+	 */
+	protected static function enlistAdditionalProperties( array & $list, Throwable $e ): void
+	{
+		$blacklist	= ['description', 'suggestion', 'traceAsString'];
+		if( $e instanceof SqlException && $e->getSQLSTATE() ){
+			if( class_exists( '\\CeusMedia\\Database\\SQLSTATE' ) ){
+				$meaning	= SQLSTATE::getMeaning( $e->getSQLSTATE() );
+				if( NULL !== $meaning ){
+					$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
+					$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
+					$blacklist[]	= 'SQLSTATE';
+				}
+			}
+		}
+		if( in_array( Descriptive::class, class_uses( $e ), TRUE ) ){
+			/** @var Runtime $e */
+			if( '' !== $e->getDescription() ){
+				$list[]	= Tag::create( 'dt', 'Description', ['class' => 'exception-description'] );
+				$list[]	= Tag::create( 'dd', $e->getDescription(), ['class' => 'exception-description'] );
+			}
+
+			if( '' !== $e->getSuggestion() ){
+				$list[]	= Tag::create( 'dt', 'Suggestion', ['class' => 'exception-suggestion'] );
+				$list[]	= Tag::create( 'dd', $e->getSuggestion(), ['class' => 'exception-suggestion'] );
+			}
+			foreach( $e->getAdditionalProperties() as $key => $value ){
+				if( in_array( $key, $blacklist, TRUE ) )
+					continue;
+				switch( gettype( $value ) ){
+					case 'object':
+					case 'array':
+						$value	= JsonEncoder::create()->encode( $value );
+						break;
+					default:
+						$value ??= '-empty-';
+				}
+				$list[]	= Tag::create( 'dt', ucfirst( $key ), ['class' => 'exception-'.$key] );
+				$list[]	= Tag::create( 'dd', $value, ['class' => 'exception-'.$key] );
+			}
+		}
+	}
 
 	/**
 	 *	Removes Document Root in File Names.

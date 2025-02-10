@@ -1,13 +1,50 @@
 <?php
+
+/**
+ *	HTML code generator for CodeMirror.
+ *
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
 namespace CeusMedia\Common\UI\JS;
 
+/**
+ *	HTML code generator for CodeMirror.
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
 class CodeMirror
 {
-	protected $addons	= [];
+	protected array $addons		= [];
 
-	protected $theme	= [];
+	protected array $theme		= [];
 
-	protected $options	= [
+	protected array $options	= [
 		'lineNumbers'				=> TRUE,
 		'mode'						=> "application/x-httpd-php",
 		'indentUnit'				=> 4,
@@ -44,7 +81,12 @@ $("'.$textareaSelector.'").each(function(){
 		return $this;
 	}
 
-	public function setOption( string $key, $value ): self
+	/**
+	 *	@param		string		$key
+	 *	@param		mixed		$value
+	 *	@return		self
+	 */
+	public function setOption( string $key, mixed $value ): self
 	{
 		if( is_null( $value ) ){
 			if( isset( $this->options[$key] ) )

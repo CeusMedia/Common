@@ -3,7 +3,7 @@
 /**
  *	Combines and compresses Stylesheet Files of cmFramework Themes.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS_Theme
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,44 +36,44 @@ use CeusMedia\Common\FS\File\CSS\Compressor as CssCompressor;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS_Theme
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Minimizer
 {
-	/**	@var		CssCombiner					$combiner		Combiner instance */
-	protected $combiner;
+	/**	@var		CssCombiner			$combiner		Combiner instance */
+	protected CssCombiner $combiner;
 
-	/**	@var		CssCompressor				$compressor		Compressor instance */
-	protected $compressor;
+	/**	@var		CssCompressor		$compressor		Compressor instance */
+	protected CssCompressor 			$compressor;
 
-	/**	@var		string		$cssFolder		Name of CSS Folder within Theme Path (optional) */
-	protected $cssFolder		= "";
+	/**	@var		string				$cssFolder		Name of CSS Folder within Theme Path (optional) */
+	protected string $cssFolder			= "";
 
-	/**	@var		string		$cssFolder		Path Medium within CSS Path within Theme (optional) */
-	protected $mediumPath		= "";
+	/**	@var		string				$cssFolder		Path Medium within CSS Path within Theme (optional) */
+	protected string $mediumPath		= "";
 
-	/**	@var		string		$prefix			Prefix of combined File Name */
-	protected $combinerPrefix	= "";
+	/**	@var		string				$prefix			Prefix of combined File Name */
+	protected string $combinerPrefix	= "";
 
-	/**	@var		string		$suffix			Suffix of combined File Name */
-	protected $combinerSuffix	= "";
+	/**	@var		string				$suffix			Suffix of combined File Name */
+	protected string $combinerSuffix	= "";
 
-	/**	@var		string		$prefix			Prefix of compressed File Name */
-	protected $compressorPrefix	= "";
+	/**	@var		string				$prefix			Prefix of compressed File Name */
+	protected string $compressorPrefix	= "";
 
-	/**	@var		string		$suffix			Suffix of compressed File Name */
-	protected $compressorSuffix	= "";
+	/**	@var		string				$suffix			Suffix of compressed File Name */
+	protected string $compressorSuffix	= "";
 
-	/**	@var		array		$statistics		Statistical Data */
-	protected $statistics		= [];
+	/**	@var		array				$statistics		Statistical Data */
+	protected array $statistics			= [];
 
-	/**	@var		string		$themesPath		Path to Themes */
-	protected $themesPath;
+	/**	@var		string				$themesPath		Path to Themes */
+	protected string $themesPath;
 
 	/**	@var		string		$themeName		Name of Theme */
-	protected $themeName		= "";
+	protected string $themeName		= "";
 
 	/**
 	 *	Constructor.

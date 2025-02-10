@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2020 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,26 +36,26 @@ use BadMethodCallException;
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2020 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
  */
 class Method
 {
-	public const METHOD_CONNECT	= 'CONNECT';
+	public const METHOD_CONNECT		= 'CONNECT';
 	public const METHOD_DELETE		= 'DELETE';
-	public const METHOD_GET		= 'GET';
+	public const METHOD_GET			= 'GET';
 	public const METHOD_HEAD		= 'HEAD';
-	public const METHOD_OPTIONS	= 'OPTIONS';
+	public const METHOD_OPTIONS		= 'OPTIONS';
 	public const METHOD_PATCH		= 'PATCH';
 	public const METHOD_POST		= 'POST';
-	public const METHOD_PUT		= 'PUT';
+	public const METHOD_PUT			= 'PUT';
 	public const METHOD_TRACE		= 'TRACE';
 
-	/** @var		string					$method			HTTP request method */
-	protected $method		= self::METHOD_GET;
+	/** @var		string			$method			HTTP request method */
+	protected string $method		= self::METHOD_GET;
 
-	static public $methods	= [
+	public static array $methods	= [
 		self::METHOD_CONNECT,
 		self::METHOD_DELETE,
 		self::METHOD_GET,
@@ -67,7 +67,7 @@ class Method
 		self::METHOD_TRACE,
 	];
 
-	public function __construct( $method = NULL )
+	public function __construct( string $method = NULL )
 	{
 		if( $method )
 			$this->set( $method );
@@ -97,7 +97,7 @@ class Method
 	 */
 	public function is( string $method ): bool
 	{
-		return $this->method === strtoupper( trim( $method ) );
+		return strtoupper( trim( $method ) ) === $this->method;
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Method
 	 */
 	public function isConnect(): bool
 	{
-		return $this->is( self::METHOD_CONNECT );
+		return $this->is( static::METHOD_CONNECT );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class Method
 	 */
 	public function isGet(): bool
 	{
-		return $this->is( self::METHOD_GET );
+		return $this->is( static::METHOD_GET );
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Method
 	 */
 	public function isDelete(): bool
 	{
-		return $this->is( self::METHOD_DELETE );
+		return $this->is( static::METHOD_DELETE );
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Method
 	 */
 	public function isHead(): bool
 	{
-		return $this->is( self::METHOD_HEAD );
+		return $this->is( static::METHOD_HEAD );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Method
 	 */
 	public function isOptions(): bool
 	{
-		return $this->is( self::METHOD_OPTIONS );
+		return $this->is( static::METHOD_OPTIONS );
 	}
 
 	/**
@@ -157,7 +157,7 @@ class Method
 	 */
 	public function isPatch(): bool
 	{
-		return $this->is( self::METHOD_PATCH );
+		return $this->is( static::METHOD_PATCH );
 	}
 
 	/**
@@ -167,7 +167,7 @@ class Method
 	 */
 	public function isPost(): bool
 	{
-		return $this->is( self::METHOD_POST );
+		return $this->is( static::METHOD_POST );
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Method
 	 */
 	public function isPut(): bool
 	{
-		return $this->is( self::METHOD_PUT );
+		return $this->is( static::METHOD_PUT );
 	}
 
 	/**
@@ -187,21 +187,21 @@ class Method
 	 */
 	public function isTrace(): bool
 	{
-		return $this->is( self::METHOD_TRACE );
+		return $this->is( static::METHOD_TRACE );
 	}
 
 	/**
 	 *	Set request method.
 	 *	@access		public
 	 *	@param		string		$method		Request method to set
-	 *	@return		self
+	 *	@return		static
 	 *	@throws		BadMethodCallException	if given method is not supported
 	 */
-	public function set( string $method ): self
+	public function set( string $method ): static
 	{
 		$method		= strtoupper( $method );
-		if( !in_array( $method, self::$methods ) )
-			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
+		if( !in_array( $method, static::$methods ) )
+			throw new BadMethodCallException( 'HTTP method "'.$method.'" is not supported' );
 		$this->method	= $method;
 		return $this;
 	}

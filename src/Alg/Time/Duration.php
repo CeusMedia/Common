@@ -1,7 +1,28 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+/**
+ *	...
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Time
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2017-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
+
 namespace CeusMedia\Common\Alg\Time;
 
+/**
+ *	...
+ *
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Time
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2017-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ */
 class Duration
 {
 	protected bool $shortMode	= FALSE;

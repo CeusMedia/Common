@@ -3,7 +3,7 @@
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,18 +37,19 @@ use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Response
 {
-	public $headers			= NULL;
+	public HeaderSection $headers;
 
-	protected $body			= NULL;
-	protected $protocol		= 'HTTP';
-	protected $status		= '200 OK';
-	protected $version		= '1.0';
+	protected ?string $body			= NULL;
+	protected string $protocol		= 'HTTP';
+	protected string $status		= '200 OK';
+	protected string $version		= '1.0';
+	protected ?Request $request		= NULL;
 
 	/**
 	 *	Constructor.
@@ -72,34 +73,50 @@ class Response
 	 *	@access		public
 	 *	@param		HeaderField		$field			HTTP header field object
 	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
-	 *	@return		void
+	 *	@return		static
 	 */
-	public function addHeader( HeaderField $field, bool $emptyBefore = FALSE )
+	public function addHeader( HeaderField $field, bool $emptyBefore = FALSE ): static
 	{
 		$this->headers->setField( $field, $emptyBefore );
+		return $this;
 	}
 
 	/**
 	 *	Adds an HTTP header.
 	 *	@access		public
-	 *	@param		string		$name			HTTP header name
-	 *	@param		string		$value			HTTP header value
-	 *	@param		boolean		$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
-	 *	@return		void
+	 *	@param		string				$name			HTTP header name
+	 *	@param		string|int|float	$value			HTTP header value
+	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
+	 *	@return		static
 	 */
-	public function addHeaderPair( string $name, string $value, bool $emptyBefore = FALSE )
+	public function addHeaderPair( string $name, string|int|float $value, bool $emptyBefore = FALSE ): static
 	{
 		$this->headers->setField( new HeaderField( $name, $value ), $emptyBefore );
+		return $this;
 	}
 
 	/**
 	 *	Returns response message body.
 	 *	@access		public
-	 *	@return		string		Response message body
+	 *	@return		?string		Response message body
 	 */
-	public function getBody(): string
+	public function getBody(): ?string
 	{
 		return $this->body;
+	}
+
+	/**
+	 *	Returns length of body or 0.
+	 *	This method exists to use mbstring (multibyte string) support
+	 *	@return		int
+	 */
+	public function getBodyLength(): int
+	{
+		if( NULL === $this->body )
+			return 0;
+		if( function_exists( 'mb_strlen' ) )
+			return mb_strlen( $this->body );
+		return strlen( $this->body );
 	}
 
 	/**
@@ -109,7 +126,7 @@ class Response
 	 *	@param		bool		$first			Flag: return first header only
 	 *	@return		array|HeaderField		List of header fields or only one header field if requested so
 	 */
-	public function getHeader( string $key, bool $first = NULL )
+	public function getHeader( string $key, bool $first = NULL ): array|HeaderField
 	{
 		//  get all header fields with this header name
 		$fields	= $this->headers->getFieldsByName( $key );
@@ -186,34 +203,40 @@ class Response
 		return $this->headers->hasField( $key );
 	}
 
-	public function send( string $compression = NULL, bool $sendLengthHeader = TRUE, bool $exit = TRUE ): int
+	/**
+	 *	@param		string|NULL		$compression
+	 *	@param		boolean			$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
+	 *	@param		boolean			$andExit			Flag: after afterwards (default: no)
+	 *	@return		Response
+	 */
+	public function send( ?string $compression = NULL, bool $sendLengthHeader = TRUE, bool $andExit = TRUE ): Response
 	{
-		$sender	= new ResponseSender( $this );
+		$sender	= new ResponseSender( $this, $this->request );
 		$sender->setCompression( $compression );
-		return $sender->send( $sendLengthHeader, $exit );
+		return $sender->send( $sendLengthHeader, $andExit );
 	}
 
 	/**
 	 *	Sets response message body.
 	 *	@access		public
 	 *	@param		string		$body			Response message body
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setBody( string $body ): self
+	public function setBody( string $body ): static
 	{
-		$this->body		= trim( $body );
-		$this->headers->setFieldPair( "Content-Length", strlen( $this->body ) );
+		$this->body		= $body;
+		$this->headers->setFieldPair( 'Content-Length', $this->getBodyLength() );
 		return $this;
 	}
 
 	/**
 	 *	Sets response HTTP header, overriding before set values.
 	 *	@access		public
-	 *	@param		string		$key		HTTP header name
-	 *	@param		string		$value		HTTP header value
-	 *	@return		self
+	 *	@param		string				$key		HTTP header name
+	 *	@param		string|int|float	$value		HTTP header value
+	 *	@return		static
 	 */
-	public function setHeader( string $key, string $value ): self
+	public function setHeader( string $key, string|int|float $value ): static
 	{
 		$this->addHeaderPair( $key, $value, TRUE );
 		return $this;
@@ -223,11 +246,23 @@ class Response
 	 *	Sets response protocol. Set initially to HTTP.
 	 *	@access		public
 	 *	@param		string		$protocol		Response protocol
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setProtocol( string $protocol ): self
+	public function setProtocol( string $protocol ): static
 	{
 		$this->protocol	= $protocol;
+		return $this;
+	}
+
+	/**
+	 *	Sets response protocol. Set initially to HTTP.
+	 *	@access		public
+	 *	@param		Request		$request		Request Object
+	 *	@return		static
+	 */
+	public function setRequest( Request $request ): static
+	{
+		$this->request	= $request;
 		return $this;
 	}
 
@@ -238,11 +273,11 @@ class Response
 	 *	@access		public
 	 *	@param		int|string		$status			Response status code (as integer) or status code with message (e.G. 404 Not Found)
 	 *	@param		boolean			$strict			Flag: ignore given status message and resolve using Net_HTTP_Status
-	 *	@return		self
-	 *	@see		http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+	 *	@return		static
+	 *	@see		https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	 *	@see		http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 	 */
-	public function setStatus( $status, bool $strict = FALSE ): self
+	public function setStatus( int|string $status, bool $strict = FALSE ): static
 	{
 		//  strict mode: always resolve status message
 		$status	= $strict ? (int) $status : $status;
@@ -259,9 +294,9 @@ class Response
 	 *	Sets response protocol version.
 	 *	@access		public
 	 *	@param		string		$version		Response protocol version
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setVersion( string $version ): self
+	public function setVersion( string $version ): static
 	{
 		$this->version	= $version;
 		return $this;
@@ -274,13 +309,13 @@ class Response
 	 */
 	public function toString(): string
 	{
-		$lines	= [];
+		$lines		= [];
 		//  add main protocol header
 		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;
 		//  add header fields and line break
-		$lines[]	= $this->headers->toString();
+		$lines[]	= $this->headers->render();
 		//  response body is set
-		if( strlen( $this->body ) )
+		if( 0 !== $this->getBodyLength() )
 			//  add response body
 			$lines[]	= $this->body;
 		//  glue parts with line break and return result

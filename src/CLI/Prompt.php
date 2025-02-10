@@ -3,7 +3,7 @@
 /**
  *	Console input handler.
  *
- *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -35,8 +35,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Prompt
@@ -52,10 +52,10 @@ class Prompt
 	 */
 	public function __construct()
 	{
-		if( substr( PHP_OS, 0, 3 ) == "WIN" )
-			$this->tty = fopen( "\con", "rb" );
-		else if( !($this->tty = fopen( "/dev/tty", "r" ) ) )
-			$this->tty = fopen( "php://stdin", "r" );
+		if( str_starts_with( PHP_OS, 'WIN' ) )
+			$this->tty = fopen( "\con", 'rb' );
+		else if( !($this->tty = fopen( "/dev/tty", 'r' ) ) )
+			$this->tty = fopen( "php://stdin", 'r' );
 		else
 			throw new RuntimeException( 'Could not create any terminal or console device' );
 	}

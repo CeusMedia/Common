@@ -25,27 +25,28 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ClientTest extends BaseCase
 {
-	/** @var Client  */
-	protected $client;
+	/** @var ?Client  */
+	protected ?Client $client			= NULL;
 
-	/** @var Connection */
-	protected $connection;
+	/** @var ?Connection */
+	protected ?Connection $connection	= NULL;
 
-	protected $host;
+	protected ?string $host;
 
-	protected $port;
+	protected ?int $port;
 
-	protected $username;
+	protected string $username;
 
-	protected $password;
+	protected string $password;
 
-	protected $local;
+	protected string $local;
 
-	protected $path;
+	protected string $path;
 
-	protected $config;
+	protected array $config;
 
-	protected function login() {
+	protected function login(): void
+	{
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
 			$this->connection->setPath( $this->path );
@@ -58,16 +59,16 @@ class ClientTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->config	= self::$_config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
+		$this->config	= self::$_config['unitTest-FTP'] ?? [];
+		$this->host		= $this->config['host'] ?? NULL;
+		$this->port		= (int) ( $this->config['port'] ?? 0 );
+		$this->username	= $this->config['user'] ?? NULL;
+		$this->password	= $this->config['pass'] ?? NULL;
+		$this->path		= $this->config['path'] ?? NULL;
+		$this->local	= $this->config['local'] ?? '';
 
-		if( !$this->local )
-			$this->markTestSkipped( 'No FTP data set in Common.ini' );
+		if( '' === $this->local )
+			return;
 
 		@mkDir( $this->local );
 		@mkDir( $this->local."folder" );
@@ -82,6 +83,19 @@ class ClientTest extends BaseCase
 		$this->client	= new Client( $this->host, $this->port, $this->username, $this->password );
 		if( $this->path )
 			$this->client->setPath( $this->path );
+	}
+
+	/**
+	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
+	 *	@return		bool
+	 */
+	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
+	{
+		if( NULL !== $this->client )
+			return TRUE;
+		if( $markSkipped )
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+		return FALSE;
 	}
 
 	/**
@@ -126,12 +140,13 @@ class ClientTest extends BaseCase
 	 */
 	public function testChangeRights()
 	{
+		$this->checkFtpConfig();
 		file_put_contents( $this->local."rightsTest", "this file will be removed" );
 		if( strtoupper( substr( PHP_OS, 0, 3 ) ) != "WIN" )
 		{
 			$assertion	= 0777;
 			$creation	= $this->client->changeRights( "rightsTest", 0777 );
-			$this->assertEquals( $assertion, $creation );
+			self::assertEquals( $assertion, $creation );
 		}
 	}
 
@@ -142,13 +157,14 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->copyFile( "source.txt", "target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."target.txt" );
 
 		$creation	= $this->client->copyFile( "folder/source.txt", "folder/target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."folder/target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."folder/target.txt" );
 	}
 
 	/**
@@ -158,6 +174,8 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFileException1()
 	{
+		if( !$this->checkFtpConfig() )
+			return;
 		$this->expectException( 'RuntimeException' );
 		$this->client->copyFile( "not_existing", "not_relevant" );
 	}
@@ -169,6 +187,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFileException2()
 	{
+		$this->checkFtpConfig();
 		$this->expectException( 'RuntimeException' );
 		$this->client->copyFile( "source.txt", "not_existing/not_relevant.txt" );
 	}
@@ -180,14 +199,15 @@ class ClientTest extends BaseCase
 	 */
 	public function testCopyFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->copyFolder( "folder", "copy" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
-		$this->assertFileExists( $this->local."copy" );
+		self::assertFileExists( $this->local."copy" );
 
 		$assertion	= 3;
 		$creation	= count( $this->client->getFileList( "copy" ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -197,9 +217,10 @@ class ClientTest extends BaseCase
 	 */
 	public function testCreateFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->createFolder( "created" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."created" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."created" );
 	}
 
 	/**
@@ -209,22 +230,23 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->getFile( "test1.txt", "test_getFile" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "test1";
 		$creation	= file_get_contents( "test_getFile" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->client->getFile( "folder/test3.txt", "test_getFile" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "test3";
 		$creation	= file_get_contents( "test_getFile" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->client->getFile( "not_existing", "test_getFile" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -234,27 +256,28 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetFileList()
 	{
+		$this->checkFtpConfig();
 		$files		= $this->client->getFileList( "folder" );
 		$assertion	= 3;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "source.txt";
 		$creation	= $files[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test3.txt";
 		$creation	= $files[1]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test4.txt";
 		$creation	= $files[2]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= $this->client->getFileList( "", TRUE );
 		$assertion	= 6;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -264,28 +287,29 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetFolderList()
 	{
+		$this->checkFtpConfig();
 		$folders	= $this->client->getFolderList();
 		$assertion	= 1;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "folder";
 		$creation	= $folders[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$folders	= $this->client->getFolderList( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "nested";
 		$creation	= $folders[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$folders	= $this->client->getFolderList( "", TRUE );
 		$assertion	= 2;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -295,6 +319,7 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetList()
 	{
+		$this->checkFtpConfig();
 		$files		= [];
 		$list		= $this->client->getList();
 		foreach( $list as $entry )
@@ -302,7 +327,7 @@ class ClientTest extends BaseCase
 				$files[]	= $entry['name'];
 		$assertion	= array( 'source.txt', 'test1.txt', 'test2.txt' );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= [];
 		$list		= $this->client->getList();
@@ -310,7 +335,7 @@ class ClientTest extends BaseCase
 			$files[]	= $entry['name'];
 		$assertion	= array( 'folder', 'source.txt', 'test1.txt', 'test2.txt' );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= [];
 		$list		= $this->client->getList( "folder" );
@@ -318,7 +343,7 @@ class ClientTest extends BaseCase
 			$files[]	= $entry['name'];
 		$assertion	= array( 'nested', 'source.txt', 'test3.txt', 'test4.txt' );
 		$creation	= $files;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -328,15 +353,16 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetPath()
 	{
+		$this->checkFtpConfig();
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->client->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->client->setPath( "folder" );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->client->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -346,21 +372,22 @@ class ClientTest extends BaseCase
 	 */
 	public function testGetPermissionsAsOctal()
 	{
+		$this->checkFtpConfig();
 		$assertion	= '0777';
 		$creation	= $this->client->getPermissionsAsOctal( "drwxrwxrwx" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0000';
 		$creation	= $this->client->getPermissionsAsOctal( "d---------" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0751';
 		$creation	= $this->client->getPermissionsAsOctal( "drwxr-x--x" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= '0642';
 		$creation	= $this->client->getPermissionsAsOctal( "drw-r---w-" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -370,10 +397,11 @@ class ClientTest extends BaseCase
 	 */
 	public function testMoveFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->moveFile( "source.txt", "target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileDoesNotExist( $this->local."source.txt" );
-		$this->assertFileExists( $this->local."target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileDoesNotExist( $this->local."source.txt" );
+		self::assertFileExists( $this->local."target.txt" );
 	}
 
 	/**
@@ -383,14 +411,15 @@ class ClientTest extends BaseCase
 	 */
 	public function testMoveFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->moveFolder( "folder", "moved" );
-		$this->assertTrue( $creation );
-		$this->assertFileDoesNotExist( $this->local."folder" );
-		$this->assertFileExists( $this->local."moved" );
+		self::assertTrue( $creation );
+		self::assertFileDoesNotExist( $this->local."folder" );
+		self::assertFileExists( $this->local."moved" );
 
 		$creation	= $this->client->moveFolder( "moved", "moved" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."moved" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."moved" );
 	}
 
 	/**
@@ -400,13 +429,14 @@ class ClientTest extends BaseCase
 	 */
 	public function testPutFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->putFile( $this->local."source.txt", "target.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."target.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."target.txt" );
 
 		$assertion	= "source file";
 		$creation	= file_get_contents( $this->local."target.txt" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -416,9 +446,10 @@ class ClientTest extends BaseCase
 	 */
 	public function testRemoveFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->removeFile( "folder/source.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileDoesNotExist( $this->local."folder/source.txt" );
+		self::assertTrue( $creation );
+		self::assertFileDoesNotExist( $this->local."folder/source.txt" );
 	}
 
 	/**
@@ -428,9 +459,10 @@ class ClientTest extends BaseCase
 	 */
 	public function testRemoveFolder()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->removeFolder( "folder" );
-		$this->assertTrue( $creation );
-		$this->assertFileDoesNotExist( $this->local."folder" );
+		self::assertTrue( $creation );
+		self::assertFileDoesNotExist( $this->local."folder" );
 	}
 
 	/**
@@ -440,9 +472,10 @@ class ClientTest extends BaseCase
 	 */
 	public function testRenameFile()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->renameFile( "source.txt", "renamed.txt" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->local."renamed.txt" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->local."renamed.txt" );
 	}
 
 	/**
@@ -452,19 +485,20 @@ class ClientTest extends BaseCase
 	 */
 	public function testSearchFile()
 	{
+		$this->checkFtpConfig();
 		$files		= $this->client->searchFile( "test1.txt" );
 		$assertion	= 1;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "test1.txt";
 		$creation	= $files[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$files		= $this->client->searchFile( "@\.txt$@", TRUE, TRUE );
 		$assertion	= 6;
 		$creation	= count( $files );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -474,26 +508,27 @@ class ClientTest extends BaseCase
 	 */
 	public function testSearchFolder()
 	{
+		$this->checkFtpConfig();
 		$folders	= $this->client->searchFolder( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "folder";
 		$creation	= $folders[0]['name'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$folders	= $this->client->searchFolder( "@e@", TRUE, TRUE );
 		$assertion	= 2;
 		$creation	= count( $folders );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$names		= [];
 		foreach( $folders as $folder )
 			$names[]	= $folder['name'];
 		$assertion	= array( "folder", "folder/nested" );;
 		$creation	= $names;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -503,28 +538,29 @@ class ClientTest extends BaseCase
 	 */
 	public function testSetPath()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->client->setPath( "not_existing" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->client->setPath( "folder" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->client->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->client->setPath( "/".$this->path."folder" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->client->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->client->setPath( "/".$this->path."folder/nested" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder/nested";
 		$creation	= $this->client->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

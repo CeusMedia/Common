@@ -90,6 +90,6 @@ class BuilderTest extends BaseCase
 
 		$assertion	= file_get_contents( $this->fileName );
 		$creation	= Builder::build( $tree );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

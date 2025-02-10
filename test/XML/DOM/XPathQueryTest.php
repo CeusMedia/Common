@@ -54,7 +54,7 @@ class XPathQueryTest extends BaseCase
 		$entries	= $this->xPath->query( "//book" );
 		$assertion	= 4;
 		$creation	= $entries->length;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class XPathQueryTest extends BaseCase
 		$entries	= $this->xPath->query( "//book" );
 		$assertion	= 4;
 		$creation	= $entries->length;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class XPathQueryTest extends BaseCase
 		$entries	= $this->xPath->query( "//book" );
 		$assertion	= 4;
 		$creation	= $entries->length;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -150,29 +150,29 @@ class XPathQueryTest extends BaseCase
 		$entries	= $this->xPath->evaluate( "//book" );
 		$assertion	= 4;
 		$creation	= $entries->length;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$entries	= $this->xPath->evaluate( "//book[@category='COOKING']/title/text()" );
 		$assertion	= "Everyday Italian";
 		$creation	= $entries->item( 0 )->nodeValue;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$entries	= $this->xPath->evaluate( "//book[@category='COOKING']/title" );
 		$assertion	= "en";
 		$creation	= $entries->item( 0 )->getAttribute( 'lang' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$entries	= $this->xPath->evaluate( "count(//book[@category='WEB']/author)" );
 		$assertion	= 6;
 		$creation	= $entries;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$doc		= $this->xPath->getDocument();
 		$book		= $doc->getElementsByTagName( "book" )->item( 2 );
 		$entries	= $this->xPath->evaluate( "count(author)", $book );
 		$assertion	= 5;
 		$creation	= $entries;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -197,13 +197,13 @@ class XPathQueryTest extends BaseCase
 		$this->xPath->loadFile( $this->xmlFile );
 
 		$doc	= $this->xPath->getDocument();
-		$this->assertInstanceOf( DOMDocument::class, $doc );
+		self::assertInstanceOf( DOMDocument::class, $doc );
 
 		$bookList	= $doc->getElementsByTagName( "book" );
-		$this->assertInstanceOf( DOMNodeList::class, $bookList );
+		self::assertInstanceOf( DOMNodeList::class, $bookList );
 
 		$book		= $bookList->item( 0 );
-		$this->assertInstanceOf( DOMNode::class, $book );
+		self::assertInstanceOf( DOMNode::class, $book );
 	}
 
 	/**
@@ -229,29 +229,29 @@ class XPathQueryTest extends BaseCase
 		$entries	= $this->xPath->query( "//book" );
 		$assertion	= 4;
 		$creation	= $entries->length;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$entries	= $this->xPath->query( "//book[@category='COOKING']/title/text()" );
 		$assertion	= "Everyday Italian";
 		$creation	= $entries->item( 0 )->nodeValue;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$entries	= $this->xPath->query( "//book[@category='COOKING']/title" );
 		$assertion	= "en";
 		$creation	= $entries->item( 0 )->getAttribute( 'lang' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$entries	= $this->xPath->query( "//book[@category='WEB']/author" );
 		$assertion	= 6;
 		$creation	= $entries->length;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$doc		= $this->xPath->getDocument();
 		$book		= $doc->getElementsByTagName( "book" )->item( 2 );
 		$entries	= $this->xPath->evaluate( "author[3]/text()", $book );
 		$assertion	= "Kurt Cagle";
 		$creation	= $entries->item( 0 )->nodeValue;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

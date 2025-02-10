@@ -4,7 +4,7 @@
 /**
  *	XML element based on SimpleXMLElement with improved attribute and content handling.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,10 +38,10 @@ use SimpleXMLElement;
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@todo			namespace handling: implement detection "Prefix or URI?", see http://www.w3.org/TR/REC-xml/#NT-Name
+ *	@todo			namespace handling: implement detection "Prefix or URI?", see https://www.w3.org/TR/REC-xml/#NT-Name
  */
 class Element extends SimpleXMLElement
 {
@@ -60,10 +60,10 @@ class Element extends SimpleXMLElement
 	 */
 //	public function addAttribute( string $qualifiedName, string $value, $namespace = NULL, ?string $nsURI = NULL ): void
 //	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
-	public function addAttribute( $qualifiedName, $value = NULL, $namespace = NULL, string $nsURI = NULL )
+	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, string $nsURI = NULL ): void
 	{
-		if( $namespace ) {
-			$namespaces	= $this->getDocNamespaces();
+		if( NULL !== $namespace ) {
+			$namespaces	= $this->getDocNamespaces() ?: [];
 			$key		= $namespace.':'.$qualifiedName;
 			if( $this->hasAttribute( $qualifiedName, $namespace ) )
 				throw new RuntimeException( 'Attribute "'.$qualifiedName.'" is already set' );
@@ -100,12 +100,12 @@ class Element extends SimpleXMLElement
 	 *	@param		string|NULL		$value		Value of child element
 	 *	@param		string|NULL 	$namespace	Namespace prefix of child element
 	 *	@param		string|NULL		$nsURI		Namespace URI of child element
-	 *	@return		self
+	 *	@return		static|NULL
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
 //	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
 //	public function addChild( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): self
-	public function addChild( $qualifiedName, $value = NULL, $namespace = NULL, ?string $nsURI = NULL ): self
+	public function addChild( string $qualifiedName, ?string $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): ?static
 	{
 		if( $namespace ) {
 			$namespaces	= $this->getDocNamespaces();
@@ -144,9 +144,9 @@ class Element extends SimpleXMLElement
 	 *	Writes current XML Element as XML File.
 	 *	@access		public
 	 *	@param		string		$fileName		File name for XML file
-	 *	@return		int
+	 *	@return		int|FALSE
 	 */
-	public function asFile( string $fileName ): int
+	public function asFile( string $fileName ): int|FALSE
 	{
 		$xml	= $this->asXML();
 		return FileWriter::save( $fileName, $xml );
@@ -272,7 +272,7 @@ class Element extends SimpleXMLElement
 		$dom->parentNode->removeChild( $dom );
 	}
 
-	public function removeChild( $qualifiedName, ?int $number = NULL )
+	public function removeChild( string $qualifiedName, ?int $number = NULL ): void
 	{
 		$nr		= 0;
 		foreach( $this->children() as $nodeName => $child ){
@@ -297,7 +297,7 @@ class Element extends SimpleXMLElement
 	 *	@param		string|NULL		$nsURI				Namespace URI of attribute
 	 *	@return		void
 	 */
-	public function setAttribute( string $qualifiedName, ?string $value, ?string $namespace = NULL, ?string $nsURI = NULL )
+	public function setAttribute( string $qualifiedName, ?string $value, ?string $namespace = NULL, ?string $nsURI = NULL ): void
 	{
 		if( $value !== NULL ){
 			if( !$this->hasAttribute( $qualifiedName, $namespace ) ){
@@ -321,7 +321,7 @@ class Element extends SimpleXMLElement
 	 */
 	public function setValue( ?string $value, bool $cdata = FALSE ): self
 	{
-		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value );
+		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value ?? '' );
 		//  string is known or detected to be CDATA
 		if( $cdata || preg_match( '/[&<]/', $value ) ) {
 			//  import node in DOM

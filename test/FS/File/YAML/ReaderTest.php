@@ -48,7 +48,7 @@ class ReaderTest extends BaseCase
 				"entry2",
 				)
 			);
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -67,6 +67,6 @@ class ReaderTest extends BaseCase
 				"entry2",
 				)
 			);
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

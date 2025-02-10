@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Collection Editor
  *	@package		Tests.FS.File.Collection
@@ -20,41 +24,32 @@ use CeusMedia\CommonTest\BaseCase;
 class EditorTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
+	private string $fileName;
 
-	/**
-	 *	Set up for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->fileName	= dirname( __FILE__ )."/edit.list";
-		Writer::save( $this->fileName, array( "line1", "line2" ) );
-		$this->editor	= new Editor( $this->fileName );
-	}
+	private Editor $editor;
 
 	/**
 	 *	Tests Method 'add'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testAdd()
+	public function testAdd(): void
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->add( 'line3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line2", "line3" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->editor->add( 'line4' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line2", "line3", "line4" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -62,7 +57,7 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testAddException()
+	public function testAddException(): void
 	{
 		$this->expectException( 'DomainException' );
 		$this->editor->add( 'line1' );
@@ -73,15 +68,15 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testEdit()
+	public function testEdit(): void
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->edit( "line2", "line3" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line3" );
 		$creation	= $this->editor->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -89,7 +84,7 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testEditException()
+	public function testEditException(): void
 	{
 		$this->expectException( 'DomainException' );
 		$this->editor->edit( "not_existing", "not_relevant" );
@@ -100,14 +95,14 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetList()
+	public function testGetList(): void
 	{
 		$assertion	= array(
 			"line1",
 			"line2",
 		);
 		$creation	= $this->editor->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -115,15 +110,15 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemove()
+	public function testRemove(): void
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->remove( 'line1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line2" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -131,7 +126,7 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemoveException()
+	public function testRemoveException(): void
 	{
 		$this->editor->remove( 'line1' );
 		$this->expectException( 'DomainException' );
@@ -143,22 +138,22 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemoveIndex()
+	public function testRemoveIndex(): void
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->removeIndex( 1 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1" );
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $this->editor->removeIndex( 0 );
-		$this->assertEquals( 0, $creation );
+		self::assertEquals( 0, $creation );
 
 		$assertion	= [];
 		$creation	= Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -166,7 +161,7 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRemoveIndexException()
+	public function testRemoveIndexException(): void
 	{
 		$this->expectException( 'DomainException' );
 		$this->editor->removeIndex( 10 );
@@ -177,10 +172,22 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testToString()
+	public function testToString(): void
 	{
-		$assertion	= "{line1, line2}";;
+		$assertion	= "{line1, line2}";
 		$creation	= "".$this->editor;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Set up for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->fileName	= dirname( __FILE__ )."/edit.list";
+		Writer::save( $this->fileName, array( "line1", "line2" ) );
+		$this->editor	= new Editor( $this->fileName );
 	}
 }

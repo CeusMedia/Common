@@ -3,7 +3,7 @@
 /**
  *	Null Object (Design Pattern) Implementation as Singleton.
  *
- *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,8 +37,8 @@ use Countable;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Null_ implements Countable, Renderable, ArrayAccess
@@ -86,11 +86,10 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	Answers all undefined members writes by just returning FALSE without storing anything.
 	 *	@param		string		$name			Member name - doesn't matter
 	 *	@param		mixed		$value			Member value - doesn't matter
-	 *	@return		boolean		Always FALSE
+	 *	@return		void
 	 */
-	public function __set( string $name, $value )
+	public function __set( string $name, $value ): void
 	{
-		return FALSE;
 	}
 
 	/**
@@ -152,22 +151,20 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	/**
 	 *	Implements interface ArrayAccess and returns always FALSE.
 	 *	@access		public
-	 *	@return		boolean			FALSE, always
+	 *	@return		void
 	 */
-	public function offsetSet( $offset, $value ): bool
+	public function offsetSet( $offset, $value ): void
 	{
-		return TRUE;
 	}
 
 
 	/**
 	 *	Implements interface ArrayAccess and returns always FALSE.
 	 *	@access		public
-	 *	@return		boolean			FALSE, always
+	 *	@return		void			FALSE, always
 	 */
-	public function offsetUnset( $offset ): bool
+	public function offsetUnset( $offset ): void
 	{
-		return TRUE;
 	}
 
 	/**

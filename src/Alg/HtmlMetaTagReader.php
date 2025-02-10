@@ -3,7 +3,7 @@
 /**
  *	Reader for HTML Meta Tags.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -33,8 +33,8 @@ namespace CeusMedia\Common\Alg;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class HtmlMetaTagReader
@@ -54,8 +54,8 @@ class HtmlMetaTagReader
 	public static function getMetaTags( string $string, int $transformKeys = self::TRANSFORM_NO ): array
 	{
 		$metaTags	= [];
-		preg_match_all( "@<meta.*/?>@", $string, $tags );
-		if( isset( $tags[0] ) ){
+		$match		= preg_match_all( "@<meta.*/?>@", $string, $tags );
+		if( FALSE !== $match ){
 			foreach( $tags[0] as $tag ){
 				//  read HTML Tag Attributes
 				$attributes	= SgmlTagReader::getAttributes( $tag, self::TRANSFORM_LOWERCASE );

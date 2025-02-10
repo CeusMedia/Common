@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
 
 /**
  *	...
  *
- *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,10 +38,10 @@ use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@see			http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 RFC 2616 HTTP Message Headers
+ *	@see			https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 RFC 2616 HTTP Message Headers
  *
  *	GENERAL
  *	-------
@@ -164,7 +165,7 @@ class Section
 
 	protected array $fields			= [];
 
-	public function addField( HeaderField $field ): self
+	public function addField( HeaderField $field ): static
 	{
 		return $this->setField( $field, FALSE );
 	}
@@ -172,9 +173,9 @@ class Section
 	/**
 	 *	@param		string				$name
 	 *	@param		string|float|int	$value
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addFieldPair( string $name, $value ): self
+	public function addFieldPair( string $name, string|float|int $value ): static
 	{
 		$field	= new HeaderField( $name, $value );
 		return $this->addField( $field );
@@ -184,16 +185,16 @@ class Section
 	 *	Add header fields from assoc array.
 	 *	@access		public
 	 *	@param		array		$fieldPairs		Map of header field names and values
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function addFieldPairs( array $fieldPairs = [] ): self
+	public function addFieldPairs( array $fieldPairs = [] ): static
 	{
 		foreach( $fieldPairs as $key => $value )
 			$this->addFieldPair( $key, $value );
 		return $this;
 	}
 
-	public function addFields( array $fields = [] ): self
+	public function addFields( array $fields = [] ): static
 	{
 		foreach( $fields as $field )
 			$this->addField( $field );
@@ -213,7 +214,7 @@ class Section
 	public function getFields(): array
 	{
 		$list	= [];
-		foreach( $this->fields as $name => $fields )
+		foreach( $this->fields as $fields )
 			foreach( $fields as $field )
 				$list[]	= $field;
 		return $list;
@@ -224,16 +225,17 @@ class Section
 	 *	@param		bool		$latestOnly
 	 *	@return		array<HeaderField>|HeaderField|NULL
 	 */
-	public function getFieldsByName( string $name, bool $latestOnly = FALSE )
+	public function getFieldsByName( string $name, bool $latestOnly = FALSE ): array|Field|NULL
 	{
 		if( $latestOnly )
 			return $this->getField( $name );
 		return $this->fields[strtolower( $name )] ?? [];
 	}
 
-	public static function getInstance(): self
+	public static function getInstance(): static
 	{
-		return new self();
+		$className	= static::class;
+		return new $className();
 	}
 
 	public function getSectionedFields(): array
@@ -262,7 +264,7 @@ class Section
 		return 0 !== count( $this->fields[strtolower( $name )] ?? [] );
 	}
 
-	public function removeField( HeaderField $field ): self
+	public function removeField( HeaderField $field ): static
 	{
 		$name			= strtolower( $field->getName() );
 		foreach( $this->fields[$name] ?? [] as $nr => $item )
@@ -271,14 +273,14 @@ class Section
 		return $this;
 	}
 
-	public function removeByName( string $name ): self
+	public function removeByName( string $name ): static
 	{
 		$name	= strtolower( $name );
 		$this->fields[$name]	= [];
 		return $this;
 	}
 
-	public function setField( HeaderField $field, bool $emptyBefore = TRUE ): self
+	public function setField( HeaderField $field, bool $emptyBefore = TRUE ): static
 	{
 		$name		= strtolower( $field->getName() );
 		$fields		= !$emptyBefore ? ( $this->fields[$name] ?? [] ) : [];
@@ -287,7 +289,7 @@ class Section
 		return $this;
 	}
 
-	public function setFieldPair( string $name, $value, bool $emptyBefore = TRUE ): self
+	public function setFieldPair( string $name, string|int|float $value, bool $emptyBefore = TRUE ): static
 	{
 		$this->setField( new HeaderField( $name, $value ), $emptyBefore );
 		return $this;

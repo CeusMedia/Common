@@ -51,7 +51,7 @@ class TagTest extends BaseCase
 		$attributes	= array( 'key1' => 'value1' );
 		$assertion	= '<key key1="value1">value</key>';
 		$creation	= (string) new Tag( $name, $value, $attributes );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class TagTest extends BaseCase
 		$attributes	= array( 'key1' => "" );
 		$assertion	= '<key></key>';
 		$creation	= (string) new Tag( $name, $value, $attributes );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 	}
 */
@@ -82,7 +82,7 @@ class TagTest extends BaseCase
 		$attributes	= array( 'key1' => NULL );
 		$assertion	= '<key/>';
 		$creation	= (string) new Tag( $name, $value, $attributes );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -97,7 +97,7 @@ class TagTest extends BaseCase
 		$attributes	= array( 'key1' => FALSE );
 		$assertion	= '<key/>';
 		$creation	= (string) new Tag( $name, $value, $attributes );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -109,7 +109,7 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<tag key1="Value1">textContent</tag>';
 		$creation	= $this->tag->build();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<tag key="value">content</tag>';
 		$creation	= Tag::create( "tag", "content", array( 'key' => 'value' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -133,7 +133,7 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<tag/>';
 		$creation	= Tag::create( "tag", NULL );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 	/**
 	 *	Tests Method 'create'.
@@ -144,7 +144,7 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<tag key="value"/>';
 		$creation	= Tag::create( "tag", NULL, array( 'key' => 'value' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -156,7 +156,7 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<style></style>';
 		$creation	= Tag::create( "style", NULL );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<script></script>';
 		$creation	= Tag::create( "script", NULL );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -180,7 +180,7 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<div></div>';
 		$creation	= Tag::create( "div", NULL );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -193,7 +193,7 @@ class TagTest extends BaseCase
 		$this->tag->setAttribute( "Key2", "Value2" );
 		$assertion	= '<tag key1="Value1" key2="Value2">textContent</tag>';
 		$creation	= (string) $this->tag;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -208,7 +208,7 @@ class TagTest extends BaseCase
 		$this->tag->setAttribute( "Key2", "Value2-2", FALSE );
 		$assertion	= '<tag key1="Value1" key2="Value2-2">textContent</tag>';
 		$creation	= (string) $this->tag;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -221,7 +221,7 @@ class TagTest extends BaseCase
 		$this->tag->setAttribute( "xml:lang", "en" );
 		$assertion	= '<tag key1="Value1" xml:lang="en">textContent</tag>';
 		$creation	= (string) $this->tag;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -234,7 +234,7 @@ class TagTest extends BaseCase
 		$this->tag->setAttribute( "onclick", 'alert("Hello!")' );
 		$assertion	= '<tag key1="Value1" onclick="alert(&quot;Hello!&quot;)">textContent</tag>';
 		$creation	= (string) $this->tag;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -247,7 +247,7 @@ class TagTest extends BaseCase
 		$this->tag->setAttribute( 'key', 'value" inject="true' );
 		$assertion	= '<tag key1="Value1" key="value&quot; inject=&quot;true">textContent</tag>';
 		$creation	= (string) $this->tag;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 
@@ -342,7 +342,7 @@ class TagTest extends BaseCase
 		$this->tag->setContent( "textContent2" );
 		$assertion	= '<tag key1="Value1">textContent2</tag>';
 		$creation	= (string) $this->tag;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -354,6 +354,6 @@ class TagTest extends BaseCase
 	{
 		$assertion	= '<tag key1="Value1">textContent</tag>';
 		$creation	= (string) $this->tag->__toString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

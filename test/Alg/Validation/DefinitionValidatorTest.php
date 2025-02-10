@@ -65,10 +65,10 @@ class DefinitionValidatorTest extends BaseCase
 		$dump	= ob_get_clean();
 
 		$creation	= substr_count( $dump, "PredicateValidator" );
-		$this->assertEquals( 1, $creation );
+		self::assertEquals( 1, $creation );
 
 		$creation	= substr_count( $dump, "Predicates" );
-		$this->assertEquals( 1, $creation );
+		self::assertEquals( 1, $creation );
 	}
 /*
 	public function testSetLabels()
@@ -81,7 +81,7 @@ class DefinitionValidatorTest extends BaseCase
 			"Field 'Label 1' is mandatory.",
 		);
 		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$this->validator->setLabels( [] );
@@ -89,7 +89,7 @@ class DefinitionValidatorTest extends BaseCase
 			"Field 'test1' is mandatory.",
 		);
 		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}*/
 /*
 	public function testSetMessages()
@@ -102,14 +102,14 @@ class DefinitionValidatorTest extends BaseCase
 			"Test Field 1 needs to be set.",
 		);
 		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}*/
 
 	public function testValidatePass1()
 	{
 		$assertion	= [];
 		$creation	= $this->validator->validate( $this->definition['test1'], "abc123" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testValidateFail1()
@@ -121,7 +121,7 @@ class DefinitionValidatorTest extends BaseCase
 			array( 'isPreg', $this->definition['test1']['semantic'][1]['edge'] )
 		);
 		$creation	= $this->validator->validate( $this->definition['test1'], "123abc#" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testValidateFail2()
@@ -134,6 +134,6 @@ class DefinitionValidatorTest extends BaseCase
 		$definition['test1']['semantic'][]	= $semanticRule;
 		$assertion	= array( array_values( $semanticRule ) );
 		$creation	= $this->validator->validate( $definition['test1'], "test" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

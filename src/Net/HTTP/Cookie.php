@@ -3,7 +3,7 @@
 /**
  *	Cookie Management.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -33,8 +33,8 @@ namespace CeusMedia\Common\Net\HTTP;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Cookie
@@ -76,15 +76,16 @@ class Cookie
 	/**
 	 *	Returns a setting by its key name.
 	 *	@access		public
-	 *	@param		string		$key			Key name of cookie
-	 *	@return		mixed
+	 *	@param		string			$key			Key name of cookie
+	 *	@param		string|NULL		$default		Default value
+	 *	@return		string|NULL
 	 */
-	public function get( string $key )
+	public function get( string $key, ?string $default = NULL ): string|NULL
 	{
 		$key	= str_replace( ".", "_", $key );
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
-		return NULL;
+		return $default;
 	}
 
 	/**
@@ -146,26 +147,27 @@ class Cookie
 	 *	@param		boolean|NULL	$httpOnly		Flag: allow access via HTTP protocol only
 	 *	@return		boolean
 	 */
-	public function set( string $key, $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
+	public function set( string $key, mixed $value, int $expires = 0, ?string $path = NULL, ?string $domain = NULL, ?bool $secure = NULL, ?bool $httpOnly = NULL ): bool
 	{
 		$key		= str_replace( ".", "_", $key );
 		$this->data[$key]	=& $value;
-		return setcookie( $key, $value, [
+		$options	= [
 			'expires'		=> $expires ? time() + $expires : $expires,
 			'path'			=> $path ?? $this->path,
 			'domain'		=> $domain ?? $this->domain,
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
-		]);
+		];
+		return setcookie( $key, $value, $options );
 	}
 
 	/**
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		string		$domain			Domain of cookie
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setDomain( string $domain ): self
+	public function setDomain( string $domain ): static
 	{
 		$this->domain	= $domain;
 		return $this;
@@ -175,9 +177,9 @@ class Cookie
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		boolean		$httpOnly		Flag: allow access via HTTP protocol only
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setHttpOnly( bool $httpOnly ): self
+	public function setHttpOnly( bool $httpOnly ): static
 	{
 		$this->httpOnly	= $httpOnly;
 		return $this;
@@ -187,9 +189,9 @@ class Cookie
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		string		$path			Default path of cookie
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setPath( string $path ): self
+	public function setPath( string $path ): static
 	{
 		$this->path = $path;
 		return $this;
@@ -199,9 +201,9 @@ class Cookie
 	 *	Set cookie domain.
 	 *	@access		public
 	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setSecure( bool $secure ): self
+	public function setSecure( bool $secure ): static
 	{
 		$this->secure = $secure;
 		return $this;

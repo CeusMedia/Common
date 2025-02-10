@@ -60,10 +60,10 @@ class IndicatorTest extends BaseCase
 		$indicator	= new Indicator();
 
 		$creation	= $indicator->getOption( 'useColor' );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $indicator->getOption( 'useRatio' );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -75,13 +75,13 @@ class IndicatorTest extends BaseCase
 	{
 		$assertion	= trim( file_get_contents(  $this->path.'indicator1.html' ) );
 		$creation	= $this->indicator->build( 1, 2 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->indicator->setOption( 'useColor', FALSE );
 
 		$assertion	= trim( file_get_contents( $this->path.'indicator2.html' ) );
 		$creation	= $this->indicator->build( 1, 2 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->indicator->setOption( 'useColor', TRUE );
 		$this->indicator->setOption( 'useRatio', TRUE );
@@ -94,7 +94,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= trim( file_get_contents( $this->path.'indicator3.html' ) );
 		$creation	= $this->indicator->build( 49, 100, 200 );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getIndicatorClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -122,7 +122,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getInnerClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getOuterClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -150,7 +150,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getPercentageClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -164,7 +164,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getRatioClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -178,7 +178,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getIndicatorClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -192,7 +192,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getInnerClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -203,13 +203,13 @@ class IndicatorTest extends BaseCase
 	public function testSetOption()
 	{
 		$creation	= $this->indicator->setOption( 'useColor', FALSE );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->indicator->setOption( 'useColor', TRUE );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->indicator->setOption( 'useColor', TRUE );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -234,7 +234,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getOuterClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -248,7 +248,7 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getPercentageClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -262,6 +262,6 @@ class IndicatorTest extends BaseCase
 
 		$assertion	= "testClass";
 		$creation	= $this->indicator->getRatioClass();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

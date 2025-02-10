@@ -3,7 +3,7 @@
 /**
  *	DirectedGraph.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,8 +37,8 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Documentation
  */
@@ -188,23 +188,24 @@ class DirectedWeighted extends Weighted
 	 *	@access		public
 	 *	@param		Node		$source		Source Node of this Edge
 	 *	@param		Node		$target		Target Node of this Edge
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeEdge( Node $source, Node $target )
+	public function removeEdge( Node $source, Node $target ): self
 	{
 		if( $this->isEdge( $source, $target ) )
 			$this->edgeSet->removeEdge( $source, $target );
+		return $this;
 	}
 
 	/**
 	 *	 Removes a Node.
 	 *	@access		public
 	 *	@param		Node		$node		Node to be removed
-	 *	@return		void
+	 *	@return		self
 	 *	@throws		Exception
 	 */
-	public function removeNode( Node $node )
+	public function removeNode( Node $node ): self
 	{
 		foreach( $this->getNodes() as $_node ){
 			if( $this->isEdge( $_node, $node ) )
@@ -216,6 +217,7 @@ class DirectedWeighted extends Weighted
 		}
 		//  remove Node
 		$this->nodeSet->removeNode( $node );
+		return $this;
 	}
 
 	/**

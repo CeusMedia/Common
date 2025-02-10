@@ -3,7 +3,7 @@
 /**
  *	Builder for HTML tags.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,30 +38,30 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Tag implements Renderable
 {
-	/**	@var		array		$attributes		Attributes of tag */
-	protected $attributes		= [];
-
-	/**	@var		array		$data			Data attributes of tag */
-	protected $data				= [];
-
-	/**	@var		string		$name			Node name of tag */
-	protected $name;
-
-	/**	@var		mixed		$content		Content of tag */
-	protected $content;
-
-	public static $shortTagExcludes	= [
+	public static array $shortTagExcludes	= [
 		'style',
 		'script',
 		'div',
 		'textarea'
 	];
+
+	/**	@var		array		$attributes		Attributes of tag */
+	protected array $attributes		= [];
+
+	/**	@var		array		$data			Data attributes of tag */
+	protected array $data				= [];
+
+	/**	@var		string		$name			Node name of tag */
+	protected string $name;
+
+	/**	@var		mixed		$content		Content of tag */
+	protected mixed $content;
 
 	/**
 	 *	Constructor.
@@ -72,7 +72,7 @@ class Tag implements Renderable
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
 	 */
-	public function __construct( string $name, $content = NULL, array $attributes = [], array $data = [] )
+	public function __construct( string $name, mixed $content = NULL, array $attributes = [], array $data = [] )
 	{
 		$this->name		= $name;
 		$this->setContent( $content );
@@ -122,11 +122,7 @@ class Tag implements Renderable
 			$data		= self::renderData( $data );
 		}
 		catch( InvalidArgumentException $e ) {
-			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
-				//  throw exception and transport inner exception
-				throw new RuntimeException( 'Invalid attributes', 0, $e );
-			//  throw exception
-			throw new RuntimeException( 'Invalid attributes', 0 );
+			throw new RuntimeException( 'Invalid attributes', 0, $e );
 		}
 		//  no node content defined, not even an empty string
 		if( $content === NULL || $content === FALSE )
@@ -167,7 +163,7 @@ class Tag implements Renderable
 	 *	@param		string		$key		Key of attribute to get
 	 *	@return		mixed|NULL
 	 */
-	public function getAttribute( string $key )
+	public function getAttribute( string $key ): mixed
 	{
 		if( !array_key_exists( $key, $this->attributes ) )
 			return NULL;
@@ -342,6 +338,10 @@ class Tag implements Renderable
 		return join( $delimiter, $array );
 	}
 
+	/**
+	 * @param array $data
+	 * @return string
+	 */
 	protected static function renderData( array $data = [] ): string
 	{
 		$list	= [];
@@ -352,13 +352,17 @@ class Tag implements Renderable
 		return self::renderAttributes( $list, TRUE );
 	}
 
-	protected static function renderAttributes( $attributes = [], $allowOverride = FALSE ): string
+	/**
+	 *	@param		array		$attributes
+	 *	@param		bool		$allowOverride
+	 *	@throws		InvalidArgumentException	if an attributes key is invalid
+	 *	@throws		InvalidArgumentException	if attribute is already set and override is off
+	 *	@return		string
+	 */
+	protected static function renderAttributes( array $attributes = [], bool $allowOverride = FALSE ): string
 	{
-		if( !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
 		$list	= [];
-		foreach( $attributes as $key => $value )
-		{
+		foreach( $attributes as $key => $value ) {
 			//  no valid attribute key defined
 			if( empty( $key ) )
 				//  skip this pair

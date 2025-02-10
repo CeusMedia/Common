@@ -4,7 +4,7 @@
 /**
  *	Sender for HTTP POST requests.
  *
- *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -40,8 +40,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Post
@@ -60,17 +60,24 @@ class Post
 
 	protected URL $url;
 
-	protected string $userAgent			= "CeusMediaCommon:Net.HTTP.Post/0.9";
+	protected string $userAgent			= "CeusMedia::Common:Net.HTTP.Post/1.0";
 
 	public static function convertArrayToFormData( array $data ): string
 	{
 		return http_build_query( $data, '', '&' );
 	}
 
-	public static function sendData( string $url, $data, array $curlOptions = [] ): string
+	/**
+	 *	@param		string			$url
+	 *	@param		array|string	$data
+	 *	@param		array			$curlOptions
+	 *	@return		string
+	 */
+	public static function sendData( string $url, array|string $data, array $curlOptions = [] ): string
 	{
-		$post	= new self( $url );
-		$post->setContent( is_array( $data ) ? self::convertArrayToFormData( $data ) : $data );
+		$className	= static::class;
+		$post		= new $className( $url );
+		$post->setContent( is_array( $data ) ? static::convertArrayToFormData( $data ) : $data );
 		return $post->send( $curlOptions );
 	}
 
@@ -81,59 +88,92 @@ class Post
 		$this->detectTransportStrategy();
 	}
 
+	/**
+	 *	@param		array		$curlOptions
+	 *	@return		string
+	 */
 	public function send( array $curlOptions = [] ): string
 	{
 		$this->checkContentLength( $this->content );
-		$contentType	= 'Content-type: '.$this->contentType;
 
-		switch( $this->transport ){
-			case self::TRANSPORT_CURL:
-				$curl		= new CURL( $this->url->get() );
-				$options	= [
-					CURLOPT_POST				=> TRUE,
-					CURLOPT_RETURNTRANSFER		=> TRUE,
-					CURLOPT_HTTPHEADER			=> [$contentType],
-					CURLOPT_POSTFIELDS			=> $this->content,
-					CURLOPT_FOLLOWLOCATION		=> FALSE,
-					CURLOPT_USERAGENT			=> $this->userAgent,
-					CURLOPT_CONNECTTIMEOUT		=> 15,
-				];
-				foreach( $curlOptions as $key => $value )
-					$options[$key]	= $value;
-				foreach( $options as $key => $value )
-					$curl->setOption( $key, $value );
-				return trim( $curl->exec( TRUE ) );
-
-			case self::TRANSPORT_FOPEN:
-				$stream	= [
-					'method'		=> 'POST',
-					'header'		=> $contentType,
-					'content'		=> $this->content,
-					'max_redirects'	=> 0,
-					'timeout'		=> 15,
-				];
-				$stream	= stream_context_create( ['http' => $stream] );
-				return trim( file_get_contents( $this->url->get(), FALSE, $stream ) );
-
-			default:
-				throw new RuntimeException( 'Could not make HTTP request: allow_url_open is false and cURL not available' );
-		}
+		return match( $this->transport ){
+			static::TRANSPORT_CURL	=> $this->performRequestUsingCurl( $curlOptions ),
+			static::TRANSPORT_FOPEN	=> $this->performRequestUsingStream(),
+			default					=> throw new RuntimeException(
+				'Could not make HTTP request: allow_url_open is false and cURL not available'
+			),
+		};
 	}
 
-	public function setContent( string $content ): self
+	/**
+	 *	@param		array		$curlOptions
+	 *	@return		string
+	 */
+	protected function performRequestUsingCurl( array $curlOptions = [] ): string
+	{
+		$contentType	= 'Content-type: '.$this->contentType;
+		$curl		= new CURL( $this->url->get() );
+		$options	= [
+			CURLOPT_POST				=> TRUE,
+			CURLOPT_RETURNTRANSFER		=> TRUE,
+			CURLOPT_HTTPHEADER			=> [$contentType],
+			CURLOPT_POSTFIELDS			=> $this->content,
+			CURLOPT_FOLLOWLOCATION		=> FALSE,
+			CURLOPT_USERAGENT			=> $this->userAgent,
+			CURLOPT_CONNECTTIMEOUT		=> 15,
+		];
+		foreach( $curlOptions as $key => $value )
+			$options[$key]	= $value;
+		foreach( $options as $key => $value )
+			$curl->setOption( $key, $value );
+		return trim( $curl->exec( TRUE ) );
+	}
+
+	/**
+	 *	@return		string
+	 */
+	protected function performRequestUsingStream(): string
+	{
+		$contentType	= 'Content-type: '.$this->contentType;
+		$httpContext	= [
+			'method'		=> 'POST',
+			'header'		=> $contentType,
+			'content'		=> $this->content,
+			'max_redirects'	=> 0,
+			'timeout'		=> 15,
+		];
+		$context	= stream_context_create( ['http' => $httpContext] );
+		return trim( file_get_contents( $this->url->get(), FALSE, $context ) );
+
+	}
+
+	/**
+	 *	@param		string		$content
+	 *	@return		static
+	 *	@throws		OutOfBoundsException		if content is too large
+	 */
+	public function setContent( string $content ): static
 	{
 		$this->checkContentLength( $content );
 		$this->content		= $content;
 		return $this;
 	}
 
-	public function setContentType( string $contentType ): self
+	/**
+	 *	@param		string		$contentType
+	 *	@return		static
+	 */
+	public function setContentType( string $contentType ): static
 	{
 		$this->contentType	= $contentType;
 		return $this;
 	}
 
-	public function setDataMaxLength( int $integer ): self
+	/**
+	 *	@param		int			$integer
+	 *	@return		static
+	 */
+	public function setDataMaxLength( int $integer ): static
 	{
 		if( $integer === 0 || $integer > 1 )
 			$this->dataMaxLength	= $integer;
@@ -142,32 +182,50 @@ class Post
 
 	/**
 	 *	@param		URL|string		$url
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setUrl( $url ): self
+	public function setUrl( URL|string $url ): static
 	{
-		$this->url	= $url instanceof URL ? $url : new URL( $url );
+		if( is_string( $url ) )
+			$url	= new URL( $url );
+		$this->url	= $url;
 		return $this;
 	}
 
-	public function setUserAgent( string $userAgent ): self
+	/**
+	 *	@param		string		$userAgent
+	 *	@return		static
+	 */
+	public function setUserAgent( string $userAgent ): static
 	{
 		$this->userAgent	= $userAgent;
 		return $this;
 	}
 
-	protected function checkContentLength( $content )
+	/**
+	 *	@param		string		$content
+	 *	@return		void
+	 *	@throws		OutOfBoundsException		if content is too large
+	 */
+	protected function checkContentLength( string $content ): void
 	{
-		if( $this->dataMaxLength > 0 && strlen( $content ) > $this->dataMaxLength )
-			throw new OutOfBoundsException( 'POST content larger than '.$this->dataMaxLength.' bytes' );
+		if( 0 === $this->dataMaxLength )
+			return;
+		if( strlen( $content ) <= $this->dataMaxLength )
+			return;
+		$message	= 'POST content larger than '.$this->dataMaxLength.' bytes';
+		throw new OutOfBoundsException( $message );
 	}
 
-	protected function detectTransportStrategy(): self
+	/**
+	 *	@return		static
+	 */
+	protected function detectTransportStrategy(): static
 	{
 		if( CURL::isSupported() )
-			$this->transport	= self::TRANSPORT_CURL;
+			$this->transport	= static::TRANSPORT_CURL;
 		else if( preg_match( '/1|yes|on|true/i', ini_get( 'allow_url_fopen' ) ) )
-			$this->transport	= self::TRANSPORT_FOPEN;
+			$this->transport	= static::TRANSPORT_FOPEN;
 		return $this;
 	}
 }

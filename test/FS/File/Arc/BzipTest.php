@@ -25,11 +25,33 @@ use CeusMedia\CommonTest\BaseCase;
 class BzipTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName;
+	private string $fileName;
 
-	protected $path;
+	protected string $path;
 
-	public function setUp(): void
+	public function testWriteString(): void
+	{
+		$arc	= new Bzip( $this->fileName );
+		$arc->writeString( "test" );
+
+		self::assertFileExists( $this->fileName );
+
+		$assertion	= bzcompress( "test" );
+		$creation	= file_get_contents( $this->fileName );
+		self::assertEquals( $assertion, $creation );
+	}
+
+	public function testReadString(): void
+	{
+		$arc	= new Bzip( $this->fileName );
+		$arc->writeString( "test" );
+
+		$assertion	= "test";
+		$creation	= $arc->readString();
+		self::assertEquals( $assertion, $creation );
+	}
+
+	protected function setUp(): void
 	{
 		if( !extension_loaded( 'bz2' ) )
 			$this->markTestSkipped( 'Support for bzip2 is missing' );
@@ -38,30 +60,8 @@ class BzipTest extends BaseCase
 		$this->fileName	= $this->path."test.bz";
 	}
 
-	public function tearDown(): void
+	protected function tearDown(): void
 	{
 		@unlink( $this->fileName );
-	}
-
-	public function testWriteString()
-	{
-		$arc	= new Bzip( $this->fileName );
-		$arc->writeString( "test" );
-
-		$this->assertFileExists( $this->fileName );
-
-		$assertion	= bzcompress( "test" );
-		$creation	= file_get_contents( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	public function testReadString()
-	{
-		$arc	= new Bzip( $this->fileName );
-		$arc->writeString( "test" );
-
-		$assertion	= "test";
-		$creation	= $arc->readString();
-		$this->assertEquals( $assertion, $creation );
 	}
 }

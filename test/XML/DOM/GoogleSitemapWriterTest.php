@@ -53,7 +53,7 @@ class GoogleSitemapWriterTest extends BaseCase
 
 		$assertion	= file_get_contents( $this->xmlFile );
 		$creation	= file_get_contents( $this->testFile );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		@unlink( $this->testFile );
 	}
 
@@ -73,7 +73,7 @@ class GoogleSitemapWriterTest extends BaseCase
 
 		$assertion	= file_get_contents( $this->xmlFile );
 		$creation	= file_get_contents( $this->testFile );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 		@unlink( $this->testFile );
 	}
 }

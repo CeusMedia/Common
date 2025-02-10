@@ -1,5 +1,9 @@
 <?php
+/** @noinspection PhpIllegalPsrClassPathInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare( strict_types = 1 );
+
 /**
  *	TestUnit of Collection Reader.
  *	@package		Tests.FS.File.Collection
@@ -10,6 +14,7 @@ namespace CeusMedia\CommonTest\FS\File\Collection;
 
 use CeusMedia\Common\FS\File\Collection\Reader;
 use CeusMedia\CommonTest\BaseCase;
+use DomainException;
 use RuntimeException;
 
 /**
@@ -20,29 +25,20 @@ use RuntimeException;
 class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName;
+	private string $fileName;
 
-	/**
-	 *	Set up for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(): void
-	{
-		$this->fileName		= dirname( __FILE__ )."/read.list";
-		$this->reader	= new Reader( $this->fileName );
-	}
+	private Reader $reader;
 
 	/**
 	 *	Tests Method 'count'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function test_count()
+	public function test_count(): void
 	{
 		$assertion	= 2;
 		$creation	= $this->reader->count();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -50,15 +46,15 @@ class ReaderTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetIndex()
+	public function testGetIndex(): void
 	{
 		$assertion	= 0;
 		$creation	= $this->reader->getIndex( "line1" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $this->reader->getIndex( "line2" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -66,9 +62,9 @@ class ReaderTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetIndexException()
+	public function testGetIndexException(): void
 	{
-		$this->expectException( 'DomainException' );
+		$this->expectException( DomainException::class );
 		$this->reader->getIndex( "not_existing" );
 	}
 
@@ -77,14 +73,14 @@ class ReaderTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetList()
+	public function testGetList(): void
 	{
 		$assertion	= array(
 			"line1",
 			"line2",
 		);
 		$creation	= $this->reader->getList();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -92,15 +88,10 @@ class ReaderTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testHasItem()
+	public function testHasItem(): void
 	{
-		$assertion	= TRUE;
-		$creation	= $this->reader->hasItem( "line1" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= $this->reader->hasItem( "line3" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertTrue( $this->reader->hasItem( "line1" ) );
+		self::assertFalse( $this->reader->hasItem( "line3" ) );
 	}
 
 	/**
@@ -108,19 +99,22 @@ class ReaderTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRead()
+	public function testRead(): void
 	{
 		$assertion	= array(
 			"line1",
 			"line2",
 		);
 		$creation	= Reader::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$fileName	= dirname( $this->fileName )."/empty.list";
 		file_put_contents( $fileName, "" );
+
 		$assertion	= [];
 		$creation	= Reader::read( $fileName );
+		self::assertEquals( $assertion, $creation );
+
 		unlink( $fileName );
 	}
 
@@ -129,10 +123,10 @@ class ReaderTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testReadException()
+	public function testReadException(): void
 	{
 		$this->expectException( RuntimeException::class );
-		Reader::read( "not_existing", TRUE );
+		Reader::read( "not_existing" );
 	}
 
 	/**
@@ -140,10 +134,21 @@ class ReaderTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testToString()
+	public function testToString(): void
 	{
-		$assertion	= "{line1, line2}";;
+		$assertion	= "{line1, line2}";
 		$creation	= "".$this->reader;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Set up for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	protected function setUp(): void
+	{
+		$this->fileName	= dirname( __FILE__ )."/read.list";
+		$this->reader	= new Reader( $this->fileName );
 	}
 }

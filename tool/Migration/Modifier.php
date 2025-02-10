@@ -1,7 +1,10 @@
 <?php
-class Tool_Migration_Modifier
+
+namespace CeusMedia\CommonTool\Migration;
+
+class Modifier
 {
-	public static function breakCommentsInLines( $lines )
+	public static function breakCommentsInLines( array $lines ): array
 	{
 		$nrInserted	= 0;
 		$list	= [];
@@ -16,7 +19,7 @@ class Tool_Migration_Modifier
 		return $list;
 	}
 
-	public static function clearEndingPhpTagInLines( $lines )
+	public static function clearEndingPhpTagInLines( array $lines ): array
 	{
 		$lines	= array_reverse( $lines );
 		foreach( $lines as $nr => $line ){
@@ -30,7 +33,7 @@ class Tool_Migration_Modifier
 		return array_reverse( $lines );
 	}
 
-	public static function clearDocVersionInLines( $lines )
+	public static function clearDocVersionInLines( array $lines ): array
 	{
 		foreach( $lines as $nr => $line ){
 			if( preg_match( '/^\s*\*\s+@version\s+\$Id\$$/', $line ) )
@@ -39,7 +42,7 @@ class Tool_Migration_Modifier
 		return $lines;
 	}
 
-	public static function updateCopyrightYearInLines( $lines, $yearFromQuotedRegExp, $yearTo )
+	public static function updateCopyrightYearInLines( array $lines, $yearFromQuotedRegExp, $yearTo ): array
 	{
 		foreach( $lines as $nr => $line ){
 			$lines[$nr]	= preg_replace( '/(\s+)('.$yearFromQuotedRegExp.')(\s+)/', "\\1\\2-".$yearTo."\\3", $line );
@@ -49,18 +52,18 @@ class Tool_Migration_Modifier
 		return $lines;
 	}
 
-	public static function updateLineBreak( $lines )
+	public static function updateLineBreak( array $lines ): array
 	{
 		return $lines;
 	}
 
-	public static function updateTestSetUpAndTearDown( $lines )
+	public static function updateTestSetUpAndTearDown( array $lines ): array
 	{
 		$methods	= array( 'setUp', 'tearDown' );
 		return static::addReturnTypeOfMethods( $lines, 'void', $methods );
 	}
 
-	public static function addReturnTypeOfMethods( $lines, $returnType, $methods = [] )
+	public static function addReturnTypeOfMethods( array $lines, $returnType, $methods = [] ): array
 	{
 		$regExp		= '/(function %s\(\))\s*\{/s';
 		$content	= join( PHP_EOL, $lines );
@@ -76,7 +79,7 @@ class Tool_Migration_Modifier
 		return $lines;
 	}
 
-	public static function removeIndentsInEmptyLines( $lines )
+	public static function removeIndentsInEmptyLines( array $lines ): array
 	{
 		foreach( $lines as $nr => $line ){
 			if( preg_match( '/^\s+$/', $line ) )

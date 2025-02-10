@@ -3,7 +3,7 @@
 /**
  *	Basic File Reader.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,19 +16,21 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\File;
 
-use CeusMedia\Common\Alg\UnitFormater;
+use CeusMedia\Common\Exception\FileNotExisting as FileNotExistingException;
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\FS\File;
 use RuntimeException;
 
 /**
@@ -36,51 +38,81 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Reader
 {
-	/**	@var		string		$fileName		File Name or URI of File */
-	protected $fileName;
+	/**	@var		File		$file		File Name or URI of File */
+	protected File $file;
+
+	/**
+	 *	Loads a File into a String statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		File|string		$file		Name of File to load
+	 *	@return		string|NULL
+	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
+	 *	@throws		IoException					if strict and file is not readable
+	 */
+	public static function load( File|string $file ): string|NULL
+	{
+		$reader	= new self( $file, FALSE );
+		return $reader->readString();
+	}
+
+	/**
+	 *	Loads a File into an Array statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		File|string		$file		Name of File to load
+	 *	@return		array
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 */
+	public static function loadArray( File|string $file ): array
+	{
+		$reader	= new self( $file, FALSE );
+		return $reader->readArray();
+	}
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name or URI of File
+	 *	@param		File|string		$file		File Name or URI of File
 	 *	@return		void
+	 *	@throws		FileNotExistingException	if check and file is not existing, not readable or given path is not a file
 	 */
-	public function __construct( string $fileName, bool $check = FALSE )
+	public function __construct( File|string $file, bool $check = TRUE )
 	{
-		$this->fileName = $fileName;
-		if( $check && !$this->exists() )
-			throw new RuntimeException( 'File "'.addslashes( $fileName ).'" is not existing' );
-		if( $check && !$this->isReadable() )
-			throw new RuntimeException( 'File "'.$fileName.'" is not readable' );
+		$this->file	= is_string( $file ) ? new File( $file ) : $file;
+		if( $check )
+			$this->file->exists( TRUE ) && $this->file->isReadable( TRUE );
 	}
 
 	/**
 	 *	Indicates whether current File is equal to another File.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of File to compare with
+	 *	@param		File|string		$file		Name of File to compare with
 	 *	@return		bool
+	 *	@throws		FileNotExistingException	if check and file is not existing, not readable or given path is not a file
 	 */
-	public function equals( string $fileName ): bool
+	public function equals( File|string $file ): bool
 	{
-		$toCompare	= Reader::load( $fileName );
-		$thisFile	= Reader::load( $this->fileName );
+		$toCompare	= self::load( $file );
+		$thisFile	= self::load( $this->file );
 		return( $thisFile == $toCompare );
 	}
 
 	/**
-	 *	Indicates whether current URI is an existing File.
-	 *	@access		public
-	 *	@return		bool
+	 *	Indicates whether a file is existing at the existing path name.
+	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: no
+	 *	@return		boolean
+	 *	@throws		FileNotExistingException	if strict and file is not existing, not readable or given path is not a file
 	 */
-	public function exists(): bool
+	public function exists( bool $strict = FALSE ): bool
 	{
-		return $this->check( FALSE, FALSE, FALSE, FALSE );
+		return $this->file->exists( $strict );
 	}
 
 	/**
@@ -90,56 +122,43 @@ class Reader
 	 */
 	public function getBasename(): string
 	{
-		return basename( $this->fileName );
+		return $this->file->getBasename();
 	}
 
 	/**
 	 *	Returns the file date as timestamp.
 	 *	@access		public
 	 *	@return		int
+	 *	@throws		FileNotExistingException	if check and file is not existing or given path is not a file
 	 */
 	public function getDate(): int
 	{
-		$this->check();
-		return filemtime( $this->fileName );
+		return $this->file->getTime();
 	}
 
 	/**
 	 *	Returns the encoding (character set) of current File.
 	 *	@access		public
 	 *	@return		string
-	 *	@throws		RuntimeException	if Fileinfo is not installed
+	 *	@throws		RuntimeException			if Fileinfo is not installed
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
 	 *	@noinspection	PhpUnused
 	 */
 	public function getEncoding(): string
 	{
-		$this->check( TRUE );
-		if( function_exists( 'finfo_open' ) ){
-			$magicFile	= ini_get( 'mime_magic.magicfile' );
-//			$magicFile	= str_replace( "\\", "/", $magicFile );
-//			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
-			$fileInfo	= finfo_open( FILEINFO_MIME_ENCODING, $magicFile );
-			$mimeType	= finfo_file( $fileInfo, realpath( $this->fileName ) );
-			finfo_close( $fileInfo );
-			return $mimeType;
-		}
-		else if( substr( PHP_OS, 0, 3 ) != "WIN" ){
-			$command	= 'file -b --mime-encoding '.escapeshellarg( $this->fileName );
-			return trim( exec( $command ) );
-		}
-		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
+		return $this->file->getEncoding();
 	}
 
 	/**
 	 *	Returns Extension of current File.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException			if Fileinfo is not installed
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
 	 */
 	public function getExtension(): string
 	{
-		$this->check();
-		$info = pathinfo( $this->fileName );
-		return $info['extension'];
+		return $this->file->getExtension();
 	}
 
 	/**
@@ -149,28 +168,20 @@ class Reader
 	 */
 	public function getFileName(): string
 	{
-		return $this->fileName;
+		return $this->file->getPathName();
 	}
 
 	/**
 	 *	Returns group name or ID of file.
 	 *
 	 *	@access		public
+	 *	@param		boolean		$resolveName	Try to resolve username instead of returning ID
 	 *	@return		string|int
+	 *	@throws		FileNotExistingException	if file is not existing
 	 */
-	public function getGroup( $resolveName = TRUE )
+	public function getGroup( bool $resolveName = TRUE ): int|string
 	{
-		$this->check();
-		$groupId	= filegroup( $this->fileName );
-		if( FALSE === $groupId )
-			throw new RuntimeException( 'Could not get group of file "'.$this->fileName.'"' );
-		if( $resolveName ){
-			/** @noinspection PhpComposerExtensionStubsInspection */
-			$group	= posix_getgrgid( $groupId );
-			if( is_array( $group ) )
-				return $group['name'];
-		}
-		return $groupId;
+		return $this->file->getGroup( $resolveName );
 	}
 
 	/**
@@ -178,87 +189,57 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 *	@throws		RuntimeException	if Fileinfo is not installed
+	 *	@throws		FileNotExistingException	if file is not existing
 	 */
 	public function getMimeType(): string
 	{
-		$this->check( TRUE );
-		if( function_exists( 'finfo_open' ) ){
-			$magicFile	= ini_get( 'mime_magic.magicfile' );
-//			$magicFile	= str_replace( "\\", "/", $magicFile );
-//			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
-			$fileInfo	= finfo_open( FILEINFO_MIME_TYPE, $magicFile );
-			$mimeType	= finfo_file( $fileInfo, realpath( $this->fileName ) );
-			finfo_close( $fileInfo );
-			return $mimeType;
-		}
-		else if( substr( PHP_OS, 0, 3 ) != "WIN" ){
-			$command	= 'file -b --mime-type '.escapeshellarg( $this->fileName );
-			return trim( exec( $command ) );
-		}
-		else if( function_exists( 'mime_content_type' ) && $mimeType = mime_content_type( $this->fileName ) ){
-			return $mimeType;
-		}
-		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
+		return $this->file->getMimeType();
 	}
 
 	/**
 	 *	Returns owner name or ID of file.
 	 *
 	 *	@access		public
+	 *	@param		boolean		$resolveName	Try to resolve username instead of returning ID
 	 *	@return		string|int
+	 *	@throws		FileNotExistingException	if file is not existing
 	 */
-	public function getOwner( $resolveName = TRUE )
+	public function getOwner( bool $resolveName = TRUE ): int|string
 	{
-		$this->check();
-		$userId	= fileowner( $this->fileName );
-		if( FALSE === $userId )
-			throw new RuntimeException( 'Could not get owner of file "'.$this->fileName.'"' );
-		if( $resolveName ){
-			$user = posix_getpwuid( $userId );
-			if( is_array( $user ) )
-				return $user['name'];
-		}
-		return $userId;
+		return $this->file->getOwner( $resolveName );
 	}
 
 	/**
 	 *	Returns canonical Path to the current File.
 	 *	@access		public
-	 *	@return		string
+	 *	@throws		FileNotExistingException	if file is not existing or given path is not a file
 	 */
 	public function getPath(): string
 	{
-		$this->check();
-		$realpath	= realpath( $this->fileName );
-		$path	= dirname( $realpath );
-		$path	= str_replace( "\\", "/", $path );
-		$path	.= "/";
-		return	$path;
+		$this->exists( TRUE );
+		return dirname( realpath( $this->file->getPathName() ) ).'/';
 	}
 
 	/**
 	 *	Returns OS permissions of current file as octal value.
 	 *	@access		public
 	 *	@return		Permissions		File permissions object
+	 *	@throws		FileNotExistingException	if file is not existing or given path is not a file
 	 */
 	public function getPermissions(): Permissions
 	{
-		$this->check();
-		return new Permissions( $this->fileName );
+		return $this->file->getPermissions();
 	}
 
 	/**
 	 *	@access		public
 	 *	@param		integer|NULL	$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		integer|string
+	 *	@throws		FileNotExistingException	if file is not existing or given path is not a file
 	 */
-	public function getSize( int $precision = NULL )
+	public function getSize( int $precision = NULL ): int|string
 	{
-		$this->check();
-		$size	= filesize( $this->fileName );
-		if( $precision )
-			$size	= UnitFormater::formatBytes( $size, $precision );
-		return $size;
+		return $this->file->getSize( $precision );
 	}
 
 	/**
@@ -271,7 +252,7 @@ class Reader
 	 */
 	public function isOwner( ?string $user = NULL ): bool
 	{
-        return $this->check( TRUE, FALSE, TRUE, FALSE );
+		return $this->file->isOwner( $user );
 	}
 
 	/**
@@ -281,107 +262,33 @@ class Reader
 	 */
 	public function isReadable(): bool
 	{
-		return $this->check( TRUE, FALSE, FALSE, FALSE );
+		return $this->file->isReadable();
 	}
 
 	/**
-	 *	Loads a File into a String statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName		Name of File to load
-	 *	@return		string
-	 */
-	public static function load( string $fileName ): string
-	{
-		$reader	= new Reader( $fileName );
-		return $reader->readString();
-	}
-
-	/**
-	 *	Loads a File into an Array statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName		Name of File to load
-	 *	@return		array
-	 */
-	public static function loadArray( string $fileName ): array
-	{
-		$reader	= new Reader( $fileName );
-		return $reader->readArray();
-	}
-
-	/**
-	 *	Reads file and returns it as array.
+	 *	Reads set file and returns it as array.
 	 *	@access		public
 	 *	@return		array
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@throws		IoException					if strict and file is not readable
 	 */
  	public function readArray(): array
 	{
 		$content	= $this->readString();
-		return preg_split( '/\r?\n/', $content );
+		if( NULL === $content )
+			return [];
+		return preg_split( '/\r*\n/', $content );
 	}
 
 	/**
-	 *	Reads file and returns it as string.
+	 *	Reads set file and returns it as string.
 	 *	@access		public
-	 *	@return		string
-	 *	@throws		RuntimeException			if File is not existing
-	 *	@throws		RuntimeException			if File is not readable
+	 *	@return		string|NULL
+	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@throws		IoException					if strict and file is not readable
 	 */
- 	public function readString(): string
+ 	public function readString(): ?string
 	{
-		$this->check( TRUE );
-		return file_get_contents( $this->fileName );
-	}
-
-	/**
-	 *	Checks if set filename is: existing, readable, writable
-	 *	@access		protected
-	 *	@oaram		boolean		$isReadable
-	 *	@param		boolean		$isWritable
-	 *	@return		bool
-	 *	@throws		RuntimeException			if File is not existing
-	 *	@throws		RuntimeException			if File is not readable
-	 */
-	protected function check( bool $isReadable = FALSE, bool $isWritable = FALSE, bool $isOwner = FALSE, bool $strict = TRUE ): bool
-	{
-		$exists	= file_exists( $this->fileName );
-		$isFile	= is_file( $this->fileName );
-		if( !$exists || !$isFile ){
-			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-			return FALSE;
-		}
-		if( $isReadable && !is_readable( $this->fileName ) ){
-			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not readable' );
-			return FALSE;
-		}
-		if( $isWritable && !is_writable( $this->fileName ) ){
-			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
-			return FALSE;
-		}
-		if( $isOwner && !$this->checkIsOwner() ){
-			if( $strict )
-				throw new RuntimeException( 'File "'.$this->fileName.'" is not owned' );
-			return FALSE;
-		}
-		return TRUE;
-	}
-
-	protected function checkIsOwner( ?string $user = NULL ): bool
-	{
-		$user	??= get_current_user();
-		if( !function_exists( 'posix_getpwuid' ) )
-			return TRUE;
-		$uid	= fileowner( $this->fileName );
-		if( !$uid )
-			return TRUE;
-		$owner	= posix_getpwuid( $uid );
-		if( !$owner )
-			return TRUE;
-		//		print_m( $owner );
-		return $user == $owner['name'];
+		return $this->file->getContent();
 	}
 }

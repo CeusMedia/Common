@@ -1,9 +1,14 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 require_once __DIR__.'/../../vendor/autoload.php';
-new UI_DevOutput;
+
+use CeusMedia\Common\UI\DevOutput;
+use CeusMedia\Common\CLI\Color;
+
+new DevOutput;
 
 $text	= 'This is a test';
-$color	= new CLI_Color();
+$color	= new Color();
 
 
 print( PHP_EOL );

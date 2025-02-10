@@ -3,7 +3,7 @@
 /**
  *	Queue Implementation based on an Array. FIFO - first in first out.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,14 +36,14 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Queue implements Countable
 {
 	/**	@var		array		$queue			Array of all elements in queue */
- 	protected $queue			= [];
+ 	protected array $queue		= [];
 
 	/**
 	 *	Constructor.
@@ -72,7 +72,7 @@ class Queue implements Countable
 	 *	@return		mixed
 	 *	@throws		RuntimeException	if queue is empty
 	 */
-	public function bottom()
+	public function bottom(): mixed
 	{
 		if( !count( $this->queue ) )
 			throw new RuntimeException( 'Queue is empty.' );
@@ -95,7 +95,7 @@ class Queue implements Countable
 	 *	@param		mixed		$item		Item to find in the Queue
 	 *	@return		bool
 	 */
-	public function has( $item ): bool
+	public function has( mixed $item ): bool
 	{
 		return in_array( $item, $this->queue, TRUE );
 	}
@@ -116,7 +116,7 @@ class Queue implements Countable
 	 *	@return		mixed
 	 *	@throws		RuntimeException	if queue is empty
 	 */
-	public function pop()
+	public function pop(): mixed
 	{
 		if( !count( $this->queue ) )
 			throw new RuntimeException( 'Queue is empty.' );
@@ -129,7 +129,7 @@ class Queue implements Countable
 	 *	@param		mixed		$item		Item to add to the Queue
 	 *	@return		self
 	 */
-	public function push( $item ): self
+	public function push( mixed $item ): self
 	{
 		$this->queue[] = $item;
 		return $this;
@@ -150,7 +150,7 @@ class Queue implements Countable
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function top()
+	public function top(): mixed
 	{
 		return $this->pop();
 	}

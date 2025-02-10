@@ -3,7 +3,7 @@
 /**
  *	Writer for RSS 2.0 Feeds.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,8 +36,8 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Writer
@@ -109,10 +109,10 @@ class Writer
 	 *	@param		array		$channelData	Array of Channel Information Pairs
 	 *	@param		array		$itemList		List of Item
 	 *	@param		string		$encoding		Encoding Type
-	 *	@return		int
+	 *	@return		int|FALSE
 	 *	@throws		Exception
 	 */
-	public static function save( string $fileName, array $channelData, array $itemList, string $encoding = "utf-8" ): int
+	public static function save( string $fileName, array $channelData, array $itemList, string $encoding = "utf-8" ): int|FALSE
 	{
 		$builder	= new Builder();
 		$builder->setChannelData( $channelData );
@@ -126,10 +126,10 @@ class Writer
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		int
+	 *	@return		int|FALSE
 	 *	@throws		Exception
 	 */
-	public function write( string $fileName, string $encoding = "utf-8" ): int
+	public function write( string $fileName, string $encoding = "utf-8" ): int|FALSE
 	{
 		return self::save( $fileName, $this->channelData, $this->itemList, $encoding );
 	}

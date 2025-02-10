@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	String Class wrapping most of the PHP functions in a usable way.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,8 +38,8 @@ use OutOfBoundsException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class String_
@@ -110,8 +111,8 @@ class String_
 	 *	@param		string		$string			String to compare to
 	 *	@param		bool		$caseSense		Flag: be case-sensitive
 	 *	@return		int			Indicator for which string is less, 0 if equal
-	 *	@see		http://www.php.net/manual/en/function.strcmp.php
-	 *	@see		http://www.php.net/manual/en/function.strcasecmp.php
+	 *	@see		https://www.php.net/manual/en/function.strcmp.php
+	 *	@see		https://www.php.net/manual/en/function.strcasecmp.php
 	 */
 	public function compareTo( string $string, bool $caseSense = TRUE ): int
 	{
@@ -128,10 +129,8 @@ class String_
 	 *	@param		int				$limit			Number of characters after offset
 	 *	@return		int				Number of occurrences of string with borders
 	 */
-	public function countSubstring( $string, int $offset = 0, int $limit = 0 ): int
+	public function countSubstring( String_|string $string, int $offset = 0, int $limit = 0 ): int
 	{
-		if( !is_string( $string ) && !( $string instanceof String_ ) )
-			throw new InvalidArgumentException( 'No string given' );
 		if( !is_int( $offset ) )
 			throw new InvalidArgumentException( 'Offset must be integer' );
 		if( abs( $offset ) > $this->getLength() )
@@ -161,17 +160,15 @@ class String_
 	 *	If left and right is set,
 	 *	@access		public
 	 *	@param		int				$length			Length of resulting string
-	 *	@param		string|String_	$string			String to extend with
+	 *	@param		String_|string	$string			String to extend with
 	 *	@param		bool			$left			Extend left side
 	 *	@param		bool			$right			Extend right side
 	 *	@return		int
 	 */
-	public function extend( int $length, $string = " ", bool $left = FALSE, bool $right = TRUE ): int
+	public function extend( int $length, String_|string $string = " ", bool $left = FALSE, bool $right = TRUE ): int
 	{
 		if( $length < $this->getLength() )
 			throw new InvalidArgumentException( 'Length cannot be lower than string length' );
-		if( !is_string( $string ) && !( $string instanceof String_ ) )
-			throw new InvalidArgumentException( 'Padding string must be of string' );
 		if( 0 === strlen( trim( (string) $string ) ) )
 			throw new InvalidArgumentException( 'Padding string cannot be empty' );
 
@@ -204,7 +201,7 @@ class String_
 	 *	@param		int			$start			Number of character to start at
 	 *	@param		int			$length			Number of characters from start
 	 *	@return		string		Substring
-	 *	@see		http://www.php.net/manual/en/function.substr.php
+	 *	@see		https://www.php.net/manual/en/function.substr.php
 	 */
 	public function getSubstring( int $start = 0, int $length = 0 ): string
 	{
@@ -341,10 +338,10 @@ class String_
 	 *	@access		public
 	 *	@param		int|string		$delimiter		Delimiter String or number of characters
 	 *	@return		ArrayObject
-	 *	@see		http://www.php.net/manual/en/function.explode.php
-	 *	@see		http://www.php.net/manual/en/function.str-split.php
+	 *	@see		https://www.php.net/manual/en/function.explode.php
+	 *	@see		https://www.php.net/manual/en/function.str-split.php
 	 */
-	public function split( $delimiter ): ArrayObject
+	public function split( int|string $delimiter ): ArrayObject
 	{
 		$list	= [$this->string];
 		if( is_int( $delimiter ) )
@@ -375,8 +372,8 @@ class String_
 	 *	Changes all upper case characters to lower case.
 	 *	@param		bool		$firstOnly		Only change first letter (=lcfirst)
 	 *	@return		bool		At least 1 character has been changed
-	 *	@see		http://www.php.net/manual/en/function.strtolower.php
-	 *	@see		http://www.php.net/manual/en/function.lcfirst.php
+	 *	@see		https://www.php.net/manual/en/function.strtolower.php
+	 *	@see		https://www.php.net/manual/en/function.lcfirst.php
 	 */
 	public function toLowerCase( bool $firstOnly = FALSE ): bool
 	{
@@ -395,8 +392,8 @@ class String_
 	 *	Changes all lower case characters to upper case.
 	 *	@param		bool		$firstOnly		Only change first letter (=ucfirst)
 	 *	@return		bool		At least 1 character has been changed
-	 *	@see		http://www.php.net/manual/en/function.strtoupper.php
-	 *	@see		http://www.php.net/manual/en/function.ucfirst.php
+	 *	@see		https://www.php.net/manual/en/function.strtoupper.php
+	 *	@see		https://www.php.net/manual/en/function.ucfirst.php
 	 */
 	public function toUpperCase( bool $firstOnly = FALSE ): bool
 	{

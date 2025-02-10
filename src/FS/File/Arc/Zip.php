@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Base ZIP File implementation.
  *
- *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,18 +17,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\File\Arc;
 
+use CeusMedia\Common\Exception\MissingExtension as MissingExtensionException;
 use RuntimeException;
 use ZipArchive;
 
@@ -37,8 +39,8 @@ use ZipArchive;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			ATTENTION!!! This is a hydrid of existing gzip class and ZIP injection.
  *	@todo			TEST!!!
@@ -46,7 +48,7 @@ use ZipArchive;
  */
 class Zip
 {
-	static public $errors	= [
+	public static array $errors	= [
 		0	=> 'No error',
 		1	=> 'Multi-disk zip archives not supported',
 		2	=> 'Renaming temporary file failed',
@@ -73,9 +75,9 @@ class Zip
 		23	=> 'Entry has been deleted',
 	];
 
-	protected $fileName;
+	protected ZipArchive $archive;
 
-	protected $archive;
+	protected string $fileName;
 
 	public function __construct( string $fileName )
 	{
@@ -90,17 +92,26 @@ class Zip
 		return $this->archive->addFile( $fileName, $localFileName );
 	}
 
-	protected function checkFileOpened()
+	protected function checkFileOpened( bool $throwException = TRUE ): bool
 	{
-		if( !$this->fileName )
-			throw new RuntimeException( 'No archive file opened' );
+		if( !$this->fileName ){
+			if( $throwException )
+				throw new RuntimeException( 'No archive file opened' );
+			return FALSE;
+		}
+		return TRUE;
 	}
 
+	/**
+	 *	@param		bool		$throwException
+	 *	@return		bool
+	 *	@throws		MissingExtensionException
+	 */
 	protected function checkSupport( bool $throwException = TRUE ): bool
 	{
 		$hasZipSupport	= self::hasSupport();
 		if( $throwException && !$hasZipSupport )
-			throw new RuntimeException( 'PHP extension for ZIP support is not loaded' );
+			throw new MissingExtensionException( 'PHP extension for ZIP support is not loaded' );
 		return $hasZipSupport;
 	}
 
@@ -124,10 +135,11 @@ class Zip
 		return $instance->archive->close();
 	}
 
-	public function setFileName( string $fileName )
+	public function setFileName( string $fileName ): self
 	{
 		$this->fileName	= $fileName;
 		$this->archive->open( $fileName, ZipArchive::CREATE );
+		return $this;
 	}
 
 	public function index(): array

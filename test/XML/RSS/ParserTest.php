@@ -44,6 +44,6 @@ class ParserTest extends BaseCase
 		$creation	= Parser::parse( $xml );
 
 #		file_put_contents( $this->serial, serialize( $creation ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

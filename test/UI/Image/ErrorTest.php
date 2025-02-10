@@ -46,8 +46,8 @@ class ErrorTest extends BaseCase
 		file_put_contents( $this->path."targetError.png", ob_get_clean() );
 
 		$image	= imagecreatefrompng( $this->path."targetError.png" );
-		$this->assertEquals( 200, imagesx( $image ) );
-		$this->assertEquals( 20, imagesy( $image ) );
+		self::assertEquals( 200, imagesx( $image ) );
+		self::assertEquals( 20, imagesy( $image ) );
 
 		@unlink( $this->path."targetError.png" );
 	}

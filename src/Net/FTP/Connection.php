@@ -4,7 +4,7 @@
 /**
  *	Basic FTP Connection.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,18 +17,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net\FTP;
 
+use FTP\Connection as FtpConnection;
 use RuntimeException;
 
 /**
@@ -36,8 +37,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement SSL Support
  */
@@ -49,8 +50,8 @@ class Connection
 	/**	@var		boolean			$auth			Indicator of Authentication */
 	protected bool $auth			= FALSE;
 
-	/**	@var		resource|NULL	$resource		Resource ID of Connection (Stream in PHP5) */
-	protected $resource				= NULL;
+	/**	@var		FtpConnection|NULL	$resource		Resource ID of Connection (Stream in PHP5) */
+	protected ?FtpConnection $resource				= NULL;
 
 	/**	@var		string			$host			Host Name */
 	protected string $host			= '';
@@ -180,9 +181,9 @@ class Connection
 	/**
 	 *	Returns FTP Connection Resource.
 	 *	@access		public
-	 *	@return		resource
+	 *	@return		FtpConnection
 	 */
-	public function getResource()
+	public function getResource(): FtpConnection
 	{
 		return $this->resource;
 	}
@@ -217,7 +218,7 @@ class Connection
 	 *	Sets passive mode.
 	 *	@param		boolean		$boolean		Enable or disable passive mode
 	 *	@return		boolean
-	 *	@see		http://www.php.net/manual/en/function.ftp-pasv.php
+	 *	@see		https://www.php.net/manual/en/function.ftp-pasv.php
 	 */
 	public function setPassiveMode( bool $boolean ): bool
 	{

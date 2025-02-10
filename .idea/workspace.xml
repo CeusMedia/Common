@@ -1,0 +1,783 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="Update ADTs to use less mixed type." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="DONT_SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution>
+      <executable path="composer" />
+    </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/composer.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Net/HTTP/Reader.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/tool/config/phpstan.neon" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/tool/config/rector.php" root0="FORCE_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$APPLICATION_HOME_DIR$/plugins/php-impl/lib/php.jar!/stubs/Core/Core_c.php" root0="FORCE_HIGHLIGHTING" root1="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpServers">
+    <servers>
+      <server host="flug.local" id="5339d3fa-e92d-441c-b94e-f5fba3a7b873" name="flug.local" port="443" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$/vendor/rector/rector/vendor/symfony/contracts/HttpClient/Test/Fixtures/web" remote-root="/vagrant/repositories/zf2/public" />
+        </path_mappings>
+      </server>
+      <server host="localhost" id="ef841767-1329-43a2-979f-6ce7a789d39f" name="localhost" port="1080" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$/doc/packages" remote-root="/var/www/lib/GitLab/CeusMedia/Internal/Site/vendor/ceus-media/hydrogen-modules/src/App/Site" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="PHP 8.1">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/vendor/league/commonmark" />
+      <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/vendor/michelf/php-markdown" />
+      <path value="$PROJECT_DIR$/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/doc-creator" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/vendor/psr/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/vendor/rector/rector" />
+      <path value="$PROJECT_DIR$/vendor/league/config" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan-strict-rules" />
+      <path value="$PROJECT_DIR$/vendor/dflydev/dot-access-data" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/vendor/symfony/deprecation-contracts" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/vendor/nette/utils" />
+      <path value="$PROJECT_DIR$/vendor/nette/schema" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/php-parallel-lint/php-parallel-lint" />
+      <path value="$PROJECT_DIR$/vendor/ceus-media/template-engine" />
+      <path value="$PROJECT_DIR$" />
+    </include_path>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="29UiaPkTicMpylMPaS9Wf3tbCl3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Composer Script.dev:a.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:all.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:create-docs.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:phpstan.executor&quot;: &quot;Run&quot;,
+    &quot;Composer Script.dev:phpunit.executor&quot;: &quot;Run&quot;,
+    &quot;Project.color&quot;: &quot;3f0804&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;1.0.x&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kriss/Web/lib/GitHub/CeusMedia/Common/src/Exception&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.php.quality.tools.phpstan&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;/home/christian/Web/lib/GitHub/CeusMedia/Common/test/FS/File/Configuration/test.json&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Exception" />
+      <recent name="$PROJECT_DIR$/tool/config" />
+      <recent name="$PROJECT_DIR$/src/Exception/Traits" />
+      <recent name="$PROJECT_DIR$/test/XML" />
+      <recent name="$PROJECT_DIR$/test/Alg/Obj" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/Exception/Traits" />
+      <recent name="$PROJECT_DIR$/test/UI/assets" />
+      <recent name="$PROJECT_DIR$/test/UI/HTML/assets" />
+      <recent name="$PROJECT_DIR$/test/XML/RSS/assets" />
+      <recent name="$PROJECT_DIR$/test/XML/assets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Composer Script.dev:phpstan">
+    <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:a" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:a" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:a" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:all" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:all" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:all" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:phpstan" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpstan" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="commandLineParameters" value="" />
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpunit" />
+      <method v="2" />
+    </configuration>
+    <configuration name="dev:phpunit" type="ComposerRunConfigurationType" factoryName="Composer Script" temporary="true">
+      <option name="commandLineParameters" value="" />
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <option name="script" value="dev:phpunit" />
+      <method v="2" />
+    </configuration>
+    <configuration name="OutputTest.testNewLine1" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\CLI\OutputTest" file="$PROJECT_DIR$/test/CLI/OutputTest.php" method="testNewLine1" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="OutputTest.testNewLine1" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="CeusMedia\CommonTest\CLI\OutputTest" file="$PROJECT_DIR$/test/CLI/OutputTest.php" method="testNewLine1" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner configuration_file="$PROJECT_DIR$/tool/config/phpunit9.xml" scope="XML" use_alternative_configuration_file="true" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Composer Script.dev:a" />
+      <item itemvalue="Composer Script.dev:all" />
+      <item itemvalue="Composer Script.dev:phpstan" />
+      <item itemvalue="Composer Script.dev:phpunit" />
+      <item itemvalue="PHPUnit.phpunit.xml" />
+      <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Composer Script.dev:phpunit" />
+        <item itemvalue="Composer Script.dev:phpstan" />
+        <item itemvalue="Composer Script.dev:all" />
+        <item itemvalue="PHPUnit.OutputTest.testNewLine1" />
+        <item itemvalue="Composer Script.dev:a" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-php-predefined-ba97393d7c68-6f8e3395a2b4-com.jetbrains.php.sharedIndexes-PS-233.15026.12" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="35c4cb99-923a-458b-a5d9-ba9df0555758" name="Changes" comment="" />
+      <created>1653174128187</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1653174128187</updated>
+      <workItem from="1653174129750" duration="872000" />
+      <workItem from="1658427192156" duration="47947000" />
+      <workItem from="1658792384611" duration="8521000" />
+      <workItem from="1658920879493" duration="3000" />
+      <workItem from="1659786490873" duration="53091000" />
+      <workItem from="1660428588165" duration="599000" />
+      <workItem from="1660430438269" duration="222000" />
+      <workItem from="1660430668908" duration="190000" />
+      <workItem from="1660430872409" duration="142000" />
+      <workItem from="1660431030135" duration="68000" />
+      <workItem from="1660431107266" duration="160000" />
+      <workItem from="1660431275854" duration="97560000" />
+      <workItem from="1661060781911" duration="32565000" />
+      <workItem from="1661370995487" duration="12438000" />
+      <workItem from="1661384141741" duration="8000" />
+      <workItem from="1661544737647" duration="25820000" />
+      <workItem from="1661886649343" duration="12311000" />
+      <workItem from="1662079774823" duration="12000" />
+      <workItem from="1662079820902" duration="32531000" />
+      <workItem from="1662845320549" duration="46243000" />
+      <workItem from="1665364010277" duration="79000" />
+      <workItem from="1665417837238" duration="6678000" />
+      <workItem from="1665699603644" duration="13283000" />
+      <workItem from="1665805366153" duration="1240000" />
+      <workItem from="1666288994393" duration="149000" />
+      <workItem from="1666745539563" duration="4598000" />
+      <workItem from="1667807782294" duration="75000" />
+      <workItem from="1668254317619" duration="1228000" />
+      <workItem from="1668636894896" duration="72000" />
+      <workItem from="1668739713093" duration="11376000" />
+      <workItem from="1668901341988" duration="35000" />
+      <workItem from="1682210842022" duration="4972000" />
+      <workItem from="1683367307602" duration="1712000" />
+      <workItem from="1683371019598" duration="3419000" />
+      <workItem from="1683388452823" duration="33270000" />
+      <workItem from="1683654425450" duration="6714000" />
+      <workItem from="1683794029207" duration="666000" />
+      <workItem from="1683925853723" duration="14946000" />
+      <workItem from="1685695175388" duration="3617000" />
+      <workItem from="1699156269319" duration="1252000" />
+      <workItem from="1699157552195" duration="11377000" />
+      <workItem from="1700084798009" duration="13818000" />
+      <workItem from="1700238631728" duration="5935000" />
+      <workItem from="1700699222416" duration="16964000" />
+      <workItem from="1701050992011" duration="20004000" />
+      <workItem from="1701482649460" duration="41439000" />
+      <workItem from="1701916416736" duration="9499000" />
+      <workItem from="1702065668609" duration="33000" />
+      <workItem from="1702102398268" duration="62855000" />
+      <workItem from="1703458227265" duration="5437000" />
+      <workItem from="1710353446464" duration="31061000" />
+      <workItem from="1710384543237" duration="1437000" />
+      <workItem from="1710463157775" duration="6320000" />
+      <workItem from="1711593381818" duration="7751000" />
+      <workItem from="1712368616932" duration="728000" />
+      <workItem from="1713230017949" duration="2235000" />
+      <workItem from="1714004563132" duration="4812000" />
+      <workItem from="1714139118203" duration="602000" />
+    </task>
+    <task id="LOCAL-00001" summary="Improve code strictness, according to PHPStan.">
+      <created>1658535322659</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1658535322659</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Improve code strictness, according to PHPStan.">
+      <created>1658621020873</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1658621020873</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Improve code strictness, according to PHPStan.">
+      <created>1658800482779</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1658800482779</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Improve compat file generator tool.">
+      <created>1658800552627</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1658800552627</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add git ignore file.">
+      <created>1658800667492</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1658800667492</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Update git ignore file.">
+      <created>1658801416162</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1658801416162</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Improve code strictness, according to PHPStan.">
+      <created>1660329423980</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1660329423980</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Improve code strictness, according to PHPStan.">
+      <created>1660359491677</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1660359491677</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Improve code strictness, according to PHPStan.">
+      <created>1660967361656</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1660967361656</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Improve code strictness, according to PHPStan.">
+      <created>1661031068251</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1661031068251</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Improve code strictness, according to PHPStan.">
+      <created>1661123876836</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1661123876836</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Upgrade code: array() to []">
+      <created>1661372191431</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1661372191431</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Upgrade code: array() to [] on method parameters">
+      <created>1661372299811</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1661372299811</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Improve code strictness, according to PHPStan.">
+      <created>1661374077178</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1661374077178</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Rector: TernaryToNullCoalescingRector + TernaryToElvisRector">
+      <created>1661374275887</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1661374275887</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Rector: ListToArrayDestructRector">
+      <created>1661375033933</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1661375033933</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Rector: ThisCallOnStaticMethodToStaticCall + RemoveExtraParameters + ExceptionHandlerTypehint">
+      <created>1661375906868</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1661375906868</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Rector: CreateFunctionToAnonymousFunction + RandomFunction + WrapVariableVariableNameInCurlyBraces">
+      <created>1661377418149</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1661377418149</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Rector: SetCookie + StringifyStrNeedles">
+      <created>1661380032389</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1661380032389</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Rector: PublicConstantVisibility">
+      <created>1661381215655</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1661381215655</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Rector: finish round 1 being prepared to work in rules for PHP 7.4">
+      <created>1661382758713</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1661382758713</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Rector: prepare set 5.6">
+      <created>1661383854147</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1661383854147</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Rector: VarToPublicProperty + DirNameFileConstantToDirConstant + LongArrayToShortArray">
+      <created>1661562705387</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1661562705387</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Rector: PowToExp">
+      <created>1661567599330</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1661567599330</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Update composer, make and rector files.">
+      <created>1661570342424</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1661570342424</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Improve code strictness, according to PHPStan.">
+      <created>1662363047788</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1662363047788</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Improve code strictness, according to PHPStan.">
+      <created>1662542841077</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1662542841077</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Improve code strictness, according to PHPStan.">
+      <created>1662850878147</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1662850878147</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Reach PHPStan level 1.">
+      <created>1662850903508</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1662850903508</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Removed some very old UI graph and ADT tree node classes.">
+      <created>1662853837932</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1662853837932</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Adjust unit tests.">
+      <created>1662899846767</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1662899846767</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Adjust unit tests and fix (migration) bugs according to tests.">
+      <created>1662983695580</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1662983695580</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Updated unit tests heavily.">
+      <created>1662996613584</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1662996613584</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Go for PHPStan level 5.">
+      <created>1665713317298</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1665713317298</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Go for PHPStan level 5.">
+      <created>1666289419850</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1666289419850</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Fix bug.">
+      <created>1667807841117</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1667807841117</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Fix bug.">
+      <created>1668636936797</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1668636936797</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Refactored HTTP header section.">
+      <created>1668758773363</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1668758773363</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Reach PHPStan level 5 in PHP 8.1.">
+      <created>1682214562885</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1682214562885</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Work towards PHPStan level 6.">
+      <created>1683457908043</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1683457908043</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Work towards PHPStan level 6.">
+      <created>1683509310991</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1683509310991</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Fix unit tests.">
+      <created>1683682184987</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1683682184987</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Complete PHPStan level 6 on PHP 8.1.">
+      <created>1685700061480</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1685700061480</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Improve tests.">
+      <created>1696509198239</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1696509198239</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Cleanup">
+      <option name="closed" value="true" />
+      <created>1710463899285</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1710463899286</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Cleanup">
+      <option name="closed" value="true" />
+      <created>1710465342099</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1710465342100</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Work towards PHPStan level 7.">
+      <option name="closed" value="true" />
+      <created>1712367539217</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1712367539217</updated>
+    </task>
+    <task id="LOCAL-00071" summary="Update copyright and secure linked URLs.">
+      <option name="closed" value="true" />
+      <created>1713232027761</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1713232027762</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Update ADTs to use less mixed type.">
+      <option name="closed" value="true" />
+      <created>1715646270892</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1715646270893</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
+    <MESSAGE value="Add PHPUnit file for version 10." />
+    <MESSAGE value="Add unit tests." />
+    <MESSAGE value="Update unit tests." />
+    <MESSAGE value="Update tools." />
+    <MESSAGE value="Update code doc blocks for API documentation." />
+    <MESSAGE value="Require DocCreator 1.0.x." />
+    <MESSAGE value="Extends Bitmask by static construction from array of bits." />
+    <MESSAGE value="Improve code quality of clock and level map." />
+    <MESSAGE value="Make collection an iterator aggregate, array iterator, countable, filterable and mappable." />
+    <MESSAGE value="Order compat9." />
+    <MESSAGE value="Generate compat9." />
+    <MESSAGE value="Add new exceptions and update autoloaders." />
+    <MESSAGE value="Improve exception page." />
+    <MESSAGE value="Add class for system environment variables handling." />
+    <MESSAGE value="Add exceptions and move methods from file reader to file." />
+    <MESSAGE value="Work on next PHPStan level." />
+    <MESSAGE value="Add traits for exceptions and finish CLI exception view." />
+    <MESSAGE value="Finish work on exception traits." />
+    <MESSAGE value="Add renderable trait for exceptions, using CLI and HTML exception view render strategies." />
+    <MESSAGE value="Applied changes to exception class constructors." />
+    <MESSAGE value="Add tests." />
+    <MESSAGE value="Cleanup" />
+    <MESSAGE value="Work towards PHPStan level 7." />
+    <MESSAGE value="Update copyright and secure linked URLs." />
+    <MESSAGE value="Update ADTs to use less mixed type." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update ADTs to use less mixed type." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/FS/File/Backup.php</url>
+          <line>100</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/FS/File/Collection/WriterTest.php</url>
+          <line>52</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/ADT/JSON/BuilderTest.php</url>
+          <line>60</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/ADT/JSON/Converter.php</url>
+          <line>71</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/src/ADT/JSON/Converter.php</url>
+          <line>60</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/FS/File/BackupTest.php</url>
+          <line>58</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/FS/File/BackupTest.php</url>
+          <line>54</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/Net/HTTP/Header/SectionTest.php</url>
+          <line>146</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/FS/File/Collection/ReaderTest.php</url>
+          <line>138</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/FS/File/Arc/GzipTest.php</url>
+          <line>53</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>file://$PROJECT_DIR$/test/FS/File/Arc/GzipTest.php</url>
+          <line>52</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <S

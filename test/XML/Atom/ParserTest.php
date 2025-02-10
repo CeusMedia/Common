@@ -56,20 +56,20 @@ class ParserTest extends BaseCase
 		$assertion	= $parser->getProtectedVar( 'emptyText' );
 
 		$creation	= $entry['content'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $entry['summary'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$creation	= $entry['title'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$entry		= $parser->getProtectedVar( 'emptyEntry' );
 		$source		= $entry['source'];
 		unset( $entry['source'] );
 		$assertion	= $source;
 		$creation	= $entry;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -95,7 +95,7 @@ class ParserTest extends BaseCase
 
 		$assertion	= unserialize( file_get_contents( $serial ) );
 		$creation	= $data;
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }
 class ParserInstance extends Parser

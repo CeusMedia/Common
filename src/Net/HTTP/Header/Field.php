@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Data Object for HTTP Headers.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -15,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -35,17 +36,17 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Field
 {
-	/**	@var		string		$name		Name of Header */
+	/**	@var		string				$name		Name of Header */
 	protected string $name;
 
-	/**	@var		string|int	$value		Value of Header */
-	protected $value;
+	/**	@var		string|int|float	$value		Value of Header */
+	protected string|int|float $value;
 
 	/**
 	 *	Constructor.
@@ -54,7 +55,7 @@ class Field
 	 *	@param		string|int|float	$value		Value of Header
 	 *	@return		void
 	 */
-	public function __construct( string $name, $value )
+	public function __construct( string $name, string|int|float $value )
 	{
 		$this->setName( $name );
 		$this->setValue( $value );
@@ -87,16 +88,17 @@ class Field
 	/**
 	 *	Returns set Header Value.
 	 *	@access		public
-	 *	@return		string|int|array	Header Value or Array of qualified Values
+	 *	@param		bool		$qualified
+	 *	@return		string|int|float|array	Header Value or Array of qualified Values
 	 */
-	public function getValue( $qualified = FALSE )
+	public function getValue( bool $qualified = FALSE ): string|int|float|array
 	{
 		if( $qualified && is_string( $this->value ) )
 			return static::decodeQualifiedValues( $this->value);
 		return $this->value;
 	}
 
-	public function setName( string $name ): self
+	public function setName( string $name ): static
 	{
 		if( !trim( $name ) )
 			throw new InvalidArgumentException( 'Field name cannot be empty' );
@@ -106,13 +108,11 @@ class Field
 
 	/**
 	 *	Converts to string, internally.
-	 *	@param		string|int|float	$value
-	 *	@return		self
+	 *	@param		float|int|string		$value
+	 *	@return		static
 	 */
-	public function setValue( $value ): self
+	public function setValue( float|int|string $value ): static
 	{
-		if( !is_scalar( $value ) )
-			throw new InvalidArgumentException( 'Header value must be scalar (string, integer or float)' );
 		$this->value	= (string) $value;
 		return $this;
 	}

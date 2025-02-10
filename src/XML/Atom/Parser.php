@@ -3,7 +3,7 @@
 /**
  *	Parser for Atom Feeds.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,14 +16,14 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,24 +38,24 @@ use Exception;
  *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Parser
 {
 	/**	@var		array		$channelData		Array of collect Data about Atom Feed */
-	public $channelData;
+	public array $channelData;
 
 	/**	@var		array		$emptyChannelData	Template of empty Category Data Structure */
-	protected $emptyCategory	= [
+	protected array $emptyCategory	= [
 		'label'		=> '',
 		'scheme'	=> '',
 		'term'		=> '',
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Channel Data Structure */
-	protected $emptyChannelData	= [
+	protected array $emptyChannelData	= [
 		'author'		=> [],
 		'category'		=> [],
 		'contributor'	=> [],
@@ -73,7 +73,7 @@ class Parser
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Entry Data Structure */
-	protected $emptyEntry		= [
+	protected array $emptyEntry		= [
 		'author'		=> [],
 		'category'		=> [],
 		//  will be set to emptyText by Constructor
@@ -93,14 +93,14 @@ class Parser
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Generator Data Structure */
-	protected $emptyGenerator	= [
+	protected array $emptyGenerator	= [
 		'uri'		=> '',
 		'version'	=> '',
 		'name'		=> '',
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Link Data Structure */
-	protected $emptyLink	= [
+	protected array $emptyLink	= [
 		'href'			=> '',
 		'rel'			=> NULL,
 		'type'			=> NULL,
@@ -110,14 +110,14 @@ class Parser
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Person Data Structure */
-	protected $emptyPerson	= [
+	protected array $emptyPerson	= [
 		'name'	=> '',
 		'uri'	=> '',
 		'email'	=> '',
 	];
 
 	/**	@var		array		$emptyChannelData	Template of empty Text Data Structure */
-	protected $emptyText		= [
+	protected array $emptyText		= [
 		'base'		=> '',
 		'content'	=> '',
 		'lang'		=> '',
@@ -125,9 +125,9 @@ class Parser
 	];
 
 	/**	@var		array		$entries			Array of Entries in Atom Feed */
-	public $entries;
+	public array $entries;
 
-	public $language;
+	public ?string $language	= NULL;
 
 	/**
 	 *	Constructor.

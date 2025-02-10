@@ -4,7 +4,7 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *
- *	Copyright (c) 2006-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2006-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,23 +17,25 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2006-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2006-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\ADT\Collection;
 
+use CeusMedia\Common\Exception\Data\InvalidTypeCast as InvalidTypeCastException;
+
 use ArrayAccess;
 use Countable;
-use InvalidArgumentException;
 use Iterator;
 use OutOfRangeException;
+use ReturnTypeWillChange;
 use UnexpectedValueException;
 
 /**
@@ -41,9 +43,10 @@ use UnexpectedValueException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2006-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2006-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@phpstan-consistent-constructor
  */
 class Dictionary implements ArrayAccess, Countable, Iterator
 {
@@ -55,6 +58,18 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 
 	/**	@var		boolean			$caseSensitive	Flag: be case-sensitive on pair keys */
 	protected bool $caseSensitive	= TRUE;
+
+	/**
+	 *	Create a new instance.
+	 *	@static
+	 *	@access		public
+	 *	@param		array		$array		Map if initial pairs
+	 *	@return		static
+	 */
+	public static function create( array $array ): static
+	{
+		return new static( $array );
+	}
 
 	/**
 	 *	Constructor.
@@ -73,15 +88,15 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		mixed		$value		Value to cast
 	 *	@param		string		$key		Key in Dictionary
-	 *	@return		mixed
-	 *	@throws		InvalidArgumentException	if value is a resource
+	 *	@return		bool|int|float|string|array|object|NULL
+	 *	@throws		InvalidTypeCastException	if value is a resource
 	 *	@throws		OutOfRangeException			if key is not existing
 	 *	@throws		UnexpectedValueException	if cast is not possible (like between string and array and vise versa)
 	 */
-	public function cast( $value, string $key )
+	public function cast( mixed $value, string $key ): bool|int|float|string|array|object|NULL
 	{
 		if( strtolower( gettype( $value ) ) === "resource" )
-			throw new InvalidArgumentException( 'Cannot cast resource' );
+			throw InvalidTypeCastException::create( 'Cannot cast resource' );
 		if( !$this->has( $key ) )
 			throw new OutOfRangeException( 'Invalid key "'.$key.'"' );
 
@@ -108,23 +123,12 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
-	 *	Create a new instance.
-	 *	@static
-	 *	@access		public
-	 *	@param		array		$array		Map if initial pairs
-	 *	@return		self
-	 */
-	static public function create( array $array ): self
-	{
-		return new Dictionary( $array );
-	}
-
-	/**
 	 *	Returns current Value.
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function current()
+	#[ReturnTypeWillChange]
+	public function current(): mixed
 	{
 		if( $this->position >= $this->count() )
 			return NULL;
@@ -145,9 +149,9 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
 	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
-	 *	@return		self						Dictionary object containing filtered pairs
+	 *	@return		Dictionary					Dictionary object containing filtered pairs
 	 */
-	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): self
+	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): Dictionary
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
@@ -158,8 +162,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 			//  get prefix length
 			$length	= strlen( $prefix );
 			//  iterate all pairs
-			foreach( $this->pairs as $key => $value )
-			{
+			foreach( $this->pairs as $key => $value ){
 				//  pair key is shorter than prefix
 				if( strlen( $key ) <= $length )
 					//  skip this pair
@@ -189,7 +192,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( string $key, $default = NULL )
+	public function get( string $key, mixed $default = NULL ): mixed
 	{
 		if( $this->has( $key ) )
 			return $this->pairs[( !$this->caseSensitive ? strtolower( $key ) : $key )];
@@ -203,17 +206,17 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Attention: A given prefix will be cut from pair keys.
 	 *	By default, an array is returned. Alternatively another dictionary can be returned.
 	 *	@access		public
-	 *	@param		string|NULL	$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
-	 *	@param		boolean		$asDictionary	Flag: return list as dictionary object instead of an array
-	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
-	 *	@return		array|self	Map or dictionary object containing all or filtered pairs
+	 *	@param		string|NULL		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean			$asDictionary	Flag: return list as dictionary object instead of an array
+	 *	@param		boolean			$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		self|array		Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE )
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): self|array
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
 		//  a prefix to filter keys has been given
-		if( strlen( trim( $prefix ) ) ){
+		if( NULL !== $prefix && strlen( trim( $prefix ) ) ){
 			$filtered	= $this->filterByKeyPrefix( $prefix );
 			if( $asDictionary )
 				return $filtered;
@@ -243,7 +246,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		mixed		$value		Value to get Key of
 	 *	@return		int|string|NULL			Key of value if found, otherwise NULL
 	 */
-	public function getKeyOf( $value )
+	public function getKeyOf( mixed $value ): int|string|null
 	{
 		$key		= array_search( $value, $this->pairs, TRUE );
 		return $key === FALSE ? NULL : $key;
@@ -275,7 +278,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		int|string|NULL
 	 */
-	public function key()
+	#[ReturnTypeWillChange]
+	public function key(): int|string|null
 	{
 		$keys	= array_keys( $this->pairs );
 		return $this->position < $this->count() ? $keys[$this->position] : NULL;
@@ -286,7 +290,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function next()
+	#[ReturnTypeWillChange]
+	public function next(): void
 	{
 		$this->position++;
 	}
@@ -308,7 +313,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		mixed
 	 */
-	public function offsetGet( $offset )
+	#[ReturnTypeWillChange]
+	public function offsetGet( $offset ): mixed
 	{
 		return $this->get( $offset );
 	}
@@ -320,6 +326,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$value		Value of Key
 	 *	@return		boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetSet( $offset, $value ): bool
     {
 		return $this->set( $offset, $value );
@@ -331,6 +338,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetUnset( $offset ): bool
 	{
 		return $this->remove( $offset );
@@ -367,7 +375,8 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function rewind()
+	#[ReturnTypeWillChange]
+	public function rewind(): void
 	{
 		$this->position	= 0;
 	}
@@ -379,7 +388,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		mixed		$value		Value of Key, NULL will remove pair from list
 	 *	@return		boolean
 	 */
-	public function set( string $key, $value ): bool
+	public function set( string $key, mixed $value ): bool
 	{
 		//  check if pair is already existing
 		if( $this->has( $key ) ){

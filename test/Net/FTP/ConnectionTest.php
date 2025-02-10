@@ -24,16 +24,16 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ConnectionTest extends BaseCase
 {
-	protected $connection;
-	protected $host;
-	protected $port;
-	protected $username;
-	protected $password;
-	protected $local;
-	protected $path;
-	protected $config;
+	protected ?Connection $connection	= NULL;
+	protected ?string $host;
+	protected ?int $port;
+	protected ?string $username;
+	protected ?string $password;
+	protected ?string $local;
+	protected ?string $path;
+	protected array $config;
 
-	protected function login()
+	protected function login(): void
 	{
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
@@ -47,19 +47,28 @@ class ConnectionTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->config	= self::$_config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
+		$this->config	= self::$_config['unitTest-FTP'] ?? [];
+		$this->host		= $this->config['host'] ?? NULL;
+		$this->port		= (int) ( $this->config['port'] ?? 0 );
+		$this->username	= $this->config['user'] ?? NULL;
+		$this->password	= $this->config['pass'] ?? NULL;
+		$this->path		= $this->config['path'] ?? NULL;
+		$this->local	= $this->config['local'] ?? NULL;
+		if( $this->checkFtpConfig() )
+			$this->connection	= new Connection( $this->host, $this->port );
+	}
 
-		if( !$this->local )
+	/**
+	 *	@param		bool	$markSkipped		Flag: Mark test as skipped, default: yes;
+	 *	@return		bool
+	 */
+	protected function checkFtpConfig( bool $markSkipped = TRUE ): bool
+	{
+		if( NULL !== $this->connection )
+			return TRUE;
+		if( $markSkipped )
 			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
-
-		@mkDir( $this->local );
-		$this->connection	= new Connection( $this->host, $this->port );
+		return FALSE;
 	}
 
 	/**
@@ -83,11 +92,11 @@ class ConnectionTest extends BaseCase
 	public function testConstruct()
 	{
 		$connection	= new Connection( $this->host, $this->port );
-		$this->assertIsResource( $connection->getResource() );
+		self::assertIsResource( $connection->getResource() );
 
 		$assertion	= $this->host;
 		$creation	= $connection->getHost();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -98,7 +107,7 @@ class ConnectionTest extends BaseCase
 	public function testDestruct()
 	{
 		$this->connection->__destruct();
-		$this->assertNull( $this->connection->getResource() );
+		self::assertNull( $this->connection->getResource() );
 	}
 
 	/**
@@ -145,7 +154,7 @@ class ConnectionTest extends BaseCase
 	public function testClose()
 	{
 		$creation	= $this->connection->close();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -156,14 +165,14 @@ class ConnectionTest extends BaseCase
 	public function testConnect()
 	{
 		$connection	= new Connection( "127.0.0.1", 21, 2 );
-		$this->assertIsResource( $connection->getResource() );
+		self::assertIsResource( $connection->getResource() );
 
 		$assertion	= 2;
 		$creation	= $connection->getTimeout();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$connection	= new Connection( "not_existing", 1, 1 );
-		$this->assertIsNotResource( $connection->getResource() );
+		self::assertIsNotResource( $connection->getResource() );
 	}
 
 	/**
@@ -173,9 +182,10 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testGetHost()
 	{
+		$this->checkFtpConfig();
 		$assertion	= $this->host;
 		$creation	= $this->connection->getHost();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -185,9 +195,10 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testGetPort()
 	{
+		$this->checkFtpConfig();
 		$assertion	= $this->port;
 		$creation	= $this->connection->getPort();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -197,11 +208,12 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testGetPath()
 	{
+		$this->checkFtpConfig();
 		$this->login();
 
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->connection->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		@rmDir( $this->local."folder" );
 		@mkDir( $this->local."folder" );
@@ -209,7 +221,7 @@ class ConnectionTest extends BaseCase
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->connection->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		@rmDir( $this->local."folder" );
 	}
@@ -221,9 +233,10 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testGetResource()
 	{
-		$this->assertIsResource( $this->connection->getResource() );
+		$this->checkFtpConfig();
+		self::assertIsResource( $this->connection->getResource() );
 		$this->connection->close();
-		$this->assertNull( $this->connection->getResource() );
+		self::assertNull( $this->connection->getResource() );
 	}
 
 	/**
@@ -233,15 +246,16 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testGetTimeout()
 	{
+		$this->checkFtpConfig();
 		$assertion	= 90;
 		$creation	= $this->connection->getTimeout();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->connection->setTimeout( 8 );
 
 		$assertion	= 8;
 		$creation	= $this->connection->getTimeout();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -251,11 +265,13 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testLogin()
 	{
+		if( !$this->checkFtpConfig() )
+			return;
 		$creation	= $this->connection->login( $this->username, $this->password );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->connection->login( "wrong_user", "wrong_pass" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -265,14 +281,15 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testSetTransferMode()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->connection->setTransferMode( FTP_ASCII );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->connection->setTransferMode( FTP_BINARY );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->connection->setTransferMode( -1 );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -282,20 +299,21 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testSetPath()
 	{
+		$this->checkFtpConfig();
 		@rmDir( $this->local."folder" );
 		@mkDir( $this->local."folder" );
 
 		$this->login();
 
 		$creation	= $this->connection->setPath( "not_existing" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->connection->setPath( "folder" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->connection->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		@rmDir( $this->local."folder" );
 	}
@@ -307,14 +325,15 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testSetTimeout()
 	{
+		$this->checkFtpConfig();
 		$creation	= $this->connection->setTimeout( 0 );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		$creation	= $this->connection->setTimeout( 9 );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= 9;
 		$creation	= $this->connection->getTimeout();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

@@ -19,18 +19,18 @@ class AtomTimeTest extends BaseCase
 	{
 		$dateTimeZone	= new DateTimeZone( ini_get('date.timezone') );
 		$actual			= AtomTime::get( $dateTimeZone );
-		$this->assertIsObject( $actual );
+		self::assertIsObject( $actual );
 
 		$now	= new DateTime();
 		$diff	= $now->diff( $actual );
-		$this->assertEquals( 0, $diff->format('%a') );
+		self::assertEquals( 0, $diff->format('%a') );
 	}
 
 	public function testGetTimestamp()
 	{
 		$dateTimeZone	= new DateTimeZone( ini_get('date.timezone') );
 		$actual			= AtomTime::getTimestamp( $dateTimeZone );
-		$this->assertIsInt( $actual );
-		$this->assertLessThan( 60, abs( time() - $actual ) );
+		self::assertIsInt( $actual );
+		self::assertLessThan( 60, abs( time() - $actual ) );
 	}
 }

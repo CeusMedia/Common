@@ -2,18 +2,8 @@ includes:
 #	- ../../vendor/phpstan/phpstan-strict-rules/rules.neon
 	- phpstan-baseline.neon
 
-#reachedLevels:
-#	ADT: 6-
-#	Alg: 4-
-#	CLI: 4-
-#	Exception: 5
-#	FS: 4
-#	Net: 3
-#	UI: 4
-#	XML: 4
-
 parameters:
-	phpVersion: 70400
+	phpVersion: 80100
 	level: 6
 	paths:
 		- ../../src
@@ -21,22 +11,21 @@ parameters:
 		analyse:
 			- ../../src/FS/File/YAML/Spyc.php
 			- ../../src/Net/XMPP/XMPPHP
-			- ../../src/ADT
+#			- ../../src/ADT
 #			- ../../src/Alg
-			- ../../src/CLI
-			- ../../src/Exception
-			- ../../src/FS
-			- ../../src/Net
-			- ../../src/UI
-			- ../../src/UI/HTML
-			- ../../src/UI/Image
-			- ../../src/XML
+#			- ../../src/CLI
+#			- ../../src/Exception
+#			- ../../src/FS
+#			- ../../src/Net
+#			- ../../src/UI
+#			- ../../src/UI/HTML
+#			- ../../src/UI/Image
+#			- ../../src/XML
 		analyseAndScan:
 			- ../../src/compat8.php
 			- ../../src/compat9.php
-			- ../../src/Exception/Abstraction.php
-			- ../../src/Exception/Interface_.php
-	checkMissingIterableValueType: false
-	checkGenericClassInNonGenericObjectType: false
 	reportMaybesInPropertyPhpDocTypes: false
 	treatPhpDocTypesAsCertain: false
+	ignoreErrors:
+		- identifier: missingType.generics
+		- identifier: missingType.iterableValue

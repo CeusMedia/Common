@@ -61,7 +61,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.ini" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.ini", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class ReaderTest extends BaseCase
 			$stringData[$key]	= (string) $value;
 		$assertion	= $stringData;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.json" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.json", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.yaml" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -143,7 +143,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.yaml", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -156,7 +156,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.xml" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -169,7 +169,7 @@ class ReaderTest extends BaseCase
 		$reader		= new Reader( $this->path."test.xml", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

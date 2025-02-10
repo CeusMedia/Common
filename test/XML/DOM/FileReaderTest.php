@@ -14,6 +14,7 @@ declare( strict_types = 1 );
 
 namespace CeusMedia\CommonTest\XML\DOM;
 
+use CeusMedia\Common\Exception\FileNotExisting;
 use CeusMedia\Common\XML\DOM\FileReader;
 use CeusMedia\Common\XML\DOM\Node;
 use CeusMedia\CommonTest\BaseCase;
@@ -80,7 +81,7 @@ class FileReaderTest extends BaseCase
 
 		$assertion	= $tree;
 		$creation	= $reader->read();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -90,7 +91,7 @@ class FileReaderTest extends BaseCase
 	 */
 	public function testRead2()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( FileNotExisting::class );
 		$reader	= new FileReader( "not_existing_file.xml" );
 		$reader->read();
 	}
@@ -134,7 +135,7 @@ class FileReaderTest extends BaseCase
 
 		$assertion	= $tree;
 		$creation	= FileReader::load( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -144,7 +145,7 @@ class FileReaderTest extends BaseCase
 	 */
 	public function testLoad2()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( FileNotExisting::class );
 		FileReader::load( "not_existing_file.xml" );
 	}
 }

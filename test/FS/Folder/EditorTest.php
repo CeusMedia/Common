@@ -62,10 +62,10 @@ class EditorTest extends TestCase
 	public function testCreateFolder()
 	{
 		$creation	= Editor::createFolder( $this->path."created" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= Editor::createFolder( $this->path."created/sub1/sub1sub2" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 	}
 
 	/**
@@ -77,31 +77,31 @@ class EditorTest extends TestCase
 	{
 		$assertion	= 16;
 		$creation	= $this->editor->copy( $this->path."copy" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->folder;
 		$creation	= $this->editor->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$this->removeFolder( $this->path."copy", TRUE );
 		$assertion	= 31;
 		$creation	= $this->editor->copy( $this->path."copy", FALSE, FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->folder;
 		$creation	= $this->editor->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$this->removeFolder( $this->path."copy", TRUE );
 		$assertion	= 16;
 		$creation	= $this->editor->copy( $this->path."copy", FALSE, TRUE, TRUE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->path."copy";
 		$creation	= $this->editor->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -113,11 +113,11 @@ class EditorTest extends TestCase
 	{
 		$assertion	= 31;
 		$creation	= Editor::copyFolder( $this->path."folder", $this->path."copy", FALSE, FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 21;
 		$creation	= Editor::copyFolder( $this->path."folder", $this->path."copy", TRUE, FALSE );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -143,11 +143,11 @@ class EditorTest extends TestCase
 		$editor	= new Editor( $this->path."copy" );
 
 		$creation	= $editor->move( $this->path."moved", FALSE );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= $this->path."moved";
 		$creation	= $editor->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$this->removeFolder( $this->path."moved", TRUE );
@@ -155,18 +155,18 @@ class EditorTest extends TestCase
 		$editor	= new Editor( $this->path."copy" );
 
 		$creation	= $editor->move( $this->path."moved", TRUE );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$assertion	= $this->path."moved";
 		$creation	= $editor->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->removeFolder( $this->path."moved", TRUE );
 		$this->editor->copy( $this->path."copy" );
 		$editor	= new Editor( $this->path."copy" );
 
 		$creation	= $editor->move( $this->path."copy", TRUE );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -179,10 +179,10 @@ class EditorTest extends TestCase
 		$this->editor->createFolder( $this->path."copy" );
 
 		$creation	= Editor::moveFolder( $this->path."copy", $this->path."test" );
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= Editor::moveFolder( $this->path."test", $this->path."test" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -211,24 +211,24 @@ class EditorTest extends TestCase
 		$editor	= new Editor( $this->path."rename" );
 
 		$creation	= $editor->rename( $this->path."renamed" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->path."renamed" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->path."renamed" );
 
 		$assertion	= $this->path."renamed";
 		$creation	= $editor->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$this->removeFolder( $this->path."renamed", TRUE );
 		$this->editor->copy( $this->path."rename" );
 		$editor	= new Editor( $this->path."rename" );
 
 		$creation	= $editor->rename( "renamed" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->path."renamed" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->path."renamed" );
 
 		$assertion	= $this->path."renamed";
 		$creation	= $editor->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -241,11 +241,11 @@ class EditorTest extends TestCase
 		$this->editor->createFolder( $this->path."test1" );
 
 		$creation	= Editor::renameFolder( $this->path."test1", "test2" );
-		$this->assertTrue( $creation );
-		$this->assertFileExists( $this->path."test2" );
+		self::assertTrue( $creation );
+		self::assertFileExists( $this->path."test2" );
 
 		$creation	= Editor::renameFolder( $this->path."folder", $this->path."folder" );
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 
 		rmDir( $this->path."test2" );
 	}
@@ -299,8 +299,8 @@ class EditorTest extends TestCase
 
 		$assertion	= 16;
 		$creation	= $editor->remove( TRUE );
-		$this->assertEquals( $assertion, $creation );
-		$this->assertFileDoesNotExist( $this->path."remove" );
+		self::assertEquals( $assertion, $creation );
+		self::assertFileDoesNotExist( $this->path."remove" );
 	}
 
 	/**
@@ -311,12 +311,12 @@ class EditorTest extends TestCase
 	public function testRemoveFolder()
 	{
 		$this->editor->copyFolder( $this->path."folder", $this->path."remove" );
-		$this->assertTrue( file_exists( $this->path."remove" ) );
+		self::assertTrue( file_exists( $this->path."remove" ) );
 
 		$assertion	= 16;
 		$creation	= Editor::removeFolder( $this->path."remove", TRUE );
-		$this->assertEquals( $assertion, $creation );
-		$this->assertFileDoesNotExist( $this->path."remove" );
+		self::assertEquals( $assertion, $creation );
+		self::assertFileDoesNotExist( $this->path."remove" );
 	}
 
 	/**

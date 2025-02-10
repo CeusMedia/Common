@@ -3,7 +3,7 @@
 /**
  *	Generates URL for Gravatar API.
  *
- *	Copyright (c) 2015-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RPC
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
  */
@@ -41,15 +41,15 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RPC
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2015-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
  */
 class Client
 {
 	/**	@var		string		$url			Base URL of XML-RPC */
-	protected $url;
+	protected string $url;
 
 	/**
 	 *	Constructor.
@@ -123,7 +123,7 @@ class Client
 	 *	@param		mixed		$parameter			...
 	 *	@return		string
 	 */
-	protected static function encodeXmlParameter( $parameter ): string
+	protected static function encodeXmlParameter( mixed $parameter ): string
 	{
 		$data	= [];
 		$type	= gettype( $parameter );
@@ -138,14 +138,11 @@ class Client
 				foreach( $parameter as $value )
 					$data[]	= self::encodeXmlParameter( $value );
 				return '<array><data>'.join( $data ).'</data></array>';
-			case 'int':
 			case 'integer':
 				return '<value><int>'.$parameter.'</int></value>';
-			case 'bool':
 			case 'boolean':
 				return '<value><boolean>'.( (int) $parameter ).'</boolean></value>';
 			case 'double':
-			case 'float':
 				return '<value><double>'.$parameter.'</double></value>';
 			case 'string':
 				return '<value><string>'.$parameter.'</string></value>';

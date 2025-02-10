@@ -4,7 +4,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,19 +17,20 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
 
 namespace CeusMedia\Common\UI\Image;
 
+use GdImage;
 use InvalidArgumentException;
 
 /**
@@ -37,20 +38,20 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
 class Creator
 {
-	protected $height		= -1;
-	protected $resource		= NULL;
-	protected $type			= NULL;
-	protected $width		= -1;
-    protected $extension;
+	protected int $height				= -1;
+	protected GdImage|null $resource	= NULL;
+	protected ?int $type				= NULL;
+	protected int $width				= -1;
+    protected ?string $extension		= NULL;
 
-	public function create( int $width, int $height, int $backgroundRed = 255, int $backgroundGreen = 255, int $backgroundBlue = 255, int $alpha = 0 )
+	public function create( int $width, int $height, int $backgroundRed = 255, int $backgroundGreen = 255, int $backgroundBlue = 255, int $alpha = 0 ): void
 	{
 		$this->resource	= imagecreatetruecolor( $width, $height );
 		$this->width	= $width;
@@ -69,7 +70,7 @@ class Creator
 		return $this->height;
 	}
 
-	public function getResource()
+	public function getResource(): ?GdImage
 	{
 		return $this->resource;
 	}
@@ -84,7 +85,7 @@ class Creator
 		return $this->width;
 	}
 
-	public function loadImage( string $fileName )
+	public function loadImage( string $fileName ): void
 	{
 		if( !file_exists( $fileName ) )
 			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );

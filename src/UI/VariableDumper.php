@@ -3,7 +3,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -36,8 +36,8 @@ define( 'SERVICE_TEST_VAR_DUMP', 1 );
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
@@ -46,8 +46,8 @@ class VariableDumper
 	const MODE_PRINT	= 0;
 	const MODE_DUMP		= 1;
 
-	public static $modePrintIndentSign	= ". ";
-	public static $modePrintIndentSize	= 2;
+	public static string $modePrintIndentSign	= ". ";
+	public static int $modePrintIndentSize		= 2;
 
 	/**
 	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode and installed XDebug Extension
@@ -65,7 +65,7 @@ class VariableDumper
 	 *	@param		integer		$modeIfNotXDebug	Mode to use if xdebug is not installed
 	 *	@return		string
 	 */
-	public static function dump( $variable, int $mode = self::MODE_DUMP, int $modeIfNotXDebug = self::MODE_PRINT ): string
+	public static function dump( mixed $variable, int $mode = self::MODE_DUMP, int $modeIfNotXDebug = self::MODE_PRINT ): string
 	{
 		//  open Buffer
 		ob_start();

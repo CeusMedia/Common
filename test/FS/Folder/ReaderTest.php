@@ -51,7 +51,7 @@ class ReaderTest extends TestCase
 		$reader	= new Reader( "test123" );
 		$assertion	= "test123";
 		$creation	= $reader->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -62,10 +62,10 @@ class ReaderTest extends TestCase
 	public function testExists()
 	{
 		$creation	= $this->reader1->exists();
-		$this->assertTrue( $creation );
+		self::assertTrue( $creation );
 
 		$creation	= $this->reader2->exists();
-		$this->assertFalse( $creation );
+		self::assertFalse( $creation );
 	}
 
 	/**
@@ -77,11 +77,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 4;
 		$creation	= $this->reader1->getCount();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 2;
 		$creation	= $this->reader1->getCount( "@sub@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -104,15 +104,15 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 2;
 		$creation	= $this->reader1->getFileCount();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 2;
 		$creation	= $this->reader1->getFileCount( "@file@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 0;
 		$creation	= $this->reader1->getFileCount( "@2_1@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -141,7 +141,7 @@ class ReaderTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -170,14 +170,14 @@ class ReaderTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= $this->reader1->getFileListByExtensions( array( 'php' ) );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -200,11 +200,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 2;
 		$creation	= $this->reader1->getFolderCount();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
 		$creation	= $this->reader1->getFolderCount( "@sub1@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -230,7 +230,7 @@ class ReaderTest extends TestCase
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -253,11 +253,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= $this->path."folder";
 		$creation	= $this->reader1->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->path."not_existing";
 		$creation	= $this->reader2->getFolderName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -273,7 +273,7 @@ class ReaderTest extends TestCase
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -281,7 +281,7 @@ class ReaderTest extends TestCase
 		);
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= $this->reader1->getList( "@xyz@" );
 		$list	= $this->getListFromIndex( $index );
@@ -289,12 +289,12 @@ class ReaderTest extends TestCase
 		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= [];
 		$creation	= $list['files'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -317,11 +317,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= "folder";
 		$creation	= $this->reader1->getName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= "not_existing";
 		$creation	= $this->reader2->getName();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -333,11 +333,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= $this->path;
 		$creation	= $this->reader1->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $this->path;
 		$creation	= $this->reader2->getPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -349,7 +349,7 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= dirname( realpath( __FILE__ ) )."/";
 		$creation	= $this->reader1->getRealPath();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -372,11 +372,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 15;
 		$creation	= $this->reader1->getNestedCount();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 5;
 		$creation	= $this->reader1->getNestedCount( "@sub@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -399,11 +399,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 10;
 		$creation	= $this->reader1->getNestedFileCount();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
 		$creation	= $this->reader1->getNestedFileCount( "@2_1@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -441,13 +441,13 @@ class ReaderTest extends TestCase
 		$creation	= $list['files'];
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= $this->reader1->getNestedFileList( "@not_existing@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= [];
 		$creation	= $list['files'];
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -470,11 +470,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 5;
 		$creation	= $this->reader1->getNestedFolderCount();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 4;
 		$creation	= $this->reader1->getNestedFolderCount( "@sub1@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -506,14 +506,14 @@ class ReaderTest extends TestCase
 		);
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$index	= $this->reader1->getNestedFolderList( "@not_existing@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= [];
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -545,7 +545,7 @@ class ReaderTest extends TestCase
 		);
 		$creation	= $list['folders'];
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= array(
 			'file1.txt',
@@ -562,7 +562,7 @@ class ReaderTest extends TestCase
 		$creation	= $list['files'];
 		sort( $assertion );
 		sort( $creation );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -585,11 +585,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 40;
 		$creation	= $this->reader1->getNestedSize();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 0;
 		$creation	= $this->reader1->getNestedSize( "@not_existing@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -612,11 +612,11 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= 8;
 		$creation	= $this->reader1->getSize();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 0;
 		$creation	= $this->reader1->getSize( "@not_existing@" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -639,10 +639,10 @@ class ReaderTest extends TestCase
 	{
 		$assertion	= true;
 		$creation	= Reader::isFolder( $this->path."folder" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= false;
 		$creation	= Reader::isFolder( $this->path."not_existing" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

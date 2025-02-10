@@ -4,7 +4,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,19 +17,20 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@see			http://www.w3.org/Addressing/URL/url-spec.html
+ *	@see			https://www.w3.org/Addressing/URL/url-spec.html
  */
 
 namespace CeusMedia\Common\ADT;
 
+use CeusMedia\Common\ADT\URL\Parts;
 use InvalidArgumentException;
 use RangeException;
 use RuntimeException;
@@ -39,10 +40,10 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@see			http://www.w3.org/Addressing/URL/url-spec.html
+ *	@see			https://www.w3.org/Addressing/URL/url-spec.html
  *	@todo			code doc
  */
 class URL
@@ -50,8 +51,8 @@ class URL
 	/**	@var	URL|NULL			$defaultUrl */
 	protected ?self $defaultUrl		= NULL;
 
-	/**	@var	object				$parts */
-	protected object $parts;
+	/**	@var	Parts				$parts */
+	protected Parts $parts;
 
 	/**
 	 *	Constructor.
@@ -60,7 +61,7 @@ class URL
 	 *	@param		string				$url		URL string to represent
 	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
-	public function __construct( string $url, $defaultUrl = NULL )
+	public function __construct( string $url, URL|string|NULL $defaultUrl = NULL )
 	{
 		if( !is_null( $defaultUrl ) ){
 			if( is_string( $defaultUrl ) )
@@ -82,7 +83,7 @@ class URL
 	 * @param		URL|string|NULL		$defaultUrl
 	 * @return		self
 	 */
-	public static function create( string $url = NULL, $defaultUrl = NULL ): self
+	public static function create( string $url = NULL, URL|string|NULL $defaultUrl = NULL ): self
 	{
 		return new self( $url, $defaultUrl );
 	}
@@ -151,7 +152,7 @@ class URL
 	 *	@param		URL|string		$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string		... (to be implemented)
 	 */
-	public function getAbsoluteTo( $referenceUrl ): string
+	public function getAbsoluteTo( URL|string $referenceUrl ): string
 	{
 		if( is_string( $referenceUrl ) )
 			$referenceUrl	= new URL( $referenceUrl );
@@ -169,7 +170,7 @@ class URL
 	 *	@param		URL|string	$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string
 	 */
-	public function getRelativeTo( $referenceUrl ): string
+	public function getRelativeTo( URL|string $referenceUrl ): string
 	{
 		if( is_string( $referenceUrl ) )
 			$reference	= new self( $referenceUrl );
@@ -186,7 +187,7 @@ class URL
 		$query			= $this->getQuery() ? '?'.$this->getQuery() : '';
 		$fragment		= $this->getFragment() ? '#'.$this->getFragment() : '';
 		$referencePath	= $reference->getPath();
-		if( substr( $this->getPath(), 0, strlen( $referencePath ) ) === $referencePath )
+		if( str_starts_with( $this->getPath(), $referencePath ) )
 			return substr( $this->getPath(), strlen( $referencePath ) ).$query.$fragment;
 
 		$parts			= [];
@@ -266,7 +267,7 @@ class URL
 		$defaults	= [
 			'scheme'		=> $this->defaultUrl ? $this->defaultUrl->getScheme() : '',
 			'host'			=> $this->defaultUrl ? $this->defaultUrl->getHost() : '',
-			'port'			=> $this->defaultUrl ? $this->defaultUrl->getPort() : NULL,
+			'port'			=> $this->defaultUrl?->getPort(),
 			'user'			=> $this->defaultUrl ? $this->defaultUrl->getUsername() : '',
 			'pass'			=> $this->defaultUrl ? $this->defaultUrl->getPassword() : '',
 			'query'			=> '',
@@ -274,10 +275,10 @@ class URL
 		];
 		if( $this->defaultUrl && $this->defaultUrl->parts->path !== '/' ){
 			$regExp			= '@^'.preg_quote( $this->defaultUrl->parts->path ).'@';
-			$parts['path']	= preg_replace( $regExp, '/', $parts['path'] );
+			$parts['path']	= preg_replace( $regExp, '/', $parts['path'] ?? '' );
 		}
-		$this->parts	= (object) array_merge( $defaults, $parts );
-		$this->setPath( '/'.ltrim( $parts['path'] , '/' ) );
+		$this->parts	= Parts::fromArray( array_merge( $defaults, $parts ) );
+		$this->setPath( '/'.ltrim( $parts['path'] ?? '', '/' ) );
 		return $this;
 	}
 
@@ -340,7 +341,7 @@ class URL
 	 *	@param		array|string		$query
 	 *	@return		self
 	 */
-	public function setQuery( $query ): self
+	public function setQuery( array|string $query ): self
 	{
 		if( is_array( $query ) )
 			$query	= http_build_query( $query, '&' );

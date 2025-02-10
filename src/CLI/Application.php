@@ -3,7 +3,7 @@
 /**
  *	Generic Console Application.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,27 +16,28 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\CLI;
+use CeusMedia\Common\Env;
 
 /**
  *	Generic Console Application.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Application
@@ -50,9 +51,9 @@ class Application
 	 *	@param		array		$shortcuts		Array of Shortcuts to be set
 	 *	@return		void
 	 */
-	public function __construct( array $shortcuts = [], bool $fallBackOnEmptyPair = FALSE, bool $handleNoneCLI = TRUE )
+	public function __construct( array $shortcuts = [], bool $fallBackOnEmptyPair = FALSE )
 	{
-		CLI::checkIsCLi( $handleNoneCLI );
+		Env::checkIsCLi();
 		$this->arguments	= new ArgumentParser();
 		foreach( $shortcuts as $key => $value )
 			$this->arguments->addShortCut( $key, $value );
@@ -65,7 +66,7 @@ class Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function main()
+	protected function main(): void
 	{
 		if( join( $this->arguments->get( 'commands' ) ) === 'help' )
 			$this->showUsage();
@@ -79,7 +80,7 @@ class Application
 	 *	@param		string		$message		Error Message to print to Console
 	 *	@return		void
 	 */
-	protected function showError( string $message, bool $abort = TRUE )
+	protected function showError( string $message, bool $abort = TRUE ): void
 	{
 		CLI::error( $message );
 		if( $abort )
@@ -92,7 +93,7 @@ class Application
 	 *	@param		string|NULL		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( ?string $message = NULL )
+	protected function showUsage( ?string $message = NULL ): void
 	{
 		CLI::out();
 		CLI::out( 'Console Application' );
@@ -111,7 +112,7 @@ class Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function showUsageLink()
+	protected function showUsageLink(): void
 	{
 		CLI::out( 'Use command "help" for usage information.' );
 	}

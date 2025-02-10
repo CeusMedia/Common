@@ -1,9 +1,11 @@
 <?php
-namespace CeusMedia\Common\Tool\Compatibility;
+namespace CeusMedia\CommonTool\Compatibility;
+
+use DirectoryIterator;
 
 class Worker
 {
-	protected $rootPath;
+	protected string $rootPath;
 
 	public function __construct( string $rootPath )
 	{
@@ -20,26 +22,27 @@ class Worker
 
 		@unlink( $filePath );
 		$handle	= fopen( $filePath, 'w+' );
-		fputs( $handle, '<?php'.PHP_EOL );
+		fputs( $handle, '<?php'.PHP_EOL.'/** @noinspection PhpMultipleClassDeclarationsInspection */'.PHP_EOL.PHP_EOL );
 		foreach( $list as $item )
 			fputs( $handle, $item );
 		fclose( $handle );
 		return $count;
 	}
 
-	public function generateCompat9()
+	public function generateCompat9(): int
 	{
 		$count		= 0;
-		$filePath	= $this->rootPath.'compat9.php';
+		$filePath	= $this->rootPath.'src/compat9.php';
 
 		$namespaces	= [];
 		$this->generateCompat9Recursive( $namespaces, $count );
 
 		@unlink( $filePath );
 		$handle	= fopen( $filePath, 'w+' );
-		fputs( $handle, '<?php'.PHP_EOL );
+		fputs( $handle, '<?php'.PHP_EOL.'/** @noinspection PhpMultipleClassDeclarationsInspection */'.PHP_EOL.PHP_EOL );
 		ksort( $namespaces );
 		foreach( $namespaces as $namespace => $lines ){
+			asort($lines);
 			if( count( $lines ) === 0 )
 				continue;
 			$lines	= PHP_EOL."\t".join( PHP_EOL."\t", $lines );
@@ -50,17 +53,22 @@ class Worker
 		return $count;
 	}
 
-	public function showMissing8()
+	public function showMissing8(): int
 	{
 		$count = 0;
 		$this->showMissing8Recursive( $count );
 		return $count;
 	}
 
-	protected function generateCompat8Recursive( &$list, &$count, $path = '' )
+	protected function generateCompat8Recursive( &$list, int &$count, string $path = '' ): void
 	{
-		$index		= new \DirectoryIterator( $this->rootPath.'src/'.$path );
-		$template	= '%s %s extends %s{}'.PHP_EOL;
+		$index		= new DirectoryIterator( $this->rootPath.'src/'.$path );
+		$templates	= [
+			LibraryItem::TYPE_CLASS				=> 'class %s extends %s{}',
+			LibraryItem::TYPE_ABSTRACT_CLASS	=> 'abstract class %s extends %s{}',
+			LibraryItem::TYPE_INTERFACE			=> 'interface %s extends %s{}',
+			LibraryItem::TYPE_TRAIT				=> 'trait %s{use %s;}',
+		];
 		foreach( $index as $entry ){
 			if( $entry->isDot() )
 				continue;
@@ -75,15 +83,21 @@ class Worker
 			if( in_array( $item->class9, ['Collection2', 'Compatibility'] ) )
 				continue;
 			$nsClass	= $item->namespace.'\\'.$item->class9;
-			$list[$item->class8]	= sprintf( $template, $item->declaration, $item->class8, $nsClass );
+			$list[$item->class8]	= sprintf( $templates[$item->type], $item->class8, $nsClass ).PHP_EOL;
 			$count++;
 		}
 	}
 
-	protected function generateCompat9Recursive( &$namespaces, &$count, $path = '' )
+	protected function generateCompat9Recursive( &$namespaces, int &$count, string $path = '' ): void
 	{
-		$index		= new \DirectoryIterator( $this->rootPath.'src/'.$path );
-		$template	= '%s %s extends \\%s{}';
+		$index		= new DirectoryIterator( $this->rootPath.'src/'.$path );
+		$templates	= [
+			LibraryItem::TYPE_CLASS				=> 'class %s extends %s{}',
+			LibraryItem::TYPE_ABSTRACT_CLASS	=> 'abstract class %s extends %s{}',
+			LibraryItem::TYPE_INTERFACE			=> 'interface %s extends %s{}',
+			LibraryItem::TYPE_TRAIT				=> 'trait %s{use %s;}',
+		];
+//		$template	= '%s %s extends \\%s{}';
 		foreach( $index as $entry ){
 			if( $entry->isDot() )
 				continue;
@@ -96,16 +110,18 @@ class Worker
 				continue;
 			$item	= LibraryItem::fromFile( $folder.$entry->getFilename() );
 //			var_export( $item );die;
-			if( !isset( $namespaces[$item->namespace] ) )
+			if( !isset( $namespaces[$item->namespace] ) ){
 				$namespaces[$item->namespace] = [];
-			$namespaces[$item->namespace][]	= sprintf( $template, $item->declaration, $item->class9, $item->class8 );
+				arsort($namespaces);
+			}
+			$namespaces[$item->namespace][]	= sprintf( $templates[$item->type], $item->class9, '\\'.$item->class8 );
 			$count++;
 		}
 	}
 
-	protected function showMissing8Recursive( &$count, $path = '' )
+	protected function showMissing8Recursive( int &$count, string $path = '' ): void
 	{
-		$index	= new \DirectoryIterator( $this->rootPath.'src/'.$path );
+		$index	= new DirectoryIterator( $this->rootPath.'src/'.$path );
 		foreach( $index as $entry ){
 			if( $entry->isDot() )
 				continue;

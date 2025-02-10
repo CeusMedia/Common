@@ -43,11 +43,11 @@ class SectionEditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->addSection( 'section3' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= in_array( 'section3', $this->editor->getSections() );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -70,28 +70,28 @@ class SectionEditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->setProperty( 'section1', 'key_new', 'value_new' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= $this->editor->hasProperty( 'section1', 'key_new' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value_new';
 		$creation	= $this->editor->getProperty( 'section1', 'key_new' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 
 		$assertion	= TRUE;
 		$creation	= $this->editor->setProperty( 'section4', 'key41', 'value41' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= array_key_exists( 'key41', $this->editor->getProperties( 'section4' ) );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= 'value41';
 		$creation	= $this->editor->getProperty( 'section4', 'key41' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -103,11 +103,11 @@ class SectionEditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->removeProperty( 'section1', 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->editor->hasProperty( 'section1', 'key1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -141,11 +141,11 @@ class SectionEditorTest extends BaseCase
 	{
 		$assertion	= TRUE;
 		$creation	= $this->editor->removeSection( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
 		$creation	= $this->editor->hasSection( 'section1' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**

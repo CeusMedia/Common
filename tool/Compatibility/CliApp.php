@@ -1,17 +1,17 @@
 <?php
-namespace CeusMedia\Common\Tool\Compatibility;
+namespace CeusMedia\CommonTool\Compatibility;
 
 class CliApp
 {
-	protected $rootPath;
+	protected string $rootPath;
 
-	public function __construct( $arguments )
+	public function __construct( array $arguments )
 	{
-		$this->rootPath	= dirname( __DIR__, 2 ).'/';
+		$this->rootPath	= dirname( __FILE__, 3 ).'/';
 		$this->dispatch( $arguments[1] ?? '' );
 	}
 
-	protected function dispatch( string $action )
+	protected function dispatch( string $action ): void
 	{
 		$compat	= new Worker( $this->rootPath );
 		switch( $action ){
@@ -43,6 +43,6 @@ class CliApp
 					'  compat9-show-missing',
 					'  compat9-generate',
 				] ).PHP_EOL );
-		};
+		}
 	}
 }

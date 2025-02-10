@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
- *	Sniffer for Encoding Methods accepted by a HTTP Request.
+ *	Sniffer for Encoding Methods accepted by an HTTP Request.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -15,18 +16,19 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 use InvalidArgumentException;
 
 /**
@@ -34,8 +36,8 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Encoding
@@ -44,12 +46,14 @@ class Encoding
 	 *	Returns preferred allowed and accepted Encoding Method.
 	 *	@access		public
 	 *	@static
-	 *	@param		array	$allowed		Array of Encoding Methods supported and allowed by the Application
-	 *	@param		string	$default		Default Encoding Methods supported and allowed by the Application
+	 *	@param		array		$allowed		Array of Encoding Methods supported and allowed by the Application
+	 *	@param		string|NULL	$default		Default Encoding Methods supported and allowed by the Application
 	 *	@return		string
 	 */
-	public static function getEncoding( $allowed, $default = NULL )
+	public static function getEncoding( array $allowed, ?string $default = NULL ): string
 	{
+		if( 0 === count( $allowed ) )
+			throw new DataMissingException( 'List of allowed encodings cannot be empty' );
 		if( !$default)
 			$default = $allowed[0];
 		else if( !in_array( $default, $allowed ) )
@@ -59,7 +63,7 @@ class Encoding
 		$accepted	= getEnv( 'HTTP_ACCEPT_ENCODING' );
 		if( !$accepted )
 			return $default;
-		$accepted		= preg_split( '/,\s*/', $accepted );
+		$accepted		= preg_split( '/,\s*/', $accepted ) ?: [];
 		$currentCode	= $default;
 		$currentQuality	= 0;
 		foreach( $accepted as $accept ){

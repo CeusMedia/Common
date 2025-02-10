@@ -43,24 +43,24 @@ final class FactoryTest extends BaseCase
 	}
 
 
-	public function testCreate()
+	public function testCreate(): void
 	{
 		$object	= new ObjectFactoryTestClass( 2 );
 
 		$factory	= new ObjectFactory();
 		$creation	= $factory->create( ObjectFactoryTestClass::class, [-1] );
 
-		$this->assertEquals( -3, $creation->callableMethod( 3 ) );
+		self::assertEquals( -3, $creation->callableMethod( 3 ) );
 	}
 
-/*	public function testCallException1()
+/*	public function testCallException1(): void
 	{
 		$this->expectException( 'RuntimeException' );
 		$factory	= new MethodFactory();
 		$creation	= $factory->call();
 	}
 
-	public function testCallException2()
+	public function testCallException2(): void
 	{
 		$this->expectException( 'RuntimeException' );
 		$factory	= new MethodFactory();
@@ -68,7 +68,7 @@ final class FactoryTest extends BaseCase
 		$creation	= $factory->call();
 	}
 
-	public function testCallException3()
+	public function testCallException3(): void
 	{
 		$this->expectException( 'BadMethodCallException' );
 		$factory	= new MethodFactory();

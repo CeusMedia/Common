@@ -1,21 +1,15 @@
 namespace <%namespace%>
 {
-
-	use CeusMedia\Common\Test\MockException;
-	use CeusMedia\Common\Test\MockBadMethodCallException;
-	use CeusMedia\Common\Test\MockBadVarCallException;
-	use CeusMedia\Common\Test\MockBadStaticMethodCallException;
-	use CeusMedia\Common\Test\MockBadStaticVarCallException;
+	use CeusMedia\CommonTest\MockException;
+	use CeusMedia\CommonTest\MockBadMethodCallException;
+	use CeusMedia\CommonTest\MockBadVarCallException;
+	use CeusMedia\CommonTest\MockBadStaticMethodCallException;
+	use CeusMedia\CommonTest\MockBadStaticVarCallException;
+	use ReflectionObject;
 
 	class <%mockClassName%> extends <%originalClassName%>
 	{
-		public function executeProtectedMethod( $method, $content, $comment = NULL )
-		{
-			if( !method_exists( $this, $method ) )
-				throw new MockBadMethodCallException( 'Method "'.$method.'" is not callable.' );
-			return $this->$method( $content, $comment );
-		}
-
+	    //  PUBLIC STATIC
 		public static function executeProtectedStaticMethod( $method, $content, $comment = NULL )
 		{
 			if( !is_callable( self::$method ) )
@@ -23,32 +17,56 @@ namespace <%namespace%>
 			return self::$method( $content, $comment );
 		}
 
-		public function getProtectedVar( $varName )
+		public static function getProtectedStaticVar( string $varName )
 		{
-			if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared.' );
-			return $this->$varName;
-		}
-
-		public static function getProtectedStaticVar( $varName )
-		{
-			if( !isset( self::$$varName ) )
+			if( isset( self::$$varName ) )
 				throw new MockBadStaticVarCallException( 'Static variable "'.$varName.'" is not declared.' );
 			return self::$$varName;
 		}
 
-		public function setProtectedVar( $varName, $varValue )
-		{
-			if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared.' );
-			$this->$varName	= $varValue;
-		}
-
-		public static function setProtectedStaticVar( $varName, $varValue )
+		public static function setProtectedStaticVar( string $varName, $varValue )
 		{
 			if( !isset( self::$$varName ) )
 				throw new MockBadStaticVarCallException( 'Static variable "'.$varName.'" is not declared.' );
 			self::$$varName	= $varValue;
+		}
+
+	    //  PUBLIC
+		public function executeProtectedMethod( $method, $content, $comment = NULL )
+		{
+			if( !method_exists( $this, $method ) )
+				throw new MockBadMethodCallException( 'Method "'.$method.'" is not callable (in class "'.get_class( $this ).'").' );
+			return $this->$method( $content, $comment );
+		}
+
+		public function getProtectedVar( $varName )
+		{
+			if( !in_array( $varName, self::getObjectProperties( $this ) ) )
+				throw new MockBadVarCallException( 'Variable  "'.$varName.'" is not declared (in class "'.get_class( $this ).'").' );
+			return $this->$varName;
+		}
+
+		public function setProtectedVar( string $varName, $varValue ): self
+		{
+			$reflection	= new ReflectionObject( $this );
+			$properties	= [];
+			foreach( $reflection->getProperties() as $property ){
+				$properties[] = $property->getName();
+			}
+
+			if( !in_array( $varName, self::getObjectProperties( $this ) ) )
+				throw new MockBadVarCallException( 'Variable "'.$varName.'" is not declared (in class "'.get_class( $this ).'").' );
+			$this->$varName	= $varValue;
+			return $this;
+		}
+
+        //  PROTECTED
+		protected function getObjectProperties( object $object ): array
+		{
+			$reflection	= new ReflectionObject( $object );
+			return array_map(static function( $property ){
+			    return $property->getName();
+			}, $reflection->getProperties() );
 		}
 	}
 }

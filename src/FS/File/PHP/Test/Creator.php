@@ -3,7 +3,7 @@
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP_Test
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -38,42 +38,42 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP_Test
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Creator
 {
-	/**	@var		string			$className			Class Name, e.g. Package_Class */
-	protected $className			= '';
+	/**	@var		string					$className			Class Name, e.g. Package_Class */
+	protected string $className				= '';
 
-	/**	@var		string			$classFile			Class Name, eg. de/ceus-media/package/Class.php */
-	protected $classFile			= '';
+	/**	@var		string					$classFile			Class Name, eg. de/ceus-media/package/Class.php */
+	protected string $classFile				= '';
 
-	/**	@var		string			$classPath			Class Path, eg. de.ceus-media.package.Class */
-	protected $classPath			= '';
+	/**	@var		string					$classPath			Class Path, eg. de.ceus-media.package.Class */
+	protected string $classPath				= '';
 
-	/**	@var		string			$fileName			File Name of Class */
-	protected $fileName				= '';
+	/**	@var		string					$fileName			File Name of Class */
+	protected string $fileName				= '';
 
-	/**	@var		array			$pathParts			Split Path Parts in lower Case */
-	protected $pathParts			= [];
+	/**	@var		array					$pathParts			Split Path Parts in lower Case */
+	protected array $pathParts				= [];
 
-	/**	@var		array			$pathParts			Split Path Parts in lower Case */
-	protected $pathTemplates		= [];
+	/**	@var		string					$pathParts			... */
+	protected string $pathTemplates			= '';
 
-	/**	@var		string			$templateClass		File Name of Test Class Template */
-	protected $templateClass		= 'Creator_class.tmpl';
+	/**	@var		string					$templateClass		File Name of Test Class Template */
+	protected string $templateClass			= 'Creator_class.tmpl';
 
-	/**	@var		string			$templateClass		File Name of Exception Test Method Template */
-	protected $templateException	= 'Creator_exception.tmpl';
+	/**	@var		string					$templateClass		File Name of Exception Test Method Template */
+	protected string $templateException		= 'Creator_exception.tmpl';
 
-	/**	@var		string			$templateClass		File Name of Test Method Template */
-	protected $templateMethod		= 'Creator_method.tmpl';
+	/**	@var		string					$templateClass		File Name of Test Method Template */
+	protected string $templateMethod		= 'Creator_method.tmpl';
 
-	protected $data					= [];
+	protected array $data					= [];
 
-	protected $targetFile;
+	protected ?string $targetFile			= NULL;
 
 	/**
 	 *	Constructor.
@@ -115,7 +115,7 @@ class Creator
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function buildTestClass()
+	protected function buildTestClass(): void
 	{
 		$methods	= $this->buildTestMethods();
 
@@ -181,7 +181,7 @@ class Creator
 	 *	@param		bool		$force			Flag: overwrite Test Class File if already existing
 	 *	@return		void
 	 */
-	public function createForFile( string $className, bool $force = FALSE )
+	public function createForFile( string $className, bool $force = FALSE ): void
 	{
 		$this->templateClass		= $this->pathTemplates.$this->templateClass;
 		$this->templateException	= $this->pathTemplates.$this->templateException;
@@ -239,7 +239,7 @@ class Creator
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function dumpClassData()
+	private function dumpClassData(): void
 	{
 		ob_start();
 		print_m( $this->data );
@@ -260,9 +260,9 @@ class Creator
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line ){
 			$matches	= [];
-			if( preg_match( '@throw new (\w+)Exception@', $line, $matches ) )
-				if( isset( $matches[1] ) )
-					$exceptions[]	= $matches[1].'Exception';
+			$match		= preg_match( '@throw new (\w+)Exception@', $line, $matches );
+			if( 0 !== $match )
+				$exceptions[]	= $matches[1].'Exception';
 		}
 		return $exceptions;
 	}
@@ -284,7 +284,7 @@ class Creator
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function readPath()
+	protected function readPath(): void
 	{
 		$this->pathParts	= explode( '_', $this->className );
 		$this->fileName		= array_pop( $this->pathParts );

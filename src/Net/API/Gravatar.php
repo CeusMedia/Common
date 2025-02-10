@@ -3,7 +3,7 @@
 /**
  *	Generates URL for Gravatar API.
  *
- *	Copyright (c) 2012-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +16,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://gravatar.com/site/implement/images/php/
  *	@see			http://gravatar.com/site/implement/xmlrpc/
@@ -43,8 +43,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://gravatar.com/site/implement/images/php/
  *	@see			http://gravatar.com/site/implement/xmlrpc/
@@ -53,6 +53,11 @@ use RuntimeException;
  */
 class Gravatar
 {
+	const RATING_G		= 0;
+	const RATING_PG		= 1;
+	const RATING_R		= 2;
+	const RATING_X		= 3;
+
 	protected string $url		= 'https://secure.gravatar.com/avatar/';
 	protected string $urlRpc	= 'https://secure.gravatar.com/xmlrpc';
 	protected int $size			= 80;
@@ -83,6 +88,7 @@ class Gravatar
 	 *	@param		string		$method
 	 *	@param		array		$arguments
 	 *	@return		array
+	 *	@throws		InvalidArgumentException
 	 *	@throws		Exception
 	 */
 	protected function callXmlRpc( string $email, string $method, array $arguments ): array
@@ -128,7 +134,7 @@ class Gravatar
 		return $response[0];
 	}
 
-	public function listImages( string $email, string $password )
+	public function listImages( string $email, string $password ): array
 	{
 		$response	= $this->callXmlRpc( $email, 'userimages', ['password' => $password] );
 		$list		= [];
@@ -200,10 +206,17 @@ class Gravatar
 	/**
 	 *	...
 	 *	Implements XML RPC method 'grav.deleteUserImage'.
+	 *	@param		string		$email
+	 *	@param		string		$password
+	 *	@param		string		$imageId
+	 *	@param		int			$rating
+	 *	@return		bool
+	 *	@throws		InvalidArgumentException
+	 *	@throws		Exception
 	 *	@todo		test, code doc
 	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function removeImage( string $email, string $password, string $imageId, $rating = 0 )
+	public function removeImage( string $email, string $password, string $imageId, int $rating = 0 ): bool
 	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'deleteUserImage', [
@@ -217,10 +230,17 @@ class Gravatar
 	/**
 	 *	...
 	 *	Implements XML RPC method 'grav.saveData'.
+	 *	@param		string		$email
+	 *	@param		string		$password
+	 *	@param		string		$imageDataBase64
+	 *	@param		int			$rating
+	 *	@return		bool|string
+	 *	@throws		InvalidArgumentException
+	 *	@throws		Exception
 	 *	@todo		test, code doc
 	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function saveImage( string $email, string $password, string $imageDataBase64, $rating = 0 )
+	public function saveImage( string $email, string $password, string $imageDataBase64, int $rating = 0 ): bool|string
 	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'saveData', [
@@ -234,10 +254,17 @@ class Gravatar
 	/**
 	 *	...
 	 *	Implements XML RPC method 'grav.saveUrl'.
+	 *	@param		string		$email
+	 *	@param		string		$password
+	 *	@param		string		$imageUrl
+	 *	@param		int			$rating
+	 *	@return		bool|string
+	 *	@throws		InvalidArgumentException
+	 *	@throws		Exception
 	 *	@todo		test, code doc
 	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function saveImageFromUrl( string $email, string $password, string $imageUrl, $rating = 0 )
+	public function saveImageFromUrl( string $email, string $password, string $imageUrl, int $rating = 0 ): bool|string
 	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'saveUrl', [
@@ -251,10 +278,15 @@ class Gravatar
 	/**
 	 *	...
 	 *	Implements XML RPC method 'grav.useUserimage'.
+	 *	@param		string		$email
+	 *	@param		string		$password
+	 *	@param		string		$address
+	 *	@param		string		$imageId
+	 *	@return		array<string,bool>
 	 *	@todo		test, code doc
 	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function setAddressImage( string $email, string $password, string $address, $imageId )
+	public function setAddressImage( string $email, string $password, string $address, string $imageId ): array
 	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'useUserimage', [
@@ -268,10 +300,16 @@ class Gravatar
 	/**
 	 *	...
 	 *	Implements XML RPC method 'grav.removeImage'.
+	 *	@param		string		$email
+	 *	@param		string		$password
+	 *	@param		string		$address
+	 *	@return		array<string,bool>
+	 *	@throws		InvalidArgumentException
+	 *	@throws		Exception
 	 *	@todo		test, code doc
 	 *	@noinspection PhpUnreachableStatementInspection
 	 */
-	public function unsetAddressImage( string $email, string $password, $address )
+	public function unsetAddressImage( string $email, string $password, string $address ): array
 	{
 		throw new RuntimeException( 'Not tested yet' );
 		$response	= $this->callXmlRpc( $email, 'removeImage', [

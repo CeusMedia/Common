@@ -1,15 +1,23 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 require_once __DIR__.'/../../vendor/autoload.php';
-new UI_DevOutput;
+
+use CeusMedia\Common\CLI;
+use CeusMedia\Common\FS;
+use CeusMedia\Common\FS\Folder;
+use CeusMedia\Common\UI\DevOutput;
+use CeusMedia\Common\UI\Text;
+
+new DevOutput;
 
 $cli	= new CLI();
 CLI::out( 'Colors: '.$cli->getColors() );
 try{
 
 	if( 1 ){
-		$f	= new FS_Folder( __DIR__.'/../' );
+		$f	= new Folder( __DIR__.'/../' );
 		CLI::out( "Count recursive:" );
-		CLI::out( UI_Text::line( '-' ) );
+		CLI::out( Text::line( '-' ) );
 		CLI::out( "- Folders: ".$f->count( FS::TYPE_FOLDER, TRUE ) );
 		CLI::out( "- Files: ".$f->count( FS::TYPE_FILE, TRUE ) );
 		CLI::out( "- Total: ".$f->count( FS::TYPE_ALL, TRUE ) );
@@ -24,7 +32,7 @@ try{
 	}
 
 	if( 0 ){
-		$f	= new FS_Folder( __DIR__ );
+		$f	= new Folder( __DIR__ );
 		if( !$f->has( 'abc' ) )
 			$f->createFolder( 'abc' );
 		$abc	= $f->getFolder( 'abc' );

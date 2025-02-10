@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Decompressor for HTTP Request Body Strings.
  *
- *	Copyright (c) 2010-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Response
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
@@ -37,8 +38,8 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Response
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2010-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Decompressor
@@ -49,13 +50,13 @@ class Decompressor
 	 *	@param		Response		$response		HTTP Response Object
 	 *	@return		void
 	 */
-	public static function decompressResponse( Response $response )
+	public static function decompressResponse( Response $response ): void
 	{
 		$encodings	= $response->getHeader( 'Content-Encoding' );
 		if( count( $encodings ) !== 0 ){
 			$body	= $response->getBody();
 			foreach( array_reverse( $encodings ) as $encoding )
-				$body	= self::decompressString( $body, $encoding );
+				$body	= static::decompressString( $body, $encoding );
 			$response->setBody( $body );
 		}
 	}
@@ -75,10 +76,10 @@ class Decompressor
 		ob_start();
 		switch( strtolower( $type ) ){
 			case 'deflate':
-				$content	= self::inflate( $content );
+				$content	= static::inflate( $content );
 				break;
 			case 'gzip':
-				$content	= self::ungzip( $content );
+				$content	= static::ungzip( $content );
 				break;
 			default:
 				ob_end_clean();

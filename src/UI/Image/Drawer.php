@@ -4,7 +4,7 @@
 /**
  *	Basic Image Creation.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,45 +17,48 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\UI\Image;
+
+use GdFont;
+use GdImage;
 
 /**
  *	Basic Image Creation.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Drawer
 {
-	protected $image;
+	protected GdImage $image;
 
-	protected $type	= 0;
+	protected int $type			= 0;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		resource		$image      Image Resource, can be created with UI_Image_Creator
+	 *	@param		GdImage		$image      Image Resource, can be created with UI_Image_Creator
 	 *	@return		void
 	 */
-	public function __construct( $image )
+	public function __construct( GdImage $image )
 	{
 		$this->setImage( $image );
 	}
 
-	public function drawBorder( int $color, int $width = 1 )
+	public function drawBorder( int $color, int $width = 1 ): void
 	{
 		for( $i = 0; $i < $width; $i++ )
 			$this->drawRectangle( $i, $i, imagesx( $this->image ) - $i - 1, imagesy( $this->image ) - $i - 1, $color );
@@ -71,12 +74,12 @@ class Drawer
 		return imagesetpixel( $this->image, $x, $y, $color );
 	}
 
-	public function drawRectangle( $x0, int $y0, int $x1, int $y1, int $color ): bool
+	public function drawRectangle( int $x0, int $y0, int $x1, int $y1, int $color ): bool
 	{
 		return imagerectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 
-	public function drawString( int $x, int $y, string $text, $size, int $color ): bool
+	public function drawString( int $x, int $y, string $text, GdFont|int $size, int $color ): bool
 	{
 		return imagestring( $this->image, $size, $x, $y, $text, $color );
 	}
@@ -97,7 +100,7 @@ class Drawer
         return $color ?: NULL;
 	}
 
-	public function getImage()
+	public function getImage(): GdImage
 	{
 		return $this->image;
 	}
@@ -110,15 +113,16 @@ class Drawer
 	/**
 	 *	Sets Image Handler.
 	 *	@access		public
-	 *	@param		resource		$image      Image Handler
-	 *	@return		void
+	 *	@param		GdImage			$image      Image Handler
+	 *	@return		self
 	 */
-	public function setImage( $image )
+	public function setImage( GdImage $image ): self
 	{
 		$this->image = $image;
+		return $this;
 	}
 
-	public function show( int $quality = 100 )
+	public function show( int $quality = 100 ): void
 	{
 		Printer::showImage( $this->image, $this->type, $quality );
 		die;

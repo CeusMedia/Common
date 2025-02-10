@@ -72,14 +72,14 @@ class TemplateTest extends BaseCase
 	public function testInitiallyNoElements()
 	{
 		$size	= sizeof( $this->template->getElements() );
-		$this->assertEquals( 0, $size );
+		self::assertEquals( 0, $size );
 	}
 
 	public function testAdd1()
 	{
 		$assertion	= 18;
 		$creation	= $this->mock->add( $this->mockElements );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAdd2()
@@ -96,7 +96,7 @@ class TemplateTest extends BaseCase
 		);
 		$this->mock->add( $tags );
 		$creation	= $this->mock->getProtectedVar( 'elements' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAdd3()
@@ -111,16 +111,16 @@ class TemplateTest extends BaseCase
 		);
 		$this->mock->add( $tags );
 		$creation	= $this->mock->getProtectedVar( 'elements' );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testAddElement()
 	{
 		$this->template->addElement( 'tag', 'name' );
 		$size	= sizeof( $this->template->getElements() );
-		$this->assertEquals( 1, $size );
+		self::assertEquals( 1, $size );
 		$elements = $this->template->getElements();
-		$this->assertEquals( 'name', $elements['tag'] );
+		self::assertEquals( 'name', $elements['tag'] );
 	}
 
 	public function testAddObject1()
@@ -129,14 +129,14 @@ class TemplateTest extends BaseCase
 		$object->setData1( 'test1' );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
-		$this->assertEquals( 2, $size );
+		self::assertEquals( 2, $size );
 
 		$assertion	= array(
 			'dataObject.public'	=> 'test',
 			'dataObject.data1'	=> 'test1'
 		);
 		$elements = $this->template->getElements();
-		$this->assertEquals( $assertion, $elements );
+		self::assertEquals( $assertion, $elements );
 	}
 
 	public function testAddObject2()
@@ -145,7 +145,7 @@ class TemplateTest extends BaseCase
 		$object->setData1( new ArrayObject( array( 'first', 'second' ) ) );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
-		$this->assertEquals( 3, $size );
+		self::assertEquals( 3, $size );
 
 		$assertion	= array(
 			'dataObject.public'		=> 'test',
@@ -153,7 +153,7 @@ class TemplateTest extends BaseCase
 			'dataObject.data1.1'	=> 'second'
 		);
 		$elements = $this->template->getElements();
-		$this->assertEquals( $assertion, $elements );
+		self::assertEquals( $assertion, $elements );
 	}
 
 	public function testAddObject3()
@@ -162,7 +162,7 @@ class TemplateTest extends BaseCase
 		$object->setData1( new Dictionary( array( 'key1' => 'val1', 'key2' => 'val2' ) ) );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
-		$this->assertEquals( 3, $size );
+		self::assertEquals( 3, $size );
 
 		$assertion	= array(
 			'dataObject.public'		=> 'test',
@@ -170,7 +170,7 @@ class TemplateTest extends BaseCase
 			'dataObject.data1.key2'	=> 'val2'
 		);
 		$elements = $this->template->getElements();
-		$this->assertEquals( $assertion, $elements );
+		self::assertEquals( $assertion, $elements );
 	}
 
 	/**
@@ -183,7 +183,7 @@ class TemplateTest extends BaseCase
 		$this->template->addElement( 'text', 'das ist der text' );
 		$assertion	= file_get_contents( $this->path.'template_testcase1_result.html' );
 		$creation	= $this->template->create();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -196,7 +196,7 @@ class TemplateTest extends BaseCase
 		$creation	= $this->template->create();
 /*		var_dump( $assertion );
 		var_dump( $creation );
-*/		$this->assertEquals( $assertion, $creation );
+*/		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -209,7 +209,7 @@ class TemplateTest extends BaseCase
 		$this->template->addElement( 'array', array( 'key1' => 'value1', 'key2' => 'value2', 'key3' => 'value3' ) );
 		$assertion	= file_get_contents( $this->path.'template_testcase3_result.html' );
 		$creation	= $this->template->create();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testCreate4()
@@ -219,7 +219,7 @@ class TemplateTest extends BaseCase
 		$this->template->addElement( 'text', 'das ist der text' );
 		$assertion	= file_get_contents( $this->path.'template_testcase4_result.html' );
 		$creation	= $this->template->create();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testGetElements()
@@ -228,7 +228,7 @@ class TemplateTest extends BaseCase
 		$this->mock->setProtectedVar( 'elements', $data );
 		$assertion	= $data;
 		$creation	= $this->mock->getElements();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	public function testRender()
@@ -239,7 +239,7 @@ class TemplateTest extends BaseCase
 		);
 		$assertion	= file_get_contents( $this->path.'template_testcase4_result.html' );
 		$creation	= Template::render( $this->path.'template_testcase4.html', $data );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }
 

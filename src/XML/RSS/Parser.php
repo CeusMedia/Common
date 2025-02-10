@@ -1,9 +1,10 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Parser for RSS 2 Feed using XPath.
  *
- *	Copyright (c) 2007-2023 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -16,13 +17,13 @@
  *	GNU General Public License for more details.
  *
  *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *	along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://blogs.law.harvard.edu/tech/rss
  */
@@ -30,21 +31,23 @@
 namespace CeusMedia\Common\XML\RSS;
 
 use CeusMedia\Common\XML\DOM\XPathQuery;
+use DOMNodeList;
 
 /**
  *	Parser for RSS 2 Feed using XPath.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2023 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2007-2024 Christian Würker
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://blogs.law.harvard.edu/tech/rss
  *	@todo			Code Doc
  */
 class Parser
 {
-	public static $channelKeys	= [
+	/** @var string[]  */
+	public static array $channelKeys	= [
 		"title",
 		"language",
 		"link",
@@ -73,7 +76,9 @@ class Parser
 		"skipHours/hour",
 		"skipDays/day",
 	];
-	public static $itemKeys	= [
+
+	/** @var string[]  */
+	public static array $itemKeys	= [
 		"title",
 		"link",
 		"description",
@@ -98,7 +103,7 @@ class Parser
 		$version	= $document->documentElement->getAttribute( 'version' );
 
 		foreach( self::$channelKeys as $channelKey ){
-			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" );
+			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" ) ?: new DOMNodeList();
 			$parts	= explode( "/", $channelKey );
 			if( isset( $parts[1] ) )
 				$channelKey	= $parts[0].ucfirst( $parts[1] );
@@ -106,15 +111,15 @@ class Parser
 			$channelData[$channelKey]	= $value;
 		}
 
-		$nodeList	= $xPath->query( "//rss/channel/item" );
+		$nodeList	= $xPath->query( "//rss/channel/item" ) ?: new DOMNodeList();
 		foreach( $nodeList as $item ){
 			$array	= [];
 			foreach( self::$itemKeys as $itemKey ){
-				$nodes	= $xPath->query( $itemKey."/text()", $item );
+				$nodes	= $xPath->query( $itemKey."/text()", $item ) ?: new DOMNodeList();
 				$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
 				if( $itemKey == "source" || $itemKey == "guid" )
 				{
-					$nodes	= $xPath->query( $itemKey, $item );
+					$nodes	= $xPath->query( $itemKey, $item ) ?: new DOMNodeList();
 					if( $nodes->length ){
 						foreach( $nodes->item( 0 )->attributes as $attributeName => $attribute )
 							if( $attributeName == "url" )

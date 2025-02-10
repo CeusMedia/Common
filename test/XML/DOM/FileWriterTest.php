@@ -90,7 +90,7 @@ class FileWriterTest extends BaseCase
 		$writer->write( $tree );
 		$assertion	= file_get_contents( $this->path."builder.xml" );
 		$creation	= file_get_contents( $this->path."writer.xml" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -133,6 +133,6 @@ class FileWriterTest extends BaseCase
 		FileWriter::save( $this->path."writer.xml", $tree );
 		$assertion	= file_get_contents( $this->path."builder.xml" );
 		$creation	= file_get_contents( $this->path."writer.xml" );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }

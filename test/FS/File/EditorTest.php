@@ -58,17 +58,9 @@ class EditorTest extends BaseCase
 	 */
 	public function testDelete()
 	{
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= Editor::delete( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
+		self::assertTrue( $this->editor->exists() );
+		self::assertTrue( Editor::delete( $this->fileName ) );
+		self::assertFalse( $this->editor->exists() );
 	}
 
 	/**
@@ -81,7 +73,7 @@ class EditorTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= $this->editor->setGroup();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -94,7 +86,7 @@ class EditorTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= $this->editor->setOwner();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -107,7 +99,7 @@ class EditorTest extends BaseCase
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
 		$creation	= $this->editor->setPermissions();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -117,17 +109,9 @@ class EditorTest extends BaseCase
 	 */
 	public function testRemove()
 	{
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $this->editor->remove();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
+		self::assertTrue( $this->editor->exists() );
+		self::assertTrue( $this->editor->remove() );
+		self::assertFalse( $this->editor->exists() );
 	}
 
 	/**
@@ -139,33 +123,13 @@ class EditorTest extends BaseCase
 	{
 		$fileName	= $this->path."renamed.txt";
 
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $this->editor->rename( $fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= $fileName;
-		$creation	= $this->editor->getFileName();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $this->editor->exists();
-		$this->assertEquals( $assertion, $creation );
+		self::assertTrue( $this->editor->exists() );
+		self::assertFileDoesNotExist( $fileName );
+		self::assertTrue( $this->editor->rename( $fileName ) );
+		self::assertFileExists( $fileName );
+		self::assertFileDoesNotExist( $this->fileName );
+		self::assertEquals( $fileName, $this->editor->getFileName() );
+		self::assertTrue( $this->editor->exists() );
 }
 
 	/**
@@ -190,11 +154,11 @@ class EditorTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= (bool) $this->editor->writeArray( $lines );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $lines;
 		$creation	= $this->editor->readArray();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -208,10 +172,10 @@ class EditorTest extends BaseCase
 
 		$assertion	= TRUE;
 		$creation	= (bool) $this->editor->writeString( $string );
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 
 		$assertion	= $string;
 		$creation	= $this->editor->readString();
-		$this->assertEquals( $assertion, $creation );
+		self::assertEquals( $assertion, $creation );
 	}
 }
