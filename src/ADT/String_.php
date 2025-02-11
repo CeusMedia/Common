@@ -131,8 +131,6 @@ class String_
 	 */
 	public function countSubstring( String_|string $string, int $offset = 0, int $limit = 0 ): int
 	{
-		if( !is_int( $offset ) )
-			throw new InvalidArgumentException( 'Offset must be integer' );
 		if( abs( $offset ) > $this->getLength() )
 			throw new OutOfBoundsException( 'Offset excesses string length' );
 		if( abs( $limit ) > 0 ){
@@ -346,7 +344,7 @@ class String_
 		$list	= [$this->string];
 		if( is_int( $delimiter ) )
 			$list	= str_split( $this->string, $delimiter );
-		else if( is_string( $delimiter ) )
+		else
 			$list	= explode( $delimiter, $this->string );
 		return new ArrayObject( $list );
 	}

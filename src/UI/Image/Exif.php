@@ -45,14 +45,21 @@ use RuntimeException;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Exif extends Dictionary
+class Exif
 {
 	protected string $imageUri;
 
     protected array $raw;
 
+	protected Dictionary $facts;
+
+	/**
+	 *	@param		string		$imageUri
+	 */
 	public function __construct( string $imageUri )
 	{
+		$this->facts = new Dictionary();
+
 		if( !function_exists( 'exif_read_data' ) )
 			throw new RuntimeException( 'Exif not supported' );
 		if( !file_exists( $imageUri ) )
@@ -68,17 +75,44 @@ class Exif extends Dictionary
 				continue;
 			if( is_array( $value ) )
 				foreach( $value as $nestKey => $nestValue )
-					$this->set( $key.".".$nestKey, $nestValue );
+					$this->facts->set( $key.".".$nestKey, $nestValue );
 			else
-				$this->set( $key, $value );
+				$this->facts->set( $key, $value );
 		}
 	}
 
+	/**
+	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
+	 *	@return		mixed
+	 */
+	public function get( string $key, mixed $default = NULL ): mixed
+	{
+		return $this->facts->get( $key, $default );
+	}
+
+	/**
+	 *	@param		string|NULL			$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean				$asDictionary	Flag: return list as dictionary object instead of an array
+	 *	@param		boolean				$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		Dictionary|array	Map or dictionary object containing all or filtered pairs
+	 */
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
+	{
+		return $this->facts->getAll( $prefix, $asDictionary, $caseSensitive );
+	}
+
+	/**
+	 *	@return		array
+	 */
 	public function getRawData(): array
 	{
 		return $this->raw;
 	}
 
+	/**
+	 *	@return		array
+	 */
 	public function getThumbnailData(): array
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
@@ -90,6 +124,10 @@ class Exif extends Dictionary
 		];
 	}
 
+	/**
+	 *	@return		string
+	 *	@throws		Exception
+	 */
 	public function getThumbnailImage(): string
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );

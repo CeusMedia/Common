@@ -51,19 +51,6 @@ class LevelMap extends Dictionary
 	protected string $divider		= ".";
 
 	/**
-	 *	Constructor.
-	 *	@param		array		$array
-	 *	@param		string		$divider		Level dividing sign
-	 */
-	public function __construct( array $array = [], string $divider = '.' )
-	{
-		parent::__construct( $array );
-		if( 0 === strlen( $divider ) )
-			throw new MissingDataException( 'Divider cannot be empty' );
-		$this->divider	= $divider;
-	}
-
-	/**
 	 *	Return a Value or Pair Map of Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
@@ -220,5 +207,17 @@ class LevelMap extends Dictionary
 			//  sort stored Pairs by Keys
 			ksort( $this->pairs );
 		return TRUE;
+	}
+
+	/**
+	 *	@param		string		$divider		Level dividing sign
+	 *	@return		static
+	 */
+	public function setDivider( string $divider = '.' ): static
+	{
+		if( '' === trim( $divider ) )
+			throw new MissingDataException( 'Divider cannot be empty' );
+		$this->divider	= $divider;
+		return $this;
 	}
 }

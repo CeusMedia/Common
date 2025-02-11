@@ -44,7 +44,7 @@ use RuntimeException;
  */
 class Connection
 {
-	/**	@var		integer			$mode			FTP Transfer Mode */
+	/**	@var		int<1,2>		$mode			FTP Transfer Mode */
 	public int $mode				= FTP_BINARY;
 
 	/**	@var		boolean			$auth			Indicator of Authentication */

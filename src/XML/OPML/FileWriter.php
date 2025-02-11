@@ -66,7 +66,7 @@ class FileWriter
 	 *	@param		Node		$tree			OPML Tree
 	 *	@param		string		$encoding		Encoding Type
 	 *	@return		int|FALSE
-	 *	@throws		DOMException;
+	 *	@throws		DOMException
 	 */
 	public static function save( string $fileName, Node $tree, string $encoding = "utf-8" ): int|FALSE
 	{
@@ -82,7 +82,7 @@ class FileWriter
 	 *	@param		Node		$tree		OPML Tree
 	 *	@param		string		$encoding	Encoding Type
 	 *	@return		int|FALSE
-	 *	@throws		DOMException;
+	 *	@throws		DOMException
 	 */
 	public function write( Node $tree, string $encoding = "utf-8" ): int|FALSE
 	{

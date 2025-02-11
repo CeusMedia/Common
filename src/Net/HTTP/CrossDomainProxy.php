@@ -100,9 +100,9 @@ class CrossDomainProxy
 		//  open cURL Handler
 		$curl	= curl_init();
 		//  skip Peer Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, FALSE );
 		//  skip Host Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, FALSE );
 		//  set Service Request URL
 		curl_setopt( $curl, CURLOPT_URL, $url );
 		//  catch Response

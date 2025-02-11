@@ -95,7 +95,7 @@ class TraceViewer
 			}
 		}
 		$content	.= '#'.$stepNr.' {main}<br/></span>';
-		if( method_exists( $exception, 'getPrevious' ) && $exception->getPrevious() ){
+		if( NULL !== $exception->getPrevious() ){
 			$view	= self::buildTrace( $exception->getPrevious(), $breakMode );
 			$block	= Tag::create( 'blockquote', $view );
 			$content	.= 'Previous: '.$block.'<br/>';

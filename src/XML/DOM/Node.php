@@ -66,8 +66,6 @@ class Node
 		$this->nodeName = $nodeName;
 		if( $content !== NULL )
 			$this->setContent( $content );
-		if( !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Attributes must be given as Array.' );
 		if( count( $attributes ) )
 			foreach( $attributes as $key => $value )
 				$this->setAttribute( $key, $value );

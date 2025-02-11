@@ -50,8 +50,6 @@ class Pagination extends OptionObject
 	public function __construct( array $options = [] )
 	{
 		parent::__construct();
-		if( !is_array( $options ) )
-			throw new InvalidArgumentException( 'Option map is not an array' );
 		$defaultOptions	= [
 			'uri'			=> "./",
 			'param'			=> [],

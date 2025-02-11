@@ -169,10 +169,8 @@ class Graph
 
 	protected function renderOptions( array $options = [], array $overrideOptions = [], string $delimiter = ' ' ): string
 	{
-		if( is_array( $overrideOptions ) )
-			$options	= array_merge( $options, $overrideOptions );
-		$list	= [];
-		foreach( $options as $key => $value )
+		$list		= [];
+		foreach( array_merge( $options, $overrideOptions ) as $key => $value )
 			$list[]	= $key.'="'.addslashes( $value ).'"';
 		return join( $delimiter, $list );
 	}

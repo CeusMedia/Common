@@ -375,10 +375,10 @@ class DevOutput
 	 *	@param		array		$parameters	Associative Array of Parameters to append
 	 *	@return		void
 	 */
-	public function remark( string $text, array $parameters = [] )
+	public function remark( string $text, array $parameters = [] ): void
 	{
 		$param	= "";
-		if( is_array( $parameters ) && count( $parameters ) ){
+		if( [] !== $parameters ){
 			$param	= [];
 			foreach( $parameters as $key => $value ){
 				if( is_int( $key ) )

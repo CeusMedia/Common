@@ -157,10 +157,6 @@ class ArgumentParser
 	 */
 	public function setNumberOfMandatoryArguments( int $number = 0 ): bool
 	{
-		//  no Integer given
-		if( !is_int( $number ) )
-			//  throw Exception
-			throw new InvalidArgumentException( 'No integer given' );
 		//  this Number is already set
 		if( $number === $this->numberArguments )
 			//  do nothing

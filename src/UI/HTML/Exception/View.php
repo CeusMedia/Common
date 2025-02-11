@@ -104,7 +104,7 @@ class View
 			}
 		}
 		if( $showPrevious ){
-			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() ){
+			if( NULL !== $e->getPrevious() ){
 				$list[]	= Tag::create( 'dt', 'Previous' );
 				$list[]	= Tag::create( 'dd', View::render( $e->getPrevious() ) );
 			}

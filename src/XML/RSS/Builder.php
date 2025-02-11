@@ -103,8 +103,6 @@ class Builder
 		$this->channel['timezone']	= '+0000';
 		$this->items	= [];
 
-		if( !is_array( $data ) )
-			throw new Exception( 'Channel Data List must be an Array.' );
 		foreach( $data as $key => $value )
 			$this->setChannelPair( $key, $value );
 	}

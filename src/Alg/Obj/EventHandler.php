@@ -101,8 +101,6 @@ class EventHandler
 	 */
 	public function addObjectCallback( string $eventName, object $object, string $methodName, array $methodParameters = [] ): self
 	{
-		if( !is_object( $object ) )
-			throw new InvalidArgumentException( 'Not an object given' );
 		$this->callbacks[$eventName][]	= (object) [
 			'object'			=> $object,
 			'methodName'		=> $methodName,

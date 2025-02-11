@@ -64,16 +64,16 @@ use Exception;
  *	@version		1.1.2 (2012-05-01)
  *	@link			https://github.com/rgrove/jsmin-php
  */
-class Minifier{
-
+class Minifier
+{
 	protected const ORD_LF				= 10;
 	protected const ORD_SPACE			= 32;
 	protected const ACTION_KEEP_A		= 1;
 	protected const ACTION_DELETE_A		= 2;
 	protected const ACTION_DELETE_A_B	= 3;
 
-	protected string $a				= '';
-	protected string $b				= '';
+	protected ?string $a				= '';
+	protected ?string $b				= '';
 	protected string $input			= '';
 	protected int $inputIndex		= 0;
 	protected int $inputLength		= 0;
@@ -261,9 +261,9 @@ class Minifier{
 	protected function min(): string
 	{
 		if (0 == strncmp($this->peek(), "\xef", 1)) {
-				$this->get();
-				$this->get();
-				$this->get();
+			$this->get();
+			$this->get();
+			$this->get();
 		}
 
 		$this->a = "\n";

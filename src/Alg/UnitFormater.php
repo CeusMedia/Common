@@ -1,7 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
- *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
+ *	Formats numbers intelligently and adds units to bytes and seconds.
  *
  *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
  *
@@ -28,15 +28,13 @@
 
 namespace CeusMedia\Common\Alg;
 
-use CeusMedia\Common\Deprecation;
-
 define( 'SIZE_BYTE', 1024 ** 0 );
 define( 'SIZE_KILOBYTE', 1024 ** 1 );
 define( 'SIZE_MEGABYTE', 1024 ** 2 );
 define( 'SIZE_GIGABYTE', 1024 ** 3 );
 
 /**
- *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
+ *	Formats numbers intelligently and adds units to bytes and seconds.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -46,8 +44,8 @@ define( 'SIZE_GIGABYTE', 1024 ** 3 );
  */
 class UnitFormater
 {
-	/**	@var		array		$unitBytes		List of Byte Units */
-	public static $unitBytes	= [
+	/**	@var		array		$unitBytes		List of byte units */
+	public static array $unitBytes	= [
 		'B',
 		'KB',
 		'MB',
@@ -59,8 +57,8 @@ class UnitFormater
 		'YB',
 	];
 
-	/**	@var		array		$unitPixels		List of Pixel Units */
-	public static $unitPixels	= [
+	/**	@var		array		$unitPixels		List of pixel units */
+	public static array $unitPixels	= [
 		'P',
 		'KP',
 		'MP',
@@ -72,7 +70,7 @@ class UnitFormater
 		'YP',
 	];
 
-	/**	@var		array<string>		$unitBytes		List of Second Units */
+	/**	@var		array<string>		$unitBytes		List of second units */
 	public static array $unitSeconds	= [
 		'µs',
 		'ms',
@@ -84,253 +82,212 @@ class UnitFormater
 	];
 
 	/**
-	 *	Formats Number of Bytes by switching to next higher Unit if an set Edge is reached.
-	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1024.
+	 *	Formats number of bytes by switching to next higher unit if a set edge is reached.
+	 *	Edge is a factor when to switch to next higher unit, eG. 0.5 means 50% of 1024.
 	 *	If you enter 512 (B) it will return 0.5 KB.
-	 *	Caution! With Precision at 0 you may have Errors from rounding.
-	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
+	 *	Caution! With precision at 0 you may have errors from rounding.
+	 *	To avoid the units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Bytes
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float|int	$float			Number of bytes
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
-	public static function formatBytes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+	public static function formatBytes( float|int $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
-		//  step to first Unit
+		//  step to first unit
 		$unitKey	= 0;
-		//  1024 Bytes are 1 Kilo Byte
+		//  1024 bytes are 1 kilo byte
 		$divider	= 1024;
-		//  avoid negative Edges
+		//  avoid negative edges
 		$edge		= abs( $edge );
-		//  avoid senseless Edges
-		$edge		= $edge > 1 ? 1 : $edge;
-		//  calculate Edge Value
+		//  avoid senseless edges
+		$edge		= min( $edge, 1 );
+		//  calculate edge value
 		$edgeValue	= $divider * $edge;
-		//  Value is larger than Edge
+		//  value is larger than edge
 		while( $float >= $edgeValue )
 		{
-			//  step to next Unit
+			//  step to next unit
 			$unitKey ++;
-			//  calculate Value in new Unit
+			//  calculate value in new unit
 			$float	/= $divider;
 		}
-		//  Precision is set
-		if( is_int( $precision ) )
-			//  round Value
-			$float	= round( $float, $precision );
-		//  Indention is set
-		if( is_string( $indent ) )
-			//  append Unit
-			$float	= $float.$indent.self::$unitBytes[$unitKey];
-		//  return resulting Value
-		return $float;
+		//  round value
+		$float	= round( $float, $precision );
+		//  append unit and return
+		return $float.$indent.self::$unitBytes[$unitKey];
 	}
 
 	/**
-	 *	Formats Kilo Bytes like formatBytes.
+	 *	Formats kilobytes like formatBytes.
 	 *	You can also enter 0.25 (KB) and it will return 256 B.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Kilo Bytes
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float|int 	$float			Number of kilobytes
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
-	public static function formatKiloBytes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+	public static function formatKiloBytes( float|int $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatBytes( $float * 1024, $precision, $indent, $edge );
 	}
 
 	/**
-	 *	Formats Mega Bytes like formatBytes.
+	 *	Formats megabytes like formatBytes.
 	 *	You can also enter 0.25 (MB) and it will return 256 KB.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Mega Bytes
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float|int 	$float			Number of megabytes
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
-	public static function formatMegaBytes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+	public static function formatMegaBytes( float|int $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatBytes( $float * 1024 * 1024, $precision, $indent, $edge );
 	}
 
 	/**
-	 *	Formats Micro Seconds by switching to next higher Unit if an set Edge is reached.
-	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
+	 *	Formats microseconds by switching to next higher unit if a set edge is reached.
+	 *	Edge is a factor when to switch to next higher unit, eG. 0.5 means 50% of 1000.
 	 *	If you enter 500 (µs) it will return 0.5 ms.
-	 *	Caution! With Precision at 0 you may have Errors from rounding.
-	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
+	 *	Caution! With precision at 0 you may have errors from rounding.
+	 *	To avoid the units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Micro Seconds
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float|int 	$float			Number of microseconds
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
-	public static function formatMicroSeconds( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+	public static function formatMicroSeconds( float|int $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
-		//  step to first Unit
+		//  step to first unit
 		$unitKey	= 0;
-		//  1000 Micro Seconds are 1 Milli Second
+		//  1000 microseconds are 1 millisecond
 		$divider	= 1000;
-		//  avoid negative Edges
+		//  avoid negative edges
 		$edge		= abs( $edge );
-		//  avoid senseless Edges
-		$edge		= $edge > 1 ? 1 : $edge;
-		//  calculate Edge Value
+		//  avoid senseless edges
+		$edge		= min( $edge, 1 );
+		//  calculate edge value
 		$edgeValue	= $divider * $edge;
 
-		//  Value is larger than Edge
+		//  Value is larger than edge
 		while( $float >= $edgeValue )
 		{
-			//  step to next Unit
+			//  step to next unit
 			$unitKey ++;
-			//  calculate Value in new Unit
+			//  calculate value in new unit
 			$float	/= $divider;
-			//  Seconds are reached
+			//  seconds are reached
 			if( $unitKey == 2 )
 			{
-				//  60 Seconds per Minute
+				//  60 seconds per minute
 				$divider	= 60;
-				//  calculate new Edge
+				//  calculate new edge
 				$edgeValue	= $edge * $divider;
 			}
-			//  Hours are reached
+			//  hours are reached
 			if( $unitKey == 4 )
 			{
-				//  24 Hours per Day
+				//  24 hours per day
 				$divider	= 24;
-				//  calculate new Edge
+				//  calculate new edge
 				$edgeValue	= $edge * $divider;
 			}
-			//  Days are reached
+			//  days are reached
 			if( $unitKey == 5 )
 			{
-				//  365 Days per Year
+				//  365 days per Year
 				$divider	= 365;
-				//  calculate new Edge
+				//  calculate new edge
 				$edgeValue	= $edge * $divider;
 			}
 		}
-		//  Precision is set
-		if( is_int( $precision ) )
-			//  round Value
-			$float	= round( $float, $precision );
-		//  Indention is set
-		if( is_string( $indent ) )
-			//  append Unit
-			$float	= $float.$indent.self::$unitSeconds[$unitKey];
-		//  return resulting Value
-		return $float;
+		//  precision is set
+		$float	= round( $float, $precision );
+		//  append unit and return
+		return $float.$indent.self::$unitSeconds[$unitKey];
 	}
 
 	/**
-	 *	Formats Milli Seconds like formatMicroSeconds.
+	 *	Formats milliseconds like formatMicroSeconds.
 	 *	You can also enter 0.1 (ms) and it will return 100 µs.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Milli Seconds
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float|int 	$float			Number of milliseconds
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
-	public static function formatMilliSeconds( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+	public static function formatMilliSeconds( float|int $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatMicroSeconds( $float * 1000, $precision, $indent, $edge );
 	}
 
 	/**
-	 *	Formats Minutes like formatMicroSeconds.
+	 *	Formats minutes like formatMicroSeconds.
 	 *	You can also enter 0.1 (m) and it will return 6 s.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Minutes
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float|int 	$float			Number of minutes
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
-	public static function formatMinutes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+	public static function formatMinutes( float|int $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatMicroSeconds( $float * 60_000_000, $precision, $indent, $edge );
 	}
 
 	/**
-	 *	Formats Number.
-	 *	@access		public
-	 *	@static
-	 *	@param		float		$float			Number to format
-	 *	@param		int			$unit			Number of Digits for dot to move to left
-	 *	@param		int			$precision		Number of Digits after dot
-	 *	@return		int|float
-	 *	@deprecated	incomplete method, please remove
-	 */
-	public static function formatNumber( $float, int $unit = 1, int $precision = 0 )
-	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		Deprecation::getInstance()->setExceptionVersion( '0.9' )
-			->message(  'Use one of the other methods instead' );
-		if( $unit ){
-			$float	= $float / $unit;
-			if( is_int( $precision ) )
-				$float	= round( $float, $precision );
-		}
-		return $float;
-	}
-
-	/**
-	 *	Formats Number of Pixels by switching to next higher Unit if an set Edge is reached.
-	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
+	 *	Formats number of pixels by switching to next higher unit if a set edge is reached.
+	 *	Edge is a factor when to switch to next higher unit, eG. 0.5 means 50% of 1000.
 	 *	If you enter 500 (P) it will return 0.5 KP.
-	 *	Caution! With Precision at 0 you may have Errors from rounding.
-	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
+	 *	Caution! With precision at 0 you may have errors from rounding.
+	 *	To avoid the units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$number			Number of Pixels
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float		$number			Number of pixels
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
 	public static function formatPixels( float $number, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
-		//  step to first Unit
+		//  step to first unit
 		$unitKey	= 0;
-		//  1000 Pixels are 1 Kilo Pixel
+		//  1000 pixels are 1 kilo pixel
 		$divider	= 1000;
-		//  avoid negative Edges
+		//  avoid negative edges
 		$edge		= abs( $edge );
-		//  avoid senseless Edges
-		$edge		= $edge > 1 ? 1 : $edge;
-		//  calculate Edge Value
+		//  avoid senseless edges
+		$edge		= min( $edge, 1 );
+		//  calculate edge value
 		$edgeValue	= $divider * $edge;
-		//  Value is larger than Edge
+		//  value is larger than edge
 		while( $number >= $edgeValue )
 		{
-			//  step to next Unit
+			//  step to next unit
 			$unitKey ++;
-			//  calculate Value in new Unit
+			//  calculate value in new unit
 			$number	/= $divider;
 		}
-		//  Precision is set
-		if( is_int( $precision ) )
-			//  round Value
-			$number	= round( $number, $precision );
-		//  Indention is set
-		if( is_string( $indent ) )
-			//  append Unit
-			$number	= $number.$indent.self::$unitPixels[$unitKey];
-		//  return resulting Value
-		return $number;
+		//  round value
+		$number	= round( $number, $precision );
+		//  append unit and return
+		return $number.$indent.self::$unitPixels[$unitKey];
 	}
 
 	/**
@@ -338,13 +295,13 @@ class UnitFormater
 	 *	You can also enter 0.1 (s) and it will return 100 ms.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Seconds
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@param		float|int 	$float			Number of seconds
+	 *	@param		int			$precision		Number of floating point digits
+	 *	@param		string		$indent			Space between number and unit
+	 *	@param		float		$edge			Factor of next higher unit when to break
 	 *	@return		string
 	 */
-	public static function formatSeconds( $float, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
+	public static function formatSeconds( float|int $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatMicroSeconds( $float * 1_000_000, $precision, $indent, $edge );
 	}

@@ -258,10 +258,6 @@ class PageFrame
 	 */
 	public function build( array $bodyAttributes = [], array $htmlAttributes = [] ): string
 	{
-		if( !is_array( $bodyAttributes ) )
-			throw new InvalidArgumentException( 'Parameter "bodyAttributes" need to be an array or empty' );
-		if( !is_array( $htmlAttributes ) )
-			throw new InvalidArgumentException( 'Parameter "htmlAttributes" need to be an array or empty' );
 		$tagsHead	= [];
 		$tagsBody	= [];
 

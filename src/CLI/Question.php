@@ -176,7 +176,7 @@ class Question
 			}
 		}
 		if( $this->type === self::TYPE_INTEGER ){
-			if( !preg_match( '/^\d+$/', $input ) )
+			if( 1 !== preg_match( '/^\d+$/', $input ) )
 				return FALSE;
 			$input	= (int) $input;
 			if( $this->strictOptions ){
@@ -188,7 +188,7 @@ class Question
 			}
 		}
 		if( $this->type === self::TYPE_NUMBER ){
-			if( !preg_match( '/^[\d.]+$/', $input ) )
+			if( 1 !== preg_match( '/^[\d.]+$/', $input ) )
 				return FALSE;
 			$input	= (float) $input;
 			if( $this->strictOptions ){

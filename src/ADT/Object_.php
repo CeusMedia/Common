@@ -88,7 +88,7 @@ class Object_
 	 */
 	public function getParent(): ?string
 	{
-		/** @var string|FALSE $parentClass */
+		/** @var class-string|FALSE $parentClass */
 		$parentClass = get_parent_class( $this );
 		if( $parentClass !== FALSE )
 			return $parentClass;

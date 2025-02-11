@@ -200,11 +200,8 @@ class MethodFactory
 	 *	@throws		BadMethodCallException				if an invalid Method is called
 	 *	@throws		ReflectionException
 	 */
-	public static function staticCallObjectMethod( object $object, string $methodName, array $parameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public static function staticCallObjectMethod( object $object, string $methodName, array $parameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
-		if( !is_object( $object ) )
-			throw new InvalidArgumentException( 'Invalid object' );
-
 		//  get Object Reflection
 		$reflection	= new ReflectionObject( $object );
 		//  called Method is not existing
