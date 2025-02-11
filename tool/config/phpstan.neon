@@ -21,9 +21,6 @@ parameters:
 #			- ../../src/UI/HTML
 #			- ../../src/UI/Image
 #			- ../../src/XML
-		analyseAndScan:
-			- ../../src/compat8.php
-			- ../../src/compat9.php
 	reportMaybesInPropertyPhpDocTypes: false
 	treatPhpDocTypesAsCertain: false
 	ignoreErrors:

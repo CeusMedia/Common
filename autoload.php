@@ -25,6 +25,4 @@ require_once $pathSrc . 'FS/Autoloader/Psr4.php';
 $loader = Loader::getInstance()->register()
 	->addNamespace( 'CeusMedia\Common', $pathSrc );
 
-require_once $pathSrc . 'compat8.php';
-
 require_once $pathSrc . 'global.php';

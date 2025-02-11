@@ -57,10 +57,7 @@
   "autoload-dev": {
     "psr-4": {
       "CeusMedia\\Common\\": "src",
-      "CeusMedia\\CommonTest\\": "test",
-      "CeusMedia\\CommonTool\\Go\\": "tool/Go/",
-      "CeusMedia\\CommonTool\\Migration\\": "tool/Migration/",
-      "CeusMedia\\CommonTool\\Compatibility\\": "tool/Compatibility/"
+      "CeusMedia\\CommonTest\\": "test"
     }
   },
   "minimum-stability": "dev",
