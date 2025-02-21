@@ -32,6 +32,22 @@ use RuntimeException;
 class File extends AbstractNode
 {
 	/**
+	 *	Static constructor.
+	 *	@param		string		$pathName
+	 *	@param		boolean		$create
+	 *	@param		integer		$mode			File permissions as octal, default: 0777
+	 *	@param		bool		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		static
+	 *	@throws		IoException
+	 */
+	public static function new( string $pathName, bool $create = FALSE, int $mode = 0777, bool $strict = TRUE ): static
+	{
+		$className	= static::class;
+		return new $className( $pathName, $create, $mode, $strict );
+	}
+
+	/**
+	 *	Constructor.
 	 *	@param		string		$pathName
 	 *	@param		boolean		$create
 	 *	@param		integer		$mode			File permissions as octal, default: 0777

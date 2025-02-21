@@ -25,6 +25,17 @@ abstract class AbstractNode
 {
 	protected string $pathName;
 
+	/**
+	 *	Static constructor.
+	 *	@param		string		$pathName
+	 *	@return		static
+	 */
+	public static function new( string $pathName ): static
+	{
+		$className	= static::class;
+		return new $className( $pathName );
+	}
+
 	public function __construct( string $pathName )
 	{
 		$this->setPathName( $pathName );
