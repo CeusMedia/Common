@@ -31,9 +31,11 @@
 namespace CeusMedia\Common\ADT;
 
 use CeusMedia\Common\ADT\URL\Parts;
+use CeusMedia\Common\Renderable;
 use InvalidArgumentException;
 use RangeException;
 use RuntimeException;
+use Stringable;
 
 /**
  *	...
@@ -46,10 +48,10 @@ use RuntimeException;
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
  *	@todo			code doc
  */
-class URL
+class URL implements Renderable, Stringable
 {
 	/**	@var	URL|NULL			$defaultUrl */
-	protected ?self $defaultUrl		= NULL;
+	protected ?URL $defaultUrl		= NULL;
 
 	/**	@var	Parts				$parts */
 	protected Parts $parts;
@@ -61,18 +63,23 @@ class URL
 	 *	@param		string				$url		URL string to represent
 	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
-	public function __construct( string $url, URL|string|NULL $defaultUrl = NULL )
+	public function __construct( string $url, URL|string $defaultUrl = NULL )
 	{
-		if( !is_null( $defaultUrl ) ){
+		if( '' === trim( $url ) )
+			throw new InvalidArgumentException( 'No URL given' );
+
+		if( NULL !== $defaultUrl ){
 			if( is_string( $defaultUrl ) )
-				$defaultUrl	= new self( $defaultUrl );
+				$defaultUrl	= new URL( $defaultUrl );
 			$this->setDefault( $defaultUrl );
 		}
-		if( 0 === strlen( trim( $url ) ) )
-			throw new InvalidArgumentException( 'No URL given' );
 		$this->set( $url );
 	}
 
+	/**
+	 *	Implements Stringable interface.
+	 *	@return		string
+	 */
 	public function __toString(): string
 	{
 		return $this->get();
@@ -81,20 +88,27 @@ class URL
 	/**
 	 * @param		string|NULL			$url
 	 * @param		URL|string|NULL		$defaultUrl
-	 * @return		self
+	 * @return		static
 	 */
-	public static function create( string $url = NULL, URL|string|NULL $defaultUrl = NULL ): self
+	public static function create( string $url = NULL, URL|string $defaultUrl = NULL ): static
 	{
-		return new self( $url, $defaultUrl );
+		$className	= static::class;
+		return new $className( $url, $defaultUrl );
 	}
 
+	/**
+	 *	Returns set URL as absolute or relative URL.
+	 *	Alias for getAbsolute() or getRelative().
+	 *	@access		public
+	 *	@return		string		Absolute URL
+	 */
 	public function get( bool $absolute = TRUE ): string
 	{
 		return $absolute ? $this->getAbsolute() : $this->getRelative();
 	}
 
 	/**
-	 *	Returns set URL as absolute URL-
+	 *	Returns set URL as absolute URL.
 	 *	Alias for get() or get( TRUE ).
 	 *	@access		public
 	 *	@return		string		Absolute URL
@@ -255,7 +269,23 @@ class URL
 		return !$this->isAbsolute() && 0 !== strlen( trim( $this->parts->path ) );
 	}
 
-	public function set( string $url ): self
+	/**
+	 *	Implements Renderable interface.
+	 *	@return		string
+	 */
+	public function render(): string
+	{
+		return $this->get();
+	}
+
+	/**
+	 *	Opens a URL by parsing its components.
+	 *	@param		string		$url
+	 *	@return		static
+	 *	@throws		InvalidArgumentException	if given URL is empty
+	 *	@throws		InvalidArgumentException	of given URL is invalid
+	 */
+	public function set( string $url ): static
 	{
 		if( 0 === strlen( trim( $url ) ) )
 			throw new InvalidArgumentException( 'Empty URL given' );
@@ -280,26 +310,26 @@ class URL
 		return $this;
 	}
 
-	public function setAuth( string $username, string $password ): self
+	public function setAuth( string $username, string $password ): static
 	{
 		$this->setUsername( $username );
 		$this->setPassword( $password );
 		return $this;
 	}
 
-	public function setDefault( URL $url ): self
+	public function setDefault( URL $url ): static
 	{
 		$this->defaultUrl	= $url;
 		return $this;
 	}
 
-	public function setFragment( string $fragment ): self
+	public function setFragment( string $fragment ): static
 	{
 		$this->parts->fragment	= $fragment;
 		return $this;
 	}
 
-	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): self
+	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): static
 	{
 		$this->parts->host	= $host;
 		if( NULL !== $port )
@@ -309,19 +339,19 @@ class URL
 		return $this;
 	}
 
-	public function setPassword( string $password ): self
+	public function setPassword( string $password ): static
 	{
 		$this->parts->pass	= $password;
 		return $this;
 	}
 
-	public function setPort( ?int $port = NULL ): self
+	public function setPort( ?int $port = NULL ): static
 	{
 		$this->parts->port	= $port;
 		return $this;
 	}
 
-	public function setPath( string $path, bool $based = FALSE ): self
+	public function setPath( string $path, bool $based = FALSE ): static
 	{
 		$path	= preg_replace( '@([^/]+/\.\./)@', '/', $path );
 		if( preg_match( '@\.\./@', $path ) )
@@ -337,9 +367,9 @@ class URL
 	 *	...
 	 *	@access		public
 	 *	@param		array|string		$query
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setQuery( array|string $query ): self
+	public function setQuery( array|string $query ): static
 	{
 		if( is_array( $query ) )
 			$query	= http_build_query( $query, '&' );
@@ -347,13 +377,13 @@ class URL
 		return $this;
 	}
 
-	public function setScheme( string $scheme ): self
+	public function setScheme( string $scheme ): static
 	{
 		$this->parts->scheme	= $scheme;
 		return $this;
 	}
 
-	public function setUsername( string $username ): self
+	public function setUsername( string $username ): static
 	{
 		$this->parts->user	= $username;
 		return $this;
