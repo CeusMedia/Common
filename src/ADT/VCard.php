@@ -253,9 +253,9 @@ class VCard
 	/**
 	 *	Returns stored formatted Name Fields as Array.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		?string
 	 */
-	public function getFormattedName(): array
+	public function getFormattedName(): ?string
 	{
 		return $this->types['fn'];
 	}
@@ -339,9 +339,9 @@ class VCard
 	/**
 	 *	Returns the stored Person's Role.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		?string
 	 */
-	public function getRole(): string
+	public function getRole(): ?string
 	{
 		return $this->types['role'];
 	}
@@ -349,9 +349,9 @@ class VCard
 	/**
 	 *	Returns the stored Person's Title.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		?string
 	 */
-	public function getTitle(): string
+	public function getTitle(): ?string
 	{
 		return $this->types['title'];
 	}

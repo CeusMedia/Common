@@ -39,7 +39,6 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@copyright		2010-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@todo			Code Doc
  */
 class Reader
 {

@@ -47,8 +47,8 @@ use CeusMedia\Common\Alg\Text\EncodingConverter;
  */
 class Builder
 {
-	public static string $version	= "3.0";
-	public static string $prodId	= "";
+	public static string $version	= '3.0';
+	public static string $prodId	= '';
 
 	/**
 	 *	Builds vCard String from vCard Object and converts between Charsets.
@@ -65,76 +65,86 @@ class Builder
 
 		//  NAME FIELDS
 		if( $fields	= $card->getNameFields() )
-			$lines[]	= self::renderLine( "n", $fields );
+			$lines[]	= self::renderLine( 'n', $fields );
 
 		//  ADDRESSES
 		foreach( $card->getAddresses() as $address )
-			$lines[]	= self::renderLine( "adr", $address, $address['types'] );
+			$lines[]	= self::renderLine( 'adr', $address, $address['types'] );
 
 		//  FORMATTED NAME
 		if( $name	= $card->getFormattedName() )
-			$lines[]	= self::renderLine( "fn", $name );
+			$lines[]	= self::renderLine( 'fn', $name );
 
 		//  NICKNAMES
 		if( $nicknames = $card->getNicknames() )
-			$lines[]	= self::renderLine( "nickname", $nicknames, [], TRUE, "," );
+			$lines[]	= self::renderLine( 'nickname', $nicknames, [], TRUE, ',' );
 
 		//  ORGANISATION
 		if( $fields	= $card->getOrganisationFields() )
-			$lines[]	= self::renderLine( "org", $fields, [], TRUE );
+			$lines[]	= self::renderLine( 'org', $fields, [], TRUE );
 
 		//  TITLE
 		if( $title	= $card->getTitle() )
-			$lines[]	= self::renderLine( "title", $title );
+			$lines[]	= self::renderLine( 'title', $title );
 
 		//  ROLE
 		if( $role	= $card->getRole() )
-			$lines[]	= self::renderLine( "role", $role );
+			$lines[]	= self::renderLine( 'role', $role );
 
 		//  EMAIL ADDRESSES
 		foreach( $card->getEmails() as $address => $types )
-			$lines[]	= self::renderLine( "email", $address, $types );
+			$lines[]	= self::renderLine( 'email', $address, $types );
 
 		//  URLS
 		foreach( $card->getUrls() as $url => $types )
-			$lines[]	= self::renderLine( "url", $url, $types, FALSE );
+			$lines[]	= self::renderLine( 'url', $url, $types, FALSE );
 
 		//  PHONES
 		foreach( $card->getPhones() as $number => $types )
-			$lines[]	= self::renderLine( "tel", $number, $types );
+			$lines[]	= self::renderLine( 'tel', $number, $types );
 
 		//  GEO TAGS
 		foreach( $card->getGeoTags() as $geo )
-			$lines[]	= self::renderLine( "geo", $geo, $geo['types'] );
+			$lines[]	= self::renderLine( 'geo', $geo, $geo['types'] );
 
 		if( self::$prodId )
-			array_unshift( $lines, "PRODID:".self::$prodId );
+			array_unshift( $lines, 'PRODID:'.self::$prodId );
 		if( self::$version )
-			array_unshift( $lines, "VERSION:".self::$version );
-		array_unshift( $lines, "BEGIN:VCARD" );
-		$lines[]	= "END:VCARD";
+			array_unshift( $lines, 'VERSION:'.self::$version );
+		array_unshift( $lines, 'BEGIN:VCARD' );
+		$lines[]	= 'END:VCARD';
 		$lines		= implode( "\n", $lines );
 		if( $charsetIn && $charsetOut )
 			$lines	= EncodingConverter::convert( $lines, $charsetIn, $charsetOut );
 		return $lines;
 	}
 
+	//  --  PROTECTED  --  //
+
 	protected static function escape( string $value ): string
 	{
-		$value	= str_replace( ",", "\,", $value );
-		$value	= str_replace( ";", "\;", $value );
-		return str_replace( ":", "\:", $value );
+		$value	= str_replace( ',', "\,", $value );
+		$value	= str_replace( ';', "\;", $value );
+		return str_replace( ':', "\:", $value );
 	}
 
-	protected static function renderLine( string $name, array|string $values, array $types = [], bool $escape = TRUE, string $delimiter = ";" ): string
+	/**
+	 *	@param		string			$name
+	 *	@param		array|string	$values
+	 *	@param		array			$types
+	 *	@param		bool			$escape
+	 *	@param		string			$delimiter
+	 *	@return		string
+	 */
+	protected static function renderLine( string $name, array|string $values, array $types = [], bool $escape = TRUE, string $delimiter = ';' ): string
 	{
-		$type	= $types ? ";TYPE=".implode( ",", $types ) : "";
+		$type	= $types ? ';TYPE='.implode( ',', $types ) : '';
 		$name	= strtoupper( $name );
 		if( is_array( $values ) ){
 			if( $escape ){
 				$list	= [];
 				foreach( $values as $key => $value )
-					if( $key !== "types" )
+					if( 'types' !== $key && NULL !== $value )
 						$list[]	= self::escape( $value );
 				$values	= $list;
 			}
@@ -142,6 +152,6 @@ class Builder
 		}
 		else if( $escape )
 			$values	= self::escape( $values );
-		return $name.$type.":".$values;
+		return $name.$type.':'.$values;
 	}
 }
