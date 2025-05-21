@@ -43,7 +43,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 class Writer
 {
 	/**	@var		string		$fileName		File Name of VCard File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.

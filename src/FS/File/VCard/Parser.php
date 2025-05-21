@@ -62,19 +62,6 @@ class Parser
 		return self::parseInto( $string, $vcard, $charsetIn, $charsetOut );
 	}
 
-	protected static function parseAttributes( string $string ): array
-	{
-		$list	= [];
-		foreach( explode( ";", $string ) as $part ){
-			$parts1	= explode( "=", $part );
-			$key	= array_shift( $parts1 );
-			$values	= explode( ",", array_shift( $parts1 ) );
-			foreach( $values as $value )
-				$list[]	= $value;
-		}
-		return $list;
-	}
-
 	/**
 	 *	Parses vCard String to an given vCard Object and converts between Charsets.
 	 *	@access		public
@@ -89,37 +76,57 @@ class Parser
 	{
 		if( !$string )
 			throw new InvalidArgumentException( 'String is empty ' );
-		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) ){
+		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
 			$string	= EncodingConverter::convert( $string, $charsetIn, $charsetOut );
-		}
 
-		$lines	= explode( "\n", $string );
-		foreach( $lines as $line )
+		foreach( explode( "\n", $string ) as $line )
 			self::parseLine( $vcard, $line );
 		return $vcard;
 	}
 
+	//  --  PROTECTED  --  //
+
+	/**
+	 *	@param		string		$string
+	 *	@return		array
+	 */
+	protected static function parseAttributes( string $string ): array
+	{
+		$list	= [];
+		foreach( explode( ';', $string ) as $part ){
+			$parts1	= explode( '=', $part );
+			$key	= array_shift( $parts1 );
+			$values	= explode( ',', array_shift( $parts1 ) );
+			foreach( $values as $value )
+				$list[]	= $value;
+		}
+		return $list;
+	}
+
+	/**
+	 *	@param		VCard		$vcard
+	 *	@param		string		$line
+	 *	@return		void
+	 */
 	protected static function parseLine( VCard $vcard, string $line ): void
 	{
-		$partsLine	= explode( ":", $line );
+		$partsLine	= explode( ':', $line );
 		$keyFull	= array_shift( $partsLine );
 
 		//  --  GET KEY  --  //
-		$partsKey	= explode( ";", $keyFull );
+		$partsKey	= explode( ';', $keyFull );
 		$key		= array_shift( $partsKey );
 
 		//  --  GET KEY ATTRIBUTES  --  //
-		$attributes	= implode( ";", $partsKey );
+		$attributes	= implode( ';', $partsKey );
 		$attributes	= self::parseAttributes( $attributes );
 
 		//  --  GET VALUES  --  //
-		$values		= implode( ":", $partsLine );
-		$values		= explode( ";", $values );
+		$values		= implode( ':', $partsLine );
+		$values		= explode( ';', $values );
 
 		//  --  BUILD ARRAY(10) FOR VALUE FIELDS  --  //
-		$list	= [];
-		for( $i=0; $i<10; $i++ )
-			$list[$i]	= NULL;
+		$list	= array_fill( 0, 10, NULL );
 		for( $i=0; $i<count( $values); $i++ )
 			$list[$i]	= $values[$i];
 		$values	= $list;
