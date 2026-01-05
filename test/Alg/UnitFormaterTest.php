@@ -8,7 +8,7 @@ declare( strict_types = 1 );
 
 /**
  *	TestUnit of Unit Formater.
- *	@package		Tests.Alg.Validation
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
@@ -19,7 +19,7 @@ use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Unit Formater.
- *	@package		Tests.Alg.Validation
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 class UnitFormaterTest extends BaseCase

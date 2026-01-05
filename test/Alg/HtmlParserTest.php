@@ -9,7 +9,7 @@ declare( strict_types = 1 );
 
 /**
  *	TestUnit of HtmlParser.
- *	@package		Tests.alg
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
@@ -21,7 +21,7 @@ use DOMDocument;
 
 /**
  *	TestUnit of HtmlParser.
- *	@package		Tests.alg
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 class HtmlParserTest extends BaseCase
