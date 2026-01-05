@@ -416,9 +416,26 @@ class Request implements ArrayAccess
 		return isset( $this->sources[$source][$key] );
 	}
 
-	public function isAjax(): bool
+	/**
+	 *	Indicate whether request is marked as AJAX request.
+	 *	Looks for presence of header "X-Requested-With".
+	 *	On check mode, checks value against list of allowed values (XMLHttpRequest or custom value).
+	 *	Allow list can be extended by custom values.
+	 *	@param		bool			$checkValue		Flag: check if value is XMLHttpRequest or Fetch (or custom value)
+	 *	@param		array			$customValues	List of custom values to allow
+	 *	@return		bool
+	 */
+	public function isAjax( bool $checkValue = TRUE, array $customValues = [] ): bool
 	{
-		return $this->headers->hasField( 'X-Requested-With' );
+		if( !$this->headers->hasField( 'X-Requested-With' ) )
+			return FALSE;
+		if( !$checkValue )
+			return TRUE;
+		$allowedValues	= ['XMLHttpRequest'];
+		if( [] !== $customValues )
+			$allowedValues	= array_merge( $allowedValues, $customValues );
+		return in_array( $this->headers->getField( 'X-Requested-With' ), $allowedValues );
+
 	}
 
 	/**
