@@ -116,9 +116,9 @@ class Sender
 		try{
 			$response	= ResponseCompressor::compressResponse( $response, $this->compression );
 		}
-		catch( NotSupportedException ){
-			$this->compression = NULL;
-			return $this->send( $sendLengthHeader, $andExit );
+		catch( NotSupportedException ){										//  compression method not supported
+			$this->compression = NULL;										//  clear set compression
+			return $this->send( $sendLengthHeader, $andExit );				//  try again
 		}
 
 		/*  --  HTTP BASIC INFORMATION  --  */
