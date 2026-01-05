@@ -45,43 +45,47 @@ use InvalidArgumentException;
 class UnitParser
 {
 	public static array $rules	= [
-		'/^([0-9.,]+)$/'			=> 1,
-		'/^([0-9.,]+)\s*B$/'		=> 1,
+		"/^([0-9.,]+)$/"			=> 1,
+		"/^([0-9.,]+)\s*B$/"		=> 1,
 
-		'/^([0-9.,]+)\s*k$/'		=> 10 ** 3,
-		'/^([0-9.,]+)\s*kB$/'		=> 10 ** 3,
-		'/^([0-9.,]+)\s*kiB$/'		=> 2 ** 10,
-		'/^([0-9.,]+)\s*K$/'		=> 2 ** 10,
-		'/^([0-9.,]+)\s*KB$/i'		=> 2 ** 10,
+		"/^([0-9.,]+)\s*k$/"		=> 10 ** 3,
+		"/^([0-9.,]+)\s*kB$/"		=> 10 ** 3,
+		"/^([0-9.,]+)\s*kiB$/"		=> 2 ** 10,
+		"/^([0-9.,]+)\s*K$/"		=> 2 ** 10,
+		"/^([0-9.,]+)\s*KB$/i"		=> 2 ** 10,
 
-		'/^([0-9.,]+)\s*M$/'		=> 10 ** 6,
-		'/^([0-9.,]+)\s*MB$/i'		=> 10 ** 6,
-		'/^([0-9.,]+)\s*MiB$/i'		=> 2 ** 20,
+		"/^([0-9.,]+)\s*M$/"		=> 10 ** 6,
+		"/^([0-9.,]+)\s*MB$/i"		=> 10 ** 6,
+		"/^([0-9.,]+)\s*MiB$/i"		=> 2 ** 20,
 
-		'/^([0-9.,]+)\s*G$/'		=> 10 ** 9,
-		'/^([0-9.,]+)\s*GB$/i'		=> 10 ** 9,
-		'/^([0-9.,]+)\s*GiB$/i'		=> 2 ** 30,
+		"/^([0-9.,]+)\s*G$/"		=> 10 ** 9,
+		"/^([0-9.,]+)\s*GB$/i"		=> 10 ** 9,
+		"/^([0-9.,]+)\s*GiB$/i"		=> 2 ** 30,
 
-		'/^([0-9.,]+)\s*T$/'		=> 10 ** 12,
-		'/^([0-9.,]+)\s*TB$/i'		=> 10 ** 12,
-		'/^([0-9.,]+)\s*TiB$/i'		=> 2 ** 40,
+		"/^([0-9.,]+)\s*T$/"		=> 10 ** 12,
+		"/^([0-9.,]+)\s*TB$/i"		=> 10 ** 12,
+		"/^([0-9.,]+)\s*TiB$/i"		=> 2 ** 40,
 
-		'/^([0-9.,]+)\s*P$/'		=> 10 ** 15,
-		'/^([0-9.,]+)\s*PB$/i'		=> 10 ** 15,
-		'/^([0-9.,]+)\s*PiB$/i'		=> 2 ** 50,
+		"/^([0-9.,]+)\s*P$/"		=> 10 ** 15,
+		"/^([0-9.,]+)\s*PB$/i"		=> 10 ** 15,
+		"/^([0-9.,]+)\s*PiB$/i"		=> 2 ** 50,
 
-		'/^([0-9.,]+)\s*E$/'		=> 10 ** 18,
-		'/^([0-9.,]+)\s*EB$/i'		=> 10 ** 18,
-		'/^([0-9.,]+)\s*EiB$/i'		=> 2 ** 60,
+		"/^([0-9.,]+)\s*E$/"		=> 10 ** 18,
+		"/^([0-9.,]+)\s*EB$/i"		=> 10 ** 18,
+		"/^([0-9.,]+)\s*EiB$/i"		=> 2 ** 60,
 	];
 
 	public static function parse( string $string, ?string $exceptedUnit = NULL ): float
 	{
-		if( !strlen( trim( $string ) ) )
+		$string	= trim( $string );
+		if( '' === $string )
 			throw new InvalidArgumentException( 'String cannot be empty' );
+
 		$int	= (int) $string;
-		if( $exceptedUnit && strlen( (string) $int ) == strlen( $string ) && $int == $string )
-			$string	.= $exceptedUnit;
+		if( NULL !== $exceptedUnit )
+			if( strlen( (string) $int ) === strlen( $string ) && $int == $string )
+				$string	.= $exceptedUnit;
+
 		$string	= str_replace( ',', '.', trim( $string ) );
 		$factor	= NULL;
 		foreach( self::$rules as $key => $value ){
@@ -93,6 +97,7 @@ class UnitParser
 		}
 		if( $factor !== NULL )																		//
 			return $factor * $string;
+
 		throw new DomainException( 'Given string is not matching any parser rules' );
 	}
 }
