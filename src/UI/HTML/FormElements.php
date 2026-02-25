@@ -317,11 +317,11 @@ class FormElements
 	 *	Builds HTML Code for Options for a Select.
 	 *	@access		public
 	 *	@static
-	 *	@param		array				$options 			Array of Options
-	 *	@param		string|array|NULL	$selected			Value of selected Option
+	 *	@param		array					$options 		Array of Options
+	 *	@param		int|string|array|NULL	$selected		Value of selected Option
 	 *	@return		string
 	 */
-	public static function Options( array $options, $selected = NULL ): string
+	public static function Options( array $options, int|string|array|null $selected = NULL ): string
 	{
 		$list		= [];
 		foreach( $options as $key => $value){
