@@ -434,7 +434,8 @@ class Request implements ArrayAccess
 		$allowedValues	= ['XMLHttpRequest'];
 		if( [] !== $customValues )
 			$allowedValues	= array_merge( $allowedValues, $customValues );
-		return in_array( $this->headers->getField( 'X-Requested-With' ), $allowedValues );
+		$headerField	= $this->headers->getField( 'X-Requested-With' );
+		return in_array( $headerField->getValue(), $allowedValues );
 
 	}
 
