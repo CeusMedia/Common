@@ -3,7 +3,7 @@
 /**
  *	Handler for HTTP Requests.
  *
- *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -42,7 +42,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Finish implementation: this is bastard of request and response
@@ -416,9 +416,27 @@ class Request implements ArrayAccess
 		return isset( $this->sources[$source][$key] );
 	}
 
-	public function isAjax(): bool
+	/**
+	 *	Indicate whether request is marked as AJAX request.
+	 *	Looks for presence of header "X-Requested-With".
+	 *	On check mode, checks value against list of allowed values (XMLHttpRequest or custom value).
+	 *	Allow list can be extended by custom values.
+	 *	@param		bool			$checkValue		Flag: check if value is XMLHttpRequest or Fetch (or custom value)
+	 *	@param		array			$customValues	List of custom values to allow
+	 *	@return		bool
+	 */
+	public function isAjax( bool $checkValue = TRUE, array $customValues = [] ): bool
 	{
-		return $this->headers->hasField( 'X-Requested-With' );
+		if( !$this->headers->hasField( 'X-Requested-With' ) )
+			return FALSE;
+		if( !$checkValue )
+			return TRUE;
+		$allowedValues	= ['XMLHttpRequest'];
+		if( [] !== $customValues )
+			$allowedValues	= array_merge( $allowedValues, $customValues );
+		$headerField	= $this->headers->getField( 'X-Requested-With' );
+		return in_array( $headerField->getValue(), $allowedValues );
+
 	}
 
 	/**

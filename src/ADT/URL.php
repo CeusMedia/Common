@@ -4,7 +4,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
@@ -31,25 +31,27 @@
 namespace CeusMedia\Common\ADT;
 
 use CeusMedia\Common\ADT\URL\Parts;
+use CeusMedia\Common\Renderable;
 use InvalidArgumentException;
 use RangeException;
 use RuntimeException;
+use Stringable;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
  *	@todo			code doc
  */
-class URL
+class URL implements Renderable, Stringable
 {
 	/**	@var	URL|NULL			$defaultUrl */
-	protected ?self $defaultUrl		= NULL;
+	protected ?URL $defaultUrl		= NULL;
 
 	/**	@var	Parts				$parts */
 	protected Parts $parts;
@@ -61,18 +63,23 @@ class URL
 	 *	@param		string				$url		URL string to represent
 	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
-	public function __construct( string $url, URL|string|NULL $defaultUrl = NULL )
+	public function __construct( string $url, URL|string $defaultUrl = NULL )
 	{
-		if( !is_null( $defaultUrl ) ){
+		if( '' === trim( $url ) )
+			throw new InvalidArgumentException( 'No URL given' );
+
+		if( NULL !== $defaultUrl ){
 			if( is_string( $defaultUrl ) )
-				$defaultUrl	= new self( $defaultUrl );
+				$defaultUrl	= new URL( $defaultUrl );
 			$this->setDefault( $defaultUrl );
 		}
-		if( 0 === strlen( trim( $url ) ) )
-			throw new InvalidArgumentException( 'No URL given' );
 		$this->set( $url );
 	}
 
+	/**
+	 *	Implements Stringable interface.
+	 *	@return		string
+	 */
 	public function __toString(): string
 	{
 		return $this->get();
@@ -81,33 +88,38 @@ class URL
 	/**
 	 * @param		string|NULL			$url
 	 * @param		URL|string|NULL		$defaultUrl
-	 * @return		self
+	 * @return		static
 	 */
-	public static function create( string $url = NULL, URL|string|NULL $defaultUrl = NULL ): self
+	public static function create( string $url = NULL, URL|string $defaultUrl = NULL ): static
 	{
-		return new self( $url, $defaultUrl );
+		$className	= static::class;
+		return new $className( $url, $defaultUrl );
 	}
 
+	/**
+	 *	Returns set URL as absolute or relative URL.
+	 *	Alias for getAbsolute() or getRelative().
+	 *	@access		public
+	 *	@return		string		Absolute URL
+	 */
 	public function get( bool $absolute = TRUE ): string
 	{
 		return $absolute ? $this->getAbsolute() : $this->getRelative();
 	}
 
 	/**
-	 *	Returns set URL as absolute URL-
+	 *	Returns set URL as absolute URL.
 	 *	Alias for get() or get( TRUE ).
 	 *	@access		public
 	 *	@return		string		Absolute URL
 	 */
 	public function getAbsolute(): string
 	{
-		if( 0 === strlen( trim( $this->parts->scheme ) ) )
+		if( '' === trim( $this->parts->scheme ?? '' ) )
 			throw new RuntimeException( 'HTTP scheme not set' );
-		if( 0 === strlen( trim( $this->parts->host ) ) )
+		if( '' === trim( $this->parts->host ?? '' ) )
 			throw new RuntimeException( 'HTTP host not set' );
-		$buffer	= [];
-		if( $this->parts->scheme )
-			$buffer[]	= $this->parts->scheme.'://';
+		$buffer	= [$this->parts->scheme.'://'];
 		if( $this->parts->user ){
 			$buffer[]	= $this->parts->user;
 			if( $this->parts->pass )
@@ -204,46 +216,84 @@ class URL
 		return join( '/', $parts ).$query.$fragment;
 	}
 
+	/**
+	 *	Returns parsed or set fragment component.
+	 *	@return		string
+	 */
 	public function getFragment(): string
 	{
 		return $this->parts->fragment;
 	}
 
+	/**
+	 *	Returns parsed or set host component.
+	 *	@return		string
+	 */
 	public function getHost(): string
 	{
 		return $this->parts->host;
 	}
 
+	/**
+	 *	Returns parsed or set user password for authentication.
+	 *	@return		string
+	 */
 	public function getPassword(): string
 	{
 		return $this->parts->pass;
 	}
 
+	/**
+	 *	Returns parsed or set path component.
+	 *	@return		string
+	 */
 	public function getPath(): string
 	{
 		return $this->parts->path;
 	}
 
+	/**
+	 *	Returns parsed or set port component.
+	 *	@return		?int
+	 */
 	public function getPort(): ?int
 	{
 		return $this->parts->port;
 	}
 
+	/**
+	 *	Returns parsed or set query component.
+	 *	@return		string
+	 */
 	public function getQuery(): string
 	{
 		return $this->parts->query;
 	}
 
+	/**
+	 *	Returns parsed or set scheme component.
+	 *	@return		string
+	 */
 	public function getScheme(): string
 	{
 		return $this->parts->scheme;
 	}
 
+	/**
+	 *	Returns parsed or set username for authentication.
+	 *	@return		string
+	 */
 	public function getUsername(): string
 	{
 		return $this->parts->user;
 	}
 
+	/**
+	 *	Indicates whether parsed or set URLis absolute.
+	 *	Means: available components are enough for an absolute path.
+	 *	Means: has at least non-empty scheme, host and path components
+	 *	@return		bool
+	 */
 	public function isAbsolute(): bool
 	{
 		$hasScheme		= strlen( $this->parts->scheme ) > 0;
@@ -252,14 +302,40 @@ class URL
 		return $hasScheme && $hasHost && $hasPath;
 	}
 
+	/**
+	 *	Indicates whether parsed or set URL is relative.
+	 *	Means: available components are NOT enough for an absolute path, but at least a path is set.
+	 *	Means: has no scheme or host components
+	 *	@return		bool
+	 */
 	public function isRelative(): bool
 	{
-		return !$this->isAbsolute() && 0 !== strlen( trim( $this->parts->path ) );
+		return !$this->isAbsolute() && '' !== trim( $this->parts->path );
 	}
 
-	public function set( string $url ): self
+	/**
+	 *	Implements Renderable interface.
+	 *	@return		string
+	 */
+	public function render(): string
 	{
-		if( 0 === strlen( trim( $url ) ) )
+		return $this->get();
+	}
+
+	/**
+	 *	Opens a URL by parsing its components.
+	 *	Given argument can be a string or a URL object.
+	 *	Accepts objects of classes implementing Stringable interface.
+	 *	Supports Renderable interface as well.
+	 *	@param		URL|Renderable|Stringable|string		$url
+	 *	@return		static
+	 *	@throws		InvalidArgumentException	if given URL is empty
+	 *	@throws		InvalidArgumentException	of given URL is invalid
+	 */
+	public function set( URL|Renderable|Stringable|string $url ): static
+	{
+		$url	= $url instanceof Renderable ? $url->render() : (string) $url;
+		if( '' === trim( $url ) )
 			throw new InvalidArgumentException( 'Empty URL given' );
 		$parts	= parse_url( trim( $url ) );
 		if( $parts === FALSE )
@@ -273,8 +349,8 @@ class URL
 			'query'			=> '',
 			'fragment'		=> '',
 		];
-		if( $this->defaultUrl && $this->defaultUrl->parts->path !== '/' ){
-			$regExp			= '@^'.preg_quote( $this->defaultUrl->parts->path ).'@';
+		if( NULL !== $this->defaultUrl && '/' !== $this->defaultUrl->getPath() ){
+			$regExp			= '@^'.preg_quote( $this->defaultUrl->getPath() ).'@';
 			$parts['path']	= preg_replace( $regExp, '/', $parts['path'] ?? '' );
 		}
 		$this->parts	= Parts::fromArray( array_merge( $defaults, $parts ) );
@@ -282,26 +358,37 @@ class URL
 		return $this;
 	}
 
-	public function setAuth( string $username, string $password ): self
+	/**
+	 *	Set credentials (username + password) to enable authentication.
+	 *	@param		string		$username
+	 *	@param		string		$password
+	 *	@return		static
+	 */
+	public function setAuth( string $username, string $password ): static
 	{
 		$this->setUsername( $username );
 		$this->setPassword( $password );
 		return $this;
 	}
 
-	public function setDefault( URL $url ): self
+	public function setDefault( URL $url ): static
 	{
 		$this->defaultUrl	= $url;
 		return $this;
 	}
 
-	public function setFragment( string $fragment ): self
+	/**
+	 *	Set path fragment.
+	 *	@param		string		$fragment
+	 *	@return		static
+	 */
+	public function setFragment( string $fragment ): static
 	{
 		$this->parts->fragment	= $fragment;
 		return $this;
 	}
 
-	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): self
+	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): static
 	{
 		$this->parts->host	= $host;
 		if( NULL !== $port )
@@ -311,19 +398,35 @@ class URL
 		return $this;
 	}
 
-	public function setPassword( string $password ): self
+	/**
+	 *	Set password for username.
+	 *	@param		string		$password
+	 *	@return		static
+	 */
+	public function setPassword( string $password ): static
 	{
 		$this->parts->pass	= $password;
 		return $this;
 	}
 
-	public function setPort( ?int $port = NULL ): self
+	/**
+	 *	Set or unset port component of URL (between domain and path or query or fragment).
+	 *	@param		?int		$port
+	 *	@return		static
+	 */
+	public function setPort( ?int $port = NULL ): static
 	{
 		$this->parts->port	= $port;
 		return $this;
 	}
 
-	public function setPath( string $path, bool $based = FALSE ): self
+	/**
+	 *	Set path component of URL (between domain and query or fragment).
+	 *	@param		string		$path
+	 *	@param		bool		$based		Flag: use base URL if set, default: no
+	 *	@return		static
+	 */
+	public function setPath( string $path, bool $based = FALSE ): static
 	{
 		$path	= preg_replace( '@([^/]+/\.\./)@', '/', $path );
 		if( preg_match( '@\.\./@', $path ) )
@@ -336,12 +439,13 @@ class URL
 	}
 
 	/**
+	 *	Set query component (between path and fragment).
 	 *	...
 	 *	@access		public
 	 *	@param		array|string		$query
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setQuery( array|string $query ): self
+	public function setQuery( array|string $query ): static
 	{
 		if( is_array( $query ) )
 			$query	= http_build_query( $query, '&' );
@@ -349,13 +453,23 @@ class URL
 		return $this;
 	}
 
-	public function setScheme( string $scheme ): self
+	/**
+	 *	Set URL scheme (before domain).
+	 *	@param		string		$scheme
+	 *	@return		static
+	 */
+	public function setScheme( string $scheme ): static
 	{
 		$this->parts->scheme	= $scheme;
 		return $this;
 	}
 
-	public function setUsername( string $username ): self
+	/**
+	 *	Set username for authentication.
+	 *	@param		string		$username
+	 *	@return		static
+	 */
+	public function setUsername( string $username ): static
 	{
 		$this->parts->user	= $username;
 		return $this;

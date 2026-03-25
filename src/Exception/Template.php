@@ -4,7 +4,7 @@
  *	Exception for Templates.
  *	Is serializable (to PHP, JSON), renderable and describable.
  *
- *	Copyright (c) 2007-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -42,7 +42,7 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@copyright		2007-2024 Christian Würker
+ *	@copyright		2007-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */

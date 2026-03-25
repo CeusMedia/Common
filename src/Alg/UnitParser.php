@@ -3,7 +3,7 @@
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
- *	Copyright (c) 2015-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2024 Christian Würker
+ *	@copyright		2015-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +37,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2024 Christian Würker
+ *	@copyright		2015-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			code doc
@@ -45,30 +45,47 @@ use InvalidArgumentException;
 class UnitParser
 {
 	public static array $rules	= [
-		'/^([0-9.,]+)$/'		=> 1,
-		'/^([0-9.,]+)B$/'		=> 1,
-		'/^([0-9.,]+)k$/'		=> 1000,
-		'/^([0-9.,]+)kB$/'		=> 1000,
-		'/^([0-9.,]+)kiB$/'		=> 1000,
-		'/^([0-9.,]+)K$/'		=> 1024,
-		'/^([0-9.,]+)KB$/i'		=> 1024,
-		'/^([0-9.,]+)m$/'		=> 1_000_000,
-		'/^([0-9.,]+)M$/'		=> 1_048_576,
-		'/^([0-9.,]+)MB$/i'		=> 1_048_576,
-		'/^([0-9.,]+)MiB$/i'	=> 1_000_000,
-		'/^([0-9.,]+)g$/'		=> 1_000_000_000,
-		'/^([0-9.,]+)G$/'		=> 1_073_741_824,
-		'/^([0-9.,]+)GB$/i'		=> 1_073_741_824,
-		'/^([0-9.,]+)GiB$/i'	=> 1_000_000_000,
+		"/^([0-9.,]+)$/"			=> 1,
+		"/^([0-9.,]+)\s*B$/"		=> 1,
+
+		"/^([0-9.,]+)\s*k$/"		=> 10 ** 3,
+		"/^([0-9.,]+)\s*kB$/"		=> 10 ** 3,
+		"/^([0-9.,]+)\s*kiB$/"		=> 2 ** 10,
+		"/^([0-9.,]+)\s*K$/"		=> 2 ** 10,
+		"/^([0-9.,]+)\s*KB$/i"		=> 2 ** 10,
+
+		"/^([0-9.,]+)\s*M$/"		=> 10 ** 6,
+		"/^([0-9.,]+)\s*MB$/i"		=> 10 ** 6,
+		"/^([0-9.,]+)\s*MiB$/i"		=> 2 ** 20,
+
+		"/^([0-9.,]+)\s*G$/"		=> 10 ** 9,
+		"/^([0-9.,]+)\s*GB$/i"		=> 10 ** 9,
+		"/^([0-9.,]+)\s*GiB$/i"		=> 2 ** 30,
+
+		"/^([0-9.,]+)\s*T$/"		=> 10 ** 12,
+		"/^([0-9.,]+)\s*TB$/i"		=> 10 ** 12,
+		"/^([0-9.,]+)\s*TiB$/i"		=> 2 ** 40,
+
+		"/^([0-9.,]+)\s*P$/"		=> 10 ** 15,
+		"/^([0-9.,]+)\s*PB$/i"		=> 10 ** 15,
+		"/^([0-9.,]+)\s*PiB$/i"		=> 2 ** 50,
+
+		"/^([0-9.,]+)\s*E$/"		=> 10 ** 18,
+		"/^([0-9.,]+)\s*EB$/i"		=> 10 ** 18,
+		"/^([0-9.,]+)\s*EiB$/i"		=> 2 ** 60,
 	];
 
 	public static function parse( string $string, ?string $exceptedUnit = NULL ): float
 	{
-		if( !strlen( trim( $string ) ) )
+		$string	= trim( $string );
+		if( '' === $string )
 			throw new InvalidArgumentException( 'String cannot be empty' );
+
 		$int	= (int) $string;
-		if( $exceptedUnit && strlen( (string) $int ) == strlen( $string ) && $int == $string )
-			$string	.= $exceptedUnit;
+		if( NULL !== $exceptedUnit )
+			if( strlen( (string) $int ) === strlen( $string ) && $int == $string )
+				$string	.= $exceptedUnit;
+
 		$string	= str_replace( ',', '.', trim( $string ) );
 		$factor	= NULL;
 		foreach( self::$rules as $key => $value ){
@@ -80,6 +97,7 @@ class UnitParser
 		}
 		if( $factor !== NULL )																		//
 			return $factor * $string;
+
 		throw new DomainException( 'Given string is not matching any parser rules' );
 	}
 }

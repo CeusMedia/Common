@@ -3,7 +3,7 @@
 /**
  *	Allows exception to be converted to HTML or plaintext.
  *
- *	Copyright (c) 2011-2024 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2025 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2024 Christian Würker
+ *	@copyright		2011-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
@@ -41,29 +41,43 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2024 Christian Würker
+ *	@copyright		2011-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
  */
 trait Renderable
 {
-//	const FORMAT_AUTO		= 0;
-//	const FORMAT_PLAINTEXT	= 1;
-//	const FORMAT_HTML		= 2;
+/**	@todo	Trait constants are PHP 8.2+
+	public const RENDER_FORMAT_AUTO			= 0;
+	public const RENDER_FORMAT_PLAINTEXT	= 1;
+	public const RENDER_FORMAT_HTML			= 2;
 
-	protected int $format	= 0;
+	public const RENDER_FORMATS				= [
+		self::RENDER_FORMAT_AUTO,
+		self::RENDER_FORMAT_PLAINTEXT,
+		self::RENDER_FORMAT_HTML,
+	];
+
+	protected int $format					= self::RENDER_FORMAT_AUTO;*/
+
+	protected int $format					= 0;
 
 	/**
 	 *	@return		string
 	 */
 	public function render(): string
 	{
-		$format	= 0 !== $this->format ? $this->format : ( Env::isCli() ? 1 : 2 );
+		$format	= $this->format;
+		if( 0 === $this->format )
+//			$format	= Env::isCli() ? self::RENDER_FORMAT_PLAINTEXT : self::RENDER_FORMAT_HTML;
+			$format	= Env::isCli() ? 1 : 2;
+
 		/** @var Throwable $this */
 		return match( $format ){
-			2	=> HtmlView::render( $this ),
-			default	=> CliView::getInstance( $this )->render(),
+//			self::RENDER_FORMAT_HTML	=> HtmlView::render( $this ),
+			2							=> HtmlView::render( $this ),
+			default						=> CliView::getInstance( $this )->render(),
 		};
 	}
 
@@ -71,10 +85,12 @@ trait Renderable
 	 *	Sets forced output format. 0:auto, 1:plaintext, 2:HTML
 	 *	Constants will be available when using PHP 8.2.
 	 *	@param		int		$format
+	 *	@throws		OutOfBoundsException	if given format is invalid
 	 *	@return		static
 	 */
 	public function setFormat( int $format ): static
 	{
+//		if( !in_array( $format, RENDER_FORMATS ) )
 		if( !in_array( $format, [0, 1, 2] ) )
 			throw new OutOfBoundsException( 'Invalid format' );
 		$this->format	= $format;

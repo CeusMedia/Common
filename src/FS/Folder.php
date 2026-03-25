@@ -5,7 +5,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2024 Christian Würker
+ *	@copyright		2018-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -22,12 +22,27 @@ use DirectoryIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_FS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2024 Christian Würker
+ *	@copyright		2018-2025 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Folder extends AbstractNode
 {
+	/**
+	 *	Static constructor.
+	 *	@param		string		$pathName
+	 *	@param		boolean		$create
+	 *	@param		integer		$mode			File permissions as octal, default: 0777
+	 *	@param		bool		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		static
+	 *	@throws		IoException
+	 */
+	public static function new( string $pathName, bool $create = FALSE, int $mode = 0777, bool $strict = TRUE ): static
+	{
+		$className	= static::class;
+		return new $className( $pathName, $create, $mode, $strict );
+	}
+
 	/**
 	 *	@param		string		$pathName
 	 *	@param		bool		$create
