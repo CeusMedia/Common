@@ -7,7 +7,7 @@ declare(strict_types=1);
  *	Based on runtime exception.
  *	Is serializable (to PHP, JSON), renderable and describable.
  *
- *	Copyright (c) 2011-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -45,7 +45,7 @@ use CeusMedia\Common\Exception\Traits\Serializable as SerializableTrait;
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */

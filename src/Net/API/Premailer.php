@@ -8,7 +8,7 @@ declare(strict_types=1);
 /**
  *	Premailer API PHP class.
  *
- *	Copyright (c) 2012-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ declare(strict_types=1);
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -56,7 +56,7 @@ use RuntimeException;
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
