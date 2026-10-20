@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	HTTP status code handling.
  *
@@ -142,7 +144,7 @@ class Status
 	{
 		if( $code = array_search( $text, static::$codes ) )
 			return $code;
-		$__text	= trim( strtolower( preg_replace( "/[^a-z ]/i", "", $text ) ) );
+		$__text	= trim( strtolower( (string) preg_replace( "/[^a-z ]/i", "", $text ) ) );
 		foreach( static::$codes as $code => $_text )
 			if( strtolower( $_text ) === $__text )
 				return $code;

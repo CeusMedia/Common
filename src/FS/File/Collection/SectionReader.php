@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	A Class for reading Section List Files.
  *

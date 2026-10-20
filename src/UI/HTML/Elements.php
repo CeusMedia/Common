@@ -1,4 +1,7 @@
 <?php /** @noinspection HtmlDeprecatedTag */
+
+declare(strict_types=1);
+
 /** @noinspection XmlDeprecatedElement */
 /** @noinspection PhpUnused */
 /** @noinspection HtmlDeprecatedAttribute */
@@ -113,11 +116,11 @@ class Elements extends FormElements
 	 *	@param		string|NULL		$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	public static function RadioLabel( string $name, $label, $value, ?bool $checked = NULL, ?string $class = NULL, ?string $readOnly = NULL ): string
+	public static function RadioLabel( string $name, mixed $label, mixed $value, ?bool $checked = NULL, ?string $class = NULL, ?string $readOnly = NULL ): string
 	{
-		$radio		= Elements::Radio( $name, $value, $checked, $class, $readOnly );
+		$radio		= Elements::Radio( $name, $value, $checked ?? FALSE, $class, $readOnly ?? FALSE );
 		$field		= Elements::FieldCell( '', $radio );
-		$label		= Elements::LabelCell( '', $label, $class );
+		$label		= Elements::LabelCell( '', (string) $label, $class ?? '' );
 		$content	= '<tr>'.$field.$label.'</tr>';
 		$code		= Elements::Table( $content, '', '' );
 		return $code;
@@ -226,7 +229,7 @@ class Elements extends FormElements
 	 *	@param		mixed		$text		Text within HelpHover
 	 *	@param		string		$class		CSS Class of HelpHover
 	 */
-	public static function HelpHover( $html, $text, string $class = 'helptext' ): string
+	public static function HelpHover( mixed $html, mixed $text, string $class = 'helptext' ): string
 	{
 		$id	= uniqid( "hhItem" );
 		$code	= "<span class=\"hover\" id=\"".$id."\">".$html."</span><div class=\"".$class."\" id=\"".$id."Help\">".$text."</div>";
@@ -242,10 +245,10 @@ class Elements extends FormElements
 	 *	@param		mixed		$text		Text within ToolTip
 	 *	@param		string		$class		CSS Class of ToolTip
 	 */
-	public static function ToolTip( $html, $text, string $class = 'container' ): string
+	public static function ToolTip( mixed $html, mixed $text, string $class = 'container' ): string
 	{
 		$id		= uniqid( "ttItem" );
-		$text	= str_replace( "  ", "<br/>", $text );
+		$text	= str_replace( "  ", "<br/>", (string) $text );
 		$tip		= "
 <div id='".$id."' class='tooltip' onClick=\"ToolTip.hide('".$id."');\">
   <div class='".$class."'>
@@ -268,7 +271,7 @@ class Elements extends FormElements
 	 *	@param		string		$class			CSS-Klasse des Acronyms
 	 *	@return		string
 	 */
-	public static function Acronym( $text, $description, string $class = "" ): string
+	public static function Acronym( mixed $text, mixed $description, string $class = "" ): string
 	{
 		$ins_title		= " title=\"".$description."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -289,8 +292,8 @@ class Elements extends FormElements
 		$args	= func_get_args( );
 		if( is_array( $args[0] ) )
 			$args	= $args[0];
-		if( preg_match( "@,@", $args[0] ) )
-			$args	= explode( ",", $args[0] );
+		if( preg_match( "@,@", (string) $args[0] ) )
+			$args	= explode( ",", (string) $args[0] );
 		if( sizeof( $args ) ){
 			foreach( $args as $arg )
 				$cols[] = "<col width=\"".$arg."\"/>";
@@ -311,7 +314,7 @@ class Elements extends FormElements
 	 *	@param		integer		$colspan			Anzahl der überstreckten Spalten
 	 *	@return		string
 	 */
-	public static function FieldCell( string $field_id, $field_element, string $class = "field", string $suffix = "", int $colspan = 1 ): string
+	public static function FieldCell( string $field_id, mixed $field_element, string $class = "field", string $suffix = "", int $colspan = 1 ): string
 	{
 		$ins_id		= $field_id ? " id=\"fld_".$field_id."\"" : "";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -349,7 +352,7 @@ class Elements extends FormElements
 	 *	@param		int|NULL	$height			Höhenangabe
 	 *	@return		string
 	 */
-	public static function Image( $url, $title, string $class = "", ?int $width = NULL, ?int $height = NULL ): string
+	public static function Image( mixed $url, mixed $title, string $class = "", ?int $width = NULL, ?int $height = NULL ): string
 	{
 		$attributes	= array(
 			'src'		=> $url,

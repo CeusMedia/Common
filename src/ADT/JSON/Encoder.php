@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\ADT\JSON;
 
 use CeusMedia\Common\Exception\Conversion as ConversionException;

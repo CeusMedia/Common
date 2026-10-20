@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *	@category		Library
@@ -62,11 +64,12 @@ class INI
 	 */
 	public function get( string $key, ?string $section = NULL ): ?string
 	{
-		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
-			return $this->sections->get( $section )->get( $key );
-		if( !is_null( $this->pairs ) )
-			return $this->pairs->get( $key );
-		return NULL;
+		$value	= NULL;
+		if( !is_null( $this->sections ) && NULL !== $section && $this->sections->has( $section ) )
+			$value	= $this->sections->get( $section )->get( $key );
+		else if( !is_null( $this->pairs ) )
+			$value	= $this->pairs->get( $key );
+		return is_scalar( $value ) ? (string) $value : $value;
 	}
 
 	/**
@@ -78,7 +81,7 @@ class INI
 	 */
 	public function has( string $key, ?string $section = NULL ): bool
 	{
-		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
+		if( !is_null( $this->sections ) && NULL !== $section && $this->sections->has( $section ) )
 			return $this->sections->get( $section )->has( $key );
 		if( !is_null( $this->pairs ) )
 			return $this->pairs->has( $key );
@@ -107,7 +110,7 @@ class INI
 	public function remove( string $key, ?string $section = NULL ): bool
 	{
 		$result	= NULL;
-		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
+		if( !is_null( $this->sections ) && NULL !== $section && $this->sections->has( $section ) )
 			$result	= $this->sections->get( $section )->remove( $key );
 		else if( !is_null( $this->pairs ) )
 			$result	= $this->pairs->remove( $key );
@@ -118,7 +121,7 @@ class INI
 
 	public function set( string $key, string|int|float $value, ?string $section = NULL ): bool
 	{
-		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
+		if( !is_null( $this->sections ) && NULL !== $section && $this->sections->has( $section ) )
 			$result	= $this->sections->get( $section )->set( $key, $value );
 		else{
 			if( is_null( $this->pairs ) )
@@ -144,7 +147,7 @@ class INI
 		else if( !is_null( $this->pairs ) )
 			foreach( $this->pairs as $key => $value )
 				$this->parseLine( $list, $key, $value );
-		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
+		return (int) Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
 	}
 
 	/**
@@ -155,7 +158,7 @@ class INI
 	 */
 	protected function parseLine( array & $list, string|int|float $key, mixed $value ): void
 	{
-		$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
+		$indent	= (int) max( $this->indentTabs - ceil( ( strlen( (string) $key ) + 1 ) / $this->lengthTab ), 1 );
 		if( is_bool( $value ) )
 			$value	= $value ? "yes" : "no";
 		else if( !is_int( $value ) )

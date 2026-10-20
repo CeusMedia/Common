@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
@@ -79,9 +81,9 @@ class LevelMap extends Dictionary
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( str_starts_with( $pairKey, $key ) )
+			if( str_starts_with( (string) $pairKey, $key ) )
 				//  collect Pair
-				$list[substr( $pairKey, $length )]	= $pairValue;
+				$list[substr( (string) $pairKey, $length )]	= $pairValue;
 		}
 		//  found Pairs
 		if( count( $list ) )
@@ -94,7 +96,7 @@ class LevelMap extends Dictionary
 	/**
 	 *	@todo	test + rename + code doc + inline doc
 	 */
-	public function getKeySections( string $prefix = NULL ): array
+	public function getKeySections( ?string $prefix = NULL ): array
 	{
 		/** @var array $pairs */
 		$pairs		= $this->getAll( $prefix );
@@ -103,6 +105,7 @@ class LevelMap extends Dictionary
 		$sections		= [];
 		$lastSection	= NULL;
 		foreach( $keys as $key ){
+			$key	= (string) $key;
 			if( !substr_count( $key, $this->divider ) )
 				continue;
 			$parts		= explode( $this->divider, $key );
@@ -138,7 +141,7 @@ class LevelMap extends Dictionary
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue )
 			//  Prefix Key is found
-			if( str_starts_with( $pairKey, $key ) )
+			if( str_starts_with( (string) $pairKey, $key ) )
 				return TRUE;
 		return FALSE;
 	}
@@ -169,7 +172,7 @@ class LevelMap extends Dictionary
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( str_starts_with( $pairKey, $key ) ){
+			if( str_starts_with( (string) $pairKey, $key ) ){
 				//  remove Pair
 				unset( $this->pairs[$pairKey] );
 				$count++;

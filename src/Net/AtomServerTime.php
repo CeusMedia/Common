@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -78,10 +81,10 @@ class AtomServerTime
 	 *	@return		void
 	 *	@throws		IoException
 	 */
-	protected function synchronize()
+	protected function synchronize(): void
 	{
 		if( file_exists( $this->syncFile ) ){
-			$time	= filemtime( $this->syncFile );
+			$time	= (int) filemtime( $this->syncFile );
 			if( ( time() - $time ) < $this->refreshTime ){
 				$this->syncTime	= $time;
 				$this->syncDiff	= (int) FileReader::load( $this->syncFile );

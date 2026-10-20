@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Validates an XML Element built form an Atom XML String against most of the ATOM Rules.
  *

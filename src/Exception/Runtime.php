@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
  *	Is serializable (to PHP, JSON), renderable and describable.

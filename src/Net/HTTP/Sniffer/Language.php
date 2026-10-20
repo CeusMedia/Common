@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Sniffer for Languages accepted by an HTTP Request.
  *

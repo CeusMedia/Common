@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Configuration using JSON file and structure of magic nodes.
  *
@@ -45,13 +47,13 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 class Config
 {
 	/**	@var		string			$fileName		Name of JSON file */
-	protected $fileName;
+	protected string $fileName;
 
 	/**	@var		MagicNode		$data			Node structure */
-	protected $data;
+	protected MagicNode $data;
 
 	/**	@var		boolean			$format			Flag: format JSON on save */
-	protected $format;
+	protected bool $format;
 
 	/**
 	 *	Constructor.
@@ -102,7 +104,7 @@ class Config
 		$json	= $this->data->toJson();
 		if( $this->format )
 			$json	= JsonPretty::print( $json );
-		return FileWriter::save( $this->fileName, $json );
+		return (int) FileWriter::save( $this->fileName, $json );
 	}
 
 	/**

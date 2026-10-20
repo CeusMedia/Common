@@ -49,7 +49,7 @@ class Caesar
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	protected static function crypt( $string, $key )
+	protected static function crypt( string $string, int $key ): string
 	{
 		for( $i=0; $i<strlen( $string ); $i++ )
 		{
@@ -83,7 +83,7 @@ class Caesar
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	public static function decrypt( $string, $key )
+	public static function decrypt( string $string, int $key ): string
 	{
 		return self::crypt( $string, -1 * $key );
 	}
@@ -96,7 +96,8 @@ class Caesar
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	public static function encrypt( $string, $key )
+	public static function encrypt( string $string, int $key ): string
+
 	{
 		return self::crypt( $string, $key );
 	}

@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 /**
@@ -171,19 +174,19 @@ class Graph
 	{
 		$list		= [];
 		foreach( array_merge( $options, $overrideOptions ) as $key => $value )
-			$list[]	= $key.'="'.addslashes( $value ).'"';
+			$list[]	= $key.'="'.addslashes( (string) $value ).'"';
 		return join( $delimiter, $list );
 	}
 
 	protected function sanitizeNodeName( string $name ): string
 	{
 		$name	= htmlentities( $name );
-		return preg_replace( "/[^\w_:]/", "", $name );
+		return (string) preg_replace( "/[^\w_:]/", "", $name );
 	}
 
 	public function save( string $fileName, array $options = [] ): int
 	{
-		return FileWriter::save( $fileName, $this->render( $options ) );
+		return (int) FileWriter::save( $fileName, $this->render( $options ) );
 	}
 
 	public function setDefaultEdgeOptions( array $options ): self

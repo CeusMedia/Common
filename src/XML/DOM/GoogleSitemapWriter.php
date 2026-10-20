@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builds and writes Google Sitemap.
  *
@@ -43,7 +45,7 @@ use Exception;
 class GoogleSitemapWriter
 {
 	/**	@var	array		$list		List of URLs */
-	protected $list	= [];
+	protected array $list	= [];
 
 	/**
 	 *	Adds another Link to Sitemap.
@@ -51,7 +53,7 @@ class GoogleSitemapWriter
 	 *	@param		string		$link		Link to add to Sitemap
 	 *	@return		void
 	 */
-	public function addLink( string $link )
+	public function addLink( string $link ): void
 	{
 		$this->list[]	= $link;
 	}
@@ -83,6 +85,6 @@ class GoogleSitemapWriter
 	{
 		$xml	= GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
 		$file	= new FileWriter( $fileName );
-		return $file->writeString( $xml );
+		return (int) $file->writeString( $xml );
 	}
 }

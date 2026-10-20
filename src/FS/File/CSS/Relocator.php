@@ -1,4 +1,7 @@
 <?php /** @noinspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMissingParamTypeInspection */
 /** @noinspection PhpMissingReturnTypeInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
@@ -93,7 +96,7 @@ class Relocator
 	 * </code>
 	 *	@return		string
 	 */
-	public static function rewrite(string $css, string $currentDir, ?string $docRoot = null, array $symlinks = [])
+	public static function rewrite(string $css, string $currentDir, ?string $docRoot = null, array $symlinks = []): string
 	{
 		self::$_docRoot = self::_realpath($docRoot ?: $_SERVER['DOCUMENT_ROOT']);
 		self::$_currentDir = self::_realpath($currentDir);
@@ -262,7 +265,7 @@ class Relocator
 	 *	@param		string		$css
 	 *	@return		string
 	 */
-	private static function _trimUrls($css)
+	private static function _trimUrls(string $css): string
 	{
 		return preg_replace('/
 			url\\(      # url(

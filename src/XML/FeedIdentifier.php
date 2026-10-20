@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *
@@ -47,10 +49,10 @@ use Exception;
 class FeedIdentifier
 {
 	/**	@var		string		$type			Type of Feed */
-	protected $type				= '';
+	protected string $type				= '';
 
 	/**	@var		string		$version		Version of Feed Type */
-	protected $version			= '';
+	protected string $version			= '';
 
 	/**
 	 *	Identifies Feed from a File.
@@ -125,13 +127,13 @@ class FeedIdentifier
 		$rss	= $xpath->query( "//rss/@version" );
 		if( $rss->length ){
 			$this->type		= "RSS";
-			$this->version	= $rss->item( 0 )->nodeValue;
+			$this->version	= (string) $rss->item( 0 )->nodeValue;
 			return TRUE;
 		}
 
 		//  --  RSS 1.0 - RDF  --  //
 		$namespace	= $xpath->evaluate( 'namespace-uri(//*)' );
-		$xpath->registerNamespace( "rdf", $namespace );
+		$xpath->registerNamespace( "rdf", (string) $namespace );
 		$rdf		= $xpath->evaluate( "//rdf:RDF" );
 		if( $rdf->length ){
 			$this->type		= "RSS";
@@ -148,7 +150,7 @@ class FeedIdentifier
 		}
 
 		$namespace = $xpath->evaluate( 'namespace-uri(//*)' );
-		$xpath->registerNamespace( "pre", $namespace );
+		$xpath->registerNamespace( "pre", (string) $namespace );
 		$atom	= $xpath->evaluate( "//pre:feed/@version" );
 		if( $atom->length ){
 			$this->type		= "ATOM";

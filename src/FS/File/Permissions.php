@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	File permission data object and handler.
  *
@@ -156,7 +158,7 @@ class Permissions
 
 	public function setByOctal( string $permissions ): bool
 	{
-		$permissions	= octdec( $permissions );
+		$permissions	= (int) octdec( $permissions );
 		$result	= @chmod( $this->pathName, $permissions );
 		if( FALSE === $result )
 			throw new RuntimeException( 'Cannot change permissions for "'.$this->pathName.'"' );

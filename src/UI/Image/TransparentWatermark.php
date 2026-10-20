@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -152,7 +155,7 @@ class TransparentWatermark
 				$leftStamp = 0;
 				break;
 			case transparentWatermarkOnCenter:
-				$leftStamp = ( $imageWidth - $this->stampWidth ) / 2;
+				$leftStamp = intdiv( $imageWidth - $this->stampWidth, 2 );
 				break;
 			case transparentWatermarkOnRight:
 				$leftStamp = $imageWidth - $this->stampWidth;
@@ -165,7 +168,7 @@ class TransparentWatermark
 				$topStamp = 0;
 				break;
 			case transparentWatermarkOnMiddle:
-				$topStamp = ( $imageHeight - $this->stampHeight ) / 2;
+				$topStamp = intdiv( $imageHeight - $this->stampHeight, 2 );
 				break;
 			case transparentWatermarkOnBottom:
 				$topStamp = $imageHeight - $this->stampHeight;
@@ -217,9 +220,9 @@ class TransparentWatermark
     {
 		switch( $type ){
 			case IMAGETYPE_JPEG:
-				return ImageCreateFromJPEG( $file );
+				return ImageCreateFromJPEG( $file ) ?: NULL;
 			case IMAGETYPE_PNG:
-				return ImageCreateFromPNG( $file );
+				return ImageCreateFromPNG( $file ) ?: NULL;
 			default:
 				$this->errorMsg = 'File format not supported.';
 				return NULL;
@@ -264,7 +267,7 @@ class TransparentWatermark
 	 *	@param		int			$Yposition		y position
 	 *	@return		void
 	 */
-	public function setStampPosition( int $Xposition, int $Yposition )
+	public function setStampPosition( int $Xposition, int $Yposition ): void
     {
 		// set X position
 		switch( $Xposition ){

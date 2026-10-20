@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for HTTP Resources.
  *
@@ -29,7 +31,6 @@
 namespace CeusMedia\Common\Net\HTTP;
 
 use CeusMedia\Common\Net\CURL;
-use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Response\Decompressor as ResponseDecompressor;
 use CeusMedia\Common\Net\HTTP\Response\Parser as ResponseParser;
@@ -79,7 +80,7 @@ class Reader
 	 *	@param		array		$options			Map of cURL Options
 	 *	@return		void
 	 */
-	protected function applyCurlOptions( CURL $curl, array $options = [] )
+	protected function applyCurlOptions( CURL $curl, array $options = [] ): void
 	{
 		foreach( $options as $key => $value ){
 			if( is_string( $key ) ){
@@ -101,7 +102,7 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function get( string $url, $headers = [], array $curlOptions = [] ): Response
+	public function get( string $url, array|HeaderSection $headers = [], array $curlOptions = [] ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
@@ -110,7 +111,7 @@ class Reader
 				$header	= $headers;
 			else
 				$header	= HeaderSection::getInstance()->addFieldPairs( $headers );
-			$curlOptions[CURLOPT_HTTPHEADER]	= HeaderRenderer::render( $header );
+			$curlOptions[CURLOPT_HTTPHEADER]	= array_map( static fn( $field ) => $field->toString(), $header->getFields() );
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 		$response		= $curl->exec( TRUE, TRUE );
@@ -134,7 +135,7 @@ class Reader
 	 *	@param		integer|NULL		$key		Information Key
 	 *	@return		mixed
 	 */
-	public function getCurlInfo( ?int $key = NULL )
+	public function getCurlInfo( ?int $key = NULL ): mixed
 	{
 		if( !$this->curlInfo )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -165,7 +166,7 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function post( string $url, array $data, $headers = [], array $curlOptions = [] ): Response
+	public function post( string $url, array $data, array|HeaderSection $headers = [], array $curlOptions = [] ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
@@ -174,7 +175,7 @@ class Reader
 				$header	= $headers;
 			else
 				$header	= HeaderSection::getInstance()->addFieldPairs( $headers );
-			$curlOptions[CURLOPT_HTTPHEADER]	= HeaderRenderer::render( $header );
+			$curlOptions[CURLOPT_HTTPHEADER]	= array_map( static fn( $field ) => $field->toString(), $header->getFields() );
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 

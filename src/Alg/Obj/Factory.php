@@ -56,7 +56,8 @@ class Factory
 	 *	@param		mixed		$argument
 	 *	@return		$this
 	 */
-	public function addArgument( $argument ): self
+	public function addArgument( mixed $argument ): self
+
 	{
 		$this->arguments[]	= $argument;
 		return $this;

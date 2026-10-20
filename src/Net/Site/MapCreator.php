@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Google Sitemap XML Creator, crawls a Website and writes a Sitemap XML File.
  *
@@ -76,7 +78,7 @@ class MapCreator
 	public function createSitemap( string $url, string $sitemapUri, ?string $errorsLogUri = NULL, ?string $urlListUri = NULL, bool $verbose = FALSE ): int
 	{
 		$crawler	= new Crawler( $url, $this->depth );
-		$crawler->crawl( $url, FALSE, $verbose );
+		$crawler->crawl( $url, FALSE, FALSE, $verbose );
 		$this->errors	= $crawler->getErrors();
 		$this->links	= $crawler->getLinks();
 		$list	= [];
@@ -137,6 +139,6 @@ class MapCreator
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
 		$writer	= new FileWriter( $uri );
-		return $writer->writeArray( $list );
+		return (int) $writer->writeArray( $list );
 	}
 }

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
  *
@@ -123,10 +125,10 @@ class Response
 	 *	Returns response headers.
 	 *	@access		public
 	 *	@param		string		$key			Header name
-	 *	@param		bool		$first			Flag: return first header only
+	 *	@param		bool|NULL	$first			Flag: return first header only
 	 *	@return		array|HeaderField		List of header fields or only one header field if requested so
 	 */
-	public function getHeader( string $key, bool $first = NULL ): array|HeaderField
+	public function getHeader( string $key, ?bool $first = NULL ): array|HeaderField
 	{
 		//  get all header fields with this header name
 		$fields	= $this->headers->getFieldsByName( $key );

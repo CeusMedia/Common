@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Wrapper of jQuery plugin 'cmOptions' to create HTML and JavaScript.
  *

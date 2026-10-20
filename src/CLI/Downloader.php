@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -122,7 +125,7 @@ class Downloader
 		//  parse URL
 		$parts		= parse_url( $url );
 		//  parse Path
-		$info		= pathinfo( $parts['path'] );
+		$info		= pathinfo( $parts['path'] ?? '' );
 		//  extract File Name
 		$fileName	= $info['basename'];
 		//  no File Name found in URL

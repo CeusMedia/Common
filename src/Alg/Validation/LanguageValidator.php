@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Validator for Languages (ISO).
  *
@@ -55,7 +58,8 @@ class LanguageValidator
 	 *	@param		string|NULL		$default		Default Language
 	 *	@return		void
 	 */
-	public function __construct( array $allowed, string $default = NULL )
+	public function __construct( array $allowed, ?string $default = NULL )
+
 	{
 		if( !count( $allowed ) )
 			throw new RangeException( 'At least one Language must be allowed.' );

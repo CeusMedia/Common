@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Data class for triggered events.
  *
@@ -40,10 +42,10 @@ namespace CeusMedia\Common\ADT\Event;
 class Callback
 {
 	/**	@var		mixed		$callback	Anonymous function or callback to call when event is triggered */
-	protected $callback;
+	protected mixed $callback		= NULL;
 
 	/**	@var		mixed		$data		Data to bind to event */
-	protected $data;
+	protected mixed $data			= NULL;
 
 	/**
 	 *	Constructor.
@@ -52,7 +54,7 @@ class Callback
 	 *	@param		mixed		$data		Data to bind to event
 	 *	@return		void
 	 */
-	public function __construct( $callback, $data = NULL )
+	public function __construct( mixed $callback, mixed $data = NULL )
 	{
 		$this->callback	= $callback;
 		$this->data		= $data;
@@ -63,7 +65,7 @@ class Callback
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getCallback()
+	public function getCallback(): mixed
 	{
 		return $this->callback;
 	}
@@ -73,7 +75,7 @@ class Callback
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getData()
+	public function getData(): mixed
 	{
 		return $this->data;
 	}

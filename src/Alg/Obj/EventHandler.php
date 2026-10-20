@@ -62,7 +62,8 @@ class EventHandler
 	 *	@return		self
 	 *	@throws		ReflectionException
 	 */
-	public function addCallback( string $eventName, $mixed, string $methodName, array $methodParameters = [], array $classParameters = [] ): self
+	public function addCallback( string $eventName, object|string $mixed, string $methodName, array $methodParameters = [], array $classParameters = [] ): self
+
 	{
 		if( is_object( $mixed ) )
 			$this->addObjectCallback( $eventName, $mixed, $methodName, $methodParameters );

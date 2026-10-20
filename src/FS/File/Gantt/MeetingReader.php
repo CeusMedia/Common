@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reads "Gantt Project" XML File and extracts basic Project Information and Meeting Dates.
  *
@@ -100,7 +102,7 @@ class MeetingReader
 			$meetings[]	= [
 				'name'		=> $name,
 				'start'		=> $start,
-				'end'		=> self::calculateEndDate( $start, $duration ),
+				'end'		=> self::calculateEndDate( $start, (int) $duration ),
 				'duration'	=> $duration,
 			];
 		}
@@ -128,7 +130,7 @@ class MeetingReader
 			'name'		=> $name,
 			'start'		=> $start,
 			'duration'	=> $duration,
-			'end'		=> self::calculateEndDate( $start, $duration ),
+			'end'		=> self::calculateEndDate( $start, (int) $duration ),
 		];
 	}
 }

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *	@category		Library
@@ -75,7 +77,7 @@ class BackupCleaner
 	{
 		$dates	= [];
 		foreach( $this->index() as $date ){
-			$time	= strtotime( $date );
+			$time	= (int) strtotime( $date );
 			$year	= (int) date( "Y", $time );
 			$month	= (int)	date( "m", $time );
 			$day	= (int) date( "d", $time );
@@ -112,7 +114,7 @@ class BackupCleaner
 	 *	@return		void
 	 *	@throws		Exception
 	 */
-	public function keepLastOfMonth( array $filters = [], bool $verbose = FALSE, bool $testOnly = FALSE )
+	public function keepLastOfMonth( array $filters = [], bool $verbose = FALSE, bool $testOnly = FALSE ): void
 	{
 		$dates	= $this->filterDateTree( $this->getDateTree(), $filters );
 		foreach( $dates as $year => $months ){

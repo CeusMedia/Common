@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for Files.
  *
@@ -137,7 +139,7 @@ class Editor extends Reader
 	 */
 	public static function save( string $fileName, string $string ): int
 	{
-		return Writer::save( $fileName, $string );
+		return (int) Writer::save( $fileName, $string );
 	}
 
 	/**
@@ -154,7 +156,7 @@ class Editor extends Reader
 	 */
 	public static  function saveArray( string $fileName, array $array, string $lineBreak = "\n" ): int
 	{
-		return Writer::saveArray( $fileName, $array, $lineBreak );
+		return (int) Writer::saveArray( $fileName, $array, $lineBreak );
 	}
 
 	/**
@@ -202,7 +204,7 @@ class Editor extends Reader
 	 */
 	public function writeArray( array $array, string $lineBreak = "\n" ): int
 	{
-		return $this->writer->writeArray( $array, $lineBreak );
+		return (int) $this->writer->writeArray( $array, $lineBreak );
 	}
 
 	/**

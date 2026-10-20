@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -110,7 +112,7 @@ class View
 	 */
 	public function setHeading( ?string $heading ): self
 	{
-		$this->heading	= $heading;
+		$this->heading	= $heading ?? '';
 		return $this;
 	}
 

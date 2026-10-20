@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -164,7 +166,7 @@ class BackgroundProcess
 	{
 		if( $this->pid )
 			throw new RuntimeException( 'Process already has been started' );
-		if( !strlen( trim( $this->command ) ) )
+		if( !strlen( trim( $this->command ?? '' ) ) )
 			throw new RuntimeException( 'No command set' );
 		$this->runCommand();
 		return $this;
@@ -211,7 +213,7 @@ class BackgroundProcess
 	 *	@return		void
 	 *	@todo		handle errors
 	 */
-	protected function runCommand()
+	protected function runCommand(): void
 	{
 		$command	= 'nohup '.$this->command.' > /dev/null 2>&1 & echo $!';
 		exec( $command, $op );

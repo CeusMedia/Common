@@ -59,7 +59,8 @@ class EncodingConverter
 		/** @noinspection PhpComposerExtensionStubsInspection */
 		$string	= iconv( $charsetIn, $charsetOut, $string );
 		$buffer = ob_get_clean();
-		if( !$buffer )
+		if( !$buffer && FALSE !== $string )
+
 			return $string;
 		throw new InvalidArgumentException( 'String cannot be converted from '.$charsetIn.' to '.$charsetOut );
 	}

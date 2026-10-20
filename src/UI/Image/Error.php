@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -41,10 +44,10 @@ namespace CeusMedia\Common\UI\Image;
 class Error
 {
 	/**	 @var		int			$borderWidth	Width of Border around Image */
-	static public $borderWidth	= 0;
+	static public int $borderWidth	= 0;
 
 	/**	 @var		bool		$sendHeader		Send Header with Image MIME Type */
-	static public $sendHeader	= TRUE;
+	static public bool $sendHeader	= TRUE;
 
 	/**
 	 *	Constructor, display Error Image.

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *
@@ -43,16 +45,16 @@ use CeusMedia\Common\FS\File\SyntaxChecker as FileSyntaxChecker;
 class SyntaxChecker
 {
 	/**	@var		string		$phpExtension	Extension of PHP Files, by default 'php5' */
-	public static $phpExtension	= 'php5';
+	public static string $phpExtension	= 'php5';
 
 	/**	@var		object		$checker		Instance of SyntaxChecker */
-	protected $checker;
+	protected object $checker;
 
 	/**	@var		string		$lineBreak		Line break, depending on environment */
-	protected $lineBreak;
+	protected string $lineBreak;
 
 	/**	@var		array		$failures		List of collected features */
-	protected $failures;
+	protected array $failures	= [];
 
 	/**
 	 *	Constructor.
@@ -111,7 +113,7 @@ class SyntaxChecker
 	 *	@param		float		$time			Time needed to check Folder in Seconds
 	 *	@return		void
 	 */
-	protected function printResults( array $invalid, int $counter, float $time )
+	protected function printResults( array $invalid, int $counter, float $time ): void
 	{
 		remark( str_repeat( '-', 79 ) );
 		if( count( $invalid ) ){

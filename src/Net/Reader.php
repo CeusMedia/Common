@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -107,7 +110,7 @@ class Reader
 	 *	@param		string|NULL		$key		Header key
 	 *	@return		mixed
 	 */
-	public function getHeader( ?string $key = NULL )
+	public function getHeader( ?string $key = NULL ): mixed
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -129,7 +132,7 @@ class Reader
 	 *	@param		string|NULL		$key		Information key
 	 *	@return		mixed
 	 */
-	public function getInfo( ?string $key = NULL )
+	public function getInfo( ?string $key = NULL ): mixed
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );

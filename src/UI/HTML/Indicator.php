@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builds HTML of Bar Indicator.
  *
@@ -43,7 +45,7 @@ use OutOfRangeException;
 class Indicator extends OptionObject
 {
 	/**	@var		array		$defaultOptions			Map of default options */
-	public $defaultOptions		= array(
+	public array $defaultOptions	= array(
 		'id'					=> NULL,
 		'classIndicator'		=> 'indicator',
 		'classInner'			=> 'indicator-inner',
@@ -283,7 +285,7 @@ class Indicator extends OptionObject
 	 *	@param		mixed		$value		Flag: switch Option
 	 *	@return		bool
 	 */
-	public function setOption( string $key, $value ): bool
+	public function setOption( string $key, mixed $value ): bool
 	{
 		if( !array_key_exists( $key, $this->defaultOptions ) )
 			throw new OutOfRangeException( 'Option "'.$key.'" is not a valid Indicator Option.' );

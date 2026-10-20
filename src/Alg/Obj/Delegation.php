@@ -97,7 +97,8 @@ class Delegation
 	 *	@throws		BadMethodCallException		if no such Method is delegable
 	 *	@throws		ReflectionException
 	 */
-	public function __call( string $methodName, array $arguments = [] )
+	public function __call( string $methodName, array $arguments = [] ): mixed
+
 	{
 		foreach( $this->delegableObjects as $object ){
 			$reflection	= new ReflectionObject( $object );

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Folders.
  *
@@ -45,7 +47,7 @@ use RuntimeException;
 class Reader
 {
 	/**	@var		string		$folderName		Folder Name, relative or absolute */
-	protected $folderName;
+	protected string $folderName;
 
 	/**
 	 *	Constructor.
@@ -67,7 +69,7 @@ class Reader
 	 */
 	public static function correctPath( string $path ): string
 	{
-		return preg_replace( "@([^/])$@", "\\1/", $path );
+		return preg_replace( "@([^/])$@", "\\1/", $path ) ?? $path;
 	}
 
 	/**
@@ -224,7 +226,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedFileList( string $pattern = NULL ): FilterIterator
+	public function getNestedFileList( ?string $pattern = NULL ): FilterIterator
 	{
 		return RecursiveLister::getFileList( $this->folderName, $pattern );
 	}
@@ -235,7 +237,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedFolderCount( string $pattern = NULL ): int
+	public function getNestedFolderCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedFolderList( $pattern ) as $entry )
@@ -310,7 +312,7 @@ class Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize( string $pattern = NULL, int $unit = NULL, int $precision = NULL ): int
+	public function getSize( ?string $pattern = NULL, ?int $unit = NULL, ?int $precision = NULL ): int
 	{
 		$size	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )

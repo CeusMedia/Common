@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for HTML Documents.
  *
@@ -384,11 +386,15 @@ class HtmlParser
 	 *	@access		public
 	 *	@param		string			$fileName			File Name of HTML Document
 	 *	@return		self
+	 *	@throws		RuntimeException	if file is not readable
 	 */
 	public function parseHtmlFile( string $fileName ): self
 	{
 		$html	= file_get_contents( $fileName );
+		if( FALSE === $html )
+			throw new RuntimeException( 'HTML file "'.$fileName.'" could not be read' );
 		$this->parseHtml( $html );
+
 		return $this;
 	}
 }

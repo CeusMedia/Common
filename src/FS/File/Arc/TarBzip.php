@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Tar Bzip File allows creation and manipulation of bzipped tar archives.
  *
@@ -92,6 +94,6 @@ class TarBzip extends Tar
 		// Encode processed files into TAR file format
 		$this->generateTar();
 		$f = new Bzip( $fileName );
-		return $f->writeString( $this->content );
+		return (int) $f->writeString( $this->content );
 	}
 }

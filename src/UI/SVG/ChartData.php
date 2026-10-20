@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a
  *	pie chart and so on.
@@ -52,7 +55,7 @@ class ChartData
 	 *	@var float
 	 *	@access public
 	 */
-	public $value;
+	public float $value;
 
 	/**
 	 * 	The constructor.
@@ -62,7 +65,7 @@ class ChartData
 	 *	@param		string		$desc       Description
 	 *	@return		void
 	 */
-	public function __construct( $value, string $desc = '' )
+	public function __construct( float $value, string $desc = '' )
 	{
 		$this->desc = $desc;
 		$this->value = $value;

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV

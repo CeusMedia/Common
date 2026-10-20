@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Management for session data with partitions.
  *	Helpful and more secure if several applications are storing data with same session.
@@ -62,7 +64,7 @@ class PartitionSession extends Dictionary
 		//  a domain has been specified
 		if( strlen( trim( $domain ?? '' ) ) )
 			//  set cookie domain
-			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );
+			ini_set( 'session.cookie_domain', trim( strtolower( $domain ?? '' ) ) );
 		//  start cookie handler
 		@session_start();
 		//  copy session data resource
@@ -126,7 +128,7 @@ class PartitionSession extends Dictionary
 	 */
 	public function getSessionID(): string
 	{
-		return session_id();
+		return (string) session_id();
 	}
 
 	/**
@@ -136,6 +138,6 @@ class PartitionSession extends Dictionary
 	 */
 	public function getSessionName(): string
 	{
-		return session_name();
+		return (string) session_name();
 	}
 }

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Generic Console Application.
  *
@@ -56,7 +58,7 @@ class Application
 		Env::checkIsCLi();
 		$this->arguments	= new ArgumentParser();
 		foreach( $shortcuts as $key => $value )
-			$this->arguments->addShortCut( $key, $value );
+			$this->arguments->addShortCut( (string) $key, $value );
 		$this->arguments->parseArguments( $fallBackOnEmptyPair );
 		$this->main();
 	}

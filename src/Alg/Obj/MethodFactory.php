@@ -77,7 +77,7 @@ class MethodFactory
 	 *	@return		mixed			Result of called method
 	 *	@throws		ReflectionException
 	 */
-	public function call( bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public function call( bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
 		if( NULL === $this->method )
 			throw new RuntimeException( 'No method set' );
@@ -94,7 +94,7 @@ class MethodFactory
 	 *	@throws		BadMethodCallException				if an invalid Method is called
 	 *	@throws		ReflectionException
 	 */
-	public function callMethod( string $name, array $arguments = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public function callMethod( string $name, array $arguments = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
 		if( NULL === $this->object )
 			throw new RuntimeException( 'Neither object nor class set' );
@@ -178,7 +178,7 @@ class MethodFactory
 	 *	@throws		ReflectionException
 	 *	@throws		RuntimeException
 	 */
-	public static function staticCallClassMethod( string $className, string $methodName, array $classParameters = [], array $methodParameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public static function staticCallClassMethod( string $className, string $methodName, array $classParameters = [], array $methodParameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
 		if( !class_exists( $className ) )
 			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );

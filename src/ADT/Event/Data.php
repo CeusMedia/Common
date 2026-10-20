@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Data class for triggered events.
  *
@@ -46,7 +48,7 @@ class Data
 	public ?object $caller		= NULL;
 
 	/**	@var	mixed|NULL		$data			Data bound on event */
-	public $data;
+	public mixed $data			= NULL;
 
 	/**	@var	Handler			$handler		Reference to event handler instance */
 	protected Handler $handler;

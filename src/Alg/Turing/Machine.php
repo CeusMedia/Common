@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Turing Machine with one tape.
  *
@@ -90,7 +92,7 @@ class Machine
 	 *	@param		string		$tape			current tape to be cleaned up
 	 *	@return		void
 	 */
-	private function cleanTape( string &$tape )
+	private function cleanTape( string &$tape ): void
 	{
 		while( substr( $tape, 0, 1 ) == $this->blank )
 			$tape = substr( $tape, 1 );
@@ -105,7 +107,7 @@ class Machine
 	 *	@param		int			$pointer		current Position on tape
 	 *	@return		void
 	 */
-	private function extendTape( string &$tape, int $pointer )
+	private function extendTape( string &$tape, int $pointer ): void
 	{
 		if( $pointer < 0 )
 			$tape = $this->blank.$tape;
@@ -200,7 +202,8 @@ class Machine
 	 *	@param		string		$tape			current tape to be cleaned up
 	 *	@return		void
 	 */
-	private function wrapTape( string &$tape )
+	private function wrapTape( string &$tape ): void
+
 	{
 		if( substr( $tape, 0, 1 ) != $this->blank )
 			$tape = $this->blank.$tape;

@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -124,10 +127,10 @@ class Client
 	public function info( string $path = '' ): XmlElement
 	{
 		$path	= $this->path.$path;
-		if( !strlen( `svn info $path` ) )
+		if( !strlen( (string) `svn info $path` ) )
 			throw new Exception( 'Path '.$path.' is not under SVN conrol' );
 		$xml	= `svn info $path --xml 2>&1`;
-		return new XmlElement( $xml );
+		return new XmlElement( (string) $xml );
 	}
 
 	/**

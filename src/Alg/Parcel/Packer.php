@@ -225,7 +225,7 @@ class Packer
 		do{
 			$articleName	= array_pop( $articleKeys );
 			if( array_key_exists( $articleName, $articleList ) )
-				return $articleName;
+				return (string) $articleName;
 		}
 		while( $articleKeys );
 		return NULL;
@@ -242,7 +242,8 @@ class Packer
 		$keys	= array_keys( $this->packets );
 		$index	= array_search( $packetName, $keys );
 		$sliced	= array_slice( $keys, $index + 1, 1 );
-		return array_pop( $sliced );
+		$name	= array_pop( $sliced );
+		return NULL !== $name ? (string) $name : NULL;
 	}
 
 	/**
@@ -254,7 +255,7 @@ class Packer
 	{
 		$packets	= $this->packets;
 		asort( $packets );
-		return key( array_slice( $packets, -1 ) );
+		return (string) key( array_slice( $packets, -1 ) );
 	}
 
 	/**
@@ -267,7 +268,8 @@ class Packer
 	{
 		foreach( array_keys( $this->packets ) as $packetName )
 			if( $this->volumes[$packetName][$articleName] <= 1 )
-				return $packetName;
+				return (string) $packetName;
+
 		return NULL;
 	}
 
@@ -286,7 +288,8 @@ class Packer
 	 */
 	protected function hasLargerPacket( string $packetName ): bool
 	{
-		$last	= key( array_slice( $this->packets, -1 ) );
+		$last	= (string) key( array_slice( $this->packets, -1 ) );
+
 		return $packetName !== $last;
 	}
 

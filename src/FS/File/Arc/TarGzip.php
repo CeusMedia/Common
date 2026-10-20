@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *
@@ -90,6 +92,6 @@ class TarGzip extends Tar
 		// Encode processed files into TAR file format
 		$this->generateTar();
 		$f = new Gzip( $fileName );
-		return $f->writeString( $this->content);
+		return (int) $f->writeString( $this->content);
 	}
 }

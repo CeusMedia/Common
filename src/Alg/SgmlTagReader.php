@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parses SGML based Tags (also HTML, XHTML and XML).
  *
@@ -114,9 +116,9 @@ class SgmlTagReader
 			$array	= array_combine( $results[1], $results[2] );
 			foreach( $array as $key => $value ){
 				if( $transformKeys == self::TRANSFORM_LOWERCASE )
-					$key	= strtolower( $key );
+					$key	= strtolower( (string) $key );
 				else if( $transformKeys == self::TRANSFORM_UPPERCASE )
-					$key	= strtoupper( $key );
+					$key	= strtoupper( (string) $key );
 				$attributes[$key]	= $value;
 			}
 		}
@@ -124,9 +126,9 @@ class SgmlTagReader
 			$array	= array_combine( $results[1], $results[2] );
 			foreach( $array as $key => $value ){
 				if( $transformKeys == self::TRANSFORM_LOWERCASE )
-					$key	= strtolower( $key );
+					$key	= strtolower( (string) $key );
 				else if( $transformKeys == self::TRANSFORM_UPPERCASE )
-					$key	= strtoupper( $key );
+					$key	= strtoupper( (string) $key );
 				$attributes[$key]	= $value;
 			}
 		}

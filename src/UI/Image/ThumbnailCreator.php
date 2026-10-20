@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -45,16 +48,16 @@ use RuntimeException;
 class ThumbnailCreator
 {
 	/**	@var	int			$quality		Quality of Target Image */
-	private $quality;
+	private int $quality;
 
 	/**	@var	array		$size			Sizes of Source Image */
-	private $size	= [];
+	private array $size	= [];
 
 	/**	@var	string		$source			Source File Name of Source Image */
-	private $source;
+	private string $source;
 
 	/**	@var	string		$target			Target File Name of Target Image */
-	private $target;
+	private string $target;
 
 	/**
 	 *	Constructor.
@@ -166,9 +169,9 @@ class ThumbnailCreator
 		$ratio_s	= $this->size[0] / $this->size[1];
 		$ratio_t	= $width / $height;
 		if( ( $ratio_s / $ratio_t ) > 1 )
-			$height	= ceil( $width / $ratio_s );
+			$height	= (int) ceil( $width / $ratio_s );
 		else
-			$width	= ceil( $height * $ratio_s );
+			$width	= (int) ceil( $height * $ratio_s );
 		return $this->thumbize( $width, $height );
 	}
 }

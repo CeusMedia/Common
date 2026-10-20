@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -57,7 +59,7 @@ class Connectivity
 	protected int $status		= self::STATUS_UNKNOWN;
 	protected int $method		= self::METHOD_SOCKET;
 	protected string $target		= 'google.com';
-	protected mixed $callbackOnChange;
+	protected mixed $callbackOnChange	= NULL;
 
 	/**
 	 *	Constructor.
@@ -103,7 +105,8 @@ class Connectivity
 	{
 		$conn	= @fsockopen( 'google.com', 443);
 		$this->status = $conn ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
-		fclose( $conn );
+		if( $conn )
+			fclose( $conn );
 	}
 
 	/**

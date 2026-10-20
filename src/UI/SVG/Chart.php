@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
  *
@@ -241,6 +243,7 @@ class Chart
 	 *	@access		public
 	 *	@param		string		$fileName		File to save to
 	 *	@return		int
+	 *	@throws		RuntimeException			if rendering SVG failed
 	 */
 	public function save( string $fileName ): int
 	{
@@ -250,7 +253,9 @@ class Chart
 		$doc->formatOutput = true;
 		$doc->loadXml( $svg );
 		$svg	= $doc->saveXml();
-		return FileWriter::save( $fileName, $svg );
+		if( FALSE === $svg )
+			throw new RuntimeException( 'Rendering SVG failed' );
+		return (int) FileWriter::save( $fileName, $svg );
 	}
 
 	/**

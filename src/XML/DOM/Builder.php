@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -32,6 +35,7 @@ namespace CeusMedia\Common\XML\DOM;
 use DOMDocument;
 use DOMElement;
 use DOMException;
+use RuntimeException;
 
 /**
  *	Builder for XML Strings with DOM.
@@ -52,6 +56,7 @@ class Builder
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string							Rendered tree as XML string
 	 *	@throws		DOMException
+	 *	@throws		RuntimeException				if rendering XML failed
 	 */
 	static public function build( Node $tree, string $encoding = "utf-8", array $namespaces = [] ): string
 	{
@@ -63,7 +68,10 @@ class Builder
 		/** @var DOMElement $root */
 		$root		= $document->appendChild( $root );
 		self::buildRecursive( $document, $root, $tree, $encoding );
-		return $document->saveXML();
+		$xml	= $document->saveXML();
+		if( FALSE === $xml )
+			throw new RuntimeException( 'Rendering XML failed' );
+		return $xml;
 	}
 
 	/**
@@ -77,10 +85,10 @@ class Builder
 	 *	@return		void
 	 *	@throws		DOMException
 	 */
-	protected static function buildRecursive( DOMDocument $document, DOMElement $root, Node $tree, string $encoding )
+	protected static function buildRecursive( DOMDocument $document, DOMElement $root, Node $tree, string $encoding ): void
 	{
 		foreach( $tree->getAttributes() as $key => $value ){
-			$root->setAttribute( $key, $value );
+			$root->setAttribute( (string) $key, $value );
 		}
 		if( $tree->hasChildren() ){
 			$children = $tree->getChildren();

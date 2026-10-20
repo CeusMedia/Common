@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -90,7 +92,7 @@ class Editor extends Reader
 			RecursiveIteratorIterator::SELF_FIRST
 		);
 		foreach( $iterator as $item )
-			$number += (int) chgrp( $item, $groupName );
+			$number += (int) chgrp( (string) $item, $groupName );
 		return $number;
 	}
 
@@ -115,7 +117,7 @@ class Editor extends Reader
 			RecursiveIteratorIterator::SELF_FIRST
 		);
 		foreach( $iterator as $item )
-			$number += (int) chmod( $item, $mode );
+			$number += (int) chmod( (string) $item, $mode );
 		return $number;
  	}
 
@@ -139,7 +141,7 @@ class Editor extends Reader
 			RecursiveIteratorIterator::SELF_FIRST
 		);
 		foreach( $iterator as $item )
-			$number += (int) chown( $item, $userName );
+			$number += (int) chown( (string) $item, $userName );
 		return $number;
 	}
 
@@ -212,7 +214,7 @@ class Editor extends Reader
 	 *	@param		string|NULL	$groupName		Group Name
 	 *	@return		bool
 	 */
-	public static function createFolder( string $folderName, $mode = 0770, ?string $userName = NULL, ?string $groupName = NULL ): bool
+	public static function createFolder( string $folderName, int $mode = 0770, ?string $userName = NULL, ?string $groupName = NULL ): bool
 	{
 		if( self::isFolder( $folderName ) )
 			return FALSE;

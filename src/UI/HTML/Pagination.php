@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Pagination System for limited Tables and Lists.
  *
@@ -112,7 +114,7 @@ class Pagination extends OptionObject
 		//  current page
 		$here		= (int) ceil( $offset / $limit );
 		//  pages before
-		$before		= $offset / $limit;
+		$before		= intdiv( $offset, $limit );
 
 		$pages	= [];
 		$cover			= $this->getOption( 'coverage' );
@@ -215,7 +217,7 @@ class Pagination extends OptionObject
 		if( empty( $label ) )
 			throw new InvalidArgumentException( 'Button Label cannot be empty' );
 		$classes	= [];
-		foreach( explode( " ", $class ) as $class )
+		foreach( explode( " ", $class ?? '' ) as $class )
 			$classes[]	= ( $class && $this->hasOption( $class ) ) ? $this->getOption( $class ) : $class;
 		$class	= implode( " ", $classes );
 		if( $offset !== NULL ){

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writes vCard String from vCard Data Object to a File.
  *
@@ -68,7 +70,7 @@ class Writer
 	 */
 	public static function save( string $fileName, VCard $card, ?string $charsetIn = NULL, ?string $charsetOut = NULL ): int
 	{
-		return FileWriter::save( $fileName, Builder::build( $card, $charsetIn, $charsetOut ) );
+		return (int) FileWriter::save( $fileName, Builder::build( $card, $charsetIn, $charsetOut ) );
 	}
 
 	/**

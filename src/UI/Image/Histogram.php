@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpComposerExtensionStubsInspection */
 
@@ -92,7 +95,7 @@ class Histogram
 			throw new Exception( "Error: max 0" );
 		$max	*= 1.05;
 		for( $i=0; $i<256; $i++ )
-			$data[$i]	= round( $data[$i] / $max * 100 );
+			$data[$i]	= (int) round( $data[$i] / $max * 100 );
 		$image	= new Image();
 		$image->create( 256, 100 );
 		$drawer	= new Drawer( $image->getResource() );
@@ -136,7 +139,7 @@ class Histogram
 				$r		= ($rgb >> 16) & 0xFF;
 				$g		= ($rgb >> 8) & 0xFF;
 				$b		= $rgb & 0xFF;
-				$w		= round( ( $r + $g + $b ) / 3 );
+				$w		= (int) round( ( $r + $g + $b ) / 3 );
 				$values['w'][$w]++;
 				$values['r'][$r]++;
 				$values['g'][$g]++;

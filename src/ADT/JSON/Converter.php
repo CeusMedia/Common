@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -55,12 +57,12 @@ class Converter
 	}
 
 	/**
-	 *	@param		object|array		$node
+	 *	@param		mixed				$node
 	 *	@param		array				$array
 	 *	@param		string|int|NULL		$name
 	 *	@return		void
 	 */
-	protected static function convertToArrayRecursive( $node, &$array, $name = NULL )
+	protected static function convertToArrayRecursive( mixed $node, &$array, string|int|NULL $name = NULL ): void
 	{
 		if( $name ){
 			if( is_object( $node ) )

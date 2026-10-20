@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
@@ -74,7 +76,7 @@ class RecursiveIterator extends FilterIterator
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
 		$this->path				= str_replace( "\\", "/", $path );
-		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
+		$this->realPath			= str_replace( "\\", "/", (string) realpath( $path ) );
 		$this->realPathLength	= strlen( $this->realPath );
 		$this->showFiles		= $showFiles;
 		$this->showFolders		= $showFolders;

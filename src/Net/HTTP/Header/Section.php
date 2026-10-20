@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 /**
@@ -190,7 +193,7 @@ class Section
 	public function addFieldPairs( array $fieldPairs = [] ): static
 	{
 		foreach( $fieldPairs as $key => $value )
-			$this->addFieldPair( $key, $value );
+			$this->addFieldPair( (string) $key, $value );
 		return $this;
 	}
 

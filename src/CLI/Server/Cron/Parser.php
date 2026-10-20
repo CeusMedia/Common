@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Cron Parser.
  *
@@ -100,7 +102,7 @@ class Parser
 			$min	= trim( min( $parts ) );
 			$max	= trim( max( $parts ) );
 			for( $i=$min; $i<=$max; $i++ )
-				$values[] = $this->fill( $i, $fill );
+				$values[] = $this->fill( (string) $i, $fill );
 		}
 		else if( substr_count( $value, "," ) ){
 			$parts	= explode( ",", $value );
@@ -118,11 +120,11 @@ class Parser
 	 *	@return		void
 	 *	@throws		Exception
 	 */
-	protected function parse( string $fileName )
+	protected function parse( string $fileName ): void
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( "Cron Tab File '".$fileName."' is not existing." );
-		foreach( file( $fileName ) as $line )
+		foreach( file( $fileName ) ?: [] as $line )
 			if( trim( $line ) && !preg_match( "@^#@", $line ) )
 				$this->parseJob( $line );
 	}
@@ -133,12 +135,12 @@ class Parser
 	 *	@param		string	$string		One entry of Cron Tab File
 	 *	@return		void
 	 */
-	protected function parseJob( string $string )
+	protected function parseJob( string $string ): void
 	{
 		$pattern	= "@^( |\t)*(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(\*|[\d,-]+)( |\t)+(.*)(\r)?\n$@si";
 		if( preg_match( $pattern, $string ) ){
 			$match	= preg_replace( $pattern, "\\2|||\\4|||\\6|||\\8|||\\10|||\\12", $string );
-			$match	= explode( "|||", $match );
+			$match	= explode( "|||", (string) $match );
 			$job	= new Job( $match[5] );
 			$job->setOption( "minute",	$this->getValues( $match[0], 2 ) );
 			$job->setOption( "hour",	$this->getValues( $match[1], 2 ) );

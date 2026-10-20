@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for sectioned Ini Files using parse_ini_file.
  *
@@ -129,7 +131,7 @@ class SectionReader
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function read()
+	protected function read(): void
 	{
 		if( !file_exists( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing.' );

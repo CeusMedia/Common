@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Console input handler.
  *
@@ -56,7 +58,7 @@ class Prompt
 			$this->tty = fopen( "\con", 'rb' );
 		else if( !($this->tty = fopen( "/dev/tty", 'r' ) ) )
 			$this->tty = fopen( "php://stdin", 'r' );
-		else
+		if( !$this->tty )
 			throw new RuntimeException( 'Could not create any terminal or console device' );
 	}
 
@@ -71,6 +73,6 @@ class Prompt
 	{
 		print( $prompt );
 		ob_flush();
-		return trim( fgets( $this->tty, $length ) );
+		return trim( (string) fgets( $this->tty, $length ) );
 	}
 }

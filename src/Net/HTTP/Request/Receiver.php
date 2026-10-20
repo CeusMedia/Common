@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 /**
@@ -74,7 +77,7 @@ class Receiver extends Dictionary
 	 */
 	public function __construct( bool $useSession = FALSE, bool $useCookie = FALSE )
 	{
-		$this->method	= new Method( getEnv( 'REQUEST_METHOD' ) );
+		$this->method	= new Method( getEnv( 'REQUEST_METHOD' ) ?: NULL );
 		$this->sources	= [
 			"get"	=> &$_GET,
 			"post"	=> &$_POST,
@@ -88,19 +91,19 @@ class Receiver extends Dictionary
 		parent::__construct( array_merge( ...array_values( $this->sources ) ) );
 
 		//  store HTTP method
-		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
-		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		$this->root		= rtrim( dirname( (string) getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path		= substr( (string) getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( str_contains( $this->path, '?' ) )
-			$this->path	= substr( $this->path, 0, strpos( $this->path, '?' ) );
+			$this->path	= substr( $this->path, 0, (int) strpos( $this->path, '?' ) );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
 		$this->headers		= new HeaderSection;
 		$this->headers->addFieldPairs( Request::getAllEnvHeaders() );
 
 		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' );
+		$this->ip		= getEnv( 'REMOTE_ADDR' ) ?: '';
 		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
-			$this->ip = $this->headers->getFieldsByName( 'X-Forwarded-For', TRUE );					//  get original IP address of request
+			$this->ip = (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue();			//  get original IP address of request
 	}
 
 	/**
@@ -190,7 +193,7 @@ class Receiver extends Dictionary
 	 */
 	public function getRawPostData(): string
 	{
-		return file_get_contents( "php://input" );
+		return (string) file_get_contents( "php://input" );
 	}
 
 	/**

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for FTP Connections.
  *
@@ -40,14 +42,14 @@ namespace CeusMedia\Common\Net\FTP;
 class Reader
 {
 	/**	@var		array			$fileTypes		List of File Types (dir,file,link) */
-	protected $fileTypes	= [
+	protected array $fileTypes	= [
 		'd'	=> "dir",
 		'-'	=> "file",
 		'l'	=> "link"
 	];
 
 	/**	@var		Connection		$connection		FTP Connection Object */
-	protected $connection;
+	protected Connection $connection;
 
 	/**
 	 *	Constructor
@@ -216,7 +218,7 @@ class Reader
 			$data['time']		= "00:00";
 		}
 		$data['timestamp']		= strtotime( $data['day']." ".$data['month']." ".$data['year']." ".$data['time'] );
-		$data['datetime']		= date( "c", $data['timestamp'] );
+		$data['datetime']		= date( "c", (int) $data['timestamp'] );
 		$data['type']			= $this->fileTypes[$parts[0][0]];
 		$data['type_short']		= $data['type'][0];
 		$data['octal']			= $this->getPermissionsAsOctal( $parts[0] );

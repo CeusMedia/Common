@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder recursive.
  *
@@ -75,7 +77,7 @@ class RecursiveRegexFilter extends RegexIterator
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
+		$this->realPath			= str_replace( "\\", "/", (string) realpath( $path ) );
 		$this->realPathLength	= strlen( $this->realPath );
 		$this->pattern			= $pattern;
 		$this->showFiles		= $showFiles;
@@ -119,6 +121,6 @@ class RecursiveRegexFilter extends RegexIterator
 				return FALSE;
 		}
 
-		return preg_match( $this->pattern, $innerIterator->getFilename() );
+		return 1 === preg_match( $this->pattern, $innerIterator->getFilename() );
 	}
 }

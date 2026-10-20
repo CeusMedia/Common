@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
@@ -393,7 +396,7 @@ class PageFrame
 	public function setDocType( string $docType ): static
 	{
 		$key		= str_replace( [' ', '-'], '_', trim( $docType ) );
-		$key		= preg_replace( "/[^A-Z\d_]/", '', strtoupper( $key ) );
+		$key		= (string) preg_replace( "/[^A-Z\d_]/", '', strtoupper( $key ) );
 		if( !strlen( trim( $key ) ) )
 			throw new InvalidArgumentException( 'No doctype given' );
 		if( !array_key_exists( $key, $this->docTypes ) )

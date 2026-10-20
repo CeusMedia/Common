@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Validates XML.
  *
@@ -44,7 +46,7 @@ use CeusMedia\Common\Net\Reader as NetReader;
 class Validator
 {
 	/**	@var		array		$error		Array of Error Information */
-	protected $error	= [];
+	protected array $error	= [];
 
 	/**
 	 *	Returns last error line.

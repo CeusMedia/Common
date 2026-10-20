@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for RSS 2.0 Feeds.
  *
@@ -43,10 +45,10 @@ use Exception;
 class Writer
 {
 	/**	@var	array			$channelData		Array of Channel Data */
-	protected $channelData		= [];
+	protected array $channelData		= [];
 
 	/**	@var	array			$itemList			Array of Items */
-	protected $itemList			= [];
+	protected array $itemList			= [];
 
 	/**
 	 *	Adds an item to RSS Feed.

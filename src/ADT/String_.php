@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -136,9 +139,9 @@ class String_
 		if( abs( $limit ) > 0 ){
 			if( $offset + $limit > $this->getLength() )
 				throw new OutOfBoundsException( 'Offset and limit excess string length' );
-			return substr_count( $this->string, $string, $offset, $limit );
+			return substr_count( $this->string, (string) $string, $offset, $limit );
 		}
-		return substr_count( $this->string, $string, $offset );
+		return substr_count( $this->string, (string) $string, $offset );
 	}
 
 	/**
@@ -222,9 +225,9 @@ class String_
 				if( abs( $start ) < $length )
 					throw new OutOfBoundsException( 'Length (from start) excesses string length from start (from right)' );
 			}
-			return new String_( substr( $this->string, $start, $length ) );
+			return substr( $this->string, $start, $length );
 		}
-		return new String_( substr( $this->string, $start ) );
+		return substr( $this->string, $start );
 	}
 
 	/**
@@ -251,7 +254,7 @@ class String_
 	{
 		$string	= $this->string;
 		foreach( $characters as $character ){
-			$pattern	= '/'.preg_quote( $character, '/' ).'+/s';
+			$pattern	= '/'.preg_quote( (string) $character, '/' ).'+/s';
 			$string		= preg_replace( $pattern, $hyphen, $string );
 		}
 		return $string;
@@ -266,7 +269,7 @@ class String_
 	public function isRTL(): bool
 	{
 		$RandALCat	= file( __DIR__.'/StringRandALCat.txt', FILE_IGNORE_NEW_LINES );
-		$codePoints	= unpack( 'V*', iconv( 'UTF-8', 'UTF-32LE', $this->string ) );
+		$codePoints	= unpack( 'V*', (string) iconv( 'UTF-8', 'UTF-32LE', $this->string ) );
 		foreach( $codePoints as $codePoint ){
 			$hexCode	= strtoupper( str_pad( dechex( $codePoint ), 6, '0', STR_PAD_LEFT ) );
 			if( array_search( $hexCode, $RandALCat, TRUE ) )

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	HTTP method data type.
  *
@@ -67,7 +69,7 @@ class Method
 		self::METHOD_TRACE,
 	];
 
-	public function __construct( string $method = NULL )
+	public function __construct( ?string $method = NULL )
 	{
 		if( $method )
 			$this->set( $method );

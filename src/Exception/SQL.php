@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Exception for SQL Errors. Stores SQLSTATE if PDO is used.
  *	Is serializable (to PHP, JSON), renderable and describable.

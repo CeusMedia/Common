@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Graph.
  *
@@ -226,7 +228,7 @@ class Weighted
 			foreach( $ways as $way ){
 				if( !isset( $fastestWay ) )
 					$fastestWay = $way;
-				else if( $fastestWay->getSize() > $way->getSize() )
+				else if( $fastestWay->count() > $way->count() )
 					$fastestWay = $way;
 			}
 			if( isset( $fastestWay ) )
