@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -114,7 +117,7 @@ class DevOutput
 	 *	@param		string|NULL		$channel		Selector for Channel of Output
 	 *	@return		void
 	 */
-	public function __construct( string $channel = NULL )
+	public function __construct( ?string $channel = NULL )
 	{
 		$channel	= $channel ?? self::$defaultChannel;
 		$this->setChannel( $channel );
@@ -151,7 +154,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printArray( array $array, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printArray( array $array, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$space		= $this->indentSign( $offset, $sign, $factor );
@@ -159,9 +162,9 @@ class DevOutput
 			echo $space."[A] ".$key.$settings->lineBreak;
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) && count( $value ) )
-				$this->printArray( $value, $offset + 1, $key, $sign, $factor );
+				$this->printArray( $value, $offset + 1, (string) $key, $sign, $factor );
 			else
-				$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
+				$this->printMixed( $value, $offset + 1, (string) $key, $sign, $factor );
 		}
 	}
 
@@ -228,19 +231,19 @@ class DevOutput
 	 *	@param		boolean			$return		Flag: Return output instead of printing it
 	 *	@return		string|NULL
 	 */
-	public function printJson( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
+	public function printJson( mixed $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
 	{
 		if( $return )
 			ob_start();
 		$settings	= (object) $this->getSettings();
 		echo $settings->lineBreak;
 		$space	= $this->indentSign( 1, $sign, $factor );
-		$json	= JsonPretty::print( $mixed );
+		$json	= JsonPretty::print( is_string( $mixed ) ? $mixed : (string) json_encode( $mixed ) );
 		$json	= str_replace( "\n", $settings->lineBreak, $json );
 		$json	= str_replace( "  ", $space, $json );
 		echo $json;
 		if( $return )
-			return ob_get_clean();
+			return (string) ob_get_clean();
 		return NULL;
 	}
 
@@ -255,7 +258,7 @@ class DevOutput
 	 *	@param		boolean			$return		Flag: Return output instead of printing it
 	 *	@return		string|NULL
 	 */
-	public function printMixed( $mixed, ?int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
+	public function printMixed( mixed $mixed, ?int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
 	{
 		$offset	= $offset ?? 0;
 		if( $return )
@@ -277,7 +280,7 @@ class DevOutput
 		else if( $mixed === NULL )
 			$this->printNull( $mixed, $offset, $key, $sign, $factor );
 		if( $return )
-			return ob_get_clean();
+			return (string) ob_get_clean();
 		return NULL;
 	}
 
@@ -291,7 +294,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printNull( $null, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printNull( $null, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		if( $null === NULL ){
 			$settings	= (object) $this->getSettings();
@@ -313,7 +316,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printObject( object $object, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printObject( object $object, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
@@ -321,7 +324,7 @@ class DevOutput
 		echo $space."[O] ".$ins_key.$settings->highlightOpen.get_class( $object ).$settings->highlightClose.$settings->lineBreak;
 		$vars		= get_object_vars( $object );
 		foreach( $vars as $key => $value )
-			$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
+			$this->printMixed( $value, $offset + 1, (string) $key, $sign, $factor );
 	}
 
 	/**
@@ -334,7 +337,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printResource( $resource, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printResource( $resource, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		if( is_resource( $resource ) ){
 			$settings	= (object) $this->getSettings();
@@ -356,7 +359,7 @@ class DevOutput
 	 *	@param		int|NULL	$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printString( string $string, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL )
+	public function printString( string $string, int $offset = 0, ?string $key = NULL, ?string $sign = NULL, ?int $factor = NULL ): void
 	{
 		$settings	= (object) $this->getSettings();
 		$key = ( $key !== NULL ) ? $key." => " : "";
@@ -375,7 +378,7 @@ class DevOutput
 	 *	@param		array		$parameters	Associative Array of Parameters to append
 	 *	@return		void
 	 */
-	public function remark( string $text, array $parameters = [] )
+	public function remark( string $text, array $parameters = [] ): void
 	{
 		$param	= "";
 		if( is_array( $parameters ) && count( $parameters ) ){
@@ -426,7 +429,7 @@ class DevOutput
 	 *	@return		void
 	 *	@throws		OutOfRangeException		if given channel name is not supported
 	 */
-	public static function setDefaultChannel( string $channel )
+	public static function setDefaultChannel( string $channel ): void
 	{
 		if( !in_array( $channel, self::CHANNELS ) )
 			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
@@ -450,7 +453,7 @@ class DevOutput
 				remark( $o.$node->nodeName."->".$node->textContent );
 				break;
 			case XML_TEXT_NODE:
-				if(!(trim($node->nodeValue) == ""))
+				if(!(trim($node->nodeValue ?? '') == ""))
 					remark( $o."#".$node->nodeValue );
 				break;
 		}

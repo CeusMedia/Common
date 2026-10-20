@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handles Upload Error Codes by throwing Exceptions.
  *
@@ -83,7 +85,7 @@ class UploadErrorHandler
 
 	public function handleErrorFromUpload( array $upload ): void
 	{
-		$code	= $upload['error'];
+		$code	= (int) $upload['error'];
 		$this->handleErrorCode( $code );
 	}
 
@@ -95,7 +97,7 @@ class UploadErrorHandler
 	 */
 	public function setMessages( array $messages ): static
 	{
-		$this->messages	= array_merge( $this->messages, $messages );
+		$this->messages	= array_replace( $this->messages, $messages );
 		return $this;
 	}
 }

@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
@@ -84,23 +87,23 @@ class CURL
 	/**
 	 *	Array of parsed HTTP header.
 	 *	@access private
-	 *	@var mixed
+	 *	@var array|NULL
 	 */
-	private $header;
+	private ?array $header		= NULL;
 
 	/**
 	 *	Current setting of the cURL options.
 	 *	@access private
-	 *	@var mixed
+	 *	@var array
 	 */
-	private $options;
+	private array $options		= [];
 
 	/**
 	 *	...
 	 *	@access private
 	 *	@var array
 	 */
-	private array $info;
+	private array $info		= [];
 
 	/**
 	 *	Time out in Seconds.
@@ -169,7 +172,7 @@ class CURL
 		if( !preg_match( "@[a-z]+://[a-z\d]+.+@i", $url ) )
 			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid protocol' );
 
-		$result 	= curl_exec( $this->handle );
+		$result 	= (string) curl_exec( $this->handle );
 		$this->info = curl_getinfo( $this->handle );
 		$this->info['errno']	= curl_errno( $this->handle );
 		$this->info['error']	= curl_error( $this->handle );
@@ -193,20 +196,20 @@ class CURL
 	 *	@param		string|NULL		$key		Key name of Header Information
 	 *	@return	 	mixed
 	 */
-	public function getHeader( ?string $key = NULL )
+	public function getHeader( ?string $key = NULL ): mixed
 	{
 		if( empty( $key ) )
 			return $this->header;
 
 		$key = strtoupper( $key );
 		if( isset( $this->caseless[$key] ) )
-			return $this->header[$this->caseless[$key]];
+			return $this->header[$this->caseless[$key]] ?? NULL;
 		return NULL;
 	}
 
 	public function getHeaders(): array
 	{
-		return $this->header;
+		return $this->header ?? [];
 	}
 
 	/**
@@ -215,7 +218,7 @@ class CURL
 	 *	@param		int			$option		Key name of cURL Option
 	 *	@return 	mixed
 	 */
-	public function getOption( int $option )
+	public function getOption( int $option ): mixed
 	{
 		if( !isset( $this->options[$option] ) )
 			return NULL;
@@ -228,7 +231,7 @@ class CURL
 	 *	@param		string|NULL		$key		Key name of Information
 	 *	@return		mixed
 	 */
-	public function getInfo( ?string $key = NULL )
+	public function getInfo( ?string $key = NULL ): mixed
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -240,9 +243,9 @@ class CURL
 	/**
 	 *	Did the last cURL exec operation have an error?
 	 *	@access		public
-	 *	@return		mixed
+	 *	@return		string|NULL
 	 */
-	public function hasError()
+	public function hasError(): ?string
 	{
 		if( isset( $this->info['error'] ) )
 			return ( empty( $this->info['error'] ) ? NULL : $this->info['error'] );
@@ -272,7 +275,7 @@ class CURL
 	 *	@param		string		$section		Section of HTTP headers
 	 *	@return		void
 	 */
-	protected function parseHeaderSection( string $section )
+	protected function parseHeaderSection( string $section ): void
 	{
 		$this->header	= NULL;
 		$this->caseless = [];
@@ -292,13 +295,13 @@ class CURL
 	 *	Set a cURL option.
 	 *
 	 *	@access		public
-	 *	@param		mixed		$option		One of the valid CURLOPT defines.
+	 *	@param		int|string	$option		One of the valid CURLOPT defines.
 	 *	@param		mixed		$value		the value of the cURL option.
 	 *	@return		void
 	 *	@link		https://www.php.net/curl_setopt
 	 *	@link		https://www.php.net/manual/en/function.curl-setopt.php
 	 */
-	public function setOption( $option, $value )
+	public function setOption( int|string $option, mixed $value ): void
 	{
 		if( is_string( $option ) && $option ){
 			if( !defined( $option ) )

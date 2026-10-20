@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *
@@ -101,8 +103,8 @@ class RecursiveRegexFilter extends RegexIterator
 		$realPath	= realpath( $this->current()->getPathname() );
 		if( $realPath )
 			$filePath	= $realPath;
-		$content	= file_get_contents( $filePath );
-		return preg_match( $this->contentPattern, $content );
+		$content	= (string) file_get_contents( $filePath );
+		return 1 === preg_match( $this->contentPattern, $content );
 	}
 
 	/**

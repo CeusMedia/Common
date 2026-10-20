@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *
@@ -74,7 +77,7 @@ class Lister extends FilterIterator
 
 	public function accept(): bool
 	{
-		$fileName	= basename( $this->current() );
+		$fileName	= basename( (string) $this->current() );
 		if( $this->extensions ){
 			$info		= pathinfo( $fileName );
 			if( empty( $info['extension'] ) )
@@ -82,7 +85,7 @@ class Lister extends FilterIterator
 			if( !in_array( $info['extension'], $this->extensions ) )
 				return FALSE;
 		}
-		$pathName	= dirname( str_replace( "\\", "/", $this->current() ) );
+		$pathName	= dirname( str_replace( "\\", "/", (string) $this->current() ) );
 		//  get inner Path Name
 		$innerPath	= substr( $pathName, strlen( $this->path) )."/";
 		$innerFile	= $innerPath.$fileName;
@@ -97,7 +100,7 @@ class Lister extends FilterIterator
 			if( $found )
 			{
 				//  log Folder
-				$this->logSkippedFolder( $this->current() );
+				$this->logSkippedFolder( (string) $this->current() );
 				if( $this->verbose )
 					remark( "Skipping Folder: ".$innerPath );
 				return FALSE;
@@ -114,7 +117,7 @@ class Lister extends FilterIterator
 			if( $found )
 			{
 				//  log File
-				$this->logSkippedFile( $this->current() );
+				$this->logSkippedFile( (string) $this->current() );
 				if( $this->verbose )
 					remark( "Skipping File: ".$innerPath.$this->current()->getFilename() );
 				return FALSE;

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
@@ -44,7 +46,7 @@ use RuntimeException;
 class RecursiveIterator extends RecursiveIteratorIterator
 {
 	/**	@var		 string		$path				Path to iterate */
-	protected $path;
+	protected string $path;
 
 	/**
 	 *	Constructor.

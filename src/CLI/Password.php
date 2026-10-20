@@ -52,7 +52,7 @@ class Password
 	 *	@throws		NotSupportedException	on Windows
 	 *	@throws		RuntimeException		if invoking bash failed
 	 */
-	public static function getInstance( string $prompt = NULL ): self
+	public static function getInstance( ?string $prompt = NULL ): self
 	{
 		return new self( $prompt );
 	}
@@ -62,13 +62,13 @@ class Password
 	 *	@throws		NotSupportedException	on Windows
 	 *	@throws		RuntimeException		if invoking bash failed
 	 */
-	public function __construct( string $prompt = NULL )
+	public function __construct( ?string $prompt = NULL )
 	{
 		if( str_starts_with( PHP_OS, 'WIN' ) )
 			throw new NotSupportedException( 'Not supported on Windows' );
 
 		$command	= "/usr/bin/env bash -c 'echo OK'";
-		if( 'OK' !== rtrim( shell_exec( $command ) ) )
+		if( 'OK' !== rtrim( (string) shell_exec( $command ) ) )
 			throw new RuntimeException( 'Cant invoke bash' );
 
 		if( NULL !== $prompt )
@@ -84,7 +84,7 @@ class Password
 		$command = "/usr/bin/env bash -c 'read -s -p \""
 			. addslashes( $this->prompt )
 			. "\" mypassword && echo \$mypassword'";
-		$password	= rtrim( shell_exec( $command ) );
+		$password	= rtrim( (string) shell_exec( $command ) );
 		echo PHP_EOL;
 		return $password;
 	}

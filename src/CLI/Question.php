@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Terminal question.
  *
@@ -85,10 +87,10 @@ class Question
 		$message	= $this->renderLabel();
 		CLI::out( $message, $this->break );
 		$handle	= fopen( "php://stdin","r" );
-		$input	= trim( fgets( $handle ) );
+		$input	= trim( (string) fgets( $handle ) );
 		if( !$this->evaluateInput( $input ) )
 			$input	= $this->ask();
-		return $input;
+		return (string) $input;
 	}
 
 	/**
@@ -163,7 +165,7 @@ class Question
 	protected function evaluateInput( string & $input ): bool
 	{
 		if( $this->default && !strlen( $input ) )
-			$input	= $this->default;
+			$input	= (string) $this->default;
 		if( $this->type === self::TYPE_BOOLEAN ){
 			if( !array_key_exists( $input, $this->options ) )
 				if( !in_array( $input, $this->options, TRUE ) )
@@ -224,7 +226,7 @@ class Question
 				$options	= [$this->rangeFrom.'-'.$this->rangeTo];
 			}
 		}
-		if( strlen( trim( $this->default ?? '' ) ) )
+		if( strlen( trim( (string) ( $this->default ?? '' ) ) ) )
 			$message	.= " [".$this->default."]";
 		if( is_array( $options ) && count( $options ) )
 			$message	.= " (".implode( "|", $options ).")";

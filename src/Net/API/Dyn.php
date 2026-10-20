@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Access to Dyn (dyn.com) API.
  *
@@ -64,7 +66,7 @@ class Dyn
 		if( is_string( $cacheFile ) ){
 			$this->cacheFile	= $cacheFile;
 			if( file_exists( $cacheFile ) ){
-				$data	= json_decode( FileReader::load( $cacheFile ) );
+				$data	= json_decode( FileReader::load( $cacheFile ) ?? '' );
 				$this->lastIp		= $data->ip;
 				$this->lastCheck	= $data->timestamp;
 			}
@@ -106,7 +108,7 @@ class Dyn
 			'timestamp'	=> $this->lastCheck
 		];
 		$data	= array_merge( $last,  $data );
-		return FileWriter::save( $this->cacheFile, JsonEncoder::create()->encode( $data ) );
+		return (int) FileWriter::save( $this->cacheFile, JsonEncoder::create()->encode( $data ) );
 	}
 
 	/**

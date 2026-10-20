@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Log File.
  *
@@ -42,7 +44,7 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
 class Reader
 {
 	/**	@var		string		$fileName		URI of file with absolute path */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.

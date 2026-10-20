@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Exception to indicate an error due to deprecation.
  *	Is serializable (to PHP, JSON), renderable and describable.

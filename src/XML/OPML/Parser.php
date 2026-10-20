@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for OPML Files.
  *
@@ -46,10 +48,10 @@ use RuntimeException;
 class Parser
 {
 	/**	@var	OptionObject		$headers			Object containing Headers of OPML Document */
-	protected $headers;
+	protected OptionObject $headers;
 
 	/**	@var	array				$optionKeys			Array of supported Headers */
-	protected $optionKeys	= [
+	protected array $optionKeys	= [
 		"title",
 		"dateCreated",
 		"dateModified",
@@ -64,16 +66,16 @@ class Parser
 	];
 
 	/**	@var	array				$outlines			Array of Outlines */
-	protected $outlines = [];
+	protected array $outlines = [];
 
 	/**	@var	Node				$tree				Loaded XML Tree from OPML Document */
-	protected $tree;
+	protected Node $tree;
 
 	/**	@var	DomParser			$parser				Instance of DOM parser */
-	protected $parser;
+	protected DomParser $parser;
 
 	/**	@var	bool				$parsed				Flag: OPML has been parsed */
-	protected $parsed;
+	protected bool $parsed;
 
 	/**
 	 *	Constructor.
@@ -112,8 +114,10 @@ class Parser
 	{
 		if( !$this->parsed )
 			throw new RuntimeException( "XML_OPML_Parser[getOption]: OPML Document has not been parsed yet." );
-		if( $this->headers->hasOption( $key ) )
-			return $this->headers->getOption( $key );
+		if( $this->headers->hasOption( $key ) ){
+			$value	= $this->headers->getOption( $key );
+			return NULL !== $value ? (string) $value : NULL;
+		}
 		return NULL;
 	}
 
@@ -217,10 +221,9 @@ class Parser
 			$data	= [];
 			foreach( $outline->getAttributes() as $key => $value )
 				$data[$key]	= $value;
+			$data['outlines']	= [];
 			if( $outline->hasChildren() )
 				$this->parseOutlines( $outline, $data['outlines'] );
-			else
-				$data['outlines']	= [];
 			$array[]	= $data;
 		}
 	}

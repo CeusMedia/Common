@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Tree Menu List Item Data Object used by UI_HTML_Tree_Menu.
  *
@@ -62,7 +64,7 @@ class Item extends Collection
 	 *	@param		string		$key			Attribute Key
 	 *	@return		mixed
 	 */
-	public function __get( string $key )
+	public function __get( string $key ): mixed
 	{
 		return $this->attributes->get( $key );
 	}

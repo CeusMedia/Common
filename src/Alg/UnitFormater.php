@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
@@ -344,7 +346,8 @@ class UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatSeconds( $float, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
+	public static function formatSeconds( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+
 	{
 		return self::formatMicroSeconds( $float * 1_000_000, $precision, $indent, $edge );
 	}

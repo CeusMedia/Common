@@ -50,7 +50,7 @@ class Selection
 	 *	@param		int			$pos2		Position of higher Bound
 	 *	@return		int
 	 */
-	protected static function getLowest( $list, $pos1, $pos2 )
+	protected static function getLowest( array $list, int $pos1, int $pos2 ): int
 	{
 		$lowest = $pos1;
 		for( $i=$pos1; $i<$pos2; $i++ )
@@ -66,7 +66,7 @@ class Selection
 	 *	@param		array		$list		List to sort
 	 *	@return		array
 	 */
-	public static function sort( $list )
+	public static function sort( array $list ): array
 	{
 		$n = sizeof( $list );
 		for( $i=0; $i<= $n -1; $i++ )
@@ -89,7 +89,8 @@ class Selection
 	 *	@param		int			$pos2		Position of second Element
 	 *	@return		void
 	 */
-	protected static function swap( &$list, $pos1, $pos2 )
+	protected static function swap( array &$list, int $pos1, int $pos2 ): void
+
 	{
 		$memory = $list[$pos1];
 		$list[$pos1] = $list[$pos2];

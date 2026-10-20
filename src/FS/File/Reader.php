@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Basic File Reader.
  *
@@ -217,7 +219,7 @@ class Reader
 	public function getPath(): string
 	{
 		$this->exists( TRUE );
-		return dirname( realpath( $this->file->getPathName() ) ).'/';
+		return dirname( (string) realpath( $this->file->getPathName() ) ).'/';
 	}
 
 	/**
@@ -237,7 +239,7 @@ class Reader
 	 *	@return		integer|string
 	 *	@throws		FileNotExistingException	if file is not existing or given path is not a file
 	 */
-	public function getSize( int $precision = NULL ): int|string
+	public function getSize( ?int $precision = NULL ): int|string
 	{
 		return $this->file->getSize( $precision );
 	}

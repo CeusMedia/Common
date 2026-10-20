@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handler for HTTP Requests.
  *
@@ -142,15 +144,15 @@ class Request implements ArrayAccess
 			$this->sources['cookie']	=& $_COOKIE;
 
 		//  retrieve requested path
-		$this->root	= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
-		$this->path	= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		$this->root	= rtrim( dirname( (string) getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path	= substr( (string) getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( str_contains( $this->path, '?' ) )
-			$this->path = substr( $this->path, 0, strpos( $this->path, '?' ) );
+			$this->path = substr( $this->path, 0, (int) strpos( $this->path, '?' ) );
 
 		/*  --  APPLY ALL SOURCES TO ONE COLLECTION OF REQUEST ARGUMENT PAIRS  --  */
 		foreach( $this->sources as $values )
 			foreach( $values as $key => $value )
-				$this->parameters->set( $key, $value );
+				$this->parameters->set( (string) $key, $value );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
 		$this->headers->addFieldPairs( static::getAllEnvHeaders() );
@@ -161,7 +163,7 @@ class Request implements ArrayAccess
 			$this->ip = (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue();			//  get original IP address of request
 
 		//  store raw POST, PUT or FILE data
-		$this->body	= file_get_contents( "php://input" );
+		$this->body	= (string) file_get_contents( "php://input" );
 		return $this;
 	}
 
@@ -195,7 +197,7 @@ class Request implements ArrayAccess
 	 *	@param		boolean			$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
 	 *	@return		Dictionary|array				Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
 	{
 		return $this->parameters->getAll( $prefix, $asDictionary, $caseSensitive );
 	}
@@ -384,10 +386,10 @@ class Request implements ArrayAccess
 	 */
 	public function getUrl( bool $absolute = TRUE ): URL
 	{
-		$url	= new URL( getEnv( 'REQUEST_URI' ) );
+		$url	= new URL( (string) getEnv( 'REQUEST_URI' ) );
 		if( $absolute ){
-			$url->setScheme( getEnv( 'REQUEST_SCHEME' ) );
-			$url->setHost( getEnv( 'HTTP_HOST' ) );
+			$url->setScheme( (string) getEnv( 'REQUEST_SCHEME' ) );
+			$url->setHost( (string) getEnv( 'HTTP_HOST' ) );
 		}
 		return $url;
 	}
@@ -447,7 +449,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetExists( $offset ): bool
 	{
-		return $this->parameters->has( $offset );
+		return $this->parameters->has( (string) $offset );
 	}
 
 	/**
@@ -458,7 +460,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetGet( $offset ): mixed
 	{
-		return $this->parameters->get( $offset );
+		return $this->parameters->get( (string) $offset );
 	}
 
 	/**
@@ -470,7 +472,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetSet( $offset, $value ): void
 	{
-		$this->parameters->set( $offset, $value );
+		$this->parameters->set( (string) $offset, $value );
 	}
 
 	/**
@@ -481,7 +483,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetUnset( $offset ): void
 	{
-		$this->parameters->remove( $offset );
+		$this->parameters->remove( (string) $offset );
 	}
 
 	/**

@@ -51,7 +51,7 @@ class Builder
 	 *	@param		mixed		$data			Data to be encoded
 	 *	@return		string
 	 */
-	public static function encode( $data ): string
+	public static function encode( mixed $data ): string
 	{
 		$builder	= new self();
 		return $builder->get( NULL, $data );
@@ -88,7 +88,7 @@ class Builder
 	 *	@param		string|NULL		$parent			Parent of Pair
 	 *	@return		string
 	 */
-	public function get( $key, $value, ?string $parent = NULL ): string
+	public function get( string|int|NULL $key, mixed $value, ?string $parent = NULL ): string
 	{
 		$type	= self::getType( $key, $value );
 		switch( $type ){
@@ -124,7 +124,7 @@ class Builder
 	 *	@param		mixed			$value			Value of Pair
 	 *	@return		string
 	 */
-	private static function getType( $key, $value ): string
+	private static function getType( string|int|NULL $key, mixed $value ): string
 	{
 		if( is_object( $value ))
 			$type	= 'object';
@@ -167,7 +167,7 @@ class Builder
 	private static function loop( array|object $array, string $type ): string
 	{
 		$builder	= new self();
-		$output		= NULL;
+		$output		= '';
 		foreach( (array) $array as $key => $value )
 			$output	.= $builder->get( $key, $value, $type ).',';
 		return trim( $output, ',' );

@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -94,7 +97,7 @@ class Post
 	 */
 	public function send( array $curlOptions = [] ): string
 	{
-		$this->checkContentLength( $this->content );
+		$this->checkContentLength( $this->content ?? '' );
 
 		return match( $this->transport ){
 			static::TRANSPORT_CURL	=> $this->performRequestUsingCurl( $curlOptions ),
@@ -131,6 +134,7 @@ class Post
 
 	/**
 	 *	@return		string
+	 *	@throws		RuntimeException			if request failed
 	 */
 	protected function performRequestUsingStream(): string
 	{
@@ -143,7 +147,10 @@ class Post
 			'timeout'		=> 15,
 		];
 		$context	= stream_context_create( ['http' => $httpContext] );
-		return trim( file_get_contents( $this->url->get(), FALSE, $context ) );
+		$response	= file_get_contents( $this->url->get(), FALSE, $context );
+		if( FALSE === $response )
+			throw new RuntimeException( 'POST request to "'.$this->url->get().'" failed' );
+		return trim( $response );
 
 	}
 
@@ -224,7 +231,7 @@ class Post
 	{
 		if( CURL::isSupported() )
 			$this->transport	= static::TRANSPORT_CURL;
-		else if( preg_match( '/1|yes|on|true/i', ini_get( 'allow_url_fopen' ) ) )
+		else if( preg_match( '/1|yes|on|true/i', (string) ini_get( 'allow_url_fopen' ) ) )
 			$this->transport	= static::TRANSPORT_FOPEN;
 		return $this;
 	}

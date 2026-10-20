@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Visualisation of Exception Stack Trace.
  *
@@ -170,7 +172,7 @@ class TraceViewer
 	 *	@param		int			$level
 	 *	@return		string
 	 */
-	protected static function convertArgumentToString( $argument, int $breakMode, int $level = 0 ): string
+	protected static function convertArgumentToString( mixed $argument, int $breakMode, int $level = 0 ): string
 	{
 		$value	= $argument;
 		switch( gettype( $argument ) ){

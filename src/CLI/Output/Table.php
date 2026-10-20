@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Table for console output.
  *
@@ -127,7 +129,7 @@ class Table
 		foreach( $this->columns as $columnKey => $column ){
 			$value	= $data[$columnKey] ?? '';
 			$dir = $column['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
-			$line[]	= $padding.str_pad( $value, $column['size'], ' ', $dir ).$padding;
+			$line[]	= $padding.str_pad( (string) $value, $column['size'], ' ', $dir ).$padding;
 		}
 		return $border->ol.join( $border->iv, $line ).$border->or.PHP_EOL;
 	}
@@ -179,7 +181,7 @@ class Table
 		}
 		foreach( $this->data as $row ){
 			foreach( $row as $key => $value ){
-				$this->columns[$key]['size']	= max( $this->columns[$key]['size'], strlen( $value ) );
+				$this->columns[$key]['size']	= max( $this->columns[$key]['size'], strlen( (string) $value ) );
 			}
 		}
 		if( $this->sizeMode === self::SIZE_MODE_MAX && $this->sizeMax ){
@@ -189,7 +191,7 @@ class Table
 				$spaceUsed	+= $column['size'];
 			foreach( $this->columns as $columnKey => $column ){
 				$ratio	= $this->columns[$columnKey]['size'] / $spaceUsed;
-				$this->columns[$columnKey]['size']	= floor( $ratio * $spaceLeft );
+				$this->columns[$columnKey]['size']	= (int) floor( $ratio * $spaceLeft );
 			}
 		}
 	}
@@ -206,7 +208,7 @@ class Table
 		$line		= [];
 		foreach( $this->columns as $columnKey => $column ){
 			$dir = $column['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
-			$line[]	= $padding.str_pad( $columnKey, $column['size'], ' ', $dir ).$padding;
+			$line[]	= $padding.str_pad( (string) $columnKey, $column['size'], ' ', $dir ).$padding;
 		}
 		return $border->ol.join( $border->iv, $line ).$border->or.PHP_EOL;
 	}

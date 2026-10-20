@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use CeusMedia\Common\ADT\Tree\Menu\Collection as TreeMenuCollection;

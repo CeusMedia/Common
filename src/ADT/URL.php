@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** * @noinspection PhpDocMissingThrowsInspection */
 
 /**
@@ -63,7 +66,7 @@ class URL implements Renderable, Stringable
 	 *	@param		string				$url		URL string to represent
 	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
-	public function __construct( string $url, URL|string $defaultUrl = NULL )
+	public function __construct( string $url, URL|string|NULL $defaultUrl = NULL )
 	{
 		if( '' === trim( $url ) )
 			throw new InvalidArgumentException( 'No URL given' );
@@ -90,7 +93,7 @@ class URL implements Renderable, Stringable
 	 * @param		URL|string|NULL		$defaultUrl
 	 * @return		static
 	 */
-	public static function create( string $url = NULL, URL|string $defaultUrl = NULL ): static
+	public static function create( ?string $url = NULL, URL|string|NULL $defaultUrl = NULL ): static
 	{
 		$className	= static::class;
 		return new $className( $url, $defaultUrl );
@@ -388,7 +391,7 @@ class URL implements Renderable, Stringable
 		return $this;
 	}
 
-	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): static
+	public function setHost( string $host, ?int $port = NULL, ?string $username = NULL, ?string $password = NULL ): static
 	{
 		$this->parts->host	= $host;
 		if( NULL !== $port )

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Tree Menu List Data Object used by UI_HTML_Tree_Menu.
  *
@@ -89,7 +91,9 @@ class Collection
 	 */
 	public function getAttribute( string $key ): string
 	{
-		return $this->attributes->get( $key );
+		$value	= $this->attributes->get( $key );
+		//  cast scalar values (like default flag) like weak mode did before strict types
+		return is_scalar( $value ) ? (string) $value : $value;
 	}
 
 	/**
@@ -98,7 +102,7 @@ class Collection
 	 *	@param		bool		$asArray		Return Array instead of Dictionary
 	 *	@return		Dictionary|array
 	 */
-	public function getAttributes( bool $asArray = FALSE )
+	public function getAttributes( bool $asArray = FALSE ): Dictionary|array
 	{
 		if( $asArray )
 			return $this->attributes->getAll();
@@ -154,12 +158,12 @@ class Collection
 	 *	@param		Dictionary|array	$array			Map Array or Dictionary of Attributes to set
 	 *	@return		self
 	 */
-	public function setAttributes( $array ): self
+	public function setAttributes( Dictionary|array $array ): self
 	{
 		if( $array instanceof Dictionary )
 			$array	= $array->getAll();
 		foreach( $array as $key => $value )
-			$this->attributes->set( $key, $value );
+			$this->attributes->set( (string) $key, $value );
 		return $this;
 	}
 

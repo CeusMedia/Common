@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Buffer for standard output channel.
  *
@@ -115,7 +117,7 @@ class OutputBuffer
 	public function get( bool $clear = FALSE ): string
 	{
 		$this->checkStatus( TRUE, TRUE );
-		$content	= ob_get_contents();
+		$content	= (string) ob_get_contents();
 		if( $clear )
 			ob_clean();
 		return $content;

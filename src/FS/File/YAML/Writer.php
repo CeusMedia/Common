@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	YAML Writer based on Spyc.
  *
@@ -42,7 +44,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 class Writer
 {
 	/**	@var		string		$fileName		File Name of YAML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.
@@ -65,7 +67,7 @@ class Writer
 	 */
 	public static function save( string $fileName, array $data ): int
 	{
-		return FileWriter::save( $fileName, Spyc::YAMLDump( $data ) );
+		return (int) FileWriter::save( $fileName, Spyc::YAMLDump( $data ) );
 	}
 
 	/**

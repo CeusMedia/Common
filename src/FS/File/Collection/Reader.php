@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	A Class for reading List Files.
  *
@@ -45,10 +47,10 @@ use RuntimeException;
 class Reader implements Countable
 {
 	/**	@var		array		$list			List */
-	protected $list						= [];
+	protected array $list						= [];
 
 	/**	@var		string		$commentPattern	RegEx Pattern of Comments */
-	protected static $commentPattern	= '/^[#:;\/*-]/';
+	protected static string $commentPattern	= '/^[#:;\/*-]/';
 
 	/**
 	 *	Constructor.

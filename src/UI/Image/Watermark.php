@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -94,7 +97,7 @@ class Watermark
 				$posX	= $this->marginX;
 				break;
 			case 'center':
-				$posX	= ceil( $image->getWidth() / 2 - $this->stamp->getWidth() / 2 );
+				$posX	= (int) ceil( $image->getWidth() / 2 - $this->stamp->getWidth() / 2 );
 				break;
 			case 'right':
 			default:
@@ -106,7 +109,7 @@ class Watermark
 				$posY	= $this->marginY;
 				break;
 			case 'middle':
-				$posY	= ceil( $image->getHeight() / 2 - $this->stamp->getHeight() / 2 );
+				$posY	= (int) ceil( $image->getHeight() / 2 - $this->stamp->getHeight() / 2 );
 				break;
 			case 'bottom':
 			default:

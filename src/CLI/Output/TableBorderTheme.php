@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *	Progress bar for console output.
  *

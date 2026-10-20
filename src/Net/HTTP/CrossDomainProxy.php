@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -139,7 +142,7 @@ class CrossDomainProxy
 		//  check Response for Exception
 		if( $throwException )
 			//  Response is an Object
-			if( $object = @unserialize( $response ) )
+			if( is_string( $response ) && ( $object = @unserialize( $response ) ) )
 				//  Response is an Exception
 				if( $object instanceof Exception )
 					//  throw this Exception

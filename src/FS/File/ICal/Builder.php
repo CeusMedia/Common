@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for iCalendar File from XML Tree.
  *
@@ -46,7 +48,7 @@ use CeusMedia\Common\XML\DOM\Node;
 class Builder
 {
 	/**	@var	string		$lineBreak		Line Break String */
-	protected static $lineBreak;
+	protected static string $lineBreak	= "\r\n";
 
 	/**
 	 *	Constructor.
@@ -88,7 +90,7 @@ class Builder
 	{
 		$params	= [];
 		foreach( $param as $key => $value )
-			$params[]	= strtoupper( trim( $key ) )."=".$value;
+			$params[]	= strtoupper( trim( (string) $key ) )."=".$value;
 		$param	= implode( ",", $params );
 		if( $param ){
 			$param	= " ;".$param;

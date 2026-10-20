@@ -1,5 +1,7 @@
 <?php /**	@noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	PSR4 Autoloader
  *
@@ -115,7 +117,7 @@ class Psr4
 		$prefix = trim( $prefix, '\\' ) . '\\';
 
 		// normalize the base directory with a trailing separator
-		$baseDir = rtrim( realpath( $baseDir ), DIRECTORY_SEPARATOR) . '/';
+		$baseDir = rtrim( realpath( $baseDir ) ?: $baseDir, DIRECTORY_SEPARATOR) . '/';
 
 		// initialize the namespace prefix array
 		if( isset( $this->prefixes[$prefix] ) === FALSE ){

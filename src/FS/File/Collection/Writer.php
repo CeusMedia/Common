@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	A Class for reading and writing List Files.
  *
@@ -114,10 +116,10 @@ class Writer
 	 *	@param		string|NULL		$group			Group Name for chgrp()
 	 *	@return		int				Number of written bytes
 	 */
-	public static function save( string $fileName, array $list, $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
+	public static function save( string $fileName, array $list, int $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		$file	= new FileWriter( $fileName, $mode, $user, $group );
-		return $file->writeArray( $list );
+		return (int) $file->writeArray( $list );
 	}
 
 	/**

@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -59,12 +62,15 @@ class Exif extends Dictionary
 			throw new RuntimeException( 'Image file "'.$imageUri.'" is not existing' );
 
 		$this->imageUri	= $imageUri;
-		$this->raw		= exif_read_data( $imageUri );
+		$raw			= exif_read_data( $imageUri );
+		if( FALSE === $raw )
+			throw new RuntimeException( 'Reading EXIF data of image file "'.$imageUri.'" failed' );
+		$this->raw		= $raw;
 		foreach( $this->raw as $key => $value )
 		{
 			if( $key == "MakerNote" )
 				continue;
-			if( preg_match( "/^UndefinedTag/i", $key ) )
+			if( 1 === preg_match( "/^UndefinedTag/i", (string) $key ) )
 				continue;
 			if( is_array( $value ) )
 				foreach( $value as $nestKey => $nestValue )

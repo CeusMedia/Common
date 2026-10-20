@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parses a CSS string or file and creates a structure of ADT_CSS_* objects.
  *

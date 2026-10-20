@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -33,6 +36,7 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 use DOMDocument;
 use InvalidArgumentException;
+use RuntimeException;
 use XSLTProcessor;
 
 /**
@@ -79,6 +83,8 @@ class Transformator
 	 *	Transforms loaded XML and XSL and returns Result.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		InvalidArgumentException	if XML or XSL is not set
+	 *	@throws		RuntimeException			if transformation failed
 	 */
 	public function transform(): string
 	{
@@ -90,7 +96,10 @@ class Transformator
 		$xsl->loadXML( $this->xsl );
 		$proc	= new XSLTProcessor();
 		$proc->importStyleSheet( $xsl );
-		return $proc->transformToXML( $xml );
+		$result	= $proc->transformToXML( $xml );
+		if( FALSE === $result )
+			throw new RuntimeException( 'XSL transformation failed' );
+		return $result;
 	}
 
 	/**
@@ -103,6 +112,6 @@ class Transformator
 	{
 		$result	= $this->transform();
 		$writer	= new FileWriter( $outFile );
-		return $writer->writeString( $result );
+		return (int) $writer->writeString( $result );
 	}
 }

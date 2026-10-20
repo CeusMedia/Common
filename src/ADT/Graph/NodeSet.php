@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	NodeSet to store and manipulate nodes in a graph.
  *
@@ -52,7 +54,7 @@ class NodeSet implements Countable
 	 *	@param		mixed			$nodeValue		Value of the new Node
 	 *	@return 	Node
 	 */
-	public function addNode( string $nodeName, $nodeValue = '' ): Node
+	public function addNode( string $nodeName, mixed $nodeValue = '' ): Node
 	{
 		$newNode = new Node( $nodeName, $nodeValue );
 		if( !$this->isNode( $newNode ) ){

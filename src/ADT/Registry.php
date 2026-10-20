@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Registry Pattern Singleton Implementation to store Objects.
  *
@@ -56,7 +58,7 @@ class Registry
 	 *	@param		string|NULL		$poolKey			Default: see public static $defaultPoolKey
 	 *	@return		mixed
 	 */
-	public static function & getStatic( string $key, ?string $poolKey = NULL )
+	public static function & getStatic( string $key, ?string $poolKey = NULL ): mixed
 	{
 		return self::getInstance( $poolKey )->get( $key );
 	}
@@ -84,9 +86,9 @@ class Registry
 	 *	@param		mixed			$value			Object to register
 	 *	@param		bool			$overwrite		Flag: overwrite already registered Objects
 	 *	@param		string|NULL		$poolKey		Default: see public static $defaultPoolKey
-	 *	@return		mixed
+	 *	@return		void
 	 */
-	public static function setStatic( string $key, &$value, bool $overwrite = FALSE, ?string $poolKey = NULL )
+	public static function setStatic( string $key, mixed &$value, bool $overwrite = FALSE, ?string $poolKey = NULL ): void
 	{
 		self::getInstance( $poolKey )->set( $key, $value, $overwrite );
 	}
@@ -109,7 +111,7 @@ class Registry
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function clear()
+	public function clear(): void
 	{
 		foreach( $GLOBALS[$this->poolKey] as $key => $value )
 			unset( $GLOBALS[$this->poolKey][$key] );
@@ -121,7 +123,7 @@ class Registry
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		mixed
 	 */
-	public function & get( string $key )
+	public function & get( string $key ): mixed
 	{
 		if( !isset( $GLOBALS[$this->poolKey][$key] ) )
 			throw new InvalidArgumentException( 'No object registered by key "'.$key.'"' );
@@ -148,7 +150,7 @@ class Registry
 	 *	@param		bool		$overwrite	Flag: overwrite already registered Objects
 	 *	@return		void
 	 */
-	public function set( string $key, &$value, bool $overwrite = FALSE )
+	public function set( string $key, mixed &$value, bool $overwrite = FALSE ): void
 	{
 		if( isset( $GLOBALS[$this->poolKey][$key] ) && !$overwrite )
 			throw new InvalidArgumentException( 'Element "'.$key.'" is already registered.' );
@@ -174,7 +176,7 @@ class Registry
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function __clone()
+	private function __clone(): void
 	{
 	}
 }

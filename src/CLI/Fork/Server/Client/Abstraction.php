@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -67,7 +69,7 @@ abstract class Abstraction
 		if( !$socket )
 			die( $errstr.' ('.$errno.')<br />\n' );
 
-		$request	= $this->getResponse();
+		$request	= $this->getRequest();
 		$buffer		= "";
 		fwrite( $socket, $request );
 		while( !feof( $socket ) )

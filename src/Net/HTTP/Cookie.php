@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Cookie Management.
  *
@@ -57,7 +59,7 @@ class Cookie
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string|NULL		$path			Default path of cookie
+	 *	@param		string|NULL		$path			Default path of cookie, default: /
 	 *	@param		string|NULL		$domain			Domain of cookie
 	 *	@param		boolean			$secure			Flag: only with secured HTTPS connection
 	 *	@param		boolean			$httpOnly		Flag: allow access via HTTP protocol only
@@ -66,7 +68,7 @@ class Cookie
 	public function __construct( ?string $path = NULL, ?string $domain = NULL, bool $secure = FALSE, bool $httpOnly = FALSE )
 	{
 		$this->data		=& $_COOKIE;
-		$this->setPath( $path );
+		$this->setPath( $path ?? '/' );
 		if (NULL !== $domain )
 			$this->setDomain( $domain );
 		$this->setSecure( $secure );
@@ -158,7 +160,7 @@ class Cookie
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
 		];
-		return setcookie( $key, $value, $options );
+		return setcookie( $key, (string) $value, $options );
 	}
 
 	/**

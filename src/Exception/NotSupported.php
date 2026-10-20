@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Exception for anything with missing support.
  *	Is serializable (to PHP, JSON), renderable and describable.

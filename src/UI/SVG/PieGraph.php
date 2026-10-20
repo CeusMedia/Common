@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	This is a pie visualization class.
  *	You shouldn´t use this class alone, but you can.

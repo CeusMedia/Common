@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	ID generator.
  *
@@ -47,7 +49,8 @@ class ID
 	public static function isUuid( string $uuid ): bool
 	{
 		$regexp	= '[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}';
-		return preg_match( '/^'.$regexp.'$/i', $uuid );
+		return 1 === preg_match( '/^'.$regexp.'$/i', $uuid );
+
 	}
 
 	public static function uuid(): string

@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
@@ -96,10 +99,10 @@ class FileEditor
 	 *	@return		bool
 	 *	@throws		DOMException
 	 */
-	public function editNodeAttribute( string $nodePath, string $key, $value ): bool
+	public function editNodeAttribute( string $nodePath, string $key, mixed $value ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		$node->setAttribute( $key, $value );
+		$node->setAttribute( $key, (string) $value );
 		return (bool) $this->write();
 	}
 

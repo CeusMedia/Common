@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Google Sitemap XML Writer.
  *
@@ -42,7 +44,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 class MapWriter
 {
 	/**	@var		string		$fileName			File Name of Sitemap XML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.
@@ -81,6 +83,6 @@ class MapWriter
 		$builder	= new MapBuilder();
 		$file		= new FileWriter( $fileName, $mode );
 		$xml		= $builder->build( $urls );
-		return $file->writeString( $xml );
+		return (int) $file->writeString( $xml );
 	}
 }

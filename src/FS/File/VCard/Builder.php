@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builds vCard String from vCard Data Object.
  *
@@ -93,15 +95,15 @@ class Builder
 
 		//  EMAIL ADDRESSES
 		foreach( $card->getEmails() as $address => $types )
-			$lines[]	= self::renderLine( 'email', $address, $types );
+			$lines[]	= self::renderLine( 'email', (string) $address, $types );
 
 		//  URLS
 		foreach( $card->getUrls() as $url => $types )
-			$lines[]	= self::renderLine( 'url', $url, $types, FALSE );
+			$lines[]	= self::renderLine( 'url', (string) $url, $types, FALSE );
 
 		//  PHONES
 		foreach( $card->getPhones() as $number => $types )
-			$lines[]	= self::renderLine( 'tel', $number, $types );
+			$lines[]	= self::renderLine( 'tel', (string) $number, $types );
 
 		//  GEO TAGS
 		foreach( $card->getGeoTags() as $geo )
@@ -145,7 +147,7 @@ class Builder
 				$list	= [];
 				foreach( $values as $key => $value )
 					if( 'types' !== $key && NULL !== $value )
-						$list[]	= self::escape( $value );
+						$list[]	= self::escape( (string) $value );
 				$values	= $list;
 			}
 			$values	= implode( $delimiter, $values );

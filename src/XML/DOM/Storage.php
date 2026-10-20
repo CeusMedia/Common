@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -45,10 +48,10 @@ use InvalidArgumentException;
 class Storage extends OptionObject
 {
 	/**	@var	string			$fileName		URI of XML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**	@var	array			$storage		Array for Storage Operations */
-	protected $storage	= [];
+	protected array $storage	= [];
 
 	/**
 	 *	Constructor.
@@ -79,7 +82,7 @@ class Storage extends OptionObject
 	 *	@param		array|NULL		$array			current Position in Storage Array
 	 *	@return 	mixed
 	 */
-	public function get( string $path, ?array $array = NULL )
+	public function get( string $path, ?array $array = NULL ): mixed
 	{
 		if( $array == NULL )
 			$array	= $this->storage;
@@ -105,16 +108,19 @@ class Storage extends OptionObject
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
-	protected function readRecursive( Node $node, array &$array )
+	protected function readRecursive( Node $node, array &$array ): void
 	{
 		$nodeTag	= $node->getNodename();
 		$nodeName	= $node->getAttribute( 'name' );
 		if( $nodeTag == $this->getOption( 'tag_root' ) )
 			foreach( $node->getChildren() as $child )
 				$this->readRecursive( $child, $array );
-		else if( $nodeTag == $this->getOption( 'tag_level' ) )
+		else if( $nodeTag == $this->getOption( 'tag_level' ) ){
+			if( !isset( $array[$nodeName] ) )
+				$array[$nodeName]	= [];
 			foreach( $node->getChildren() as $child )
 				$this->readRecursive( $child, $array[$nodeName] );
+		}
 		else if( $nodeTag	== $this->getOption( 'tag_pair' ) ){
 			$value	= $node->getContent();
 			if( $type = $node->getAttribute( 'type' ) )
@@ -173,7 +179,7 @@ class Storage extends OptionObject
 	 *	@return 	bool
 	 *	@throws		DOMException
 	 */
-	public function set( string $path, $value, bool $write = FALSE ): bool
+	public function set( string $path, mixed $value, bool $write = FALSE ): bool
 	{
 		$type	= gettype( $value );
 		if( !in_array( $type, ["double", "integer", "boolean", "string"], TRUE ) )
@@ -192,7 +198,7 @@ class Storage extends OptionObject
 	 *	@param		array		$array			Current Array in Storage
 	 *	@return 	bool
 	 */
-	protected function setRecursive( string $path, $value, array &$array ): bool
+	protected function setRecursive( string $path, mixed $value, array &$array ): bool
 	{
 		if( substr_count( $path, "." ) ){
 			$parts	= explode( ".", $path );
@@ -230,19 +236,19 @@ class Storage extends OptionObject
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
-	protected function writeRecursive( Node &$node, array $array )
+	protected function writeRecursive( Node &$node, array $array ): void
 	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
 				$child	= new Node( $this->getOption( 'tag_level' ) );
-				$child->setAttribute( 'name', $key );
+				$child->setAttribute( 'name', (string) $key );
 				$this->writeRecursive( $child, $value );
 			}
 			else{
 				$child	= new Node( $this->getOption( 'tag_pair' ) );
-				$child->setAttribute( 'name', $key );
+				$child->setAttribute( 'name', (string) $key );
 				$child->setAttribute( 'type', gettype( $value ) );
-				$child->setContent( utf8_encode( $value ) );
+				$child->setContent( utf8_encode( (string) $value ) );
 			}
 			$node->addChild( $child );
 		}

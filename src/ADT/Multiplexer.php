@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Multiplexer.
  *
@@ -98,7 +100,7 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function proceed()
+	public function proceed(): mixed
 	{
 		switch( $this->getType() ){
 			case 1:
@@ -137,7 +139,7 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setControls()
+	public function setControls(): void
 	{
 		$this->controls	= [];
 		$args	= func_get_args();
@@ -151,7 +153,7 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setInputs()
+	public function setInputs(): void
 	{
 		$this->inputs	= [];
 		$len	= 2 ** $this->type;

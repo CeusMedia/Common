@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Generates HTML of an index structure, parsed headings within HTML or given by OPML (or [several] tree structures and objects).
  *
@@ -77,7 +79,7 @@ class Index
 		array_shift( $parts );
 		//  iterate blocks
 		foreach( $parts as $nr => $part ){
-			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//
+			$heading	= (string) preg_replace( "/<.+>/", "", $headings[1][$nr] );							//
 			$id			= strtolower( trim( $heading ) );											//
 			$id			= str_replace( [" ", "_"], "-", $id );								//
 			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//

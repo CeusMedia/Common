@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for short Log Files.
  *
@@ -69,7 +71,7 @@ class ShortWriter
 	 *	@param		string|array	$line		Entry to add to Log File
 	 *	@return		bool
 	 */
-	public function note( $line ): bool
+	public function note( array|string $line ): bool
 	{
 		if( is_array( $line ) )
 			$line	= implode( "|", $line );
