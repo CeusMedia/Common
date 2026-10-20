@@ -3,7 +3,7 @@
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +39,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -136,18 +136,17 @@ class Chart
 	}
 
 	/**
-	 *	This function simply enclosoures the received svg code with the beginning- and ending <svg> or </svg> tags.
-	 *	Also it includes an <?xml ... ?> header.
+	 *	This function simply enclosures the received svg code with the beginning- and ending <svg> or </svg> tags.
+	 *	Also, it includes an <?xml ... ?> header.
 	 *	@access		public
 	 *	@param		string		$svg        SVG code to encapsulate
 	 *	@return		string		The encapsulated SVG code
 	 */
 	public function encapsulate( string $svg ): string
 	{
-		$data = '<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">';
+		$data = '<?xml version="1.0" encoding="iso-8859-1"?><svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">';
 		$data .= $svg;
 		$data .= "</svg>";
-
 		return $data;
 	}
 
@@ -156,7 +155,7 @@ class Chart
 	 *	Supplied is a number.
 	 *	@access		public
 	 *	@param		integer		$id     The id of the color
-	 *	@return		string		color name or hexadeciaml triplet
+	 *	@return		string		color name or hexadecimal triplet
 	 */
 	public function getColor( int $id ): string
 	{
