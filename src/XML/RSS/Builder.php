@@ -102,11 +102,10 @@ class Builder
 	public function __construct( array $data = [] )
 	{
 		$this->builder	= new DomBuilder();
-		$this->channel['timezone']	= '+0000';
 		$this->items	= [];
 
-		if( !is_array( $data ) )
-			throw new Exception( 'Channel Data List must be an Array.' );
+		$this->channel['timezone']	= '+0000';
+
 		foreach( $data as $key => $value )
 			$this->setChannelPair( (string) $key, NULL !== $value ? (string) $value : NULL );
 	}
@@ -115,12 +114,13 @@ class Builder
 	 *	Adds an item to RSS Feed.
 	 *	@access		public
 	 *	@param		array		$item			Item information to add
-	 *	@return		void
+	 *	@return		static
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function addItem( array $item ): void
+	public function addItem( array $item ): static
 	{
 		$this->items[] = $item;
+		return $this;
 	}
 
 	/**
@@ -224,10 +224,10 @@ class Builder
 	 *	@access		public
 	 *	@param		string			$key		Key of Channel Information Pair
 	 *	@param		string|NULL		$value		Value of Channel Information Pair
-	 *	@return		self
+	 *	@return		static
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelPair( string $key, ?string $value ): self
+	public function setChannelPair( string $key, ?string $value ): static
 	{
 		$this->channel[$key]	= $value;
 		return $this;
@@ -237,11 +237,11 @@ class Builder
 	 *	Sets Information of Channel.
 	 *	@access		public
 	 *	@param		array		$pairs		Array of Channel Information Pairs
-	 *	@return		self
+	 *	@return		static
 	 *	@throws		Exception
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelData( array $pairs ): self
+	public function setChannelData( array $pairs ): static
 	{
 		foreach( $pairs as $key => $value )
 			$this->setChannelPair( (string) $key, NULL !== $value ? (string) $value : NULL );

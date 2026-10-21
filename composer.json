@@ -45,9 +45,9 @@
     "ceus-media/database": "0.6.* | 0.6.x-dev",
     "ceus-media/doc-creator": "1.0.* | 1.0.x-dev",
     "ceus-media/php-parser": "0.4.* | 0.4.x-dev",
-    "phpunit/phpunit": "10.*",
-    "phpstan/phpstan": "1.*",
-    "phpstan/phpstan-strict-rules": "1.*",
+    "phpunit/phpunit": ">=10",
+    "phpstan/phpstan": "2.*",
+    "phpstan/phpstan-strict-rules": "2.*",
     "php-parallel-lint/php-parallel-lint": "1.*",
     "rector/rector": "*"
   },

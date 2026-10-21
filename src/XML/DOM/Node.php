@@ -68,29 +68,19 @@ class Node
 		$this->nodeName = $nodeName;
 		if( $content !== NULL )
 			$this->setContent( $content );
-		if( !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Attributes must be given as Array.' );
 		if( count( $attributes ) )
 			foreach( $attributes as $key => $value )
 				$this->setAttribute( (string) $key, (string) $value );
 	}
 
-	public function __get( string $key ): mixed
+	public function __get( string $key ): string|array|NULL
 	{
-		switch( $key ){
-			case 'name':
-			case 'nodeName':
-				return $this->nodeName;
-			case 'content':
-			case 'nodeContent':
-			case 'nodeValue':
-				return $this->content;
-			case 'attr':
-			case 'attributes':
-				return $this->attributes;
-			default:
-				throw new InvalidArgumentException( 'Property "'.$key.'" not defined.' );
-		}
+		return match ($key) {
+			'name', 'nodeName'						=> $this->nodeName,
+			'content', 'nodeContent', 'nodeValue'	=> $this->content,
+			'attr', 'attributes'					=> $this->attributes,
+			default => throw new InvalidArgumentException('Property "' . $key . '" not defined.'),
+		};
 	}
 
 	/**

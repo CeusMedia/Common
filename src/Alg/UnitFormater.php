@@ -119,14 +119,10 @@ class UnitFormater
 			//  calculate Value in new Unit
 			$float	/= $divider;
 		}
-		//  Precision is set
-		if( is_int( $precision ) )
-			//  round Value
-			$float	= round( $float, $precision );
-		//  Indention is set
-		if( is_string( $indent ) )
-			//  append Unit
-			$float	= $float.$indent.self::$unitBytes[$unitKey];
+		//  round Value
+		$float	= round( $float, $precision );
+		//  append Unit
+		$float	= $float.$indent.self::$unitBytes[$unitKey];
 		//  return resulting Value
 		return $float;
 	}

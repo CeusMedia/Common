@@ -181,7 +181,9 @@ class Writer
 	public function putFile( string $fileName, string $target ): bool
 	{
 		$this->connection->checkConnection();
-		return ftp_put( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
+		/** @var 1|2 $mode */
+		$mode	= $this->connection->mode;
+		return ftp_put( $this->connection->getResource(), $target, $fileName, $mode );
 	}
 
 	/**

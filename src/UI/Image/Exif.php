@@ -48,14 +48,17 @@ use RuntimeException;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Exif extends Dictionary
+class Exif
 {
 	protected string $imageUri;
 
     protected array $raw;
 
+	protected Dictionary $dictionary;
+
 	public function __construct( string $imageUri )
 	{
+		$this->dictionary	= new Dictionary();
 		if( !function_exists( 'exif_read_data' ) )
 			throw new RuntimeException( 'Exif not supported' );
 		if( !file_exists( $imageUri ) )
@@ -74,10 +77,30 @@ class Exif extends Dictionary
 				continue;
 			if( is_array( $value ) )
 				foreach( $value as $nestKey => $nestValue )
-					$this->set( $key.".".$nestKey, $nestValue );
+					$this->dictionary->set( $key.".".$nestKey, $nestValue );
 			else
-				$this->set( $key, $value );
+				$this->dictionary->set( $key, $value );
 		}
+	}
+
+	public function get( string $key, mixed $default = NULL ): mixed
+	{
+		return $this->dictionary->get( $key, $default);
+	}
+
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): self|array
+	{
+		return $this->dictionary->getAll( $prefix, $asDictionary, $caseSensitive );
+	}
+
+	public function getDictionary( ?string $prefix = NULL, bool $caseSensitive = TRUE ): Dictionary
+	{
+		return $this->dictionary->getAll( $prefix, TRUE, $caseSensitive );
+	}
+
+	public function getKeys(): array
+	{
+		return $this->dictionary->getKeys();
 	}
 
 	public function getRawData(): array

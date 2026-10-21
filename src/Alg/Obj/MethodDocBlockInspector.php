@@ -59,9 +59,9 @@ class MethodDocBlockInspector
 		if( FALSE === $block || '' === trim( $block ) )
 			return [];
 
-		/** @var array $lines */
+		/** @var array|FALSE $lines */
 		$lines	= preg_split( '/\r?\n/', trim( $block ) );
-		if( 0 === count( $lines ) )
+		if( FALSE === $lines || 0 === count( $lines ) )
 			return [];
 
 		$list	= [];

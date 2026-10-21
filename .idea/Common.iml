@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" packagePrefix="CeusMedia\Common\" />
       <sourceFolder url="file://$MODULE_DIR$/tool/Compatibility" isTestSource="true" packagePrefix="CeusMedia\CommonTool\Compatibility\" />
       <sourceFolder url="file://$MODULE_DIR$/tool/Go" isTestSource="true" packagePrefix="CeusMedia\CommonTool\Go\" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/tool/Migration" isTestSource="true" packagePrefix="CeusMedia\CommonTool\Migration\" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/doc-creator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/template-engine" />
@@ -16,6 +17,16 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/database" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/cache" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpstan/phpstan" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nette/schema" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nette/utils" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/deprecation-contracts" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ceus-media/markdown" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/league/commonmark" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/version" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

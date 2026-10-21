@@ -381,7 +381,7 @@ class DevOutput
 	public function remark( string $text, array $parameters = [] ): void
 	{
 		$param	= "";
-		if( is_array( $parameters ) && count( $parameters ) ){
+		if( [] !== $parameters ){
 			$param	= [];
 			foreach( $parameters as $key => $value ){
 				if( is_int( $key ) )

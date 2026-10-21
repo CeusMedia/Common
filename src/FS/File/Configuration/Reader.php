@@ -70,7 +70,7 @@ class Reader extends Dictionary
 	 *	@throws		Exception
 	 *	@throws		InvalidArgumentException
 	 */
-	public function __construct( string $fileName, ?String $cachePath = NULL )
+	public function __construct( string $fileName, ?string $cachePath = NULL )
 	{
 		parent::__construct();
 		$this->source	= $this->loadFile( $fileName, $cachePath );
