@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Submits sitemap URL to Google webmaster tools.
  *
@@ -49,10 +51,10 @@ class Submit
 {
 
 	/**	@var		string			$baseUrl		Base URL to Google webmaster tools */
-	public static $baseUrl			= "https://www.google.com/webmasters/tools/ping?sitemap=";
+	public static string $baseUrl		= "https://www.google.com/webmasters/tools/ping?sitemap=";
 
 	/**	@var		string|NULL		$lastError		Last error message if request went wrong */
-	protected static $lastError		= NULL;
+	protected static ?string $lastError	= NULL;
 
 	/**
 	 *	Returns error message of latest failed submit request.

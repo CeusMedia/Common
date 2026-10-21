@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Cron Server.
  *
@@ -67,7 +69,7 @@ class Daemon
 	 *	@param		bool		$service		Run as Service
 	 *	@return		void
 	 */
-	public function serve( bool $service = FALSE )
+	public function serve( bool $service = FALSE ): void
 	{
 		$lastminute	= $service ? date( "i", time() ) : "-1";
 		do{
@@ -78,7 +80,7 @@ class Daemon
 					if( $job->checkMaturity() ){
 						$content	= $job->execute();
 						if( $content ){
-							$content	= preg_replace( "@((\\r)?\\n)+$@", "", $content );
+							$content	= preg_replace( "@((\\r)?\\n)+$@", "", $content ) ?? $content;
 							$this->logFile->note( $content );
 						}
 					}

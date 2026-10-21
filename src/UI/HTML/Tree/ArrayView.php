@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
@@ -125,7 +127,7 @@ class ArrayView
 				//  generate ID
 				$node['id']	= rawurlencode( $way.$node['label'] );
 
-			$linkClass	= rawurlencode( $currentId ) == $node['id'] ? 'selected' : NULL;
+			$linkClass	= rawurlencode( $currentId ?? '' ) == $node['id'] ? 'selected' : NULL;
 
 			$label	= HtmlTag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
 			//  linked Item

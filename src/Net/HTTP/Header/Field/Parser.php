@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for HTTP Header Fields.
  *
@@ -63,7 +65,7 @@ class Parser
 		foreach( $codes as $code => $quality ){
 			if( !isset( $map[(string)$quality] ) )
 				$map[(string)$quality]	= [];
-			$map[(string)$quality][strlen( $code)]	= $code;
+			$map[(string)$quality][strlen( (string) $code )]	= $code;
 			if( $sortByLength )
 				//  sort inner list by code length
 				krsort( $map[(string)$quality] );

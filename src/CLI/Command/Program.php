@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -162,7 +165,7 @@ abstract class Program
 	 *	@param		integer			$exitCode		Quit program afterwards, if >= 0 (EXIT_OK|EXIT_INIT|EXIT_PARSE|EXIT_RUN), default: -1 (EXIT_NO)
 	 *	@return		void
 	 */
-	protected function showError( $message, int $exitCode = self::EXIT_NO )
+	protected function showError( array|string $message, int $exitCode = self::EXIT_NO )
 	{
 		if( is_array( $message ) )
 			$message	= join( PHP_EOL, $message );

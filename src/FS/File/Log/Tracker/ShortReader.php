@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader and Parser for Tracker Log File.
  *
@@ -251,7 +253,7 @@ class ShortReader extends LogShortReader
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function parse()
+	public function parse(): void
 	{
 		$this->read();
 		foreach( $this->data as $nr => $line )

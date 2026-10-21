@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -50,19 +52,19 @@ use FilterIterator;
 class Lister
 {
 	/**	@var		string		$path				Path to Folder */
-	protected $path;
+	protected string $path;
 
 	/**	@var		string|NULL	$pattern			Regular Expression to match with File Name */
-	protected $pattern			= NULL;
+	protected ?string $pattern	= NULL;
 
 	/**	@var		boolean		$showFiles			Flag: show Files */
-	protected $showFiles		= TRUE;
+	protected bool $showFiles		= TRUE;
 
 	/**	@var		boolean		$showFolders		Flag: show Folders */
-	protected $showFolders		= TRUE;
+	protected bool $showFolders		= TRUE;
 
 	/**	@var		boolean		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
-	protected $stripDotEntries	= TRUE;
+	protected bool $stripDotEntries	= TRUE;
 
 	/**
 	 *	Constructor.
@@ -83,7 +85,7 @@ class Lister
 	 *	@param		string		$pattern			RegEx Pattern to match with File Name
 	 *	@return		FilterIterator
 	 */
-	public static function getFileList( string $path, string $pattern = NULL ): FilterIterator
+	public static function getFileList( string $path, ?string $pattern = NULL ): FilterIterator
 	{
 		$index	= new Lister( $path );
 		if( $pattern !== NULL )

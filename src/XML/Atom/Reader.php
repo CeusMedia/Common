@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -255,7 +257,7 @@ class Reader
 	 *	@return		mixed
 	 *	@throws		Exception
 	 */
-	protected function getEntryElementAndAttribute( int $index, string $element, string $attribute = NULL ): mixed
+	protected function getEntryElementAndAttribute( int $index, string $element, ?string $attribute = NULL ): mixed
 	{
 		$this->checkEntryIndex( $index );
 		if( !$attribute )

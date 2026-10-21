@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for HTML tags.
  *
@@ -77,9 +79,9 @@ class Tag implements Renderable
 		$this->name		= $name;
 		$this->setContent( $content );
 		foreach( $attributes as $key => $value )
-			$this->setAttribute( $key, $value );
+			$this->setAttribute( (string) $key, $value );
 		foreach( $data as $key => $value )
-			$this->setData( $key, $value );
+			$this->setData( (string) $key, $value );
 	}
 
 	/**
@@ -112,7 +114,7 @@ class Tag implements Renderable
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		string
 	 */
-	public static function create( string $name, $content = NULL, array $attributes = [], array $data = [] ): string
+	public static function create( string $name, mixed $content = NULL, array $attributes = [], array $data = [] ): string
 	{
 		if( !strlen( $name	= trim( $name ) ) )
 			throw new InvalidArgumentException( 'Missing tag name' );
@@ -186,7 +188,7 @@ class Tag implements Renderable
 	 *	@param		string|NULL		$key		Key of data to get
 	 *	@return		mixed|array|NULL
 	 */
-	public function getData( ?string $key = NULL )
+	public function getData( ?string $key = NULL ): mixed
 	{
 		if( is_null( $key ) )
 			return $this->data ;
@@ -208,7 +210,7 @@ class Tag implements Renderable
 	 *	@param		boolean		$strict			Flag: deny to override attribute
 	 *	@return		self
 	 */
-	public function setAttribute( string $key, $value = NULL, bool $strict = TRUE ): self
+	public function setAttribute( string $key, mixed $value = NULL, bool $strict = TRUE ): self
 	{
 		//  no valid attribute key defined
 		if( empty( $key ) )
@@ -257,7 +259,7 @@ class Tag implements Renderable
 		//  iterate attributes map
 		foreach( $attributes as $key => $value )
 			//  set each attribute
-			$this->setAttribute( $key, $value, $strict );
+			$this->setAttribute( (string) $key, $value, $strict );
 		return $this;
 	}
 
@@ -269,7 +271,7 @@ class Tag implements Renderable
 	 *	@param		boolean		$strict			Flag: deny to override data
 	 *	@return		self
 	 */
-	public function setData( string $key, $value = NULL, bool $strict = TRUE ): self
+	public function setData( string $key, mixed $value = NULL, bool $strict = TRUE ): self
 	{
 		//  no valid data key defined
 		if( empty( $key ) )
@@ -295,7 +297,7 @@ class Tag implements Renderable
 			//  value is string or numeric
 			if( is_string( $value ) || is_numeric( $value ) )
 				//  detect injection
-				if( preg_match( '/[^\\\]"/', $value ) )
+				if( preg_match( '/[^\\\]"/', (string) $value ) )
 					//  throw exception
 					throw new InvalidArgumentException( 'Invalid data attribute value' );
 			//  set attribute
@@ -311,7 +313,7 @@ class Tag implements Renderable
 	 *	@return		self
 	 *	@throws		InvalidArgumentException	if given object has no __toString method
 	 */
-	public function setContent( $content = NULL ): self
+	public function setContent( mixed $content = NULL ): self
 	{
 		if( is_object( $content ) ){
 			//  content is not a renderable object
@@ -346,7 +348,7 @@ class Tag implements Renderable
 	{
 		$list	= [];
 		foreach( $data as $key => $value ){
-			$key	= 'data-'.CamelCase::decode( $key, '-' );
+			$key	= 'data-'.CamelCase::decode( (string) $key, '-' );
 			$list[$key]	= (string) $value;
 		}
 		return self::renderAttributes( $list, TRUE );
@@ -367,7 +369,7 @@ class Tag implements Renderable
 			if( empty( $key ) )
 				//  skip this pair
 				continue;
-			$key	= strtolower( $key );
+			$key	= strtolower( (string) $key );
 			//  key is not a valid lowercase ID (namespaces supported)
 			if( !preg_match( '/^[a-z][a-z0-9.:_-]*$/', $key ) )
 				//  throw exception
@@ -403,7 +405,7 @@ class Tag implements Renderable
 //  throw exception
 #				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );
 			//  encode HTML entities and quotes
-			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8', FALSE );
+			$value	= htmlentities( (string) $value, ENT_QUOTES, 'UTF-8', FALSE );
 			$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
 		return $list ? ' '.join( ' ', $list ) : '';

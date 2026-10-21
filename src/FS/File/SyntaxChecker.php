@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Checks Syntax of PHP Classes and Scripts.
  *
@@ -40,7 +42,7 @@ namespace CeusMedia\Common\FS\File;
 class SyntaxChecker
 {
 	/**	@var		string		$error */
-	protected $error;
+	protected string $error	= '';
 
 	/**
 	 *	Returns whether a PHP Class or Script has valid Syntax.
@@ -50,7 +52,7 @@ class SyntaxChecker
 	 */
 	public function checkFile( string $fileName ): bool
 	{
-		$output = shell_exec('php -l "'.$fileName.'"');
+		$output = (string) shell_exec('php -l "'.$fileName.'"');
 		if( preg_match( "@^No syntax errors detected@", $output	) )
 			return TRUE;
 		$this->error	= $output;
@@ -76,6 +78,6 @@ class SyntaxChecker
 	{
 		$error	= explode( "\n", trim( $this->error ) );
 		$error	= array_shift( $error );
-		return preg_replace( "@^Parse error: (.*) in (.*) on (.*)$@i", "\\1 on \\3", $error );
+		return (string) preg_replace( "@^Parse error: (.*) in (.*) on (.*)$@i", "\\1 on \\3", (string) $error );
 	}
 }

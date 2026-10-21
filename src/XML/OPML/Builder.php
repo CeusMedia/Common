@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for OPML Files.
  *
@@ -90,7 +92,7 @@ class Builder extends Node
 	 *	@param		Outline		$outline		Outline Node to add
 	 *	@return		void
 	 */
-	public function addOutline( Outline $outline )
+	public function addOutline( Outline $outline ): void
 	{
 		$this->body->addChild( $outline );
 	}
@@ -102,7 +104,7 @@ class Builder extends Node
 	 *	@param		string		$value			Value of Header
 	 *	@return		void
 	 */
-	public function setHeader( string $key, string $value )
+	public function setHeader( string $key, string $value ): void
 	{
 		if( !in_array( $key, $this->headers, TRUE ) )
 			throw new InvalidArgumentException( "Unsupported Header '".$key."'" );

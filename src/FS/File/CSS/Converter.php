@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Converts CSS between:
  *	- a string representation, typically content from a CSS file
@@ -223,7 +225,7 @@ class Converter
 	 */
 	public function toFile( string $fileName ): int
 	{
-		return FileWriter::save( $fileName, Converter::convertSheetToString( $this->sheet ) );
+		return (int) FileWriter::save( $fileName, Converter::convertSheetToString( $this->sheet ) );
 	}
 
 	/**

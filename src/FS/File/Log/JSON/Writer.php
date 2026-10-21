@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for Log Files containing JSON Serials.
  *
@@ -42,7 +44,7 @@ use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 class Writer
 {
 	/**	@var		string		$fileName		File Name of Log File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.

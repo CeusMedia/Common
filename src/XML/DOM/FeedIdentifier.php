@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *
@@ -42,10 +44,10 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
 class FeedIdentifier
 {
 	/**	@var	string		$type			Type of Feed */
-	protected $type		= '';
+	protected string $type		= '';
 
 	/**	@var	string		$version		Version of Feed Type */
-	protected $version	= '';
+	protected string $version	= '';
 
 	/**
 	 *	Returns identified Type of Feed.

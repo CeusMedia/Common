@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Access to DDNSS (ddnss.de) API.
  *
@@ -44,7 +46,7 @@ use Exception;
 class DDNSS
 {
 	/**	@var		string		Base URL for update */
-	public static $urlUpdate	= "https://ddnss.de/upd.php?key=%s&host=%s";
+	public static string $urlUpdate	= "https://ddnss.de/upd.php?key=%s&host=%s";
 
 	/**
 	 *	Updated host or hosts.
@@ -55,7 +57,7 @@ class DDNSS
 	 *	@todo		parse response header DDNSS-Response
 	 *	@todo		and handle update errors
 	 */
-	public static function update( string $key, $hosts ): int
+	public static function update( string $key, string|array $hosts ): int
 	{
 		if( is_array( $hosts ) )
 			$hosts	= implode( ",", $hosts );

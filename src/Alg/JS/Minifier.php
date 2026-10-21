@@ -72,8 +72,8 @@ class Minifier{
 	protected const ACTION_DELETE_A		= 2;
 	protected const ACTION_DELETE_A_B	= 3;
 
-	protected string $a				= '';
-	protected string $b				= '';
+	protected ?string $a			= '';
+	protected ?string $b			= '';
 	protected string $input			= '';
 	protected int $inputIndex		= 0;
 	protected int $inputLength		= 0;
@@ -146,7 +146,7 @@ class Minifier{
 							break;
 						}
 
-						if (ord($this->a) <= self::ORD_LF) {
+						if (ord($this->a ?? '') <= self::ORD_LF) {
 							throw new MinifierException('Unterminated string literal.');
 						}
 
@@ -186,7 +186,7 @@ class Minifier{
 								} elseif ($this->a === '\\') {
 									$this->output .= $this->a;
 									$this->a			 = $this->get();
-								} elseif (ord($this->a) <= self::ORD_LF) {
+								} elseif (ord($this->a ?? '') <= self::ORD_LF) {
 									throw new MinifierException('Unterminated regular expression set in regex literal.');
 								}
 							}
@@ -195,7 +195,7 @@ class Minifier{
 						} elseif ($this->a === '\\') {
 							$this->output .= $this->a;
 							$this->a			 = $this->get();
-						} elseif (ord($this->a) <= self::ORD_LF) {
+						} elseif (ord($this->a ?? '') <= self::ORD_LF) {
 							throw new MinifierException('Unterminated regular expression literal.');
 						}
 
@@ -240,12 +240,12 @@ class Minifier{
 	/**
 	 * Is $c a letter, digit, underscore, dollar sign, or non-ASCII character.
 	 *
-	 * @param string $c
+	 * @param string|null $c
 	 * @return bool
 	 */
-	protected function isAlphaNum($c): bool
+	protected function isAlphaNum(?string $c): bool
 	{
-		return ord($c) > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c) === 1;
+		return ord($c ?? '') > 126 || $c === '\\' || preg_match('/^[\w\$]$/', $c ?? '') === 1;
 	}
 
 	/**
@@ -260,7 +260,7 @@ class Minifier{
 	 */
 	protected function min(): string
 	{
-		if (0 == strncmp($this->peek(), "\xef", 1)) {
+		if (0 == strncmp($this->peek() ?? '', "\xef", 1)) {
 				$this->get();
 				$this->get();
 				$this->get();
@@ -367,7 +367,7 @@ class Minifier{
 					for (;;) {
 						$c = $this->get();
 
-						if (ord($c) <= self::ORD_LF) {
+						if (ord($c ?? '') <= self::ORD_LF) {
 							return $c;
 						}
 					}

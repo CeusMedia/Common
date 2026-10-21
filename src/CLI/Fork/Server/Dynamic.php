@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -57,6 +59,6 @@ class Dynamic extends Abstraction
 		if( !file_exists( $this->scriptFile ) )
 			throw new RuntimeException( 'Script for a dynamic server is not existing' );
 
-		return require_once( $this->scriptFile );
+		return (string) require_once( $this->scriptFile );
 	}
 }

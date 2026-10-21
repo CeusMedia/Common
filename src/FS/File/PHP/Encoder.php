@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Class for encoding PHP File.
  *
@@ -44,22 +47,22 @@ use RuntimeException;
 class Encoder
 {
 	/**	@var		string		$incodePrefix		Prefix of inner Code Wrapper */
-	protected $incodePrefix		= "";
+	protected string $incodePrefix		= "";
 
 	/**	@var		string		$incodeSuffix		Suffix of inner Code Wrapper */
-	protected $incodeSuffix		= "";
+	protected string $incodeSuffix		= "";
 
 	/**	@var		string		$outcodePrefix		Prefix of outer Code Wrapper */
-	protected $outcodePrefix	= "";
+	protected string $outcodePrefix	= "";
 
 	/**	@var		string		$outcodeSuffix		Suffix of outer Code Wrapper */
-	protected $outcodeSuffix	= "";
+	protected string $outcodeSuffix	= "";
 
 	/**	@var		string		$filePrefix			Prefix of compressed PHP File */
-	public $filePrefix			= "code.";
+	public string $filePrefix			= "code.";
 
 	/**	@var		string		$fileSuffix			Suffix of compressed PHP File */
-	public $fileSuffix			= "";
+	public string $fileSuffix			= "";
 
 	/**
 	 *	Constructor.
@@ -119,10 +122,13 @@ class Encoder
 	 *	@access		protected
 	 *	@param		string		$code		Encoded PHP Content
 	 * 	@return		string
+	 *	@throws		RuntimeException	if decoding failed
 	 */
 	protected function decodeHash( string $code ): string
 	{
-		$php	= gzinflate( base64_decode( $code ) );
+		$php	= gzinflate( (string) base64_decode( $code ) );
+		if( FALSE === $php )
+			throw new RuntimeException( 'Decoding of PHP code failed' );
 		$php	= substr( $php, strlen( $this->incodePrefix) , -strlen( $this->incodeSuffix ) );
 		return $php;
 	}
@@ -169,10 +175,14 @@ class Encoder
 	 *	@access		protected
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
+	 *	@throws		RuntimeException	if encoding failed
 	 */
 	protected function encodeHash( string $php ): string
 	{
-		return base64_encode( gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix ) );
+		$code	= gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix );
+		if( FALSE === $code )
+			throw new RuntimeException( 'Encoding of PHP code failed' );
+		return base64_encode( $code );
 	}
 
 	/**

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handles backup and restore of single files.
  *
@@ -70,7 +72,7 @@ class Backup
 	 *	@param		integer		$version
 	 *	@return		string|FALSE
 	 */
-	public function getContent( int $version )
+	public function getContent( int $version ): string|FALSE
 	{
 		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
@@ -194,7 +196,7 @@ class Backup
 	public function setContent( int $version, string $content ): int
 	{
 		$version	= $this->sanitizeVersion( $version );
-		return Writer::save( $this->getVersionFilename( $version ), $content );
+		return (int) Writer::save( $this->getVersionFilename( $version ), $content );
 	}
 
 	/**
@@ -203,7 +205,7 @@ class Backup
 	 *	@return		void
 	 *	@throws		RuntimeException
 	 */
-	public function store( bool $removeOriginal = FALSE )
+	public function store( bool $removeOriginal = FALSE ): void
 	{
 		//  get current backup version
 		$version	= $this->getVersion();

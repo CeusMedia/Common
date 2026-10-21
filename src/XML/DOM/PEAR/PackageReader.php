@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for PEAR Package Description Files in XML.
  *
@@ -63,7 +65,7 @@ class PackageReader
 			'changes'		=> [],
 		];
 
-		$xml	= FileReader::load( $fileName );
+		$xml	= FileReader::load( $fileName ) ?? '';
 		$doc	= new DOMDocument();
 		$doc->preserveWhiteSpace	= FALSE;
 		$doc->validateOnParse		= FALSE;

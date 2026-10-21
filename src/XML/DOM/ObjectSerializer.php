@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -51,7 +54,7 @@ class ObjectSerializer
 	 *	@return		string
 	 *	@throws		DOMException
 	 */
-	public static function serialize( $object, string $encoding = "utf-8" ): string
+	public static function serialize( mixed $object, string $encoding = "utf-8" ): string
 	{
 		$root	= new Node( "object" );
 		$root->setAttribute( 'class', addslashes( get_class( $object ) ) );
@@ -69,44 +72,44 @@ class ObjectSerializer
 	 *	@param		Node		$node		current XML Tree Node
 	 *	@return		void
 	 */
-	protected static function serializeVarsRec( array $array, Node $node )
+	protected static function serializeVarsRec( array $array, Node $node ): void
 	{
 		foreach( $array as $key => $value ){
 			switch( gettype( $value ) ){
 				case 'NULL':
 					$child	= new Node( "null" );
-					$child->setAttribute( "name", $key );
+					$child->setAttribute( "name", (string) $key );
 					$node->addChild( $child );
 					break;
 				case 'boolean':
 					$child	= new Node( "boolean", (string)(int) $value );
-					$child->setAttribute( "name", $key );
+					$child->setAttribute( "name", (string) $key );
 					$node->addChild( $child );
 					break;
 				case 'string':
 					$child	= new Node( "string", $value );
-					$child->setAttribute( "name", $key );
+					$child->setAttribute( "name", (string) $key );
 					$node->addChild( $child );
 					break;
 				case 'integer':
 					$child	= new Node( "integer", (string) $value );
-					$child->setAttribute( "name", $key );
+					$child->setAttribute( "name", (string) $key );
 					$node->addChild( $child );
 					break;
 				case 'double':
 					$child	= new Node( "double", (string) $value );
-					$child->setAttribute( "name", $key );
+					$child->setAttribute( "name", (string) $key );
 					$node->addChild( $child );
 					break;
 				case 'array':
 					$child	= new Node( "array" );
-					$child->setAttribute( "name", $key );
+					$child->setAttribute( "name", (string) $key );
 					self::serializeVarsRec( $value, $child );
 					$node->addChild( $child );
 					break;
 				case 'object':
 					$child	= new Node( "object" );
-					$child->setAttribute( "name", $key );
+					$child->setAttribute( "name", (string) $key );
 					$child->setAttribute( "class", addslashes( get_class( $value ) ) );
 					$vars	= get_object_vars( $value );
 					self::serializeVarsRec( $vars, $child );

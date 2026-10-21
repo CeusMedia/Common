@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handler for system environment variables.
  *
@@ -137,11 +139,11 @@ class Env
 		if( $reader->usesSections() )
 			foreach( $reader->getSections() as $section )
 				foreach( $reader->getProperties( TRUE, $section ) as $key => $value )
-					Env::set( str_replace( '.', '_', $section.'_'.$key ), $value );
+					Env::set( str_replace( '.', '_', $section.'_'.$key ), is_bool( $value ) ? (int) $value : $value );
 
 		else
 			foreach( $reader->getProperties() as $key => $value )
-				Env::set( str_replace( '.', '_', $key ), $value );
+				Env::set( str_replace( '.', '_', (string) $key ), is_bool( $value ) ? (int) $value : $value );
 	}
 
 	/**
@@ -160,6 +162,6 @@ class Env
 
 	public function __construct()
 	{
-		$this->workingPath	= getCwd();
+		$this->workingPath	= (string) getCwd();
 	}
 }

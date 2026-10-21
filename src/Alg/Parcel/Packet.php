@@ -44,13 +44,13 @@ use OutOfRangeException;
 class Packet
 {
 	/**	@var		string		$name		Name of Packet Size */
-	protected $name;
+	protected string $name;
 
 	/**	@var		array		$articles	Array of Articles and their Quantities */
-	protected $articles			= [];
+	protected array $articles	= [];
 
 	/**	@var		float		$volume		Filled Volume as floating Number between 0 and 1 */
-	protected $volume			= 0;
+	protected float $volume		= 0;
 
 	/**
 	 *	Constructor.
@@ -85,7 +85,8 @@ class Packet
 	 *	@param		float		$volume		Article Volume for this Packet Size
 	 *	@return		void
 	 */
-	public function addArticle( string $name, float $volume )
+	public function addArticle( string $name, float $volume ): void
+
 	{
 		if( !$this->hasVolumeLeft( $volume ) )
 			throw new OutOfRangeException( 'Article "'.$name.'" does not fit in this Packet "'.$this->name.'".' );

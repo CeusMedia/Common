@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Null Object (Design Pattern) Implementation as Singleton.
  *
@@ -63,7 +65,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function __clone() {}
+	private function __clone(): void {}
 
 	/**
 	 *	Constructor, disabled.
@@ -77,7 +79,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@param		string		$name			Member name - doesn't matter
 	 *	@return		Null_
 	 */
-	public function __get( string $name )
+	public function __get( string $name ): self
 	{
 		return $this;
 	}
@@ -88,7 +90,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@param		mixed		$value			Member value - doesn't matter
 	 *	@return		void
 	 */
-	public function __set( string $name, $value ): void
+	public function __set( string $name, mixed $value ): void
 	{
 	}
 
@@ -98,7 +100,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@return		string		Empty string, always
 	 */
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return '';
 	}
@@ -131,7 +133,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		boolean			FALSE, always
 	 */
-	public function offsetExists( $offset ): bool
+	public function offsetExists( mixed $offset ): bool
 	{
 		return FALSE;
 	}
@@ -142,7 +144,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		Null_		Null object, in fact self
 	 */
-	public function offsetGet( $offset ): self
+	public function offsetGet( mixed $offset ): self
 	{
 		return $this;
 	}
@@ -153,7 +155,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function offsetSet( $offset, $value ): void
+	public function offsetSet( mixed $offset, mixed $value ): void
 	{
 	}
 
@@ -163,7 +165,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		void			FALSE, always
 	 */
-	public function offsetUnset( $offset ): void
+	public function offsetUnset( mixed $offset ): void
 	{
 	}
 

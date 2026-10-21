@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -115,7 +117,7 @@ class Table
 	{
 		$this->columns[]	= [];
 		foreach( $columns as $value )
-			$this->addColumn( $value );
+			$this->addColumn( (string) $value );
 		return $this;
 	}
 

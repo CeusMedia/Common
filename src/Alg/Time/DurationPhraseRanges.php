@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Collector of Ranges for Duration Phrase.
  *
@@ -54,7 +56,8 @@ class DurationPhraseRanges implements Countable
 	public function __construct( array $ranges = [] )
 	{
 		foreach( $ranges as $from => $label )
-			$this->addRange( $from, $label );
+			$this->addRange( (string) $from, $label );
+
 	}
 
 	/**

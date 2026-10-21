@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for Log File.
  *
@@ -42,7 +44,7 @@ use CeusMedia\Common\Alg\Time\Converter as TimeConverter;
 class Writer
 {
 	/**	@var		string		$uri		URI of Log File */
-	protected $uri;
+	protected string $uri;
 
 	/**
 	 *	Constructor.

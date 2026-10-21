@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 /** @noinspection PhpUnused */
 
@@ -93,7 +96,7 @@ class Converter
 	 *	@param		object		$object		Tree for objects
 	 *	@return		void
 	 */
-	protected static function convertToObjectRecursive( DomNode $node, object $object )
+	protected static function convertToObjectRecursive( DomNode $node, object $object ): void
 	{
 		$object->children	= new stdClass();
 		$object->attributes	= new stdClass();

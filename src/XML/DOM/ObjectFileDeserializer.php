@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Deserializer for an XML File into a Data Object.
  *
@@ -47,10 +49,10 @@ class ObjectFileDeserializer
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		XML File of a serialized Object
-	 *	@return		Object
+	 *	@return		object
 	 *	@throws		Exception
 	 */
-	public static function deserialize( string $fileName )
+	public static function deserialize( string $fileName ): object
 	{
 		return ObjectDeserializer::deserialize( FileReader::load( $fileName ) );
 	}

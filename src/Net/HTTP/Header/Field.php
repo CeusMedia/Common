@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Data Object for HTTP Headers.
  *
@@ -131,7 +133,7 @@ class Field
 		return $name.": ".$this->value;
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->toString();
 	}

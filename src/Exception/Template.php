@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Exception for Templates.
  *	Is serializable (to PHP, JSON), renderable and describable.
@@ -112,7 +114,7 @@ class Template extends Runtime
 	 */
 	public function getFilePath(): string
 	{
-		return $this->filePath;
+		return $this->filePath ?? '';
 	}
 
 	/**

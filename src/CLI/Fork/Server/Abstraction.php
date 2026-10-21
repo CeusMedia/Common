@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -95,7 +98,10 @@ abstract class Abstraction
 	{
 		if( !$this->isRunning() )
 			throw new ForkServerException( 'Server is not running' );
-		return intval( trim( file_get_contents( $this->filePid ) ) );
+		$content	= file_get_contents( $this->filePid );
+		if( FALSE === $content )
+			throw new ForkServerException( 'Reading PID file failed' );
+		return intval( trim( $content ) );
 	}
 
 	abstract protected function handleRequest( string $request ): string|int|NULL;

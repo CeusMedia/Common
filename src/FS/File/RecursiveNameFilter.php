@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Searchs for a File by given File Name in Folder recursive.
  *
@@ -75,6 +77,6 @@ class RecursiveNameFilter extends FilterIterator
 	 */
 	public function accept(): bool
 	{
-		return !strcmp( basename( $this->current() ), $this->fileName );
+		return !strcmp( basename( (string) $this->current() ), $this->fileName );
 	}
 }

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Simplified XML Node DOM Implementation.
  *
@@ -70,7 +72,7 @@ class Node
 			throw new InvalidArgumentException( 'Attributes must be given as Array.' );
 		if( count( $attributes ) )
 			foreach( $attributes as $key => $value )
-				$this->setAttribute( $key, $value );
+				$this->setAttribute( (string) $key, (string) $value );
 	}
 
 	public function __get( string $key ): mixed
@@ -107,7 +109,7 @@ class Node
 	 *	Returns an Attribute if it is set.
 	 *	@access		public
 	 *	@param		string		$key			Key of Attribute
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
 	public function getAttribute( string $key ): ?string
 	{

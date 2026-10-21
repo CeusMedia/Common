@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Loads and parses an XML File to a Tree of XML_DOM_Nodes.
  *
@@ -43,7 +45,7 @@ use RuntimeException;
 class FileReader
 {
 	/**	@var		string			$fileName		URI of XML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.

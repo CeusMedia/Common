@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Parser for HTTP Request Query Strings, for example given by mod_rewrite or own formats.
  *

@@ -49,11 +49,11 @@ class Quick
 	 *	@access		public
 	 *	@static
 	 *	@param		array		$array		Array of numeric values passed by reference
-	 *	@param		int			$first		Start index
-	 *	@param		int			$last		End index
-	 *	@return		bool
+	 *	@param		int|NULL	$first		Start index
+	 *	@param		int|NULL	$last		End index
+	 *	@return		array|FALSE
 	 */
-	public static function sort( &$array, $first = NULL, $last = NULL )
+	public static function sort( mixed &$array, ?int $first = NULL, ?int $last = NULL ): array|false
 	{
 		if( !is_array( $array ) )
 			return FALSE;
@@ -64,7 +64,7 @@ class Quick
 		if( $first < $last )
 		{
 			$middle		= $first + $last;
-			$middle		= floor( ( $first + $last ) / 2 );
+			$middle		= intdiv( $first + $last, 2 );
 			$compare	= $array[$middle];
 			$left		= $first;
 			$right	= $last;
@@ -96,7 +96,8 @@ class Quick
 	 *	@param		int			$pos2 		Second index
 	 *	@return		void
 	 */
-	protected static function swap( &$array, $pos1, $pos2 )
+	protected static function swap( array &$array, int $pos1, int $pos2 ): void
+
 	{
 		if( isset( $array[$pos1] ) && isset( $array[$pos2] ) )
 		{

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *
  *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)

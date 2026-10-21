@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Iterates all Folders and Files within a Folder.
  *
@@ -44,13 +46,13 @@ use RuntimeException;
 class Iterator extends FilterIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
-	protected $showFiles;
+	protected bool $showFiles;
 
 	/**	@var		 bool		$showFolders		Flag: show Folders */
-	protected $showFolders;
+	protected bool $showFolders;
 
 	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
-	protected $stripDotEntries;
+	protected bool $stripDotEntries;
 
 	/**
 	 *	Constructor.

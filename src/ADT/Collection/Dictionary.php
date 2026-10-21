@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -139,7 +142,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	public function flush(): void
 	{
 		foreach( $this->getKeys() as $key )
-			$this->remove( $key );
+			$this->remove( (string) $key );
 		$this->rewind();
 	}
 
@@ -163,6 +166,7 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 			$length	= strlen( $prefix );
 			//  iterate all pairs
 			foreach( $this->pairs as $key => $value ){
+				$key	= (string) $key;
 				//  pair key is shorter than prefix
 				if( strlen( $key ) <= $length )
 					//  skip this pair
@@ -302,9 +306,9 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		boolean
 	 */
-	public function offsetExists( $offset ): bool
+	public function offsetExists( mixed $offset ): bool
     {
-		return $this->has( $offset );
+		return $this->has( (string) $offset );
 	}
 
 	/**
@@ -314,22 +318,22 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@return		mixed
 	 */
 	#[ReturnTypeWillChange]
-	public function offsetGet( $offset ): mixed
+	public function offsetGet( mixed $offset ): mixed
 	{
-		return $this->get( $offset );
+		return $this->get( (string) $offset );
 	}
 
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string		$offset		Key in Dictionary
-	 *	@param		string		$value		Value of Key
+	 *	@param		mixed		$value		Value of Key
 	 *	@return		boolean
 	 */
 	#[ReturnTypeWillChange]
-	public function offsetSet( $offset, $value ): bool
+	public function offsetSet( mixed $offset, mixed $value ): bool
     {
-		return $this->set( $offset, $value );
+		return $this->set( (string) $offset, $value );
 	}
 
 	/**
@@ -339,9 +343,9 @@ class Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@return		boolean
 	 */
 	#[ReturnTypeWillChange]
-	public function offsetUnset( $offset ): bool
+	public function offsetUnset( mixed $offset ): bool
 	{
-		return $this->remove( $offset );
+		return $this->remove( (string) $offset );
 	}
 
 	/**

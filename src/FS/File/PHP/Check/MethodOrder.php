@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Checks order of methods within a PHP File.
  *
@@ -68,6 +70,8 @@ class MethodOrder
 	{
 		$this->compared	= TRUE;
 		$content	= file_get_contents( $this->fileName );
+		if( FALSE === $content )
+			throw new Exception( "File '".$this->fileName."' is not readable." );
 		$content	= preg_replace( "@/\*.+\*/@sU", "", $content );
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line )

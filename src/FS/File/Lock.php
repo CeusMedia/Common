@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for Files.
  *
@@ -95,7 +97,7 @@ class Lock
 					return FALSE;
 				throw new RuntimeException( 'File "'.$this->fileName.'" could not been locked' );
 			}
-			usleep( $this->sleep * 1_000_000 );
+			usleep( (int) ( $this->sleep * 1_000_000 ) );
 		}
 		touch( $this->fileName );
 		return TRUE;

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Converter between OPML and Tree Menu Structure.
  *
@@ -77,7 +79,8 @@ class Converter
 	 *	@param		string|NULL		$rootClass		CSS Class of root node
 	 *	@return		TreeMenuCollection
 	 */
-	public static function convertFromOpml( string $opml, string $labelRoot, string $rootClass = NULL ): TreeMenuCollection
+	public static function convertFromOpml( string $opml, string $labelRoot, ?string $rootClass = NULL ): TreeMenuCollection
+
 	{
 		$parser		= new OpmlParser();
 		$parser->parse( $opml );

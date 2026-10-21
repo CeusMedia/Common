@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writing comma separated values (CSV) data with or without column headers to File.
  *
@@ -42,10 +44,10 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 class Writer
 {
 	/**	@var		string		$fileName		Flag: use ColumnHeaders in first line */
-	protected $fileName;
+	protected string $fileName;
 
 	/**	@var		string		$separator		Separator Sign */
-	protected $separator		= ",";
+	protected string $separator	= ",";
 
 	/**
 	 *	Constructor.
@@ -89,15 +91,15 @@ class Writer
 			//  iterate line values
 			foreach( $line as $nr => $value )
 				//  separator found in value
-				if( substr_count( $value, $this->separator ) > 0 )
+				if( substr_count( (string) $value, $this->separator ) > 0 )
 					//  value is not masked
-					if( substr( $value, 0, 1 ).substr( $value, -1 ) != '""' )
+					if( substr( (string) $value, 0, 1 ).substr( (string) $value, -1 ) != '""' )
 						//  mask value
-						$line[$nr]	= '"'.addslashes( $value ).'"';
+						$line[$nr]	= '"'.addslashes( (string) $value ).'"';
 			$line = implode( $this->separator, $line );
 			$output[] = $line;
 		}
 		$file	= new FileWriter( $this->fileName );
-		return $file->writeArray( $output );
+		return (int) $file->writeArray( $output );
 	}
 }

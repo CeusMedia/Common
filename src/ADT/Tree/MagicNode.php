@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Magic Node.
  *
@@ -42,10 +44,10 @@ use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 class MagicNode
 {
 	/**	@var	array		$data		Map of nested nodes */
-	public $data	= [];
+	public array $data	= [];
 
 	/**	@var	mixed		$value		Node value */
-	public $value;
+	public mixed $value	= NULL;
 
 	/**
 	 *	Constructor.
@@ -53,7 +55,7 @@ class MagicNode
 	 *	@param		mixed		$value		Value to set for node
 	 *	@return		void
 	 */
-	public function __construct( $value = NULL )
+	public function __construct( mixed $value = NULL )
 	{
 		$this->value	= $value;
 	}
@@ -78,7 +80,7 @@ class MagicNode
 	 *	@param		mixed		$value		Value to set on current or nested node
 	 *	@return		void
 	 */
-	public function __set( string $key, $value )
+	public function __set( string $key, mixed $value ): void
 	{
 		if( !isset( $this->data[$key] ) )
 			$this->data[$key]	= new MagicNode( $value );
@@ -102,15 +104,15 @@ class MagicNode
 	 *	@param		array		$array		Array to import
 	 *	@return		void
 	 */
-	public function fromArray( array $array )
+	public function fromArray( array $array ): void
 	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
-				$this->__set( $key, NULL );
+				$this->__set( (string) $key, NULL );
 				$this->data[$key]->fromArray( $value );
 			}
 			else{
-				$this->__set( $key, $value );
+				$this->__set( (string) $key, $value );
 			}
 		}
 
@@ -122,7 +124,7 @@ class MagicNode
 	 *	@param		string		$json		JSON to import
 	 *	@return		void
 	 */
-	public function fromJson( string $json )
+	public function fromJson( string $json ): void
 	{
 		$this->fromArray( json_decode( $json, TRUE ) );
 	}
@@ -162,7 +164,7 @@ class MagicNode
 	 *	@param		mixed		$value		Value to set on node
 	 *	@return		mixed|NULL
 	 */
-	public function value( $value = NULL )
+	public function value( mixed $value = NULL ): mixed
 	{
 		if( !is_null( $value ) )
 			$this->value	= $value;

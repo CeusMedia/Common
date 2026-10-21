@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *	Implementation of a priority queue using an array with sections.
  *
@@ -108,7 +110,7 @@ class PriorityQueue implements \Countable
 	 *	@param		int|float|NULL		$priority
 	 *	@return		static
 	 */
-	public function enqueue( $item, int|float $priority = NULL ): static
+	public function enqueue( mixed $item, int|float|NULL $priority = NULL ): static
 	{
 		$priority	= $priority ?? $this->defaultPriority;
 		if( !array_key_exists( $priority, $this->items ) ){
@@ -123,7 +125,7 @@ class PriorityQueue implements \Countable
 	 *	@param		int|NULL		$priority
 	 *	@return		bool
 	 */
-	public function has( int $priority = NULL ): bool
+	public function has( ?int $priority = NULL ): bool
 	{
 		if( NULL === $priority )
 			return [] !== $this->items;

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Download Provider for Files and Strings.
  *
@@ -92,7 +94,7 @@ class Download
 	 */
 	public static function sendFile( string $url, ?string $filename = NULL, bool $andExit = TRUE ): void
 	{
-		$filename	= strlen( $filename ) ? $filename : basename( $url );
+		$filename	= strlen( $filename ?? '' ) ? $filename : basename( $url );
 		//  avoid messing with path
 		$url		= str_replace( '../', '', $url );
 		if( !file_exists( $url ) )
@@ -141,9 +143,10 @@ class Download
 	protected static function setMimeType(): void
 	{
 		$UserBrowser = '';
-		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
+		$userAgent	= $_SERVER['HTTP_USER_AGENT'] ?? '';
+		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $userAgent ) )
 			$UserBrowser = "Opera";
-		elseif( preg_match( '@MSIE ([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
+		elseif( preg_match( '@MSIE ([0-9].[0-9]{1,2})@', $userAgent ) )
 			$UserBrowser = "IE";
 		$mime_type = ( $UserBrowser == 'IE' || $UserBrowser == 'Opera' ) ? 'application/octetstream' : 'application/octet-stream';
 		header( "Content-Type: ". $mime_type);

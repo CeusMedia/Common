@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -52,10 +54,10 @@ class Compare
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		URL|string		$url1
-	 *	@param		URL|string		$url2
+	 *	@param		URL|string|NULL		$url1
+	 *	@param		URL|string|NULL		$url2
 	 */
-	public function __construct( $url1 = NULL, $url2 = NULL )
+	public function __construct( URL|string|NULL $url1 = NULL, URL|string|NULL $url2 = NULL )
 	{
 		if( $url1 )
 			$this->setUrl1( $url1 );
@@ -117,7 +119,7 @@ class Compare
 	 *	@param		URL|string		$url2
 	 *	@return		bool
 	 */
-	public static function sameBaseStatic( $url1, $url2 ): bool
+	public static function sameBaseStatic( URL|string $url1, URL|string $url2 ): bool
 	{
 		$that	= new self( $url1, $url2 );
 		return $that->sameBase();

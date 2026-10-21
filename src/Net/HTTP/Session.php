@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Session Management.
  *
@@ -54,9 +56,9 @@ class Session extends Dictionary
 		//  set session cookie name
 		session_name( $sessionName );
 		//  a domain has been specified
-		if( strlen( trim( $domain ) ) )
+		if( strlen( trim( $domain ?? '' ) ) )
 			//  set cookie domain
-			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );
+			ini_set( 'session.cookie_domain', trim( strtolower( $domain ?? '' ) ) );
 		//  start cookie handler
 		@session_start();
 		$this->pairs =& $_SESSION;
@@ -77,7 +79,7 @@ class Session extends Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function clear()
+	public function clear(): void
 	{
 		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
@@ -91,7 +93,7 @@ class Session extends Dictionary
 	 */
 	public function getSessionID(): string
 	{
-		return session_id();
+		return (string) session_id();
 	}
 
 	/**
@@ -101,6 +103,6 @@ class Session extends Dictionary
 	 */
 	public function getSessionName(): string
 	{
-		return session_name();
+		return (string) session_name();
 	}
 }

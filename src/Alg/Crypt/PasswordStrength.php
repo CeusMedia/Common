@@ -42,7 +42,7 @@ namespace CeusMedia\Common\Alg\Crypt;
 class PasswordStrength
 {
 	/**	@var	array	$badWords		List of unsecure words */
-	public static $badWords	= [
+	public static array $badWords	= [
 		"password",
 		"password1",
 		"sex",
@@ -56,7 +56,7 @@ class PasswordStrength
 		"monkey"
 	];
 	/**	@var	int		$minLength		... */
-	public static $minLength	= 6;
+	public static int $minLength	= 6;
 
 	/**
 	 *	Calculates and returns Score for the Strength of a Password (max 56).
@@ -65,7 +65,7 @@ class PasswordStrength
 	 *	@param		string		$password
 	 *	@return		int			between -300 and +56
 	 */
-	public static function getScore( $password )
+	public static function getScore( string $password ): int
 	{
 		$score	= 0;
 
@@ -134,7 +134,7 @@ class PasswordStrength
 	 *	@param		string		$password
 	 *	@return		int			between -300 and +100
 	 */
-	public static function getStrength( $password )
+	public static function getStrength( string $password ): int
 	{
 		$score	= self::getScore( $password );
 		return self::normaliseScore( $score );
@@ -147,10 +147,11 @@ class PasswordStrength
 	 *	@param		int			$score
 	 *	@return		int			between -300 and +100
 	 */
-	public static function normaliseScore( $score )
+	public static function normaliseScore( int $score ): int
 	{
 		if( $score > 0 )
-			$score	= round( $score * ( 100 / 56 ) );
+			$score	= (int) round( $score * ( 100 / 56 ) );
+
 		return $score;
 	}
 }

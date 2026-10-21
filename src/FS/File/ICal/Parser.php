@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for iCalendar Files.
  *
@@ -46,7 +48,7 @@ use CeusMedia\Common\XML\DOM\Node;
 class Parser
 {
 	/**	@var	string		$lineBreak		Line Break String */
-	protected static $lineBreak;
+	protected static string $lineBreak	= "\r\n";
 
 	/**
 	 *	Constructor.
@@ -91,13 +93,13 @@ class Parser
 	 */
 	protected static function parseLine( string $line ): array
 	{
-		$pos	= strpos( $line, ":" );
+		$pos	= (int) strpos( $line, ":" );
 		$name	= substr( $line, 0, $pos );
 		$value	= substr( $line, $pos+1 );
 
 		$params	= [];
 		if( substr_count( $name, ";" ) ){
-			$pos	= strpos( $name, ";" );
+			$pos	= (int) strpos( $name, ";" );
 			$params	= substr( $name, $pos+1 );
 			$name	= substr( $name, 0, $pos );
 			$params	= explode( ",", utf8_decode( $params ) );

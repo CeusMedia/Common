@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Sets and gets constant values.
  *	List all constants with a given prefix.
@@ -54,7 +56,7 @@ class Constant
 	 *	@throws		InvalidArgumentException
 	 *	@todo		finish impl
 	 */
-	public static function get( string $key )
+	public static function get( string $key ): mixed
 	{
 		$key	= strtoupper( $key );
 		if( self::has( $key ) )
@@ -73,7 +75,7 @@ class Constant
 	 */
 	public static function getAll( ?string $prefix = NULL, ?string $excludePrefix = NULL ): array
 	{
-		$prefix	= strtoupper( $prefix );
+		$prefix	= strtoupper( $prefix ?? '' );
 		$length	= strlen( $prefix );
 		if( $length	< 2 )
 			throw new InvalidArgumentException( 'Prefix "'.$prefix.'" is to short.' );
@@ -105,7 +107,7 @@ class Constant
 	 *	@param		mixed			$value
 	 *	@return		string|integer
 	 */
-	public static function getKeyByValue( ?string $prefix, $value )
+	public static function getKeyByValue( ?string $prefix, mixed $value ): string|int
 	{
 		$constants	= static::getAll( $prefix );
 		$list		= [];
@@ -146,7 +148,7 @@ class Constant
 	 *	@return		bool
 	 *	@throws		RuntimeException		if Constant has already been set
 	 */
-	public static function set( string $key, $value, bool $strict = TRUE ): bool
+	public static function set( string $key, mixed $value, bool $strict = TRUE ): bool
 	{
 		$key	= strtoupper( $key );
 		if( defined( $key ) && $strict )

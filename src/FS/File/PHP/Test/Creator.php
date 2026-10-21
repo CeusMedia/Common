@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *
@@ -99,12 +101,12 @@ class Creator
 		$counter	= 0;
 		foreach( $exceptions as $exception ){
 			$counter	= count( $exceptions ) > 1 ? $counter + 1 : "";
-			$template	= file_get_contents( $this->templateException );
+			$template	= (string) file_get_contents( $this->templateException );
 			$template	= str_replace( '{methodName}', $methodName, $template );
 			$template	= str_replace( '{MethodName}', ucFirst( $methodName ), $template );
 			$template	= str_replace( '{className}', $this->className, $template );
 			$template	= str_replace( '{exceptionClass}', $exception, $template );
-			$template	= str_replace( '{counter}', $counter, $template );
+			$template	= str_replace( '{counter}', (string) $counter, $template );
 			$methods[]	= $template;
 		}
 		return $methods;
@@ -119,12 +121,12 @@ class Creator
 	{
 		$methods	= $this->buildTestMethods();
 
-		$template	= file_get_contents( $this->templateClass );
+		$template	= (string) file_get_contents( $this->templateClass );
 		$template	= str_replace( '{methodTests}', implode( '', $methods ), $template );
 		$template	= str_replace( '{className}', $this->className, $template );
 		$template	= str_replace( '{classFile}', $this->classFile, $template );
 		$template	= str_replace( '{classPath}', $this->classPath, $template );
-		$template	= str_replace( '{classPackage}', $this->data['package'], $template );
+		$template	= str_replace( '{classPackage}', (string) ( $this->data['package'] ?? '' ), $template );
 		$template	= str_replace( '{date}', date( 'd.m.Y' ), $template );
 		$template	= "<?php".PHP_EOL.$template.PHP_EOL."?>";
 
@@ -148,7 +150,7 @@ class Creator
 				continue;
 			if( $lastMethod ){
 				$pattern	= '@.*function '.$lastMethod.'(.*)function '.$methodName.'.*@si';
-				$content	= file_get_contents( $this->classFile );
+				$content	= (string) file_get_contents( $this->classFile );
 				$content	= preg_replace( $pattern, '\\1', $content );
 				$exceptions	= $this->buildExceptionTestMethod( $lastMethod, $content );
 				foreach( $exceptions as $exception )
@@ -158,13 +160,13 @@ class Creator
 			$methodNames	= array_slice( $methodNames, -1 );
 			if( $methodName == array_pop( $methodNames ) ){
 				$pattern	= '@.*function '.$methodName.'(.*)$@si';
-				$content	= file_get_contents( $this->classFile );
+				$content	= (string) file_get_contents( $this->classFile );
 				$content	= preg_replace( $pattern, '\\1', $content );
 				$exceptions	= $this->buildExceptionTestMethod( $methodName, $content );
 				foreach( $exceptions as $exception )
 					$methods[]	= $exception;
 			}
-			$template	= file_get_contents( $this->templateMethod );
+			$template	= (string) file_get_contents( $this->templateMethod );
 			$template	= str_replace( '{methodName}', $methodName, $template );
 			$template	= str_replace( '{MethodName}', ucFirst( $methodName ), $template );
 			$template	= str_replace( '{className}', $this->className, $template );

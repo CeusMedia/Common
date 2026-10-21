@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Implementation of a Section List using an Array.
  *
@@ -191,7 +193,7 @@ class SectionList
 	{
 		foreach( $this->getSections() as $section )
 			if( in_array( $entry, $this->list[$section], TRUE ) )
-				return $section;
+				return (string) $section;
 		throw new InvalidArgumentException( 'Entry "'.$entry.'" not found in any Section.' );
 	}
 

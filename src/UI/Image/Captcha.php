@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -114,7 +117,7 @@ class Captcha
 	 *	@param		string|NULL		$fileName	File Name to write Captcha Image to
 	 *	@return		int|string
 	 */
-	public function generateImage( string $word, ?string $fileName = NULL )
+	public function generateImage( string $word, ?string $fileName = NULL ): int|string
 	{
 		if( !$this->font )
 			throw new RuntimeException( 'No font defined' );
@@ -143,7 +146,7 @@ class Captcha
 				//  randomize Float between -1 and 1
 				$rand	= 2 * rand() / getrandmax() - 1;
 				//  calculate rounded Offset
-				$offset	= round( $rand * $this->offsetX );
+				$offset	= (int) round( $rand * $this->offsetX );
 			}
 			$posX	= $i * 20 + $offset + 10;
 
@@ -166,7 +169,7 @@ class Captcha
 		if( FALSE === $content )
 			throw new RuntimeException( 'Generating image failed' );
 		if( $fileName )
-			return FileWriter::save( $fileName, $content );
+			return (int) FileWriter::save( $fileName, $content );
 		return $content;
 	}
 

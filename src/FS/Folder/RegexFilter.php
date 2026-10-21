@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder.
  *
@@ -45,13 +47,13 @@ use RuntimeException;
 class RegexFilter extends RegexIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
-	protected $showFiles;
+	protected bool $showFiles;
 
 	/**	@var		 bool		$showFolders		Flag: show Folders */
-	protected $showFolders;
+	protected bool $showFolders;
 
 	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
-	protected $stripDotEntries;
+	protected bool $stripDotEntries;
 
 
 	/**

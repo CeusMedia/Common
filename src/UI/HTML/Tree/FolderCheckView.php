@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use CeusMedia\Common\FS\Folder\Lister as FolderLister;
@@ -185,7 +187,7 @@ class FolderCheckView
 			//  correct Slashes on Windows
 			$path		= str_replace( "\\", "/", $item->getPathname() );
 			//  remove Tree Root Path
-			$path		= substr( $path, strlen( $this->path ) );
+			$path		= substr( $path, strlen( $this->path ?? '' ) );
 			foreach( $this->ignorePatterns as $pattern )
 				if( preg_match( '@^'.$pattern.'$@', $path ) )
 					$ignore	= TRUE;

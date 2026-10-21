@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Log Files containing JSON Serials.
  *
@@ -42,7 +44,7 @@ use Exception;
 class Reader
 {
 	/**	@var		string		$fileName		File Name of Log File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.

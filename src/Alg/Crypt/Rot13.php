@@ -49,7 +49,7 @@ class Rot13
 	 *	@param		string		$string		String to be decrypted.
 	 *	@return		string
 	 */
-	public static function decrypt( $string )
+	public static function decrypt( string $string ): string
 	{
 		return str_rot13( $string );
 	}
@@ -61,7 +61,8 @@ class Rot13
 	 *	@param		string		$string		String to be encrypted.
 	 *	@return		string
 	 */
-	public static function encrypt( $string )
+	public static function encrypt( string $string ): string
+
 	{
 		return str_rot13( $string );
 	}

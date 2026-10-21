@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -138,7 +141,7 @@ class XPathQuery extends OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function loadXml( string $xml )
+	public function loadXml( string $xml ): void
 	{
 		$this->document	= new DOMDocument();
 		$validator	= new Validator();

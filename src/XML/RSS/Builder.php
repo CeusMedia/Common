@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for RSS Feeds.
  *
@@ -106,7 +108,7 @@ class Builder
 		if( !is_array( $data ) )
 			throw new Exception( 'Channel Data List must be an Array.' );
 		foreach( $data as $key => $value )
-			$this->setChannelPair( $key, $value );
+			$this->setChannelPair( (string) $key, NULL !== $value ? (string) $value : NULL );
 	}
 
 	/**
@@ -116,7 +118,7 @@ class Builder
 	 *	@return		void
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function addItem( array $item )
+	public function addItem( array $item ): void
 	{
 		$this->items[] = $item;
 	}
@@ -185,16 +187,16 @@ class Builder
 				$value	= $item[$element] ?? NULL;
 				if( $required || $value ){
 					if( $element == "source" && $value ){
-						$node->addChild( new Node( $element, $this->channel['title'], ['url' => $value] ) );
+						$node->addChild( new Node( $element, $this->channel['title'], ['url' => (string) $value] ) );
 						continue;
 					}
 					if( $element == "guid" && $value ){
-						$node->addChild( new Node( $element, $value, ['isPermaLink' => 'true'] ) );
+						$node->addChild( new Node( $element, (string) $value, ['isPermaLink' => 'true'] ) );
 						continue;
 					}
 					if( $element == "pubDate" && $value )
 						$value	= $this->getDate( $value );
-					$node->addChild( new Node( $element, $value ) );
+					$node->addChild( new Node( $element, NULL !== $value ? (string) $value : NULL ) );
 				}
 			}
 			$channel->addChild( $node );
@@ -242,7 +244,7 @@ class Builder
 	public function setChannelData( array $pairs ): self
 	{
 		foreach( $pairs as $key => $value )
-			$this->setChannelPair( $key, $value );
+			$this->setChannelPair( (string) $key, NULL !== $value ? (string) $value : NULL );
 		return $this;
 	}
 

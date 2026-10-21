@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for HTML Form Components.
  *
@@ -46,7 +48,7 @@ class FormElements
 	 *	@param		string|NULL		$message		String will be set for JavaScript Alert
 	 *	@return		void
 	 */
-	protected static function addDisabledAttributes( array &$attributes, ?string $message = NULL )
+	protected static function addDisabledAttributes( array &$attributes, ?string $message = NULL ): void
 	{
 		if( is_string( $message ) ){
 			$attributes['readonly']	= 'readonly';
@@ -64,7 +66,7 @@ class FormElements
 	 *	@param		string|bool		$readOnly		Bool or String, String will be set in with JavaScript Alert
 	 *	@return		void
 	 */
-	protected static function addReadonlyAttributes( array &$attributes, $readOnly = FALSE )
+	protected static function addReadonlyAttributes( array &$attributes, $readOnly = FALSE ): void
 	{
 		$attributes['readonly']	= "readonly";
 		if( is_string( $readOnly ) )
@@ -177,7 +179,7 @@ class FormElements
 			'onsubmit'	=> $onSubmit,
 		);
 		$form	= Tag::create( "form", NULL, $attributes );
-		return preg_replace( "@/>$@", ">", $form );
+		return (string) preg_replace( "@/>$@", ">", $form );
 	}
 
 	/**
@@ -333,14 +335,14 @@ class FormElements
 						continue;
 					$groupName	= $groupOptions['_groupname'] ?? $groupLabel;
 					$select		= $options['_selected'] ?? $selected;
-					$list[]		= self::OptionGroup( $groupName, $groupOptions, $select );
+					$list[]		= self::OptionGroup( (string) $groupName, $groupOptions, $select );
 				}
 				return implode( "", $list );
 			}
 		}
 		foreach( $options as $value => $label ){
 			$isSelected	= is_array( $selected ) ? in_array( $value, $selected ) : (string) $selected == (string) $value;
-			$list[]		= self::Option( $value, $label, $isSelected );
+			$list[]		= self::Option( $value, (string) $label, $isSelected );
 		}
 		return implode( "", $list );
 	}

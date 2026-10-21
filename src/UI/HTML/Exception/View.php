@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Visualisation of Exception.
  *
@@ -73,7 +75,7 @@ class View
 		$list[]	= Tag::create( 'dd', $msg, ['class' => 'exception-message'] );
 
 		if( $e->getCode() !== 0 ){
-			$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
+			$code	= htmlentities( (string) $e->getCode(), ENT_COMPAT, 'UTF-8' );
 			$list[]	= Tag::create( 'dt', 'Code', ['class' => 'exception-code'] );
 			$list[]	= Tag::create( 'dd', $code, ['class' => 'exception-code'] );
 		}
@@ -152,7 +154,7 @@ class View
 					default:
 						$value ??= '-empty-';
 				}
-				$list[]	= Tag::create( 'dt', ucfirst( $key ), ['class' => 'exception-'.$key] );
+				$list[]	= Tag::create( 'dt', ucfirst( (string) $key ), ['class' => 'exception-'.$key] );
 				$list[]	= Tag::create( 'dd', $value, ['class' => 'exception-'.$key] );
 			}
 		}

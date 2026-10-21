@@ -46,13 +46,13 @@ use OutOfRangeException;
 class Factory
 {
 	/**	@var		array		$articles		List of possible Articles */
-	protected $articles;
+	protected array $articles;
 
 	/**	@var		array		$packets		Array of possible Packet and their Prices */
-	protected $packets;
+	protected array $packets;
 
 	/**	@var		array		$volumes		Array of Packets and the Volumes the Articles would need */
-	protected $volumes;
+	protected array $volumes;
 
 	/**
 	 *	Constructor.
@@ -87,7 +87,8 @@ class Factory
 					throw new InvalidArgumentException( 'Article "'.$articleName.'" is not a valid Article.' );
 				for( $i=0; $i<$articleQuantity; $i++ ){
 					$volume	= $this->volumes[$packetName][$articleName];
-					$packet->addArticle( $articleName, $volume );
+					$packet->addArticle( (string) $articleName, $volume );
+
 				}
 			}
 			return $packet;

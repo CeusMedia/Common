@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -238,7 +241,7 @@ class Progress
 	 *	@param		string|int			$with
 	 *	@return		string
 	 */
-	protected function padLeft( $input, int $length, $with ): string
+	protected function padLeft( float|int|string $input, int $length, int|string $with ): string
 	{
 		return str_pad( (string) $input, $length, (string) $with, STR_PAD_LEFT );
 	}
@@ -254,7 +257,7 @@ class Progress
 		if( Env::isHeadless() )
 			return '';
 		$count		= min( $count, $this->total );
-		$timeLeft	= ceil( microtime( TRUE ) - $this->startTime );
+		$timeLeft	= (int) ceil( microtime( TRUE ) - $this->startTime );
 		if( $count !== $this->total )
 			$timeLeft	= $this->estimateTimeLeft( $count );
 		$timeLeft	= $this->padLeft( $this->formatTime( $timeLeft ), 8, ' ' );

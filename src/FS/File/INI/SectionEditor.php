@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *
@@ -65,7 +67,7 @@ class SectionEditor extends SectionReader
 	 */
 	protected function fillUp( string $key, int $tabs = 5 ): string
 	{
-		$key_breaks	= $tabs - floor( strlen( $key ) / 8 );
+		$key_breaks	= $tabs - intdiv( strlen( $key ), 8 );
 		if( $key_breaks < 1 )
 			$key_breaks = 1;
 		return $key.str_repeat( "\t", $key_breaks );
@@ -128,10 +130,10 @@ class SectionEditor extends SectionReader
 		foreach( $sections as $section ){
 			$lines[]	= "[".$section."]";
 			foreach( $this->data[$section] as $key => $value )
-				$lines[]	= $this->fillUp( $key )."=".$value;
+				$lines[]	= $this->fillUp( (string) $key )."=".$value;
 		}
 		$result	= FileWriter::saveArray( $this->fileName, $lines );
 		$this->read();
-		return $result;
+		return (int) $result;
 	}
 }

@@ -67,7 +67,8 @@ class Bubble
 	 *	@param		int			$pos2		Position of second Element
 	 *	@return		void
 	 */
-	protected static function swap( &$list, $pos1, $pos2 )
+	protected static function swap( array &$list, int $pos1, int $pos2 ): void
+
 	{
 		$memory	= $list[$pos1];
 		$list[$pos1] = $list[$pos2];

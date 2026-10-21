@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Command Line Interface.
  *
@@ -69,7 +71,7 @@ class CLI
 
 	public function __construct()
 	{
-		$this->base	= getCwd();
+		$this->base	= (string) getCwd();
 		$this->size	= CliDimensions::getSize();
 		Text::$defaultLineLength	= $this->size->width - 1;
 	}
@@ -123,13 +125,13 @@ class CLI
 				continue;
 			$type		= gettype( $message );
 			if( in_array( $type, ['string', 'integer'] ) ){
-				if( strlen( trim( $message ) ) ){
-					$message	= trim( $message );
+				if( strlen( trim( (string) $message ) ) ){
+					$message	= trim( (string) $message );
 					$isCli ? fwrite( STDERR, $message ) : print( $message );
 				}
 			}
 			else{
-				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE );
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE ) ?? '';
 				$isCli ? fwrite( STDERR, $message ) : print( $message );
 			}
 		}
@@ -151,12 +153,13 @@ class CLI
 				continue;
 			$type		= gettype( $message );
 			if( in_array( $type, ['string', 'integer'] ) ){
+				$message	= (string) $message;
 				if( strlen( trim( $message ) ) ){
 					$isCli ? fwrite( STDOUT, $message ) : print( $message );
 				}
 			}
 			else{
-				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE );
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE ) ?? '';
 				$isCli ? fwrite( STDOUT, $message ) : print( $message );
 			}
 		}
@@ -171,12 +174,12 @@ class CLI
 
 	public function getHeight(): int
 	{
-		return $this->size->getHeight();
+		return $this->size->height;
 	}
 
 	public function getWidth(): int
 	{
-		return $this->size->getWidth();
+		return $this->size->width;
 	}
 
 	public function log( string $message ): bool
@@ -195,7 +198,7 @@ class CLI
 	 *	@return		void
 	 *	@throws		IoException
 	 */
-	public function ls( string $path = NULL, bool $mimeType = TRUE ): void
+	public function ls( ?string $path = NULL, bool $mimeType = TRUE ): void
 	{
 		$path	??= '.';
 		$path	= $this->realizePath( $path );
@@ -230,7 +233,7 @@ class CLI
 				$sfo	= $item->count( FS::TYPE_FOLDER, TRUE );
 				$sfi	= $item->count( FS::TYPE_FILE | FS::TYPE_LINK, TRUE );
 				$perm	= 'd'.FilePermissions::getStringFromFile( $item->getPathName() );
-				$date	= date( 'y-m-d H:i', $item->getTime() );
+				$date	= date( 'y-m-d H:i', (int) $item->getTime() );
 				CLI::out( join( [
 					Text::padRight( $name, $freeSize ),
 					$mimeType ? Text::padLeft( '[folder]', 20 ) : '',
@@ -248,7 +251,7 @@ class CLI
 				$mime	= self::shortenMimeType( $item->getMimeType() );
 				$size	= Text::formatBytes( $item->getSize() );
 				$perm	= FilePermissions::getStringFromFile( $item->getPathName() );
-				$date	= date( 'y-m-d H:i', $item->getTime() );
+				$date	= date( 'y-m-d H:i', (int) $item->getTime() );
 				CLI::out( join( [
 					Text::padRight( $name, $freeSize ),
 					$mimeType ? Text::padLeft( $mime, 20 ) : '',
@@ -271,7 +274,7 @@ class CLI
 			return self::$mimeTypeLabels[$mimeType];
 		[$topic, $type]	= explode( '/', $mimeType, 2 );
 		$short	= NULL;
-		$type	= preg_replace( '/^x-/', '', $type );
+		$type	= preg_replace( '/^x-/', '', $type ) ?? $type;
 		if( $topic === 'text' )
 			$short = 'T';
 		else if( $topic === 'application' )
@@ -300,8 +303,8 @@ class CLI
 			default:
 				$path	= $this->base.'/'.$path;
 		}
-		if( file_exists( $path ) )
-			return realpath( $path );
+		if( file_exists( $path ) && FALSE !== ( $realPath = realpath( $path ) ) )
+			return $realPath;
 		throw IoException::create( 'Path is not existing' )->setResource( $path );
 	}
 }

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Property File Editor.
  *	This Implementation keeps the File Structure of original File completely alive.
@@ -97,7 +99,7 @@ class Editor extends Reader
 	 *	@param		string|NULL	$section		Section to add Property to
 	 *	@return		bool
 	 */
-	public function addProperty( string $key, $value, ?string $comment = '', bool $state = TRUE, ?string $section = NULL ): bool
+	public function addProperty( string $key, mixed $value, ?string $comment = '', bool $state = TRUE, ?string $section = NULL ): bool
 	{
 		if( $section && !in_array( $section, $this->sections ) )
 			$this->addSection( $section );
@@ -141,14 +143,14 @@ class Editor extends Reader
 	 *	@param		string|NULL	$comment		Comment of Property
 	 *	@return		string
 	 */
-	private function buildLine( string $key, $value, ?string $comment = NULL ): string
+	private function buildLine( string $key, mixed $value, ?string $comment = NULL ): string
 	{
-		$content	= '"'.addslashes( $value ).'"';
+		$content	= '"'.addslashes( (string) $value ).'"';
 		if( $this->reservedWords && is_bool( $value ) )
 			$content	= $value ? "yes" : "no";
 
-		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
-		$breaksValue	= 4 - floor( strlen( $content ) / 8 );
+		$breaksKey		= 4 - intdiv( strlen( $key ), 8 );
+		$breaksValue	= 4 - intdiv( strlen( $content ), 8 );
 		if( $breaksKey < 1 )
 			$breaksKey = 1;
 		if( $breaksValue < 1 )
@@ -323,7 +325,7 @@ class Editor extends Reader
 	 *	@param		string|NULL	$section		Key of Section
 	 *	@return		bool
 	 */
-	public function setProperty( string $key, $value, ?string $section = NULL ): bool
+	public function setProperty( string $key, mixed $value, ?string $section = NULL ): bool
 	{
 		if( $this->usesSections() ){
 			if( $this->hasSection( $section ) && $this->hasProperty( $key, $section ) )
@@ -425,7 +427,7 @@ class Editor extends Reader
 			$newLine	= $this->buildLine( $property['key'], $property['value'], $property['comment'] );
 			$newLines[]	= $newLine;
 		}
-		$result			= $file->writeArray( $newLines );
+		$result			= (int) $file->writeArray( $newLines );
 		$this->added	= [];
 		$this->deleted	= [];
 		$this->renamed	= [];

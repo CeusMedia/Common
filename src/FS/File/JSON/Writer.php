@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	JSON Writer.
  *
@@ -64,7 +66,7 @@ class Writer
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
 	 */
-	public static function save( string $filePath, $value, bool $format = FALSE ): int
+	public static function save( string $filePath, mixed $value, bool $format = FALSE ): int
 	{
 		$writer	= new Writer( $filePath );
 		return $writer->write( $value, $format );
@@ -81,6 +83,6 @@ class Writer
 	{
 		$flags	= $format ? JSON_PRETTY_PRINT : 0;
 		$json	= JsonEncoder::create()->encode( $value, $flags );
-		return FileWriter::save( $this->filePath, $json );
+		return (int) FileWriter::save( $this->filePath, $json );
 	}
 }

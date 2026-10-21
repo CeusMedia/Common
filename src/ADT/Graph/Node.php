@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Node in a graph
  *
@@ -43,7 +45,7 @@ class Node
 	protected string $nodeName;
 
 	/**	@var	mixed		$nodeValue		Value of this Node */
-	protected $nodeValue;
+	protected mixed $nodeValue	= NULL;
 
 	/**
 	 *	Constructor.
@@ -52,7 +54,7 @@ class Node
 	 *	@param		mixed		$nodeValue		Value of this Node
 	 *	@return		void
 	 */
-	public function __construct( string $nodeName, $nodeValue = '' )
+	public function __construct( string $nodeName, mixed $nodeValue = '' )
 	{
 		$this->setNodeName( $nodeName );
 		$this->setNodeValue( $nodeValue );
@@ -78,7 +80,7 @@ class Node
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getNodeValue()
+	public function getNodeValue(): mixed
 	{
 		return $this->nodeValue;
 	}
@@ -101,7 +103,7 @@ class Node
 	 *	@param		mixed		$nodeValue		Value of this Node
 	 *	@return		self
 	 */
-	public function setNodeValue( $nodeValue ): self
+	public function setNodeValue( mixed $nodeValue ): self
 	{
 		$this->nodeValue = $nodeValue;
 		return $this;

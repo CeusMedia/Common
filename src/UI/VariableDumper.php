@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -79,9 +81,9 @@ class VariableDumper
 				var_dump( $variable );
 				if( !$hasXDebug ){
 					//  get buffered Dump
-					$dump	= ob_get_clean();
+					$dump	= (string) ob_get_clean();
 					//  remove Line Break on Relations
-					$dump	= preg_replace( "@=>\n +@", ": ", $dump );
+					$dump	= (string) preg_replace( "@=>\n +@", ": ", $dump );
 					//  remove Array Opener
 					$dump	= str_replace( "{\n", "\n", $dump );
 					//  remove Array Closer
@@ -91,9 +93,9 @@ class VariableDumper
 					//  remove Variable Key Closer
 					$dump	= str_replace( '"]:', ":", $dump );
 					//  remove Variable Type for Strings
-					$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );
+					$dump	= (string) preg_replace( '@string\([0-9]+\)@', "", $dump );
 					//  remove Variable Type for Arrays
-					$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );
+					$dump	= (string) preg_replace( '@array\([0-9]+\)@', "", $dump );
 					//  open Buffer
 					ob_start();
 					//  print Dump with XMP
@@ -106,7 +108,7 @@ class VariableDumper
 				break;
 		}
 		//  return buffered Dump
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 }
 function dumpVar( string $variable, int $mode = VariableDumper::MODE_DUMP, int $modeIfNotXDebug = VariableDumper::MODE_PRINT ): string

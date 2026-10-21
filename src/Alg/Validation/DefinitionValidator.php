@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Validator for defined Fields.
  *
@@ -41,17 +44,17 @@ use InvalidArgumentException;
  */
 class DefinitionValidator
 {
-	/**	@var		Object		Predicate Class Instance */
-	protected $validator;
+	/**	@var		object		Predicate Class Instance */
+	protected object $validator;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$predicateClass		Class Name of Predicate Class
-	 *	@param		string		$validatorClass		Class Name of Predicate Validator Class
+	 *	@param		string|NULL		$predicateClass		Class Name of Predicate Class
+	 *	@param		string|NULL		$validatorClass		Class Name of Predicate Validator Class
 	 *	@return		void
 	 */
-	public function __construct( $predicateClass = NULL, $validatorClass = NULL )
+	public function __construct( ?string $predicateClass = NULL, ?string $validatorClass = NULL )
 	{
 		$predicateClass		??= Predicates::class;
 		$validatorClass		??= PredicateValidator::class;
@@ -94,7 +97,8 @@ class DefinitionValidator
 		if( !empty( $definition['semantic'] ) ){
 			foreach( $definition['semantic'] as $semantic ){
 				$semantic	= new ArrayObject( $semantic );
-				$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
+				$param	= strlen( (string) $semantic['edge'] ) ? $semantic['edge'] : NULL;
+
 				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
 					$errors[]	= [$semantic['predicate'], $param];
 			}

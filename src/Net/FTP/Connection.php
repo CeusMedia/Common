@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -195,7 +198,7 @@ class Connection
 	 */
 	public function getTimeout(): int
 	{
-		return ftp_get_option( $this->resource, FTP_TIMEOUT_SEC );
+		return (int) ftp_get_option( $this->resource, FTP_TIMEOUT_SEC );
 	}
 
 	/**

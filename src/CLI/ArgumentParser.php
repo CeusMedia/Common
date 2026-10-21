@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Argument Parser for Console Applications.
  *
@@ -62,7 +64,7 @@ class ArgumentParser extends Dictionary
 		$commands	= [];
 		$parameters	= [];
 		$count		= 0;
-		$input		= is_string( $input ) ? preg_split( '/ +/', $input ) : $input;
+		$input		= is_string( $input ) ? ( preg_split( '/ +/', $input ) ?: [] ) : $input;
 		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $input, TRUE ) )
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $input as $argument ){

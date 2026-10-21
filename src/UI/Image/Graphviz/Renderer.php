@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 /**
@@ -86,6 +89,8 @@ class Renderer
 		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
+		if( FALSE === $tempFile )
+			throw new RuntimeException( 'Creating temporary file failed' );
 		$this->graph->save( $tempFile, $graphOptions );
 		exec( $this->layoutEngine.' -O -T'.$type.' '.$tempFile );
 		unlink( $tempFile );
@@ -102,6 +107,8 @@ class Renderer
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
+		if( FALSE === $tempFile )
+			throw new RuntimeException( 'Creating temporary file failed' );
 		$this->saveAsImage( $tempFile, $type, $graphOptions );
 		$image		= FileReader::load( $tempFile );
 		@unlink( $tempFile );
@@ -122,6 +129,8 @@ class Renderer
 #		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 #			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
+		if( FALSE === $tempFile )
+			throw new RuntimeException( 'Creating temporary file failed' );
 		$this->graph->save( $tempFile, $graphOptions );
 		exec( $this->layoutEngine.' -O -T'.$type.' '.$tempFile );
 		unlink( $tempFile );

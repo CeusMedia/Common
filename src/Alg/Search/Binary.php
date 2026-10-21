@@ -52,7 +52,8 @@ class Binary
 	 *	@param		int			$pos		Position (initial = 0)
 	 *	@return 	int
 	 */
-	public function search( $list, $search, $pos = 0 )
+	public function search( array $list, mixed $search, int $pos = 0 )
+
 	{
 		$size = sizeof( $list );
 		if( $size == 1 )

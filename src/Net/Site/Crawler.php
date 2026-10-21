@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Crawls and counts all internal Links of an URL.
  *
@@ -113,8 +115,8 @@ class Crawler
 		$url	= new StringBuffer();
 		if( isset( $parts['user'] ) && isset( $parts['pass'] ) && $parts['user'] )
 			$url->append( $parts['user'].":".$parts['pass']."@" );
-		if( substr( $parts['path'], 0, 1 ) != "/" )
-			$parts['path']	= "/".$parts['path'];
+		if( substr( $parts['path'] ?? '', 0, 1 ) != "/" )
+			$parts['path']	= "/".( $parts['path'] ?? '' );
 		$host	= $parts['host'].( !empty( $parts['port'] ) ? ":".$parts['port'] : "" );
 		$url->append( $host.$parts['path'] );
 		if( isset( $parts['query'] ) )
@@ -146,7 +148,7 @@ class Crawler
 		$parts			= parse_url( $url );
 		$this->scheme	= $parts['scheme'] ?? "";
 		$this->host		= $parts['host'] ?? "";
-		$this->port		= $parts['port'] ?? "";
+		$this->port		= (string) ( $parts['port'] ?? "" );
 		$this->user		= $parts['user'] ?? "";
 		$this->pass		= $parts['pass'] ?? "";
 		$this->path		= $parts['path'] ?? "";
@@ -156,7 +158,7 @@ class Crawler
 		while( count( $urlList ) ){
 			$number++;
 			$url	= array_shift( $urlList );
-			$parts	= new Dictionary( parse_url( $url ) );
+			$parts	= new Dictionary( parse_url( $url ) ?: [] );
 
 			$parts['scheme']	= $this->scheme;
 			$parts['host']		??= $this->host;
@@ -177,7 +179,7 @@ class Crawler
 				if( preg_match( "@".$part."@", $url ) )
 					$denied	= TRUE;
 
-			if( $denied || substr_count( $parts['path'], ".." ) )
+			if( $denied || substr_count( (string) $parts['path'], ".." ) )
 				continue;
 
 			try{
@@ -209,9 +211,9 @@ class Crawler
 		return count( $this->links );
 	}
 
-	protected function getBaseUrl( DOMDocument $document = NULL ): string
+	protected function getBaseUrl( ?DOMDocument $document = NULL ): string
 	{
-		$parts	= parse_url( $this->baseUrl );
+		$parts	= parse_url( $this->baseUrl ) ?: [];
 		$url	= $this->buildUrl( $parts );
 		if( $document ){
 			$base	= $document->getElementsByTagName( "base" );
@@ -303,7 +305,7 @@ class Crawler
 		$nodes		= $document->getElementsByTagName( "a" );
 		foreach( $nodes as $node ){
 			$ref	= $node->getAttribute( 'href' );
-			$ref	= trim( preg_replace( "@^\./@", "", $ref ) );
+			$ref	= trim( (string) preg_replace( "@^\./@", "", $ref ) );
 			if( strlen( $ref ) ){
 				$base	= $document->getElementsByTagName( "base" );
 	//			remark( $ref );
@@ -317,7 +319,7 @@ class Crawler
 					$ref	= preg_replace( "@^\./@", "", $ref );
 				if( !preg_match( "@^https?://@", $ref ) )
 					$ref	= $baseUrl.$ref;
-				$label	= trim( strip_tags( $node->nodeValue ) );
+				$label	= trim( strip_tags( $node->nodeValue ?? '' ) );
 				if( $node->hasAttribute( 'title' ) )
 					$label	= trim( strip_tags( $node->getAttribute( 'title' ) ) );
 				if( $onlyWithLabel && !strlen( $label ) )
@@ -337,7 +339,7 @@ class Crawler
 	 */
 	protected function handleVerbose( string $url, int $number )
 	{
-		$speed	= UnitFormater::formatBytes( $this->reader->getInfo( 'speed_download' ) );
+		$speed	= UnitFormater::formatBytes( (float) $this->reader->getInfo( 'speed_download' ) );
 		$url	= str_replace( "http://".$this->host.":".$this->port, "", $url );
 		$url	= str_replace( "http://".$this->host, "", $url );
 		remark( "[".$number."] ".$url." | ".$speed."/s" );

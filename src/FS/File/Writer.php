@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Base File Writer.
  *
@@ -90,6 +92,8 @@ class Writer
 		if( !$this->isWritable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		$fp	= fopen( $this->fileName, 'a' );
+		if( FALSE === $fp )
+			throw new RuntimeException( 'File "'.$this->fileName.'" could not be opened for appending' );
 		fputs( $fp, $string );
 		fclose( $fp );
 		return strlen( $string );
@@ -108,7 +112,7 @@ class Writer
 	 */
 	public function create( int $mode = 0640, ?string $user = NULL, ?string $group = NULL ): self
 	{
-		if( self::$minFreeDiskSpace && self::$minFreeDiskSpace > disk_free_space( getcwd() ) )
+		if( self::$minFreeDiskSpace && self::$minFreeDiskSpace > disk_free_space( (string) getcwd() ) )
 			throw new RuntimeException( 'No space left' );
 
 		$this->file->create( $mode );

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -57,7 +60,7 @@ class Loader
 	 *	@return		self
 	 */
 	public static function create(
-		array|string $extensions = NULL,
+		array|string|NULL $extensions = NULL,
 		?string $path = NULL,
 		?string $prefix = NULL,
 		?string $logFile = NULL,
@@ -81,7 +84,7 @@ class Loader
 	 *	@param		bool				$register			Flag: register autoloader, default: yes
 	 *	@return		void
 	 */
-	public function __construct( array|string $extensions = NULL, ?string $path = NULL, ?string $prefix = NULL, ?string $logFile = NULL, bool $register = TRUE  )
+	public function __construct( array|string|NULL $extensions = NULL, ?string $path = NULL, ?string $prefix = NULL, ?string $logFile = NULL, bool $register = TRUE  )
 	{
 		if( !empty( $extensions ) )
 			$this->setExtensions( $extensions );
@@ -109,7 +112,7 @@ class Loader
 	 *	@throws		DeprecationException
 	 *	@deprecated	use constructor or Loader::create instead
 	 */
-	public static function registerNew( array|string $extensions = NULL, ?string $prefix = NULL, ?string $path = NULL, ?string $logFile = NULL, int $verbose = 0 ): self
+	public static function registerNew( array|string|NULL $extensions = NULL, ?string $prefix = NULL, ?string $path = NULL, ?string $logFile = NULL, int $verbose = 0 ): self
 	{
 		Deprecation::getInstance()
 			->setWarningVersion( '1.0' )

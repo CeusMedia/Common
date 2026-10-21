@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Base bzip File implementation.
  *
@@ -63,11 +65,14 @@ class Bzip extends FileEditor
 	 *	Reads gzip File and returns it as String.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException	if decompression failed
 	 */
  	public function readString(): string
 	{
-		$content	= parent::readString();
-		return bzdecompress( $content );
+		$content	= bzdecompress( parent::readString() ?? '' );
+		if( !is_string( $content ) )
+			throw new RuntimeException( 'Decompressing bzip2 content failed' );
+		return $content;
 	}
 
 	/**
@@ -79,10 +84,13 @@ class Bzip extends FileEditor
 	 *	@throws		IoException			if strict and file is not writable
 	 *	@throws		IoException			if strict and fallback file creation failed
 	 *	@throws		IoException			if number of written bytes does not match content length
+	 *	@throws		RuntimeException	if compression failed
 	 */
 	public function writeString( string $string, bool $strict = TRUE ): int|bool
 	{
 		$content	= bzcompress( $string );
+		if( !is_string( $content ) )
+			throw new RuntimeException( 'Compressing content using bzip2 failed' );
 		return parent::writeString( $content, $strict );
 	}
 }

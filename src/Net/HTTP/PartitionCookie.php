@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Partitioned Cookie Management.
  *
@@ -61,7 +63,8 @@ class PartitionCookie extends Cookie
 		parent::__construct();
 		$this->partition	= $partition;
 		$this->setPath( $path );
-		$this->setDomain( $domain );
+		if( NULL !== $domain )
+			$this->setDomain( $domain );
 		$this->setSecure( $secure );
 		$this->setHttpOnly( $httpOnly );
 		if( isset( $_COOKIE[$partition] ) )

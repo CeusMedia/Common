@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser and generator for XMPP JIDs.
  *
@@ -152,7 +154,7 @@ class JID
 	 */
 	static public function isValid( string $jid ): bool
 	{
-		return preg_match( self::$regexJid, $jid );
+		return 1 === preg_match( self::$regexJid, $jid );
 	}
 
 	/**

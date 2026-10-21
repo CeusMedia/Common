@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *
@@ -133,13 +135,13 @@ class Reader extends FileReader
 		if( $this->usesSections() ){
 			foreach( $this->sections as $section ){
 				foreach( $this->properties[$section] as $key => $value ){
-					if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
+					if( $activeOnly && !$this->isActiveProperty( (string) $key, $section ) )
 						continue;
 					$property = [
 						"key"		=> $key,
 						"value"		=> $value,
-						"comment"	=> $this->getComment( $key, $section ),
-						"active"	=> $this->isActiveProperty( $key, $section )
+						"comment"	=> $this->getComment( (string) $key, $section ),
+						"active"	=> $this->isActiveProperty( (string) $key, $section )
 					];
 					$list[$section][] = $property;
 				}
@@ -147,13 +149,13 @@ class Reader extends FileReader
 		}
 		else{
 			foreach( $this->properties as $key => $value ){
-				if( $activeOnly && !$this->isActiveProperty( $key ) )
+				if( $activeOnly && !$this->isActiveProperty( (string) $key ) )
 					continue;
 				$property = [
 					"key"		=> $key,
 					"value"		=> $value,
-					"comment"	=> $this->getComment( $key ),
-					"active"	=> $this->isActiveProperty( $key )
+					"comment"	=> $this->getComment( (string) $key ),
+					"active"	=> $this->isActiveProperty( (string) $key )
 				];
 				$list[] = $property;
 			}
@@ -192,7 +194,7 @@ class Reader extends FileReader
 				if( !$this->hasSection( $section ) )
 					throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 				foreach( $this->properties[$section]  as $key => $value ){
-					if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
+					if( $activeOnly && !$this->isActiveProperty( (string) $key, $section ) )
 						continue;
 					$properties[$key] = $value;
 				}
@@ -201,7 +203,7 @@ class Reader extends FileReader
 				foreach( $this->sections as $section){
 					$properties[$section]	= [];
 					foreach( $this->properties[$section] as $key => $value ){
-						if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
+						if( $activeOnly && !$this->isActiveProperty( (string) $key, $section ) )
 							continue;
 						$properties[$section][$key] = $value;
 					}
@@ -210,7 +212,7 @@ class Reader extends FileReader
 		}
 		else{
 			foreach( $this->properties as $key => $value ){
-				if( $activeOnly && !$this->isActiveProperty( $key ) )
+				if( $activeOnly && !$this->isActiveProperty( (string) $key ) )
 					continue;
 				$properties[$key] = $value;
 			}
@@ -233,12 +235,12 @@ class Reader extends FileReader
 				throw new InvalidArgumentException( 'No section given' );
 			if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
 				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive' );
-			return $this->properties[$section][$key];
+			return (string) $this->properties[$section][$key];
 		}
 		else{
 			if( $activeOnly && !$this->isActiveProperty( $key ) )
 				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive' );
-			return $this->properties[$key];
+			return (string) $this->properties[$key];
 		}
 	}
 
@@ -254,7 +256,7 @@ class Reader extends FileReader
 		if( $this->usesSections() ){
 			foreach( $this->sections as $sectionName ){
 				foreach( $this->properties[$sectionName] as $key => $value ){
-					if( $activeOnly && !$this->isActiveProperty( $key, $sectionName ) )
+					if( $activeOnly && !$this->isActiveProperty( (string) $key, $sectionName ) )
 						continue;
 					$properties[$sectionName][] = $key;
 				}
@@ -262,7 +264,7 @@ class Reader extends FileReader
 		}
 		else{
 			foreach( $this->properties as $key => $value ){
-				if( $activeOnly && !$this->isActiveProperty( $key ) )
+				if( $activeOnly && !$this->isActiveProperty( (string) $key ) )
 					continue;
 				$properties[] = $key;
 			}
@@ -357,7 +359,7 @@ class Reader extends FileReader
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function read()
+	protected function read(): void
 	{
 		$this->comments		= [];
 		$this->disabled		= [];
@@ -419,7 +421,7 @@ class Reader extends FileReader
 					else if( strtolower( $value ) === "null" )
 						$value	= NULL;
 				}
-				if( preg_match( '@^".*"$@', $value ?? '' ) )
+				if( is_string( $value ) && preg_match( '@^".*"$@', $value ) )
 					$value	= substr( stripslashes( $value ), 1, -1 );
 				if( $this->usesSections() && isset( $currentSection ) )
 					$this->properties[$currentSection][$key] = $value;

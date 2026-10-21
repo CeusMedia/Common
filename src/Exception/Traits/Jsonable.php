@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Allows exception to be converted to JSON.
  *
@@ -76,7 +78,7 @@ trait Jsonable
 			}
 			if( NULL !== $data['previous'] ){
 				if( in_array( JsonableTrait::class, class_uses( $data['previous'] ) ) )
-					$data['previous']	= json_decode( $data['previous']->getJson(), FALSE );
+					$data['previous']	= json_decode( $data['previous']->getJson() ?? 'null', FALSE );
 			}
 			return JsonEncoder::create()->encode( $data, JSON_PRETTY_PRINT );
 		}

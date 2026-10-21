@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
@@ -110,7 +112,7 @@ class Tabs
 	{
 		foreach( $tabs as $label => $content )
 			/** @noinspection PhpUnhandledExceptionInspection */
-			$this->addTab( $label, $content );
+			$this->addTab( (string) $label, (string) $content );
 		return $this;
 	}
 
@@ -208,7 +210,7 @@ class Tabs
 	 *	@return		self
 	 *	@link		http://stilbuero.de/jquery/tabs/
 	 */
-	public function setOption( string $key, $value ): self
+	public function setOption( string $key, mixed $value ): self
 	{
 		if( is_null( $value ) )
 			unset( $this->options[$key] );

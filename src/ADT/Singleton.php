@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Registry Pattern Implementation to store Objects.
  *
@@ -57,7 +59,7 @@ abstract class Singleton
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function __clone()
+	private function __clone(): void
 	{
 	}
 

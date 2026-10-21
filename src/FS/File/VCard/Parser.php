@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parses vCard String to vCard Data Object.
  *
@@ -96,7 +98,7 @@ class Parser
 		foreach( explode( ';', $string ) as $part ){
 			$parts1	= explode( '=', $part );
 			$key	= array_shift( $parts1 );
-			$values	= explode( ',', array_shift( $parts1 ) );
+			$values	= explode( ',', array_shift( $parts1 ) ?? '' );
 			foreach( $values as $value )
 				$list[]	= $value;
 		}

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Sniffer for Character Sets accepted by an HTTP Request.
  *

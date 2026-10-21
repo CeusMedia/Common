@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -208,7 +211,7 @@ class Processing
 	 *	@return		boolean		    				Image has been scaled
 	 *	@throws		OutOfRangeException				if resulting image has more mega pixels than allowed
 	 */
-	public function scale( int $width, int $height = NULL, bool $interpolate = TRUE ): bool
+	public function scale( int $width, ?int $height = NULL, bool $interpolate = TRUE ): bool
 	{
 		if( is_null( $height ) )
 			$height	= $width;

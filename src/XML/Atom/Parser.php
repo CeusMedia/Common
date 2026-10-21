@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for Atom Feeds.
  *
@@ -168,7 +170,7 @@ class Parser
 	 *	@return		void
 	 *	@throws		Exception
 	 */
-	public function parse( string $xml, bool $validateRules = TRUE )
+	public function parse( string $xml, bool $validateRules = TRUE ): void
 	{
 		$this->language		= "en";
 		$this->channelData	= $this->emptyChannelData;

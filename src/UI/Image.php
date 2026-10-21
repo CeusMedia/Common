@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -230,6 +233,8 @@ class Image
 	public static function isAnimated( string $filePath ): bool
 	{
 		$content	= file_get_contents( $filePath );
+		if( FALSE === $content )
+			throw new RuntimeException( 'Image "'.$filePath.'" is not readable' );
 		$pos1		= 0;
 		$count		= 0;
 		while( $count < 2 ){ # There is no point in continuing after we find a 2nd frame
@@ -290,7 +295,7 @@ class Image
 	{
 		ob_start();
 		$this->display( FALSE );
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *
@@ -91,7 +93,7 @@ class RegexFilter extends RegexIterator
 		if( $realPath )
 			$filePath	= $realPath;
 		$content	= Reader::load( $filePath );
-		return preg_match( $this->contentPattern, $content );
+		return 1 === preg_match( $this->contentPattern, $content );
 	}
 
 	/**

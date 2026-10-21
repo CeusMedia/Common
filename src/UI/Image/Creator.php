@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -90,7 +93,7 @@ class Creator
 		if( !file_exists( $fileName ) )
 			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );
 		$info		= pathinfo( $fileName );
-		$extension	= strtolower( $info['extension'] );
+		$extension	= strtolower( $info['extension'] ?? '' );
 		switch( $extension ){
 			case 'png':
 				$this->resource	= imagecreatefrompng( $fileName );

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Compresses CSS Files.
  *
@@ -43,13 +45,13 @@ use Exception;
 class Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
-	public $prefix		= "";
+	public string $prefix		= "";
 
 	/**	@var		array			$statistics		Statistical Data */
-	public $statistics	= [];
+	public array $statistics	= [];
 
 	/**	@var		string			$suffix			Suffix of compressed File Name */
-	public $suffix		= ".min";
+	public string $suffix		= ".min";
 
 /*	static public function compressFile( $fileName, $oneLine = FALSE ){
 		return self::compressString( FileReader::load( $fileName ), $oneLine );
@@ -77,7 +79,10 @@ class Compressor
 		if( !file_exists( $fileUri ) )
 			throw new Exception( "Style File '".$fileUri."' is not existing." );
 
-		$content	= self::compressString( file_get_contents( $fileUri ) );
+		$content	= file_get_contents( $fileUri );
+		if( FALSE === $content )
+			throw new Exception( "Style File '".$fileUri."' is not readable." );
+		$content	= self::compressString( $content );
 		$pathName	= dirname( $fileUri );
 		$styleFile	= basename( $fileUri );
 		$styleName	= preg_replace( "@\.css$@", "", $styleFile );

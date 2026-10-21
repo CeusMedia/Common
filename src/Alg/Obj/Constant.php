@@ -72,7 +72,7 @@ class Constant
 	 *	@throws		RangeException			if no constant having this value is defined (within this prefix)
 	 *	@throws		AmbiguousDataException	if there are several constants having this value (within this prefix)
 	 */
-	public function getKeyByValue( $value, ?string $prefix = NULL ): string
+	public function getKeyByValue( mixed $value, ?string $prefix = NULL ): string
 	{
 		$constants	= $this->getAll( $prefix );
 		$list		= [];
@@ -97,7 +97,7 @@ class Constant
 	 *	@throws		DomainException			if constant is not defined
 	 *	@throws		ReflectionException		if reflection on class failed
 	 */
-	public function getValue( string $constantKey, ?string $prefix = NULL )
+	public function getValue( string $constantKey, ?string $prefix = NULL ): mixed
 	{
 		$constants	= $this->getAll( $prefix );
 		if( array_key_exists( $constantKey, $constants ) )
@@ -124,7 +124,7 @@ class Constant
 	 *	@return		bool
 	 *	@throws		ReflectionException
 	 */
-	public function hasValue( $value, ?string $prefix = NULL ): bool
+	public function hasValue( mixed $value, ?string $prefix = NULL ): bool
 	{
 		return array_key_exists( $value, $this->getAll( $prefix ) );
 	}
@@ -141,7 +141,7 @@ class Constant
 	 *	@return		array|Dictionary
 	 *	@throws		ReflectionException					if reflection on class failed / class not exists
 	 */
-	public static function staticGetAll( string $className, ?string $prefix = NULL, bool $asDictionary = FALSE )
+	public static function staticGetAll( string $className, ?string $prefix = NULL, bool $asDictionary = FALSE ): Dictionary|array
 	{
 		return self::fromClassName( $className )->getAll( $prefix, $asDictionary );
 	}
@@ -153,7 +153,7 @@ class Constant
 	 *	@return		mixed
 	 *	@throws		ReflectionException
 	 */
-	public static function staticGetValue( string $className, string $constantKey, ?string $prefix = NULL )
+	public static function staticGetValue( string $className, string $constantKey, ?string $prefix = NULL ): mixed
 	{
 		return self::fromClassName( $className )->getValue( $constantKey, $prefix );
 	}
@@ -166,7 +166,8 @@ class Constant
 	 *	@throws		ReflectionException
 	 *	@throws		AmbiguousDataException
 	 */
-	public static function staticGetKeyByValue( string $className, $value, ?string $prefix = NULL ): string
+	public static function staticGetKeyByValue( string $className, mixed $value, ?string $prefix = NULL ): string
+
 	{
 		$object		= new Constant( $className );
 		return $object->getKeyByValue( $value, $prefix );

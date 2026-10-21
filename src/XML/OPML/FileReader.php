@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -42,7 +44,7 @@ use Exception;
 class FileReader
 {
 	/**	@var		string		$fileName		URI of OPML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Namespace Map to detect and collect namespaces from an XML file, using Simple XML to read XML and import DOM.
  *
@@ -44,7 +46,7 @@ use Exception;
 class Namespaces
 {
 	/**	@var		array				$namespaces		Map of namespaces */
-	protected $namespaces	= [];
+	protected array $namespaces	= [];
 
 	/**
 	 *	Adds a namespace to map.

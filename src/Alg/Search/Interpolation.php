@@ -50,7 +50,7 @@ class Interpolation
 	 *	@param		int			$upperBound		Last higher bound
 	 *	@return 	int
 	 */
-	protected function calculateIndex(array $list, $search, int $lowerBound, int $upperBound ): int
+	protected function calculateIndex(array $list, mixed $search, int $lowerBound, int $upperBound ): int
 	{
 		$spanIndex	= $list[$upperBound] - $list[$lowerBound];
 		$spanValues	= $upperBound - $lowerBound;
@@ -65,7 +65,8 @@ class Interpolation
 	 *	@param		mixed		$search			Element to search
 	 *	@return 	int
 	 */
-	public function search( array $list, $search ): int
+	public function search( array $list, mixed $search ): int
+
 	{
 		$lowerBound	= 0;
 		$upperBound	= sizeof( $list ) - 1;

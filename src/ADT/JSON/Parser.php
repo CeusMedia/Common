@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -55,7 +58,7 @@ class Parser
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( bool $asConstantKey = FALSE )
+	public function getError( bool $asConstantKey = FALSE ): int|string
 	{
 		$code	= json_last_error();
 		if( $asConstantKey )
@@ -105,10 +108,10 @@ class Parser
 	 *	@access		public
 	 *	@param		string		$json			JSOn sting to parse
 	 *	@param		boolean		$asArray		Flag: read into an array
-	 *	@return		object|array
+	 *	@return		mixed
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function parse( string $json, bool $asArray = FALSE )
+	public function parse( string $json, bool $asArray = FALSE ): mixed
 	{
 		$this->status	= static::STATUS_EMPTY;
 		$data			= json_decode( $json, $asArray );
@@ -129,7 +132,7 @@ class Parser
 	 *	@param		string|int		$code
 	 *	@return		string|int
 	 */
-	protected function getConstantFromCode( $code )
+	protected function getConstantFromCode( string|int $code ): string|int
 	{
 		return Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}

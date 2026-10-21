@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for Section List.
  *
@@ -42,7 +44,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
 class SectionWriter
 {
 	/**	@var		string		$fileName		File Name of Section List */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.
@@ -74,7 +76,7 @@ class SectionWriter
 				$lines[] = $entry;
 		}
 		$writer	= new FileWriter( $fileName, 0755 );
-		return $writer->writeArray( $lines );
+		return (int) $writer->writeArray( $lines );
 	}
 
 	/**

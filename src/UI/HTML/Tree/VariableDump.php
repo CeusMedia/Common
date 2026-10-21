@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
@@ -74,7 +76,7 @@ class VariableDump
 			case 'array':
 				self::$count--;
 				foreach( $mixed as $childKey => $childValue )
-					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
+					$children[]	= self::buildTree( $childValue, (string) $childKey, $closed, $level + 1 );
 				if( $key === NULL )
 					$keyLabel	= self::$noteOpen.'Array'.self::$noteClose;
 				$mixed		= '';
@@ -84,7 +86,7 @@ class VariableDump
 				self::$count--;
 				$vars		= get_object_vars( $mixed );
 				foreach( $vars as $childKey => $childValue )
-					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
+					$children[]	= self::buildTree( $childValue, (string) $childKey, $closed, $level + 1 );
 				$keyLabel	= self::$noteOpen.get_class( $mixed ).self::$noteClose;
 				$mixed		= '';
 				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
@@ -99,12 +101,12 @@ class VariableDump
 			case 'unknown type':
 				throw new RuntimeException( 'Unknown type' );
 			default:
-				if( preg_match( "/pass(w(or)?d)?/", $key ) )
+				if( preg_match( "/pass(w(or)?d)?/", $key ?? '' ) )
 					$mixed	= str_repeat( '*', 8 );
 				break;
 		}
 		$children	= $children ? "\n".HtmlElements::unorderedList( $children, $level + 2 ) : '';
-		$pair		= $keyLabel.htmlentities( $mixed, ENT_QUOTES, 'UTF-8' );
+		$pair		= $keyLabel.htmlentities( (string) $mixed, ENT_QUOTES, 'UTF-8' );
 		$label		= HtmlTag::create( 'span', $pair, array( 'onclick' => $event ) );
 		$classes	= [$type];
 		if( $closed )

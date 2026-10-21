@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	CronParser.
  *
@@ -90,7 +92,7 @@ class Job extends OptionObject
 	{
 		ob_start();
 		passthru( $this->getOption( "action" ) );
-		$content	= ob_get_contents();
+		$content	= (string) ob_get_contents();
 		ob_end_clean();
 		return $content;
 	}

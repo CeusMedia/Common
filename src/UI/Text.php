@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -29,7 +31,7 @@ class Text
 {
 	public static int $defaultLineLength		= 76;
 
-	public static function line( string $sign, int $length = NULL ): string
+	public static function line( string $sign, ?int $length = NULL ): string
 	{
 		$length	= self::realizeLength( $length ?? 0, 1 );
 		return str_repeat( $sign, $length );
@@ -40,13 +42,13 @@ class Text
 		return html_entity_decode( '&#'.$number.';', ENT_NOQUOTES, 'UTF-8' );
 	}
 
-	protected static function realizeLength( int $length, int $min = NULL, int $max = NULL ): int
+	protected static function realizeLength( int $length, ?int $min = NULL, ?int $max = NULL ): int
 	{
 		$length	= abs( $length );
 		$length	= $length ?: self::$defaultLineLength;
-		if( abs( $min ) !== 0 )
+		if( abs( $min ?? 0 ) !== 0 )
 			$length		= max( $min, $length );
-		if( abs( $max ) !== 0 )
+		if( abs( $max ?? 0 ) !== 0 )
 			$length		= min( $max, $length );
 		return $length;
 	}

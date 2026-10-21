@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Lists Folders and Files within a Folder recursive.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.

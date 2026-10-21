@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Counter for Lines of Code.
  *
@@ -94,7 +96,7 @@ class CodeLineCounter
 		$numberLines	= 0;
 		$numberStrips	= 0;
 
-		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path );
+		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path ) ?? $path;
 
 		$st		= new Clock();
 		$lister	= new FolderRecursiveLister( $path );

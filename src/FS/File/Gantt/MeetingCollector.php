@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *
@@ -40,10 +42,10 @@ use Exception;
 class MeetingCollector
 {
 	/**	@var		array		$files			Array of found Gantt Project XML Files */
-	protected $files			= [];
+	protected array $files			= [];
 
 	/**	@var		array		$projects		Array of extracted Project Dates */
-	protected $projects			= [];
+	protected array $projects		= [];
 
 	/**
 	 *	Constructor.

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Allows static creation of exceptions.
  *
@@ -52,7 +54,7 @@ trait Creatable
 		$top	= array_pop( $trace );
 		if( '' !== ( $top['file'] ?? '' ) ){
 			$e->file	= $top['file'];
-			$e->line	= $top['line'];
+			$e->line	= $top['line'] ?? 0;
 //			$e->trace	= $trace;
 		}
 		return $e;

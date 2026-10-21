@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -54,9 +57,9 @@ class Decompressor
 	{
 		$encodings	= $response->getHeader( 'Content-Encoding' );
 		if( count( $encodings ) !== 0 ){
-			$body	= $response->getBody();
+			$body	= $response->getBody() ?? '';
 			foreach( array_reverse( $encodings ) as $encoding )
-				$body	= static::decompressString( $body, $encoding );
+				$body	= static::decompressString( $body, (string) $encoding->getValue() );
 			$response->setBody( $body );
 		}
 	}

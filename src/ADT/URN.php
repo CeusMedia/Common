@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
@@ -98,7 +100,7 @@ class URN
 		return $this;
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return "urn:".$this->nid.":".$this->nss;
 	}

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Deserializer for XML into a Data Object.
  *
@@ -46,14 +48,14 @@ class ObjectDeserializer
 	 *	Builds Object from XML of a serialized Object.
 	 *	@access		public
 	 *	@param		string		$xml			XML String of a serialized Object
-	 *	@return		mixed
+	 *	@return		object
 	 *	@throws		Exception
 	 */
-	public static function deserialize( string $xml )
+	public static function deserialize( string $xml ): object
 	{
 		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
-		$class	= stripslashes( $tree->getAttribute( 'class' ) );
+		$class	= stripslashes( $tree->getAttribute( 'class' ) ?? '' );
 		if( !class_exists( $class ) )
 			throw new Exception( 'Class "'.$class.'" has not been loaded, yet.' );
 		$object	= new $class();
@@ -68,7 +70,7 @@ class ObjectDeserializer
 	 *	@param		mixed		$element		current Position in Object
 	 *	@return		void
 	 */
-	protected static function deserializeVarsRec( array $children, &$element )
+	protected static function deserializeVarsRec( array $children, mixed &$element ): void
 	{
 		foreach( $children as $child ){
 			$name		= $child->getAttribute( 'name' );
@@ -89,7 +91,7 @@ class ObjectDeserializer
 					$pointer	= (bool) $child->getContent();
 					break;
 				case 'string':
-					$pointer	= utf8_decode( $child->getContent() );
+					$pointer	= utf8_decode( $child->getContent() ?? '' );
 					break;
 				case 'integer':
 					$pointer	= (int) $child->getContent();

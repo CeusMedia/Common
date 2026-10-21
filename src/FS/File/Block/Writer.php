@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *
@@ -66,11 +68,11 @@ class Writer
 	{
 		$list	= [];
 		foreach( $blocks as $name => $content ){
-			$list[]	= str_replace( "{#name#}", $name, $this->patternSection );
+			$list[]	= str_replace( "{#name#}", (string) $name, $this->patternSection );
 			$list[]	= $content;
 			$list[]	= "";
 		}
 		$file	= new FileWriter( $this->fileName );
-		return $file->writeArray( $list );
+		return (int) $file->writeArray( $list );
 	}
 }

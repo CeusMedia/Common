@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Argument Parser for Console Applications using an Automaton.
  *
@@ -220,7 +222,7 @@ class ArgumentParser
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function extendPossibleOptionsWithShortcuts()
+	protected function extendPossibleOptionsWithShortcuts(): void
 	{
 		foreach( $this->shortcuts as $short	=> $long ){
 			if( !isset( $this->possibleOptions[$long] ) )
@@ -234,7 +236,7 @@ class ArgumentParser
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function finishOptions()
+	protected function finishOptions(): void
 	{
 		foreach( $this->shortcuts as $short	=> $long ){
 			if( !array_key_exists( $short, $this->foundOptions ) )

@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -108,7 +111,8 @@ class Converter
 	 *	@param		string			$format			Format of human time (date|monthdate|datetime|duration|custom format)
 	 *	@return		string|NULL
 	 */
-	public static function convertToHuman( $timestamp, string $format ): ?string
+	public static function convertToHuman( int|string $timestamp, string $format ): ?string
+
 	{
 		$timestamp	= (int) $timestamp;
 		if( $format == "date" )

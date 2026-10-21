@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writes XML Files from Trees build with XML_DOM_Nodes.
  *
@@ -43,7 +45,7 @@ use DOMException;
 class FileWriter
 {
 	/**	@var		string			$fileName		URI of XML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**
 	 *	Constructor.
@@ -83,6 +85,6 @@ class FileWriter
 	{
 		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		return RawFileWriter::save( $fileName, $xml );
+		return (int) RawFileWriter::save( $fileName, $xml );
 	}
 }

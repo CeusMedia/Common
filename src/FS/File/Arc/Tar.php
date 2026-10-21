@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *
@@ -385,6 +387,8 @@ class Tar
 	private function parseNullPaddedString( string $string ): string
 	{
 		$position = strpos( $string, chr( 0 ) );
+		if( FALSE === $position )
+			return $string;
 		return substr( $string, 0, $position );
 	}
 
@@ -405,17 +409,17 @@ class Tar
 			// Parse file name
 			$fileName		= $this->parseNullPaddedString(substr($this->content,$mainOffset,100));
 			// Parse the file mode
-			$fileMode		= substr($this->content,$mainOffset + 100,8);
+			$fileMode		= (int) octdec($this->parseNullPaddedString(substr($this->content,$mainOffset + 100,8)));
 			// Parse the file user ID
-			$fileUid		= octdec(substr($this->content,$mainOffset + 108,8));
+			$fileUid		= (int) octdec(substr($this->content,$mainOffset + 108,8));
 			// Parse the file group ID
-			$fileGid		= octdec(substr($this->content,$mainOffset + 116,8));
+			$fileGid		= (int) octdec(substr($this->content,$mainOffset + 116,8));
 			// Parse the file size
-			$fileSize		= octdec(substr($this->content,$mainOffset + 124,12));
+			$fileSize		= (int) octdec(substr($this->content,$mainOffset + 124,12));
 			// Parse the file update time - unix timestamp format
-			$fileTime		= octdec(substr($this->content,$mainOffset + 136,12));
+			$fileTime		= (int) octdec(substr($this->content,$mainOffset + 136,12));
 			// Parse Checksum
-			$fileChksum	= octdec(substr($this->content,$mainOffset + 148,6));
+			$fileChksum	= (int) octdec(substr($this->content,$mainOffset + 148,6));
 			// Parse username
 			$fileUname		= $this->parseNullPaddedString(substr($this->content,$mainOffset + 265,32));
 			// Parse Group name
@@ -462,7 +466,7 @@ class Tar
 				}
 			}
 			// Move our offset the number of blocks we have processed
-			$mainOffset += 512 + ( ceil( $fileSize / 512 ) * 512 );
+			$mainOffset += 512 + ( (int) ceil( $fileSize / 512 ) * 512 );
 		}
 		return true;
 	}
@@ -476,7 +480,7 @@ class Tar
 	protected function readTar( string $fileName ): bool
 	{
  		$file	= new FileReader( $fileName );
-		$this->content = $file->readString();
+		$this->content = $file->readString() ?? '';
 		// Parse the TAR file
 		return $this->parseTar();
 	}
@@ -534,6 +538,6 @@ class Tar
 		// Encode processed files into TAR file format
 		$this->generateTar();
 		//  write archive file
-		return FileWriter::save( $fileName, $this->content );
+		return (int) FileWriter::save( $fileName, $this->content );
 	}
 }

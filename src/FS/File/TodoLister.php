@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Class to find all Files with ToDos inside.
  *
@@ -89,7 +91,7 @@ class TodoLister
 	 *	@param		bool		$full		Flag: Return Path Name, File Name and Content also
 	 *	@return		array
 	 */
-	public function getList( bool $full = NULL ): array
+	public function getList( ?bool $full = NULL ): array
 	{
 		if( $full )
 			return $this->list;
@@ -158,7 +160,7 @@ class TodoLister
 		try{
 			foreach( $iterator as $entry ){
 				$this->numberScanned++;
-				$content	= file_get_contents( $entry->getPathname() );
+				$content	= (string) file_get_contents( $entry->getPathname() );
 				$lines		= explode( "\n", $content );
 				$i			= 0;
 				$list		= [];

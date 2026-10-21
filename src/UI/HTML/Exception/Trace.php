@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Visualisation of Exception Stack Trace.
  *
@@ -52,7 +54,7 @@ class Trace
 	 *	@param		Throwable	$exception		Exception
 	 *	@return		void
 	 */
-	public static function display( Throwable $exception )
+	public static function display( Throwable $exception ): void
 	{
 		print self::render( $exception );
 	}
@@ -99,7 +101,7 @@ class Trace
 	 *	@param		mixed		$argument		Array to render
 	 *	@return		string
 	 */
-	protected static function renderArgument( $argument ): string
+	protected static function renderArgument( mixed $argument ): string
 	{
 		switch( gettype( $argument ) )
 		{
@@ -208,7 +210,7 @@ class Trace
 	 *	@param		mixed		$argument		Argument to render type for
 	 *	@return		string
 	 */
-	protected static function renderArgumentType( $argument ): string
+	protected static function renderArgumentType( mixed $argument ): string
 	{
 		$type		= gettype( $argument );
 		$length		= '';
@@ -232,7 +234,7 @@ class Trace
 	protected static function secureString( string $string, int $maxLength = 0, string $mask = '&hellip;' ): string
 	{
 		if( $maxLength && strlen( $string ) > $maxLength )
-			$value	= TextTrimmer::trimCentric( $string, $maxLength, $mask );
+			$string	= TextTrimmer::trimCentric( $string, $maxLength, $mask );
 //		$string	= addslashes( $string );
 		$string	= htmlentities( $string, ENT_QUOTES, 'UTF-8' );
 		$string	= nl2br( $string );
@@ -248,7 +250,7 @@ class Trace
 	 */
 	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= realpath( getEnv( 'DOCUMENT_ROOT' ) );
+		$rootPath	= realpath( (string) getEnv( 'DOCUMENT_ROOT' ) );
 		if( strlen( trim( $fileName ) ) && $rootPath )
 			$fileName	= preg_replace( "/^".preg_quote( $rootPath.'/', '/' )."/", "", $fileName );
 		return $fileName;

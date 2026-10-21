@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Exception for problems on accessing a subject (resource) by an object (accessing entity, like user, group or role) driven by a rule.
  *	Is serializable (to PHP, JSON), renderable and describable.
@@ -76,7 +78,7 @@ class Access extends Runtime
 	 *	@param		int|string|NULL	$subject		Identifier of access subject
 	 *	@return		void
 	 */
-	public function __construct( string $message, int $code = 0, ?Throwable $previous = NULL, int|string $object = NULL, int|string $rule = NULL, int|string $subject = NULL )
+	public function __construct( string $message, int $code = 0, ?Throwable $previous = NULL, int|string|NULL $object = NULL, int|string|NULL $rule = NULL, int|string|NULL $subject = NULL )
 	{
 		parent::__construct( $message, $code, $previous );
 		$this->object	= $object;

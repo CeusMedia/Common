@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for List Files.
  *
@@ -124,6 +126,6 @@ class Editor extends Reader
 	protected function write( int $mode = 0640, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		$file	= new FileWriter( $this->fileName, $mode, $user, $group );
-		return $file->writeArray( $this->list );
+		return (int) $file->writeArray( $this->list );
 	}
 }

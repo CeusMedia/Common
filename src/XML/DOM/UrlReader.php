@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Loads XML from a URL and parses to a Tree of XML_DOM_Nodes.
  *
@@ -83,7 +85,7 @@ class UrlReader
 		$reader	= new NetReader( $url );
 		$reader->setUserAgent( self::$userAgent );
 		$xml	= $reader->read( $curlOptions );
-		$type	= explode( ";",$reader->getInfo( CURL::INFO_CONTENT_TYPE ) );
+		$type	= explode( ";",(string) $reader->getInfo( CURL::INFO_CONTENT_TYPE ) );
 		$type	= array_shift( $type );
 
 		if( !in_array( $type, self::$mimeTypes, TRUE ) )

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *	@category		Library
@@ -111,7 +113,7 @@ class Folder extends AbstractNode
 	 *	@return		File
 	 *	@throws		IOException
 	 */
-	public function createFile( string $pathName, string $content = NULL, int $mode = 0777, bool $strict = TRUE ): File
+	public function createFile( string $pathName, ?string $content = NULL, int $mode = 0777, bool $strict = TRUE ): File
 	{
 		$file	= new File( $this->pathName.'/'.$pathName );
 		$file->create( $mode, $strict );

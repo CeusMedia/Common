@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for jQuery Plugin Calls for HTML Documents.
  *
@@ -42,7 +44,7 @@ use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 class JQuery
 {
 	/**	@var		string		$jQueryFunctionName		Name of jQuery Function to call, default: $ */
-	public static $jQueryFunctionName	= 'jQuery';
+	public static string $jQueryFunctionName	= 'jQuery';
 
 	/**
 	 *	Builds and returns JavaScript Code of jQuery Plugin Call.

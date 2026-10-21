@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -60,7 +63,7 @@ class Element extends SimpleXMLElement
 	 */
 //	public function addAttribute( string $qualifiedName, string $value, $namespace = NULL, ?string $nsURI = NULL ): void
 //	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
-	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, string $nsURI = NULL ): void
+	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
 	{
 		if( NULL !== $namespace ) {
 			$namespaces	= $this->getDocNamespaces() ?: [];
@@ -68,18 +71,18 @@ class Element extends SimpleXMLElement
 			if( $this->hasAttribute( $qualifiedName, $namespace ) )
 				throw new RuntimeException( 'Attribute "'.$qualifiedName.'" is already set' );
 			if( array_key_exists( $namespace, $namespaces ) ){
-				parent::addAttribute( $key, $value, $namespaces[$namespace] );
+				parent::addAttribute( $key, (string) $value, $namespaces[$namespace] );
 				return;
 			}
 			if( $nsURI ){
-				parent::addAttribute( $key, $value, $nsURI );
+				parent::addAttribute( $key, (string) $value, $nsURI );
 				return;
 			}
 			throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
 		}
 		if( $this->hasAttribute( $qualifiedName ) )
 			throw new RuntimeException( 'Attribute "'.$qualifiedName.'" is already set' );
-		parent::addAttribute( $qualifiedName, $value );
+		parent::addAttribute( $qualifiedName, (string) $value );
 	}
 
 	/**
@@ -145,10 +148,13 @@ class Element extends SimpleXMLElement
 	 *	@access		public
 	 *	@param		string		$fileName		File name for XML file
 	 *	@return		int|FALSE
+	 *	@throws		RuntimeException		if rendering XML failed
 	 */
 	public function asFile( string $fileName ): int|FALSE
 	{
 		$xml	= $this->asXML();
+		if( FALSE === $xml )
+			throw new RuntimeException( 'Rendering XML failed' );
 		return FileWriter::save( $fileName, $xml );
 	}
 

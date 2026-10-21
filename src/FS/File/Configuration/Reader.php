@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
@@ -143,7 +145,7 @@ class Reader extends Dictionary
 		if( is_string( $cachePath ) ){
 			$cachePath	= preg_replace( "@([^/])$@", "\\1/", $cachePath );
 			$cacheFile	= $cachePath.basename( $fileName ).".cache";
-			if( $this->tryToLoadFromCache( $cacheFile, filemtime( $fileName ) ) )
+			if( $this->tryToLoadFromCache( $cacheFile, (int) filemtime( $fileName ) ) )
 				return "cache";
 		}
 
@@ -355,6 +357,8 @@ class Reader extends Dictionary
 		$lastCache	= @filemtime( $cacheFile );
 		if( $lastCache && $lastChange <= $lastCache ){
 			$content	= file_get_contents( $cacheFile );
+			if( FALSE === $content )
+				return FALSE;
 			$array		= @unserialize( $content );
 			if( is_array( $array ) ){
 				$this->pairs	= $array;

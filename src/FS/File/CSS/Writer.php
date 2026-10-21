@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for CSS files.
  *
@@ -78,7 +80,7 @@ class Writer
 	 */
 	static public function save( string $fileName, CssSheet $sheet ): int
 	{
-		return FileWriter::save( $fileName, Converter::convertSheetToString( $sheet ) );
+		return (int) FileWriter::save( $fileName, Converter::convertSheetToString( $sheet ) );
 	}
 
 	/**

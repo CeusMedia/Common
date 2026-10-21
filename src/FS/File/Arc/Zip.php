@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -89,7 +92,7 @@ class Zip
 	public function addFile( string $fileName, ?string $localFileName = NULL ): bool
 	{
 		$this->checkFileOpened();
-		return $this->archive->addFile( $fileName, $localFileName );
+		return $this->archive->addFile( $fileName, $localFileName ?? '' );
 	}
 
 	protected function checkFileOpened( bool $throwException = TRUE ): bool

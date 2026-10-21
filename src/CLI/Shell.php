@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *
@@ -125,7 +127,7 @@ class Shell
 		$code = str_replace( $this->okeq, '', $code );
 		if( strcspn( $code, ";{=" ) != strlen( $code ) )
 			return FALSE;
-		$kw = preg_split( "/[^a-z\d_]/i", $code );
+		$kw = preg_split( "/[^a-z\d_]/i", $code ) ?: [];
 		foreach( $kw as $i )
 			if( in_array( $i, $this->skip, TRUE ) )
 				return FALSE;
@@ -141,7 +143,7 @@ class Shell
 	public function readLine( int $length = 255): string
 	{
 		$line = fgets( STDIN, $length );
-		return trim( $line );
+		return trim( (string) $line );
 	}
 
 	/**
@@ -149,12 +151,12 @@ class Shell
 	 *	@access		protected
 	 *	@return 	void
 	 */
-	protected function run()
+	protected function run(): void
 	{
 		fputs( STDOUT, ":> " );
 		while( $line = $this->readLine() ){
-			$line = preg_replace( "/\n*|\r*/", "", $line );
-			$line = preg_replace( "/;$/", "", $line );
+			$line = preg_replace( "/\n*|\r*/", "", $line ) ?? '';
+			$line = preg_replace( "/;$/", "", $line ) ?? '';
 			if( strlen( $line ) ){
 				if( $this->isImmediate( $line ) )
 					$line = "return( ".$line." )";
@@ -169,7 +171,7 @@ class Shell
 						print_r( $ret );
 				}
 				unset($ret);
-				$out = ob_get_contents();
+				$out = (string) ob_get_contents();
 				ob_end_clean();
 				if( ( strlen( $out ) > 0) && ( substr( $out, -1 ) != "\n" ) )
 					$out .= "\n";

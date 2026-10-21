@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -68,6 +71,8 @@ class AtomTime
 		fwrite( $resource, chr( 0x1B ) . str_repeat( chr( 0x00 ), 47 ) );
 		$response = fread( $resource, 48 );
 		fclose( $resource );
+		if( FALSE === $response || 48 > strlen( $response ) )
+			throw new IoException( 'Invalid response from time server '.self::$hostName );
 		$data = unpack( 'N12', $response );
 		$time = sprintf( '%u', $data[9] ) - 2_208_988_800;
 		$dateTime = DateTime::createFromFormat('U', (string) $time, new DateTimeZone('UTC'));

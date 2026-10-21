@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for File in .ini-Format.
  *
@@ -70,7 +72,7 @@ class Creator
 	 *	@param		string|NULL	$comment		Comment of Property (optional)
 	 *	@return		void
 	 */
-	public function addProperty( string $key, string $value, ?string $comment = NULL )
+	public function addProperty( string $key, string $value, ?string $comment = NULL ): void
 	{
 		if( !$this->useSections ){
 			$this->data[$key]['key']		= $key;
@@ -92,7 +94,7 @@ class Creator
 	 *	@param		string|NULL	$comment		Comment of Property (optional)
 	 *	@return		void
 	 */
-	public function addPropertyToSection( string $key, string $value, string $section, ?string $comment = NULL )
+	public function addPropertyToSection( string $key, string $value, string $section, ?string $comment = NULL ): void
 	{
 		$this->data[$section][$key]['key']		= $key;
 		$this->data[$section][$key]['value']	= $value;
@@ -105,7 +107,7 @@ class Creator
 	 *	@param		string		$section		Name of new Section
 	 *	@return		void
 	 */
-	public function addSection( string $section )
+	public function addSection( string $section ): void
 	{
 		if ( !( isset( $this->data[$section] ) && is_array( $this->data[$section] ) ) )
 			$this->data[$section]	= [];
@@ -122,8 +124,8 @@ class Creator
 	 */
 	protected function buildLine( string $key, string $value, ?string $comment = NULL ): string
 	{
-		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
-		$breaksValue	= 4 - floor( strlen( $value ) / 8 );
+		$breaksKey		= 4 - intdiv( strlen( $key ), 8 );
+		$breaksValue	= 4 - intdiv( strlen( $value ), 8 );
 		if( $breaksKey < 1 )
 			$breaksKey = 1;
 		if( $breaksValue < 1 )
@@ -149,7 +151,7 @@ class Creator
 				foreach ( $sectionPairs as $key => $data ){
 					$value		= $data['value'];
 					$comment	= $data['comment'];
-					$lines[]	= $this->buildLine( $key, $value, $comment);
+					$lines[]	= $this->buildLine( (string) $key, $value, $comment);
 				}
 				$lines[]	= "";
 			}
@@ -158,11 +160,11 @@ class Creator
 			foreach( $this->data as $key => $data ){
 				$value		= $data['value'];
 				$comment	= $data['comment'];
-				$lines[]	= $this->buildLine( $key, $value, $comment);
+				$lines[]	= $this->buildLine( (string) $key, $value, $comment);
 			}
 			$lines[]	= "";
 		}
 		$file		= new FileWriter( $fileName, 0664 );
-		return $file->writeArray( $lines );
+		return (int) $file->writeArray( $lines );
 	}
 }

@@ -53,7 +53,8 @@ class Strange
 	 *	@param		int			$right			Right bound
 	 *	@return 	int
 	 */
-	public function search( array $array, $key, int $left = 0, int $right = 0 ): int
+	public function search( array $array, mixed $key, int $left = 0, int $right = 0 ): int
+
 	{
 		if( !$right ){
 			$left	= 0;

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Base gzip File implementation.
  *
@@ -63,11 +65,15 @@ class Gzip extends FileEditor
 	 *	Reads gzip File and returns it as String.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException	if decompression failed
 	 */
  	public function readString(): string
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
-		return gzuncompress( parent::readString() );
+		$content	= gzuncompress( parent::readString() ?? '' );
+		if( FALSE === $content )
+			throw new RuntimeException( 'Decompressing gzip content failed' );
+		return $content;
 	}
 
 	/**
@@ -78,10 +84,14 @@ class Gzip extends FileEditor
 	 *	@throws		IoException			if strict and file is not writable
 	 *	@throws		IoException			if strict and fallback file creation failed
 	 *	@throws		IoException			if number of written bytes does not match content length
+	 *	@throws		RuntimeException	if compression failed
 	 */
 	public function writeString( string $string, bool $strict = TRUE ): int|bool
 	{
 		/** @noinspection PhpComposerExtensionStubsInspection */
-		return parent::writeString( gzcompress( $string ), $strict );
+		$content	= gzcompress( $string );
+		if( FALSE === $content )
+			throw new RuntimeException( 'Compressing content using gzip failed' );
+		return parent::writeString( $content, $strict );
 	}
 }
