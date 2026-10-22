@@ -60,6 +60,15 @@ class Request implements ArrayAccess
 	/**	@var		string			$ip				IP of Request */
 	protected string $ip			= '';
 
+	/**	@var		string			$remoteAddress	IP of the direct peer (REMOTE_ADDR) */
+	protected string $remoteAddress	= '';
+
+	/**	@var		array<int,string>	$trustedProxies		IPs or networks (CIDR) of proxies whose X-Forwarded-For header is trusted */
+	protected array $trustedProxies	= [];
+
+	/**	@var		array<int,string>	$defaultTrustedProxies	Trusted proxies for new requests, see setDefaultTrustedProxies() */
+	protected static array $defaultTrustedProxies	= [];
+
 	/** @var		Method			$method			HTTP request method object */
 	protected Method $method;
 
@@ -82,6 +91,7 @@ class Request implements ArrayAccess
 
 	public function __construct( ?string $protocol = NULL, ?string $version = NULL )
 	{
+		$this->trustedProxies	= static::$defaultTrustedProxies;
 		$this->method		= new Method();
 		$this->headers		= new HeaderSection();
 		$this->parameters	= new Dictionary();
@@ -157,10 +167,9 @@ class Request implements ArrayAccess
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
 		$this->headers->addFieldPairs( static::getAllEnvHeaders() );
 
-		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' ) ?: '';
-		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
-			$this->ip = (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue();			//  get original IP address of request
+		//  store IP of requesting client; X-Forwarded-For only counts if sent by a trusted proxy
+		$this->remoteAddress	= getEnv( 'REMOTE_ADDR' ) ?: '';
+		$this->ip				= $this->resolveClientIp();
 
 		//  store raw POST, PUT or FILE data
 		$this->body	= (string) file_get_contents( "php://input" );
@@ -335,6 +344,109 @@ class Request implements ArrayAccess
 	public function getIp(): string
 	{
 		return $this->ip;
+	}
+
+	/**
+	 *	Returns the IP of the direct peer (REMOTE_ADDR), which may be a proxy.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getRemoteAddress(): string
+	{
+		return $this->remoteAddress;
+	}
+
+	/**
+	 *	Returns the IP of the client, given the address of the direct peer and the X-Forwarded-For header.
+	 *	The header is only used if the peer is a trusted proxy. Then the header is read from right to left
+	 *	and the first address which is not a trusted proxy is the client. Addresses added by the client
+	 *	itself (left of it) are ignored, so they cannot be spoofed.
+	 *	@access		public
+	 *	@static
+	 *	@param		string				$remoteAddress		IP of the direct peer (REMOTE_ADDR)
+	 *	@param		string|NULL			$forwardedFor		Value of X-Forwarded-For header, if any
+	 *	@param		array<int,string>	$trustedProxies		IPs or networks (CIDR), IPv4 and IPv6
+	 *	@return		string
+	 */
+	public static function determineClientIp( string $remoteAddress, ?string $forwardedFor, array $trustedProxies ): string
+	{
+		if( NULL === $forwardedFor || '' === trim( $forwardedFor ) || !static::isIpInList( $remoteAddress, $trustedProxies ) )
+			return $remoteAddress;
+		$hops	= array_reverse( array_map( 'trim', explode( ',', $forwardedFor ) ) );
+		foreach( $hops as $hop ){
+			if( FALSE === filter_var( $hop, FILTER_VALIDATE_IP ) )
+				return $remoteAddress;
+			if( !static::isIpInList( $hop, $trustedProxies ) )
+				return $hop;
+		}
+		return $remoteAddress;
+	}
+
+	/**
+	 *	Indicates whether an IP is one of the given IPs or within one of the given networks (CIDR).
+	 *	@access		public
+	 *	@static
+	 *	@param		string				$ip			IPv4 or IPv6 address
+	 *	@param		array<int,string>	$list		IPs or networks, e.g. 10.0.0.1, 10.0.0.0/8, fd00::/8
+	 *	@return		bool
+	 */
+	public static function isIpInList( string $ip, array $list ): bool
+	{
+		$address	= @inet_pton( $ip );
+		if( FALSE === $address )
+			return FALSE;
+		foreach( $list as $entry ){
+			[$network, $bits]	= array_pad( explode( '/', trim( $entry ), 2 ), 2, NULL );
+			$networkAddress		= @inet_pton( (string) $network );
+			if( FALSE === $networkAddress || strlen( $networkAddress ) !== strlen( $address ) )
+				continue;
+			$bits	= NULL === $bits ? strlen( $address ) * 8 : (int) $bits;
+			if( $bits < 0 || $bits > strlen( $address ) * 8 )
+				continue;
+			$bytes	= intdiv( $bits, 8 );
+			$rest	= $bits % 8;
+			if( 0 !== strncmp( $address, $networkAddress, $bytes ) )
+				continue;
+			if( 0 === $rest )
+				return TRUE;
+			$mask	= ( 0xff << ( 8 - $rest ) ) & 0xff;
+			if( ( ord( $address[$bytes] ) & $mask ) === ( ord( $networkAddress[$bytes] ) & $mask ) )
+				return TRUE;
+		}
+		return FALSE;
+	}
+
+	/**
+	 *	Sets trusted proxies for all requests created afterward (e.g. by frameworks).
+	 *	@access		public
+	 *	@static
+	 *	@param		array<int,string>	$proxies	IPs or networks (CIDR) of trusted proxies
+	 *	@return		void
+	 */
+	public static function setDefaultTrustedProxies( array $proxies ): void
+	{
+		static::$defaultTrustedProxies	= array_values( $proxies );
+	}
+
+	/**
+	 *	Sets trusted proxies for this request and determines the client IP again.
+	 *	@access		public
+	 *	@param		array<int,string>	$proxies	IPs or networks (CIDR) of trusted proxies
+	 *	@return		static
+	 */
+	public function setTrustedProxies( array $proxies ): static
+	{
+		$this->trustedProxies	= array_values( $proxies );
+		$this->ip				= $this->resolveClientIp();
+		return $this;
+	}
+
+	protected function resolveClientIp(): string
+	{
+		$forwardedFor	= $this->headers->hasField( 'X-Forwarded-For' )
+			? (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue()
+			: NULL;
+		return static::determineClientIp( $this->remoteAddress, $forwardedFor, $this->trustedProxies );
 	}
 
 	/**
