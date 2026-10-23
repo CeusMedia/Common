@@ -56,6 +56,7 @@ class PartitionSession extends Dictionary
 	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
+	// @phpstan-ignore method.childParameterType, method.childParameterType, parameter.notOptional
 	public function __construct( string $partitionName, string $sessionName = "sid", ?string $domain = NULL )
 	{
 		parent::__construct();

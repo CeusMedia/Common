@@ -70,6 +70,7 @@ class Reader extends Dictionary
 	 *	@throws		Exception
 	 *	@throws		InvalidArgumentException
 	 */
+	// @phpstan-ignore method.childParameterType, method.childParameterType, parameter.notOptional
 	public function __construct( string $fileName, ?string $cachePath = NULL )
 	{
 		parent::__construct();
@@ -170,7 +171,7 @@ class Reader extends Dictionary
 				throw new InvalidArgumentException( 'File Type "'.$info['extension'].'" is not supported.' );
 		}
 		ksort( $this->pairs );
-		if( is_string( $cachePath ) && isset( $cacheFile ) )
+		if( is_string( $cachePath ) )
 			FileWriter::save( $cacheFile, serialize( $this->pairs ), 0640 );
 		return $info['extension'];
 	}

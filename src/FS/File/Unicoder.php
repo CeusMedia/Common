@@ -54,7 +54,7 @@ class Unicoder
 	 */
 	public function __construct( string $fileName, bool $force = FALSE )
 	{
-		self::convertToUnicode( $fileName, $force = FALSE );
+		self::convertToUnicode( $fileName, $force );
 	}
 
 	/**

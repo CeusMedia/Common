@@ -146,7 +146,9 @@ class Index
 		foreach( $this->headings as $heading ){														//
 			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//
 			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//
-			$content	= preg_replace( $find, $replace, $content );								//
+			$result		= preg_replace( $find, $replace, $content );								//
+			if( $result !== null )
+				$content = $result;
 		}
 		return $content;
 	}

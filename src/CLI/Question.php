@@ -162,7 +162,7 @@ class Question
 		return $this;
 	}
 
-	protected function evaluateInput( string & $input ): bool
+	protected function evaluateInput( string|int|float & $input ): bool
 	{
 		if( $this->default && !strlen( $input ) )
 			$input	= (string) $this->default;
@@ -228,7 +228,7 @@ class Question
 		}
 		if( strlen( trim( (string) ( $this->default ?? '' ) ) ) )
 			$message	.= " [".$this->default."]";
-		if( is_array( $options ) && count( $options ) )
+		if( count( $options ) )
 			$message	.= " (".implode( "|", $options ).")";
 		if( !$this->break )
 			$message	.= ": ";

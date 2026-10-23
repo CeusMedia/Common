@@ -167,13 +167,13 @@ class UnitFormater
 	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
 	 *	@static
-	 *	@param		float		$float			Number of Micro Seconds
+	 *	@param		int|float	$float			Number of Micro Seconds
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMicroSeconds( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
+	public static function formatMicroSeconds( int|float $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		//  step to first Unit
 		$unitKey	= 0;
@@ -182,7 +182,7 @@ class UnitFormater
 		//  avoid negative Edges
 		$edge		= abs( $edge );
 		//  avoid senseless Edges
-		$edge		= $edge > 1 ? 1 : $edge;
+		$edge		= min( $edge, 1 );
 		//  calculate Edge Value
 		$edgeValue	= $divider * $edge;
 
@@ -218,16 +218,10 @@ class UnitFormater
 				$edgeValue	= $edge * $divider;
 			}
 		}
-		//  Precision is set
-		if( is_int( $precision ) )
-			//  round Value
-			$float	= round( $float, $precision );
-		//  Indention is set
-		if( is_string( $indent ) )
-			//  append Unit
-			$float	= $float.$indent.self::$unitSeconds[$unitKey];
-		//  return resulting Value
-		return $float;
+		//  round Value
+		$float	= round( $float, $precision );
+		//  append Unit and return
+		return $float.$indent.self::$unitSeconds[$unitKey];
 	}
 
 	/**
@@ -279,8 +273,7 @@ class UnitFormater
 			->message(  'Use one of the other methods instead' );
 		if( $unit ){
 			$float	= $float / $unit;
-			if( is_int( $precision ) )
-				$float	= round( $float, $precision );
+			$float	= round( $float, $precision );
 		}
 		return $float;
 	}
@@ -319,16 +312,10 @@ class UnitFormater
 			//  calculate Value in new Unit
 			$number	/= $divider;
 		}
-		//  Precision is set
-		if( is_int( $precision ) )
-			//  round Value
-			$number	= round( $number, $precision );
-		//  Indention is set
-		if( is_string( $indent ) )
-			//  append Unit
-			$number	= $number.$indent.self::$unitPixels[$unitKey];
-		//  return resulting Value
-		return $number;
+		//  round Value
+		$number	= round( $number, $precision );
+		//  append Unit and return
+		return $number.$indent.self::$unitPixels[$unitKey];
 	}
 
 	/**
