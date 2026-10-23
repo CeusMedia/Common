@@ -1,11 +1,5 @@
 {
   "name": "ceus-media/common",
-  "extra": {
-    "branch-alias": {
-      "dev-strict-types": "1.0.x-dev",
-      "dev-phpstan-v2": "1.0.x-dev"
-    }
-  },
   "license": [
     "GPL-3.0-or-later"
   ],

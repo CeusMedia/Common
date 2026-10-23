@@ -273,7 +273,8 @@ class UnitFormater
 			->message(  'Use one of the other methods instead' );
 		if( $unit ){
 			$float	= $float / $unit;
-			$float	= round( $float, $precision );
+			if( is_int( $precision ) )
+				$float	= round( $float, $precision );
 		}
 		return $float;
 	}
