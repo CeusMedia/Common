@@ -51,13 +51,15 @@ class RequestReceiver extends Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
+	// @phpstan-ignore method.childParameterType, parameter.missing
 	public function __construct( bool $fallBackOnEmptyPair = FALSE )
 	{
 		parent::__construct();
 		$count	= 0;
 		global $argv;
-		if( !is_array( $argv ) )
+		if( !is_array( $argv ) ) { // @phpstan-ignore function.alreadyNarrowedType
 			throw new RuntimeException( 'Missing arguments' );
+		}
 		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv, TRUE ) )
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument ){

@@ -50,6 +50,7 @@ class Session extends Dictionary
 	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
+	// @phpstan-ignore method.childParameterType, method.childParameterType
 	public function __construct( string $sessionName = "sid", ?string $domain = NULL )
 	{
 		parent::__construct();

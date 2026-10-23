@@ -68,7 +68,7 @@ class Editor extends Reader
 	public function __construct( string $folderName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		parent::__construct( $folderName );
-		if( !self::isFolder( $folderName ) && $creationMode !== NULL )
+		if( !self::isFolder( $folderName ) )
 			self::createFolder( $folderName, $creationMode, $creationUser, $creationGroup );
 	}
 

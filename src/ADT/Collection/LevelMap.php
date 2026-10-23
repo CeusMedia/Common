@@ -53,6 +53,20 @@ class LevelMap extends Dictionary
 	protected string $divider		= ".";
 
 	/**
+	 *	Constructor.
+	 *	@param		array		$array
+	 *	@param		string		$divider		Level dividing sign
+	 */
+	// @phpstan-ignore method.childParameterType
+	public function __construct( array $array = [], string $divider = '.' )
+	{
+		parent::__construct( $array );
+		if( 0 === strlen( $divider ) )
+			throw new MissingDataException( 'Divider cannot be empty' );
+		$this->divider	= $divider;
+	}
+
+	/**
 	 *	Return a Value or Pair Map of Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary

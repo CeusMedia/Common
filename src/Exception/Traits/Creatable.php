@@ -49,6 +49,7 @@ trait Creatable
 	public static function create( string $message = '', int $code = 0, ?Throwable $previous = NULL ): self
 	{
 		$class	= static::class;
+		// @phpstan-ignore new.staticParameters, argument.type, argument.type, argument.type, argument.type
 		$e		= new $class( $message, $code, $previous );
 		$trace	= $e->getTrace();
 		$top	= array_pop( $trace );

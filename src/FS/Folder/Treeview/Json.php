@@ -79,7 +79,7 @@ class Json
 		$index		= new DirectoryIterator( $this->basePath.$path );
 		$folders	= [];
 		$files		= [];
-		/** @var SplFileInfo $entry */
+		/** @var DirectoryIterator $entry */
 		foreach( $index as $entry ){
 			if( str_starts_with( $entry->getFilename(), '.' ) )
 				continue;

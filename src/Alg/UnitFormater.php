@@ -253,8 +253,31 @@ class UnitFormater
 	}
 
 	/**
-	 *	Formats number of pixels by switching to next higher unit if a set edge is reached.
-	 *	Edge is a factor when to switch to next higher unit, eG. 0.5 means 50% of 1000.
+	 *	Formats Number.
+	 *	@access		public
+	 *	@static
+	 *	@param		float		$float			Number to format
+	 *	@param		int			$unit			Number of Digits for dot to move to left
+	 *	@param		int			$precision		Number of Digits after dot
+	 *	@return		int|float
+	 *	@deprecated	incomplete method, please remove
+	 */
+	public static function formatNumber( $float, int $unit = 1, int $precision = 0 )
+	{
+		/** @noinspection PhpUnhandledExceptionInspection */
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
+			->message(  'Use one of the other methods instead' );
+		if( $unit ){
+			$float	= $float / $unit;
+			if( is_int( $precision ) )
+				$float	= round( $float, $precision );
+		}
+		return $float;
+	}
+
+	/**
+	 *	Formats Number of Pixels by switching to next higher Unit if an set Edge is reached.
+	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
 	 *	If you enter 500 (P) it will return 0.5 KP.
 	 *	Caution! With precision at 0 you may have errors from rounding.
 	 *	To avoid the units to be appended, enter FALSE or NULL for indent.

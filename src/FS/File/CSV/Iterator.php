@@ -213,7 +213,7 @@ class Iterator implements BaseIterator
 			$this->open();
 		if( !is_resource( $this->filePointer ) )
 			return FALSE;
-		return $this->currentLine !== FALSE && $this->currentLine !== NULL;
+		return $this->currentLine !== NULL;
 	}
 
 	//  --  PROTECTED  --  //
