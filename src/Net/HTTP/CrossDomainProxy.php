@@ -105,7 +105,7 @@ class CrossDomainProxy
 		//  skip Peer Verification
 		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, FALSE );
 		//  skip Host Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, FALSE );
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
 		//  set Service Request URL
 		curl_setopt( $curl, CURLOPT_URL, $url );
 		//  catch Response

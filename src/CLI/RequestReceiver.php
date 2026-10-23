@@ -57,9 +57,6 @@ class RequestReceiver extends Dictionary
 		parent::__construct();
 		$count	= 0;
 		global $argv;
-		if( !is_array( $argv ) ) { // @phpstan-ignore function.alreadyNarrowedType
-			throw new RuntimeException( 'Missing arguments' );
-		}
 		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv, TRUE ) )
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument ){

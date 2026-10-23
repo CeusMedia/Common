@@ -66,8 +66,8 @@
       "@dev:phpunit-coverage",
       "@dev:create-docs"
     ],
-    "dev:install": "COMPOSER_ROOT_VERSION=1.0.x-dev composer install --ignore-platform-reqs --quiet",
-    "dev:update": "COMPOSER_ROOT_VERSION=1.0.x-dev composer update",
+    "dev:install": "COMPOSER_ROOT_VERSION=1.1.x-dev composer install --ignore-platform-reqs --quiet",
+    "dev:update": "COMPOSER_ROOT_VERSION=1.1.x-dev composer update",
     "dev:create-docs": [
       "@dev:install",
       "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"

@@ -86,7 +86,7 @@ class Editor extends Reader
 				throw new LogicException( 'Key "'.$key.'" is already active' );
 			unset( $this->disabled[array_search( $key, $this->disabled )] );
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -110,7 +110,7 @@ class Editor extends Reader
 			'comment'	=> $comment ?? '',
 			'section'	=> $section,
 		];
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -184,7 +184,7 @@ class Editor extends Reader
 				throw new LogicException( 'Key "'.$key.'" is already inactive' );
 			$this->disabled[] = $key;
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -219,7 +219,7 @@ class Editor extends Reader
 				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			$this->deleted[] = $key;
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -236,7 +236,7 @@ class Editor extends Reader
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
 		$index	= array_search( $section, $this->sections);
 		unset( $this->sections[$index] );
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -269,7 +269,7 @@ class Editor extends Reader
 				$this->comments[$new]	= $this->comments[$key];
 			$this->renamed[$key]	= $new;
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -314,7 +314,7 @@ class Editor extends Reader
 				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			$this->comments[$key] = $comment;
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -339,7 +339,7 @@ class Editor extends Reader
 			else
 				$this->addProperty( $key, $value, NULL, TRUE );
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**

@@ -22,7 +22,7 @@ class Encoder
 	public function encode( mixed $data, int $flags = 0 ): string
 	{
 		try{
-			/**	@var string $json */
+ 		/**	@var non-empty-string|false $json */
 			$json	= json_encode( $data, $flags | JSON_THROW_ON_ERROR );
 			return $json;
 		}

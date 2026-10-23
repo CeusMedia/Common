@@ -40,154 +40,94 @@ namespace CeusMedia\Common\Net\XMPP\XMPPHP;
  */
 class XMLStream
 {
-	/**
-	 * @var resource
-	 */
+	/** @var resource|null */
 	protected $socket;
 
-	/**
-	 * @var resource
-	 */
+	/** @var \XMLParser */
 	protected $parser;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $buffer;
 
-	/**
-	 * @var integer
-	 */
+	/** @var int */
 	protected $xml_depth = 0;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $host;
 
-	/**
-	 * @var integer
-	 */
+	/** @var int */
 	protected $port;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $stream_start = '<stream>';
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $stream_end = '</stream>';
 
-	/**
-	 * @var boolean
-	 */
+	/** @var bool */
 	protected $disconnected = false;
 
-	/**
-	 * @var boolean
-	 */
+	/** @var bool */
 	protected $sent_disconnect = false;
 
-	/**
-	 * @var array
-	 */
+	/** @var array<string, string> */
 	protected $ns_map = [];
 
-	/**
-	 * @var array
-	 */
+	/** @var array<int, string> */
 	protected $current_ns = [];
 
-	/**
-	 * @var array
-	 */
+	/** @var array<int, XMLObj>|null */
 	protected $xmlobj = null;
 
-	/**
-	 * @var array
-	 */
+	/** @var list<array{string, string, string, ?object, int}> */
 	protected $nshandlers = [];
 
-	/**
-	 * @var array
-	 */
+	/** @var list<array{array<int, array{?string, string}>, string, ?object}> */
 	protected $xpathhandlers = [];
 
-	/**
-	 * @var array
-	 */
+	/** @var array<int, array{string, ?object}> */
 	protected $idhandlers = [];
 
-	/**
-	 * @var array
-	 */
+	/** @var list<array{string, string, ?object}> */
 	protected $eventhandlers = [];
 
-	/**
-	 * @var integer
-	 */
+	/** @var int */
 	protected $lastid = 0;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $default_ns;
 
-	/**
-	 * @var string
-	 */
-	protected $until = '';
+	/** @var array<int, list<string>> */
+	protected $until = [];
 
-	/**
-	 * @var string
-	 */
-	protected $until_count = '';
+	/** @var array<int, int> */
+	protected $until_count = [];
 
-	/**
-	 * @var array
-	 */
+	/** @var bool */
 	protected $until_happened = false;
 
-	/**
-	 * @var array
-	 */
+	/** @var array<int, list<array{string, mixed}>> */
 	protected $until_payload = [];
 
-	/**
-	 * @var Log
-	 */
+	/** @var Log */
 	protected $log;
 
-	/**
-	 * @var boolean
-	 */
+	/** @var bool */
 	protected $reconnect = false;
 
-	/**
-	 * @var boolean
-	 */
+	/** @var bool */
 	protected $been_reset = false;
 
-	/**
-	 * @var boolean
-	 */
+	/** @var bool */
 	protected $is_server;
 
-	/**
-	 * @var float
-	 */
+	/** @var float */
 	protected $last_send = 0;
 
-	/**
-	 * @var boolean
-	 */
+	/** @var bool */
 	protected $use_ssl = false;
 
-	/**
-	 * @var integer
-	 */
+	/** @var int */
 	protected $reconnectTimeout = 30;
 
 	/**
@@ -225,7 +165,7 @@ class XMLStream
 	 *
 	 * @return Log
 	 */
-	public function getLog()
+	public function getLog(): Log
 	{
 		return $this->log;
 	}
@@ -235,7 +175,7 @@ class XMLStream
 	 *
 	 * @return integer
 	 */
-	public function getId()
+	public function getId(): int
 	{
 		$this->lastid++;
 		return $this->lastid;
@@ -243,49 +183,41 @@ class XMLStream
 
 	/**
 	 * Set SSL
-	 *
-	 * @return integer
 	 */
-	public function useSSL($use=true)
+	public function useSSL(bool $use=true): void
 	{
 		$this->use_ssl = $use;
 	}
 
 	/**
-	 * Add ID Handler
-	 *
 	 * @param integer $id
 	 * @param string  $pointer
-	 * @param string  $obj
+	 * @param object|null  $obj
 	 */
-	public function addIdHandler($id, $pointer, $obj = null)
+	public function addIdHandler(int $id, string $pointer, ?object $obj = null): void
 	{
 		$this->idhandlers[$id] = array($pointer, $obj);
 	}
 
 	/**
-	 * Add Handler
-	 *
 	 * @param string $name
 	 * @param string  $ns
 	 * @param string  $pointer
-	 * @param string  $obj
+	 * @param object|null  $obj
 	 * @param integer $depth
 	 */
-	public function addHandler($name, $ns, $pointer, $obj = null, $depth = 1)
+	public function addHandler(string $name, string $ns, string $pointer, ?object $obj = null, int $depth = 1): void
 	{
 		#TODO deprication warning
 		$this->nshandlers[] = array($name,$ns,$pointer,$obj, $depth);
 	}
 
 	/**
-	 * Add XPath Handler
-	 *
 	 * @param string $xpath
 	 * @param string $pointer
-	 * @param
+	 * @param object|null $obj
 	 */
-	public function addXPathHandler($xpath, $pointer, $obj = null)
+	public function addXPathHandler(string $xpath, string $pointer, ?object $obj = null): void
 	{
 		if (preg_match_all("/\(?{[^\}]+}\)?(\/?)[^\/]+/", $xpath, $regs)) {
 			$ns_tags = $regs[0];
@@ -305,13 +237,11 @@ class XMLStream
 	}
 
 	/**
-	 * Add Event Handler
-	 *
-	 * @param integer $id
+	 * @param string $name
 	 * @param string  $pointer
-	 * @param string  $obj
+	 * @param object  $obj
 	 */
-	public function addEventHandler($name, $pointer, $obj)
+	public function addEventHandler(string $name, string $pointer, object $obj): void
 	{
 		$this->eventhandlers[] = array($name, $pointer, $obj);
 	}
@@ -323,7 +253,7 @@ class XMLStream
 	 * @param boolean $persistent
 	 * @param boolean $sendinit
 	 */
-	public function connect($timeout = 30, $persistent = false, $sendinit = true)
+	public function connect(int $timeout = 30, bool $persistent = false, bool $sendinit = true): void
 	{
 		$this->sent_disconnect = false;
 		$starttime = time();
@@ -353,7 +283,7 @@ class XMLStream
 		} while (!$this->socket && (time() - $starttime) < $timeout);
 
 		if ($this->socket) {
-			stream_set_blocking($this->socket, 1);
+ 		stream_set_blocking($this->socket, true);
 			if($sendinit) $this->send($this->stream_start);
 		} else {
 			throw new Exception("Could not connect before timeout.");
@@ -363,7 +293,7 @@ class XMLStream
 	/**
 	 * Reconnect XMPP Host
 	 */
-	public function doReconnect()
+	public function doReconnect(): void
 	{
 		if(!$this->is_server) {
 			$this->log->log("Reconnecting ($this->reconnectTimeout)...", Log::LEVEL_WARNING);
@@ -373,7 +303,7 @@ class XMLStream
 		}
 	}
 
-	public function setReconnectTimeout($timeout)
+	public function setReconnectTimeout(int $timeout): void
 	{
 		$this->reconnectTimeout = $timeout;
 	}
@@ -381,7 +311,7 @@ class XMLStream
 	/**
 	 * Disconnect from XMPP Host
 	 */
-	public function disconnect()
+	public function disconnect(): void
 	{
 		$this->log->log("Disconnecting...", Log::LEVEL_VERBOSE);
 		if(false == (bool) $this->socket) {
@@ -399,7 +329,7 @@ class XMLStream
 	 *
 	 * @return boolean
 	 */
-	public function isDisconnected()
+	public function isDisconnected(): bool
 	{
 		return $this->disconnected;
 	}
@@ -411,7 +341,7 @@ class XMLStream
 	 * integer -> process for this amount of time
 	 */
 
-	private function __process($maximum=5)
+	private function __process(?int $maximum=5): bool
 	{
 		$remaining = $maximum;
 
@@ -469,20 +399,20 @@ class XMLStream
 	/**
 	 * Process
 	 *
-	 * @return string
+	 * @return bool
 	 */
-	public function process()
+	public function process(): bool
 	{
-		$this->__process(NULL);
+		return $this->__process(NULL);
 	}
 
 	/**
 	 * Process until a timeout occurs
 	 *
 	 * @param integer $timeout
-	 * @return string
+	 * @return bool
 	 */
-	public function processTime($timeout=NULL)
+	public function processTime(?int $timeout=NULL): bool
 	{
 		if (is_null($timeout)) {
 			return $this->__process(NULL);
@@ -496,9 +426,9 @@ class XMLStream
 	 *
 	 * @param string|array $event
 	 * @param integer $timeout
-	 * @return string
+	 * @return array
 	 */
-	public function processUntil($event, $timeout=-1)
+	public function processUntil(string|array $event, int $timeout=-1): array
 	{
 		$start = time();
 		if(!is_array($event)) $event = array($event);
@@ -508,7 +438,7 @@ class XMLStream
 		reset($this->until);
 		$this->until_count[$event_key] = 0;
 		$updated = '';
-		while(!$this->disconnected and $this->until_count[$event_key] < 1 and (time() - $start < $timeout or $timeout == -1)) {
+		while(!$this->disconnected and $this->until_count[$event_key] < 1 and (time() - $start < $timeout or $timeout == -1)) { // @phpstan-ignore-line smaller.alwaysTrue
 			$this->__process();
 		}
 		if(array_key_exists($event_key, $this->until_payload)) {
@@ -525,7 +455,7 @@ class XMLStream
 	/**
 	 * Obsolete?
 	 */
-	public function Xapply_socket($socket)
+	public function Xapply_socket($socket): void // @phpstan-ignore-line
 	{
 		$this->socket = $socket;
 	}
@@ -538,7 +468,7 @@ class XMLStream
 	 * @param resource $parser
 	 * @param string   $name
 	 */
-	public function startXML($parser, $name, $attr)
+	public function startXML($parser, string $name, array $attr): void
 	{
 		if($this->been_reset) {
 			$this->been_reset = false;
@@ -579,7 +509,7 @@ class XMLStream
 	 * @param resource $parser
 	 * @param string   $name
 	 */
-	public function endXML($parser, $name)
+	public function endXML($parser, string $name): void
 	{
 		#$this->log->log("Ending $name", Log::LEVEL_DEBUG);
 		#print "$name\n";
@@ -596,15 +526,16 @@ class XMLStream
 					$searchxml = $this->xmlobj[2];
 					$nstag = array_shift($handler[0]);
 					if (($nstag[0] == null or $searchxml->ns == $nstag[0]) and ($nstag[1] == "*" or $nstag[1] == $searchxml->name)) {
+ 						$searchxml = null;
 						foreach($handler[0] as $nstag) {
-							if ($searchxml !== null and $searchxml->hasSub($nstag[1], $ns=$nstag[0])) {
+							if ($searchxml !== null and $searchxml->hasSub($nstag[1], $ns=$nstag[0])) { // @phpstan-ignore-line
 								$searchxml = $searchxml->sub($nstag[1], $ns=$nstag[0]);
 							} else {
 								$searchxml = null;
 								break;
 							}
 						}
-						if ($searchxml !== null) {
+						if ($searchxml !== null) { // @phpstan-ignore-line
 							if($handler[2] === null) $handler[2] = $this;
 							$this->log->log("Calling {$handler[1]}", Log::LEVEL_DEBUG);
 							$handler[2]->$handler[1]($this->xmlobj[2]);
@@ -612,12 +543,14 @@ class XMLStream
 					}
 				}
 			}
+			$searchxml = null;
 			foreach($this->nshandlers as $handler) {
 				if($handler[4] != 1 and array_key_exists(2, $this->xmlobj) and  $this->xmlobj[2]->hasSub($handler[0])) {
 					$searchxml = $this->xmlobj[2]->sub($handler[0]);
 				} elseif(is_array($this->xmlobj) and array_key_exists(2, $this->xmlobj)) {
 					$searchxml = $this->xmlobj[2];
 				}
+				/** @var XMLObj|null $searchxml */
 				if($searchxml !== null and $searchxml->name == $handler[0] and ($searchxml->ns == $handler[1] or (!$handler[1] and $searchxml->ns == $this->default_ns))) {
 					if($handler[3] === null) $handler[3] = $this;
 					$this->log->log("Calling {$handler[2]}", Log::LEVEL_DEBUG);
@@ -636,12 +569,12 @@ class XMLStream
 			if(is_array($this->xmlobj)) {
 				$this->xmlobj = array_slice($this->xmlobj, 0, 1);
 				if(isset($this->xmlobj[0]) && $this->xmlobj[0] instanceof XMLObj) {
-					$this->xmlobj[0]->subs = null;
+					$this->xmlobj[0]->subs = [];
 				}
 			}
 			unset($this->xmlobj[2]);
 		}
-		if($this->xml_depth == 0 and !$this->been_reset) {
+		if($this->xml_depth == 0 and !$this->been_reset) { // @phpstan-ignore-line booleanNot.alwaysTrue
 			if(!$this->disconnected) {
 				if(!$this->sent_disconnect) {
 					$this->send($this->stream_end);
@@ -664,7 +597,7 @@ class XMLStream
 	 * @param resource $parser
 	 * @param string   $data
 	 */
-	public function charXML($parser, $data)
+	public function charXML($parser, string $data): void
 	{
 		if(array_key_exists($this->xml_depth, $this->xmlobj)) {
 			$this->xmlobj[$this->xml_depth]->data .= $data;
@@ -672,12 +605,10 @@ class XMLStream
 	}
 
 	/**
-	 * Event?
-	 *
 	 * @param string $name
-	 * @param string $payload
+	 * @param array|null $payload
 	 */
-	public function event($name, $payload = null)
+	public function event(string $name, ?array $payload = null): void
 	{
 		$this->log->log("EVENT: $name", Log::LEVEL_DEBUG);
 		foreach($this->eventhandlers as $handler) {
@@ -705,7 +636,7 @@ class XMLStream
 	/**
 	 * Read from socket
 	 */
-	public function read()
+	public function read(): bool
 	{
 		$buff = @fread($this->socket, 1024);
 		if(!$buff) {
@@ -718,6 +649,7 @@ class XMLStream
 		}
 		$this->log->log("RECV: $buff", Log::LEVEL_VERBOSE);
 		xml_parse($this->parser, $buff, false);
+		return true;
 	}
 
 	/**
@@ -725,7 +657,7 @@ class XMLStream
 	 *
 	 * @param string $msg
 	 */
-	public function send($msg, $timeout=NULL)
+	public function send(string $msg, ?int $timeout=NULL): int|bool
 	{
 		if (is_null($timeout)) {
 			$secs = NULL;
@@ -767,7 +699,7 @@ class XMLStream
 		return $sentbytes;
 	}
 
-	public function time()
+	public function time(): float
 	{
 		list($usec, $sec) = explode(" ", microtime());
 		return (float)$sec + (float)$usec;
@@ -776,7 +708,7 @@ class XMLStream
 	/**
 	 * Reset connection
 	 */
-	public function reset()
+	public function reset(): void
 	{
 		$this->xml_depth = 0;
 		unset($this->xmlobj);
@@ -791,7 +723,7 @@ class XMLStream
 	/**
 	 * Setup the XML parser
 	 */
-	public function setupParser()
+	public function setupParser(): void
 	{
 		$this->parser = xml_parser_create('UTF-8');
 		xml_parser_set_option($this->parser, XML_OPTION_SKIP_WHITE, 1);
@@ -801,7 +733,7 @@ class XMLStream
 		xml_set_character_data_handler($this->parser, 'charXML');
 	}
 
-	public function readyToProcess()
+	public function readyToProcess(): bool
 	{
 		$read = array($this->socket);
 		$write = [];

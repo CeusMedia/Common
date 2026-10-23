@@ -45,35 +45,35 @@ class XMLObj
 	 *
 	 * @var string
 	 */
-	public $name;
+	public string $name;
 
 	/**
 	 * Namespace
 	 *
 	 * @var string
 	 */
-	public $ns;
+	public string $ns;
 
 	/**
 	 * Attributes
 	 *
-	 * @var array
+	 * @var array<string, string>
 	 */
-	public $attrs = [];
+	public array $attrs = [];
 
 	/**
 	 * Subs?
 	 *
-	 * @var array
+	 * @var array<int, self>
 	 */
-	public $subs = [];
+	public array $subs = [];
 
 	/**
 	 * Node data
 	 *
 	 * @var string
 	 */
-	public $data = '';
+	public string $data = '';
 
 	/**
 	 * Constructor
@@ -83,11 +83,11 @@ class XMLObj
 	 * @param array  $attrs
 	 * @param string $data
 	 */
-	public function __construct($name, $ns = '', $attrs = [], $data = '')
+	public function __construct(string $name, string $ns = '', array $attrs = [], string $data = '')
 	{
 		$this->name = strtolower($name);
 		$this->ns   = $ns;
-		if(is_array($attrs) && count($attrs)) {
+		if(count($attrs)) {
 			foreach($attrs as $key => $value) {
 				$this->attrs[strtolower($key)] = $value;
 			}
@@ -100,7 +100,7 @@ class XMLObj
 	 *
 	 * @param integer $depth
 	 */
-	public function printObj($depth = 0)
+	public function printObj(int $depth = 0): void
 	{
 		print str_repeat("\t", $depth) . $this->name . " " . $this->ns . ' ' . $this->data;
 		print "\n";
@@ -114,7 +114,7 @@ class XMLObj
 	 *
 	 * @param string $str
 	 */
-	public function toString($str = '')
+	public function toString(string $str = ''): string
 	{
 		$str .= "<{$this->name} xmlns='{$this->ns}' ";
 		foreach($this->attrs as $key => $value) {
@@ -138,7 +138,7 @@ class XMLObj
 	 * @param string $name
 	 * @return boolean
 	 */
-	public function hasSub($name, $ns = null)
+	public function hasSub(string $name, ?string $ns = null): bool
 	{
 		foreach($this->subs as $sub) {
 			if(($name == "*" or $sub->name == $name) and ($ns == null or $sub->ns == $ns)) return true;
@@ -147,13 +147,11 @@ class XMLObj
 	}
 
 	/**
-	 * Return a sub
-	 *
 	 * @param string $name
-	 * @param string $attrs
-	 * @param string $ns
+	 * @param array|null $attrs
+	 * @param string|null $ns
 	 */
-	public function sub($name, $attrs = null, $ns = null)
+	public function sub(string $name, ?array $attrs = null, ?string $ns = null): ?self
 	{
 		#TODO attrs is ignored
 		foreach($this->subs as $sub) {
@@ -161,5 +159,6 @@ class XMLObj
 				return $sub;
 			}
 		}
+		return null;
 	}
 }

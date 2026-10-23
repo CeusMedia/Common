@@ -100,9 +100,6 @@ class ArgumentParser extends Dictionary
 	public static function parseFromCurrentCall( array $shortcuts = [], bool $fallBackOnEmptyPair = FALSE ): array
 	{
 		global $argv;
-		if( !is_array( $argv ) ) { // @phpstan-ignore-line
-			throw new RuntimeException( 'Missing arguments' );
-		}
 		list( $arguments, $parameters )	= self::parse( $argv, $shortcuts, $fallBackOnEmptyPair );
 		$call	= array_shift( $arguments );
 		return [$arguments, $parameters, $call, getcwd()];

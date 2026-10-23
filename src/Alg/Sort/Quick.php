@@ -51,9 +51,9 @@ class Quick
 	 *	@param		array		$array		Array of numeric values passed by reference
 	 *	@param		int|NULL	$first		Start index
 	 *	@param		int|NULL	$last		End index
-	 *	@return		array|FALSE
+	 *	@return		void
 	 */
-	public static function sort( array &$array, ?int $first = NULL, ?int $last = NULL ): array|false
+	public static function sort( array &$array, ?int $first = NULL, ?int $last = NULL ): void
 	{
 		if( is_null( $first ) )
 			$first = 0;
