@@ -42,16 +42,14 @@ namespace CeusMedia\Common\Net\XMPP\XMPPHP;
 class Roster
 {
 	/**
-	 * Roster array, handles contacts and presence.  Indexed by jid.
-	 * Contains array with potentially two indexes 'contact' and 'presence'
-	 * @var array
+	 * @var array<string, array<string, mixed>>
 	 */
 	public $roster_array = [];
 	/**
 	 * Constructor
 	 *
 	 */
-	public function __construct($roster_array = [])
+	public function __construct(array $roster_array = [])
 	{
 		if ($this->verifyRoster($roster_array)) {
 			$this->roster_array = $roster_array; //Allow for prepopulation with existing roster
@@ -66,7 +64,7 @@ class Roster
 	 *
 	 * @param array $roster_array
 	 */
-	protected function verifyRoster($roster_array)
+	protected function verifyRoster(array $roster_array): bool
 	{
 		#TODO once we know *what* a valid roster array looks like
 		return True;
@@ -81,7 +79,7 @@ class Roster
 	 * @param string $name
 	 * @param array $groups
 	 */
-	public function addContact($jid, $subscription, $name='', $groups=array())
+	public function addContact(string $jid, string $subscription, string $name='', array $groups=array()): void
 	{
 		$contact = array('jid' => $jid, 'subscription' => $subscription, 'name' => $name, 'groups' => $groups);
 		if ($this->isContact($jid)) {
@@ -97,11 +95,12 @@ class Roster
 	 *
 	 * @param string $jid
 	 */
-	public function getContact($jid)
+	public function getContact(string $jid): ?array
 	{
 		if ($this->isContact($jid)) {
 			return $this->roster_array[$jid]['contact'];
 		}
+		return null;
 	}
 
 	/**
@@ -110,7 +109,7 @@ class Roster
 	 *
 	 * @param string $jid
 	 */
-	public function isContact($jid)
+	public function isContact(string $jid): bool
 	{
 		return (array_key_exists($jid, $this->roster_array));
 	}
@@ -124,7 +123,7 @@ class Roster
 	 * @param string $show
 	 * @param string $status
 	*/
-	public function setPresence($presence, $priority, $show, $status)
+	public function setPresence(string $presence, int $priority, string $show, string $status): void
 	{
 		list($jid, $resource) = explode("/", $presence);
 		if ($show != 'unavailable') {
@@ -144,7 +143,7 @@ class Roster
 	 *
 	 * @param string $jid
 	 */
-	public function getPresence($jid)
+	public function getPresence(string $jid): ?array
 	{
 		$split = explode("/", $jid);
 		$jid = $split[0];
@@ -159,13 +158,14 @@ class Roster
 			}
 			return $current;
 		}
+		return null;
 	}
 	/**
 	 *
 	 * Get roster
 	 *
 	 */
-	public function getRoster()
+	public function getRoster(): array
 	{
 		return $this->roster_array;
 	}

@@ -89,7 +89,7 @@ class Log
 	 * @param string  $msg
 	 * @param integer $runlevel
 	 */
-	public function log(string $msg, int $runlevel = self::LEVEL_INFO)
+	public function log(string $msg, int $runlevel = self::LEVEL_INFO): void
 	{
 		$time = time();
 		#$this->data[] = array($this->runlevel, $msg, $time);
@@ -105,7 +105,7 @@ class Log
 	 * @param boolean $clear
 	 * @param integer|NULL $runlevel
 	 */
-	public function printout(bool $clear = true, int $runlevel = null)
+	public function printout(bool $clear = true, ?int $runlevel = null): void
 	{
 		if($runlevel === null) {
 			$runlevel = $this->runlevel;
@@ -120,7 +120,7 @@ class Log
 		}
 	}
 
-	protected function writeLine(string $msg, int $runlevel, $time)
+	protected function writeLine(string $msg, int $runlevel, int $time): void
 	{
 		//echo date('Y-m-d H:i:s', $time)." [".self::LEVEL_NAMES[$runlevel]."]: ".$msg."\n";
 		echo $time." [".self::LEVEL_NAMES[$runlevel]."]: ".$msg."\n";

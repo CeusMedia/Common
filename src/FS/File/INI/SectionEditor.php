@@ -85,8 +85,7 @@ class SectionEditor extends SectionReader
 		if( !$this->hasProperty( $section, $key ) )
 			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
 		unset( $this->data[$section][$key] );
-		$this->write();
-		return TRUE;
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -100,8 +99,7 @@ class SectionEditor extends SectionReader
 		if( !$this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		unset( $this->data[$section] );
-		$this->write();
-		return TRUE;
+		return 0 !== $this->write();
 	}
 
 	/**
