@@ -57,6 +57,7 @@ class LevelMap extends Dictionary
 	 *	@param		array		$array
 	 *	@param		string		$divider		Level dividing sign
 	 */
+	// @phpstan-ignore method.childParameterType
 	public function __construct( array $array = [], string $divider = '.' )
 	{
 		parent::__construct( $array );

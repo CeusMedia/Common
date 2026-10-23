@@ -75,8 +75,6 @@ class Delegation
 	 */
 	public function addObject( object $object ): int
 	{
-		if( !is_object( $object ) )
-			throw new InvalidArgumentException( 'Not an object given' );
 		$reflection	= new ReflectionObject( $object );
 		$methods	= $reflection->getMethods();
 		foreach( $methods as $method ){

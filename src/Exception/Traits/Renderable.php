@@ -75,7 +75,6 @@ trait Renderable
 //			$format	= Env::isCli() ? self::RENDER_FORMAT_PLAINTEXT : self::RENDER_FORMAT_HTML;
 			$format	= Env::isCli() ? 1 : 2;
 
-		/** @var Throwable $this */
 		return match( $format ){
 //			self::RENDER_FORMAT_HTML	=> HtmlView::render( $this ),
 			2							=> HtmlView::render( $this ),

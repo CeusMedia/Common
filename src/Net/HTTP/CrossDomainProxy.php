@@ -103,7 +103,7 @@ class CrossDomainProxy
 		//  open cURL Handler
 		$curl	= curl_init();
 		//  skip Peer Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, FALSE );
 		//  skip Host Verification
 		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
 		//  set Service Request URL

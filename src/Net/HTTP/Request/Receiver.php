@@ -75,6 +75,7 @@ class Receiver extends Dictionary
 	 *	@param		bool		$useCookie		Flag: include Cookie Values
 	 *	@return		void
 	 */
+	// @phpstan-ignore method.childParameterType
 	public function __construct( bool $useSession = FALSE, bool $useCookie = FALSE )
 	{
 		$this->method	= new Method( getEnv( 'REQUEST_METHOD' ) ?: NULL );
