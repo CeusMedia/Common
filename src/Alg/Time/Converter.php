@@ -67,7 +67,8 @@ class Converter
 		}
 		else if( preg_match( "@^\d{1,2}/(\d{2}){1,2}$@", $string ) ){
 			$pos	= strpos( $string, "/" );
-			$string	= substr( $string, 0, $pos )."/01".substr( $string, $pos );
+			if( false !== $pos )
+				$string	= substr( $string, 0, $pos )."/01".substr( $string, $pos );
 		}
 		else
 			return $string;
@@ -203,22 +204,22 @@ class Converter
 					"i"	=> "minute",
 					"s"	=> "second"
 				];
-				$parts	= [];
-				foreach( $components as $key => $name ){
-					${$name}	= 0;
-					if( array_search( $key, $matches1 ) )
-						if( isset( $matches2[array_search( $key, $matches1 )] ) )
-							$parts[$name] = $matches2[array_search( $key, $matches1 )];
-				}
+ 			$parts	= [];
+ 			foreach( $components as $key => $name ){
+ 				${$name}	= 0;
+ 				$searchPos	= array_search( $key, $matches1 );
+ 				if( $searchPos !== false && isset( $matches2[$searchPos] ) )
+ 					$parts[$name] = $matches2[$searchPos];
+ 			}
 
-				$timestamp = mktime(
-					intval( $parts['hour'] ),
-					intval( $parts['minute'] ),
-					intval( $parts['second'] ),
-					intval( $parts['month'] ),
-					intval( $parts['day'] ),
-					intval( $parts['year'] )
-				);
+ 			$timestamp = mktime(
+ 				intval( $parts['hour'] ?? 0 ),
+ 				intval( $parts['minute'] ?? 0 ),
+ 				intval( $parts['second'] ?? 0 ),
+ 				intval( $parts['month'] ?? 0 ),
+ 				intval( $parts['day'] ?? 0 ),
+ 				intval( $parts['year'] ?? 0 )
+ 			);
 			}
 		}
 		return $timestamp;

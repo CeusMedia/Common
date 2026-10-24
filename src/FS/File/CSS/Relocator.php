@@ -200,6 +200,7 @@ class Relocator
 	 *	@param		array		$m
 	 *	@return		string
 	 * @noinspection PhpUnusedPrivateMethodInspection
+	 * @phpstan-ignore method.unused
 	 */
 	private static function _processUriCB(array $m): string
 	{

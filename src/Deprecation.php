@@ -66,7 +66,7 @@ class Deprecation
 		$trace	= debug_backtrace();
 		$caller	= next( $trace );
 		if( isset( $caller['file'] ) )
-			$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
+			$message .= ', invoked in '.$caller['file'].' on line '.( $caller['line'] ?? '-' );
 
 		if( '' !== $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
@@ -150,7 +150,9 @@ class Deprecation
 	{
 		$iniFilePath			= dirname( __DIR__ ).'/Common.ini';
 		$iniFileData			= parse_ini_file( $iniFilePath, TRUE );
-		$this->version			= $iniFileData['project']['version'];
+		if( FALSE === $iniFileData )
+			$iniFileData	= [];
+		$this->version			= $iniFileData['project']['version'] ?? '0.0.0';
 		$this->errorVersion		= '';
 		$this->exceptionVersion	= '';
 		$this->warnVersion		= '';

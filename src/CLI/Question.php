@@ -17,6 +17,7 @@ namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\CLI;
 use RangeException;
+use RuntimeException;
 
 /**
  *	Terminal question.
@@ -87,6 +88,8 @@ class Question
 		$message	= $this->renderLabel();
 		CLI::out( $message, $this->break );
 		$handle	= fopen( "php://stdin","r" );
+		if( FALSE === $handle )
+			throw new RuntimeException( 'Could not open stdin' );
 		$input	= trim( (string) fgets( $handle ) );
 		if( !$this->evaluateInput( $input ) )
 			$input	= $this->ask();
@@ -162,7 +165,7 @@ class Question
 		return $this;
 	}
 
-	protected function evaluateInput( string|int|float & $input ): bool
+	protected function evaluateInput( string $input ): bool
 	{
 		if( $this->default && !strlen( $input ) )
 			$input	= (string) $this->default;
@@ -180,26 +183,26 @@ class Question
 		if( $this->type === self::TYPE_INTEGER ){
 			if( 1 !== preg_match( '/^\d+$/', $input ) )
 				return FALSE;
-			$input	= (int) $input;
+			$i	= (int) $input;
 			if( $this->strictOptions ){
- 				if( $this->rangeFrom || $this->rangeTo )
-	 				if( $input < $this->rangeFrom || $input > $this->rangeTo )
+				if( $this->rangeFrom || $this->rangeTo )
+					if( $i < $this->rangeFrom || $i > $this->rangeTo )
 						return FALSE;
-				else if( $this->options && !in_array( $input, $this->options, TRUE ) )
+				else if( $this->options && !in_array( $i, $this->options, TRUE ) )
 					return FALSE;
 			}
 		}
 		if( $this->type === self::TYPE_NUMBER ){
 			if( 1 !== preg_match( '/^[\d.]+$/', $input ) )
 				return FALSE;
-			$input	= (float) $input;
+			$i	= (float) $input;
 			if( $this->strictOptions ){
- 				if( $this->rangeFrom || $this->rangeTo ){
-	 				if( $input < $this->rangeFrom || $input > $this->rangeTo )
+				if( $this->rangeFrom || $this->rangeTo ){
+					if( $i < $this->rangeFrom || $i > $this->rangeTo )
 						return FALSE;
-				}
-				else if( $this->options && !in_array( $input, $this->options, TRUE ) )
-					return FALSE;
+			}
+			else if( $this->options && !in_array( $i, $this->options, TRUE ) )
+				return FALSE;
 			}
 		}
 		return TRUE;

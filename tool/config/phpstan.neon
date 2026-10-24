@@ -10,7 +10,6 @@ parameters:
 	excludePaths:
 		analyse:
 			- ../../src/FS/File/YAML/Spyc.php
-			- ../../src/Net/XMPP/XMPPHP
 #			- ../../src/ADT
 #			- ../../src/Alg
 #			- ../../src/CLI

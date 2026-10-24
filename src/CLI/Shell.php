@@ -88,13 +88,25 @@ class Shell
 		error_reporting( 7 );
 		set_time_limit( 0 );
 		if( !defined( 'STDIN' ) ){
-			define( 'STDIN',	fopen( "php://stdin","r" ) );
-			define( 'STDOUT',	fopen( "php://stdout","w" ) );
-			define( 'STDERR',	fopen( "php://stderr","w" ) );
+			/** @var resource $stdin */
+			$stdin	= fopen( "php://stdin","r" );
+			/** @var resource $stdout */
+			$stdout	= fopen( "php://stdout","w" );
+			/** @var resource $stderr */
+			$stderr	= fopen( "php://stderr","w" );
+			define( 'STDIN',	$stdin );
+			define( 'STDOUT',	$stdout );
+			define( 'STDERR',	$stderr );
 			register_shutdown_function( function(){
-				fclose(STDIN);
-				fclose(STDOUT);
-				fclose(STDERR);
+				/** @var resource $s */
+				$s	= STDIN;
+				fclose($s);
+				/** @var resource $s */
+				$s	= STDOUT;
+				fclose($s);
+				/** @var resource $s */
+				$s	= STDERR;
+				fclose($s);
 				return TRUE;
 			});
 		}

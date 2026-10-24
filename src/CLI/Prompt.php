@@ -54,12 +54,14 @@ class Prompt
 	 */
 	public function __construct()
 	{
+		$tty = false;
 		if( str_starts_with( PHP_OS, 'WIN' ) )
-			$this->tty = fopen( "\con", 'rb' );
-		else if( !($this->tty = fopen( "/dev/tty", 'r' ) ) )
-			$this->tty = fopen( "php://stdin", 'r' );
-		if( !$this->tty )
+			$tty = fopen( "\con", 'rb' );
+		else if( !($tty = fopen( "/dev/tty", 'r' ) ) )
+			$tty = fopen( "php://stdin", 'r' );
+		if( !$tty )
 			throw new RuntimeException( 'Could not create any terminal or console device' );
+		$this->tty = $tty;
 	}
 
 	/**

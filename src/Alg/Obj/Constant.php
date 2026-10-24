@@ -50,18 +50,19 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@param		bool			$asDictionary		Flag: return as ADT\Collection\Dictionary
 	 *	@return		array|Dictionary
-	 *	@throws		ReflectionException					if reflection on class failed / class not exists
 	 */
 	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE ): Dictionary|array
 	{
-		$reflection	= new ReflectionClass( $this->className );
+		/** @var class-string $className */
+		$className	= $this->className;
+		$reflection	= new ReflectionClass( $className );
 		$constants	= $reflection->getConstants();
 		if( $prefix ){
 			$prefix		= rtrim( $prefix, '_' );
 			$dictionary	= new Dictionary( $constants );
-			$constants	= $dictionary->getAll( $prefix.'_', $asDictionary );
+			$constants	= $dictionary->getAll( $prefix.'_' );
 		}
-		return $constants;
+		return $asDictionary ? new Dictionary( $constants ) : $constants;
 	}
 
 	/**
@@ -95,11 +96,11 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@return		mixed
 	 *	@throws		DomainException			if constant is not defined
-	 *	@throws		ReflectionException		if reflection on class failed
 	 */
 	public function getValue( string $constantKey, ?string $prefix = NULL ): mixed
 	{
-		$constants	= $this->getAll( $prefix );
+		/** @var array $constants */
+		$constants	= $this->getAll( $prefix, FALSE );
 		if( array_key_exists( $constantKey, $constants ) )
 			return $constants[$constantKey];
 		$constantKey	= $prefix ? rtrim( $prefix, '_' ).'_'.$constantKey : $constantKey;
@@ -111,22 +112,24 @@ class Constant
 	 *	@param		string			$constantKey
 	 *	@param		string|NULL		$prefix
 	 *	@return		bool
-	 *	@throws		ReflectionException		if reflection on class failed / class not exists
 	 */
 	public function hasKey( string $constantKey, ?string $prefix = NULL ): bool
 	{
-		return in_array( $constantKey, $this->getAll( $prefix ), TRUE );
+		/** @var array $constants */
+		$constants	= $this->getAll( $prefix, FALSE );
+		return in_array( $constantKey, array_keys( $constants ), TRUE );
 	}
 
 	/**
 	 *	@param		mixed				$value
 	 *	@param		string|NULL			$prefix
 	 *	@return		bool
-	 *	@throws		ReflectionException
 	 */
 	public function hasValue( mixed $value, ?string $prefix = NULL ): bool
 	{
-		return array_key_exists( $value, $this->getAll( $prefix ) );
+		/** @var array $constants */
+		$constants	= $this->getAll( $prefix, FALSE );
+		return array_key_exists( $value, $constants );
 	}
 
 	public static function fromClassName( string $className ): self
@@ -139,7 +142,6 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@param		bool			$asDictionary		Flag: return as ADT\Collection\Dictionary
 	 *	@return		array|Dictionary
-	 *	@throws		ReflectionException					if reflection on class failed / class not exists
 	 */
 	public static function staticGetAll( string $className, ?string $prefix = NULL, bool $asDictionary = FALSE ): Dictionary|array
 	{
@@ -151,7 +153,6 @@ class Constant
 	 *	@param		string			$constantKey
 	 *	@param		string|NULL		$prefix
 	 *	@return		mixed
-	 *	@throws		ReflectionException
 	 */
 	public static function staticGetValue( string $className, string $constantKey, ?string $prefix = NULL ): mixed
 	{

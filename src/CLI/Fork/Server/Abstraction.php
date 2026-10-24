@@ -183,6 +183,7 @@ abstract class Abstraction
 			//	Whoop-tee-loop!
 			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
 			/** @noinspection PhpConditionAlreadyCheckedInspection */
+			/** @phpstan-ignore booleanNot.alwaysTrue */
 			while( !$this->signalHangup && !$this->signalTerm ){
 				while( pcntl_wait( $status, WNOHANG | WUNTRACED ) > 0 ){
 					usleep( 5000 );

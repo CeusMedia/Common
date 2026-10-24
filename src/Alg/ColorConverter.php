@@ -266,6 +266,7 @@ class ColorConverter
 		return [round( $h ), round( $s * 100 ), round( $v / 2.55 )];
 	}
 
+	/** @phpstan-ignore method.unused */
 	private function rgb2hsv_2( array $rgb ): array
 	{
 		[$r, $g, $b]	= $rgb;

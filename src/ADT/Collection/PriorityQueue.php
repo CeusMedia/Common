@@ -107,10 +107,10 @@ class PriorityQueue implements \Countable
 
 	/**
 	 *	@param		mixed		$item
-	 *	@param		int|float|NULL		$priority
+	 *	@param		int|NULL	$priority
 	 *	@return		static
 	 */
-	public function enqueue( mixed $item, int|float|NULL $priority = NULL ): static
+	public function enqueue( mixed $item, int|NULL $priority = NULL ): static
 	{
 		$priority	= $priority ?? $this->defaultPriority;
 		if( !array_key_exists( $priority, $this->items ) ){

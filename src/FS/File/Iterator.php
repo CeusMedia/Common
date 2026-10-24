@@ -70,13 +70,15 @@ class Iterator extends FilterIterator
 	 */
 	public function accept(): bool
 	{
-		if( $this->getInnerIterator()->isDot() )
+		/** @var DirectoryIterator $iterator */
+		$iterator	= $this->getInnerIterator();
+		if( $iterator->isDot() )
 			return FALSE;
-		if( $this->getInnerIterator()->isDir() )
+		if( $iterator->isDir() )
 			return FALSE;
 
 		if( $this->stripDotFiles ){
-			$fileName	= $this->getInnerIterator()->getFilename();
+			$fileName	= $iterator->getFilename();
 			if( $fileName[0] == "." )
 				return FALSE;
 		}
