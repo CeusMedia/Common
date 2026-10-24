@@ -44,8 +44,8 @@ use InvalidArgumentException;
  */
 class DefinitionValidator
 {
-	/**	@var		object		Predicate Class Instance */
-	protected object $validator;
+	/**	@var		PredicateValidator		Predicate Validator Instance */
+	protected PredicateValidator $validator;
 
 	/**
 	 *	Constructor.

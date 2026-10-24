@@ -322,9 +322,11 @@ class HtmlParser
 		$list	= [];
 		$xpath	= new DomXPath( $this->document );
 		$nodes	= $xpath->query( $query );
+		if( FALSE === $nodes )
+			return $list;
 		foreach( $nodes as $node ){
 			if( preg_match( "#/@[a-z]+$#i", $query ) )
-				$node	= $node->textContent;
+				$node	= $node instanceof \DOMText ? $node->data : ( $node instanceof \DOMElement ? $node->textContent : '' );
 			$list[]	= $node;
 		}
 		return $list;
@@ -361,7 +363,7 @@ class HtmlParser
 		$xpath	= new DomXPath( $this->document );
 		$query	= "//*[@id = '$id']";
 		$nodes	= $xpath->query( $query );
-		return (bool) $nodes->length;
+		return FALSE !== $nodes && 0 !== $nodes->length;
 	}
 
 	/**

@@ -44,6 +44,8 @@ use CeusMedia\Common\CLI;
  */
 class Daemon extends Application
 {
+	protected bool $shallQuit	= FALSE;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -64,10 +66,11 @@ class Daemon extends Application
 	 */
 	public function main(): void
 	{
-		while( TRUE ){
+		while( !$this->shallQuit ){
 			$this->serve();
 			ob_flush();
-			$this->sleep();
+			if( $this->shallQuit )
+				$this->sleep();
 		}
 	}
 

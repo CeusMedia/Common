@@ -57,7 +57,7 @@ class ID
 	{
 		if( function_exists( 'com_create_guid' ) === TRUE )
 			/** @noinspection PhpUndefinedFunctionInspection */
-			return trim( com_create_guid(), '{}' );
+			return trim( (string) com_create_guid(), '{}' );
 		return sprintf(
 			'%04X%04X-%04X-%04X-%04X-%04X%04X%04X',
 			random_int( 0, 65535 ),

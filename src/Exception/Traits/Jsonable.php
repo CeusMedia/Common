@@ -77,7 +77,8 @@ trait Jsonable
 				}
 			}
 			if( NULL !== $data['previous'] ){
-				if( in_array( JsonableTrait::class, class_uses( $data['previous'] ) ) )
+				$uses	= class_uses( $data['previous'] );
+				if( $uses !== false && in_array( JsonableTrait::class, $uses ) )
 					$data['previous']	= json_decode( $data['previous']->getJson() ?? 'null', FALSE );
 			}
 			return JsonEncoder::create()->encode( $data, JSON_PRETTY_PRINT );

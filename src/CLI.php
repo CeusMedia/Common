@@ -57,8 +57,6 @@ class CLI
 
 	protected ?object $logger		= NULL;
 
-	protected object $size;
-
 	protected string $logFile		= 'cli.log';
 
 	static protected array $mimeTypeLabels	= [
@@ -72,8 +70,7 @@ class CLI
 	public function __construct()
 	{
 		$this->base	= (string) getCwd();
-		$this->size	= CliDimensions::getSize();
-		Text::$defaultLineLength	= $this->size->width - 1;
+		Text::$defaultLineLength	= CliDimensions::getWidth() - 1;
 	}
 
 	/**
@@ -169,17 +166,17 @@ class CLI
 
 	public function getColors(): int
 	{
-		return $this->size->colors;
+		return CliDimensions::getColors();
 	}
 
 	public function getHeight(): int
 	{
-		return $this->size->height;
+		return CliDimensions::getHeight();
 	}
 
 	public function getWidth(): int
 	{
-		return $this->size->width;
+		return CliDimensions::getWidth();
 	}
 
 	public function log( string $message ): bool

@@ -196,7 +196,7 @@ class Table
 		}
 	}
 
-	protected function getBorderStyleObject(): object
+	protected function getBorderStyleObject(): TableBorderTheme
 	{
 		return TableBorderTheme::createFromArray( self::$borderStyles[$this->borderStyle] );
 	}

@@ -270,12 +270,14 @@ class String_
 	{
 		$RandALCat	= file( __DIR__.'/StringRandALCat.txt', FILE_IGNORE_NEW_LINES );
 		$codePoints	= unpack( 'V*', (string) iconv( 'UTF-8', 'UTF-32LE', $this->string ) );
+		if( FALSE === $codePoints || FALSE === $RandALCat )
+			return FALSE;
 		foreach( $codePoints as $codePoint ){
 			$hexCode	= strtoupper( str_pad( dechex( $codePoint ), 6, '0', STR_PAD_LEFT ) );
 			if( array_search( $hexCode, $RandALCat, TRUE ) )
-				return true;
+				return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	public function render( array $variables = []): string
@@ -346,9 +348,11 @@ class String_
 	{
 		$list	= [$this->string];
 		if( is_int( $delimiter ) )
-			$list	= str_split( $this->string, $delimiter );
-		else
-			$list	= explode( $delimiter, $this->string );
+			$list	= str_split( $this->string, max( 1, $delimiter ) );
+		else{
+			if( $delimiter !== '' )
+				$list	= explode( $delimiter, $this->string );
+		}
 		return new ArrayObject( $list );
 	}
 

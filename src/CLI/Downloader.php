@@ -33,6 +33,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\CLI;
 
+use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\Common\Alg\UnitFormater;
 use RuntimeException;
@@ -99,21 +100,21 @@ class Downloader
 	/**
 	 *	Loads a File from a URL, saves it using Callback Methods and returns Number of loaded Bytes.
 	 *	@access		public
-	 *	@param		string		$url				URL of File to download
+	 *	@param		URL|string	$url				URL of File to download
 	 *	@param		string		$savePath			Path to save File to
 	 *	@param		bool		$force				Flag: overwrite File if already existing
 	 *	@return		int
 	 */
-	public function downloadUrl( string $url, string $savePath = '', bool $force = FALSE ): int
+	public function downloadUrl( URL|string $url, string $savePath = '', bool $force = FALSE ): int
 	{
 		//  called via Browser
 		if( getenv( 'HTTP_HOST' ) )
 			die( "Usage in Console, only." );
 
 		//  clear Size of current Load
-		$this->loadSize	= 0;
-		//  clear Size og File to download
-		$this->fileSize	= 0;
+		$this->loadSize		= 0;
+		//  clear Size of File to download
+		$this->fileSize		= 0;
 		$this->redirected	= FALSE;
 
 		if( $savePath && !file_exists( $savePath ) )
@@ -122,14 +123,14 @@ class Downloader
 
 		//  correct Path
 		$savePath	= $savePath ? preg_replace( "@([^/])$@", "\\1/", $savePath ) : "";
-		//  parse URL
-		$parts		= parse_url( $url );
-		//  parse Path
-		$info		= pathinfo( $parts['path'] ?? '' );
+
+		if( is_string( $url ) )
+			$url	= new URL( $url );
+
 		//  extract File Name
-		$fileName	= $info['basename'];
+		$fileName	= pathinfo( $url->getPath() )['basename'] ?? '';
 		//  no File Name found in URL
-		if( !$fileName )
+		if( '' === $fileName )
 			throw new RuntimeException( 'File Name could not be extracted.' );
 
 		//  store full File Name
@@ -161,7 +162,7 @@ class Downloader
 		//  start cURL
 		$ch = curl_init();
 		//  set URL in cURL Handle
-		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_URL, $url->get() );
 		//  set Callback Method for Headers
 		curl_setopt( $ch, CURLOPT_HEADERFUNCTION, [$this, 'readHeader'] );
 		//  set Callback Method for Body
@@ -238,6 +239,8 @@ class Downloader
 
 		//  open File for appending
 		$fp	= fopen( $saveUri, "ab+" );
+		if( FALSE === $fp )
+			return $length;
 		//  append Chunk Content
 		fputs( $fp, $string );
 		//  close File
@@ -293,6 +296,8 @@ class Downloader
 		//  split Header on Colon
 		/** @noinspection PhpPregSplitWithoutRegExpInspection */
 		$parts			= preg_split( '/: /', $string );
+		if( FALSE === $parts )
+			return $length;
 		//  there has been at least one Colon
 		if( count( $parts ) > 1 )
 		{
