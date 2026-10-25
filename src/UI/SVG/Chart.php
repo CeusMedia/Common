@@ -138,18 +138,23 @@ class Chart
 	}
 
 	/**
-	 *	This function simply enclosures the received svg code with the beginning- and ending <svg> or </svg> tags.
+	 *	This function simply encloses the received svg code with the beginning- and ending <svg> or </svg> tags.
 	 *	Also, it includes an <?xml ... ?> header.
 	 *	@access		public
 	 *	@param		string		$svg        SVG code to encapsulate
 	 *	@return		string		The encapsulated SVG code
 	 */
-	public function encapsulate( string $svg ): string
+	public function encapsulate( string $svg, int|float $width = 300, int|float $height = 200 ): string
 	{
-		$data = '<?xml version="1.0" encoding="iso-8859-1"?><svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">';
-		$data .= $svg;
-		$data .= "</svg>";
-		return $data;
+		$svgNode	= HtmlTag::create( 'svg', $svg, [
+			'xmlns'			=> "https://www.w3.org/2000/svg",
+			'version'		=> "1.1",
+			'width'			=> (string) $width,
+			'height'		=> (string) $height,
+		] );
+
+		$xmlHeader	= '<?xml version="1.0" encoding="iso-8859-1"?>';
+		return $xmlHeader.$svgNode;
 	}
 
 	/**

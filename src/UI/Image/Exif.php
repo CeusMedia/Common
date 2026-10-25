@@ -54,11 +54,15 @@ class Exif
 
     protected array $raw;
 
-	protected Dictionary $dictionary;
+	protected Dictionary $facts;
 
+	/**
+	 *	@param		string		$imageUri
+	 */
 	public function __construct( string $imageUri )
 	{
-		$this->dictionary	= new Dictionary();
+		$this->facts = new Dictionary();
+
 		if( !function_exists( 'exif_read_data' ) )
 			throw new RuntimeException( 'Exif not supported' );
 		if( !file_exists( $imageUri ) )
@@ -77,37 +81,54 @@ class Exif
 				continue;
 			if( is_array( $value ) )
 				foreach( $value as $nestKey => $nestValue )
-					$this->dictionary->set( $key.".".$nestKey, $nestValue );
+					$this->facts->set( $key.".".$nestKey, $nestValue );
 			else
-				$this->dictionary->set( $key, $value );
+				$this->facts->set( $key, $value );
 		}
 	}
 
+	/**
+	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
+	 *	@return		mixed
+	 */
 	public function get( string $key, mixed $default = NULL ): mixed
 	{
-		return $this->dictionary->get( $key, $default);
+		return $this->facts->get( $key, $default );
 	}
 
-	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): self|array
+	/**
+	 *	@param		string|NULL			$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean				$asDictionary	Flag: return list as dictionary object instead of an array
+	 *	@param		boolean				$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		Dictionary|array	Map or dictionary object containing all or filtered pairs
+	 */
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
 	{
-		return $this->dictionary->getAll( $prefix, $asDictionary, $caseSensitive );
+		return $this->facts->getAll( $prefix, $asDictionary, $caseSensitive );
 	}
 
+	/**
+	 *	@param		string|NULL			$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean				$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		Dictionary			Dictionary object containing all or filtered pairs
+	 */
 	public function getDictionary( ?string $prefix = NULL, bool $caseSensitive = TRUE ): Dictionary
 	{
-		return $this->dictionary->getAll( $prefix, TRUE, $caseSensitive );
+		return $this->facts->getAll( $prefix, TRUE, $caseSensitive );
 	}
 
-	public function getKeys(): array
-	{
-		return $this->dictionary->getKeys();
-	}
-
+	/**
+	 *	@return		array
+	 */
 	public function getRawData(): array
 	{
 		return $this->raw;
 	}
 
+	/**
+	 *	@return		array
+	 */
 	public function getThumbnailData(): array
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
@@ -119,6 +140,10 @@ class Exif
 		];
 	}
 
+	/**
+	 *	@return		string
+	 *	@throws		Exception
+	 */
 	public function getThumbnailImage(): string
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );

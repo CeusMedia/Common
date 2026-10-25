@@ -102,9 +102,8 @@ class Builder
 	public function __construct( array $data = [] )
 	{
 		$this->builder	= new DomBuilder();
-		$this->items	= [];
-
 		$this->channel['timezone']	= '+0000';
+		$this->items	= [];
 
 		foreach( $data as $key => $value )
 			$this->setChannelPair( (string) $key, NULL !== $value ? (string) $value : NULL );
