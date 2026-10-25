@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Implementation of a Section List using an Array.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Collection
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +39,7 @@ use OutOfBoundsException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Collection
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
