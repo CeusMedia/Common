@@ -61,9 +61,7 @@ class LevelMap extends Dictionary
 	public function __construct( array $array = [], string $divider = '.' )
 	{
 		parent::__construct( $array );
-		if( 0 === strlen( $divider ) )
-			throw new MissingDataException( 'Divider cannot be empty' );
-		$this->divider	= $divider;
+		$this->setDivider( $divider );
 	}
 
 	/**

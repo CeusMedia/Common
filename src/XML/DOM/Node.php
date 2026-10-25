@@ -73,22 +73,14 @@ class Node
 				$this->setAttribute( (string) $key, (string) $value );
 	}
 
-	public function __get( string $key ): mixed
+	public function __get( string $key ): string|array|NULL
 	{
-		switch( $key ){
-			case 'name':
-			case 'nodeName':
-				return $this->nodeName;
-			case 'content':
-			case 'nodeContent':
-			case 'nodeValue':
-				return $this->content;
-			case 'attr':
-			case 'attributes':
-				return $this->attributes;
-			default:
-				throw new InvalidArgumentException( 'Property "'.$key.'" not defined.' );
-		}
+		return match( $key ){
+			'name', 'nodeName'						=> $this->nodeName,
+			'content', 'nodeContent', 'nodeValue'	=> $this->content,
+			'attr', 'attributes'					=> $this->attributes,
+			default => throw new InvalidArgumentException('Property "' . $key . '" not defined.'),
+		};
 	}
 
 	/**

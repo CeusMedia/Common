@@ -103,9 +103,9 @@ class Exif
 	 *	@param		boolean				$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
 	 *	@return		Dictionary|array	Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
+	public function getFacts( ?string $prefix = NULL, bool $caseSensitive = TRUE ): Dictionary
 	{
-		return $this->facts->getAll( $prefix, $asDictionary, $caseSensitive );
+		return $this->facts->getAll( $prefix, TRUE, $caseSensitive );
 	}
 
 	/**

@@ -270,10 +270,10 @@ class Reader
 	/**
 	 *	Returns Size of all nested Files and Folders within current Folder.
 	 *	@access		public
-	 *	@param		?string		$pattern		RegEx Pattern for Name Filter
+	 *	@param		string|NULL		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedSize( string $pattern = NULL ): int
+	public function getNestedSize( ?string $pattern = NULL ): int
 	{
 		$size	= 0;
 		foreach( $this->getNestedFileList( $pattern ) as $entry )

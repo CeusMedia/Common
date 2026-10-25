@@ -158,22 +158,22 @@ class Graph
 		$edges	= [];
 		$nodes	= [];
 		foreach( $this->nodes as $name => $nodeOptions )
-			$nodes[]	= $name.' ['.$this->renderOptions( $this->nodeOptions, $nodeOptions ).'];';
+			$nodes[]	= $name.' ['.$this->renderOptions( array_merge( $this->nodeOptions, $nodeOptions ) ).'];';
 		foreach( $this->edges as $source => $targets )
 			foreach( $targets as $target => $edgeOptions )
-				$edges[]	= $source.' -> '.$target.' ['.$this->renderOptions( $this->edgeOptions, $edgeOptions ).']';
+				$edges[]	= $source.' -> '.$target.' ['.$this->renderOptions( array_merge( $this->edgeOptions, $edgeOptions ) ).']';
 		$rules		= array(
-			$this->renderOptions( $this->options, $options, "\n\t" ),
+			$this->renderOptions( array_merge( $this->options, $options ), "\n\t" ),
 			join( "\n\t", $nodes ),
 			join( "\n\t", $edges ),
 		);
 		return $this->type." ".$this->id." {\n\t".join( "\n\t", $rules )."\n}";
 	}
 
-	protected function renderOptions( array $options = [], array $overrideOptions = [], string $delimiter = ' ' ): string
+	protected function renderOptions( array $options = [], string $delimiter = ' ' ): string
 	{
-		$list		= [];
-		foreach( array_merge( $options, $overrideOptions ) as $key => $value )
+		$list	= [];
+		foreach( $options as $key => $value )
 			$list[]	= $key.'="'.addslashes( (string) $value ).'"';
 		return join( $delimiter, $list );
 	}
