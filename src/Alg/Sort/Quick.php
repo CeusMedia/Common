@@ -55,8 +55,6 @@ class Quick
 	 */
 	public static function sort( array &$array, ?int $first = NULL, ?int $last = NULL ): void
 	{
-		if( !is_array( $array ) )
-			return FALSE;
 		if( is_null( $first ) )
 			$first = 0;
 		if( is_null( $last ) )
@@ -84,7 +82,6 @@ class Quick
 			self::sort( $array, $first, $right );
 			self::sort( $array, $left, $last );
 		}
-		return $array;
 	}
 
 	/**
