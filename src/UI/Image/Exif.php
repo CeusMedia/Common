@@ -109,6 +109,16 @@ class Exif
 	}
 
 	/**
+	 *	@param		string|NULL			$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean				$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		Dictionary			Dictionary object containing all or filtered pairs
+	 */
+	public function getDictionary( ?string $prefix = NULL, bool $caseSensitive = TRUE ): Dictionary
+	{
+		return $this->facts->getAll( $prefix, TRUE, $caseSensitive );
+	}
+
+	/**
 	 *	@return		array
 	 */
 	public function getRawData(): array

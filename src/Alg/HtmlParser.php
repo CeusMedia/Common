@@ -325,9 +325,17 @@ class HtmlParser
 		if( FALSE === $nodes )
 			return $list;
 		foreach( $nodes as $node ){
-			if( preg_match( "#/@[a-z]+$#i", $query ) )
-				$node	= $node instanceof \DOMText ? $node->data : ( $node instanceof \DOMElement ? $node->textContent : '' );
-			$list[]	= $node;
+			if( preg_match( "#/@[a-z]+$#i", $query ) ){
+				if( $node instanceof \DOMText )
+					$value	= $node->data;
+				else if( $node instanceof \DOMElement )
+					$value	= $node->textContent;
+				else if( $node instanceof \DOMAttr )
+					$value	= $node->textContent;
+			}
+			else
+				$value	= $node;
+			$list[]	= $value;
 		}
 		return $list;
 	}

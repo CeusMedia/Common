@@ -114,9 +114,7 @@ class Collection implements Countable, IteratorAggregate
 	 */
 	public function getLevelMap( string $divider = '.' ): LevelMap
 	{
-		$map	= new LevelMap( $this->items );
-		$map->setDivider( $divider );
-		return $map;
+		return new LevelMap( $this->items, $divider );
 	}
 
 	/**

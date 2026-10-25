@@ -138,19 +138,24 @@ class Chart
 	}
 
 	/**
-	 *	This function simply enclosoures the received svg code with the beginning- and ending <svg> or </svg> tags.
-	 *	Also it includes an <?xml ... ?> header.
+	 *	This function simply encloses the received svg code with the beginning- and ending <svg> or </svg> tags.
+	 *	Also, it includes an <?xml ... ?> header.
+	 *	Also, it includes doctype with SVG graphics DTD.
+	 *	Also, it includes xlink namespace.
 	 *	@access		public
 	 *	@param		string		$svg        SVG code to encapsulate
 	 *	@return		string		The encapsulated SVG code
 	 */
 	public function encapsulate( string $svg ): string
 	{
-		$data = '<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">';
-		$data .= $svg;
-		$data .= "</svg>";
+		$svgNode	= HtmlTag::create( 'svg', $svg, [
+			'xmlns'			=> "https://www.w3.org/2000/svg",
+			'xmlns:xlink'	=> "https://www.w3.org/1999/xlink"
+		] );
+		$docType	= '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
-		return $data;
+		$xmlHeader	= '<?xml version="1.0" encoding="iso-8859-1"?>';
+		return $xmlHeader.$docType.$svgNode;
 	}
 
 	/**
@@ -158,7 +163,7 @@ class Chart
 	 *	Supplied is a number.
 	 *	@access		public
 	 *	@param		integer		$id     The id of the color
-	 *	@return		string		color name or hexadeciaml triplet
+	 *	@return		string		color name or hexadecimal triplet
 	 */
 	public function getColor( int $id ): string
 	{
