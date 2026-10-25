@@ -64,8 +64,8 @@ use Exception;
  *	@version		1.1.2 (2012-05-01)
  *	@link			https://github.com/rgrove/jsmin-php
  */
-class Minifier{
-
+class Minifier
+{
 	protected const ORD_LF				= 10;
 	protected const ORD_SPACE			= 32;
 	protected const ACTION_KEEP_A		= 1;
@@ -261,9 +261,9 @@ class Minifier{
 	protected function min(): string
 	{
 		if (0 == strncmp($this->peek() ?? '', "\xef", 1)) {
-				$this->get();
-				$this->get();
-				$this->get();
+			$this->get();
+			$this->get();
+			$this->get();
 		}
 
 		$this->a = "\n";

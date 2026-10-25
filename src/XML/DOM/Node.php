@@ -75,7 +75,7 @@ class Node
 
 	public function __get( string $key ): string|array|NULL
 	{
-		return match ($key) {
+		return match( $key ){
 			'name', 'nodeName'						=> $this->nodeName,
 			'content', 'nodeContent', 'nodeValue'	=> $this->content,
 			'attr', 'attributes'					=> $this->attributes,

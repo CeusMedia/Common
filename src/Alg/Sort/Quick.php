@@ -66,14 +66,12 @@ class Quick
 			$compare	= $array[$middle];
 			$left		= $first;
 			$right	= $last;
-			while( $left <= $right )
-			{
+			while( $left <= $right ){
 				while( $array[$left] < $compare )
 					$left++;
 				while( $array[$right] > $compare )
 					$right--;
-				if( $left <= $right )
-				{
+				if( $left <= $right ){
 					self::swap( $array, $left, $right );
 					$left++;
 					$right--;
@@ -94,10 +92,8 @@ class Quick
 	 *	@return		void
 	 */
 	protected static function swap( array &$array, int $pos1, int $pos2 ): void
-
 	{
-		if( isset( $array[$pos1] ) && isset( $array[$pos2] ) )
-		{
+		if( isset( $array[$pos1] ) && isset( $array[$pos2] ) ){
 			$memory	= $array[$pos1];
 			$array[$pos1] = $array[$pos2];
 			$array[$pos2] = $memory;

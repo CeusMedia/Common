@@ -61,14 +61,14 @@ class MethodDocBlockInspector
 
 		/** @var list<string>|FALSE $lines */
 		$lines	= preg_split( '/\r?\n/', trim( $block ) );
-		if( FALSE === $lines || 0 === count( $lines ) )
+		if( [] === $lines || FALSE === $lines )
 			return [];
 
 		$list	= [];
 		foreach( $lines as $line ){
-			if( preg_match( '/^\s*\/\*{1,2}/', $line ) )
+			if( 1 === preg_match( '/^\s*\/\*{1,2}/', $line ) )
 				continue;
-			if( preg_match( '/^\s*\*{1,2}\//', $line ) )
+			if( 1 === preg_match( '/^\s*\*{1,2}\//', $line ) )
 				continue;
 			$list[]	= preg_replace( "/^\s*\*\s?/", '', $line );
 		}

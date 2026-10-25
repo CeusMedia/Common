@@ -74,9 +74,7 @@ class Reader
 		$this->connection->checkConnection();
 		if( $target === NULL || strlen( trim( $target ) ) === 0 )
 			$target	= $fileName;
-		/** @var 1|2 $mode */
-		$mode	= $this->connection->mode;
-		return @ftp_get( $this->connection->getResource(), $target, $fileName, $mode );
+		return @ftp_get( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
 
 	/**
