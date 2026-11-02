@@ -33,6 +33,7 @@ declare(strict_types=1);
 namespace CeusMedia\Common\Net\HTTP\Request;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Method as Method;
@@ -78,7 +79,7 @@ class Receiver extends Dictionary
 	// @phpstan-ignore method.childParameterType
 	public function __construct( bool $useSession = FALSE, bool $useCookie = FALSE )
 	{
-		$this->method	= new Method( getEnv( 'REQUEST_METHOD' ) ?: NULL );
+		$this->method	= new Method( Env::getServerVariable( 'REQUEST_METHOD' ) ?: NULL );
 		$this->sources	= [
 			"get"	=> &$_GET,
 			"post"	=> &$_POST,
@@ -92,8 +93,8 @@ class Receiver extends Dictionary
 		parent::__construct( array_merge( ...array_values( $this->sources ) ) );
 
 		//  store HTTP method
-		$this->root		= rtrim( dirname( (string) getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
-		$this->path		= substr( (string) getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		$this->root		= rtrim( dirname( (string) Env::getServerVariable( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path		= substr( (string) Env::getServerVariable( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( str_contains( $this->path, '?' ) )
 			$this->path	= substr( $this->path, 0, (int) strpos( $this->path, '?' ) );
 
@@ -102,7 +103,7 @@ class Receiver extends Dictionary
 		$this->headers->addFieldPairs( Request::getAllEnvHeaders() );
 
 		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' ) ?: '';
+		$this->ip		= Env::getServerVariable( 'REMOTE_ADDR' ) ?: '';
 		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
 			$this->ip = (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue();			//  get original IP address of request
 	}

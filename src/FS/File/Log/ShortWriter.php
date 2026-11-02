@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\FS\File\Log;
 
+use CeusMedia\Common\Env;
+
 /**
  *	Writer for short Log Files.
  *	@category		Library
@@ -58,10 +60,10 @@ class ShortWriter
 		$this->uri	= $uri;
 		$this->setPatterns( [
 			time(),
-			getEnv( 'REMOTE_ADDR'),
-			getEnv( 'REQUEST_URI' ),
-			getEnv( 'HTTP_REFERER' ),
-			getEnv( 'HTTP_USER_AGENT' )
+			Env::getServerVariable( 'REMOTE_ADDR' ),
+			Env::getServerVariable( 'REQUEST_URI' ),
+			Env::getServerVariable( 'HTTP_REFERER' ),
+			Env::getServerVariable( 'HTTP_USER_AGENT' )
 		] );
 	}
 

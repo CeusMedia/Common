@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 
 /**
@@ -56,7 +57,7 @@ class Language
 	 */
 	public static function getLanguage( array $allowed, ?string $default = NULL ): ?string
 	{
-		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' ) ?: '';
+		$accept	= Env::getServerVariable( 'HTTP_ACCEPT_LANGUAGE' ) ?: '';
 		return static::getLanguageFromString( $accept, $allowed, $default );
 	}
 

@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Env;
+
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *	@category		Library
@@ -73,7 +75,7 @@ class Client
 	 */
 	public function getIp(): string|FALSE
 	{
-		return getEnv( 'REMOTE_ADDR' ) ;
+		return Env::getServerVariable( 'REMOTE_ADDR' ) ?? FALSE;
 	}
 
 	/**

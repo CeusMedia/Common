@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\CLI;
 
+use CeusMedia\Common\Env;
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *	@category		Library
@@ -81,7 +83,7 @@ class Shell
 	 */
 	public function __construct()
 	{
-		if( getenv( 'HTTP_HOST' ) )
+		if( Env::getServerVariable( 'HTTP_HOST' ) )
 			die( "usage in console only." );
 		ob_implicit_flush();
 		ini_set( "html_errors", '0' );

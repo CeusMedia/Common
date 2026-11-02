@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 
 /**
@@ -56,7 +57,7 @@ class Charset
 	 */
 	public static function getCharset( array $allowed, ?string $default = NULL ): ?string
 	{
-		$accepted	= getEnv( 'HTTP_ACCEPT_CHARSET' ) ?: '';
+		$accepted	= Env::getServerVariable( 'HTTP_ACCEPT_CHARSET' ) ?: '';
 		return static::getCharsetFromString( $accepted, $allowed, $default );
 	}
 

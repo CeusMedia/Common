@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 
 /**
@@ -58,7 +59,7 @@ class MimeType
 		if( !$default)
 			$default = $allowed[0];
 		$pattern	= '@^([a-z*+]+(/[a-z*+]+)*)(?:;\s*q=(0(?:\.\d{1,3})?|1(?:\.0{1,3})?))?$@i';
-		$accepted	= getEnv( 'HTTP_ACCEPT' );
+		$accepted	= Env::getServerVariable( 'HTTP_ACCEPT' );
 		if( !$accepted )
 			return $default;
 

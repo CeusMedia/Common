@@ -32,6 +32,7 @@ declare(strict_types=1);
 namespace CeusMedia\Common\Net\HTTP;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Env;
 
 /**
  *	Management for session data with partitions.
@@ -71,7 +72,7 @@ class PartitionSession extends Dictionary
 		//  copy session data resource
 		$this->session	=& $_SESSION;
 		//  get client IP address
-		$ip = getEnv( 'REMOTE_ADDR' );
+		$ip = Env::getServerVariable( 'REMOTE_ADDR' );
 		//  IP has not been noted before
 		if( !isset( $this->session['ip'] ) )
 			//  store IP in session
@@ -119,7 +120,7 @@ class PartitionSession extends Dictionary
 		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
 #			$this->remove( $key );
-		$this->session['ip'] = getEnv( 'REMOTE_ADDR' );
+		$this->session['ip'] = Env::getServerVariable( 'REMOTE_ADDR' );
 	}
 
 	/**
