@@ -30,6 +30,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 use InvalidArgumentException;
 
@@ -62,7 +63,7 @@ class Encoding
 			throw new InvalidArgumentException( 'Default Encoding Method must be an allowed Encoding Method.' );
 
 		$pattern	= '/^([a-z]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
-		$accepted	= getEnv( 'HTTP_ACCEPT_ENCODING' );
+		$accepted	= Env::getServerVariable( 'HTTP_ACCEPT_ENCODING' );
 		if( !$accepted )
 			return $default;
 		$accepted		= preg_split( '/,\s*/', $accepted ) ?: [];

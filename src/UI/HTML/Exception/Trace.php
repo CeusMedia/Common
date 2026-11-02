@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace CeusMedia\Common\UI\HTML\Exception;
 
 use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\UI\HTML\Tag;
 use Countable;
 use Exception;
@@ -250,7 +251,7 @@ class Trace
 	 */
 	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= realpath( (string) getEnv( 'DOCUMENT_ROOT' ) );
+		$rootPath	= realpath( (string) Env::getServerVariable( 'DOCUMENT_ROOT' ) );
 		if( strlen( trim( $fileName ) ) && $rootPath )
 			$fileName	= preg_replace( "/^".preg_quote( $rootPath.'/', '/' )."/", "", $fileName );
 		return $fileName;

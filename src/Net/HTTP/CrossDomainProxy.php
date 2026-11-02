@@ -32,6 +32,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\HTTP;
 
+use CeusMedia\Common\Env;
 use Exception;
 
 /**
@@ -82,7 +83,7 @@ class CrossDomainProxy
 	public function forward( bool $throwException = FALSE ): bool|string
 	{
 		//  get GET Query String
-		$query	= getEnv( 'QUERY_STRING' );
+		$query	= Env::getServerVariable( 'QUERY_STRING' );
 		//  build Service Request URL
 		$url	= $this->url."?".$query;
 		return static::requestUrl( $url, $this->username, $this->password, $throwException );
@@ -119,7 +120,7 @@ class CrossDomainProxy
 			//  set HTTP Basic Authentication
 			curl_setopt( $curl, CURLOPT_USERPWD, $username.":".$password );
 		//  get Request Method
-		$method	= getEnv( 'REQUEST_METHOD' );
+		$method	= Env::getServerVariable( 'REQUEST_METHOD' );
 		//  Request Method is POST
 		if( 'POST' === $method ){
 			//  build POST Parameters

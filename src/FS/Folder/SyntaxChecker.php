@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace CeusMedia\Common\FS\Folder;
 
 use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\FS\File\SyntaxChecker as FileSyntaxChecker;
 
 /**
@@ -63,7 +64,7 @@ class SyntaxChecker
 	 */
 	public function __construct()
 	{
-		$this->lineBreak	= getEnv( 'HTTP_HOST' ) ? "<br/>" : "\n";
+		$this->lineBreak	= Env::getServerVariable( 'HTTP_HOST' ) ? "<br/>" : "\n";
 		$this->checker		= new FileSyntaxChecker;
 	}
 
