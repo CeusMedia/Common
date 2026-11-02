@@ -85,30 +85,58 @@ class Parser
 	}
 
 	/**
-	 *	Parses a single iCal Lines.
+	 *	Parses a single iCal line into name, parameters and value.
+	 *	Parameters are separated by semicolons (RFC 5545). For files written by older versions of the builder,
+	 *	commas followed by a parameter name are accepted as separator, too.
+	 *	Colons, semicolons and commas within quoted parameter values are kept.
 	 *	@access		protected
 	 *	@static
 	 *	@param		string		$line		Line to parse
-	 *	@return 	array
+	 *	@return 	array{name: string, param: array<string,string>, value: string}
 	 */
 	protected static function parseLine( string $line ): array
 	{
-		$pos	= (int) strpos( $line, ":" );
-		$name	= substr( $line, 0, $pos );
-		$value	= substr( $line, $pos+1 );
+		$parts		= [];
+		$current	= '';
+		$quoted		= FALSE;
+		$value		= '';
+		$length		= strlen( $line );
+		for( $i = 0; $i < $length; $i++ ){
+			$char	= $line[$i];
+			if( '"' === $char ){
+				$quoted		= !$quoted;
+				$current	.= $char;
+			}
+			else if( !$quoted && ':' === $char ){
+				$value	= substr( $line, $i + 1 );
+				break;
+			}
+			else if( !$quoted && ( ';' === $char || ( ',' === $char && 1 === preg_match( '/^[A-Za-z0-9-]+=/', substr( $line, $i + 1 ) ) ) ) ){
+				$parts[]	= $current;
+				$current	= '';
+			}
+			else
+				$current	.= $char;
+		}
+		$parts[]	= $current;
 
+		$name	= array_shift( $parts );
 		$params	= [];
-		if( substr_count( $name, ";" ) ){
-			$pos	= (int) strpos( $name, ";" );
-			$params	= substr( $name, $pos+1 );
-			$name	= substr( $name, 0, $pos );
-			$params	= explode( ",", utf8_decode( $params ) );
+		foreach( $parts as $part ){
+			$pair	= explode( '=', $part, 2 );
+			$key	= trim( $pair[0] );
+			if( '' === $key )
+				continue;
+			$paramValue	= $pair[1] ?? '';
+			if( strlen( $paramValue ) > 1 && str_starts_with( $paramValue, '"' ) && str_ends_with( $paramValue, '"' ) && 2 === substr_count( $paramValue, '"' ) )
+				$paramValue	= substr( $paramValue, 1, -1 );
+			$params[$key]	= $paramValue;
 		}
 
 		return [
-			"name"	=> trim( $name ),
+			"name"	=> trim( (string) $name ),
 			"param"	=> $params,
-			"value"	=> utf8_decode( $value ),
+			"value"	=> $value,
 		];
 	}
 
@@ -134,10 +162,8 @@ class Parser
 				$lines	= self::parseRecursive( $parsed['value'], $node, $lines );
 			else{
 				$child	= new Node( strtolower( $parsed['name'] ), $parsed['value'] );
-				foreach( $parsed['param'] as $param ){
-					$parts	= explode( "=", $param );
-					$child->setAttribute( strtolower( $parts[0] ), $parts[1] );
-				}
+				foreach( $parsed['param'] as $key => $value )
+					$child->setAttribute( strtolower( $key ), $value );
 				$node->addChild( $child );
 			}
 		}
@@ -155,6 +181,7 @@ class Parser
 	{
 		$string	= str_replace( self::$lineBreak." ;", ";", $string );
 		$string	= str_replace( self::$lineBreak." :", ":", $string );
+		$string	= str_replace( self::$lineBreak."\t", "", $string );
 		return str_replace( self::$lineBreak." ", "", $string );
 	}
 }

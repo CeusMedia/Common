@@ -60,7 +60,14 @@ class Rotator extends Modifier
 #		if( function_exists( 'imageantialias' ) )
 #			imageantialias( $this->target, TRUE );
 
-		$this->target	= imagerotate( $this->source, $angle, 0 );
+		//  keep transparency: transparent background and alpha channel
+		$background		= (int) imagecolorallocatealpha( $this->source, 0, 0, 0, 127 );
+		$rotated		= imagerotate( $this->source, $angle, $background );
+		if( FALSE === $rotated )
+			throw new RuntimeException( 'Rotating image failed' );
+		imagealphablending( $rotated, FALSE );
+		imagesavealpha( $rotated, TRUE );
+		$this->target	= $rotated;
 		if( $this->targetUri )
 			return $this->saveImage( $type );
 		return TRUE;

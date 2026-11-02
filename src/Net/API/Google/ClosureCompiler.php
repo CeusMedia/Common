@@ -31,6 +31,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\API\Google;
 
+use CeusMedia\Common\Deprecation;
 use CeusMedia\Common\Net\HTTP\Post;
 use RuntimeException;
 
@@ -42,6 +43,7 @@ use RuntimeException;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
+ *	@deprecated		Google has shut down the Closure Compiler web service API, use the Closure Compiler application or another minifier instead
  */
 class ClosureCompiler
 {
@@ -57,6 +59,10 @@ class ClosureCompiler
 	 */
 	public function __construct( array $options = [] )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '1.1' )
+			->setExceptionVersion( '1.2' )
+			->message( 'Google has shut down the Closure Compiler web service API, use the Closure Compiler application or another minifier instead' );
 		$this->options	= $options;
 	}
 

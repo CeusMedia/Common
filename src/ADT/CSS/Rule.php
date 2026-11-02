@@ -104,6 +104,8 @@ class Rule
 		foreach( $this->properties as $nr => $property ){
 			if( $key == $property->getKey() ){
 				unset( $this->properties[$nr] );
+				//  keep indices sequential for getPropertyByIndex()
+				$this->properties	= array_values( $this->properties );
 				return TRUE;
 			}
 		}

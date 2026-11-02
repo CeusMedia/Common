@@ -24,6 +24,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class PackerTest extends BaseCase
 {
+	protected $packer;
+
 	protected $articles;
 	protected $packets;
 	protected $volumes;

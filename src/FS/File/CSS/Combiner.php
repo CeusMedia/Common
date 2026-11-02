@@ -103,7 +103,8 @@ class Combiner
 		$this->statistics['numberFiles']	= 0;
 		$this->statistics['filesFound']		= [];
 		$this->statistics['filesSkipped']	= [];
-		$content	= preg_replace( '/\/\*.+\*\//sU', '', $content );
+		//  remove comments (also empty ones like /**/)
+		$content	= (string) preg_replace( '/\/\*.*?\*\//s', '', $content );
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line ){
 			$line	= trim( $line );

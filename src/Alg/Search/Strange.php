@@ -45,37 +45,38 @@ class Strange
 	protected int $counter;
 
 	/**
-	 *	Searches in List and returns position if found.
+	 *	Searches in a sorted list by dividing the search range into thirds (ternary search).
+	 *	Returns index of found value, or -1.
 	 *	@access		public
-	 *	@param		array		$array			List to search in
-	 *	@param		mixed		$key			Element to search
-	 *	@param		int			$left			Left bound
-	 *	@param		int			$right			Right bound
-	 *	@return 	int
+	 *	@param		array		$array		Sorted list
+	 *	@param		mixed		$key		Value to search
+	 *	@param		int			$left		Left bound (default: start of list)
+	 *	@param		int			$right		Right bound (default: end of list)
+	 *	@return		int
 	 */
 	public function search( array $array, mixed $key, int $left = 0, int $right = 0 ): int
-
 	{
-		if( !$right ){
-			$left	= 0;
-			$right	= sizeof( $array ) - 1;
-			$this->counter = 0;
+		$array			= array_values( $array );
+		$this->counter	= 0;
+		if( 0 === $right )
+			$right	= count( $array ) - 1;
+		while( $left <= $right ){
+			$this->counter++;
+			$index1	= $left + intdiv( $right - $left, 3 );
+			$index2	= $right - intdiv( $right - $left, 3 );
+			if( $key == $array[$index1] )
+				return $index1;
+			if( $key == $array[$index2] )
+				return $index2;
+			if( $key < $array[$index1] )
+				$right	= $index1 - 1;
+			else if( $key > $array[$index2] )
+				$left	= $index2 + 1;
+			else{
+				$left	= $index1 + 1;
+				$right	= $index2 - 1;
+			}
 		}
-		$this->counter++;
-		$index1	= (int) round( $left + ( $right - $left ) / 3, 0 );
-		$index2	= (int) round( $left + ( ( $right-$left ) / 3 ) * 2, 0 );
-		//echo "searching from $left to $right [$index1 - $index2]<br>";
-		if( $key == $array[$index1] )
-			return $index1;
-		if( $key == $array[$index2] )
-			return $index2;
-		if( $left == $right )
-			return -1;
-		if( $key < $array[$index1] )
-			return $this->search( $array, $key, $left, $index1 );
-		else if( $key >= $array[$index2] )
-			return $this->search( $array, $key, $index2, $right );
-		else
-			return $this->search( $array, $key, $index1 + 1, $index2 - 1 );
+		return -1;
 	}
 }

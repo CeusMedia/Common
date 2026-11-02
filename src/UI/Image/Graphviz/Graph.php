@@ -161,7 +161,7 @@ class Graph
 			$nodes[]	= $name.' ['.$this->renderOptions( array_merge( $this->nodeOptions, $nodeOptions ) ).'];';
 		foreach( $this->edges as $source => $targets )
 			foreach( $targets as $target => $edgeOptions )
-				$edges[]	= $source.' -> '.$target.' ['.$this->renderOptions( array_merge( $this->edgeOptions, $edgeOptions ) ).']';
+				$edges[]	= $source.( 'graph' === $this->type ? ' -- ' : ' -> ' ).$target.' ['.$this->renderOptions( array_merge( $this->edgeOptions, $edgeOptions ) ).']';
 		$rules		= array(
 			$this->renderOptions( array_merge( $this->options, $options ), "\n\t" ),
 			join( "\n\t", $nodes ),
@@ -174,7 +174,8 @@ class Graph
 	{
 		$list	= [];
 		foreach( $options as $key => $value )
-			$list[]	= $key.'="'.addslashes( (string) $value ).'"';
+			//  only quotes are escaped, backslash sequences like \n are label escapes in DOT
+			$list[]	= $key.'="'.str_replace( '"', '\\"', (string) $value ).'"';
 		return join( $delimiter, $list );
 	}
 

@@ -132,14 +132,14 @@ class Reader
 	/**
 	 *	Returns Info Array or single Information from last cURL Request.
 	 *	@access		public
-	 *	@param		integer|NULL		$key		Information Key
+	 *	@param		string|NULL			$key		Information Key, like http_code or content_type
 	 *	@return		mixed
 	 */
-	public function getCurlInfo( ?int $key = NULL ): mixed
+	public function getCurlInfo( ?string $key = NULL ): mixed
 	{
 		if( !$this->curlInfo )
 			throw new RuntimeException( "No Request has been sent, yet." );
-		if( !$key )
+		if( NULL === $key || '' === $key )
 			return $this->curlInfo;
 		if( !array_key_exists( $key, $this->curlInfo ) )
 			throw new InvalidArgumentException( 'Status Key "'.$key.'" is invalid.' );
@@ -147,14 +147,18 @@ class Reader
 	}
 
 	/**
-	 *	...
+	 *	Returns value of a response header field of last GET request, case-insensitive.
+	 *	Values of repeated header fields are combined, separated by comma.
 	 *	@access		public
-	 *	@param		string		$key
+	 *	@param		string		$key		Header field name, like Content-Type
 	 *	@return		string|NULL
 	 */
 	public function getResponseHeader( string $key ): ?string
 	{
-		return $this->responseHeaders[$key] ?? NULL;
+		foreach( $this->responseHeaders as $name => $values )
+			if( 0 === strcasecmp( (string) $name, $key ) )
+				return implode( ', ', (array) $values );
+		return NULL;
 	}
 
 	/**

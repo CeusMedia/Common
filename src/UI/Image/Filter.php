@@ -131,9 +131,15 @@ class Filter
 		return imagefilter( $this->image->getResource(), IMG_FILTER_EMBOSS );
 	}
 
-	public function gamma( int $level ): bool
+	/**
+	 *	Applies gamma correction to the image.
+	 *	@access		public
+	 *	@param		float		$level		Output gamma, e.g. 1.5 to brighten (1.0 means no change)
+	 *	@return		boolean
+	 */
+	public function gamma( float $level ): bool
 	{
-		return imagegammacorrect( $this->image->getResource(), 1.0, (double) $level );
+		return imagegammacorrect( $this->image->getResource(), 1.0, $level );
 	}
 
 	/**

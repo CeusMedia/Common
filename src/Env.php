@@ -93,6 +93,24 @@ class Env
 		return $default;
 	}
 
+	/**
+	 *	Get server or request variable, like REQUEST_URI, REMOTE_ADDR or HTTP_HOST.
+	 *	Reads the environment first, then $_SERVER, since some SAPIs (e.g. the built-in web server, php -S)
+	 *	provide request variables in $_SERVER only.
+	 *	@param		string			$key
+	 *	@param		string|NULL		$default
+	 *	@return		string|NULL
+	 */
+	public static function getServerVariable( string $key, ?string $default = NULL ): ?string
+	{
+		$value	= getenv( $key );
+		if( FALSE !== $value )
+			return $value;
+		if( isset( $_SERVER[$key] ) && is_scalar( $_SERVER[$key] ) )
+			return (string) $_SERVER[$key];
+		return $default;
+	}
+
 	public static function getAllAsJson(): string
 	{
 		$env	= getenv();

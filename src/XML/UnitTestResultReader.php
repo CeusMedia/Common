@@ -157,10 +157,10 @@ class UnitTestResultReader
 
 	public function getTestSuiteCount( ?Element $element = NULL ): int
 	{
-		$count		= 1;
+		$count		= 0;
 		$element	??= $this->tree;
 		foreach( $element->testsuite as $testSuite )
-			$count	+= $this->getTestSuiteCount( $testSuite );
+			$count	+= 1 + $this->getTestSuiteCount( $testSuite );
 		return $count;
 	}
 

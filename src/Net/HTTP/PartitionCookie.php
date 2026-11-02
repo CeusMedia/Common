@@ -67,8 +67,15 @@ class PartitionCookie extends Cookie
 			$this->setDomain( $domain );
 		$this->setSecure( $secure );
 		$this->setHttpOnly( $httpOnly );
-		if( isset( $_COOKIE[$partition] ) )
-			$this->data	= json_decode( $_COOKIE[$partition], TRUE );
+
+		//  break reference to $_COOKIE set by parent constructor, so partition data will not overwrite all cookies
+		unset( $this->data );
+		$this->data	= [];
+		if( isset( $_COOKIE[$partition] ) && is_string( $_COOKIE[$partition] ) ){
+			$data	= json_decode( $_COOKIE[$partition], TRUE );
+			if( is_array( $data ) )
+				$this->data	= $data;
+		}
 	}
 
 	/**
@@ -83,7 +90,7 @@ class PartitionCookie extends Cookie
 		$key	= str_replace( '.', '_', $key );
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
-		return NULL;
+		return $default;
 	}
 
 	/**
@@ -151,6 +158,10 @@ class PartitionCookie extends Cookie
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
 		];
-		return setcookie( $this->partition, $json, $options );
+		if( !setcookie( $this->partition, $json, $options ) )
+			return FALSE;
+		//  keep partition in $_COOKIE up to date for this request, like Cookie does
+		$_COOKIE[$this->partition]	= $json;
+		return TRUE;
 	}
 }

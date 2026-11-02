@@ -7,6 +7,154 @@ Releases before 1.0.0 used a four-part version scheme (e.g. 0.8.5.9) and contain
 
 Entries for releases up to 1.0.1 were reconstructed from git history, tags and GitHub release notes.
 
+## [Unreleased]
+
+### Changed
+- Fixes from the refactoring branch (1.1.x-refactor) have been taken over. Changes of behaviour which would break existing code are not included and will follow in 1.2.
+- `FS\Folder\Reader::getSize()` with a unit returns the size as number in that unit (`int`, or `float` when a precision is given); it failed with a `TypeError` before.
+- `FS\File\Block\Reader::getBlock()` returns a string (`''` for missing blocks); it failed with a `TypeError` for every existing block before.
+- `Net\HTTP\Reader::getCurlInfo()` takes the info key as string (e.g. `http_code`), like `Net\CURL::getInfo()`; integer keys never matched.
+- `CLI\Server\Cron\Job::checkMaturity()` is public now.
+- `Net\FTP\Connection::getResource()` returns `NULL` if not connected (failed with a `TypeError` before).
+- Composer: optional extensions are listed as suggestions, with the classes needing them.
+- `Net\HTTP\CrossDomainProxy` can verify TLS certificates and hosts, using `setVerifySsl( TRUE )` or the new last argument of `requestUrl()`. Verification stays disabled by default and will be enabled by default from 1.2 on.
+- `Net\HTTP\Response\Decompressor` accepts both zlib and raw deflate data for `deflate`.
+- `Net\Site\Crawler` respects the crawl depth given to the constructor (it was ignored), resolves relative links against the current page (or its `base` element), ignores URL fragments and stores cookies in a temporary file instead of `cookies.txt` in the working directory. New static method `resolveUrl()`.
+- `Net\Site\MapBuilder` uses the sitemap namespace `http://www.sitemaps.org/schemas/sitemap/0.9`.
+- `Net\API\Dyn::update()` only skips the update if the same IP has already been sent successfully (it skipped every update within 10 minutes after checking the IP); `getIp()` throws a `RuntimeException` if no IP address could be identified.
+- `FS\File\Arc\Zip`: the archive stays usable after `save()`.
+- `FS\File\VCard\Builder` also escapes backslashes and line breaks (RFC 2426); `FS\File\VCard\Parser` supports bare types of vCard 2.1.
+- `FS\Folder\CodeLineCounter::getData()` returns single values for keys like `numberFiles` or `ratioLinesPerFile` (return type `mixed`).
+- `UI\Image\Processing::scale()` accepts factors as `float` (only integers before, so images could not be scaled down); `rotate()` uses the given background color (it was ignored) and defaults to the transparent color of the image.
+- `UI\Image\Filter::gamma()` accepts the gamma value as `float`.
+- `UI\Image::getFileName()` returns `NULL` for images not loaded from file (failed with a `TypeError`).
+- `UI\Image\Rotator` keeps transparency of rotated images.
+- `XML\DOM\SyntaxValidator` checks well-formedness only and no longer loads and validates DTDs (no network access); errors are collected via libxml.
+- `XML\RPC\Client` decodes values without type element as strings and decodes `nil`, `i8` and `base64`. Fault responses are still returned as empty result.
+- `Alg\ColorConverter::html2rgb()` and `html2hsv()` accept colors with leading `#` and in short notation (`#F80`). Invalid colors still result in `NULL` values.
+- `Alg\Turing\Machine::run()` does not print each step anymore (new parameter `$verbose`) and halts if no transition matches. The maximum number of steps can be set by the new parameter `$maxSteps` (default 200, as before); the machine still stops silently after these.
+- `Alg\Sort\MapList` sorts with comparisons instead of grouping by value, so floats, booleans and mixed values are sorted correctly; entries with equal values keep their order.
+- `ADT\JSON\Converter::convertToArray()` decodes nested objects in arrays as arrays and throws an `InvalidArgumentException` for invalid JSON and for JSON without object or array (failed with a `TypeError` before).
+- `ADT\Graph\NodeSet::addNode()` and `ADT\Graph\Weighted::addNode()` return the existing node for a known name (a second node with the same name was added before).
+- `ADT\Graph\Weighted::isForrest()` returns whether the graph has no cycle.
+- `ADT\Graph\DirectedWeighted::traverseBreadth()` returns the distances of all reachable nodes in order of traversal.
+- `FS\File\ICal\Builder` folds lines without moving parameters to a separate line and quotes parameter values containing colon, semicolon or comma. Parameters are still separated by comma (RFC 5545: semicolon, from 1.2 on). `FS\File\ICal\Parser` reads quoted values and accepts semicolon and comma as separator; it does not convert values to ISO-8859-1 anymore (`utf8_decode`), so values stay UTF-8.
+- `XML\DOM\Storage` writes strings as plain UTF-8 (they were encoded twice before); files written by older versions are still read correctly.
+- `Alg\Text\Unicoder`, `Alg\Text\Trimmer`, `XML\DOM\Storage` and `XML\DOM\ObjectDeserializer` do not use the deprecated functions `utf8_encode()` and `utf8_decode()` anymore.
+
+### Added
+- `Env::getServerVariable()` reads server and request variables from the environment or `$_SERVER`.
+- `XML\DOM\Node::removeChildAt()` removes a child node by its index.
+- `FS\Folder\Reader::SIZE_BYTE`, `SIZE_KILOBYTE`, `SIZE_MEGABYTE` and `SIZE_GIGABYTE` as units for `getSize()`.
+
+### Deprecated
+- `Net\API\Google\ClosureCompiler`, `Net\API\Google\Sitemap\Submit` and `Net\API\Premailer`: the services they use have been shut down. They trigger a deprecation error now and will throw a `DeprecationException` from 1.2 on.
+
+### Fixed
+- `UI\SVG\Chart::encapsulate()` accepts width and height again, like in 1.0.x (the parameters were lost in 1.1.0). Unlike 1.0.x, no size is set by default.
+- `CLI\Server\Cron\Daemon` failed because `Job::checkMaturity()` was not accessible.
+- `FS\File\PHP\Encoder::decodeFile()` encoded instead of decoding, wrote into the source file and computed an empty target file name; `isEncoded()` read only part of the prefix.
+- `FS\File\CSS\Theme\Minimizer` overwrote the prefix when setting the suffix.
+- `FS\File\ICal\Builder` dropped the last piece of folded lines.
+- `Alg\Search\Binary::search()` returned wrong positions and recursed endlessly on empty lists; it returns `-1` if nothing is found.
+- `XML\DOM\FileEditor`: `removeNode()` did not remove the node; top-level nodes could not be addressed, and editing nested nodes replaced the whole tree by the edited subnode when saving.
+- `Net\HTTP\Header\Field\Parser::parse()` failed when decoding qualified values was enabled.
+- `Alg\Time\Duration::render()` did not shorten the rendered duration.
+- `Alg\Text\Unicoder::isUnicode()` did not use `mb_check_encoding()` when available.
+- `FS\File\Backup`: `store()` saved the first backup as version 1 instead of 0; requesting the latest version without any backup throws a `RuntimeException` now instead of failing on a missing version.
+- `ADT\Graph\DirectedWeighted::traverseBreadth()` skipped nodes and looped endlessly on cyclic graphs.
+- `Net\HTTP\PartitionCookie` replaced all cookies in `$_COOKIE` by the partition data, so `set()` and `remove()` wrote into `$_COOKIE` directly; `get()` ignored the default value; invalid partition data failed with a `TypeError`.
+- `FS\File\ICal\Parser` cut parameter values containing `=`.
+- `FS\File\ICal\Builder` created lines longer than 75 octets and could split multibyte UTF-8 characters when folding.
+- `XML\DOM\ObjectDeserializer` converted strings to ISO-8859-1, losing characters like `€`; failed on typed properties; checked the wrong key for nested arrays; failed on nested objects of namespaced classes in some cases.
+- `Net\API\Google\Request` encoded the UTF-8 response again, which garbled non-ASCII characters in geocoder results.
+- `FS\File\CSS\Compressor::compressFile()` did not collect statistics, so `FS\File\CSS\Theme\Minimizer` failed to report the compressed size.
+- `Net\HTTP\Reader::getResponseHeader()` failed with a `TypeError` for every existing header; it is case-insensitive now and combines repeated header fields.
+- `FS\File::create()` emitted a PHP warning in addition to the handled failure.
+- `FS\File\INI\Editor` rewrote keys within `/* … */` comment blocks with values of other sections, reformatted all property lines and removed indentation within comments on every write. Only changed lines are rewritten now; setting a property to its current value leaves the file untouched.
+- `Net\FTP\Connection::setTimeout()` failed with a `ValueError` for values below 1 (returns `FALSE` now).
+- `Net\FTP\Reader::getPermissionsAsOctal()` returned `00` instead of `0000` for no permissions.
+- `Net\FTP\Writer::putFile()` emitted a PHP warning in addition to returning `FALSE`.
+- `UI\Image\Printer::show()` failed for JPEG images.
+- `Net\HTTP\CrossDomainProxy` unserialized any response of the service with `throwException` enabled, which allowed object injection; only exception classes are unserialized now.
+- `Net\HTTP\Download::sendFile()` removed `../` only once, so paths like `....//` still led to parent folders; the file name in `Content-Disposition` was not escaped; `Last-Modified` was not given in GMT as required by HTTP.
+- `Net\HTTP\Response::getBodyLength()` counted characters instead of bytes, so `Content-Length` was wrong for non-ASCII and compressed bodies; `toString()` lacked the empty line after the headers for responses without body.
+- `Net\HTTP\Response\Parser` kept the first header block for responses with several blocks (e.g. after redirects), lost bodies like `0` and failed on header fields with empty values.
+- `Net\HTTP\Response\Decompressor` left an output buffer open when decompression failed, which swallowed all following output.
+- `Net\HTTP\Request::fromEnv()` did not provide session and cookie values via `getAllFromSource()`, `getFromSource()` and `hasInSource()`.
+- `Net\HTTP\Post::send()` failed with an `Error` if no URL was set.
+- `Net\Site\Crawler` found nothing on most sites: it only accepted the content type `text/html` without charset; it also used the wrong key to count references and fetched failed pages repeatedly.
+- `Net\Site\MapBuilder` used the wrong namespace (`https://www.google.com/...` instead of `http://`), so search engines rejected the sitemaps.
+- `Net\Connectivity` always checked `google.com`, ignoring the target set by `setTarget()`; the target is escaped for `ping` now and socket checks time out after 5 seconds.
+- `Net\AtomServerTime` applied the time difference with the wrong sign, so a server clock running fast by 10 seconds was "corrected" by another 10 seconds. Delete existing sync files (default `AtomServerTime.diff`) to avoid wrong times until the next refresh.
+- `Net\API\DDNSS::update()` terminated the whole script with `die()` on failure (throws a `RuntimeException` now) and did not encode key and hosts in the URL.
+- `Net\API\Dyn` failed on invalid cache files and did not encode user name, password, host and IP in the update URL.
+- `Net\SVN\Client::info()` passed the path unescaped to the shell.
+- `Net\XMPP\MessageSender::setStatus()` failed with an `Error` when not connected.
+- `FS\File::isOwner()` returned `TRUE` for files owned by root, for every user.
+- `FS\File\RecursiveIterator` returned the `.` and `..` entries of every folder.
+- `FS\File\Arc\Zip::save()` with a file name discarded all pending changes instead of saving them into the new file.
+- `FS\File\BackupCleaner` treated other files with the same prefix and extension (e.g. `db.latest.sql.gz`) as backups of 1 January 1970; prefix and extension were used as regular expressions.
+- `FS\Folder::create()` did not throw an exception in strict mode if the folder could not be created; `createFile()` ignored the content `0`.
+- `FS\File\SyntaxChecker::checkFile()` passed the file name to the shell in double quotes, so file names like `$(command).php` executed commands.
+- `FS\File\Log\Tracker\Reader::getTable()` and `ShortReader::getTable()` put logged request data (user agent, URI) unescaped into HTML; both returned wrong session numbers for pages per visitor and failed on empty logs; `Tracker\Reader` failed on lines not matching the log format (and used `unserialize()` to parse lines); `Tracker\ShortReader::parse()` failed on lines with additional fields noted by `Log\ShortWriter`.
+- `FS\Folder\Treeview\Json` and `JsonExtended` put file and folder names unescaped into HTML and allowed paths leaving the base folder (`../`).
+- `FS\File\CSS\Parser`, `Combiner` and `PHP\Check\MethodOrder` removed everything up to the next comment after an empty comment `/**/`; the CSS parser and compressor removed line breaks and tabs instead of treating them as whitespace (`div\n.x` became `div.x`), the compressor also removed double spaces within values (`0  auto` became `0auto`); the parser kept whitespace around property names and selectors.
+- `FS\File\VCard\Builder` left out empty fields, which moved all following fields of names and addresses to wrong positions; `FS\File\VCard\Parser` did not unescape values, did not unfold folded lines, kept carriage returns of CRLF files, read only the first nickname and failed on incomplete names, addresses and geo tags.
+- `FS\File\Gantt\MeetingReader` calculated end dates one day short across the change from daylight saving time.
+- `FS\File\Log\Reader::load()` ignored the limit without offset and did not count negative offsets from the end, as documented.
+- `FS\File\TodoLister` matched extensions anywhere at the end of a file name (`notphp`) and used extensions and patterns as regular expressions; `FS\File\PHP\Lister` returned `.` and `..` entries.
+- `FS\File\CSS\Editor::changePropertyKey()` failed with an `Error` for unknown selectors; `FS\File\CSS\Relocator::rewrite()` failed without document root; `FS\File\CSS\Theme\Finder` failed for themes without CSS folder.
+- `FS\Folder\CodeLineCounter` failed for folders without matching files and with keys like `numberFiles`.
+- XML namespaces and document type identifiers had been changed from `http://` to `https://` (commit "secure linked URLs"), which made them invalid, since namespaces are compared as strings: XHTML namespace and DTDs in `UI\HTML\PageFrame`, SVG and XLink namespaces in `UI\SVG\Chart`, Google Base namespace in `XML\RSS\GoogleBaseBuilder`. `XML\DOM\GoogleSitemapBuilder` uses the current sitemap namespace `http://www.sitemaps.org/schemas/sitemap/0.9`.
+- `UI\HTML\PageFrame::addLink()` and `setCanonicalLink()` rendered the URL as attribute `uri` instead of `href`.
+- `UI\HTML\Exception\TraceViewer` put the exception message unescaped into HTML; `UI\HTML\Exception\View` did the same with description, suggestion and additional properties, and both `Trace` and `TraceViewer` with array keys of trace arguments. `View` and `TraceViewer` showed no file path without document root (e.g. on CLI).
+- `UI\HTML\Tree\FolderView` and `FolderCheckView` put file and folder names unescaped into HTML.
+- `UI\HTML\Elements`: `CheckButton()`, `Acronym()`, `Preview()`, `MailLink()` and `Anchor()` put attribute values unescaped into HTML; `Link()` put the confirmation text unescaped into JavaScript.
+- `UI\HTML\JQuery::buildPluginCall()` put the selector unescaped into JavaScript; options containing `</script>` ended the script block.
+- `UI\HTML\Pagination` ignored the option `showPrevNext`, did not encode URL parameters and ignored `classDisabled` for next and last buttons.
+- `UI\HTML\Tree\ArrayView` detected node types as booleans, so leaves without explicit type were not linked.
+- `UI\HTML\Tree\VariableDump` showed `<em>TRUE</em>` as text instead of emphasized `TRUE` (same for `FALSE` and `NULL`).
+- `UI\HTML\Index` failed for headings containing regular expression characters like `(` or `?` and removed text between inline tags of headings.
+- `UI\HTML\Tabs` treated version 4 and above like versions below 3; `UI\HTML\Table::addCell()` replaced `0` by a space.
+- `UI\Image\Graphviz\Renderer` passed output type, layout engine and file name unescaped to the shell; `UI\Image\Graphviz\Graph` escaped option values with `addslashes()`, which broke line breaks (`\n`) in labels, and rendered edges of undirected graphs with `->` instead of `--`.
+- `UI\SVG\Chart` and `UI\SVG\BarAcross` put labels unescaped into SVG; `Chart` failed for data with sum 0 and created dynamic properties on `ChartData`; `UI\SVG\PieGraph` drew nothing for a single value of 100%.
+- `UI\JS\CodeMirror::setReadOnly()` set the option `readonly` instead of `readOnly`, so editors were never read-only; the selector was put unescaped into JavaScript.
+- `UI\Image::setType()` checked the type against the wrong constants (`IMG_*` instead of `IMAGETYPE_*`), so unsupported types like BMP were accepted.
+- `UI\Image\Histogram::getData()` used color indexes of palette images (e.g. GIF) as RGB values, failed for images not loaded from file and wrote temporary files into the working directory.
+- `UI\Image\Drawer::getColor()` returned `NULL` for the first color of palette images (index 0).
+- `UI\Image\Exif::getThumbnailImage()` declared every thumbnail as GIF (usually they are JPEG).
+- `UI\Image\TransparentWatermark` failed with a `TypeError` when constructed without stamp file or used with invalid images.
+- `UI\VariableDumper`: global function `dumpVar()` accepted strings only.
+- `XML\DOM\SyntaxValidator` detected errors only if PHP displayed them, so with `display_errors` disabled (as usual in production) every XML was valid. This also affected `XML\FeedIdentifier` and `XML\DOM\Formater`.
+- `XML\RPC\Client` did not escape strings, member and method names (e.g. passwords containing `<` or `&` broke requests or injected XML) and did not wrap structs and arrays in `value` elements, as required by XML-RPC.
+- `XML\Parser` trimmed every chunk of character data, so spaces around entities were lost (`a &amp; b` became `a&b`).
+- `XML\DOM\FeedIdentifier` did not identify Atom 1.0 feeds (they have no version attribute).
+- `XML\DOM\Formater::recode()` failed for XML without encoding declaration.
+- `XML\UnitTestResultReader::getTestSuiteCount()` counted the root element as test suite.
+- `Alg\Sort\Insertion::sort()` never finished; `Alg\Sort\Selection::sort()` returned the list unsorted (it compared with `==` instead of `<`); `Alg\Sort\MapList` grouped floats by their integer value, so `1.2` and `1.5` were not sorted. `Bubble`, `Insertion` and `Selection` failed for lists without sequential keys.
+- `Alg\Search\Interpolation` failed with a division by zero for equal values and missed values when the search range was narrowed to one element; `Alg\Search\Strange` recursed endlessly for values smaller than the first element.
+- `Alg\ColorConverter`: `rgb2cmyk()` and `cmy2cmyk()` failed with a division by zero for black; `hsv2rgb()` returned magenta instead of red for hue 360; `rgb2html()` returned invalid codes for values outside 0-255.
+- `Alg\HtmlMetaTagReader` read several meta tags in one line as one tag and ignored uppercase tags.
+- `Alg\Text\EncodingConverter::convert()` emitted a PHP notice in addition to the exception for invalid input.
+- `Alg\UnusedVariableFinder` counted assignments as usage, so assigned but unused variables were never found; it also printed debug output.
+- `Alg\Turing\Machine` started reading at the blank in front of the input instead of its first symbol.
+- `Alg\Tree\Menu\Converter` failed for outlines without URL or text.
+- `ADT\Graph\Weighted`: `hasCycle()` found a cycle in every undirected graph with an edge, `isForrest()` returned `TRUE` for graphs with cycle, `hasLoop()` never found loops and `removeNode()` failed for nodes not connected to all other nodes; `NodeSet::removeNode()` and `EdgeSet::removeEdge()` reordered all nodes and edges.
+- `ADT\JSON\Converter::convertToArray()` failed with a `TypeError` for invalid JSON and merged objects with key `0` into their parent; `ADT\JSON\Pretty::print()` lost the formatting after strings ending with an escaped backslash, and its validation never failed.
+- `ADT\JSON\Parser` reported the error state of the last JSON function call anywhere in PHP instead of its own last parsing.
+- `ADT\Time\Delay` could not be constructed (`Error` on uninitialized property).
+- `ADT\URL\Inference::buildStatic()` always failed; `build()` created URLs with two query strings and used `test_` as prefix for numeric parameter keys; `ADT\URL::setQuery()` with an array used `&` as prefix for numeric keys instead of as separator.
+- `ADT\URL\Compare::sameBase()` failed with an `Error` instead of a `RuntimeException` if not both URLs were set.
+- `ADT\CSS\Sheet::get()` threw an exception for missing properties instead of returning `NULL`; `ADT\CSS\Rule::getPropertyByIndex()` returned wrong properties after removing one.
+- `ADT\URN` failed with a `TypeError` instead of an `InvalidArgumentException` without specific string.
+- `ADT\Tree\MagicNode::fromJson()` failed with a `TypeError` for invalid JSON; `ADT\Tree\Menu\Collection::getAttribute()` failed for attributes set to `NULL`; `ADT\VCard::getNameField()` and `getOrganisationField()` failed for empty fields.
+- Development: `FS\File\BackupTest` is part of the unit test suite again.
+- Development: tests for `FS\File\CSS\Theme\Minimizer` and `Net\HTTP\Reader` (using PHP's built-in web server); the unit test suite runs without deprecations and warnings (undeclared test properties, wrong test namespaces).
+- Development: the FTP tests run against a small local test FTP server (they were always skipped before, even with access data configured); image tests compare pixels instead of file contents and are not skipped anymore. No tests are skipped anymore.
+- `FS\File::getSize()` returned an outdated size after the file had been changed (stat cache, e.g. after `setContent()` on PHP 8.1).
+- Development: Composer constraint for PHPUnit is `^10.5` again (release 1.1.0 was tagged with `>=10`, which installs PHPUnit 12 and breaks the test suite).
+
 ## [1.1.0] - 2026-11-02
 
 ### Breaking changes

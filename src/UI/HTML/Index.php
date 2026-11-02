@@ -79,7 +79,7 @@ class Index
 		array_shift( $parts );
 		//  iterate blocks
 		foreach( $parts as $nr => $part ){
-			$heading	= (string) preg_replace( "/<.+>/", "", $headings[1][$nr] );							//
+			$heading	= strip_tags( $headings[1][$nr] );							//
 			$id			= strtolower( trim( $heading ) );											//
 			$id			= str_replace( [" ", "_"], "-", $id );								//
 			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//
@@ -144,7 +144,7 @@ class Index
 	protected function setHeadingIds( string &$content, int $level = 1 ): string
 	{
 		foreach( $this->headings as $heading ){														//
-			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//
+			$find		= "/<h".$heading->level."([^>]*)>".preg_quote( $heading->label, '/' )."/";						//
 			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//
 			$result		= preg_replace( $find, $replace, $content );								//
 			if( $result !== null )

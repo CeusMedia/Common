@@ -130,8 +130,8 @@ class FileEditor
 	 */
 	protected function getNode( string $nodePath ): Node
 	{
-		$pathNodes	= explode( "/", $nodePath );
-		$xmlNode	=& $this->xmlTree;
+		$pathNodes	= array_filter( explode( "/", $nodePath ), static fn( string $part ) => '' !== trim( $part ) );
+		$xmlNode	= $this->xmlTree;
 		while( $pathNodes ){
 			$pathNode	= trim( array_shift( $pathNodes ) );
 			$matches	= [];
@@ -141,7 +141,7 @@ class FileEditor
 				$nodes		= $xmlNode->getChildren( $pathNode );
 				if( !isset( $nodes[$itemNumber] ) )
 					throw new InvalidArgumentException( 'Node is not existing' );
-				$xmlNode	=& $nodes[$itemNumber];
+				$xmlNode	= $nodes[$itemNumber];
 				continue;
 			}
 			$xmlNode	= $xmlNode->getChild( $pathNode );
@@ -165,16 +165,16 @@ class FileEditor
 		$branch		= $this->getNode( $nodePath );
 		if( preg_match_all( "@^(.*)\[(\d+)\]$@", $nodeName, $matches ) ){
 			$nodeName	= $matches[1][0];
-			$nodeNumber	= $matches[2][0];
+			$nodeNumber	= (int) $matches[2][0];
 		}
-		$nodes		=& $branch->getChildren();
+		$nodes		= $branch->getChildren();
 		$index		= -1;
 		for( $i=0; $i<count( $nodes ); $i++ ){
 			if( !$nodeName || $nodes[$i]->getNodeName() == $nodeName ){
 				$index++;
-				if( $index != $nodeNumber )
+				if( $index !== $nodeNumber )
 					continue;
-				unset( $nodes[$i] );
+				$branch->removeChildAt( $i );
 				return (bool) $this->write();
 			}
 		}

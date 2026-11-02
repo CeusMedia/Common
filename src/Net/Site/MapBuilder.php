@@ -54,7 +54,7 @@ class MapBuilder
 	public static function build( array $urls ): string
 	{
 		$set	= new Node( "urlset" );
-		$set->setAttribute( 'xmlns', "https://www.google.com/schemas/sitemap/0.84" );
+		$set->setAttribute( 'xmlns', "http://www.sitemaps.org/schemas/sitemap/0.9" );
 		foreach( $urls as $url ){
 			$node	= new Node( "url" );
 			$child	= new Node( "loc", $url );

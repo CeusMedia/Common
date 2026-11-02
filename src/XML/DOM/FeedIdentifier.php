@@ -111,7 +111,8 @@ class FeedIdentifier
 		switch( $nodeName ) {
 			case 'feed':
 				$type		= "ATOM";
-				$version	= $tree->getAttribute( 'version' );
+				//  Atom 0.3 has a version attribute, Atom 1.0 has none
+				$version	= $tree->getAttribute( 'version' ) ?: '1.0';
 				break;
 			case 'rss':
 				$type		= "RSS";

@@ -101,7 +101,8 @@ class Formater
 
 		$document	= new DOMDocument();
 		$document->loadXml( $xml );
-		$encoding	= strtoupper( $document->encoding ?? '' );
+		//  XML without encoding declaration is UTF-8
+		$encoding	= strtoupper( $document->encoding ?: 'UTF-8' );
 #		remark( "Encoding: ".$encoding );
 		if( $encoding == $encodeTo )
 			return $xml;

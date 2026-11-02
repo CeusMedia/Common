@@ -152,7 +152,7 @@ class Exif
 		$attributes	= [
 			'width'		=> $width,
 			'height'	=> $height,
-			'src'		=> 'data:image/gif;base64,'.base64_encode( $content )
+			'src'		=> 'data:'.image_type_to_mime_type( (int) $type ).';base64,'.base64_encode( $content )
 		];
 		return HtmlTag::create( 'img', NULL, $attributes );
 	}

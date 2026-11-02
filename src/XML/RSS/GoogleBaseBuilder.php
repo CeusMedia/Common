@@ -44,7 +44,7 @@ use Exception;
 class GoogleBaseBuilder extends Builder
 {
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
-	public static string $namespaceUri	= "https://base.google.com/ns/1.0";
+	public static string $namespaceUri	= "http://base.google.com/ns/1.0";
 
 	protected array $itemElements	= [
 		'title'						=> FALSE,

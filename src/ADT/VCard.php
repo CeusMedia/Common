@@ -276,9 +276,9 @@ class VCard
 	 *	Returns a specific Name Field by its Key.
 	 *	@access		public
 	 *	@param		string		$key					Field Key
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getNameField( string $key ):string
+	public function getNameField( string $key ): ?string
 	{
 		if( !array_key_exists( $key, $this->types['n'] ) )
 			throw new InvalidArgumentException( 'Name Key "'.$key.'" is invalid.' );
@@ -309,9 +309,9 @@ class VCard
 	 *	Returns a specific Organisation Field by its Key.
 	 *	@access		public
 	 *	@param		string		$key					Field Key
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getOrganisationField( string $key ): string
+	public function getOrganisationField( string $key ): ?string
 	{
 		if( !array_key_exists( $key, $this->types['org'] ) )
 			throw new InvalidArgumentException( 'Organisation Key "'.$key.'" is invalid.' );

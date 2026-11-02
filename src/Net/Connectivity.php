@@ -103,7 +103,7 @@ class Connectivity
 	 */
 	public function checkUsingSocket(): void
 	{
-		$conn	= @fsockopen( 'google.com', 443);
+		$conn	= @fsockopen( $this->target, 443, $errorCode, $errorMessage, 5 );
 		$this->status = $conn ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
 		if( $conn )
 			fclose( $conn );
@@ -118,7 +118,7 @@ class Connectivity
 	public function checkUsingSystemPing(): void
 	{
 		$response = NULL;
-		@exec( "ping -c 1 google.com 2>&1 1> /dev/null", $response, $code );
+		@exec( 'ping -c 1 -W 5 '.escapeshellarg( $this->target ).' > /dev/null 2>&1', $response, $code );
 		$this->status = $code === 0 ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
 	}
 

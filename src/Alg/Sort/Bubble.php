@@ -51,6 +51,7 @@ class Bubble
 	 */
 	public static function sort( array $list ): array
 	{
+		$list	= array_values( $list );
 		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
 			for( $j=0; $j<$i; $j++ )
 				if( $list[$j] > $list[$j+1] )

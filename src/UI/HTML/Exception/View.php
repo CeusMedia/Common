@@ -127,7 +127,7 @@ class View
 				$meaning	= SQLSTATE::getMeaning( $e->getSQLSTATE() );
 				if( NULL !== $meaning ){
 					$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
-					$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
+					$list[]	= Tag::create( 'dd', htmlspecialchars( $e->getSQLSTATE().': '.$meaning, ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-code-sqlstate'] );
 					$blacklist[]	= 'SQLSTATE';
 				}
 			}
@@ -136,12 +136,12 @@ class View
 			/** @var Runtime $e */
 			if( '' !== $e->getDescription() ){
 				$list[]	= Tag::create( 'dt', 'Description', ['class' => 'exception-description'] );
-				$list[]	= Tag::create( 'dd', $e->getDescription(), ['class' => 'exception-description'] );
+				$list[]	= Tag::create( 'dd', htmlspecialchars( $e->getDescription(), ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-description'] );
 			}
 
 			if( '' !== $e->getSuggestion() ){
 				$list[]	= Tag::create( 'dt', 'Suggestion', ['class' => 'exception-suggestion'] );
-				$list[]	= Tag::create( 'dd', $e->getSuggestion(), ['class' => 'exception-suggestion'] );
+				$list[]	= Tag::create( 'dd', htmlspecialchars( $e->getSuggestion(), ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-suggestion'] );
 			}
 			foreach( $e->getAdditionalProperties() as $key => $value ){
 				if( in_array( $key, $blacklist, TRUE ) )
@@ -154,8 +154,8 @@ class View
 					default:
 						$value ??= '-empty-';
 				}
-				$list[]	= Tag::create( 'dt', ucfirst( (string) $key ), ['class' => 'exception-'.$key] );
-				$list[]	= Tag::create( 'dd', $value, ['class' => 'exception-'.$key] );
+				$list[]	= Tag::create( 'dt', htmlspecialchars( ucfirst( (string) $key ), ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-'.$key] );
+				$list[]	= Tag::create( 'dd', htmlspecialchars( is_scalar( $value ) ? (string) $value : '', ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-'.$key] );
 			}
 		}
 	}
@@ -169,9 +169,10 @@ class View
 	 */
 	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= $_SERVER['DOCUMENT_ROOT'] ?? '';
+		$rootPath	= (string) ( $_SERVER['DOCUMENT_ROOT'] ?? '' );
+		//  without document root (e.g. CLI), keep the full path
 		if( !$rootPath || !$fileName )
-			return '';
+			return $fileName;
 		$fileName	= str_replace( '\\', "/", $fileName );
 		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
 		if( $cut == $rootPath )

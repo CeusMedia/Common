@@ -55,13 +55,18 @@ class Decompressor
 	 */
 	public static function decompressResponse( Response $response ): void
 	{
-		$encodings	= $response->getHeader( 'Content-Encoding' );
-		if( count( $encodings ) !== 0 ){
-			$body	= $response->getBody() ?? '';
-			foreach( array_reverse( $encodings ) as $encoding )
-				$body	= static::decompressString( $body, (string) $encoding->getValue() );
-			$response->setBody( $body );
-		}
+		$encodings	= [];
+		foreach( $response->getHeader( 'Content-Encoding' ) as $field )
+			foreach( explode( ',', (string) $field->getValue() ) as $encoding )
+				if( !in_array( strtolower( trim( $encoding ) ), ['', 'identity'], TRUE ) )
+					$encodings[]	= trim( $encoding );
+		if( [] === $encodings )
+			return;
+		$body	= $response->getBody() ?? '';
+		//  encodings are listed in order of application, so decode in reverse order
+		foreach( array_reverse( $encodings ) as $encoding )
+			$body	= static::decompressString( $body, $encoding );
+		$response->setBody( $body );
 	}
 
 	/**
@@ -75,25 +80,12 @@ class Decompressor
 	{
 		if( $type === NULL )
 			return $content;
-		//  open an output buffer
-		ob_start();
-		switch( strtolower( $type ) ){
-			case 'deflate':
-				$content	= static::inflate( $content );
-				break;
-			case 'gzip':
-				$content	= static::ungzip( $content );
-				break;
-			default:
-				ob_end_clean();
-				throw new InvalidArgumentException( 'Decompression method "'.$type.'" is not supported' );
-		}
-		//  close buffer for PHP error messages
-		$output		= ob_get_clean();
-		//  could not decompress
-		if( $output )
-			//  throw exception and carry error message
-			throw new RuntimeException( $output );
+		//  errors of decompression functions are suppressed, failures are thrown as exceptions
+		$content	= match( strtolower( $type ) ){
+			'deflate'	=> static::inflate( $content ),
+			'gzip'		=> static::ungzip( $content ),
+			default		=> throw new InvalidArgumentException( 'Decompression method "'.$type.'" is not supported' ),
+		};
 		//  return decompressed response Content
 		return $content;
 	}
@@ -140,9 +132,12 @@ class Decompressor
 	 */
 	public static function inflate( string $content ): string
 	{
-		$content	= @gzuncompress( $content );
-		if( FALSE !== $content )
-			return $content;
+		//  HTTP "deflate" is zlib format, but some servers send raw deflate data
+		$inflated	= @gzuncompress( $content );
+		if( FALSE === $inflated )
+			$inflated	= @gzinflate( $content );
+		if( FALSE !== $inflated )
+			return $inflated;
 		throw new RuntimeException( "Data not inflatable with gzuncompress." );
 	}
 }

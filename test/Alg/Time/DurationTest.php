@@ -115,6 +115,21 @@ final class DurationTest extends BaseCase
 		}
 	}
 
+	/**
+	 *	Tests Method 'render' with shortening to largest unit.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testRenderShorten(): void
+	{
+		self::assertSame( '1w 1d 1h 1m 1s', Duration::render( 694861 ) );
+		self::assertSame( '1w', Duration::render( 694861, ' ', TRUE ) );
+		self::assertSame( '1d', Duration::render( 90061, ' ', TRUE ) );
+		self::assertSame( '1h', Duration::render( 3661, ' ', TRUE ) );
+		self::assertSame( '1m', Duration::render( 61, ' ', TRUE ) );
+		self::assertSame( '59s', Duration::render( 59, ' ', TRUE ) );
+	}
+
 
 	/**
 	 *	Tests Method 'sanitize'.

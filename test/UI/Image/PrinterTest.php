@@ -25,6 +25,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class PrinterTest extends BaseCase
 {
+	use ImageAssertions;
+
 	/** @var string  */
 	protected string $path;
 
@@ -49,7 +51,7 @@ class PrinterTest extends BaseCase
 //		new Printer( "not_a_resource" );
 //	}
 
-	public function _testShowPng()
+	public function testShowPng()
 	{
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
 		$printer	= new Printer( $resource );
@@ -58,11 +60,10 @@ class PrinterTest extends BaseCase
 		$printer->show( IMAGETYPE_PNG, 100, FALSE );
 		$creation	= ob_get_clean();
 
-		$assertion	= file_get_contents( $this->path."sourceCreator.png" );
-		self::assertEquals( $assertion, $creation );
+		self::assertImageEquals( $this->path."sourceCreator.png", imagecreatefromstring( (string) $creation ) );
 	}
 
-	public function _testShowJpeg()
+	public function testShowJpeg()
 	{
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
 		$printer	= new Printer( $resource );
@@ -71,11 +72,10 @@ class PrinterTest extends BaseCase
 		$printer->show( IMAGETYPE_JPEG, 100, FALSE );
 		$creation	= ob_get_clean();
 
-		$assertion	= file_get_contents( $this->path."sourceCreator.jpg" );
-		self::assertEquals( $assertion, $creation );
+		self::assertImageEquals( $this->path."sourceCreator.jpg", imagecreatefromstring( (string) $creation ), 8 );
 	}
 
-	public function _testShowGif()
+	public function testShowGif()
 	{
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
 		$printer	= new Printer( $resource );
@@ -84,8 +84,7 @@ class PrinterTest extends BaseCase
 		$printer->show( IMAGETYPE_GIF, 0, FALSE );
 		$creation	= ob_get_clean();
 
-		$creation	= file_get_contents( $this->path."sourceCreator.gif" );
-		self::assertTrue( $creation );
+		self::assertImageEquals( $this->path."sourceCreator.gif", imagecreatefromstring( (string) $creation ) );
 	}
 
 	public function testShowException()
@@ -98,36 +97,29 @@ class PrinterTest extends BaseCase
 
 	public function testSavePng()
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
 		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", IMAGETYPE_PNG, 0 );
 
-		$file		= new Reader( $this->path."targetPrinter.png" );
-		self::assertTrue( $file->equals( $this->path."sourceCreator.png" ) );
+		self::assertImageEquals( $this->path."sourceCreator.png", $this->path."targetPrinter.png" );
 	}
 
 	public function testSaveJpeg()
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
 		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.jpg", IMAGETYPE_JPEG, 100 );
 
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->path."targetPrinter.jpg" );
-		self::assertEquals( $assertion, $creation );
+		self::assertImageEquals( $this->path."sourceCreator.jpg", $this->path."targetPrinter.jpg", 8 );
 	}
 
 	public function testSaveGif()
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
 		$printer	= new Printer( $resource );
 		$printer->save( $this->path."targetPrinter.gif", IMAGETYPE_GIF, 0 );
 
-		$file		= new Reader( $this->path."targetPrinter.gif" );
-		self::assertTrue( $file->equals( $this->path."sourceCreator.gif" ) );
+		self::assertImageEquals( $this->path."sourceCreator.gif", $this->path."targetPrinter.gif" );
 	}
 
 	public function testSaveException()

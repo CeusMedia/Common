@@ -32,6 +32,7 @@ declare(strict_types=1);
 namespace CeusMedia\Common\ADT\JSON;
 
 use InvalidArgumentException;
+use JsonException;
 
 /**
  *	Formats JSON String.
@@ -64,39 +65,50 @@ class Pretty
 		$indentLevel	= 0;
 		$inString		= FALSE;
 
-		if( $validateSource )
-			if( json_decode( $json ) === FALSE )
-				throw new InvalidArgumentException( 'JSON String is not valid.' );
+		if( $validateSource ){
+			//  json_validate() is available from PHP 8.3 on
+			try{
+				json_decode( $json, FALSE, 512, JSON_THROW_ON_ERROR );
+			}
+			catch( JsonException $e ){
+				throw new InvalidArgumentException( 'JSON String is not valid.', 0, $e );
+			}
+		}
+		$escaped		= FALSE;
 
 		$len	= strlen( $json );
 		for( $c=0; $c<$len; $c++ ){
 			$char	= $json[$c];
+			//  characters within strings are copied, respecting escaped quotes and backslashes
+			if( $inString ){
+				$content	.= $char;
+				if( $escaped )
+					$escaped	= FALSE;
+				else if( '\\' === $char )
+					$escaped	= TRUE;
+				else if( '"' === $char )
+					$inString	= FALSE;
+				continue;
+			}
 			switch( $char ){
 				case '{':
 				case '[':
-					$content .= $char;
-					if( !$inString ){
-						$content .= "\n".str_repeat( $tab, $indentLevel + 1 );
-						$indentLevel++;
-					}
+					$content .= $char."\n".str_repeat( $tab, $indentLevel + 1 );
+					$indentLevel++;
 					break;
 				case '}':
 				case ']':
-					if( !$inString ){
-						$indentLevel--;
-						$content .= "\n".str_repeat( $tab, $indentLevel );
-					}
-					$content .= $char;
+					$indentLevel--;
+					$content .= "\n".str_repeat( $tab, $indentLevel ).$char;
 					break;
 				case ',':
-					$content .= $inString ? $char : ",\n" . str_repeat( $tab, $indentLevel );
+					$content .= ",\n".str_repeat( $tab, $indentLevel );
 					break;
 				case ':':
-					$content .= $inString ? $char : ": ";
+					$content .= ": ";
 					break;
 				case '"':
-					if( $c > 0 && $json[$c-1] != '\\' )
-						$inString = !$inString;
+					$inString	= TRUE;
 					$content .= $char;
 					break;
 				default:

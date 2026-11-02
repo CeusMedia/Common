@@ -27,6 +27,8 @@ use Exception;
  */
 class FactoryTest extends BaseCase
 {
+	protected $factory;
+
 	protected $articles;
 
 	protected $packets;

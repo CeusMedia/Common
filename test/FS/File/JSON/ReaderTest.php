@@ -19,6 +19,9 @@ use Exception;
  */
 class ReaderTest extends BaseCase
 {
+	protected $dataValid;
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

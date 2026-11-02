@@ -99,7 +99,9 @@ class Folder extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !mkdir( $this->pathName, $mode, TRUE ) ){
+		if( !@mkdir( $this->pathName, $mode, TRUE ) ){
+			if( $strict )
+				throw IOException::create( 'Folder creation failed' )->setResource( $this->pathName );
 			return FALSE;
 		}
 		return TRUE;
@@ -117,7 +119,7 @@ class Folder extends AbstractNode
 	{
 		$file	= new File( $this->pathName.'/'.$pathName );
 		$file->create( $mode, $strict );
-		if( $content )
+		if( NULL !== $content )
 			$file->setContent( $content, $strict );
 		return $file;
 	}

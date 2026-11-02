@@ -193,7 +193,7 @@ class FolderCheckView
 					$ignore	= TRUE;
 			if( $ignore	)
 				continue;
-			$label		= $item->getFilename();
+			$label		= htmlspecialchars( $item->getFilename(), ENT_QUOTES, 'UTF-8' );
 			//  empty Sublist
 			$sublist	= "";
 			//  current Path has Folders

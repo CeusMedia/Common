@@ -111,7 +111,7 @@ class VariableDumper
 		return (string) ob_get_clean();
 	}
 }
-function dumpVar( string $variable, int $mode = VariableDumper::MODE_DUMP, int $modeIfNotXDebug = VariableDumper::MODE_PRINT ): string
+function dumpVar( mixed $variable, int $mode = VariableDumper::MODE_DUMP, int $modeIfNotXDebug = VariableDumper::MODE_PRINT ): string
 {
 	return VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
 }

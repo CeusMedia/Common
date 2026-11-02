@@ -126,7 +126,7 @@ class Printer
 			case IMAGETYPE_JPEG:
 				if( $sendHeader )
 					header( "Content-type: image/jpeg" );
-				return ImageJPEG( $resource, "", $quality );
+				return ImageJPEG( $resource, NULL, $quality );
 			case IMAGETYPE_PNG:
 				if( $sendHeader )
 					header( "Content-type: image/png" );

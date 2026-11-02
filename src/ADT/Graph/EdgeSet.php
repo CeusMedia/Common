@@ -158,7 +158,7 @@ class EdgeSet implements Countable
 			throw new Exception( 'Edge is not existing.' );
 		$index = $this->getEdgeIndex( $sourceNode, $targetNode );
 		unset( $this->edges[$index] );
-		sort( $this->edges );
+		$this->edges	= array_values( $this->edges );
 		return $this;
 	}
 }

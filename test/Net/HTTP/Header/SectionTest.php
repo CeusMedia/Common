@@ -129,11 +129,7 @@ class SectionTest extends BaseCase
 		self::assertEquals( $assertion, $section->getFields() );
 	}
 
-	/**
-	 * @return void
-	 * @covers	\CeusMedia\Common\Net\HTTP\Header\Section::getField
-	 */
-	public function testGetField()
+	public function testGetField(): void
 	{
 		$expires	= time() + 60;
 		$section	= new Section();

@@ -50,33 +50,26 @@ class CodeLineCounter
 {
 	protected array $data	= [];
 
-	public function getData( ?string $key = NULL ): array
+	public function getData( ?string $key = NULL ): mixed
 	{
 		//  no Folder scanned yet
 		if( !$this->data )
 			throw new RuntimeException( 'Please read a Folder first.' );
-		//  no Key set
+		//  no Key set: return complete Data Array
 		if( !$key )
-			//  return complete Data Array
 			return $this->data;
-
-		//  extract possible Key Prefix
-		$prefix	= substr( strtolower( $key ), 0, 5 );
-		//  Prefix is valid
-		if( array_key_exists( $prefix, $this->data ) ){
-			//  extract Key without Prefix
-			$key	= substr( $key, 5 );
-			//  invalid Key
-			if( !array_key_exists( $key, $this->data[$prefix] ) )
-				throw new InvalidArgumentException( 'Invalid Data Key.' );
-			//  return Value for prefixed Key
-			return $this->data[$prefix][$key];
+		if( array_key_exists( $key, $this->data ) )
+			return $this->data[$key];
+		//  keys like numberFiles or ratioLinesPerFile address nested values
+		foreach( ['number', 'ratio'] as $prefix ){
+			if( !str_starts_with( strtolower( $key ), $prefix ) )
+				continue;
+			$nestedKey	= lcfirst( substr( $key, strlen( $prefix ) ) );
+			foreach( [$nestedKey, strtolower( $nestedKey )] as $candidate )
+				if( array_key_exists( $candidate, $this->data[$prefix] ) )
+					return $this->data[$prefix][$candidate];
 		}
-		//  prefixless Key is invalid
-		else if( !array_key_exists( $key, $this->data[$prefix] ) )
-			throw new InvalidArgumentException( 'Invalid Data Key.' );
-		//  return Value for prefixless Key
-		return $this->data[$key];
+		throw new InvalidArgumentException( 'Invalid Data Key.' );
 	}
 
 	/**
@@ -126,7 +119,9 @@ class CodeLineCounter
 			$numberDocs			+= $countData['numberDocs'];
 			$files[$pathName]	= $countData;
 		}
-		$linesPerFile	= $numberLines / $numberFiles;
+		$linesPerFile	= $numberFiles ? $numberLines / $numberFiles : 0;
+		$perFile		= static fn( int $number ): float => $numberFiles ? $number / $numberFiles : 0;
+		$percent		= static fn( int $number ): float => $numberLines ? round( $number / $numberLines * 100, 1 ) : 0;
 		$this->data		= [
 			'number'	=> [
 				'files'		=> $numberFiles,
@@ -138,12 +133,12 @@ class CodeLineCounter
 			],
 			'ratio'			=> [
 				'linesPerFile'		=> round( $linesPerFile, 0 ),
-				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),
-				'docsPerFile'		=> round( $numberDocs / $numberFiles, 0 ),
-				'stripsPerFile'		=> round( $numberStrips / $numberFiles, 0 ),
-				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
-				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
-				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
+				'codesPerFile'		=> round( $perFile( $numberCodes ), 0 ),
+				'docsPerFile'		=> round( $perFile( $numberDocs ), 0 ),
+				'stripsPerFile'		=> round( $perFile( $numberStrips ), 0 ),
+				'codesPerFile%'		=> $percent( $numberCodes ),
+				'docsPerFile%'		=> $percent( $numberDocs ),
+				'stripsPerFile%'	=> $percent( $numberStrips ),
 			],
 			'files'		=> $files,
 			'seconds'	=> $st->stop( 6 ),

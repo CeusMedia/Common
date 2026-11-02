@@ -52,6 +52,12 @@ class Parser
 
 	protected int $status			= 0;
 
+	/**	@var	int			$errorCode		Error code of last parsing by this parser (not of other JSON calls) */
+	protected int $errorCode		= JSON_ERROR_NONE;
+
+	/**	@var	string		$errorMessage	Error message of last parsing by this parser */
+	protected string $errorMessage	= 'No error';
+
 	/**
 	 *	Returns constant value or key of last parse error.
 	 *	@access		public
@@ -60,7 +66,7 @@ class Parser
 	 */
 	public function getError( bool $asConstantKey = FALSE ): int|string
 	{
-		$code	= json_last_error();
+		$code	= $this->errorCode;
 		if( $asConstantKey )
 			return $this->getConstantFromCode( $code );
 		return $code;
@@ -100,7 +106,7 @@ class Parser
 	 */
 	public function getMessage(): string
 	{
-		return json_last_error_msg();
+		return $this->errorMessage;
 	}
 
 	/**
@@ -115,7 +121,9 @@ class Parser
 	{
 		$this->status	= static::STATUS_EMPTY;
 		$data			= json_decode( $json, $asArray );
-		if( json_last_error() !== JSON_ERROR_NONE ){
+		$this->errorCode	= json_last_error();
+		$this->errorMessage	= json_last_error_msg();
+		if( $this->errorCode !== JSON_ERROR_NONE ){
 			$this->status	= static::STATUS_ERROR;
 			$message	= 'Decoding JSON failed (%s): %s';
 			$message	= vsprintf( $message, [

@@ -87,7 +87,9 @@ class Sheet
 	public function get( string $selector, string $key ): ?Property
 	{
 		$rule = $this->getRuleBySelector( $selector );
-		return $rule?->getPropertyByKey($key);
+		if( NULL === $rule || !$rule->hasPropertyByKey( $key ) )
+			return NULL;
+		return $rule->getPropertyByKey( $key );
 	}
 
 	/**
@@ -213,6 +215,7 @@ class Sheet
 		foreach( $this->rules as $nr => $rule ){
 			if( $selector == $rule->getSelector() ){
 				unset( $this->rules[$nr] );
+				$this->rules	= array_values( $this->rules );
 				return TRUE;
 			}
 		}

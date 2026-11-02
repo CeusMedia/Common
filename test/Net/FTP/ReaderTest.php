@@ -16,14 +16,13 @@ namespace CeusMedia\CommonTest\Net\FTP;
 
 use CeusMedia\Common\Net\FTP\Connection;
 use CeusMedia\Common\Net\FTP\Reader;
-use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_FTP_Reader.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class ReaderTest extends BaseCase
+class ReaderTest extends FtpTestCase
 {
 	/** @var ?Connection  */
 	protected ?Connection $connection	= NULL;
@@ -42,21 +41,21 @@ class ReaderTest extends BaseCase
 	public function testGetFile()
 	{
 		$this->checkFtpConfig();
-		$creation	= $this->reader->getFile( "test1.txt", "test_getFile" );
+		$creation	= $this->reader->getFile( "test1.txt", sys_get_temp_dir().'/test_getFile' );
 		self::assertTrue( $creation );
 
 		$assertion	= "test1";
-		$creation	= file_get_contents( "test_getFile" );
+		$creation	= file_get_contents( sys_get_temp_dir().'/test_getFile' );
 		self::assertEquals( $assertion, $creation );
 
-		$creation	= $this->reader->getFile( "folder/test3.txt", "test_getFile" );
+		$creation	= $this->reader->getFile( "folder/test3.txt", sys_get_temp_dir().'/test_getFile' );
 		self::assertTrue( $creation );
 
 		$assertion	= "test3";
-		$creation	= file_get_contents( "test_getFile" );
+		$creation	= file_get_contents( sys_get_temp_dir().'/test_getFile' );
 		self::assertEquals( $assertion, $creation );
 
-		$creation	= $this->reader->getFile( "not_existing", "test_getFile" );
+		$creation	= $this->reader->getFile( "not_existing", sys_get_temp_dir().'/test_getFile' );
 		self::assertFalse( $creation );
 	}
 
@@ -292,7 +291,7 @@ class ReaderTest extends BaseCase
 		if( NULL !== $this->reader )
 			return TRUE;
 		if( $markSkipped )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+			$this->markTestSkipped( 'Test FTP server is not available' );
 		return FALSE;
 	}
 
@@ -303,7 +302,7 @@ class ReaderTest extends BaseCase
 	 */
 	protected function setUp(): void
 	{
-		$config		= self::$_config['unitTest-FTP'] ?? [];
+		$config		= self::getFtpConfig();
 		$host		= $config['host'] ?? NULL;
 		$port		= (int) ( $config['port'] ?? 0 );
 		$username	= $config['user'] ?? NULL;
