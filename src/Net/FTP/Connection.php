@@ -182,11 +182,11 @@ class Connection
 	}
 
 	/**
-	 *	Returns FTP Connection Resource.
+	 *	Returns FTP Connection Resource, NULL if not connected (anymore).
 	 *	@access		public
-	 *	@return		FtpConnection
+	 *	@return		FtpConnection|NULL
 	 */
-	public function getResource(): FtpConnection
+	public function getResource(): ?FtpConnection
 	{
 		return $this->resource;
 	}
@@ -248,6 +248,8 @@ class Connection
 	 */
 	public function setTimeout( int $seconds ): bool
 	{
+		if( $seconds < 1 || NULL === $this->resource )
+			return FALSE;
 		return @ftp_set_option( $this->resource, FTP_TIMEOUT_SEC, $seconds );
 	}
 

@@ -12,7 +12,7 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\CommonTest\UI\HTML;
+namespace CeusMedia\CommonTest\UI\Image;
 
 use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\UI\Image\Watermark;
@@ -27,6 +27,8 @@ use InvalidArgumentException;
  */
 class WatermarkTest extends BaseCase
 {
+	use ImageAssertions;
+
 	/** @var Watermark  */
 	protected Watermark $mark;
 
@@ -81,12 +83,11 @@ class WatermarkTest extends BaseCase
 	 */
 	public function testMarkImage()
 	{
-//		$this->markTestSkipped( 'No image tests.' );
 		$mark	= new Watermark( $this->path."mark.png", 50, 100 );
 		$mark->setMargin( 10, 10 );
 		$mark->markImage( $this->path."sourceWatermark.png", $this->path."targetWatermark.png" );
 
-		self::assertFileEquals( $this->path."targetWatermark.png", $this->path."assertWatermark.png", "Watermark file not identical." );
+		self::assertImageEquals( $this->path."assertWatermark.png", $this->path."targetWatermark.png" );
 	}
 
 	/**

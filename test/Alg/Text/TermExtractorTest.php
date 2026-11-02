@@ -24,6 +24,12 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class TermExtractorTest extends BaseCase
 {
+	protected $black;
+	protected $path;
+	protected $terms1;
+	protected $terms2;
+	protected $text;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

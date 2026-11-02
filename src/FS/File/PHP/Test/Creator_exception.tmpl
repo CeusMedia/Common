@@ -4,10 +4,10 @@
 	 *	Tests Exception of Method '{methodName}'.
 	 *	@access		public
 	 *	@return		void
+	 *	@see		{className}::{methodName}()
 	 */
-	public function test{MethodName}Exception{counter}()
+	public function test{MethodName}Exception{counter}(): void
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( '{exceptionClass}' );
-		{className}::{methodName}();
+		$this->expectException( '{exceptionClass}' );
 	}

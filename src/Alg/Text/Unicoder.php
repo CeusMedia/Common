@@ -78,7 +78,7 @@ class Unicoder
 	public static function convertToUnicode( string $string, bool $force = FALSE ): string
 	{
 		if( !( !$force && self::isUnicode( $string ) ) )
-			$string	= utf8_encode( $string );
+			$string	= mb_convert_encoding( $string, 'UTF-8', 'ISO-8859-1' );
 		return $string;
 	}
 

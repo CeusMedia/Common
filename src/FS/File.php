@@ -88,7 +88,7 @@ class File extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !touch( $this->pathName ) ){
+		if( !@touch( $this->pathName ) ){
 			if( $strict )
 				throw IoException::create( 'File creation failed' )->setResource( $this->pathName );
 			return FALSE;

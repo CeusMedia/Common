@@ -69,7 +69,7 @@ class Queue implements Countable
 	}
 
 	/**
-	 *	Returns last Item of the Queue.
+	 *	Returns last element of this queue without removing it.
 	 *	@access		public
 	 *	@return		mixed
 	 *	@throws		RuntimeException	if queue is empty
@@ -78,7 +78,7 @@ class Queue implements Countable
 	{
 		if( !count( $this->queue ) )
 			throw new RuntimeException( 'Queue is empty.' );
-		return array_pop( $this->queue );
+		return $this->queue[count( $this->queue ) - 1];
 	}
 
 	/**
@@ -151,9 +151,12 @@ class Queue implements Countable
 	 *	Returns first element of this queue without removing it.
 	 *	@access		public
 	 *	@return		mixed
+	 *	@throws		RuntimeException	if queue is empty
 	 */
 	public function top(): mixed
 	{
-		return $this->pop();
+		if( !count( $this->queue ) )
+			throw new RuntimeException( 'Queue is empty.' );
+		return $this->queue[0];
 	}
 }

@@ -1,25 +1,29 @@
 <?php
-class LibraryUnitTestCreator
-{
-	public function __construct( array $arguments )
-	{
-		require_once dirname( __DIR__ ).'/autoload.php';
+/**
+ *	Creates a test class skeleton for a library class.
+ *
+ *	Usage: php test/create.php [-f|--force] <class>
+ *	Class may be given relative to the library namespace (e.g. FS\File\Backup or FS_File_Backup)
+ *	or absolute (e.g. CeusMedia\Common\FS\File\Backup).
+ */
 
-		$force	= in_array( "-f", $arguments ) || in_array( "--force", $arguments );
-		if( in_array( "-f", $arguments ) )
-			unset( $arguments[array_search( "-f", $arguments )] );
-		if( in_array( "--force", $arguments ) )
-			unset( $arguments[array_search( "--force", $arguments )] );
-		if( 0 === count( $arguments ) )
-			throw new InvalidArgumentException( 'No class name given to create test class for.' );
-		$class		= array_shift( $arguments );
-		$creator	= new FS_File_PHP_Test_Creator();
-		$creator->createForFile( $class, $force );
-		remark( 'Created test class "Test_'.$class.'Test".'."\n" );
-	}
-}
+use CeusMedia\Common\FS\File\PHP\Test\Creator;
+
+require_once dirname( __DIR__ ).'/vendor/autoload.php';
+
 try{
-	new LibraryUnitTestCreator( array_slice( $_SERVER['argv'], 1 ) );
+	$arguments	= array_slice( $_SERVER['argv'], 1 );
+	$force		= (bool) array_intersect( ['-f', '--force'], $arguments );
+	$arguments	= array_values( array_diff( $arguments, ['-f', '--force'] ) );
+	if( 0 === count( $arguments ) )
+		throw new InvalidArgumentException( 'No class name given to create test class for.' );
+
+	$basePath	= dirname( __DIR__ ).'/';
+	$creator	= new Creator( 'CeusMedia\\Common', 'CeusMedia\\CommonTest', $basePath.'src', $basePath.'test' );
+	$creator->setBaseClass( 'CeusMedia\\CommonTest\\BaseCase' );
+	$creator->createForFile( $arguments[0], $force );
+	echo 'Created test class file "'.$creator->getTargetFile().'".'.PHP_EOL;
 } catch( Exception $e ){
-	die( 'Error: '.$e->getMessage().PHP_EOL );
+	fwrite( STDERR, 'Error: '.$e->getMessage().PHP_EOL );
+	exit( 1 );
 }

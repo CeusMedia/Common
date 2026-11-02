@@ -82,7 +82,7 @@ class Compressor
 		$content	= file_get_contents( $fileUri );
 		if( FALSE === $content )
 			throw new Exception( "Style File '".$fileUri."' is not readable." );
-		$content	= self::compressString( $content );
+		$content	= $this->compress( $content );
 		$pathName	= dirname( $fileUri );
 		$styleFile	= basename( $fileUri );
 		$styleName	= preg_replace( "@\.css$@", "", $styleFile );

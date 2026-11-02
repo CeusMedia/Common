@@ -245,26 +245,27 @@ class DirectedWeighted extends Weighted
 	}
 
 	/**
-	 *	Breitendurchlauf
+	 *	Traverses the graph breadth-first, starting at the given node.
+	 *	Returns the distances of all reached nodes, summing up the edge values along the traversal path.
+	 *	Each node is visited once, so cycles do not lead to endless loops.
+	 *	@access		public
+	 *	@param		Node		$startNode		Node to start traversal at
+	 *	@return		array<string,int>			Map of node names and distances, in order of traversal
 	 */
 	public function traverseBreadth( Node $startNode ): array
 	{
-		$distance	= [];
-		$state		= [];
-		$q = new Queue();
-		foreach( $this->nodeSet->getNodes() as $node )
-			$state[$node->getNodeName()] = 0;
-		$state[$startNode->getNodeName()] = 1;
-		$distance[$startNode->getNodeName()] = 0;
-		$q->push( $startNode );
-		while( !$q->isEmpty() ){
-			$current = $q->top();
-			foreach( $this->getTargetNodes($current) as $node ){
-				$state[$node->getNodeName()]	= 0;
-				$distance[$node->getNodeName()]	= $distance[$current->getNodeName()] + $this->getEdgeValue($current, $node);
-				$q->push( $node );
+		$distance	= [$startNode->getNodeName() => 0];
+		$queue		= new Queue();
+		$queue->push( $startNode );
+		while( !$queue->isEmpty() ){
+			/** @var Node $current */
+			$current	= $queue->pop();
+			foreach( $this->getTargetNodes( $current ) as $node ){
+				if( array_key_exists( $node->getNodeName(), $distance ) )
+					continue;
+				$distance[$node->getNodeName()]	= $distance[$current->getNodeName()] + $this->getEdgeValue( $current, $node );
+				$queue->push( $node );
 			}
-			$q->pop();
 		}
 		return $distance;
 	}

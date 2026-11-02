@@ -15,9 +15,17 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `Net\HTTP\Reader::getCurlInfo()` takes the info key as string (e.g. `http_code`), like `Net\CURL::getInfo()`.
 - `FS\File\INI::remove()` returns `FALSE` instead of `NULL` if nothing was removed.
 - `CLI\Server\Cron\Job::checkMaturity()` is public now.
+- `ADT\Collection\Queue::top()` returns the first element without removing it, as documented (it removed the element before); throws a `RuntimeException` if the queue is empty.
+- `ADT\Graph\DirectedWeighted::traverseBreadth()` returns the distances of all reachable nodes in order of traversal.
+- `FS\File\ICal\Builder` folds lines without moving parameters to a separate line.
+- `XML\DOM\Storage` writes strings as plain UTF-8 (they were encoded twice before); files written by older versions are still read correctly.
+- `Alg\Text\Unicoder`, `Alg\Text\Trimmer`, `XML\DOM\Storage` and `XML\DOM\ObjectDeserializer` do not use the deprecated functions `utf8_encode()` and `utf8_decode()` anymore.
+- `FS\File\ICal\Builder` separates parameters by semicolon (RFC 5545) and quotes parameter values containing colon, semicolon or comma. `FS\File\ICal\Parser` reads quoted values and still accepts the comma separator written by older versions; it does not convert values to ISO-8859-1 anymore (`utf8_decode`), so values stay UTF-8.
+- `FS\File\PHP\Test\Creator` rewritten for namespaced classes and PHPUnit 10: the constructor takes source and test namespaces and paths (defaults: `CeusMedia\Common` in `src/`, `CeusMedia\CommonTest` in `test/`), the base class is configurable via `setBaseClass()` (default `PHPUnit\Framework\TestCase`) and `createForFolder()` skips existing tests and files without class and returns the number of created tests. The templates create namespaced, strictly typed test classes; the debug dump `lastCreatedTest.cache` is gone. `test/create.php` uses the new creator.
 
 ### Added
 - `XML\DOM\Node::removeChildAt()` removes a child node by its index.
+- `FS\Folder\Reader::SIZE_BYTE`, `SIZE_KILOBYTE`, `SIZE_MEGABYTE` and `SIZE_GIGABYTE` as units for `getSize()`, so the global constants of `Alg\UnitFormater` are not needed anymore.
 
 ### Fixed
 - `CLI\Server\Cron\Daemon` failed because `Job::checkMaturity()` was not accessible.
@@ -30,7 +38,19 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `Alg\Time\Duration::render()` did not shorten the rendered duration.
 - `Alg\Text\Unicoder::isUnicode()` did not use `mb_check_encoding()` when available.
 - `FS\File\Backup`: `store()` saved the first backup as version 1 instead of 0; requesting the latest version without any backup throws a `RuntimeException` now instead of failing on a missing version.
+- `ADT\Graph\DirectedWeighted::traverseBreadth()` skipped nodes and looped endlessly on cyclic graphs.
+- `Net\HTTP\PartitionCookie` replaced all cookies in `$_COOKIE` by the partition data, so `set()` and `remove()` wrote into `$_COOKIE` directly; `get()` ignored the default value; invalid partition data failed with a `TypeError`.
+- `FS\File\PHP\Test\Creator` failed for every class, because the result of the class parser was used as array; created test classes were not valid for PHPUnit; templates got the template path prefixed again on every call.
+- `FS\File\ICal\Parser` cut parameter values containing `=`.
+- `FS\File\ICal\Builder` created lines longer than 75 octets and could split multibyte UTF-8 characters when folding.
+- `XML\DOM\ObjectDeserializer` converted strings to ISO-8859-1, losing characters like `€`; failed on typed properties; checked the wrong key for nested arrays; failed on nested objects of namespaced classes in some cases.
+- `Net\API\Google\Request` encoded the UTF-8 response again, which garbled non-ASCII characters in geocoder results.
+- `FS\File\CSS\Compressor::compressFile()` did not collect statistics, so `FS\File\CSS\Theme\Minimizer` failed to report the compressed size.
+- `Net\HTTP\Reader::getResponseHeader()` failed with a `TypeError` for every existing header; it is case-insensitive now and combines repeated header fields.
+- `FS\File::create()` emitted a PHP warning in addition to the handled failure.
 - Development: `FS\File\BackupTest` is part of the unit test suite again.
+- Development: tests for `FS\File\CSS\Theme\Minimizer` and `Net\HTTP\Reader` (using PHP's built-in web server); the unit test suite runs without deprecations and warnings (undeclared test properties, wrong test namespaces).
+- Development: Composer constraint for PHPUnit is `^10.5` again (release 1.1.0 was tagged with `>=10`, which installs PHPUnit 12 and breaks the test suite).
 
 ## [1.1.0] - 2026-11-02
 

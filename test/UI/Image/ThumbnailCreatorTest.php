@@ -25,6 +25,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ThumbnailCreatorTest extends BaseCase
 {
+	use ImageAssertions;
+
 	protected string $assertFile;
 	protected string $sourceFile;
 	protected string $targetFile;
@@ -34,7 +36,6 @@ class ThumbnailCreatorTest extends BaseCase
 
 	public function testThumbizeGif(): void
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.gif";
 		$sourceFile	= $this->path."sourceThumbnail.gif";
 		$targetFile	= $this->path."targetThumbnail.gif";
@@ -49,8 +50,7 @@ class ThumbnailCreatorTest extends BaseCase
 		$creation	= file_exists( $targetFile );
 		self::assertEquals( $assertion, $creation );
 
-		$file		= new FileReader( $assertFile );
-		self::assertTrue( $file->equals( $targetFile ) );
+		self::assertImageSimilar( $assertFile, $targetFile );
 	}
 
 	/**
@@ -58,7 +58,6 @@ class ThumbnailCreatorTest extends BaseCase
 	 */
 	public function testThumbizeJpg(): void
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.jpg";
 		$sourceFile	= $this->path."sourceThumbnail.jpg";
 		$targetFile	= $this->path."targetThumbnail.jpg";
@@ -73,13 +72,11 @@ class ThumbnailCreatorTest extends BaseCase
 		$creation	= file_exists( $targetFile );
 		self::assertEquals( $assertion, $creation );
 
-		$file		= new FileReader( $assertFile );
-		self::assertTrue( $file->equals( $targetFile ) );
+		self::assertImageSimilar( $assertFile, $targetFile );
 	}
 
 	public function testThumbizePng(): void
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.png";
 		$sourceFile	= $this->path."sourceThumbnail.png";
 		$targetFile	= $this->path."targetThumbnail.png";
@@ -94,14 +91,13 @@ class ThumbnailCreatorTest extends BaseCase
 		$creation	= file_exists( $targetFile );
 		self::assertEquals( $assertion, $creation );
 
-		$image	= imagecreatefrompng( $this->targetFile );
+		$image	= imagecreatefrompng( $targetFile );
 		self::assertEquals( 16, imagesx( $image ) );
 		self::assertEquals( 16, imagesy( $image ) );
 	}
 
 	public function testThumbizeByLimit(): void
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		if( file_exists( $this->targetFile ) )
 			unlink( $this->targetFile );
 

@@ -63,7 +63,7 @@ class RecursiveIterator extends RecursiveIteratorIterator
 		parent::__construct(
 			new RecursiveDirectoryIterator(
 				$path,
-				0
+				RecursiveDirectoryIterator::SKIP_DOTS
 			),
 			$selfIterator
 		);

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
+ *	Creates test classes for PHPUnit using the class parser and templates.
  *
  *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
@@ -33,10 +33,17 @@ namespace CeusMedia\Common\FS\File\PHP\Test;
 use CeusMedia\Common\FS\Folder\Editor as FolderEditor;
 use CeusMedia\Common\FS\Folder\RecursiveRegexFilter as RecursiveFolderRegexFilter;
 use CeusMedia\PhpParser\Parser\Regular as RegularParser;
+use CeusMedia\PhpParser\Structure\Class_;
+use CeusMedia\PhpParser\Structure\Method_;
 use RuntimeException;
 
 /**
- *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
+ *	Creates test classes for PHPUnit using the class parser and templates.
+ *
+ *	Classes are given by their namespaced name, relative to the source namespace (e.g. FS\File\Backup)
+ *	or absolute (e.g. CeusMedia\Common\FS\File\Backup). Test classes are created in the test path,
+ *	mirroring the folder structure of the source path, within the test namespace.
+ *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP_Test
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -46,252 +53,141 @@ use RuntimeException;
  */
 class Creator
 {
-	/**	@var		string					$className			Class Name, e.g. Package_Class */
+	/**	@var		string					$className			Short class name, e.g. Backup */
 	protected string $className				= '';
 
-	/**	@var		string					$classFile			Class Name, eg. de/ceus-media/package/Class.php */
+	/**	@var		string					$classFile			Class file, e.g. src/FS/File/Backup.php */
 	protected string $classFile				= '';
 
-	/**	@var		string					$classPath			Class Path, eg. de.ceus-media.package.Class */
+	/**	@var		string					$classPath			Class path, e.g. FS.File.Backup */
 	protected string $classPath				= '';
 
-	/**	@var		string					$fileName			File Name of Class */
+	/**	@var		string					$fileName			File name of class, without extension */
 	protected string $fileName				= '';
 
-	/**	@var		array					$pathParts			Split Path Parts in lower Case */
+	/**	@var		string[]				$pathParts			Namespace parts relative to source namespace */
 	protected array $pathParts				= [];
 
-	/**	@var		string					$pathParts			... */
+	/**	@var		string					$pathTemplates		Path to templates */
 	protected string $pathTemplates			= '';
 
-	/**	@var		string					$templateClass		File Name of Test Class Template */
+	/**	@var		string					$templateClass		File name of test class template */
 	protected string $templateClass			= 'Creator_class.tmpl';
 
-	/**	@var		string					$templateClass		File Name of Exception Test Method Template */
+	/**	@var		string					$templateException	File name of exception test method template */
 	protected string $templateException		= 'Creator_exception.tmpl';
 
-	/**	@var		string					$templateClass		File Name of Test Method Template */
+	/**	@var		string					$templateMethod		File name of test method template */
 	protected string $templateMethod		= 'Creator_method.tmpl';
 
-	protected array $data					= [];
+	/**	@var		Class_|NULL				$class				Parsed class */
+	protected ?Class_ $class				= NULL;
 
+	/**	@var		string|NULL				$targetFile			Test class file to create */
 	protected ?string $targetFile			= NULL;
+
+	/**	@var		string					$sourceNamespace	Namespace of source classes */
+	protected string $sourceNamespace;
+
+	/**	@var		string					$testNamespace		Namespace of test classes */
+	protected string $testNamespace;
+
+	/**	@var		string					$sourcePath			Path of source classes */
+	protected string $sourcePath;
+
+	/**	@var		string					$testPath			Path of test classes */
+	protected string $testPath;
+
+	/**	@var		string					$baseClass			Namespaced name of test case base class */
+	protected string $baseClass				= 'PHPUnit\\Framework\\TestCase';
 
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		string		$sourceNamespace	Namespace of source classes
+	 *	@param		string		$testNamespace		Namespace of test classes
+	 *	@param		string		$sourcePath			Path of source classes, mapped to source namespace (PSR-4)
+	 *	@param		string		$testPath			Path of test classes, mapped to test namespace (PSR-4)
 	 *	@return		void
 	 */
-	public function  __construct()
+	public function __construct( string $sourceNamespace = 'CeusMedia\\Common', string $testNamespace = 'CeusMedia\\CommonTest', string $sourcePath = 'src/', string $testPath = 'test/' )
 	{
 		$this->pathTemplates	= __DIR__.'/';
+		$this->sourceNamespace	= trim( $sourceNamespace, '\\' );
+		$this->testNamespace	= trim( $testNamespace, '\\' );
+		$this->sourcePath		= rtrim( $sourcePath, '/' ).'/';
+		$this->testPath			= rtrim( $testPath, '/' ).'/';
 	}
 
 	/**
-	 *	Creates and returns array of Exception Test Methods from Method Name, Method Content and a Template.
-	 *	@access		protected
-	 *	@param		string		$methodName
-	 *	@param		string		$content
-	 *	@return		array
-	 */
-	protected function buildExceptionTestMethod( string $methodName, string $content ): array
-	{
-		$methods	= [];
-		$exceptions	= $this->getExceptionsFromMethodContent( $content );
-		$counter	= 0;
-		foreach( $exceptions as $exception ){
-			$counter	= count( $exceptions ) > 1 ? $counter + 1 : "";
-			$template	= (string) file_get_contents( $this->templateException );
-			$template	= str_replace( '{methodName}', $methodName, $template );
-			$template	= str_replace( '{MethodName}', ucFirst( $methodName ), $template );
-			$template	= str_replace( '{className}', $this->className, $template );
-			$template	= str_replace( '{exceptionClass}', $exception, $template );
-			$template	= str_replace( '{counter}', (string) $counter, $template );
-			$methods[]	= $template;
-		}
-		return $methods;
-	}
-
-	/**
-	 *	Creates Test Class from Class Data and a Template.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function buildTestClass(): void
-	{
-		$methods	= $this->buildTestMethods();
-
-		$template	= (string) file_get_contents( $this->templateClass );
-		$template	= str_replace( '{methodTests}', implode( '', $methods ), $template );
-		$template	= str_replace( '{className}', $this->className, $template );
-		$template	= str_replace( '{classFile}', $this->classFile, $template );
-		$template	= str_replace( '{classPath}', $this->classPath, $template );
-		$template	= str_replace( '{classPackage}', (string) ( $this->data['package'] ?? '' ), $template );
-		$template	= str_replace( '{date}', date( 'd.m.Y' ), $template );
-		$template	= "<?php".PHP_EOL.$template.PHP_EOL."?>";
-
-		FolderEditor::createFolder( dirname( $this->targetFile ) );
-		file_put_contents( $this->targetFile, $template );
-	}
-
-	/**
-	 *	Creates and returns array of Test Methods from Class Data and a Template.
-	 *	@access		protected
-	 *	@return		array
-	 */
-	protected function buildTestMethods(): array
-	{
-		$lastMethod	= NULL;
-		$methods	= [];
-		foreach( $this->data['methods'] as $methodName => $methodData ){
-			if( $methodData['access'] == 'protected' )
-				continue;
-			if( $methodData['access'] == 'private' )
-				continue;
-			if( $lastMethod ){
-				$pattern	= '@.*function '.$lastMethod.'(.*)function '.$methodName.'.*@si';
-				$content	= (string) file_get_contents( $this->classFile );
-				$content	= preg_replace( $pattern, '\\1', $content );
-				$exceptions	= $this->buildExceptionTestMethod( $lastMethod, $content );
-				foreach( $exceptions as $exception )
-					$methods[]	= $exception;
-			}
-			$methodNames	= array_keys( $this->data['methods'] );
-			$methodNames	= array_slice( $methodNames, -1 );
-			if( $methodName == array_pop( $methodNames ) ){
-				$pattern	= '@.*function '.$methodName.'(.*)$@si';
-				$content	= (string) file_get_contents( $this->classFile );
-				$content	= preg_replace( $pattern, '\\1', $content );
-				$exceptions	= $this->buildExceptionTestMethod( $methodName, $content );
-				foreach( $exceptions as $exception )
-					$methods[]	= $exception;
-			}
-			$template	= (string) file_get_contents( $this->templateMethod );
-			$template	= str_replace( '{methodName}', $methodName, $template );
-			$template	= str_replace( '{MethodName}', ucFirst( $methodName ), $template );
-			$template	= str_replace( '{className}', $this->className, $template );
-			$methods[]	= $template;
-			$lastMethod	= $methodName;
-		}
-		return $methods;
-	}
-
-	/**
-	 *	Reads and stores all Class Information and creates Test Class.
+	 *	Reads and stores all class information and creates test class.
 	 *	@access		public
-	 *	@param		string		$className		Name of Class to create Test Class for.
-	 *	@param		bool		$force			Flag: overwrite Test Class File if already existing
+	 *	@param		string		$className		Name of class to create test class for, relative to source namespace or absolute
+	 *	@param		bool		$force			Flag: overwrite test class file if already existing
 	 *	@return		void
+	 *	@throws		RuntimeException			if test class is already existing and force is not set
+	 *	@throws		RuntimeException			if class file is not existing or does not contain the class
 	 */
 	public function createForFile( string $className, bool $force = FALSE ): void
 	{
-		$this->templateClass		= $this->pathTemplates.$this->templateClass;
-		$this->templateException	= $this->pathTemplates.$this->templateException;
-		$this->templateMethod		= $this->pathTemplates.$this->templateMethod;
-
-		$this->className	= $className;
-		$this->readPath();
-		$this->classFile	= 'src/'.$this->getPath( '/' ).'.php';
-		$this->classPath	= $this->getPath( '.' );
-		$this->targetFile	= 'test/'.$this->getPath( '/' ).'Test.php';
-
+		$this->readPath( $className );
 		if( file_exists( $this->targetFile ) && !$force )
-			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
-
-		$parser	= new RegularParser();
-		$data	= $parser->parseFile( $this->classFile, '' );
-		$this->data	= $data['class'];
-
-#		$parser				= new ClassParser( $this->classFile );
-#		$this->data			= $parser->getClassData();
-#		print_m( $data );
-#		die;
-		$this->dumpClassData();
+			throw new RuntimeException( 'Test Class for Class "'.$this->getNamespacedClassName().'" is already existing.' );
+		$this->readClass();
 		$this->buildTestClass();
 	}
 
 	/**
-	 *	Indexes a Path and calls Test Case Creator for all found Classes.
+	 *	Indexes a path and creates test classes for all found classes.
+	 *	Existing test classes are skipped, unless force is set. Files without class (e.g. interfaces or traits) are skipped.
 	 *	@access		public
-	 *	@param		string		$path		Path to index
-	 *	@param		boolean		$force		Flag: overwrite Test Class if already existing
-	 *	@return		int
+	 *	@param		string		$path		Path to index, relative to source path, e.g. FS/File or FS\File
+	 *	@param		boolean		$force		Flag: overwrite test class if already existing
+	 *	@return		int						Number of created test classes
 	 */
-	public function createForFolder( string $path, bool $force ): int
+	public function createForFolder( string $path, bool $force = FALSE ): int
 	{
 		$counter	= 0;
-		$fullPath	= 'src/'.str_replace( '_', '/', $path ).'/';
-		if( file_exists( $fullPath ) && is_dir( $fullPath ) ){
-			$filter	= new RecursiveFolderRegexFilter( $fullPath, '@\.php$@i', TRUE, FALSE );
-			foreach( $filter as $entry ){
-				$counter++;
-				$className	= $entry->getPathname();
-				$className	= substr( $className, strlen( $fullPath ) );
-				$className	= preg_replace( '@\.php$@i', '', $className );
-				$className	= str_replace( '/', '_', $className );
-				$creator	= new Creator();
-				$creator->createForFile( $path.'_'.$className, $force );
-			}
+		$path		= trim( str_replace( '\\', '/', $path ), '/' );
+		$fullPath	= $this->sourcePath.( '' !== $path ? $path.'/' : '' );
+		if( !is_dir( $fullPath ) )
+			return 0;
+		$filter	= new RecursiveFolderRegexFilter( $fullPath, '@\.php$@i', TRUE, FALSE );
+		foreach( $filter as $entry ){
+			$className	= substr( $entry->getPathname(), strlen( $this->sourcePath ) );
+			$className	= (string) preg_replace( '@\.php$@i', '', $className );
+			$className	= str_replace( '/', '\\', $className );
+			$this->readPath( $className );
+			if( file_exists( (string) $this->targetFile ) && !$force )
+				continue;
+			if( !$this->readClass( FALSE ) )
+				continue;
+			$this->buildTestClass();
+			$counter++;
 		}
 		return $counter;
 	}
 
 	/**
-	 *	Dumps all Class Data into an HTML File, for Testing and Development of this Creator Class.
-	 *	@access		private
-	 *	@return		void
+	 *	Returns path of test class file created last.
+	 *	@access		public
+	 *	@return		string|NULL
 	 */
-	private function dumpClassData(): void
+	public function getTargetFile(): ?string
 	{
-		ob_start();
-		print_m( $this->data );
-		$data	= ob_get_clean();
-		file_put_contents( 'lastCreatedTest.cache', '<xmp>'.$data.'</xmp>' );
+		return $this->targetFile;
 	}
 
 	/**
-	 *	Reads and returns thrown Exception Classes from Method Content.
-	 *	@access		protected
-	 *	@param		string		$content		Method Content
-	 *	@return		array
+	 *	Sets namespaced name of base class of created test classes.
+	 *	@access		public
+	 *	@param		string		$baseClass		Namespaced name of test case base class, e.g. PHPUnit\Framework\TestCase
+	 *	@return		self
 	 */
-	protected function getExceptionsFromMethodContent( string $content ): array
+	public function setBaseClass( string $baseClass ): self
 	{
-		$exceptions	= [];
-		$content	= preg_replace( '@/\*(.*)\*/@si', '', $content );
-		$lines		= explode( "\n", $content );
-		foreach( $lines as $line ){
-			$matches	= [];
-			$match		= preg_match( '@throw new (\w+)Exception@', $line, $matches );
-			if( 0 !== $match )
-				$exceptions[]	= $matches[1].'Exception';
-		}
-		return $exceptions;
-	}
-
-	/**
-	 *	Combines and returns Path Parts and File Nane with a Delimiter.
-	 *	@access		protected
-	 *	@param		string		$delimiter
-	 *	@return		string
-	 */
-	protected function getPath( string $delimiter ): string
-	{
-		$path	= implode( $delimiter, $this->pathParts );
-		return $path.$delimiter.$this->fileName;
-	}
-
-	/**
-	 *	Splits Path to Class and stores Parts in lower Case.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function readPath(): void
-	{
-		$this->pathParts	= explode( '_', $this->className );
-		$this->fileName		= array_pop( $this->pathParts );
-		for( $i=0; $i<count( $this->pathParts ); $i++ )
-			$this->pathParts[$i]	= $this->pathParts[$i];
+		$this->baseClass	= trim( $baseClass, '\\' );
+		return $this;
 	}
 
 	/**
@@ -340,5 +236,219 @@ class Creator
 	{
 		$this->pathTemplates	= $pathTemplates;
 		return $this;
+	}
+
+	//  --  PROTECTED  --  //
+
+	/**
+	 *	Creates and returns list of exception test methods for a method, using a template.
+	 *	@access		protected
+	 *	@param		Method_		$method		Parsed method
+	 *	@return		string[]
+	 */
+	protected function buildExceptionTestMethod( Method_ $method ): array
+	{
+		$methods	= [];
+		$methodName	= (string) $method->getName();
+		$exceptions	= $this->getExceptionsOfMethod( $method );
+		$counter	= 0;
+		foreach( $exceptions as $exception ){
+			$counter	= count( $exceptions ) > 1 ? $counter + 1 : '';
+			$methods[]	= $this->renderTemplate( $this->templateException, [
+				'methodName'		=> $methodName,
+				'MethodName'		=> ucfirst( $methodName ),
+				'exceptionClass'	=> $exception,
+				'counter'			=> (string) $counter,
+			] );
+		}
+		return $methods;
+	}
+
+	/**
+	 *	Creates test class from class data and a template.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function buildTestClass(): void
+	{
+		$baseClassParts	= explode( '\\', $this->baseClass );
+		$template	= $this->renderTemplate( $this->templateClass, [
+			'methodTests'			=> implode( '', $this->buildTestMethods() ),
+			'testNamespace'			=> $this->getTestNamespace(),
+			'testClassName'			=> $this->className.'Test',
+			'baseClass'				=> $this->baseClass,
+			'baseClassName'			=> end( $baseClassParts ),
+			'classPackage'			=> implode( '.', $this->pathParts ),
+			'date'					=> date( 'd.m.Y' ),
+		] );
+		if( !str_starts_with( ltrim( $template ), '<?php' ) )
+			$template	= '<?php'.PHP_EOL.$template;
+
+		FolderEditor::createFolder( dirname( (string) $this->targetFile ) );
+		if( FALSE === file_put_contents( (string) $this->targetFile, $template ) )
+			throw new RuntimeException( 'Test class file "'.$this->targetFile.'" could not be written' );
+	}
+
+	/**
+	 *	Creates and returns list of test methods for all public methods, using templates.
+	 *	@access		protected
+	 *	@return		string[]
+	 */
+	protected function buildTestMethods(): array
+	{
+		$methods	= [];
+		if( NULL === $this->class )
+			return $methods;
+		foreach( $this->class->getMethods( FALSE ) as $method ){
+			if( 'public' !== ( $method->getAccess() ?? 'public' ) )
+				continue;
+			$methodName	= (string) $method->getName();
+			$methods[]	= $this->renderTemplate( $this->templateMethod, [
+				'methodName'	=> $methodName,
+				'MethodName'	=> ucfirst( $methodName ),
+			] );
+			foreach( $this->buildExceptionTestMethod( $method ) as $exceptionTest )
+				$methods[]	= $exceptionTest;
+		}
+		return $methods;
+	}
+
+	/**
+	 *	Returns list of exception classes thrown by a method, collected from doc block and source code.
+	 *	@access		protected
+	 *	@param		Method_		$method		Parsed method
+	 *	@return		string[]
+	 */
+	protected function getExceptionsOfMethod( Method_ $method ): array
+	{
+		$exceptions	= [];
+		foreach( $method->getThrows() as $throws )
+			if( NULL !== $throws->getName() && '' !== $throws->getName() )
+				$exceptions[]	= ltrim( $throws->getName(), '\\' );
+		$content	= implode( "\n", $method->getSourceCode() );
+		foreach( $this->getExceptionsFromMethodContent( $content ) as $exception )
+			$exceptions[]	= $exception;
+		return array_values( array_unique( $exceptions ) );
+	}
+
+	/**
+	 *	Reads and returns thrown exception classes from method content.
+	 *	@access		protected
+	 *	@param		string		$content		Method content
+	 *	@return		string[]
+	 */
+	protected function getExceptionsFromMethodContent( string $content ): array
+	{
+		$exceptions	= [];
+		$content	= (string) preg_replace( '@/\*.*?\*/@s', '', $content );
+		$matches	= [];
+		if( 0 < (int) preg_match_all( '@throw\s+new\s+\\\\?([\w\\\\]+)@', $content, $matches ) )
+			foreach( $matches[1] as $exception )
+				$exceptions[]	= $exception;
+		return array_values( array_unique( $exceptions ) );
+	}
+
+	/**
+	 *	Returns namespaced name of class to test.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function getNamespacedClassName(): string
+	{
+		return implode( '\\', array_merge( [$this->sourceNamespace], $this->pathParts, [$this->className] ) );
+	}
+
+	/**
+	 *	Combines and returns path parts and file name with a delimiter.
+	 *	@access		protected
+	 *	@param		string		$delimiter
+	 *	@return		string
+	 */
+	protected function getPath( string $delimiter ): string
+	{
+		return implode( $delimiter, array_merge( $this->pathParts, [$this->fileName] ) );
+	}
+
+	/**
+	 *	Returns namespace of test class.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function getTestNamespace(): string
+	{
+		return implode( '\\', array_merge( [$this->testNamespace], $this->pathParts ) );
+	}
+
+	/**
+	 *	Parses class file and stores parsed class.
+	 *	@access		protected
+	 *	@param		bool		$strict		Flag: throw exception if class file or class is not existing
+	 *	@return		bool
+	 *	@throws		RuntimeException		if class file or class is not existing and strict mode is enabled
+	 */
+	protected function readClass( bool $strict = TRUE ): bool
+	{
+		$this->class	= NULL;
+		if( !file_exists( $this->classFile ) ){
+			if( $strict )
+				throw new RuntimeException( 'Class file "'.$this->classFile.'" is not existing' );
+			return FALSE;
+		}
+		$file	= ( new RegularParser() )->parseFile( $this->classFile, '' );
+		foreach( $file->getClasses() as $class ){
+			if( $class->getName() === $this->className ){
+				$this->class	= $class;
+				return TRUE;
+			}
+		}
+		if( $strict )
+			throw new RuntimeException( 'Class "'.$this->getNamespacedClassName().'" not found in file "'.$this->classFile.'"' );
+		return FALSE;
+	}
+
+	/**
+	 *	Splits class name into namespace parts and class name and sets file names.
+	 *	Accepts namespaced names (absolute or relative to source namespace) and underscored names (e.g. FS_File_Backup).
+	 *	@access		protected
+	 *	@param		string		$className		Name of class to test
+	 *	@return		void
+	 */
+	protected function readPath( string $className ): void
+	{
+		$className	= trim( $className, '\\' );
+		if( !str_contains( $className, '\\' ) )
+			$className	= str_replace( '_', '\\', $className );
+		if( str_starts_with( $className, $this->sourceNamespace.'\\' ) )
+			$className	= substr( $className, strlen( $this->sourceNamespace ) + 1 );
+		$this->pathParts	= explode( '\\', $className );
+		$this->fileName		= (string) array_pop( $this->pathParts );
+		$this->className	= $this->fileName;
+		$this->classFile	= $this->sourcePath.$this->getPath( '/' ).'.php';
+		$this->classPath	= $this->getPath( '.' );
+		$this->targetFile	= $this->testPath.$this->getPath( '/' ).'Test.php';
+	}
+
+	/**
+	 *	Loads template and replaces placeholders, including the general ones for class name, file and path.
+	 *	@access		protected
+	 *	@param		string					$template		File name of template, relative to template path or absolute
+	 *	@param		array<string,string>	$data			Map of placeholders and values
+	 *	@return		string
+	 */
+	protected function renderTemplate( string $template, array $data ): string
+	{
+		$fileName	= str_contains( $template, '/' ) ? $template : $this->pathTemplates.$template;
+		$content	= file_get_contents( $fileName );
+		if( FALSE === $content )
+			throw new RuntimeException( 'Template "'.$fileName.'" could not be read' );
+		$data	= array_merge( [
+			'className'				=> $this->className,
+			'classNamespacedName'	=> $this->getNamespacedClassName(),
+			'classFile'				=> $this->classFile,
+			'classPath'				=> $this->classPath,
+		], $data );
+		foreach( $data as $key => $value )
+			$content	= str_replace( '{'.$key.'}', $value, $content );
+		return $content;
 	}
 }

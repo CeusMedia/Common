@@ -18,6 +18,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class SectionEditorTest extends BaseCase
 {
+	protected $editor;
+
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 

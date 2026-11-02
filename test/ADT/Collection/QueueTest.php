@@ -76,6 +76,8 @@ class QueueTest extends BaseCase
 		$assertion	= 3;
 		$creation	= $this->queue->bottom();
 		self::assertEquals( $assertion, $creation );
+		self::assertEquals( 3, $this->queue->count() );
+		self::assertEquals( 3, $this->queue->bottom() );
 	}
 
 	/**
@@ -86,10 +88,8 @@ class QueueTest extends BaseCase
 	public function testBottomException()
 	{
 		$this->expectException( "RuntimeException" );
-		$this->queue->bottom();
-		$this->queue->bottom();
-		$this->queue->bottom();
-		$this->queue->bottom();
+		$queue	= new Queue();
+		$queue->bottom();
 	}
 
 	/**
@@ -207,6 +207,20 @@ class QueueTest extends BaseCase
 		$assertion	= 1;
 		$creation	= $this->queue->top();
 		self::assertEquals( $assertion, $creation );
+		self::assertEquals( 3, $this->queue->count() );
+		self::assertEquals( 1, $this->queue->top() );
+	}
+
+	/**
+	 *	Tests Exception of Method 'top'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testTopException()
+	{
+		$this->expectException( "RuntimeException" );
+		$queue	= new Queue();
+		$queue->top();
 	}
 
 	/**

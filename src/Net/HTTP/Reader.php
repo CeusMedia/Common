@@ -147,14 +147,18 @@ class Reader
 	}
 
 	/**
-	 *	...
+	 *	Returns value of a response header field of last GET request, case-insensitive.
+	 *	Values of repeated header fields are combined, separated by comma.
 	 *	@access		public
-	 *	@param		string		$key
+	 *	@param		string		$key		Header field name, like Content-Type
 	 *	@return		string|NULL
 	 */
 	public function getResponseHeader( string $key ): ?string
 	{
-		return $this->responseHeaders[$key] ?? NULL;
+		foreach( $this->responseHeaders as $name => $values )
+			if( 0 === strcasecmp( (string) $name, $key ) )
+				return implode( ', ', (array) $values );
+		return NULL;
 	}
 
 	/**

@@ -45,6 +45,11 @@ use RuntimeException;
  */
 class Reader
 {
+	public const SIZE_BYTE			= 1024 ** 0;
+	public const SIZE_KILOBYTE		= 1024 ** 1;
+	public const SIZE_MEGABYTE		= 1024 ** 2;
+	public const SIZE_GIGABYTE		= 1024 ** 3;
+
 	/**	@var		string		$folderName		Folder Name, relative or absolute */
 	protected string $folderName;
 
@@ -307,7 +312,7 @@ class Reader
 	 *	Returns Size of Files within current Folder.
 	 *	@access		public
 	 *	@param		string|NULL		$pattern		RegEx Pattern for Name Filter
-	 *	@param		int|NULL		$unit			Unit (SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
+	 *	@param		int|NULL		$unit			Unit as number of bytes, e.g. self::SIZE_KILOBYTE (one of SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
 	 *	@param		int|NULL		$precision		Precision of rounded Size (only if unit is set, default: 0)
 	 *	@return		int|float		Size in bytes or in given unit
 	 */

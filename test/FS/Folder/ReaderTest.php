@@ -627,9 +627,12 @@ class ReaderTest extends TestCase
 	 */
 	public function testGetSizeWithUnit(): void
 	{
+		self::assertSame( 8, $this->reader1->getSize( NULL, Reader::SIZE_BYTE ) );
+		self::assertSame( 0, $this->reader1->getSize( NULL, Reader::SIZE_KILOBYTE ) );
+		self::assertSame( 0.008, $this->reader1->getSize( NULL, Reader::SIZE_KILOBYTE, 3 ) );
+
+		//  global constants defined by Alg\UnitFormater are supported as well
 		class_exists( UnitFormater::class );
-		self::assertSame( 8, $this->reader1->getSize( NULL, SIZE_BYTE ) );
-		self::assertSame( 0, $this->reader1->getSize( NULL, SIZE_KILOBYTE ) );
 		self::assertSame( 0.008, $this->reader1->getSize( NULL, SIZE_KILOBYTE, 3 ) );
 	}
 

@@ -4,11 +4,9 @@
 	 *	Tests Method '{methodName}'.
 	 *	@access		public
 	 *	@return		void
+	 *	@see		{className}::{methodName}()
 	 */
-	public function test{MethodName}()
+	public function test{MethodName}(): void
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= {className}::{methodName}();
-		$this->assertEquals( $assertion, $creation );
 	}
