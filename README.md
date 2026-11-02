@@ -1,7 +1,7 @@
 # CeusMedia Common
 
 ![Branch](https://img.shields.io/badge/Branch-1.1.x-blue?style=flat-square)
-![Release](https://img.shields.io/badge/Release-1.1.2-blue?style=flat-square)
+![Release](https://img.shields.io/badge/Release-1.1.0-blue?style=flat-square)
 ![PHP version](https://img.shields.io/badge/PHP-%5E8.3-blue?style=flat-square&color=777BB4)
 ![PHPStan level](https://img.shields.io/badge/PHPStan_level-6-darkgreen?style=flat-square)
 [![Monthly downloads](https://img.shields.io/packagist/dt/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
@@ -330,6 +330,6 @@ Developed by [Christian Würker](https://ceusmedia.de/) at [CeusMedia](https://c
 
 ## Changelog
 
-See the [GitHub Releases](https://github.com/CeusMedia/Common/releases) page for a detailed list of changes in each version.
+See [CHANGELOG.md](CHANGELOG.md) for a detailed list of changes in each version, including breaking changes. Release downloads are available on the [GitHub Releases](https://github.com/CeusMedia/Common/releases) page.
 
 > **Version 1.1.x** — Current stable branch with PHP 8.3 support and modern PHP features.

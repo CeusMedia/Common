@@ -138,6 +138,24 @@ final class ConstantTest extends BaseCase
 		$this->expectException( 'DomainException' );
 		$this->object->getValue( '2', 'A' );
 	}
+
+	public function testHasKey(): void
+	{
+		self::assertTrue( $this->object->hasKey( 'C_3' ) );
+		self::assertTrue( $this->object->hasKey( '3', 'C' ) );
+		self::assertFalse( $this->object->hasKey( 'A_2' ) );
+		self::assertFalse( $this->object->hasKey( '2', 'A' ) );
+	}
+
+	public function testHasValue(): void
+	{
+		self::assertTrue( $this->object->hasValue( 3 ) );
+		self::assertTrue( $this->object->hasValue( 3, 'C' ) );
+		self::assertFalse( $this->object->hasValue( 3, 'A' ) );
+		self::assertFalse( $this->object->hasValue( 4 ) );
+		self::assertFalse( $this->object->hasValue( '3' ) );
+		self::assertFalse( $this->object->hasValue( 'C_3' ) );
+	}
 }
 
 class ConstantExample1

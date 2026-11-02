@@ -69,7 +69,7 @@ class Daemon extends Application
 		while( !$this->shallQuit ){
 			$this->serve();
 			ob_flush();
-			if( $this->shallQuit )
+			if( !$this->shallQuit )
 				$this->sleep();
 		}
 	}

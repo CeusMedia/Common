@@ -117,7 +117,7 @@ class Constant
 	{
 		/** @var array $constants */
 		$constants	= $this->getAll( $prefix, FALSE );
-		return in_array( $constantKey, array_keys( $constants ), TRUE );
+		return array_key_exists( $constantKey, $constants );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Constant
 	{
 		/** @var array $constants */
 		$constants	= $this->getAll( $prefix, FALSE );
-		return array_key_exists( $value, $constants );
+		return in_array( $value, $constants, TRUE );
 	}
 
 	public static function fromClassName( string $className ): self

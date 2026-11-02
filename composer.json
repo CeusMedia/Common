@@ -1,5 +1,6 @@
 {
   "name": "ceus-media/common",
+  "description": "PHP library with 400+ classes for everyday tasks: file system, network and HTTP, CLI, UI and images, XML, data structures and algorithms.",
   "license": [
     "GPL-3.0-or-later"
   ],
