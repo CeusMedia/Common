@@ -72,7 +72,9 @@ class SyntaxValidator
 	}
 
 	/**
-	 *	Validates XML Document.
+	 *	Validates XML syntax (well-formedness) and stores the DOM document if valid.
+	 *	Errors are collected using libxml, independent of PHP error display settings.
+	 *	No DTD is loaded or validated.
 	 *	@access		public
 	 *	@param		string		$xml		XML to be validated
 	 *	@return		bool
@@ -80,13 +82,19 @@ class SyntaxValidator
 	public function validate( string $xml ): bool
 	{
 		$this->document	= new DOMDocument();
-		ob_start();
-		$this->document->validateOnParse	= TRUE;
-		$this->document->loadXML( $xml );
-		$this->errors	= ob_get_contents() ?: NULL;
-		ob_end_clean();
-		if( !$this->errors )
-			return TRUE;
-		return FALSE;
+		$this->errors	= NULL;
+		$useErrors		= libxml_use_internal_errors( TRUE );
+		libxml_clear_errors();
+		$loaded			= '' !== trim( $xml ) && $this->document->loadXML( $xml, LIBXML_NONET );
+		$messages		= [];
+		foreach( libxml_get_errors() as $error )
+			if( $error->level >= LIBXML_ERR_ERROR )
+				$messages[]	= trim( $error->message ).' in line '.$error->line;
+		libxml_clear_errors();
+		libxml_use_internal_errors( $useErrors );
+		if( !$loaded && [] === $messages )
+			$messages[]	= 'XML could not be parsed';
+		$this->errors	= [] !== $messages ? implode( PHP_EOL, $messages ) : NULL;
+		return NULL === $this->errors;
 	}
 }

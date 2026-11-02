@@ -36,6 +36,7 @@ use CeusMedia\Common\XML\ElementReader;
 use CeusMedia\Common\XML\Element;
 use Exception;
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  *	Generates URL for Gravatar API.
@@ -77,7 +78,7 @@ class Client
 		$params	= [];
 		foreach( $parameters as $parameter )
 			$params[]	= '<param>'.self::encodeXmlParameter( $parameter ).'</param>';
-		$method	= '<methodName>'.$method.'</methodName>';
+		$method	= '<methodName>'.self::escape( $method ).'</methodName>';
 		$params	= '<params>'.join( $params ).'</params>';
 		$call	= '<methodCall>'.$method.$params.'</methodCall>';
 		return self::parseResponse( HttpPost::sendData( $this->url, $call ) );
@@ -88,36 +89,58 @@ class Client
 	 *	@access		protected
 	 *	@param		Element		$node				...
 	 *	@param		bool		$preserveObjects	Flag: ...
-	 *	@return		array|bool|float|int|object|string|void
+	 *	@return		mixed
 	 */
-	protected static function decodeXmlParameter( Element $node, bool $preserveObjects = FALSE )
+	protected static function decodeXmlParameter( Element $node, bool $preserveObjects = FALSE ): mixed
 	{
 		switch( $node->getName() ){
 			case 'struct':
 				$data	= [];
 				foreach( $node->member as $member )
-					foreach( $member->value->children() as $value )
-						$data[(string) $member->name]	= self::decodeXmlParameter( $value );
+					$data[(string) $member->name]	= self::decodeXmlValue( $member->value, $preserveObjects );
 				if( $preserveObjects )
 					$data	= (object) $data;
 				return $data;
 			case 'array':
 				$data	= [];
-				foreach( $node->data->children() as $values )
-					foreach( $values as $value )
-						$data[]	= self::decodeXmlParameter( $value );
+				foreach( $node->data->value as $value )
+					$data[]	= self::decodeXmlValue( $value, $preserveObjects );
 				return $data;
 			case 'int':
 			case 'i4':
+			case 'i8':
 				return (int) (string) $node;
 			case 'boolean':
-				return (bool) (int) $node;
-			case 'string':
-				return (string) $node;
+				return (bool) (int) (string) $node;
 			case 'double':
-				return (double) $node;
+				return (float) (string) $node;
+			case 'nil':
+				return NULL;
+			case 'base64':
+				return (string) base64_decode( (string) $node );
+			case 'string':
+			case 'dateTime.iso8601':
+			default:
+				return (string) $node;
 		}
 	}
+
+	/**
+	 *	Decodes a value element, which contains a typed element or a string without type.
+	 *	@access		protected
+	 *	@static
+	 *	@param		Element		$value				Value element
+	 *	@param		bool		$preserveObjects	Flag: decode structs as objects
+	 *	@return		mixed
+	 */
+	protected static function decodeXmlValue( Element $value, bool $preserveObjects = FALSE ): mixed
+	{
+		foreach( $value->children() as $node )
+			return self::decodeXmlParameter( $node, $preserveObjects );
+		//  values without type element are strings
+		return (string) $value;
+	}
+
 
 	/**
 	 *	...
@@ -133,13 +156,13 @@ class Client
 			case 'object':
 				foreach( get_object_vars( $parameter ) as $key => $value ){
 					$value	= self::encodeXmlParameter( $value );
-					$data[]	= '<member><name>'.$key.'</name>'.$value.'</member>';
+					$data[]	= '<member><name>'.self::escape( (string) $key ).'</name>'.$value.'</member>';
 				}
-				return '<struct>'.join( $data ).'</struct>';
+				return '<value><struct>'.join( $data ).'</struct></value>';
 			case 'array':
 				foreach( $parameter as $value )
 					$data[]	= self::encodeXmlParameter( $value );
-				return '<array><data>'.join( $data ).'</data></array>';
+				return '<value><array><data>'.join( $data ).'</data></array></value>';
 			case 'integer':
 				return '<value><int>'.$parameter.'</int></value>';
 			case 'boolean':
@@ -147,7 +170,7 @@ class Client
 			case 'double':
 				return '<value><double>'.$parameter.'</double></value>';
 			case 'string':
-				return '<value><string>'.$parameter.'</string></value>';
+				return '<value><string>'.self::escape( $parameter ).'</string></value>';
 			default:
 				throw new InvalidArgumentException( 'Unsupported type: '.$type );
 		}
@@ -159,16 +182,33 @@ class Client
 	 *	@param		string		$xml			Method XML-RPC
 	 *	@return		array
 	 *	@throws		Exception
+	 *	@throws		RuntimeException	if server responds with a fault
 	 */
 	static protected function parseResponse( string $xml ): array
 	{
 		$list		= [];
 		$response	= ElementReader::read( $xml );
-		foreach( $response->params as $params )
-			foreach( $params as $param )
-				foreach( $param as $value )
-					foreach( $value as $node )
-						$list[]	= self::decodeXmlParameter( $node );
+		if( isset( $response->fault ) ){
+			$fault	= self::decodeXmlValue( $response->fault->value );
+			$fault	= is_array( $fault ) ? $fault : [];
+			throw new RuntimeException( (string) ( $fault['faultString'] ?? 'XML-RPC fault' ), (int) ( $fault['faultCode'] ?? 0 ) );
+		}
+		if( isset( $response->params ) )
+			foreach( $response->params->param as $param )
+				$list[]	= self::decodeXmlValue( $param->value );
 		return $list;
+	}
+
+
+	/**
+	 *	Escapes text for XML.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$text		Text to escape
+	 *	@return		string
+	 */
+	protected static function escape( string $text ): string
+	{
+		return htmlspecialchars( $text, ENT_XML1 | ENT_QUOTES, 'UTF-8' );
 	}
 }

@@ -38,6 +38,9 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `UI\Image::getFileName()` returns `NULL` for images not loaded from file (failed with a `TypeError`).
 - `UI\Image\Rotator` keeps transparency of rotated images.
 - `UI\Image\Graphviz\Renderer::saveAsImage()` throws an `OutOfBoundsException` for invalid output types.
+- `XML\DOM\SyntaxValidator` checks well-formedness only and no longer loads and validates DTDs (no network access); errors are collected via libxml.
+- `XML\RPC\Client` decodes values without type element as strings, decodes `nil`, `i8` and `base64` and throws a `RuntimeException` for fault responses (they were returned as empty result).
+- `XML\DOM\UrlReader` accepts Atom and RDF feeds (`application/atom+xml`, `application/rdf+xml`).
 - `ADT\Graph\DirectedWeighted::traverseBreadth()` returns the distances of all reachable nodes in order of traversal.
 - `FS\File\ICal\Builder` folds lines without moving parameters to a separate line.
 - `XML\DOM\Storage` writes strings as plain UTF-8 (they were encoded twice before); files written by older versions are still read correctly.
@@ -128,6 +131,12 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `UI\Image\Exif::getThumbnailImage()` declared every thumbnail as GIF (usually they are JPEG).
 - `UI\Image\TransparentWatermark` failed with a `TypeError` when constructed without stamp file or used with invalid images.
 - `UI\VariableDumper`: global function `dumpVar()` accepted strings only.
+- `XML\DOM\SyntaxValidator` detected errors only if PHP displayed them, so with `display_errors` disabled (as usual in production) every XML was valid. This also affected `XML\FeedIdentifier` and `XML\DOM\Formater`.
+- `XML\RPC\Client` did not escape strings, member and method names (e.g. passwords containing `<` or `&` broke requests or injected XML) and did not wrap structs and arrays in `value` elements, as required by XML-RPC.
+- `XML\Parser` trimmed every chunk of character data, so spaces around entities were lost (`a &amp; b` became `a&b`).
+- `XML\DOM\FeedIdentifier` did not identify Atom 1.0 feeds (they have no version attribute).
+- `XML\DOM\Formater::recode()` failed for XML without encoding declaration.
+- `XML\UnitTestResultReader::getTestSuiteCount()` counted the root element as test suite.
 - Development: `FS\File\BackupTest` is part of the unit test suite again.
 - Development: tests for `FS\File\CSS\Theme\Minimizer` and `Net\HTTP\Reader` (using PHP's built-in web server); the unit test suite runs without deprecations and warnings (undeclared test properties, wrong test namespaces).
 - Development: the FTP tests run against a small local test FTP server (they were always skipped before, even with access data configured); image tests compare pixels instead of file contents and are not skipped anymore. No tests are skipped anymore.

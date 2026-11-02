@@ -54,6 +54,8 @@ class UrlReader
 		'application/xml',
 		'application/xslt+xml',
 		'application/rss+xml',
+		'application/atom+xml',
+		'application/rdf+xml',
 		'text/xml',
 	];
 
