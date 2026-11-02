@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Partitioned Cookie Management.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -61,11 +63,19 @@ class PartitionCookie extends Cookie
 		parent::__construct();
 		$this->partition	= $partition;
 		$this->setPath( $path );
-		$this->setDomain( $domain );
+		if( NULL !== $domain )
+			$this->setDomain( $domain );
 		$this->setSecure( $secure );
 		$this->setHttpOnly( $httpOnly );
-		if( isset( $_COOKIE[$partition] ) )
-			$this->data	= json_decode( $_COOKIE[$partition], TRUE );
+
+		//  break reference to $_COOKIE set by parent constructor, so partition data will not overwrite all cookies
+		unset( $this->data );
+		$this->data	= [];
+		if( isset( $_COOKIE[$partition] ) && is_string( $_COOKIE[$partition] ) ){
+			$data	= json_decode( $_COOKIE[$partition], TRUE );
+			if( is_array( $data ) )
+				$this->data	= $data;
+		}
 	}
 
 	/**
@@ -80,7 +90,7 @@ class PartitionCookie extends Cookie
 		$key	= str_replace( '.', '_', $key );
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
-		return NULL;
+		return $default;
 	}
 
 	/**
@@ -148,6 +158,10 @@ class PartitionCookie extends Cookie
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
 		];
-		return setcookie( $this->partition, $json, $options );
+		if( !setcookie( $this->partition, $json, $options ) )
+			return FALSE;
+		//  keep partition in $_COOKIE up to date for this request, like Cookie does
+		$_COOKIE[$this->partition]	= $json;
+		return TRUE;
 	}
 }

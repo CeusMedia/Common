@@ -1,12 +1,14 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Terminal question.
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -15,6 +17,7 @@ namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\CLI;
 use RangeException;
+use RuntimeException;
 
 /**
  *	Terminal question.
@@ -22,7 +25,7 @@ use RangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -85,10 +88,12 @@ class Question
 		$message	= $this->renderLabel();
 		CLI::out( $message, $this->break );
 		$handle	= fopen( "php://stdin","r" );
-		$input	= trim( fgets( $handle ) );
+		if( FALSE === $handle )
+			throw new RuntimeException( 'Could not open stdin' );
+		$input	= trim( (string) fgets( $handle ) );
 		if( !$this->evaluateInput( $input ) )
 			$input	= $this->ask();
-		return $input;
+		return (string) $input;
 	}
 
 	/**
@@ -160,10 +165,10 @@ class Question
 		return $this;
 	}
 
-	protected function evaluateInput( string & $input ): bool
+	protected function evaluateInput( string $input ): bool
 	{
 		if( $this->default && !strlen( $input ) )
-			$input	= $this->default;
+			$input	= (string) $this->default;
 		if( $this->type === self::TYPE_BOOLEAN ){
 			if( !array_key_exists( $input, $this->options ) )
 				if( !in_array( $input, $this->options, TRUE ) )
@@ -176,28 +181,28 @@ class Question
 			}
 		}
 		if( $this->type === self::TYPE_INTEGER ){
-			if( !preg_match( '/^\d+$/', $input ) )
+			if( 1 !== preg_match( '/^\d+$/', $input ) )
 				return FALSE;
-			$input	= (int) $input;
+			$i	= (int) $input;
 			if( $this->strictOptions ){
- 				if( $this->rangeFrom || $this->rangeTo )
-	 				if( $input < $this->rangeFrom || $input > $this->rangeTo )
+				if( $this->rangeFrom || $this->rangeTo )
+					if( $i < $this->rangeFrom || $i > $this->rangeTo )
 						return FALSE;
-				else if( $this->options && !in_array( $input, $this->options, TRUE ) )
+				else if( $this->options && !in_array( $i, $this->options, TRUE ) )
 					return FALSE;
 			}
 		}
 		if( $this->type === self::TYPE_NUMBER ){
-			if( !preg_match( '/^[\d.]+$/', $input ) )
+			if( 1 !== preg_match( '/^[\d.]+$/', $input ) )
 				return FALSE;
-			$input	= (float) $input;
+			$i	= (float) $input;
 			if( $this->strictOptions ){
- 				if( $this->rangeFrom || $this->rangeTo ){
-	 				if( $input < $this->rangeFrom || $input > $this->rangeTo )
+				if( $this->rangeFrom || $this->rangeTo ){
+					if( $i < $this->rangeFrom || $i > $this->rangeTo )
 						return FALSE;
-				}
-				else if( $this->options && !in_array( $input, $this->options, TRUE ) )
-					return FALSE;
+			}
+			else if( $this->options && !in_array( $i, $this->options, TRUE ) )
+				return FALSE;
 			}
 		}
 		return TRUE;
@@ -224,9 +229,9 @@ class Question
 				$options	= [$this->rangeFrom.'-'.$this->rangeTo];
 			}
 		}
-		if( strlen( trim( $this->default ?? '' ) ) )
+		if( strlen( trim( (string) ( $this->default ?? '' ) ) ) )
 			$message	.= " [".$this->default."]";
-		if( is_array( $options ) && count( $options ) )
+		if( count( $options ) )
 			$message	.= " (".implode( "|", $options ).")";
 		if( !$this->break )
 			$message	.= ": ";

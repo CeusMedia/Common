@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
@@ -36,7 +38,7 @@ use CeusMedia\Common\ADT\URL;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
@@ -63,7 +65,9 @@ class Inference extends URL
 		$parameters	= $this->buildQueryString( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
-		return $this->get( $this->isAbsolute() ).$parameters;
+		//  query and fragment of this URL are replaced by the built ones
+		$url	= (string) preg_replace( '/[?#].*$/', '', $this->get( $this->isAbsolute() ) );
+		return $url.$parameters;
 	}
 
 	/**
@@ -88,7 +92,7 @@ class Inference extends URL
 			unset( $mapRequest[$key] );
 
 		// making link parameter string
-		return http_build_query( $mapRequest, "test_", $this->separator );
+		return http_build_query( $mapRequest, '', $this->separator );
 	}
 
 	/**
@@ -133,7 +137,9 @@ class Inference extends URL
 		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
-		$url		= new URL( self::$staticScheme, self::$staticAddress );
+		$url		= new URL( self::$staticAddress );
+		if( '' !== self::$staticScheme )
+			$url->setScheme( self::$staticScheme );
 		return $url->get( $absolute ).$parameters;
 	}
 }

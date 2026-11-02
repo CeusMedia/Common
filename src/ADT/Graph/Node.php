@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Node in a graph
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,7 +35,7 @@ namespace CeusMedia\Common\ADT\Graph;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -43,7 +45,7 @@ class Node
 	protected string $nodeName;
 
 	/**	@var	mixed		$nodeValue		Value of this Node */
-	protected $nodeValue;
+	protected mixed $nodeValue	= NULL;
 
 	/**
 	 *	Constructor.
@@ -52,7 +54,7 @@ class Node
 	 *	@param		mixed		$nodeValue		Value of this Node
 	 *	@return		void
 	 */
-	public function __construct( string $nodeName, $nodeValue = '' )
+	public function __construct( string $nodeName, mixed $nodeValue = '' )
 	{
 		$this->setNodeName( $nodeName );
 		$this->setNodeValue( $nodeValue );
@@ -78,7 +80,7 @@ class Node
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getNodeValue()
+	public function getNodeValue(): mixed
 	{
 		return $this->nodeValue;
 	}
@@ -101,7 +103,7 @@ class Node
 	 *	@param		mixed		$nodeValue		Value of this Node
 	 *	@return		self
 	 */
-	public function setNodeValue( $nodeValue ): self
+	public function setNodeValue( mixed $nodeValue ): self
 	{
 		$this->nodeValue = $nodeValue;
 		return $this;

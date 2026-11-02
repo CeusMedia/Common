@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Simple Subversion client.
  *
- *	Copyright (c) 2011-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_SVN
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +42,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_SVN
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -57,7 +60,7 @@ class Client
 		if( !file_exists( $path ) )
 			throw IoException::create( 'Invalid path' )->setResource( $path );
 		$this->path		= realpath( $path ).'/';
-		$this->pathExp	= '^('.str_replace( '/', '\/', $this->path ).')';
+		$this->pathExp	= '^('.preg_quote( $this->path, '/' ).')';
 	}
 
 	/**
@@ -124,10 +127,10 @@ class Client
 	public function info( string $path = '' ): XmlElement
 	{
 		$path	= $this->path.$path;
-		if( !strlen( `svn info $path` ) )
-			throw new Exception( 'Path '.$path.' is not under SVN conrol' );
-		$xml	= `svn info $path --xml 2>&1`;
-		return new XmlElement( $xml );
+		$xml	= (string) shell_exec( 'svn info --xml '.escapeshellarg( $path ).' 2>/dev/null' );
+		if( !str_contains( $xml, '<entry' ) )
+			throw new Exception( 'Path '.$path.' is not under SVN control' );
+		return new XmlElement( (string) $xml );
 	}
 
 	/**

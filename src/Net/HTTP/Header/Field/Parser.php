@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for HTTP Header Fields.
  *
- *	Copyright (c) 2017-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2017-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2025 Christian Würker
+ *	@copyright		2017-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2025 Christian Würker
+ *	@copyright		2017-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -63,7 +65,7 @@ class Parser
 		foreach( $codes as $code => $quality ){
 			if( !isset( $map[(string)$quality] ) )
 				$map[(string)$quality]	= [];
-			$map[(string)$quality][strlen( $code)]	= $code;
+			$map[(string)$quality][strlen( (string) $code )]	= $code;
 			if( $sortByLength )
 				//  sort inner list by code length
 				krsort( $map[(string)$quality] );
@@ -84,18 +86,19 @@ class Parser
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$headerFieldString		String to header field to parse
-	 *	@param		boolean		$decodeQualifiedValues	Flag: decode qualified values (default: FALSE)
+	 *	Qualified values are kept as raw string, since the field decodes them on demand: use getValue( TRUE ).
+	 *	@param		boolean		$decodeQualifiedValues	Flag: validate qualified values, decode later using getValue( TRUE ) (default: FALSE)
 	 *	@return		HeaderField							Header field object
 	 *	@throws		InvalidArgumentException			If given string is not a valid header field
 	 */
 	public static function parse( string $headerFieldString, bool $decodeQualifiedValues = FALSE ): HeaderField
 	{
-		if( !preg_match( '/^\S+:\s*.+$/', trim( $headerFieldString ) ) )
+		if( !preg_match( '/^[^\s:]+:.*$/', trim( $headerFieldString ) ) )
 		 	throw new InvalidArgumentException( 'Given string is not an HTTP header' );
 		[$key, $value]	= explode( ':', trim( $headerFieldString ), 2 );
 		$value	= trim( $value );
-		if( $decodeQualifiedValues )
-			$value	= self::decodeQualifiedValues( $value );
+		if( $decodeQualifiedValues && [] === self::decodeQualifiedValues( $value ) )
+			throw new InvalidArgumentException( 'Header value contains no qualified values' );
 		return new HeaderField( trim( $key ), $value );
 	}
 }

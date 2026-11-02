@@ -14,6 +14,7 @@ declare( strict_types = 1 );
 
 namespace CeusMedia\CommonTest\FS\Folder;
 
+use CeusMedia\Common\Alg\UnitFormater;
 use CeusMedia\Common\FS\Folder\Reader;
 
 /**
@@ -617,6 +618,22 @@ class ReaderTest extends TestCase
 		$assertion	= 0;
 		$creation	= $this->reader1->getSize( "@not_existing@" );
 		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getSize' with unit and precision.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetSizeWithUnit(): void
+	{
+		self::assertSame( 8, $this->reader1->getSize( NULL, Reader::SIZE_BYTE ) );
+		self::assertSame( 0, $this->reader1->getSize( NULL, Reader::SIZE_KILOBYTE ) );
+		self::assertSame( 0.008, $this->reader1->getSize( NULL, Reader::SIZE_KILOBYTE, 3 ) );
+
+		//  global constants defined by Alg\UnitFormater are supported as well
+		class_exists( UnitFormater::class );
+		self::assertSame( 0.008, $this->reader1->getSize( NULL, SIZE_KILOBYTE, 3 ) );
 	}
 
 	/**

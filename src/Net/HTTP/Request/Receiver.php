@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 /**
  *	Collects and Manages Request Data.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -30,6 +33,7 @@
 namespace CeusMedia\Common\Net\HTTP\Request;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Method as Method;
@@ -41,7 +45,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -72,9 +76,10 @@ class Receiver extends Dictionary
 	 *	@param		bool		$useCookie		Flag: include Cookie Values
 	 *	@return		void
 	 */
+	// @phpstan-ignore method.childParameterType
 	public function __construct( bool $useSession = FALSE, bool $useCookie = FALSE )
 	{
-		$this->method	= new Method( getEnv( 'REQUEST_METHOD' ) );
+		$this->method	= new Method( Env::getServerVariable( 'REQUEST_METHOD' ) ?: NULL );
 		$this->sources	= [
 			"get"	=> &$_GET,
 			"post"	=> &$_POST,
@@ -88,19 +93,19 @@ class Receiver extends Dictionary
 		parent::__construct( array_merge( ...array_values( $this->sources ) ) );
 
 		//  store HTTP method
-		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
-		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		$this->root		= rtrim( dirname( (string) Env::getServerVariable( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path		= substr( (string) Env::getServerVariable( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( str_contains( $this->path, '?' ) )
-			$this->path	= substr( $this->path, 0, strpos( $this->path, '?' ) );
+			$this->path	= substr( $this->path, 0, (int) strpos( $this->path, '?' ) );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
 		$this->headers		= new HeaderSection;
 		$this->headers->addFieldPairs( Request::getAllEnvHeaders() );
 
 		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' );
+		$this->ip		= Env::getServerVariable( 'REMOTE_ADDR' ) ?: '';
 		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
-			$this->ip = $this->headers->getFieldsByName( 'X-Forwarded-For', TRUE );					//  get original IP address of request
+			$this->ip = (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue();			//  get original IP address of request
 	}
 
 	/**
@@ -190,7 +195,7 @@ class Receiver extends Dictionary
 	 */
 	public function getRawPostData(): string
 	{
-		return file_get_contents( "php://input" );
+		return (string) file_get_contents( "php://input" );
 	}
 
 	/**

@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	...
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -40,7 +43,7 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -95,7 +98,10 @@ abstract class Abstraction
 	{
 		if( !$this->isRunning() )
 			throw new ForkServerException( 'Server is not running' );
-		return intval( trim( file_get_contents( $this->filePid ) ) );
+		$content	= file_get_contents( $this->filePid );
+		if( FALSE === $content )
+			throw new ForkServerException( 'Reading PID file failed' );
+		return intval( trim( $content ) );
 	}
 
 	abstract protected function handleRequest( string $request ): string|int|NULL;
@@ -177,6 +183,7 @@ abstract class Abstraction
 			//	Whoop-tee-loop!
 			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
 			/** @noinspection PhpConditionAlreadyCheckedInspection */
+			/** @phpstan-ignore booleanNot.alwaysTrue */
 			while( !$this->signalHangup && !$this->signalTerm ){
 				while( pcntl_wait( $status, WNOHANG | WUNTRACED ) > 0 ){
 					usleep( 5000 );

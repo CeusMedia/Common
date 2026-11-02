@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
@@ -10,7 +12,7 @@ use RuntimeException;
 /**
  *	Output Methods for Development.
  *
- *	Copyright (c) 2009-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -28,7 +30,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2025 Christian Würker
+ *	@copyright		2009-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2025 Christian Würker
+ *	@copyright		2009-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -69,12 +71,13 @@ class VariableDump
 		$children	= [];
 		$keyLabel	= ( $key !== NULL ) ? htmlentities( $key, ENT_QUOTES, 'UTF-8' ).' -> ' : '';
 		$event		= NULL;
+		$note		= NULL;
 		self::$count++;
 		switch( $type ){
 			case 'array':
 				self::$count--;
 				foreach( $mixed as $childKey => $childValue )
-					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
+					$children[]	= self::buildTree( $childValue, (string) $childKey, $closed, $level + 1 );
 				if( $key === NULL )
 					$keyLabel	= self::$noteOpen.'Array'.self::$noteClose;
 				$mixed		= '';
@@ -84,27 +87,30 @@ class VariableDump
 				self::$count--;
 				$vars		= get_object_vars( $mixed );
 				foreach( $vars as $childKey => $childValue )
-					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
+					$children[]	= self::buildTree( $childValue, (string) $childKey, $closed, $level + 1 );
 				$keyLabel	= self::$noteOpen.get_class( $mixed ).self::$noteClose;
 				$mixed		= '';
 				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
 				break;
 			case 'boolean':
-				$mixed	= self::$noteOpen.( $mixed ? 'TRUE' : 'FALSE' ).self::$noteClose;
+				$note	= $mixed ? 'TRUE' : 'FALSE';
+				$mixed	= '';
 				break;
 			case 'NULL':
-				if( $mixed === NULL )
-					$mixed	= self::$noteOpen.'NULL'.self::$noteClose;
+				$note	= 'NULL';
+				$mixed	= '';
 				break;
 			case 'unknown type':
 				throw new RuntimeException( 'Unknown type' );
 			default:
-				if( preg_match( "/pass(w(or)?d)?/", $key ) )
+				if( preg_match( "/pass(w(or)?d)?/", $key ?? '' ) )
 					$mixed	= str_repeat( '*', 8 );
 				break;
 		}
 		$children	= $children ? "\n".HtmlElements::unorderedList( $children, $level + 2 ) : '';
-		$pair		= $keyLabel.htmlentities( $mixed, ENT_QUOTES, 'UTF-8' );
+		$pair		= $keyLabel.htmlentities( (string) $mixed, ENT_QUOTES, 'UTF-8' );
+		if( NULL !== $note )
+			$pair	.= self::$noteOpen.$note.self::$noteClose;
 		$label		= HtmlTag::create( 'span', $pair, array( 'onclick' => $event ) );
 		$classes	= [$type];
 		if( $closed )

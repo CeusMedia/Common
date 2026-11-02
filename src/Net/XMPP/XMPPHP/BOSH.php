@@ -42,13 +42,42 @@ use SimpleXMLElement;
  */
 class BOSH
 {
+	/** @var int */
 	protected $rid;
+	/** @var string|null */
 	protected $sid;
+	/** @var string */
 	protected $http_server;
+	/** @var array<string> */
 	protected $http_buffer = [];
+	/** @var bool */
 	protected $session = false;
+	/** @var bool */
+	protected $use_encryption = false;
+	/** @var string */
+	protected $host;
+	/** @var int */
+	protected $port;
+	/** @var \XMLParser */
+	protected $parser;
+	/** @var \CeusMedia\Common\Net\XMPP\XMPPHP\Log */
+	protected $log;
+	/** @var int */
+	protected $xml_depth = 0;
+	/** @var array<int, \CeusMedia\Common\Net\XMPP\XMPPHP\XMLObj> */
+	protected $xmlobj = [];
+	/** @var bool */
+	protected $authed = false;
+	/** @var string */
+	protected $jid;
+	/** @var string */
+	protected $fulljid;
+	/** @var bool */
+	protected $been_reset = false;
+	/** @var string */
+	protected $stream_start = '<stream>';
 
-	public function connect($server, $wait='1', $session=false)
+	public function connect(string $server, string $wait='1', bool $session=false): void
 	{
 		$this->http_server = $server;
 		$this->use_encryption = false;
@@ -82,22 +111,22 @@ class BOSH
 		}
 	}
 
-	public function __sendBody($body=null, $recv=true)
+	public function __sendBody(?\SimpleXMLElement $body=null, bool $recv=true): string
 	{
 		if(!$body) {
 			$body = $this->__buildBody();
 		}
 		$ch = curl_init($this->http_server);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $body->asXML());
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		$header = array('Accept-Encoding: gzip, deflate','Content-Type: text/xml; charset=utf-8');
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $header );
-		curl_setopt($ch, CURLOPT_VERBOSE, 0);
+		curl_setopt($ch, CURLOPT_VERBOSE, false);
 		$output = '';
 		if($recv) {
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			$output = curl_exec($ch);
 			$this->http_buffer[] = $output;
 		}
@@ -105,11 +134,11 @@ class BOSH
 		return $output;
 	}
 
-	public function __buildBody($sub=null)
+	public function __buildBody(?\SimpleXMLElement $sub=null): \SimpleXMLElement
 	{
 		$xml = new SimpleXMLElement("<body xmlns='http://jabber.org/protocol/httpbind' xmlns:xmpp='urn:xmpp:xbosh' />");
 		$xml->addAttribute('content', 'text/xml; charset=utf-8');
-		$xml->addAttribute('rid', $this->rid);
+		$xml->addAttribute('rid', strval($this->rid));
 		$this->rid += 1;
 		if($this->sid) $xml->addAttribute('sid', $this->sid);
 		#if($this->sid) $xml->addAttribute('xmlns', 'http://jabber.org/protocol/httpbind');
@@ -125,7 +154,7 @@ class BOSH
 		return $xml;
 	}
 
-	public function __process()
+	public function __process(): void
 	{
 		if($this->http_buffer) {
 			$this->__parseBuffer();
@@ -135,7 +164,7 @@ class BOSH
 		}
 	}
 
-	public function __parseBuffer()
+	public function __parseBuffer(): void
 	{
 		while ($this->http_buffer) {
 			$idx = key($this->http_buffer);
@@ -153,7 +182,7 @@ class BOSH
 		}
 	}
 
-	public function send($msg)
+	public function send(string $msg): void
 	{
 		$this->log->log("SEND: $msg",  Log::LEVEL_VERBOSE);
 		$msg = new SimpleXMLElement($msg);
@@ -162,7 +191,7 @@ class BOSH
 		#$this->__parseBuffer();
 	}
 
-	public function reset()
+	public function reset(): void
 	{
 		$this->xml_depth = 0;
 		unset($this->xmlobj);
@@ -178,7 +207,7 @@ class BOSH
 		xml_parse($this->parser, $buff, false);
 	}
 
-	public function loadSession()
+	public function loadSession(): void
 	{
 		if(isset($_SESSION['XMPPHP_BOSH_RID'])) $this->rid = $_SESSION['XMPPHP_BOSH_RID'];
 		if(isset($_SESSION['XMPPHP_BOSH_SID'])) $this->sid = $_SESSION['XMPPHP_BOSH_SID'];
@@ -187,12 +216,22 @@ class BOSH
 		if(isset($_SESSION['XMPPHP_BOSH_fulljid'])) $this->fulljid = $_SESSION['XMPPHP_BOSH_fulljid'];
 	}
 
-	public function saveSession()
+	public function saveSession(): void
 	{
 		$_SESSION['XMPPHP_BOSH_RID'] = (string) $this->rid;
 		$_SESSION['XMPPHP_BOSH_SID'] = (string) $this->sid;
 		$_SESSION['XMPPHP_BOSH_authed'] = (boolean) $this->authed;
 		$_SESSION['XMPPHP_BOSH_jid'] = (string) $this->jid;
 		$_SESSION['XMPPHP_BOSH_fulljid'] = (string) $this->fulljid;
+	}
+
+	public function setupParser(): void
+	{
+		$this->parser = xml_parser_create('UTF-8');
+		xml_parser_set_option($this->parser, XML_OPTION_SKIP_WHITE, 1);
+		xml_parser_set_option($this->parser, XML_OPTION_TARGET_ENCODING, 'UTF-8');
+		xml_set_object($this->parser, $this);
+		xml_set_element_handler($this->parser, 'startXML', 'endXML');
+		xml_set_character_data_handler($this->parser, 'charXML');
 	}
 }

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use ArrayObject;
@@ -8,7 +10,7 @@ use DirectoryIterator;
 /**
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -26,7 +28,7 @@ use DirectoryIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use DirectoryIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -103,7 +105,7 @@ class FolderView
 	 *	@param		string		$classLeaf			CSS Class of Leafs / Files
 	 *	@return		void
 	 */
-	protected function readRecursive( string $path, string $currentId, ArrayObject &$nodes, bool $linkNodes = FALSE, string $classNode = "folder", string $classLeaf = "file" ): void
+	protected function readRecursive( string $path, string $currentId, ArrayObject &$nodes, bool $linkNodes = FALSE, string $classNode = "folder", string $classLeaf = "file", string $relativePath = '' ): void
 	{
 		$files	= [];
 		$index	= new DirectoryIterator( $path );
@@ -114,9 +116,11 @@ class FolderView
 				continue;
 			if( $file->isDir() ){
 				$children	= new ArrayObject();
-				$this->readRecursive( $file->getPathname(), $currentId, $children, $linkNodes, $classNode, $classLeaf );
+				$this->readRecursive( $file->getPathname(), $currentId, $children, $linkNodes, $classNode, $classLeaf, $relativePath.$file->getFilename().'/' );
+				//  labels are HTML, so file names are escaped; IDs are built from the unescaped path
 				$dir	= array(
-					'label'		=> basename( $file->getPathname() ),
+					'id'		=> rawurlencode( $relativePath.$file->getFilename() ),
+					'label'		=> htmlspecialchars( basename( $file->getPathname() ), ENT_QUOTES, 'UTF-8' ),
 					'type'		=> "node",
 					'class'		=> $classNode,
 					'linked'	=> $linkNodes,
@@ -133,7 +137,8 @@ class FolderView
 					$classes[]	= "file-".strtolower( $info['extension'] );
 				$classes	= implode( " ", $classes );
 				$files[]	= array(
-					'label'		=> $file->getFilename(),
+					'id'		=> rawurlencode( $relativePath.$file->getFilename() ),
+					'label'		=> htmlspecialchars( $file->getFilename(), ENT_QUOTES, 'UTF-8' ),
 					'type'		=> "leaf",
 					'class'		=> $classes,
 					'linked'	=> TRUE,

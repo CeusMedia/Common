@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Basic File Reader.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +40,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -217,7 +219,7 @@ class Reader
 	public function getPath(): string
 	{
 		$this->exists( TRUE );
-		return dirname( realpath( $this->file->getPathName() ) ).'/';
+		return dirname( (string) realpath( $this->file->getPathName() ) ).'/';
 	}
 
 	/**
@@ -237,7 +239,7 @@ class Reader
 	 *	@return		integer|string
 	 *	@throws		FileNotExistingException	if file is not existing or given path is not a file
 	 */
-	public function getSize( int $precision = NULL ): int|string
+	public function getSize( ?int $precision = NULL ): int|string
 	{
 		return $this->file->getSize( $precision );
 	}

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use CeusMedia\Common\FS\Folder\Lister as FolderLister;
@@ -14,7 +16,7 @@ use RuntimeException;
  *	Builds HTML Tree of Folder Entries with Checkboxes for Selection.
  *	If an ID is set the JQuery Plugins 'cmCheckTree' and 'treeview' can be bound.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -32,7 +34,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *
@@ -44,7 +46,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -185,13 +187,13 @@ class FolderCheckView
 			//  correct Slashes on Windows
 			$path		= str_replace( "\\", "/", $item->getPathname() );
 			//  remove Tree Root Path
-			$path		= substr( $path, strlen( $this->path ) );
+			$path		= substr( $path, strlen( $this->path ?? '' ) );
 			foreach( $this->ignorePatterns as $pattern )
 				if( preg_match( '@^'.$pattern.'$@', $path ) )
 					$ignore	= TRUE;
 			if( $ignore	)
 				continue;
-			$label		= $item->getFilename();
+			$label		= htmlspecialchars( $item->getFilename(), ENT_QUOTES, 'UTF-8' );
 			//  empty Sublist
 			$sublist	= "";
 			//  current Path has Folders

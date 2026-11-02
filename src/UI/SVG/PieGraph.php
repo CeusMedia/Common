@@ -1,11 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	This is a pie visualization class.
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -87,7 +89,12 @@ class PieGraph
 
 			$rotate180	= $obj->percent > 50 ? 1 : 0;
 			$color		= $this->chart->getColor( $count );
-
+			//  a single arc cannot describe a full circle (start equals end point)
+			if( $obj->percent >= 100 ){
+				$output .= HtmlTag::create( "circle", NULL, ['cx' => $cx, 'cy' => $cy, 'r' => $r, 'fill' => $color, 'opacity' => 0.8] );
+				$count++;
+				continue;
+			}
 			$attributes	= array(
 				'd'			=> "M{$cx},{$cy} L$x1,$y1 A{$r},{$r} 0 $rotate180,1 $x2,$y2 Z",
 				'fill'		=> $color,

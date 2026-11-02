@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder_Treeview
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,6 +37,7 @@ use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\Common\Exception\Conversion as ConversionException;
 use CeusMedia\Common\UI\HTML\Tag;
 use DirectoryIterator;
+use InvalidArgumentException;
 use SplFileInfo;
 
 /**
@@ -42,7 +46,7 @@ use SplFileInfo;
  *	@package		CeusMedia_Common_FS_Folder_Treeview
  *	@todo			Code Doc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -73,10 +77,13 @@ class Json
 	public function buildJson( string $path = '' ): string
 	{
 		$clock		= new Clock;
+		//  do not allow to leave base path
+		if( 1 === preg_match( '@(^|[/\\\\])\.\.([/\\\\]|$)@', $path ) )
+			throw new InvalidArgumentException( 'Invalid path' );
 		$index		= new DirectoryIterator( $this->basePath.$path );
 		$folders	= [];
 		$files		= [];
-		/** @var SplFileInfo $entry */
+		/** @var DirectoryIterator $entry */
 		foreach( $index as $entry ){
 			if( str_starts_with( $entry->getFilename(), '.' ) )
 				continue;
@@ -95,7 +102,7 @@ class Json
 
 	protected function buildFileItem( SplFileInfo $entry ): array
 	{
-		$label		= $entry->getFilename();
+		$label		= htmlspecialchars( $entry->getFilename(), ENT_QUOTES, 'UTF-8' );
 		$url		= $this->getFileUrl( $entry );
 		$attributes	= [
 			'href' 		=> $url,
@@ -111,7 +118,7 @@ class Json
 	protected function buildFolderItem( SplFileInfo $entry ): array
 	{
 		return [
-			'text'			=> $entry->getFilename(),
+			'text'			=> htmlspecialchars( $entry->getFilename(), ENT_QUOTES, 'UTF-8' ),
 			'id'			=> rawurlencode( $this->getPathName( $entry ) ),
 			'hasChildren'	=> $this->hasChildren( $entry ),
 			'classes'		=> $this->classNode,

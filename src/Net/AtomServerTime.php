@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +41,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -78,10 +81,10 @@ class AtomServerTime
 	 *	@return		void
 	 *	@throws		IoException
 	 */
-	protected function synchronize()
+	protected function synchronize(): void
 	{
 		if( file_exists( $this->syncFile ) ){
-			$time	= filemtime( $this->syncFile );
+			$time	= (int) filemtime( $this->syncFile );
 			if( ( time() - $time ) < $this->refreshTime ){
 				$this->syncTime	= $time;
 				$this->syncDiff	= (int) FileReader::load( $this->syncFile );
@@ -89,7 +92,8 @@ class AtomServerTime
 			}
 		}
 		$this->syncTime	= time();
-		$this->syncDiff	= $this->syncTime - AtomTime::getTimestamp();
+		//  difference to add to local time to get atom time
+		$this->syncDiff	= AtomTime::getTimestamp() - $this->syncTime;
 		FileWriter::save( $this->syncFile, (string) $this->syncDiff );
 		touch( $this->syncFile );
 	}

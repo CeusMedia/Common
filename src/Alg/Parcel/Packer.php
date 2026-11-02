@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +37,7 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -225,7 +225,7 @@ class Packer
 		do{
 			$articleName	= array_pop( $articleKeys );
 			if( array_key_exists( $articleName, $articleList ) )
-				return $articleName;
+				return (string) $articleName;
 		}
 		while( $articleKeys );
 		return NULL;
@@ -242,7 +242,8 @@ class Packer
 		$keys	= array_keys( $this->packets );
 		$index	= array_search( $packetName, $keys );
 		$sliced	= array_slice( $keys, $index + 1, 1 );
-		return array_pop( $sliced );
+		$name	= array_pop( $sliced );
+		return NULL !== $name ? (string) $name : NULL;
 	}
 
 	/**
@@ -254,7 +255,7 @@ class Packer
 	{
 		$packets	= $this->packets;
 		asort( $packets );
-		return key( array_slice( $packets, -1 ) );
+		return (string) key( array_slice( $packets, -1 ) );
 	}
 
 	/**
@@ -267,7 +268,8 @@ class Packer
 	{
 		foreach( array_keys( $this->packets ) as $packetName )
 			if( $this->volumes[$packetName][$articleName] <= 1 )
-				return $packetName;
+				return (string) $packetName;
+
 		return NULL;
 	}
 
@@ -286,7 +288,8 @@ class Packer
 	 */
 	protected function hasLargerPacket( string $packetName ): bool
 	{
-		$last	= key( array_slice( $this->packets, -1 ) );
+		$last	= (string) key( array_slice( $this->packets, -1 ) );
+
 		return $packetName !== $last;
 	}
 

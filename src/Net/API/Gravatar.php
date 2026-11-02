@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Generates URL for Gravatar API.
  *
- *	Copyright (c) 2012-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://gravatar.com/site/implement/images/php/
@@ -43,7 +45,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://gravatar.com/site/implement/images/php/
@@ -219,6 +221,7 @@ class Gravatar
 	public function removeImage( string $email, string $password, string $imageId, int $rating = 0 ): bool
 	{
 		throw new RuntimeException( 'Not tested yet' );
+		/** @phpstan-ignore deadCode.unreachable */
 		$response	= $this->callXmlRpc( $email, 'deleteUserImage', [
 			'password'	=> $password,
 			'userimage'	=> $imageId,
@@ -243,6 +246,7 @@ class Gravatar
 	public function saveImage( string $email, string $password, string $imageDataBase64, int $rating = 0 ): bool|string
 	{
 		throw new RuntimeException( 'Not tested yet' );
+		/** @phpstan-ignore deadCode.unreachable */
 		$response	= $this->callXmlRpc( $email, 'saveData', [
 			'password'	=> $password,
 			'data'		=> $imageDataBase64,
@@ -267,6 +271,7 @@ class Gravatar
 	public function saveImageFromUrl( string $email, string $password, string $imageUrl, int $rating = 0 ): bool|string
 	{
 		throw new RuntimeException( 'Not tested yet' );
+		/** @phpstan-ignore deadCode.unreachable */
 		$response	= $this->callXmlRpc( $email, 'saveUrl', [
 			'password'	=> $password,
 			'url'		=> $imageUrl,
@@ -289,6 +294,7 @@ class Gravatar
 	public function setAddressImage( string $email, string $password, string $address, string $imageId ): array
 	{
 		throw new RuntimeException( 'Not tested yet' );
+		/** @phpstan-ignore deadCode.unreachable */
 		$response	= $this->callXmlRpc( $email, 'useUserimage', [
 			'password'	=> $password,
 			'addresses'	=> [$address],
@@ -312,6 +318,7 @@ class Gravatar
 	public function unsetAddressImage( string $email, string $password, string $address ): array
 	{
 		throw new RuntimeException( 'Not tested yet' );
+		/** @phpstan-ignore deadCode.unreachable */
 		$response	= $this->callXmlRpc( $email, 'removeImage', [
 			'password'	=> $password,
 			'addresses'	=> [$address],

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Magic Node.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -30,22 +32,23 @@ namespace CeusMedia\Common\ADT\Tree;
 
 use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 
+use InvalidArgumentException;
 /**
  *	Magic Node.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class MagicNode
 {
 	/**	@var	array		$data		Map of nested nodes */
-	public $data	= [];
+	public array $data	= [];
 
 	/**	@var	mixed		$value		Node value */
-	public $value;
+	public mixed $value	= NULL;
 
 	/**
 	 *	Constructor.
@@ -53,7 +56,7 @@ class MagicNode
 	 *	@param		mixed		$value		Value to set for node
 	 *	@return		void
 	 */
-	public function __construct( $value = NULL )
+	public function __construct( mixed $value = NULL )
 	{
 		$this->value	= $value;
 	}
@@ -78,7 +81,7 @@ class MagicNode
 	 *	@param		mixed		$value		Value to set on current or nested node
 	 *	@return		void
 	 */
-	public function __set( string $key, $value )
+	public function __set( string $key, mixed $value ): void
 	{
 		if( !isset( $this->data[$key] ) )
 			$this->data[$key]	= new MagicNode( $value );
@@ -102,15 +105,15 @@ class MagicNode
 	 *	@param		array		$array		Array to import
 	 *	@return		void
 	 */
-	public function fromArray( array $array )
+	public function fromArray( array $array ): void
 	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
-				$this->__set( $key, NULL );
+				$this->__set( (string) $key, NULL );
 				$this->data[$key]->fromArray( $value );
 			}
 			else{
-				$this->__set( $key, $value );
+				$this->__set( (string) $key, $value );
 			}
 		}
 
@@ -122,9 +125,12 @@ class MagicNode
 	 *	@param		string		$json		JSON to import
 	 *	@return		void
 	 */
-	public function fromJson( string $json )
+	public function fromJson( string $json ): void
 	{
-		$this->fromArray( json_decode( $json, TRUE ) );
+		$data	= json_decode( $json, TRUE );
+		if( !is_array( $data ) )
+			throw new InvalidArgumentException( 'JSON does not contain an object or array' );
+		$this->fromArray( $data );
 	}
 
 	/**
@@ -162,7 +168,7 @@ class MagicNode
 	 *	@param		mixed		$value		Value to set on node
 	 *	@return		mixed|NULL
 	 */
-	public function value( $value = NULL )
+	public function value( mixed $value = NULL ): mixed
 	{
 		if( !is_null( $value ) )
 			$this->value	= $value;

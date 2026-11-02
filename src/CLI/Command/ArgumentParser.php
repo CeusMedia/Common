@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Argument Parser for Console Applications using an Automaton.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -157,10 +159,6 @@ class ArgumentParser
 	 */
 	public function setNumberOfMandatoryArguments( int $number = 0 ): bool
 	{
-		//  no Integer given
-		if( !is_int( $number ) )
-			//  throw Exception
-			throw new InvalidArgumentException( 'No integer given' );
 		//  this Number is already set
 		if( $number === $this->numberArguments )
 			//  do nothing
@@ -220,7 +218,7 @@ class ArgumentParser
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function extendPossibleOptionsWithShortcuts()
+	protected function extendPossibleOptionsWithShortcuts(): void
 	{
 		foreach( $this->shortcuts as $short	=> $long ){
 			if( !isset( $this->possibleOptions[$long] ) )
@@ -234,7 +232,7 @@ class ArgumentParser
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function finishOptions()
+	protected function finishOptions(): void
 	{
 		foreach( $this->shortcuts as $short	=> $long ){
 			if( !array_key_exists( $short, $this->foundOptions ) )

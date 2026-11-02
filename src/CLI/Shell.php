@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,19 +23,21 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\CLI;
 
+use CeusMedia\Common\Env;
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -79,20 +83,32 @@ class Shell
 	 */
 	public function __construct()
 	{
-		if( getenv( 'HTTP_HOST' ) )
+		if( Env::getServerVariable( 'HTTP_HOST' ) )
 			die( "usage in console only." );
 		ob_implicit_flush();
 		ini_set( "html_errors", '0' );
 		error_reporting( 7 );
 		set_time_limit( 0 );
 		if( !defined( 'STDIN' ) ){
-			define( 'STDIN',	fopen( "php://stdin","r" ) );
-			define( 'STDOUT',	fopen( "php://stdout","w" ) );
-			define( 'STDERR',	fopen( "php://stderr","w" ) );
+			/** @var resource $stdin */
+			$stdin	= fopen( "php://stdin","r" );
+			/** @var resource $stdout */
+			$stdout	= fopen( "php://stdout","w" );
+			/** @var resource $stderr */
+			$stderr	= fopen( "php://stderr","w" );
+			define( 'STDIN',	$stdin );
+			define( 'STDOUT',	$stdout );
+			define( 'STDERR',	$stderr );
 			register_shutdown_function( function(){
-				fclose(STDIN);
-				fclose(STDOUT);
-				fclose(STDERR);
+				/** @var resource $s */
+				$s	= STDIN;
+				fclose($s);
+				/** @var resource $s */
+				$s	= STDOUT;
+				fclose($s);
+				/** @var resource $s */
+				$s	= STDERR;
+				fclose($s);
 				return TRUE;
 			});
 		}
@@ -125,7 +141,7 @@ class Shell
 		$code = str_replace( $this->okeq, '', $code );
 		if( strcspn( $code, ";{=" ) != strlen( $code ) )
 			return FALSE;
-		$kw = preg_split( "/[^a-z\d_]/i", $code );
+		$kw = preg_split( "/[^a-z\d_]/i", $code ) ?: [];
 		foreach( $kw as $i )
 			if( in_array( $i, $this->skip, TRUE ) )
 				return FALSE;
@@ -141,7 +157,7 @@ class Shell
 	public function readLine( int $length = 255): string
 	{
 		$line = fgets( STDIN, $length );
-		return trim( $line );
+		return trim( (string) $line );
 	}
 
 	/**
@@ -149,12 +165,12 @@ class Shell
 	 *	@access		protected
 	 *	@return 	void
 	 */
-	protected function run()
+	protected function run(): void
 	{
 		fputs( STDOUT, ":> " );
 		while( $line = $this->readLine() ){
-			$line = preg_replace( "/\n*|\r*/", "", $line );
-			$line = preg_replace( "/;$/", "", $line );
+			$line = preg_replace( "/\n*|\r*/", "", $line ) ?? '';
+			$line = preg_replace( "/;$/", "", $line ) ?? '';
 			if( strlen( $line ) ){
 				if( $this->isImmediate( $line ) )
 					$line = "return( ".$line." )";
@@ -169,7 +185,7 @@ class Shell
 						print_r( $ret );
 				}
 				unset($ret);
-				$out = ob_get_contents();
+				$out = (string) ob_get_contents();
 				ob_end_clean();
 				if( ( strlen( $out ) > 0) && ( substr( $out, -1 ) != "\n" ) )
 					$out .= "\n";

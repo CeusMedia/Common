@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use RangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -57,7 +59,7 @@ class Connectivity
 	protected int $status		= self::STATUS_UNKNOWN;
 	protected int $method		= self::METHOD_SOCKET;
 	protected string $target		= 'google.com';
-	protected mixed $callbackOnChange;
+	protected mixed $callbackOnChange	= NULL;
 
 	/**
 	 *	Constructor.
@@ -101,9 +103,10 @@ class Connectivity
 	 */
 	public function checkUsingSocket(): void
 	{
-		$conn	= @fsockopen( 'google.com', 443);
+		$conn	= @fsockopen( $this->target, 443, $errorCode, $errorMessage, 5 );
 		$this->status = $conn ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
-		fclose( $conn );
+		if( $conn )
+			fclose( $conn );
 	}
 
 	/**
@@ -115,7 +118,7 @@ class Connectivity
 	public function checkUsingSystemPing(): void
 	{
 		$response = NULL;
-		@exec( "ping -c 1 google.com 2>&1 1> /dev/null", $response, $code );
+		@exec( 'ping -c 1 -W 5 '.escapeshellarg( $this->target ).' > /dev/null 2>&1', $response, $code );
 		$this->status = $code === 0 ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
 	}
 

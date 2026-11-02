@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reads "Gantt Project" XML File and extracts basic Project Information and Meeting Dates.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Gantt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Gantt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -66,8 +68,9 @@ class MeetingReader
 	 */
 	protected static function calculateEndDate( string $startDate, int $durationDays ): string
 	{
-		$time	= strtotime( $startDate ) + $durationDays * 24 * 60 * 60;
-		return date( "Y-m-d", $time );
+		//  calendar arithmetic, since days are not always 24 hours long (daylight saving time)
+		$date	= new \DateTimeImmutable( $startDate );
+		return $date->modify( ( $durationDays >= 0 ? '+' : '' ).$durationDays.' days' )->format( "Y-m-d" );
 	}
 
 	/**
@@ -100,7 +103,7 @@ class MeetingReader
 			$meetings[]	= [
 				'name'		=> $name,
 				'start'		=> $start,
-				'end'		=> self::calculateEndDate( $start, $duration ),
+				'end'		=> self::calculateEndDate( $start, (int) $duration ),
 				'duration'	=> $duration,
 			];
 		}
@@ -128,7 +131,7 @@ class MeetingReader
 			'name'		=> $name,
 			'start'		=> $start,
 			'duration'	=> $duration,
-			'end'		=> self::calculateEndDate( $start, $duration ),
+			'end'		=> self::calculateEndDate( $start, (int) $duration ),
 		];
 	}
 }

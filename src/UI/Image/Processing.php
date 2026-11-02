@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Processor for resizing, scaling and rotating an image.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,13 +36,14 @@ use CeusMedia\Common\UI\Image;
 use InvalidArgumentException;
 use OutOfRangeException;
 use ReflectionFunction;
+use RuntimeException;
 
 /**
  *	Processor for resizing, scaling and rotating an image.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -100,7 +104,7 @@ class Processing
 	/**
 	 *	Flips image horizontally or vertically.
 	 *	@access		public
-	 *	@param		integer		$mode		0: horizontally, 1: vertically
+	 *	@param		integer		$mode		0: vertically (upside down), 1: horizontally (mirrored)
 	 *	@return		boolean		Image has been flipped
 	 */
 	public function flip( int $mode = 0 ): bool
@@ -189,26 +193,30 @@ class Processing
 	 *	Resulting image may have different dimensions.
 	 *	@access		public
 	 *	@param		integer		$angle			Angle to rotate (0-360)
-	 *	@param		integer		$bgColor		Background color
+	 *	@param		integer|NULL	$bgColor		Background color, default: transparent color of image
 	 *	@return		void
+	 *	@throws		RuntimeException	if rotation failed
 	 */
-	public function rotate( int $angle, int $bgColor = 0 ): void
+	public function rotate( int $angle, ?int $bgColor = NULL ): void
 	{
-		$bgColor	= $this->image->colorTransparent;
-		$this->image->setResource( imagerotate( $this->image->getResource(), -$angle, $bgColor ) );
+		$bgColor	??= $this->image->colorTransparent;
+		$rotated	= imagerotate( $this->image->getResource(), -$angle, $bgColor );
+		if( FALSE === $rotated )
+			throw new RuntimeException( 'Rotating image failed' );
+		$this->image->setResource( $rotated );
 	}
 
 	/**
 	 *	Scales image by factors.
 	 *	If no factor for height is given, it will be the same as for width.
 	 *	@access		public
-	 *	@param		integer		    $width			Factor for width
-	 *	@param		integer|NULL	$height			Factor for height
+	 *	@param		float		    $width			Factor for width
+	 *	@param		float|NULL		$height			Factor for height, default: same as width
 	 *	@param		boolean		    $interpolate	Flag: use interpolation
 	 *	@return		boolean		    				Image has been scaled
 	 *	@throws		OutOfRangeException				if resulting image has more mega pixels than allowed
 	 */
-	public function scale( int $width, int $height = NULL, bool $interpolate = TRUE ): bool
+	public function scale( float $width, ?float $height = NULL, bool $interpolate = TRUE ): bool
 	{
 		if( is_null( $height ) )
 			$height	= $width;

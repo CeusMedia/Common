@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for OPML Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -90,7 +92,7 @@ class Builder extends Node
 	 *	@param		Outline		$outline		Outline Node to add
 	 *	@return		void
 	 */
-	public function addOutline( Outline $outline )
+	public function addOutline( Outline $outline ): void
 	{
 		$this->body->addChild( $outline );
 	}
@@ -102,7 +104,7 @@ class Builder extends Node
 	 *	@param		string		$value			Value of Header
 	 *	@return		void
 	 */
-	public function setHeader( string $key, string $value )
+	public function setHeader( string $key, string $value ): void
 	{
 		if( !in_array( $key, $this->headers, TRUE ) )
 			throw new InvalidArgumentException( "Unsupported Header '".$key."'" );

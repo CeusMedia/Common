@@ -1,11 +1,14 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Editor for XML Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -26,7 +29,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -45,7 +48,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -96,10 +99,10 @@ class FileEditor
 	 *	@return		bool
 	 *	@throws		DOMException
 	 */
-	public function editNodeAttribute( string $nodePath, string $key, $value ): bool
+	public function editNodeAttribute( string $nodePath, string $key, mixed $value ): bool
 	{
 		$node	= $this->getNode( $nodePath );
-		$node->setAttribute( $key, $value );
+		$node->setAttribute( $key, (string) $value );
 		return (bool) $this->write();
 	}
 
@@ -127,8 +130,8 @@ class FileEditor
 	 */
 	protected function getNode( string $nodePath ): Node
 	{
-		$pathNodes	= explode( "/", $nodePath );
-		$xmlNode	=& $this->xmlTree;
+		$pathNodes	= array_filter( explode( "/", $nodePath ), static fn( string $part ) => '' !== trim( $part ) );
+		$xmlNode	= $this->xmlTree;
 		while( $pathNodes ){
 			$pathNode	= trim( array_shift( $pathNodes ) );
 			$matches	= [];
@@ -138,7 +141,7 @@ class FileEditor
 				$nodes		= $xmlNode->getChildren( $pathNode );
 				if( !isset( $nodes[$itemNumber] ) )
 					throw new InvalidArgumentException( 'Node is not existing' );
-				$xmlNode	=& $nodes[$itemNumber];
+				$xmlNode	= $nodes[$itemNumber];
 				continue;
 			}
 			$xmlNode	= $xmlNode->getChild( $pathNode );
@@ -162,16 +165,16 @@ class FileEditor
 		$branch		= $this->getNode( $nodePath );
 		if( preg_match_all( "@^(.*)\[(\d+)\]$@", $nodeName, $matches ) ){
 			$nodeName	= $matches[1][0];
-			$nodeNumber	= $matches[2][0];
+			$nodeNumber	= (int) $matches[2][0];
 		}
-		$nodes		=& $branch->getChildren();
+		$nodes		= $branch->getChildren();
 		$index		= -1;
 		for( $i=0; $i<count( $nodes ); $i++ ){
 			if( !$nodeName || $nodes[$i]->getNodeName() == $nodeName ){
 				$index++;
-				if( $index != $nodeNumber )
+				if( $index !== $nodeNumber )
 					continue;
-				unset( $nodes[$i] );
+				$branch->removeChildAt( $i );
 				return (bool) $this->write();
 			}
 		}

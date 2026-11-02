@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Pagination System for limited Tables and Lists.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -50,8 +52,6 @@ class Pagination extends OptionObject
 	public function __construct( array $options = [] )
 	{
 		parent::__construct();
-		if( !is_array( $options ) )
-			throw new InvalidArgumentException( 'Option map is not an array' );
 		$defaultOptions	= [
 			'uri'			=> "./",
 			'param'			=> [],
@@ -114,13 +114,13 @@ class Pagination extends OptionObject
 		//  current page
 		$here		= (int) ceil( $offset / $limit );
 		//  pages before
-		$before		= $offset / $limit;
+		$before		= intdiv( $offset, $limit );
 
 		$pages	= [];
 		$cover			= $this->getOption( 'coverage' );
 		$showMore		= $this->getOption( 'showMore' );
 		$showFirstLast	= $this->getOption( 'showFirstLast' );
-		$showPrevNext	= $this->getOption( 'showFirstLast' );
+		$showPrevNext	= $this->getOption( 'showPrevNext' );
 
 		//  --  FIRST PAGE --  //
 		//  show first link
@@ -187,7 +187,7 @@ class Pagination extends OptionObject
 				$pages[]	= $this->buildButton( 'textNext', 'classSkip', $offset );
 			else
 				//  next link disabled it at last page
-				$pages[]	= $this->buildButton( 'textNext', 'classSkip disabled' );
+				$pages[]	= $this->buildButton( 'textNext', 'classSkip classDisabled' );
 		}
 
 		//  --  LAST PAGE --  //
@@ -198,7 +198,7 @@ class Pagination extends OptionObject
 				$pages[]	= $this->buildButton( 'textLast', 'classExtreme', $offset );
 			else
 				//  last link disabled if at last page
-				$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );
+				$pages[]	= $this->buildButton( 'textLast', 'classExtreme classDisabled' );
 		}
 		return Elements::unorderedList( $pages, 0, ['class' => $this->getOption( 'classList' )] );
 	}
@@ -217,7 +217,7 @@ class Pagination extends OptionObject
 		if( empty( $label ) )
 			throw new InvalidArgumentException( 'Button Label cannot be empty' );
 		$classes	= [];
-		foreach( explode( " ", $class ) as $class )
+		foreach( explode( " ", $class ?? '' ) as $class )
 			$classes[]	= ( $class && $this->hasOption( $class ) ) ? $this->getOption( $class ) : $class;
 		$class	= implode( " ", $classes );
 		if( $offset !== NULL ){
@@ -260,7 +260,7 @@ class Pagination extends OptionObject
 		$param[$this->getOption( 'keyOffset' )] = $offset;
 		$list	= [];
 		foreach( $param as $key => $value )
-			$list[]	= $key.$this->getOption( 'keyAssign' ).$value;
+			$list[]	= rawurlencode( (string) $key ).$this->getOption( 'keyAssign' ).rawurlencode( (string) $value );
 		$param	= implode( $this->getOption( 'keyParam' ), $list );
 		return  $this->getOption( 'uri' ).$this->getOption( 'keyRequest' ).$param;
 	}

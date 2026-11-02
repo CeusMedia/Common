@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
@@ -112,6 +115,10 @@ class TransparentWatermark
 		}
 
 		$imageInfos	= @getimagesize( $imageFile );
+		if( !$imageInfos ){
+			$this->errorMsg = 'Error on loading "'.$imageFile.'", image must be a valid PNG or JPEG file.';
+			return FALSE;
+		}
 		$type		= $imageInfos[2];
 		$image		= $this->readImage( $imageFile, $type );
 		if( !$image ){
@@ -152,7 +159,7 @@ class TransparentWatermark
 				$leftStamp = 0;
 				break;
 			case transparentWatermarkOnCenter:
-				$leftStamp = ( $imageWidth - $this->stampWidth ) / 2;
+				$leftStamp = intdiv( $imageWidth - $this->stampWidth, 2 );
 				break;
 			case transparentWatermarkOnRight:
 				$leftStamp = $imageWidth - $this->stampWidth;
@@ -165,7 +172,7 @@ class TransparentWatermark
 				$topStamp = 0;
 				break;
 			case transparentWatermarkOnMiddle:
-				$topStamp = ( $imageHeight - $this->stampHeight ) / 2;
+				$topStamp = intdiv( $imageHeight - $this->stampHeight, 2 );
 				break;
 			case transparentWatermarkOnBottom:
 				$topStamp = $imageHeight - $this->stampHeight;
@@ -217,9 +224,9 @@ class TransparentWatermark
     {
 		switch( $type ){
 			case IMAGETYPE_JPEG:
-				return ImageCreateFromJPEG( $file );
+				return ImageCreateFromJPEG( $file ) ?: NULL;
 			case IMAGETYPE_PNG:
-				return ImageCreateFromPNG( $file );
+				return ImageCreateFromPNG( $file ) ?: NULL;
 			default:
 				$this->errorMsg = 'File format not supported.';
 				return NULL;
@@ -235,7 +242,11 @@ class TransparentWatermark
 	 */
 	public function setStamp( string $stampFile ): bool
     {
-		$imageInfos	= @getimagesize( $stampFile );
+		$imageInfos	= '' !== $stampFile ? @getimagesize( $stampFile ) : FALSE;
+		if( !$imageInfos ){
+			$this->errorMsg = 'Error on loading "'.$stampFile.'", stamp image must be a valid PNG or JPEG file.';
+			return FALSE;
+		}
 		$width		= $imageInfos[0];
 		$height		= $imageInfos[1];
 		$type		= $imageInfos[2];
@@ -264,7 +275,7 @@ class TransparentWatermark
 	 *	@param		int			$Yposition		y position
 	 *	@return		void
 	 */
-	public function setStampPosition( int $Xposition, int $Yposition )
+	public function setStampPosition( int $Xposition, int $Yposition ): void
     {
 		// set X position
 		switch( $Xposition ){

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
@@ -47,10 +49,10 @@ use Exception;
 class FeedIdentifier
 {
 	/**	@var		string		$type			Type of Feed */
-	protected $type				= '';
+	protected string $type				= '';
 
 	/**	@var		string		$version		Version of Feed Type */
-	protected $version			= '';
+	protected string $version			= '';
 
 	/**
 	 *	Identifies Feed from a File.
@@ -125,13 +127,13 @@ class FeedIdentifier
 		$rss	= $xpath->query( "//rss/@version" );
 		if( $rss->length ){
 			$this->type		= "RSS";
-			$this->version	= $rss->item( 0 )->nodeValue;
+			$this->version	= (string) $rss->item( 0 )->nodeValue;
 			return TRUE;
 		}
 
 		//  --  RSS 1.0 - RDF  --  //
 		$namespace	= $xpath->evaluate( 'namespace-uri(//*)' );
-		$xpath->registerNamespace( "rdf", $namespace );
+		$xpath->registerNamespace( "rdf", (string) $namespace );
 		$rdf		= $xpath->evaluate( "//rdf:RDF" );
 		if( $rdf->length ){
 			$this->type		= "RSS";
@@ -148,7 +150,7 @@ class FeedIdentifier
 		}
 
 		$namespace = $xpath->evaluate( 'namespace-uri(//*)' );
-		$xpath->registerNamespace( "pre", $namespace );
+		$xpath->registerNamespace( "pre", (string) $namespace );
 		$atom	= $xpath->evaluate( "//pre:feed/@version" );
 		if( $atom->length ){
 			$this->type		= "ATOM";

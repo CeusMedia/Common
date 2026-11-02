@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	CronParser.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server_Cron
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use CeusMedia\Common\ADT\OptionObject;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server_Cron
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -55,10 +57,10 @@ class Job extends OptionObject
 
 	/**
 	 *	Indicates whether this job is mature.
-	 *	@access		protected
+	 *	@access		public
 	 *	@return		bool
 	 */
-	protected function checkMaturity(): bool
+	public function checkMaturity(): bool
 	{
 		$time	= time();
 		$c_minute	= date( "i", $time );
@@ -90,7 +92,7 @@ class Job extends OptionObject
 	{
 		ob_start();
 		passthru( $this->getOption( "action" ) );
-		$content	= ob_get_contents();
+		$content	= (string) ob_get_contents();
 		ob_end_clean();
 		return $content;
 	}

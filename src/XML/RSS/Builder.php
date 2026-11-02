@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for RSS Feeds.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -103,22 +105,21 @@ class Builder
 		$this->channel['timezone']	= '+0000';
 		$this->items	= [];
 
-		if( !is_array( $data ) )
-			throw new Exception( 'Channel Data List must be an Array.' );
 		foreach( $data as $key => $value )
-			$this->setChannelPair( $key, $value );
+			$this->setChannelPair( (string) $key, NULL !== $value ? (string) $value : NULL );
 	}
 
 	/**
 	 *	Adds an item to RSS Feed.
 	 *	@access		public
 	 *	@param		array		$item			Item information to add
-	 *	@return		void
+	 *	@return		static
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function addItem( array $item )
+	public function addItem( array $item ): static
 	{
 		$this->items[] = $item;
+		return $this;
 	}
 
 	/**
@@ -185,16 +186,16 @@ class Builder
 				$value	= $item[$element] ?? NULL;
 				if( $required || $value ){
 					if( $element == "source" && $value ){
-						$node->addChild( new Node( $element, $this->channel['title'], ['url' => $value] ) );
+						$node->addChild( new Node( $element, $this->channel['title'], ['url' => (string) $value] ) );
 						continue;
 					}
 					if( $element == "guid" && $value ){
-						$node->addChild( new Node( $element, $value, ['isPermaLink' => 'true'] ) );
+						$node->addChild( new Node( $element, (string) $value, ['isPermaLink' => 'true'] ) );
 						continue;
 					}
 					if( $element == "pubDate" && $value )
 						$value	= $this->getDate( $value );
-					$node->addChild( new Node( $element, $value ) );
+					$node->addChild( new Node( $element, NULL !== $value ? (string) $value : NULL ) );
 				}
 			}
 			$channel->addChild( $node );
@@ -222,10 +223,10 @@ class Builder
 	 *	@access		public
 	 *	@param		string			$key		Key of Channel Information Pair
 	 *	@param		string|NULL		$value		Value of Channel Information Pair
-	 *	@return		self
+	 *	@return		static
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelPair( string $key, ?string $value ): self
+	public function setChannelPair( string $key, ?string $value ): static
 	{
 		$this->channel[$key]	= $value;
 		return $this;
@@ -235,14 +236,14 @@ class Builder
 	 *	Sets Information of Channel.
 	 *	@access		public
 	 *	@param		array		$pairs		Array of Channel Information Pairs
-	 *	@return		self
+	 *	@return		static
 	 *	@throws		Exception
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelData( array $pairs ): self
+	public function setChannelData( array $pairs ): static
 	{
 		foreach( $pairs as $key => $value )
-			$this->setChannelPair( $key, $value );
+			$this->setChannelPair( (string) $key, NULL !== $value ? (string) $value : NULL );
 		return $this;
 	}
 

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Combines CSS Files imported in one CSS File.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,23 +38,23 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Combiner
 {
 	/**	@var		string		$prefix			Prefix of combined File Name */
-	public $prefix					= "";
+	public string $prefix			= "";
 
 	/**	@var		string		$suffix			Suffix of combined File Name */
-	public $suffix					= ".combined";
+	public string $suffix			= ".combined";
 
 	/**	@var		string		$importPattern	Pattern of imported CSS Files */
-	public $importPattern			= '#^@import (url\(\s*)?["\'](.*)["\'](\s*\))?;?$#i';
+	public string $importPattern	= '#^@import (url\(\s*)?["\'](.*)["\'](\s*\))?;?$#i';
 
 	/**	@var		array		$statistics		Statistical Data */
-	public $statistics				= [];
+	public array $statistics		= [];
 
 	/**
 	 *	Combines all CSS Files imported in Style File, saves Combination File and returns File URI of Combination File.
@@ -63,7 +65,7 @@ class Combiner
 	 */
 	public function combineFile( string $fileUri ): string
 	{
-		$pathName	= dirname( realpath( $fileUri ) )."/";
+		$pathName	= dirname( (string) realpath( $fileUri ) )."/";
 		$fileBase	= preg_replace( "@\.css@", "", basename( $fileUri  ));
 
 		if( !file_exists( $fileUri ) )
@@ -71,6 +73,8 @@ class Combiner
 
 		$this->statistics	= [];
 		$content	= file_get_contents( $fileUri );
+		if( FALSE === $content )
+			throw new Exception( "Style File '".$fileUri."' is not readable." );
 
 		$content	= $this->combineString( $pathName, $content );
 		$fileName	= $this->prefix.$fileBase.$this->suffix.".css";
@@ -99,7 +103,8 @@ class Combiner
 		$this->statistics['numberFiles']	= 0;
 		$this->statistics['filesFound']		= [];
 		$this->statistics['filesSkipped']	= [];
-		$content	= preg_replace( '/\/\*.+\*\//sU', '', $content );
+		//  remove comments (also empty ones like /**/)
+		$content	= (string) preg_replace( '/\/\*.*?\*\//s', '', $content );
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line ){
 			$line	= trim( $line );
@@ -118,6 +123,12 @@ class Combiner
 				}
 
 				$content	= file_get_contents( $path.$fileName );
+				if( FALSE === $content ){
+					if( $throwException )
+						throw new RuntimeException( 'CSS File "'.$fileName.'" is not readable.' );
+					$this->statistics['filesSkipped'][] = $fileName;
+					continue;
+				}
 				$content	= $this->reviseStyle( $content );
 				$this->statistics['numberFiles']	++;
 				$this->statistics['sizeOriginal']	+= strlen( $content );

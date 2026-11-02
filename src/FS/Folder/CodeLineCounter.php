@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Counter for Lines of Code.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -48,33 +50,26 @@ class CodeLineCounter
 {
 	protected array $data	= [];
 
-	public function getData( ?string $key = NULL ): array
+	public function getData( ?string $key = NULL ): mixed
 	{
 		//  no Folder scanned yet
 		if( !$this->data )
 			throw new RuntimeException( 'Please read a Folder first.' );
-		//  no Key set
+		//  no Key set: return complete Data Array
 		if( !$key )
-			//  return complete Data Array
 			return $this->data;
-
-		//  extract possible Key Prefix
-		$prefix	= substr( strtolower( $key ), 0, 5 );
-		//  Prefix is valid
-		if( array_key_exists( $prefix, $this->data ) ){
-			//  extract Key without Prefix
-			$key	= substr( $key, 5 );
-			//  invalid Key
-			if( !array_key_exists( $key, $this->data[$prefix] ) )
-				throw new InvalidArgumentException( 'Invalid Data Key.' );
-			//  return Value for prefixed Key
-			return $this->data[$prefix][$key];
+		if( array_key_exists( $key, $this->data ) )
+			return $this->data[$key];
+		//  keys like numberFiles or ratioLinesPerFile address nested values
+		foreach( ['number', 'ratio'] as $prefix ){
+			if( !str_starts_with( strtolower( $key ), $prefix ) )
+				continue;
+			$nestedKey	= lcfirst( substr( $key, strlen( $prefix ) ) );
+			foreach( [$nestedKey, strtolower( $nestedKey )] as $candidate )
+				if( array_key_exists( $candidate, $this->data[$prefix] ) )
+					return $this->data[$prefix][$candidate];
 		}
-		//  prefixless Key is invalid
-		else if( !array_key_exists( $key, $this->data[$prefix] ) )
-			throw new InvalidArgumentException( 'Invalid Data Key.' );
-		//  return Value for prefixless Key
-		return $this->data[$key];
+		throw new InvalidArgumentException( 'Invalid Data Key.' );
 	}
 
 	/**
@@ -94,7 +89,7 @@ class CodeLineCounter
 		$numberLines	= 0;
 		$numberStrips	= 0;
 
-		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path );
+		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path ) ?? $path;
 
 		$st		= new Clock();
 		$lister	= new FolderRecursiveLister( $path );
@@ -124,7 +119,9 @@ class CodeLineCounter
 			$numberDocs			+= $countData['numberDocs'];
 			$files[$pathName]	= $countData;
 		}
-		$linesPerFile	= $numberLines / $numberFiles;
+		$linesPerFile	= $numberFiles ? $numberLines / $numberFiles : 0;
+		$perFile		= static fn( int $number ): float => $numberFiles ? $number / $numberFiles : 0;
+		$percent		= static fn( int $number ): float => $numberLines ? round( $number / $numberLines * 100, 1 ) : 0;
 		$this->data		= [
 			'number'	=> [
 				'files'		=> $numberFiles,
@@ -136,12 +133,12 @@ class CodeLineCounter
 			],
 			'ratio'			=> [
 				'linesPerFile'		=> round( $linesPerFile, 0 ),
-				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),
-				'docsPerFile'		=> round( $numberDocs / $numberFiles, 0 ),
-				'stripsPerFile'		=> round( $numberStrips / $numberFiles, 0 ),
-				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
-				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
-				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
+				'codesPerFile'		=> round( $perFile( $numberCodes ), 0 ),
+				'docsPerFile'		=> round( $perFile( $numberDocs ), 0 ),
+				'stripsPerFile'		=> round( $perFile( $numberStrips ), 0 ),
+				'codesPerFile%'		=> $percent( $numberCodes ),
+				'docsPerFile%'		=> $percent( $numberDocs ),
+				'stripsPerFile%'	=> $percent( $numberStrips ),
 			],
 			'files'		=> $files,
 			'seconds'	=> $st->stop( 6 ),

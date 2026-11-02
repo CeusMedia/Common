@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Files with Text Block Contents, named by Section.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -61,13 +63,13 @@ class Reader
 	 *	Returns Block Content.
 	 *	@access		public
 	 *	@param		string		$section		Name of Block
-	 *	@return		array
+	 *	@return		string		Block content, empty if block is not existing
 	 */
-	public function getBlock( string $section ): array
+	public function getBlock( string $section ): string
 	{
 		if( $this->hasBlock( $section ) )
 			return $this->blocks[$section];
-		return [];
+		return '';
 	}
 
 	/**
@@ -81,9 +83,9 @@ class Reader
 	}
 
 	/**
-	 *	Returns Array of all Blocks.
+	 *	Returns Map of all Blocks, block names as keys and block contents as values.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		array<string,string>
 	 */
 	public function getBlocks(): array
 	{

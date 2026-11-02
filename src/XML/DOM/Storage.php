@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,17 +41,17 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Storage extends OptionObject
 {
 	/**	@var	string			$fileName		URI of XML File */
-	protected $fileName;
+	protected string $fileName;
 
 	/**	@var	array			$storage		Array for Storage Operations */
-	protected $storage	= [];
+	protected array $storage	= [];
 
 	/**
 	 *	Constructor.
@@ -79,7 +82,7 @@ class Storage extends OptionObject
 	 *	@param		array|NULL		$array			current Position in Storage Array
 	 *	@return 	mixed
 	 */
-	public function get( string $path, ?array $array = NULL )
+	public function get( string $path, ?array $array = NULL ): mixed
 	{
 		if( $array == NULL )
 			$array	= $this->storage;
@@ -105,22 +108,25 @@ class Storage extends OptionObject
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
-	protected function readRecursive( Node $node, array &$array )
+	protected function readRecursive( Node $node, array &$array ): void
 	{
 		$nodeTag	= $node->getNodename();
 		$nodeName	= $node->getAttribute( 'name' );
 		if( $nodeTag == $this->getOption( 'tag_root' ) )
 			foreach( $node->getChildren() as $child )
 				$this->readRecursive( $child, $array );
-		else if( $nodeTag == $this->getOption( 'tag_level' ) )
+		else if( $nodeTag == $this->getOption( 'tag_level' ) ){
+			if( !isset( $array[$nodeName] ) )
+				$array[$nodeName]	= [];
 			foreach( $node->getChildren() as $child )
 				$this->readRecursive( $child, $array[$nodeName] );
+		}
 		else if( $nodeTag	== $this->getOption( 'tag_pair' ) ){
 			$value	= $node->getContent();
 			if( $type = $node->getAttribute( 'type' ) )
 				settype( $value, $type );
-			if( gettype( $value ) == "string" )
-				$array[$nodeName]	= utf8_decode( $value );
+			if( is_string( $value ) )
+				$array[$nodeName]	= self::decodeLegacyValue( $value );
 			else
 				$array[$nodeName]	= $value;
 		}
@@ -173,7 +179,7 @@ class Storage extends OptionObject
 	 *	@return 	bool
 	 *	@throws		DOMException
 	 */
-	public function set( string $path, $value, bool $write = FALSE ): bool
+	public function set( string $path, mixed $value, bool $write = FALSE ): bool
 	{
 		$type	= gettype( $value );
 		if( !in_array( $type, ["double", "integer", "boolean", "string"], TRUE ) )
@@ -192,7 +198,7 @@ class Storage extends OptionObject
 	 *	@param		array		$array			Current Array in Storage
 	 *	@return 	bool
 	 */
-	protected function setRecursive( string $path, $value, array &$array ): bool
+	protected function setRecursive( string $path, mixed $value, array &$array ): bool
 	{
 		if( substr_count( $path, "." ) ){
 			$parts	= explode( ".", $path );
@@ -230,21 +236,42 @@ class Storage extends OptionObject
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
-	protected function writeRecursive( Node &$node, array $array )
+	protected function writeRecursive( Node &$node, array $array ): void
 	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
 				$child	= new Node( $this->getOption( 'tag_level' ) );
-				$child->setAttribute( 'name', $key );
+				$child->setAttribute( 'name', (string) $key );
 				$this->writeRecursive( $child, $value );
 			}
 			else{
 				$child	= new Node( $this->getOption( 'tag_pair' ) );
-				$child->setAttribute( 'name', $key );
+				$child->setAttribute( 'name', (string) $key );
 				$child->setAttribute( 'type', gettype( $value ) );
-				$child->setContent( utf8_encode( $value ) );
+				$child->setContent( (string) $value );
 			}
 			$node->addChild( $child );
 		}
+	}
+
+	/**
+	 *	Returns string value, decoding values double-encoded to UTF-8 by older versions.
+	 *	Older versions stored UTF-8 strings encoded again (utf8_encode). Such values are decoded,
+	 *	if decoding leads to valid UTF-8 and is lossless. Other values are returned unchanged.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$value		String value read from file
+	 *	@return		string
+	 */
+	protected static function decodeLegacyValue( string $value ): string
+	{
+		if( 1 !== preg_match( '/[\x80-\xFF]/', $value ) )
+			return $value;
+		$decoded	= mb_convert_encoding( $value, 'ISO-8859-1', 'UTF-8' );
+		if( !mb_check_encoding( $decoded, 'UTF-8' ) )
+			return $value;
+		if( mb_convert_encoding( $decoded, 'UTF-8', 'ISO-8859-1' ) !== $value )
+			return $value;
+		return $decoded;
 	}
 }

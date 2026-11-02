@@ -69,4 +69,29 @@ class ObjectDeserializerTest extends BaseCase
 		$creation	= $this->deserializer->deserialize( $xml );
 		self::assertEquals( $assertion, $creation );
 	}
+
+	/**
+	 *	Tests that UTF-8 strings, nested arrays and typed properties survive a round trip.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDeserializeUtf8AndTypedProperties(): void
+	{
+		$object	= new ObjectDeserializerTypedExample();
+		$object->text	= 'Größe: 5 €';
+		$object->count	= 3;
+		$object->nested	= ['a' => ['b' => 'ü'], 'list' => [1, 2]];
+
+		$xml	= ObjectSerializer::serialize( $object );
+		$result	= ObjectDeserializer::deserialize( $xml );
+		self::assertEquals( $object, $result );
+		self::assertSame( 'Größe: 5 €', $result->text );
+	}
+}
+
+class ObjectDeserializerTypedExample
+{
+	public string $text		= '';
+	public int $count		= 0;
+	public array $nested	= [];
 }

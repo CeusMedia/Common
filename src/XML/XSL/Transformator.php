@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Transformator for XML and XSLT.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_XSL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,6 +36,7 @@ use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 use DOMDocument;
 use InvalidArgumentException;
+use RuntimeException;
 use XSLTProcessor;
 
 /**
@@ -40,7 +44,7 @@ use XSLTProcessor;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_XSL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -79,6 +83,8 @@ class Transformator
 	 *	Transforms loaded XML and XSL and returns Result.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		InvalidArgumentException	if XML or XSL is not set
+	 *	@throws		RuntimeException			if transformation failed
 	 */
 	public function transform(): string
 	{
@@ -90,7 +96,10 @@ class Transformator
 		$xsl->loadXML( $this->xsl );
 		$proc	= new XSLTProcessor();
 		$proc->importStyleSheet( $xsl );
-		return $proc->transformToXML( $xml );
+		$result	= $proc->transformToXML( $xml );
+		if( FALSE === $result )
+			throw new RuntimeException( 'XSL transformation failed' );
+		return $result;
 	}
 
 	/**
@@ -103,6 +112,6 @@ class Transformator
 	{
 		$result	= $this->transform();
 		$writer	= new FileWriter( $outFile );
-		return $writer->writeString( $result );
+		return (int) $writer->writeString( $result );
 	}
 }

@@ -1,11 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Property File Editor.
  *	This Implementation keeps the File Structure of original File completely alive.
  *	All Line Feeds and Comments will be kept.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -45,7 +47,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Documentation
@@ -60,6 +62,9 @@ class Editor extends Reader
 
 	/**	@var		array		$deleted		Deleted Properties */
 	protected array $deleted			= [];
+
+	/**	@var		array<string,bool>	$changed	Changed Properties, keyed by section and key */
+	protected array $changed			= [];
 
 	/**
 	 *	Activates a Property.
@@ -84,7 +89,8 @@ class Editor extends Reader
 				throw new LogicException( 'Key "'.$key.'" is already active' );
 			unset( $this->disabled[array_search( $key, $this->disabled )] );
 		}
-		return is_int( $this->write() );
+		$this->markChanged( $key, $section );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -97,7 +103,7 @@ class Editor extends Reader
 	 *	@param		string|NULL	$section		Section to add Property to
 	 *	@return		bool
 	 */
-	public function addProperty( string $key, $value, ?string $comment = '', bool $state = TRUE, ?string $section = NULL ): bool
+	public function addProperty( string $key, mixed $value, ?string $comment = '', bool $state = TRUE, ?string $section = NULL ): bool
 	{
 		if( $section && !in_array( $section, $this->sections ) )
 			$this->addSection( $section );
@@ -108,7 +114,7 @@ class Editor extends Reader
 			'comment'	=> $comment ?? '',
 			'section'	=> $section,
 		];
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -141,14 +147,14 @@ class Editor extends Reader
 	 *	@param		string|NULL	$comment		Comment of Property
 	 *	@return		string
 	 */
-	private function buildLine( string $key, $value, ?string $comment = NULL ): string
+	private function buildLine( string $key, mixed $value, ?string $comment = NULL ): string
 	{
-		$content	= '"'.addslashes( $value ).'"';
+		$content	= '"'.addslashes( (string) $value ).'"';
 		if( $this->reservedWords && is_bool( $value ) )
 			$content	= $value ? "yes" : "no";
 
-		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
-		$breaksValue	= 4 - floor( strlen( $content ) / 8 );
+		$breaksKey		= 4 - intdiv( strlen( $key ), 8 );
+		$breaksValue	= 4 - intdiv( strlen( $content ), 8 );
 		if( $breaksKey < 1 )
 			$breaksKey = 1;
 		if( $breaksValue < 1 )
@@ -182,7 +188,8 @@ class Editor extends Reader
 				throw new LogicException( 'Key "'.$key.'" is already inactive' );
 			$this->disabled[] = $key;
 		}
-		return is_int( $this->write() );
+		$this->markChanged( $key, $section );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -217,7 +224,7 @@ class Editor extends Reader
 				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			$this->deleted[] = $key;
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -234,7 +241,7 @@ class Editor extends Reader
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
 		$index	= array_search( $section, $this->sections);
 		unset( $this->sections[$index] );
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -267,7 +274,7 @@ class Editor extends Reader
 				$this->comments[$new]	= $this->comments[$key];
 			$this->renamed[$key]	= $new;
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -312,7 +319,8 @@ class Editor extends Reader
 				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			$this->comments[$key] = $comment;
 		}
-		return is_int( $this->write() );
+		$this->markChanged( $key, $section );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -323,60 +331,95 @@ class Editor extends Reader
 	 *	@param		string|NULL	$section		Key of Section
 	 *	@return		bool
 	 */
-	public function setProperty( string $key, $value, ?string $section = NULL ): bool
+	public function setProperty( string $key, mixed $value, ?string $section = NULL ): bool
 	{
 		if( $this->usesSections() ){
-			if( $this->hasSection( $section ) && $this->hasProperty( $key, $section ) )
+			if( $this->hasSection( $section ) && $this->hasProperty( $key, $section ) ){
+				if( $this->properties[$section][$key] !== $value )
+					$this->markChanged( $key, $section );
 				$this->properties[$section][$key] = $value;
+			}
 			else
 				$this->addProperty( $key, $value, NULL, TRUE, $section );
 		}
 		else{
-			if( $this->hasProperty( $key ) )
+			if( $this->hasProperty( $key ) ){
+				if( $this->properties[$key] !== $value )
+					$this->markChanged( $key );
 				$this->properties[$key] = $value;
+			}
 			else
 				$this->addProperty( $key, $value, NULL, TRUE );
 		}
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
-	 *	Writes manipulated Content to File.
+	 *	Notes a property as changed, so its line will be rebuilt on write.
 	 *	@access		protected
-	 *	@return		integer			Number of written bytes
+	 *	@param		string			$key			Key of property
+	 *	@param		string|NULL		$section		Section of property
+	 *	@return		void
+	 */
+	protected function markChanged( string $key, ?string $section = NULL ): void
+	{
+		$this->changed[( $this->usesSections() ? (string) $section : '' )."\n".$key]	= TRUE;
+	}
+
+	/**
+	 *	Indicates whether a property has been changed since last write.
+	 *	@access		protected
+	 *	@param		string			$key			Key of property
+	 *	@param		string|NULL		$section		Section of property
+	 *	@return		bool
+	 */
+	protected function isChanged( string $key, ?string $section = NULL ): bool
+	{
+		return isset( $this->changed[( $this->usesSections() ? (string) $section : '' )."\n".$key] );
+	}
+
+	/**
+	 *	Writes changes to file.
+	 *	Lines of unchanged properties, comments and comment blocks are kept as they are.
+	 *	@access		protected
+	 *	@return		int
 	 */
 	protected function write(): int
 	{
 		$file		= new FileWriter( $this->file->getPathName() );
 		$newLines	= [];
 		$currentSection	= '';
+		$commentOpen	= 0;
 		foreach( $this->lines as $line ){
-			if( $this->usesSections() && preg_match( $this->patternSection, $line ) ){
+			$trimmed		= trim( $line );
+			$commentOpen	+= preg_match( "@^/\*@", $trimmed );
+			$commentOpen	-= preg_match( "@\*/$@", $trimmed );
+			$isComment		= $commentOpen > 0 || str_ends_with( $trimmed, '*/' ) || str_starts_with( $trimmed, '/*' );
+			if( $isComment ){
+				$newLines[]	= $line;
+				continue;
+			}
+			if( $this->usesSections() && preg_match( $this->patternSection, $trimmed ) ){
 				$lastSection = $currentSection;
-#				$newAdded = [];
 				if( $lastSection ){
 					foreach( $this->added as $nr => $property ){
 						if( $property['section'] == $lastSection ){
-							if( !trim( $newLines[count($newLines)-1] ) )
+							if( [] !== $newLines && !trim( $newLines[count($newLines)-1] ) )
 								array_pop( $newLines );
 							$newLines[]	= $this->buildLine( $property['key'], $property['value'], $property['comment'] );
 							$newLines[]	= '';
 							unset( $this->added[$nr] );
 						}
-#						else $newAdded[] = $property;
 					}
 				}
-				$currentSection =  substr( trim( $line ), 1, -1 );
+				$currentSection	= (string) preg_replace( $this->patternSection, '\\1', $trimmed );
 				if( !in_array( $currentSection, $this->sections ) )
 					continue;
 			}
-			else if( preg_match( $this->patternProperty, $line ) ){
-				$pos		= strpos( $line, '=' );
-				$key		= trim( substr( $line, 0, $pos ) );
-				$pureKey	= preg_replace( $this->patternDisabled, '', $key );
-				$parts		= explode(  '//', trim( substr( $line, $pos+1 ) ) );
-				if( count( $parts ) > 1 )
-					$comment = trim( $parts[1] );
+			else if( preg_match( $this->patternProperty, $trimmed ) ){
+				$pos		= (int) strpos( $trimmed, '=' );
+				$key		= trim( substr( $trimmed, 0, $pos ) );
+				$pureKey	= (string) preg_replace( $this->patternDisabled, '', $key );
 				if( $this->usesSections() ){
 					if( in_array( $currentSection, $this->sections ) ){
 						if( isset( $this->deleted[$currentSection] ) && in_array( $pureKey, $this->deleted[$currentSection] ) )
@@ -388,7 +431,7 @@ class Editor extends Reader
 							$comment	= $this->comments[$currentSection][$newKey] ?? '';
 							$line = $this->buildLine( $key, $this->properties[$currentSection][$newKey], $comment );
 						}
-						else{
+						else if( $this->isChanged( $pureKey, $currentSection ) ){
 							if( $this->isActiveProperty( $pureKey, $currentSection ) && preg_match( $this->patternDisabled, $key ) )
 								$key = substr( $key, 1 );
 							else if( !$this->isActiveProperty( $pureKey, $currentSection ) && !preg_match( $this->patternDisabled, $key ) )
@@ -407,9 +450,9 @@ class Editor extends Reader
 						$newKey	= $key	= $this->renamed[$pureKey];
 						if( !$this->isActiveProperty( $newKey ) )
 							$key = $this->signDisabled.$key;
-						$line = $this->buildLine( $newKey, $this->properties[$newKey], $this->comments[$newKey] );
+						$line = $this->buildLine( $key, $this->properties[$newKey], $this->comments[$newKey] ?? '' );
 					}
-					else{
+					else if( $this->isChanged( $pureKey ) ){
 						if( $this->isActiveProperty( $pureKey ) && preg_match( $this->patternDisabled, $key ) )
 							$key = substr( $key, 1 );
 						else if( !$this->isActiveProperty( $pureKey) && !preg_match( $this->patternDisabled, $key ) )
@@ -425,10 +468,11 @@ class Editor extends Reader
 			$newLine	= $this->buildLine( $property['key'], $property['value'], $property['comment'] );
 			$newLines[]	= $newLine;
 		}
-		$result			= $file->writeArray( $newLines );
+		$result			= (int) $file->writeArray( $newLines );
 		$this->added	= [];
 		$this->deleted	= [];
 		$this->renamed	= [];
+		$this->changed	= [];
 		$this->read();
 		return $result;
 	}

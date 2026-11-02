@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
@@ -211,7 +213,7 @@ class Iterator implements BaseIterator
 			$this->open();
 		if( !is_resource( $this->filePointer ) )
 			return FALSE;
-		return $this->currentLine !== FALSE && $this->currentLine !== NULL;
+		return $this->currentLine !== NULL;
 	}
 
 	//  --  PROTECTED  --  //
@@ -247,9 +249,10 @@ class Iterator implements BaseIterator
 			return NULL;
 
  		$line	= fgets( $this->filePointer, self::$maxRowSize );
-		while( strlen( trim( $line ) ) === 0 ){
+		while( FALSE === $line || 0 === strlen( trim( $line ) ) ){
 			if( feof( $this->filePointer ) )
 				return NULL;
+			$line	= fgets( $this->filePointer, self::$maxRowSize );
 		}
 		if( $this->currentNr === 0 )
 			$line	= $this->removeBOM( $line );

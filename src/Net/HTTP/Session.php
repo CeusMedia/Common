@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Session Management.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -48,15 +50,16 @@ class Session extends Dictionary
 	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
+	// @phpstan-ignore method.childParameterType, method.childParameterType
 	public function __construct( string $sessionName = "sid", ?string $domain = NULL )
 	{
 		parent::__construct();
 		//  set session cookie name
 		session_name( $sessionName );
 		//  a domain has been specified
-		if( strlen( trim( $domain ) ) )
+		if( strlen( trim( $domain ?? '' ) ) )
 			//  set cookie domain
-			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );
+			ini_set( 'session.cookie_domain', trim( strtolower( $domain ?? '' ) ) );
 		//  start cookie handler
 		@session_start();
 		$this->pairs =& $_SESSION;
@@ -77,7 +80,7 @@ class Session extends Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function clear()
+	public function clear(): void
 	{
 		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
@@ -91,7 +94,7 @@ class Session extends Dictionary
 	 */
 	public function getSessionID(): string
 	{
-		return session_id();
+		return (string) session_id();
 	}
 
 	/**
@@ -101,6 +104,6 @@ class Session extends Dictionary
 	 */
 	public function getSessionName(): string
 	{
-		return session_name();
+		return (string) session_name();
 	}
 }

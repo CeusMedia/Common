@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	...
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -41,44 +44,91 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Exif extends Dictionary
+class Exif
 {
 	protected string $imageUri;
 
     protected array $raw;
 
+	protected Dictionary $facts;
+
+	/**
+	 *	@param		string		$imageUri
+	 */
 	public function __construct( string $imageUri )
 	{
+		$this->facts = new Dictionary();
+
 		if( !function_exists( 'exif_read_data' ) )
 			throw new RuntimeException( 'Exif not supported' );
 		if( !file_exists( $imageUri ) )
 			throw new RuntimeException( 'Image file "'.$imageUri.'" is not existing' );
 
 		$this->imageUri	= $imageUri;
-		$this->raw		= exif_read_data( $imageUri );
+		$raw			= exif_read_data( $imageUri );
+		if( FALSE === $raw )
+			throw new RuntimeException( 'Reading EXIF data of image file "'.$imageUri.'" failed' );
+		$this->raw		= $raw;
 		foreach( $this->raw as $key => $value )
 		{
 			if( $key == "MakerNote" )
 				continue;
-			if( preg_match( "/^UndefinedTag/i", $key ) )
+			if( 1 === preg_match( "/^UndefinedTag/i", (string) $key ) )
 				continue;
 			if( is_array( $value ) )
 				foreach( $value as $nestKey => $nestValue )
-					$this->set( $key.".".$nestKey, $nestValue );
+					$this->facts->set( $key.".".$nestKey, $nestValue );
 			else
-				$this->set( $key, $value );
+				$this->facts->set( $key, $value );
 		}
 	}
 
+	/**
+	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
+	 *	@return		mixed
+	 */
+	public function get( string $key, mixed $default = NULL ): mixed
+	{
+		return $this->facts->get( $key, $default );
+	}
+
+	/**
+	 *	@param		string|NULL			$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean				$asDictionary	Flag: return list as dictionary object instead of an array
+	 *	@param		boolean				$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		Dictionary|array	Map or dictionary object containing all or filtered pairs
+	 */
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
+	{
+		return $this->facts->getAll( $prefix, $asDictionary, $caseSensitive );
+	}
+
+	/**
+	 *	@param		string|NULL			$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean				$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
+	 *	@return		Dictionary			Dictionary object containing all or filtered pairs
+	 */
+	public function getDictionary( ?string $prefix = NULL, bool $caseSensitive = TRUE ): Dictionary
+	{
+		return $this->facts->getAll( $prefix, TRUE, $caseSensitive );
+	}
+
+	/**
+	 *	@return		array
+	 */
 	public function getRawData(): array
 	{
 		return $this->raw;
 	}
 
+	/**
+	 *	@return		array
+	 */
 	public function getThumbnailData(): array
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
@@ -90,6 +140,10 @@ class Exif extends Dictionary
 		];
 	}
 
+	/**
+	 *	@return		string
+	 *	@throws		Exception
+	 */
 	public function getThumbnailImage(): string
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
@@ -98,7 +152,7 @@ class Exif extends Dictionary
 		$attributes	= [
 			'width'		=> $width,
 			'height'	=> $height,
-			'src'		=> 'data:image/gif;base64,'.base64_encode( $content )
+			'src'		=> 'data:'.image_type_to_mime_type( (int) $type ).';base64,'.base64_encode( $content )
 		];
 		return HtmlTag::create( 'img', NULL, $attributes );
 	}

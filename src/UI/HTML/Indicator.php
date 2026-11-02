@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builds HTML of Bar Indicator.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,14 +38,14 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Indicator extends OptionObject
 {
 	/**	@var		array		$defaultOptions			Map of default options */
-	public $defaultOptions		= array(
+	public array $defaultOptions	= array(
 		'id'					=> NULL,
 		'classIndicator'		=> 'indicator',
 		'classInner'			=> 'indicator-inner',
@@ -283,7 +285,7 @@ class Indicator extends OptionObject
 	 *	@param		mixed		$value		Flag: switch Option
 	 *	@return		bool
 	 */
-	public function setOption( string $key, $value ): bool
+	public function setOption( string $key, mixed $value ): bool
 	{
 		if( !array_key_exists( $key, $this->defaultOptions ) )
 			throw new OutOfRangeException( 'Option "'.$key.'" is not a valid Indicator Option.' );

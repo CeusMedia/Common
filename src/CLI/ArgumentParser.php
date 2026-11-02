@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Argument Parser for Console Applications.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -62,7 +64,7 @@ class ArgumentParser extends Dictionary
 		$commands	= [];
 		$parameters	= [];
 		$count		= 0;
-		$input		= is_string( $input ) ? preg_split( '/ +/', $input ) : $input;
+		$input		= is_string( $input ) ? ( preg_split( '/ +/', $input ) ?: [] ) : $input;
 		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $input, TRUE ) )
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $input as $argument ){
@@ -98,8 +100,6 @@ class ArgumentParser extends Dictionary
 	public static function parseFromCurrentCall( array $shortcuts = [], bool $fallBackOnEmptyPair = FALSE ): array
 	{
 		global $argv;
-		if( !is_array( $argv ) )
-			throw new RuntimeException( 'Missing arguments' );
 		list( $arguments, $parameters )	= self::parse( $argv, $shortcuts, $fallBackOnEmptyPair );
 		$call	= array_shift( $arguments );
 		return [$arguments, $parameters, $call, getcwd()];

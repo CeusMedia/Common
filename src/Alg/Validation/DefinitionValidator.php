@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Validator for defined Fields.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,23 +38,23 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class DefinitionValidator
 {
-	/**	@var		Object		Predicate Class Instance */
-	protected $validator;
+	/**	@var		PredicateValidator		Predicate Validator Instance */
+	protected PredicateValidator $validator;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$predicateClass		Class Name of Predicate Class
-	 *	@param		string		$validatorClass		Class Name of Predicate Validator Class
+	 *	@param		string|NULL		$predicateClass		Class Name of Predicate Class
+	 *	@param		string|NULL		$validatorClass		Class Name of Predicate Validator Class
 	 *	@return		void
 	 */
-	public function __construct( $predicateClass = NULL, $validatorClass = NULL )
+	public function __construct( ?string $predicateClass = NULL, ?string $validatorClass = NULL )
 	{
 		$predicateClass		??= Predicates::class;
 		$validatorClass		??= PredicateValidator::class;
@@ -94,7 +97,8 @@ class DefinitionValidator
 		if( !empty( $definition['semantic'] ) ){
 			foreach( $definition['semantic'] as $semantic ){
 				$semantic	= new ArrayObject( $semantic );
-				$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
+				$param	= strlen( (string) $semantic['edge'] ) ? $semantic['edge'] : NULL;
+
 				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
 					$errors[]	= [$semantic['predicate'], $param];
 			}

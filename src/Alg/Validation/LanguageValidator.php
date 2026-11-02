@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Validator for Languages (ISO).
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +39,7 @@ use RangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -55,7 +58,8 @@ class LanguageValidator
 	 *	@param		string|NULL		$default		Default Language
 	 *	@return		void
 	 */
-	public function __construct( array $allowed, string $default = NULL )
+	public function __construct( array $allowed, ?string $default = NULL )
+
 	{
 		if( !count( $allowed ) )
 			throw new RangeException( 'At least one Language must be allowed.' );

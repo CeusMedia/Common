@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Google Sitemap XML Creator, crawls a Website and writes a Sitemap XML File.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -76,7 +78,7 @@ class MapCreator
 	public function createSitemap( string $url, string $sitemapUri, ?string $errorsLogUri = NULL, ?string $urlListUri = NULL, bool $verbose = FALSE ): int
 	{
 		$crawler	= new Crawler( $url, $this->depth );
-		$crawler->crawl( $url, FALSE, $verbose );
+		$crawler->crawl( $url, FALSE, FALSE, $verbose );
 		$this->errors	= $crawler->getErrors();
 		$this->links	= $crawler->getLinks();
 		$list	= [];
@@ -137,6 +139,6 @@ class MapCreator
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
 		$writer	= new FileWriter( $uri );
-		return $writer->writeArray( $list );
+		return (int) $writer->writeArray( $list );
 	}
 }

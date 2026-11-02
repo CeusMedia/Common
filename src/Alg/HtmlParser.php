@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for HTML Documents.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement getErrors() and hide $errors;
@@ -320,10 +322,20 @@ class HtmlParser
 		$list	= [];
 		$xpath	= new DomXPath( $this->document );
 		$nodes	= $xpath->query( $query );
+		if( FALSE === $nodes )
+			return $list;
 		foreach( $nodes as $node ){
-			if( preg_match( "#/@[a-z]+$#i", $query ) )
-				$node	= $node->textContent;
-			$list[]	= $node;
+			if( preg_match( "#/@[a-z]+$#i", $query ) ){
+				if( $node instanceof \DOMText )
+					$value	= $node->data;
+				else if( $node instanceof \DOMElement )
+					$value	= $node->textContent;
+				else
+					$value	= $node->textContent;
+			}
+			else
+				$value	= $node;
+			$list[]	= $value;
 		}
 		return $list;
 	}
@@ -359,7 +371,7 @@ class HtmlParser
 		$xpath	= new DomXPath( $this->document );
 		$query	= "//*[@id = '$id']";
 		$nodes	= $xpath->query( $query );
-		return (bool) $nodes->length;
+		return FALSE !== $nodes && 0 !== $nodes->length;
 	}
 
 	/**
@@ -384,11 +396,15 @@ class HtmlParser
 	 *	@access		public
 	 *	@param		string			$fileName			File Name of HTML Document
 	 *	@return		self
+	 *	@throws		RuntimeException	if file is not readable
 	 */
 	public function parseHtmlFile( string $fileName ): self
 	{
 		$html	= file_get_contents( $fileName );
+		if( FALSE === $html )
+			throw new RuntimeException( 'HTML file "'.$fileName.'" could not be read' );
 		$this->parseHtml( $html );
+
 		return $this;
 	}
 }

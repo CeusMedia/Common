@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,13 +25,14 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net\HTTP;
 
+use CeusMedia\Common\Env;
 use Exception;
 
 /**
@@ -36,7 +40,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			use Net_Reader or Net_CURL
@@ -50,6 +54,9 @@ class CrossDomainProxy
 
 	/**	@var		string|NULL		$username			Username of HTTP Basic Authentication */
 	protected ?string $username	= NULL;
+
+	/**	@var		bool			$verifySsl			Flag: verify TLS certificate and host of service, default: no */
+	protected bool $verifySsl	= FALSE;
 
 	/**	@var		string|NULL		$password			Password of HTTP Basic Authentication */
 	protected ?string $password	= NULL;
@@ -79,10 +86,10 @@ class CrossDomainProxy
 	public function forward( bool $throwException = FALSE ): bool|string
 	{
 		//  get GET Query String
-		$query	= getEnv( 'QUERY_STRING' );
+		$query	= Env::getServerVariable( 'QUERY_STRING' );
 		//  build Service Request URL
 		$url	= $this->url."?".$query;
-		return static::requestUrl( $url, $this->username, $this->password, $throwException );
+		return static::requestUrl( $url, $this->username, $this->password, $throwException, $this->verifySsl );
 	}
 
 	/**
@@ -92,17 +99,17 @@ class CrossDomainProxy
 	 *	@param		string|NULL		$username			Username of HTTP Basic Authentication
 	 *	@param		string|NULL		$password			Password of HTTP Basic Authentication
 	 *	@param		bool			$throwException		Check Service Response for Exception and throw a found Exception further
+	 *	@param		bool			$verifySsl			Flag: verify TLS certificate and host of service, default: no (will be yes from 1.2 on)
 	 *	@return		string|bool
 	 *	@throws		Exception
 	 */
-	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE ): bool|string
+	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE, bool $verifySsl = FALSE ): bool|string
 	{
 		//  open cURL Handler
 		$curl	= curl_init();
-		//  skip Peer Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
-		//  skip Host Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
+		//  verify peer and host, unless disabled
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, $verifySsl );
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, $verifySsl ? 2 : 0 );
 		//  set Service Request URL
 		curl_setopt( $curl, CURLOPT_URL, $url );
 		//  catch Response
@@ -116,7 +123,7 @@ class CrossDomainProxy
 			//  set HTTP Basic Authentication
 			curl_setopt( $curl, CURLOPT_USERPWD, $username.":".$password );
 		//  get Request Method
-		$method	= getEnv( 'REQUEST_METHOD' );
+		$method	= Env::getServerVariable( 'REQUEST_METHOD' );
 		//  Request Method is POST
 		if( 'POST' === $method ){
 			//  build POST Parameters
@@ -137,15 +144,44 @@ class CrossDomainProxy
 		curl_close( $curl );
 
 		//  check Response for Exception
-		if( $throwException )
-			//  Response is an Object
-			if( $object = @unserialize( $response ) )
-				//  Response is an Exception
-				if( $object instanceof Exception )
-					//  throw this Exception
-					throw $object;
+		if( $throwException && is_string( $response ) ){
+			$exception	= static::unserializeException( $response );
+			if( NULL !== $exception )
+				throw $exception;
+		}
 
 		//  return Service Response
 		return $response;
+	}
+
+	/**
+	 *	Sets whether TLS certificate and host of service are verified.
+	 *	@access		public
+	 *	@param		bool		$verifySsl		Flag: verify TLS certificate and host, default: no (will be yes from 1.2 on)
+	 *	@return		static
+	 */
+	public function setVerifySsl( bool $verifySsl ): static
+	{
+		$this->verifySsl	= $verifySsl;
+		return $this;
+	}
+
+	/**
+	 *	Returns exception serialized in response, if response is a serialized exception.
+	 *	Only the found exception class may be created, so no other objects (and their magic methods) are unserialized.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$response		Response of service
+	 *	@return		Exception|NULL
+	 */
+	protected static function unserializeException( string $response ): ?Exception
+	{
+		if( 1 !== preg_match( '/^O:\d+:"([A-Za-z0-9_\\\\]+)":/', $response, $matches ) )
+			return NULL;
+		$className	= $matches[1];
+		if( !class_exists( $className ) || !is_a( $className, Exception::class, TRUE ) )
+			return NULL;
+		$object	= @unserialize( $response, ['allowed_classes' => [$className]] );
+		return $object instanceof Exception ? $object : NULL;
 	}
 }

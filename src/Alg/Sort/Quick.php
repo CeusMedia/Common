@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Sorting numeric arrays with the Quicksort algorithm.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +37,7 @@ namespace CeusMedia\Common\Alg\Sort;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -49,33 +49,28 @@ class Quick
 	 *	@access		public
 	 *	@static
 	 *	@param		array		$array		Array of numeric values passed by reference
-	 *	@param		int			$first		Start index
-	 *	@param		int			$last		End index
-	 *	@return		bool
+	 *	@param		int|NULL	$first		Start index
+	 *	@param		int|NULL	$last		End index
+	 *	@return		void
 	 */
-	public static function sort( &$array, $first = NULL, $last = NULL )
+	public static function sort( array &$array, ?int $first = NULL, ?int $last = NULL ): void
 	{
-		if( !is_array( $array ) )
-			return FALSE;
 		if( is_null( $first ) )
 			$first = 0;
 		if( is_null( $last ) )
 			$last = count( $array ) - 1;
 		if( $first < $last )
 		{
-			$middle		= $first + $last;
-			$middle		= floor( ( $first + $last ) / 2 );
+			$middle		= intdiv( $first + $last, 2 );
 			$compare	= $array[$middle];
 			$left		= $first;
 			$right	= $last;
-			while( $left <= $right )
-			{
+			while( $left <= $right ){
 				while( $array[$left] < $compare )
 					$left++;
 				while( $array[$right] > $compare )
 					$right--;
-				if( $left <= $right )
-				{
+				if( $left <= $right ){
 					self::swap( $array, $left, $right );
 					$left++;
 					$right--;
@@ -84,7 +79,6 @@ class Quick
 			self::sort( $array, $first, $right );
 			self::sort( $array, $left, $last );
 		}
-		return $array;
 	}
 
 	/**
@@ -96,10 +90,9 @@ class Quick
 	 *	@param		int			$pos2 		Second index
 	 *	@return		void
 	 */
-	protected static function swap( &$array, $pos1, $pos2 )
+	protected static function swap( array &$array, int $pos1, int $pos2 ): void
 	{
-		if( isset( $array[$pos1] ) && isset( $array[$pos2] ) )
-		{
+		if( isset( $array[$pos1] ) && isset( $array[$pos2] ) ){
 			$memory	= $array[$pos1];
 			$array[$pos1] = $array[$pos2];
 			$array[$pos2] = $memory;

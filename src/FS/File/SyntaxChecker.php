@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Checks Syntax of PHP Classes and Scripts.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,14 +35,14 @@ namespace CeusMedia\Common\FS\File;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class SyntaxChecker
 {
 	/**	@var		string		$error */
-	protected $error;
+	protected string $error	= '';
 
 	/**
 	 *	Returns whether a PHP Class or Script has valid Syntax.
@@ -50,8 +52,9 @@ class SyntaxChecker
 	 */
 	public function checkFile( string $fileName ): bool
 	{
-		$output = shell_exec('php -l "'.$fileName.'"');
-		if( preg_match( "@^No syntax errors detected@", $output	) )
+		$command	= escapeshellarg( PHP_BINARY ).' -l '.escapeshellarg( $fileName ).' 2>&1';
+		$output		= (string) shell_exec( $command );
+		if( preg_match( "@^No syntax errors detected@m", $output ) )
 			return TRUE;
 		$this->error	= $output;
 		return FALSE;
@@ -76,6 +79,6 @@ class SyntaxChecker
 	{
 		$error	= explode( "\n", trim( $this->error ) );
 		$error	= array_shift( $error );
-		return preg_replace( "@^Parse error: (.*) in (.*) on (.*)$@i", "\\1 on \\3", $error );
+		return (string) preg_replace( "@^Parse error: (.*) in (.*) on (.*)$@i", "\\1 on \\3", (string) $error );
 	}
 }

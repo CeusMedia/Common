@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Allows static creation of exceptions.
  *
- *	Copyright (c) 2011-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
@@ -37,7 +39,7 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_Exception_Traits
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
@@ -47,12 +49,13 @@ trait Creatable
 	public static function create( string $message = '', int $code = 0, ?Throwable $previous = NULL ): self
 	{
 		$class	= static::class;
+		// @phpstan-ignore new.staticParameters, argument.type, argument.type, argument.type, argument.type
 		$e		= new $class( $message, $code, $previous );
 		$trace	= $e->getTrace();
 		$top	= array_pop( $trace );
 		if( '' !== ( $top['file'] ?? '' ) ){
 			$e->file	= $top['file'];
-			$e->line	= $top['line'];
+			$e->line	= $top['line'] ?? 0;
 //			$e->trace	= $trace;
 		}
 		return $e;

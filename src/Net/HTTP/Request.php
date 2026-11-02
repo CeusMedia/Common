@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handler for HTTP Requests.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -31,6 +33,7 @@ namespace CeusMedia\Common\Net\HTTP;
 use ArrayAccess;
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use Exception;
@@ -42,7 +45,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Finish implementation: this is bastard of request and response
@@ -57,6 +60,15 @@ class Request implements ArrayAccess
 
 	/**	@var		string			$ip				IP of Request */
 	protected string $ip			= '';
+
+	/**	@var		string			$remoteAddress	IP of the direct peer (REMOTE_ADDR) */
+	protected string $remoteAddress	= '';
+
+	/**	@var		array<int,string>	$trustedProxies		IPs or networks (CIDR) of proxies whose X-Forwarded-For header is trusted */
+	protected array $trustedProxies	= [];
+
+	/**	@var		array<int,string>	$defaultTrustedProxies	Trusted proxies for new requests, see setDefaultTrustedProxies() */
+	protected static array $defaultTrustedProxies	= [];
 
 	/** @var		Method			$method			HTTP request method object */
 	protected Method $method;
@@ -80,6 +92,7 @@ class Request implements ArrayAccess
 
 	public function __construct( ?string $protocol = NULL, ?string $version = NULL )
 	{
+		$this->trustedProxies	= static::$defaultTrustedProxies;
 		$this->method		= new Method();
 		$this->headers		= new HeaderSection();
 		$this->parameters	= new Dictionary();
@@ -127,7 +140,7 @@ class Request implements ArrayAccess
 	public function fromEnv( bool $useSession = FALSE, bool $useCookie = FALSE ): static
 	{
 		//  store HTTP method
-		$this->method->set( getEnv( 'REQUEST_METHOD' ) ?: 'GET' );
+		$this->method->set( Env::getServerVariable( 'REQUEST_METHOD' ) ?: 'GET' );
 
 		$this->sources	= [
 			"GET"		=> &$_GET,
@@ -136,32 +149,31 @@ class Request implements ArrayAccess
 			"SESSION"	=> [],
 			"COOKIE"	=> [],
 		];
-		if( $useSession )
-			$this->sources['session']	=& $_SESSION;
+		if( $useSession && isset( $_SESSION ) )
+			$this->sources['SESSION']	=& $_SESSION;
 		if( $useCookie )
-			$this->sources['cookie']	=& $_COOKIE;
+			$this->sources['COOKIE']	=& $_COOKIE;
 
 		//  retrieve requested path
-		$this->root	= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
-		$this->path	= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		$this->root	= rtrim( dirname( (string) Env::getServerVariable( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path	= substr( (string) Env::getServerVariable( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( str_contains( $this->path, '?' ) )
-			$this->path = substr( $this->path, 0, strpos( $this->path, '?' ) );
+			$this->path = substr( $this->path, 0, (int) strpos( $this->path, '?' ) );
 
 		/*  --  APPLY ALL SOURCES TO ONE COLLECTION OF REQUEST ARGUMENT PAIRS  --  */
 		foreach( $this->sources as $values )
 			foreach( $values as $key => $value )
-				$this->parameters->set( $key, $value );
+				$this->parameters->set( (string) $key, $value );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
 		$this->headers->addFieldPairs( static::getAllEnvHeaders() );
 
-		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' ) ?: '';
-		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
-			$this->ip = (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue();			//  get original IP address of request
+		//  store IP of requesting client; X-Forwarded-For only counts if sent by a trusted proxy
+		$this->remoteAddress	= Env::getServerVariable( 'REMOTE_ADDR' ) ?: '';
+		$this->ip				= $this->resolveClientIp();
 
 		//  store raw POST, PUT or FILE data
-		$this->body	= file_get_contents( "php://input" );
+		$this->body	= (string) file_get_contents( "php://input" );
 		return $this;
 	}
 
@@ -195,7 +207,7 @@ class Request implements ArrayAccess
 	 *	@param		boolean			$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
 	 *	@return		Dictionary|array				Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE ): Dictionary|array
 	{
 		return $this->parameters->getAll( $prefix, $asDictionary, $caseSensitive );
 	}
@@ -336,6 +348,109 @@ class Request implements ArrayAccess
 	}
 
 	/**
+	 *	Returns the IP of the direct peer (REMOTE_ADDR), which may be a proxy.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getRemoteAddress(): string
+	{
+		return $this->remoteAddress;
+	}
+
+	/**
+	 *	Returns the IP of the client, given the address of the direct peer and the X-Forwarded-For header.
+	 *	The header is only used if the peer is a trusted proxy. Then the header is read from right to left
+	 *	and the first address which is not a trusted proxy is the client. Addresses added by the client
+	 *	itself (left of it) are ignored, so they cannot be spoofed.
+	 *	@access		public
+	 *	@static
+	 *	@param		string				$remoteAddress		IP of the direct peer (REMOTE_ADDR)
+	 *	@param		string|NULL			$forwardedFor		Value of X-Forwarded-For header, if any
+	 *	@param		array<int,string>	$trustedProxies		IPs or networks (CIDR), IPv4 and IPv6
+	 *	@return		string
+	 */
+	public static function determineClientIp( string $remoteAddress, ?string $forwardedFor, array $trustedProxies ): string
+	{
+		if( NULL === $forwardedFor || '' === trim( $forwardedFor ) || !static::isIpInList( $remoteAddress, $trustedProxies ) )
+			return $remoteAddress;
+		$hops	= array_reverse( array_map( 'trim', explode( ',', $forwardedFor ) ) );
+		foreach( $hops as $hop ){
+			if( FALSE === filter_var( $hop, FILTER_VALIDATE_IP ) )
+				return $remoteAddress;
+			if( !static::isIpInList( $hop, $trustedProxies ) )
+				return $hop;
+		}
+		return $remoteAddress;
+	}
+
+	/**
+	 *	Indicates whether an IP is one of the given IPs or within one of the given networks (CIDR).
+	 *	@access		public
+	 *	@static
+	 *	@param		string				$ip			IPv4 or IPv6 address
+	 *	@param		array<int,string>	$list		IPs or networks, e.g. 10.0.0.1, 10.0.0.0/8, fd00::/8
+	 *	@return		bool
+	 */
+	public static function isIpInList( string $ip, array $list ): bool
+	{
+		$address	= @inet_pton( $ip );
+		if( FALSE === $address )
+			return FALSE;
+		foreach( $list as $entry ){
+			[$network, $bits]	= array_pad( explode( '/', trim( $entry ), 2 ), 2, NULL );
+			$networkAddress		= @inet_pton( (string) $network );
+			if( FALSE === $networkAddress || strlen( $networkAddress ) !== strlen( $address ) )
+				continue;
+			$bits	= NULL === $bits ? strlen( $address ) * 8 : (int) $bits;
+			if( $bits < 0 || $bits > strlen( $address ) * 8 )
+				continue;
+			$bytes	= intdiv( $bits, 8 );
+			$rest	= $bits % 8;
+			if( 0 !== strncmp( $address, $networkAddress, $bytes ) )
+				continue;
+			if( 0 === $rest )
+				return TRUE;
+			$mask	= ( 0xff << ( 8 - $rest ) ) & 0xff;
+			if( ( ord( $address[$bytes] ) & $mask ) === ( ord( $networkAddress[$bytes] ) & $mask ) )
+				return TRUE;
+		}
+		return FALSE;
+	}
+
+	/**
+	 *	Sets trusted proxies for all requests created afterward (e.g. by frameworks).
+	 *	@access		public
+	 *	@static
+	 *	@param		array<int,string>	$proxies	IPs or networks (CIDR) of trusted proxies
+	 *	@return		void
+	 */
+	public static function setDefaultTrustedProxies( array $proxies ): void
+	{
+		static::$defaultTrustedProxies	= array_values( $proxies );
+	}
+
+	/**
+	 *	Sets trusted proxies for this request and determines the client IP again.
+	 *	@access		public
+	 *	@param		array<int,string>	$proxies	IPs or networks (CIDR) of trusted proxies
+	 *	@return		static
+	 */
+	public function setTrustedProxies( array $proxies ): static
+	{
+		$this->trustedProxies	= array_values( $proxies );
+		$this->ip				= $this->resolveClientIp();
+		return $this;
+	}
+
+	protected function resolveClientIp(): string
+	{
+		$forwardedFor	= $this->headers->hasField( 'X-Forwarded-For' )
+			? (string) $this->headers->getField( 'X-Forwarded-For' )?->getValue()
+			: NULL;
+		return static::determineClientIp( $this->remoteAddress, $forwardedFor, $this->trustedProxies );
+	}
+
+	/**
 	 *	Return list of parameter pair keys.
 	 *	@access		public
 	 *	@return		array		List of parameter pair keys
@@ -384,10 +499,10 @@ class Request implements ArrayAccess
 	 */
 	public function getUrl( bool $absolute = TRUE ): URL
 	{
-		$url	= new URL( getEnv( 'REQUEST_URI' ) );
+		$url	= new URL( (string) Env::getServerVariable( 'REQUEST_URI' ) );
 		if( $absolute ){
-			$url->setScheme( getEnv( 'REQUEST_SCHEME' ) );
-			$url->setHost( getEnv( 'HTTP_HOST' ) );
+			$url->setScheme( (string) Env::getServerVariable( 'REQUEST_SCHEME' ) );
+			$url->setHost( (string) Env::getServerVariable( 'HTTP_HOST' ) );
 		}
 		return $url;
 	}
@@ -447,7 +562,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetExists( $offset ): bool
 	{
-		return $this->parameters->has( $offset );
+		return $this->parameters->has( (string) $offset );
 	}
 
 	/**
@@ -458,7 +573,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetGet( $offset ): mixed
 	{
-		return $this->parameters->get( $offset );
+		return $this->parameters->get( (string) $offset );
 	}
 
 	/**
@@ -470,7 +585,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetSet( $offset, $value ): void
 	{
-		$this->parameters->set( $offset, $value );
+		$this->parameters->set( (string) $offset, $value );
 	}
 
 	/**
@@ -481,7 +596,7 @@ class Request implements ArrayAccess
 	 */
 	public function offsetUnset( $offset ): void
 	{
-		$this->parameters->remove( $offset );
+		$this->parameters->remove( (string) $offset );
 	}
 
 	/**

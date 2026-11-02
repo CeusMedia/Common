@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  *	Prompt for hidden input, like passwords.
  *
- *	Copyright (c) 2024-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2024-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2024-2025 Christian Würker
+ *	@copyright		2024-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +38,7 @@ use CeusMedia\Common\Exception\Runtime as RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2024-2025 Christian Würker
+ *	@copyright		2024-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -52,7 +52,7 @@ class Password
 	 *	@throws		NotSupportedException	on Windows
 	 *	@throws		RuntimeException		if invoking bash failed
 	 */
-	public static function getInstance( string $prompt = NULL ): self
+	public static function getInstance( ?string $prompt = NULL ): self
 	{
 		return new self( $prompt );
 	}
@@ -62,13 +62,13 @@ class Password
 	 *	@throws		NotSupportedException	on Windows
 	 *	@throws		RuntimeException		if invoking bash failed
 	 */
-	public function __construct( string $prompt = NULL )
+	public function __construct( ?string $prompt = NULL )
 	{
 		if( str_starts_with( PHP_OS, 'WIN' ) )
 			throw new NotSupportedException( 'Not supported on Windows' );
 
 		$command	= "/usr/bin/env bash -c 'echo OK'";
-		if( 'OK' !== rtrim( shell_exec( $command ) ) )
+		if( 'OK' !== rtrim( (string) shell_exec( $command ) ) )
 			throw new RuntimeException( 'Cant invoke bash' );
 
 		if( NULL !== $prompt )
@@ -84,7 +84,7 @@ class Password
 		$command = "/usr/bin/env bash -c 'read -s -p \""
 			. addslashes( $this->prompt )
 			. "\" mypassword && echo \$mypassword'";
-		$password	= rtrim( shell_exec( $command ) );
+		$password	= rtrim( (string) shell_exec( $command ) );
 		echo PHP_EOL;
 		return $password;
 	}

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -53,7 +55,7 @@ class SectionEditor extends SectionReader
 		if( $this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is already existing.' );
 		$this->data[$section] = [];
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -65,7 +67,7 @@ class SectionEditor extends SectionReader
 	 */
 	protected function fillUp( string $key, int $tabs = 5 ): string
 	{
-		$key_breaks	= $tabs - floor( strlen( $key ) / 8 );
+		$key_breaks	= $tabs - intdiv( strlen( $key ), 8 );
 		if( $key_breaks < 1 )
 			$key_breaks = 1;
 		return $key.str_repeat( "\t", $key_breaks );
@@ -83,7 +85,7 @@ class SectionEditor extends SectionReader
 		if( !$this->hasProperty( $section, $key ) )
 			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
 		unset( $this->data[$section][$key] );
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -97,7 +99,7 @@ class SectionEditor extends SectionReader
 		if( !$this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		unset( $this->data[$section] );
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -113,7 +115,7 @@ class SectionEditor extends SectionReader
 		if( !$this->hasSection( $section ) )
 			$this->addSection( $section );
 		$this->data[$section][$key]	= $value;
-		return is_int( $this->write() );
+		return 0 !== $this->write();
 	}
 
 	/**
@@ -128,10 +130,10 @@ class SectionEditor extends SectionReader
 		foreach( $sections as $section ){
 			$lines[]	= "[".$section."]";
 			foreach( $this->data[$section] as $key => $value )
-				$lines[]	= $this->fillUp( $key )."=".$value;
+				$lines[]	= $this->fillUp( (string) $key )."=".$value;
 		}
 		$result	= FileWriter::saveArray( $this->fileName, $lines );
 		$this->read();
-		return $result;
+		return (int) $result;
 	}
 }

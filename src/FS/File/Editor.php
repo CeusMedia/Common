@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			finish Writer Methods (create, isWritable)
@@ -137,7 +139,7 @@ class Editor extends Reader
 	 */
 	public static function save( string $fileName, string $string ): int
 	{
-		return Writer::save( $fileName, $string );
+		return (int) Writer::save( $fileName, $string );
 	}
 
 	/**
@@ -154,7 +156,7 @@ class Editor extends Reader
 	 */
 	public static  function saveArray( string $fileName, array $array, string $lineBreak = "\n" ): int
 	{
-		return Writer::saveArray( $fileName, $array, $lineBreak );
+		return (int) Writer::saveArray( $fileName, $array, $lineBreak );
 	}
 
 	/**
@@ -202,7 +204,7 @@ class Editor extends Reader
 	 */
 	public function writeArray( array $array, string $lineBreak = "\n" ): int
 	{
-		return $this->writer->writeArray( $array, $lineBreak );
+		return (int) $this->writer->writeArray( $array, $lineBreak );
 	}
 
 	/**

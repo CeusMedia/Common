@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Caesar Encryption.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Crypt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +35,7 @@ namespace CeusMedia\Common\Alg\Crypt;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Crypt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -49,7 +49,7 @@ class Caesar
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	protected static function crypt( $string, $key )
+	protected static function crypt( string $string, int $key ): string
 	{
 		for( $i=0; $i<strlen( $string ); $i++ )
 		{
@@ -83,7 +83,7 @@ class Caesar
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	public static function decrypt( $string, $key )
+	public static function decrypt( string $string, int $key ): string
 	{
 		return self::crypt( $string, -1 * $key );
 	}
@@ -96,7 +96,8 @@ class Caesar
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	public static function encrypt( $string, $key )
+	public static function encrypt( string $string, int $key ): string
+
 	{
 		return self::crypt( $string, $key );
 	}

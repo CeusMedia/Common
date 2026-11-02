@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for FTP Connections.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,21 +35,21 @@ namespace CeusMedia\Common\Net\FTP;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Reader
 {
 	/**	@var		array			$fileTypes		List of File Types (dir,file,link) */
-	protected $fileTypes	= [
+	protected array $fileTypes	= [
 		'd'	=> "dir",
 		'-'	=> "file",
 		'l'	=> "link"
 	];
 
 	/**	@var		Connection		$connection		FTP Connection Object */
-	protected $connection;
+	protected Connection $connection;
 
 	/**
 	 *	Constructor
@@ -182,7 +184,7 @@ class Reader
 		if( $permissions[9] == 'x' ) $mode += 01;
 		else if( $permissions[9] == 't' ) $mode += 01001;
 		else if( $permissions[9] == 'T' ) $mode += 01000;
-		return sprintf( '0%o', $mode );
+		return sprintf( '0%03o', $mode );
 	}
 
 	/**
@@ -216,7 +218,7 @@ class Reader
 			$data['time']		= "00:00";
 		}
 		$data['timestamp']		= strtotime( $data['day']." ".$data['month']." ".$data['year']." ".$data['time'] );
-		$data['datetime']		= date( "c", $data['timestamp'] );
+		$data['datetime']		= date( "c", (int) $data['timestamp'] );
 		$data['type']			= $this->fileTypes[$parts[0][0]];
 		$data['type_short']		= $data['type'][0];
 		$data['octal']			= $this->getPermissionsAsOctal( $parts[0] );

@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Converts CSS between:
  *	- a string representation, typically content from a CSS file
@@ -7,7 +9,7 @@
  *	- a structure out of ADT_CSS_Sheet, ADT_CSS_Rule and ADT_CSS_Property objects
  *	- a file for input and output
  *
- *	Copyright (c) 2011-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,7 +27,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -43,7 +45,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2025 Christian Würker
+ *	@copyright		2011-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -223,7 +225,7 @@ class Converter
 	 */
 	public function toFile( string $fileName ): int
 	{
-		return FileWriter::save( $fileName, Converter::convertSheetToString( $this->sheet ) );
+		return (int) FileWriter::save( $fileName, Converter::convertSheetToString( $this->sheet ) );
 	}
 
 	/**

@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** * @noinspection PhpDocMissingThrowsInspection */
 
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
@@ -42,7 +45,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
@@ -63,7 +66,7 @@ class URL implements Renderable, Stringable
 	 *	@param		string				$url		URL string to represent
 	 *	@param		URL|string|NULL		$defaultUrl Underlying base URL
 	 */
-	public function __construct( string $url, URL|string $defaultUrl = NULL )
+	public function __construct( string $url, URL|string|NULL $defaultUrl = NULL )
 	{
 		if( '' === trim( $url ) )
 			throw new InvalidArgumentException( 'No URL given' );
@@ -90,7 +93,7 @@ class URL implements Renderable, Stringable
 	 * @param		URL|string|NULL		$defaultUrl
 	 * @return		static
 	 */
-	public static function create( string $url = NULL, URL|string $defaultUrl = NULL ): static
+	public static function create( ?string $url = NULL, URL|string|NULL $defaultUrl = NULL ): static
 	{
 		$className	= static::class;
 		return new $className( $url, $defaultUrl );
@@ -168,8 +171,6 @@ class URL implements Renderable, Stringable
 	{
 		if( is_string( $referenceUrl ) )
 			$referenceUrl	= new URL( $referenceUrl );
-		if( !( $referenceUrl instanceof URL ) )
-			throw new InvalidArgumentException( 'Given reference URL is neither URL object nor string' );
 		$url	= clone $referenceUrl;
 		$url->setPath( $this->parts->path );
 		$url->setQuery( $this->parts->query );
@@ -388,7 +389,7 @@ class URL implements Renderable, Stringable
 		return $this;
 	}
 
-	public function setHost( string $host, ?int $port = NULL, string $username = NULL, string $password = NULL ): static
+	public function setHost( string $host, ?int $port = NULL, ?string $username = NULL, ?string $password = NULL ): static
 	{
 		$this->parts->host	= $host;
 		if( NULL !== $port )
@@ -448,7 +449,7 @@ class URL implements Renderable, Stringable
 	public function setQuery( array|string $query ): static
 	{
 		if( is_array( $query ) )
-			$query	= http_build_query( $query, '&' );
+			$query	= http_build_query( $query, '', '&' );
 		$this->parts->query	= $query;
 		return $this;
 	}

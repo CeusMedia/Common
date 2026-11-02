@@ -1,11 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +26,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -40,7 +43,7 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -61,13 +64,13 @@ class PageFrame
 	protected string $docType		= 'XHTML_10_STRICT';
 	protected array $docTypes		= [
 		'HTML_5'					=> '<!DOCTYPE html>',
-		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "https://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
-		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
-		'XHTML_10_TRANSITIONAL'		=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-		'XHTML_10_FRAMESET'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
-		'HTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "https://www.w3.org/TR/html4/strict.dtd">',
-		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">',
-		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "https://www.w3.org/TR/html4/frameset.dtd">',
+		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
+		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
+		'XHTML_10_TRANSITIONAL'		=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+		'XHTML_10_FRAMESET'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
+		'HTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
+		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
+		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
 	];
 	protected array $prefixes		= [];
 	protected ?string $profile		= NULL;
@@ -178,7 +181,7 @@ class PageFrame
 	public function addLink( URL|string $uri, string $relation, ?string $type = NULL ): static
 	{
 		$this->links[]	= [
-			'uri'		=> $uri instanceof URL ? $uri->get() : $uri,
+			'href'		=> $uri instanceof URL ? $uri->get() : $uri,
 			'rel'		=> $relation,
 			'type'		=> $type
 		];
@@ -258,10 +261,6 @@ class PageFrame
 	 */
 	public function build( array $bodyAttributes = [], array $htmlAttributes = [] ): string
 	{
-		if( !is_array( $bodyAttributes ) )
-			throw new InvalidArgumentException( 'Parameter "bodyAttributes" need to be an array or empty' );
-		if( !is_array( $htmlAttributes ) )
-			throw new InvalidArgumentException( 'Parameter "htmlAttributes" need to be an array or empty' );
 		$tagsHead	= [];
 		$tagsBody	= [];
 
@@ -301,7 +300,7 @@ class PageFrame
 		$attributes	= ['lang' => $this->language];
 		if( is_int( strpos( $docType, 'xhtml' ) )/* || $this->docType == 'HTML_5'*/ ){
 			$attributes	= ['xml:lang' => $this->language] + $attributes;
-			$attributes	= ['xmlns' => "https://www.w3.org/1999/xhtml"] + $attributes;
+			$attributes	= ['xmlns' => "http://www.w3.org/1999/xhtml"] + $attributes;
 		}
 		if( $this->prefixes ){
 			$list	= [];
@@ -397,7 +396,7 @@ class PageFrame
 	public function setDocType( string $docType ): static
 	{
 		$key		= str_replace( [' ', '-'], '_', trim( $docType ) );
-		$key		= preg_replace( "/[^A-Z\d_]/", '', strtoupper( $key ) );
+		$key		= (string) preg_replace( "/[^A-Z\d_]/", '', strtoupper( $key ) );
 		if( !strlen( trim( $key ) ) )
 			throw new InvalidArgumentException( 'No doctype given' );
 		if( !array_key_exists( $key, $this->docTypes ) )

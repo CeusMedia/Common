@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 /**
  *	Graph data class for DOT language (Graphviz).
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +42,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -155,37 +158,36 @@ class Graph
 		$edges	= [];
 		$nodes	= [];
 		foreach( $this->nodes as $name => $nodeOptions )
-			$nodes[]	= $name.' ['.$this->renderOptions( $this->nodeOptions, $nodeOptions ).'];';
+			$nodes[]	= $name.' ['.$this->renderOptions( array_merge( $this->nodeOptions, $nodeOptions ) ).'];';
 		foreach( $this->edges as $source => $targets )
 			foreach( $targets as $target => $edgeOptions )
-				$edges[]	= $source.' -> '.$target.' ['.$this->renderOptions( $this->edgeOptions, $edgeOptions ).']';
+				$edges[]	= $source.( 'graph' === $this->type ? ' -- ' : ' -> ' ).$target.' ['.$this->renderOptions( array_merge( $this->edgeOptions, $edgeOptions ) ).']';
 		$rules		= array(
-			$this->renderOptions( $this->options, $options, "\n\t" ),
+			$this->renderOptions( array_merge( $this->options, $options ), "\n\t" ),
 			join( "\n\t", $nodes ),
 			join( "\n\t", $edges ),
 		);
 		return $this->type." ".$this->id." {\n\t".join( "\n\t", $rules )."\n}";
 	}
 
-	protected function renderOptions( array $options = [], array $overrideOptions = [], string $delimiter = ' ' ): string
+	protected function renderOptions( array $options = [], string $delimiter = ' ' ): string
 	{
-		if( is_array( $overrideOptions ) )
-			$options	= array_merge( $options, $overrideOptions );
 		$list	= [];
 		foreach( $options as $key => $value )
-			$list[]	= $key.'="'.addslashes( $value ).'"';
+			//  only quotes are escaped, backslash sequences like \n are label escapes in DOT
+			$list[]	= $key.'="'.str_replace( '"', '\\"', (string) $value ).'"';
 		return join( $delimiter, $list );
 	}
 
 	protected function sanitizeNodeName( string $name ): string
 	{
 		$name	= htmlentities( $name );
-		return preg_replace( "/[^\w_:]/", "", $name );
+		return (string) preg_replace( "/[^\w_:]/", "", $name );
 	}
 
 	public function save( string $fileName, array $options = [] ): int
 	{
-		return FileWriter::save( $fileName, $this->render( $options ) );
+		return (int) FileWriter::save( $fileName, $this->render( $options ) );
 	}
 
 	public function setDefaultEdgeOptions( array $options ): self

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Insertion Sort.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +35,7 @@ namespace CeusMedia\Common\Alg\Sort;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -52,20 +52,22 @@ class Insertion
 	 */
 	public function sort( array $list ): array
 	{
-//		echo "list: ".implode (" | ", $list)."<br>";
-		$n	= sizeof( $list );
-		for( $i=0; $i<$n; $i++ ){
-			$temp	= $list[$i];
-			$j		= $n - 1;
-			while( $j>=0 && $this->moves < 100 ){
-				if( $list[$j] > $temp ){
-					$this->moves ++;
-					$list = self::swap( $list, $j + 1, $j );
-//					echo "list[$i|$j]: ".implode (" | ", $list)."<br>";
-					$j--;
-				}
-				$this->compares ++;
+		$list			= array_values( $list );
+		$this->compares	= 0;
+		$this->moves	= 0;
+		$n				= count( $list );
+		for( $i = 1; $i < $n; $i++ ){
+			$current	= $list[$i];
+			$j			= $i - 1;
+			while( $j >= 0 ){
+				$this->compares++;
+				if( $list[$j] <= $current )
+					break;
+				$list[$j + 1]	= $list[$j];
+				$this->moves++;
+				$j--;
 			}
+			$list[$j + 1]	= $current;
 		}
 		return $list;
 	}

@@ -1,11 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_FS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -22,7 +24,7 @@ use DirectoryIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_FS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -97,7 +99,9 @@ class Folder extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !mkdir( $this->pathName, $mode, TRUE ) ){
+		if( !@mkdir( $this->pathName, $mode, TRUE ) ){
+			if( $strict )
+				throw IOException::create( 'Folder creation failed' )->setResource( $this->pathName );
 			return FALSE;
 		}
 		return TRUE;
@@ -111,11 +115,11 @@ class Folder extends AbstractNode
 	 *	@return		File
 	 *	@throws		IOException
 	 */
-	public function createFile( string $pathName, string $content = NULL, int $mode = 0777, bool $strict = TRUE ): File
+	public function createFile( string $pathName, ?string $content = NULL, int $mode = 0777, bool $strict = TRUE ): File
 	{
 		$file	= new File( $this->pathName.'/'.$pathName );
 		$file->create( $mode, $strict );
-		if( $content )
+		if( NULL !== $content )
 			$file->setContent( $content, $strict );
 		return $file;
 	}

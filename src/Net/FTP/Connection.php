@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Basic FTP Connection.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,14 +40,14 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_FTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement SSL Support
  */
 class Connection
 {
-	/**	@var		integer			$mode			FTP Transfer Mode */
+	/**	@var		int<1,2>		$mode			FTP Transfer Mode */
 	public int $mode				= FTP_BINARY;
 
 	/**	@var		boolean			$auth			Indicator of Authentication */
@@ -179,11 +182,11 @@ class Connection
 	}
 
 	/**
-	 *	Returns FTP Connection Resource.
+	 *	Returns FTP Connection Resource, NULL if not connected (anymore).
 	 *	@access		public
-	 *	@return		FtpConnection
+	 *	@return		FtpConnection|NULL
 	 */
-	public function getResource(): FtpConnection
+	public function getResource(): ?FtpConnection
 	{
 		return $this->resource;
 	}
@@ -195,7 +198,7 @@ class Connection
 	 */
 	public function getTimeout(): int
 	{
-		return ftp_get_option( $this->resource, FTP_TIMEOUT_SEC );
+		return (int) ftp_get_option( $this->resource, FTP_TIMEOUT_SEC );
 	}
 
 	/**
@@ -245,6 +248,8 @@ class Connection
 	 */
 	public function setTimeout( int $seconds ): bool
 	{
+		if( $seconds < 1 || NULL === $this->resource )
+			return FALSE;
 		return @ftp_set_option( $this->resource, FTP_TIMEOUT_SEC, $seconds );
 	}
 

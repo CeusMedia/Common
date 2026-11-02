@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	JSON Writer.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -64,7 +66,7 @@ class Writer
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
 	 */
-	public static function save( string $filePath, $value, bool $format = FALSE ): int
+	public static function save( string $filePath, mixed $value, bool $format = FALSE ): int
 	{
 		$writer	= new Writer( $filePath );
 		return $writer->write( $value, $format );
@@ -81,6 +83,6 @@ class Writer
 	{
 		$flags	= $format ? JSON_PRETTY_PRINT : 0;
 		$json	= JsonEncoder::create()->encode( $value, $flags );
-		return FileWriter::save( $this->filePath, $json );
+		return (int) FileWriter::save( $this->filePath, $json );
 	}
 }

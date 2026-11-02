@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Parses XML String and returns Array or Object Structure.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +41,7 @@ use XMLParser;
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement reading from stream + Unit Test
@@ -109,12 +112,12 @@ class Parser
 	 */
 	protected function handleCDataForArray( $parser, string $cdata ): void
 	{
-		if( strlen( ltrim( $cdata ) ) > 0 ){
-			$pointer	= count( $this->last ) - 2;
-			$index		= count( $this->last[$pointer] ) - 1;
-			$content	= str_replace( '\n', "\n", trim( $cdata ) );
-			$this->last[$pointer][$index]['content']	.= $content;
-		}
+		//  character data may come in several chunks (e.g. around entities), so it is trimmed on closing the tag
+		$pointer	= count( $this->last ) - 2;
+		if( $pointer < 0 )
+			return;
+		$index		= count( $this->last[$pointer] ) - 1;
+		$this->last[$pointer][$index]['content']	.= str_replace( '\n', "\n", $cdata );
 	}
 
 	/**
@@ -127,15 +130,11 @@ class Parser
 	 */
 	protected function handleCDataForObject( $parser, string $cdata ): void
 	{
-		if( strlen( ltrim( $cdata ) ) <= 0 )
+		//  character data may come in several chunks (e.g. around entities), so it is trimmed on closing the tag
+		$node		= $this->last[count( $this->last ) - 1] ?? NULL;
+		if( !$node instanceof Node )
 			return;
-		$pointer	= count( $this->last ) - 2;
-		$index		= count( $this->last[$pointer]->getChildren() ) - 1;
-		$parent		=& $this->last[$pointer];
-		$node		= $parent->getChildByIndex( $index );
-		$content	= $node->getContent();
-		$content	.= str_replace( '\n', "\n", trim( $cdata ) );
-		$node->setContent( $content );
+		$node->setContent( $node->getContent().str_replace( '\n', "\n", $cdata ) );
 	}
 
 	/**
@@ -163,6 +162,10 @@ class Parser
 	protected function handleTagCloseForArray( $parser, string $tag ): void
 	{
 		array_pop( $this->last );
+		$pointer	= count( $this->last ) - 1;
+		$index		= count( $this->last[$pointer] ) - 1;
+		if( $index >= 0 )
+			$this->last[$pointer][$index]['content']	= trim( $this->last[$pointer][$index]['content'] );
 	}
 
 	/**
@@ -175,7 +178,9 @@ class Parser
 	 */
 	protected function handleTagCloseForObject( $parser, string $tag ): void
 	{
-		array_pop( $this->last );
+		$node	= array_pop( $this->last );
+		if( $node instanceof Node )
+			$node->setContent( trim( (string) $node->getContent() ) );
 	}
 
 	/**

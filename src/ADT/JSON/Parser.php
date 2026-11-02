@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	JSON Parser.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +40,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -49,15 +52,21 @@ class Parser
 
 	protected int $status			= 0;
 
+	/**	@var	int			$errorCode		Error code of last parsing by this parser (not of other JSON calls) */
+	protected int $errorCode		= JSON_ERROR_NONE;
+
+	/**	@var	string		$errorMessage	Error message of last parsing by this parser */
+	protected string $errorMessage	= 'No error';
+
 	/**
 	 *	Returns constant value or key of last parse error.
 	 *	@access		public
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( bool $asConstantKey = FALSE )
+	public function getError( bool $asConstantKey = FALSE ): int|string
 	{
-		$code	= json_last_error();
+		$code	= $this->errorCode;
 		if( $asConstantKey )
 			return $this->getConstantFromCode( $code );
 		return $code;
@@ -97,7 +106,7 @@ class Parser
 	 */
 	public function getMessage(): string
 	{
-		return json_last_error_msg();
+		return $this->errorMessage;
 	}
 
 	/**
@@ -105,14 +114,16 @@ class Parser
 	 *	@access		public
 	 *	@param		string		$json			JSOn sting to parse
 	 *	@param		boolean		$asArray		Flag: read into an array
-	 *	@return		object|array
+	 *	@return		mixed
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function parse( string $json, bool $asArray = FALSE )
+	public function parse( string $json, bool $asArray = FALSE ): mixed
 	{
 		$this->status	= static::STATUS_EMPTY;
 		$data			= json_decode( $json, $asArray );
-		if( json_last_error() !== JSON_ERROR_NONE ){
+		$this->errorCode	= json_last_error();
+		$this->errorMessage	= json_last_error_msg();
+		if( $this->errorCode !== JSON_ERROR_NONE ){
 			$this->status	= static::STATUS_ERROR;
 			$message	= 'Decoding JSON failed (%s): %s';
 			$message	= vsprintf( $message, [
@@ -129,7 +140,7 @@ class Parser
 	 *	@param		string|int		$code
 	 *	@return		string|int
 	 */
-	protected function getConstantFromCode( $code )
+	protected function getConstantFromCode( string|int $code ): string|int
 	{
 		return Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}

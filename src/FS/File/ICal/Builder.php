@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for iCalendar File from XML Tree.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_ICal
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			RFC2445
@@ -37,7 +39,7 @@ use CeusMedia\Common\XML\DOM\Node;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_ICal
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			RFC2445
@@ -46,7 +48,7 @@ use CeusMedia\Common\XML\DOM\Node;
 class Builder
 {
 	/**	@var	string		$lineBreak		Line Break String */
-	protected static $lineBreak;
+	protected static string $lineBreak	= "\r\n";
 
 	/**
 	 *	Constructor.
@@ -87,33 +89,46 @@ class Builder
 	protected static function buildLine( string $name, array $param, string $content ): string
 	{
 		$params	= [];
-		foreach( $param as $key => $value )
-			$params[]	= strtoupper( trim( $key ) )."=".$value;
-		$param	= implode( ",", $params );
-		if( $param ){
-			$param	= " ;".$param;
-			if( strlen( $param ) > 75 ){
-				$rest	= $param;
-				$param	= "";
-				while( strlen( $rest ) > 75 ){
-					$param	.= substr( $rest, 0, 74 ).self::$lineBreak;
-					$rest	= " ".substr( $rest, 74 );
-				}
-			}
-			$param	= self::$lineBreak.$param;
+		foreach( $param as $key => $value ){
+			$value	= (string) $value;
+			//  parameter values containing colon, semicolon or comma must be quoted (RFC 5545, 3.1)
+			$isQuoted	= strlen( $value ) > 1 && str_starts_with( $value, '"' ) && str_ends_with( $value, '"' );
+			if( !$isQuoted && 1 === preg_match( '/[;:,]/', $value ) )
+				$value	= '"'.str_replace( '"', '', $value ).'"';
+			$params[]	= strtoupper( trim( (string) $key ) )."=".$value;
 		}
+		$line	= strtoupper( $name );
+		if( [] !== $params )
+			//  parameters are separated by comma in 1.0.x (RFC 5545: semicolon, from 1.2 on)
+			$line	.= ";".implode( ",", $params );
+		$line	.= ":".$content;
+		return self::foldLine( $line );
+	}
 
-		$content	= ":".$content;
-		if( strlen( $content ) > 75 ){
-			$rest	= $content;
-			$content	= "";
-			while( strlen( $rest ) > 75 ){
-				$content	.= substr( $rest, 0, 74 ).self::$lineBreak;
-				$rest	= " ".substr( $rest, 74 );
-			}
+	/**
+	 *	Folds a content line into lines of at most 75 octets (excluding line break), as defined in RFC 5545.
+	 *	Continuation lines start with a space. Multibyte UTF-8 characters are not split.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$line		Unfolded content line
+	 *	@return 	string
+	 */
+	protected static function foldLine( string $line ): string
+	{
+		$lines	= [];
+		$limit	= 75;
+		while( strlen( $line ) > $limit ){
+			$cut	= $limit;
+			//  do not cut within a UTF-8 multibyte sequence
+			while( $cut > 1 && ( ord( $line[$cut] ) & 0xC0 ) === 0x80 )
+				$cut--;
+			$lines[]	= substr( $line, 0, $cut );
+			$line		= substr( $line, $cut );
+			//  continuation lines start with a space, which counts to the limit
+			$limit		= 74;
 		}
-
-		return strtoupper( $name ).$param.$content;
+		$lines[]	= $line;
+		return implode( self::$lineBreak." ", $lines );
 	}
 
 	/**

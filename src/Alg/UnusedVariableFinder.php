@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Finds not used variables within PHP methods or functions.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,17 +38,17 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class UnusedVariableFinder
 {
 	/** @var		array		$methods 		Array of collect Method Parameters and Code Lines */
-	protected $methods	= [];
+	protected array $methods	= [];
 
 	/** @var		array		$vars 			Array of collect Method Variables */
-	protected $vars		= [];
+	protected array $vars		= [];
 
 	/**
 	 *	Returns an Array of Methods and their Variables.
@@ -79,13 +81,13 @@ class UnusedVariableFinder
 	/**
 	 *	Returns an Array of Methods and their unused Variables.
 	 *	@access		public
-	 *	@param		string		$method			Optional: Method to get unused Variables for.
+	 *	@param		string|NULL		$method			Optional: Method to get unused Variables for.
 	 *	@return		array
 	 */
 	public function getUnusedVars( ?string $method = NULL ): array
 	{
 		$list	= [];
-		if( !strlen( $method = trim( $method ) ) ){
+		if( !strlen( $method = trim( $method ?? '' ) ) ){
 			foreach( $this->methods as $method => $data )
 				if( ( $vars = $this->getUnusedVars( $method ) ) )
 					$list[$method]	= $vars;
@@ -119,7 +121,7 @@ class UnusedVariableFinder
 	 *	@param		bool		$countCalls		Flag: count Number Variable uses
 	 *	@return		void
 	 */
-	private function inspectParsedMethods( bool $countCalls = FALSE )
+	private function inspectParsedMethods( bool $countCalls = FALSE ): void
 	{
 		//  iterate before parsed methods
 		foreach( $this->methods as $method => $data ){
@@ -144,12 +146,10 @@ class UnusedVariableFinder
 					if( !$countCalls && $count )
 						//  skip to next line
 						continue;
-					if( preg_match( "/\(/", $name ) || preg_match( "/\)/", $name ) )
-						xmp( $method."::".$name.' ('.join( ",", array_keys( $this->methods ) ).')' );
-					//  remove variable assignment if found
-					$line		= preg_replace( "/\$".addslashes( $name )."\s*=/", "", $line );
-					//  if variable is used in this line
-					if( preg_match( '@\$'.addslashes( $name ).'[^a-z0-9_]@i', $line ) ){
+					//  remove assignments to the variable, so only reading it counts as usage
+					$quoted		= preg_quote( (string) $name, '@' );
+					$line		= (string) preg_replace( '@\$'.$quoted.'\s*=(?![=>])@', '', $line );
+					if( preg_match( '@\$'.$quoted.'(?![a-z0-9_])@i', $line ) ){
 						//  increate variable's use counter
 						$this->methods[$method]['variables'][$name]++;
 					}
@@ -164,7 +164,8 @@ class UnusedVariableFinder
 	 *	@param		string		$content		PHP code string
 	 *	@return		void
 	 */
-	private function parseCodeForMethods( string $content )
+	private function parseCodeForMethods( string $content ): void
+
 	{
 		//  initial: no method found, yet
 		$open		= FALSE;

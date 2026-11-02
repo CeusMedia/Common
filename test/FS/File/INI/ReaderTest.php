@@ -19,6 +19,10 @@ use Exception;
  */
 class ReaderTest extends BaseCase
 {
+	protected $list;
+	protected $path;
+	protected $sections;
+
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 

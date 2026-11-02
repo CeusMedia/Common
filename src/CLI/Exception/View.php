@@ -1,12 +1,14 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -30,7 +32,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -110,7 +112,7 @@ class View
 	 */
 	public function setHeading( ?string $heading ): self
 	{
-		$this->heading	= $heading;
+		$this->heading	= $heading ?? '';
 		return $this;
 	}
 
@@ -155,7 +157,7 @@ class View
 	protected function renderFactsBlock(): string
 	{
 		$fullClassName	= get_class( $this->exception );
-		$spaceParts	= explode( '\\', preg_replace( '/^\\\\/', '', $fullClassName ) );
+		$spaceParts	= explode( '\\', (string) preg_replace( '/^\\\\/', '', $fullClassName ) );
 		$revCan		= join( '/', array_reverse( $spaceParts ) );
 		$className	= array_pop( $spaceParts );
 		$namespace	= join( '\\', $spaceParts );
@@ -176,15 +178,15 @@ class View
 		$lines	= [];
 		foreach( $this->exception->getTrace() as $nr => $step ){
 			$number			= str_pad( '#'.( $nr + 1 ), 4, ' ', STR_PAD_RIGHT );
-			$classPrefix	= '' !== $step['class'] ? $step['class'].' '.$step['type'].' ' : '';
+			$classPrefix	= '' !== ($step['class'] ?? '') ? ($step['class'] ?? '').' '.($step['type'] ?? '').' ' : '';
 			$arguments		= implode( ', ', $step['args'] ?? [] );
 			$lines[]		= vsprintf( '%s Call: %s%s(%s)'.PHP_EOL.'     File: %s @ %s', [
 				$number,
 				$classPrefix,
 				$step['function'],
 				$arguments,
-				$step['file'],
-				$step['line']
+				$step['file'] ?? '-',
+				$step['line'] ?? '-'
 			] );
 		}
 		$lines[]	= 'Trace:';

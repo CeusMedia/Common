@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +39,7 @@ use RecursiveIteratorIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -67,14 +70,14 @@ class Lister extends FilterIterator
 		$this->verbose	= $verbose;
 		parent::__construct(
 			new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator( $path )
+				new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS )
 			)
 		);
 	}
 
 	public function accept(): bool
 	{
-		$fileName	= basename( $this->current() );
+		$fileName	= basename( (string) $this->current() );
 		if( $this->extensions ){
 			$info		= pathinfo( $fileName );
 			if( empty( $info['extension'] ) )
@@ -82,7 +85,7 @@ class Lister extends FilterIterator
 			if( !in_array( $info['extension'], $this->extensions ) )
 				return FALSE;
 		}
-		$pathName	= dirname( str_replace( "\\", "/", $this->current() ) );
+		$pathName	= dirname( str_replace( "\\", "/", (string) $this->current() ) );
 		//  get inner Path Name
 		$innerPath	= substr( $pathName, strlen( $this->path) )."/";
 		$innerFile	= $innerPath.$fileName;
@@ -97,7 +100,7 @@ class Lister extends FilterIterator
 			if( $found )
 			{
 				//  log Folder
-				$this->logSkippedFolder( $this->current() );
+				$this->logSkippedFolder( (string) $this->current() );
 				if( $this->verbose )
 					remark( "Skipping Folder: ".$innerPath );
 				return FALSE;
@@ -114,7 +117,7 @@ class Lister extends FilterIterator
 			if( $found )
 			{
 				//  log File
-				$this->logSkippedFile( $this->current() );
+				$this->logSkippedFile( (string) $this->current() );
 				if( $this->verbose )
 					remark( "Skipping File: ".$innerPath.$this->current()->getFilename() );
 				return FALSE;

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Class to find all Files with ToDos inside.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +40,7 @@ use UnexpectedValueException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -89,7 +91,7 @@ class TodoLister
 	 *	@param		bool		$full		Flag: Return Path Name, File Name and Content also
 	 *	@return		array
 	 */
-	public function getList( bool $full = NULL ): array
+	public function getList( ?bool $full = NULL ): array
 	{
 		if( $full )
 			return $this->list;
@@ -158,7 +160,7 @@ class TodoLister
 		try{
 			foreach( $iterator as $entry ){
 				$this->numberScanned++;
-				$content	= file_get_contents( $entry->getPathname() );
+				$content	= (string) file_get_contents( $entry->getPathname() );
 				$lines		= explode( "\n", $content );
 				$i			= 0;
 				$list		= [];
@@ -207,13 +209,14 @@ class TodoLister
 		$list1	= array_merge( $list1, $this->{$member.'s'} );
 		$list2	= [];
 		foreach( $list1 as $item )
-			$list2[]	= str_replace( '.', '\.', $item );
+			$list2[]	= preg_quote( ltrim( (string) $item, '.' ), '%' );
 		if( 1 === count( $list2 ) )
 			$pattern	= array_pop( $list2 );
 		else
 			$pattern	= '('.implode( '|', $list2 ).')';
+		//  extensions must follow a dot at the end of the file name
 		if( $member == 'extension' )
-			$pattern	.= "$";
+			$pattern	= '\.'.$pattern."$";
 		return '%'.$pattern.'%';
 	}
 }

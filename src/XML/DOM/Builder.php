@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Builder for XML Strings with DOM.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -32,13 +35,14 @@ namespace CeusMedia\Common\XML\DOM;
 use DOMDocument;
 use DOMElement;
 use DOMException;
+use RuntimeException;
 
 /**
  *	Builder for XML Strings with DOM.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -52,6 +56,7 @@ class Builder
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string							Rendered tree as XML string
 	 *	@throws		DOMException
+	 *	@throws		RuntimeException				if rendering XML failed
 	 */
 	static public function build( Node $tree, string $encoding = "utf-8", array $namespaces = [] ): string
 	{
@@ -63,7 +68,10 @@ class Builder
 		/** @var DOMElement $root */
 		$root		= $document->appendChild( $root );
 		self::buildRecursive( $document, $root, $tree, $encoding );
-		return $document->saveXML();
+		$xml	= $document->saveXML();
+		if( FALSE === $xml )
+			throw new RuntimeException( 'Rendering XML failed' );
+		return $xml;
 	}
 
 	/**
@@ -77,10 +85,10 @@ class Builder
 	 *	@return		void
 	 *	@throws		DOMException
 	 */
-	protected static function buildRecursive( DOMDocument $document, DOMElement $root, Node $tree, string $encoding )
+	protected static function buildRecursive( DOMDocument $document, DOMElement $root, Node $tree, string $encoding ): void
 	{
 		foreach( $tree->getAttributes() as $key => $value ){
-			$root->setAttribute( $key, $value );
+			$root->setAttribute( (string) $key, $value );
 		}
 		if( $tree->hasChildren() ){
 			$children = $tree->getChildren();

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +38,7 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -46,13 +46,13 @@ use OutOfRangeException;
 class Factory
 {
 	/**	@var		array		$articles		List of possible Articles */
-	protected $articles;
+	protected array $articles;
 
 	/**	@var		array		$packets		Array of possible Packet and their Prices */
-	protected $packets;
+	protected array $packets;
 
 	/**	@var		array		$volumes		Array of Packets and the Volumes the Articles would need */
-	protected $volumes;
+	protected array $volumes;
 
 	/**
 	 *	Constructor.
@@ -87,7 +87,8 @@ class Factory
 					throw new InvalidArgumentException( 'Article "'.$articleName.'" is not a valid Article.' );
 				for( $i=0; $i<$articleQuantity; $i++ ){
 					$volume	= $this->volumes[$packetName][$articleName];
-					$packet->addArticle( $articleName, $volume );
+					$packet->addArticle( (string) $articleName, $volume );
+
 				}
 			}
 			return $packet;

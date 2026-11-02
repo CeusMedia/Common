@@ -1,4 +1,7 @@
 <?php /** @noinspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMissingParamTypeInspection */
 /** @noinspection PhpMissingReturnTypeInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
@@ -93,9 +96,9 @@ class Relocator
 	 * </code>
 	 *	@return		string
 	 */
-	public static function rewrite(string $css, string $currentDir, ?string $docRoot = null, array $symlinks = [])
+	public static function rewrite(string $css, string $currentDir, ?string $docRoot = null, array $symlinks = []): string
 	{
-		self::$_docRoot = self::_realpath($docRoot ?: $_SERVER['DOCUMENT_ROOT']);
+		self::$_docRoot = self::_realpath($docRoot ?: (string) ($_SERVER['DOCUMENT_ROOT'] ?? ''));
 		self::$_currentDir = self::_realpath($currentDir);
 		self::$_symlinks = [];
 
@@ -197,6 +200,7 @@ class Relocator
 	 *	@param		array		$m
 	 *	@return		string
 	 * @noinspection PhpUnusedPrivateMethodInspection
+	 * @phpstan-ignore method.unused
 	 */
 	private static function _processUriCB(array $m): string
 	{
@@ -262,7 +266,7 @@ class Relocator
 	 *	@param		string		$css
 	 *	@return		string
 	 */
-	private static function _trimUrls($css)
+	private static function _trimUrls(string $css): string
 	{
 		return preg_replace('/
 			url\\(      # url(

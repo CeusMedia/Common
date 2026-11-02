@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Console input handler.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -52,12 +54,14 @@ class Prompt
 	 */
 	public function __construct()
 	{
+		$tty = false;
 		if( str_starts_with( PHP_OS, 'WIN' ) )
-			$this->tty = fopen( "\con", 'rb' );
-		else if( !($this->tty = fopen( "/dev/tty", 'r' ) ) )
-			$this->tty = fopen( "php://stdin", 'r' );
-		else
+			$tty = fopen( "\con", 'rb' );
+		else if( !($tty = fopen( "/dev/tty", 'r' ) ) )
+			$tty = fopen( "php://stdin", 'r' );
+		if( !$tty )
 			throw new RuntimeException( 'Could not create any terminal or console device' );
+		$this->tty = $tty;
 	}
 
 	/**
@@ -71,6 +75,6 @@ class Prompt
 	{
 		print( $prompt );
 		ob_flush();
-		return trim( fgets( $this->tty, $length ) );
+		return trim( (string) fgets( $this->tty, $length ) );
 	}
 }

@@ -1,11 +1,14 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Histogram image generator.
  *
- *	Copyright (c) 2012-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +26,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +41,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -92,7 +95,7 @@ class Histogram
 			throw new Exception( "Error: max 0" );
 		$max	*= 1.05;
 		for( $i=0; $i<256; $i++ )
-			$data[$i]	= round( $data[$i] / $max * 100 );
+			$data[$i]	= (int) round( $data[$i] / $max * 100 );
 		$image	= new Image();
 		$image->create( 256, 100 );
 		$drawer	= new Drawer( $image->getResource() );
@@ -116,8 +119,8 @@ class Histogram
 	public static function getData( Image $image ): array
 	{
 		$pixels		= $image->getWidth() * $image->getHeight();
-		if( $pixels > 2 * 1000 * 1000 ){
-			$tempFile	= uniqid().'.image';
+		if( $pixels > 2 * 1000 * 1000 && NULL !== $image->getFileName() ){
+			$tempFile	= sys_get_temp_dir().'/'.uniqid( 'histogram' ).'.image';
 			$thumb	= new ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
 			$thumb->thumbizeByLimit( 1000, 1000 );
 			$image	= new Image( $tempFile );
@@ -130,13 +133,19 @@ class Histogram
 			'b'	=> array_fill( 0, 256, 0 ),
 		);
 		$resource	= $image->getResource();
+		$trueColor	= imageistruecolor( $resource );
 		for( $x=0; $x<$image->getWidth(); $x++ ){
 			for( $y=0; $y<$image->getHeight(); $y++ ){
 				$rgb	= imagecolorat( $resource, $x, $y );
+				if( !$trueColor ){
+					//  palette images return color index, not RGB value
+					$color	= imagecolorsforindex( $resource, (int) $rgb );
+					$rgb	= ( $color['red'] << 16 ) | ( $color['green'] << 8 ) | $color['blue'];
+				}
 				$r		= ($rgb >> 16) & 0xFF;
 				$g		= ($rgb >> 8) & 0xFF;
 				$b		= $rgb & 0xFF;
-				$w		= round( ( $r + $g + $b ) / 3 );
+				$w		= (int) round( ( $r + $g + $b ) / 3 );
 				$values['w'][$w]++;
 				$values['r'][$r]++;
 				$values['g'][$g]++;

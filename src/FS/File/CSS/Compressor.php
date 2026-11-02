@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Compresses CSS Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,20 +38,20 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
-	public $prefix		= "";
+	public string $prefix		= "";
 
 	/**	@var		array			$statistics		Statistical Data */
-	public $statistics	= [];
+	public array $statistics	= [];
 
 	/**	@var		string			$suffix			Suffix of compressed File Name */
-	public $suffix		= ".min";
+	public string $suffix		= ".min";
 
 /*	static public function compressFile( $fileName, $oneLine = FALSE ){
 		return self::compressString( FileReader::load( $fileName ), $oneLine );
@@ -77,7 +79,10 @@ class Compressor
 		if( !file_exists( $fileUri ) )
 			throw new Exception( "Style File '".$fileUri."' is not existing." );
 
-		$content	= self::compressString( file_get_contents( $fileUri ) );
+		$content	= file_get_contents( $fileUri );
+		if( FALSE === $content )
+			throw new Exception( "Style File '".$fileUri."' is not readable." );
+		$content	= $this->compress( $content );
 		$pathName	= dirname( $fileUri );
 		$styleFile	= basename( $fileUri );
 		$styleName	= preg_replace( "@\.css$@", "", $styleFile );
@@ -102,15 +107,13 @@ class Compressor
 	static public function compressString( string $string, bool $oneLine = FALSE ): string
 	{
 		//  remove comments
-		$string	= preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $string );
+		$string	= (string) preg_replace( '!/\*.*?\*/!s', '', $string );
+		//  collapse whitespace (line breaks may separate selector parts and values, so keep one space)
+		$string	= (string) preg_replace( '/\s+/', ' ', $string );
+		//  remove spaces around braces, semicolons, commas and child combinators
+		$string	= (string) preg_replace( '/\s*([{};,>])\s*/', '$1', $string );
 		//  remove space after colons
 		$string	= str_replace( ': ', ':', $string );
-		//  remove whitespace
-		$string	= str_replace( ["\r\n", "\r", "\n", "\t", '  ', '    '], '', $string );
-		//  remove spaces after selectors
-		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );
-		//  remove spaces after selectors
-		$string	= preg_replace( '@\s*\}@s', "}", $string );
 		//  remove leading and trailing space
 		return trim( $string );
 	}

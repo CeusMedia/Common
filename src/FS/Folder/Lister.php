@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -7,7 +9,7 @@
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,7 +27,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -43,26 +45,26 @@ use FilterIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Lister
 {
 	/**	@var		string		$path				Path to Folder */
-	protected $path;
+	protected string $path;
 
 	/**	@var		string|NULL	$pattern			Regular Expression to match with File Name */
-	protected $pattern			= NULL;
+	protected ?string $pattern	= NULL;
 
 	/**	@var		boolean		$showFiles			Flag: show Files */
-	protected $showFiles		= TRUE;
+	protected bool $showFiles		= TRUE;
 
 	/**	@var		boolean		$showFolders		Flag: show Folders */
-	protected $showFolders		= TRUE;
+	protected bool $showFolders		= TRUE;
 
 	/**	@var		boolean		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
-	protected $stripDotEntries	= TRUE;
+	protected bool $stripDotEntries	= TRUE;
 
 	/**
 	 *	Constructor.
@@ -83,7 +85,7 @@ class Lister
 	 *	@param		string		$pattern			RegEx Pattern to match with File Name
 	 *	@return		FilterIterator
 	 */
-	public static function getFileList( string $path, string $pattern = NULL ): FilterIterator
+	public static function getFileList( string $path, ?string $pattern = NULL ): FilterIterator
 	{
 		$index	= new Lister( $path );
 		if( $pattern !== NULL )

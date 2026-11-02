@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Calls Object or Class Methods using Reflection.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -42,7 +42,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -77,7 +77,7 @@ class MethodFactory
 	 *	@return		mixed			Result of called method
 	 *	@throws		ReflectionException
 	 */
-	public function call( bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public function call( bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
 		if( NULL === $this->method )
 			throw new RuntimeException( 'No method set' );
@@ -94,7 +94,7 @@ class MethodFactory
 	 *	@throws		BadMethodCallException				if an invalid Method is called
 	 *	@throws		ReflectionException
 	 */
-	public function callMethod( string $name, array $arguments = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public function callMethod( string $name, array $arguments = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
 		if( NULL === $this->object )
 			throw new RuntimeException( 'Neither object nor class set' );
@@ -178,7 +178,7 @@ class MethodFactory
 	 *	@throws		ReflectionException
 	 *	@throws		RuntimeException
 	 */
-	public static function staticCallClassMethod( string $className, string $methodName, array $classParameters = [], array $methodParameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public static function staticCallClassMethod( string $className, string $methodName, array $classParameters = [], array $methodParameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
 		if( !class_exists( $className ) )
 			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );
@@ -200,11 +200,8 @@ class MethodFactory
 	 *	@throws		BadMethodCallException				if an invalid Method is called
 	 *	@throws		ReflectionException
 	 */
-	public static function staticCallObjectMethod( object $object, string $methodName, array $parameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	public static function staticCallObjectMethod( object $object, string $methodName, array $parameters = [], bool $checkMethod = TRUE, bool $allowProtected = FALSE ): mixed
 	{
-		if( !is_object( $object ) )
-			throw new InvalidArgumentException( 'Invalid object' );
-
 		//  get Object Reflection
 		$reflection	= new ReflectionObject( $object );
 		//  called Method is not existing

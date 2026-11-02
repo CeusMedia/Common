@@ -1,4 +1,7 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
@@ -6,7 +9,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -25,7 +28,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -85,7 +88,7 @@ class File extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !touch( $this->pathName ) ){
+		if( !@touch( $this->pathName ) ){
 			if( $strict )
 				throw IoException::create( 'File creation failed' )->setResource( $this->pathName );
 			return FALSE;
@@ -139,22 +142,25 @@ class File extends AbstractNode
 	 *	@return		string
 	 *	@throws		MissingExtensionException	if Fileinfo is not installed
 	 *	@throws		FileNotExistingException	if file is not existing, not readable or given path is not a file
+	 *	@throws		RuntimeException			if fileinfo database could not be opened
 	 */
 	public function getEncoding(): string
 	{
 		$this->check( TRUE );
 		if( function_exists( 'finfo_open' ) ){
-			$magicFile	= ini_get( 'mime_magic.magicfile' );
+			$magicFile	= ini_get( 'mime_magic.magicfile' ) ?: NULL;
 //			$magicFile	= str_replace( "\\", "/", $magicFile );
 //			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
 			$fileInfo	= finfo_open( FILEINFO_MIME_ENCODING, $magicFile );
-			$mimeType	= finfo_file( $fileInfo, realpath( $this->pathName ) );
+			if( FALSE === $fileInfo )
+				throw new RuntimeException( 'Opening fileinfo database failed' );
+			$mimeType	= finfo_file( $fileInfo, realpath( $this->pathName ) ?: $this->pathName );
 			finfo_close( $fileInfo );
-			return $mimeType;
+			return (string) $mimeType;
 		}
 		else if( !str_starts_with( PHP_OS, "WIN" ) ){
 			$command	= 'file -b --mime-encoding '.escapeshellarg( $this->pathName );
-			return trim( exec( $command ) );
+			return trim( (string) exec( $command ) );
 		}
 		throw new MissingExtensionException( 'PHP extension Fileinfo is missing' );
 	}
@@ -169,7 +175,7 @@ class File extends AbstractNode
 	{
 		$this->check();
 		$info = pathinfo( $this->pathName );
-		return $info['extension'];
+		return $info['extension'] ?? '';
 	}
 
 	/**
@@ -202,22 +208,25 @@ class File extends AbstractNode
 	 *	@return		string
 	 *	@throws		MissingExtensionException	if Fileinfo is not installed
 	 *	@throws		FileNotExistingException	if strict and file is not existing, not a file or not readable
+	 *	@throws		RuntimeException			if fileinfo database could not be opened
 	 */
 	public function getMimeType(): string
 	{
 		$this->check( TRUE );
 		if( function_exists( 'finfo_open' ) ){
-			$magicFile	= ini_get( 'mime_magic.magicfile' );
+			$magicFile	= ini_get( 'mime_magic.magicfile' ) ?: NULL;
 //			$magicFile	= str_replace( "\\", "/", $magicFile );
 //			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
 			$fileInfo	= finfo_open( FILEINFO_MIME_TYPE, $magicFile );
-			$mimeType	= finfo_file( $fileInfo, realpath( $this->pathName ) );
+			if( FALSE === $fileInfo )
+				throw new RuntimeException( 'Opening fileinfo database failed' );
+			$mimeType	= finfo_file( $fileInfo, realpath( $this->pathName ) ?: $this->pathName );
 			finfo_close( $fileInfo );
-			return $mimeType;
+			return (string) $mimeType;
 		}
 		else if( !str_starts_with( PHP_OS, "WIN" ) ){
 			$command	= 'file -b --mime-type '.escapeshellarg( $this->pathName );
-			return trim( exec( $command ) );
+			return trim( (string) exec( $command ) );
 		}
 		else if( function_exists( 'mime_content_type' ) ){
 			if( $mimeType = mime_content_type( $this->pathName ) )
@@ -277,11 +286,16 @@ class File extends AbstractNode
 	 *	@param		integer|NULL	$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		integer|string
 	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
+	 *	@throws		RuntimeException			if file size could not be read
 	 */
-	public function getSize( int $precision = NULL ): int|string
+	public function getSize( ?int $precision = NULL ): int|string
 	{
 		$this->check();
+		//  file may have been changed since last stat call
+		clearstatcache( TRUE, $this->pathName );
 		$size	= filesize( $this->pathName );
+		if( FALSE === $size )
+			throw new RuntimeException( 'Could not get size of file "'.$this->pathName.'"' );
 		if( $precision )
 			$size	= UnitFormater::formatBytes( $size, $precision );
 		return $size;
@@ -293,12 +307,19 @@ class File extends AbstractNode
 	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: yes
 	 *	@return		integer|NULL
 	 *	@throws		FileNotExistingException	if strict and file is not existing or given path is not a file
+	 *	@throws		RuntimeException			if strict and modification time could not be read
 	 */
 	public function getTime( bool $strict = TRUE ): ?int
 	{
 		if( !$this->exists( $strict ) )
 			return NULL;
-		return filemtime( $this->pathName );
+		$time	= filemtime( $this->pathName );
+		if( FALSE === $time ){
+			if( $strict )
+				throw new RuntimeException( 'Could not get modification time of file "'.$this->pathName.'"' );
+			return NULL;
+		}
+		return $time;
 	}
 
 	/**
@@ -314,8 +335,9 @@ class File extends AbstractNode
 		$user	??= get_current_user();
 		if( !function_exists( 'posix_getpwuid' ) )
 			return TRUE;
-		$uid	= fileowner( $this->getPathName() );
-		if( !$uid )
+		$uid	= @fileowner( $this->getPathName() );
+		//  owner could not be detected (uid 0 is root and must be compared)
+		if( FALSE === $uid )
 			return TRUE;
 		$owner	= posix_getpwuid( $uid );
 		if( !$owner )

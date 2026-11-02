@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Simplified XML Node DOM Implementation.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -29,13 +31,14 @@
 namespace CeusMedia\Common\XML\DOM;
 
 use InvalidArgumentException;
+use OutOfRangeException;
 
 /**
  *	Simplified XML Node DOM Implementation.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -66,29 +69,19 @@ class Node
 		$this->nodeName = $nodeName;
 		if( $content !== NULL )
 			$this->setContent( $content );
-		if( !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Attributes must be given as Array.' );
 		if( count( $attributes ) )
 			foreach( $attributes as $key => $value )
-				$this->setAttribute( $key, $value );
+				$this->setAttribute( (string) $key, (string) $value );
 	}
 
-	public function __get( string $key ): mixed
+	public function __get( string $key ): string|array|NULL
 	{
-		switch( $key ){
-			case 'name':
-			case 'nodeName':
-				return $this->nodeName;
-			case 'content':
-			case 'nodeContent':
-			case 'nodeValue':
-				return $this->content;
-			case 'attr':
-			case 'attributes':
-				return $this->attributes;
-			default:
-				throw new InvalidArgumentException( 'Property "'.$key.'" not defined.' );
-		}
+		return match( $key ){
+			'name', 'nodeName'						=> $this->nodeName,
+			'content', 'nodeContent', 'nodeValue'	=> $this->content,
+			'attr', 'attributes'					=> $this->attributes,
+			default => throw new InvalidArgumentException('Property "' . $key . '" not defined.'),
+		};
 	}
 
 	/**
@@ -107,7 +100,7 @@ class Node
 	 *	Returns an Attribute if it is set.
 	 *	@access		public
 	 *	@param		string		$key			Key of Attribute
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
 	public function getAttribute( string $key ): ?string
 	{
@@ -276,6 +269,21 @@ class Node
 		}
 		if( $children !== $this->children )
 			$this->children = $children;
+		return $this;
+	}
+
+	/**
+	 *	Removes Child Node at given position.
+	 *	@access		public
+	 *	@param		int			$index			Position of Child Node to be removed
+	 *	@return		self
+	 *	@throws		OutOfRangeException			if no child node exists at given position
+	 */
+	public function removeChildAt( int $index ): self
+	{
+		if( !array_key_exists( $index, $this->children ) )
+			throw new OutOfRangeException( 'No child node at position '.$index );
+		array_splice( $this->children, $index, 1 );
 		return $this;
 	}
 

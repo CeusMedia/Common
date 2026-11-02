@@ -1,4 +1,7 @@
 <?php /** @noinspection HtmlDeprecatedTag */
+
+declare(strict_types=1);
+
 /** @noinspection XmlDeprecatedElement */
 /** @noinspection PhpUnused */
 /** @noinspection HtmlDeprecatedAttribute */
@@ -8,7 +11,7 @@
 /**
  *	Builds HTML Components.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -26,7 +29,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +41,7 @@ namespace CeusMedia\Common\UI\HTML;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -93,8 +96,8 @@ class Elements extends FormElements
 	{
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
 		$code = '
-		<input id="chkbut_'.$name.'" type="submit" class="'.$ins_class.'" value="'.$text.'" onClick="switchCheckButton(\''.$name.'\', \''.( $class ? $class."_" : "" ).'\');" onFocus="this.blur()"/>
-		<input id="'.$name.'" type="hidden" name="'.$name.'" value="'.$value.'"/>';
+		<input id="chkbut_'.self::escapeAttribute( $name ).'" type="submit" class="'.self::escapeAttribute( $ins_class ).'" value="'.self::escapeAttribute( $text ).'" onClick="switchCheckButton(\''.self::escapeAttribute( $name ).'\', \''.self::escapeAttribute( $class ? $class."_" : "" ).'\');" onFocus="this.blur()"/>
+		<input id="'.self::escapeAttribute( $name ).'" type="hidden" name="'.self::escapeAttribute( $name ).'" value="'.self::escapeAttribute( $value ).'"/>';
 		return $code;
 	}
 
@@ -113,11 +116,11 @@ class Elements extends FormElements
 	 *	@param		string|NULL		$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	public static function RadioLabel( string $name, $label, $value, ?bool $checked = NULL, ?string $class = NULL, ?string $readOnly = NULL ): string
+	public static function RadioLabel( string $name, mixed $label, mixed $value, ?bool $checked = NULL, ?string $class = NULL, ?string $readOnly = NULL ): string
 	{
-		$radio		= Elements::Radio( $name, $value, $checked, $class, $readOnly );
+		$radio		= Elements::Radio( $name, $value, $checked ?? FALSE, $class, $readOnly ?? FALSE );
 		$field		= Elements::FieldCell( '', $radio );
-		$label		= Elements::LabelCell( '', $label, $class );
+		$label		= Elements::LabelCell( '', (string) $label, $class ?? '' );
 		$content	= '<tr>'.$field.$label.'</tr>';
 		$code		= Elements::Table( $content, '', '' );
 		return $code;
@@ -138,7 +141,7 @@ class Elements extends FormElements
 			$crypt	= str_replace( "@", " (at) ", $crypt );
 			$crypt	= str_replace( ".", " [dot] ", $crypt );
 
-			return '<span class="'.$class.'"><span class="mailAddress">'.$crypt.'</span><span class="mailName">'.$label.'</span></span>';
+			return '<span class="'.self::escapeAttribute( $class ).'"><span class="mailAddress">'.htmlspecialchars( $crypt, ENT_QUOTES, 'UTF-8' ).'</span><span class="mailName">'.$label.'</span></span>';
 		}
 		else
 			return self::Link( "mailto:".$address, $label, $class );
@@ -213,7 +216,7 @@ class Elements extends FormElements
 	 */
 	public static function Anchor( string $name ): string
 	{
-		$code	= "<a name='".$name."'></a>";
+		$code	= "<a name='".self::escapeAttribute( $name )."'></a>";
 		return $code;
 	}
 
@@ -226,7 +229,7 @@ class Elements extends FormElements
 	 *	@param		mixed		$text		Text within HelpHover
 	 *	@param		string		$class		CSS Class of HelpHover
 	 */
-	public static function HelpHover( $html, $text, string $class = 'helptext' ): string
+	public static function HelpHover( mixed $html, mixed $text, string $class = 'helptext' ): string
 	{
 		$id	= uniqid( "hhItem" );
 		$code	= "<span class=\"hover\" id=\"".$id."\">".$html."</span><div class=\"".$class."\" id=\"".$id."Help\">".$text."</div>";
@@ -242,10 +245,10 @@ class Elements extends FormElements
 	 *	@param		mixed		$text		Text within ToolTip
 	 *	@param		string		$class		CSS Class of ToolTip
 	 */
-	public static function ToolTip( $html, $text, string $class = 'container' ): string
+	public static function ToolTip( mixed $html, mixed $text, string $class = 'container' ): string
 	{
 		$id		= uniqid( "ttItem" );
-		$text	= str_replace( "  ", "<br/>", $text );
+		$text	= str_replace( "  ", "<br/>", (string) $text );
 		$tip		= "
 <div id='".$id."' class='tooltip' onClick=\"ToolTip.hide('".$id."');\">
   <div class='".$class."'>
@@ -268,10 +271,10 @@ class Elements extends FormElements
 	 *	@param		string		$class			CSS-Klasse des Acronyms
 	 *	@return		string
 	 */
-	public static function Acronym( $text, $description, string $class = "" ): string
+	public static function Acronym( mixed $text, mixed $description, string $class = "" ): string
 	{
-		$ins_title		= " title=\"".$description."\"";
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
+		$ins_title		= " title=\"".self::escapeAttribute( $description )."\"";
+		$ins_class	= $class ? " class=\"".self::escapeAttribute( $class )."\"" : "";
 		$code		= "<acronym".$ins_title.$ins_class.">".$text."</acronym>";
 		return $code;
 	}
@@ -289,8 +292,8 @@ class Elements extends FormElements
 		$args	= func_get_args( );
 		if( is_array( $args[0] ) )
 			$args	= $args[0];
-		if( preg_match( "@,@", $args[0] ) )
-			$args	= explode( ",", $args[0] );
+		if( preg_match( "@,@", (string) $args[0] ) )
+			$args	= explode( ",", (string) $args[0] );
 		if( sizeof( $args ) ){
 			foreach( $args as $arg )
 				$cols[] = "<col width=\"".$arg."\"/>";
@@ -311,7 +314,7 @@ class Elements extends FormElements
 	 *	@param		integer		$colspan			Anzahl der überstreckten Spalten
 	 *	@return		string
 	 */
-	public static function FieldCell( string $field_id, $field_element, string $class = "field", string $suffix = "", int $colspan = 1 ): string
+	public static function FieldCell( string $field_id, mixed $field_element, string $class = "field", string $suffix = "", int $colspan = 1 ): string
 	{
 		$ins_id		= $field_id ? " id=\"fld_".$field_id."\"" : "";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -349,7 +352,7 @@ class Elements extends FormElements
 	 *	@param		int|NULL	$height			Höhenangabe
 	 *	@return		string
 	 */
-	public static function Image( $url, $title, string $class = "", ?int $width = NULL, ?int $height = NULL ): string
+	public static function Image( mixed $url, mixed $title, string $class = "", ?int $width = NULL, ?int $height = NULL ): string
 	{
 		$attributes	= array(
 			'src'		=> $url,
@@ -427,7 +430,7 @@ class Elements extends FormElements
 			'tabindex'	=> $tabindex	?: NULL,
 			'target'	=> $target		?: NULL,
 			'rel'		=> $relation	?: NULL,
-			'onclick'	=> $confirm		? "return confirm('".$confirm."')" : NULL,
+			'onclick'	=> $confirm		? "return confirm(".json_encode( $confirm, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP ).")" : NULL,
 		);
 		return Tag::create( "a", $name, $attributes );
 	}
@@ -479,7 +482,7 @@ class Elements extends FormElements
 		$code	= "
 <span onclick=\"ImagePreview.change('div_".$id."');\">".$html."</span>
 <div id=\"div_".$id."\" class=\"".$class."\">".$ins_zoom."
-  <img id=\"img_".$id."\" class=\"".$class."\" src=\"".$url."\" alt=\"".$title."\" title=\"".$title."\" onclick=\"ImagePreview.hide('div_".$id."');\"/>
+  <img id=\"img_".$id."\" class=\"".$class."\" src=\"".self::escapeAttribute( $url )."\" alt=\"".self::escapeAttribute( $title )."\" title=\"".self::escapeAttribute( $title )."\" onclick=\"ImagePreview.hide('div_".$id."');\"/>
 </div>";
 		return $code;
 	}
@@ -599,5 +602,17 @@ class Elements extends FormElements
 		$content	= "\n".implode( "\n", $items )."\n".$indent1;
 		$tag		= Tag::create( "ul", $content, $attributes );
 		return $indent1.$tag."\n".$indent2;
+	}
+
+	/**
+	 *	Escapes a value for use in an HTML attribute; already escaped entities are kept.
+	 *	@access		protected
+	 *	@static
+	 *	@param		mixed		$value		Value to escape
+	 *	@return		string
+	 */
+	protected static function escapeAttribute( mixed $value ): string
+	{
+		return htmlspecialchars( (string) $value, ENT_QUOTES, 'UTF-8', FALSE );
 	}
 }

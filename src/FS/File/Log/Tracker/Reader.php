@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader and Parser for Tracker Log File.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log_Tracker
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use CeusMedia\Common\FS\File\Log\Reader as LogReader;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log_Tracker
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -149,6 +151,7 @@ class Reader extends LogReader
 						$visitors[$visitor]	= 0;
 					}
 					$visitors[$visitor] ++;
+					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
 				else{
 					$visitor++;
@@ -157,6 +160,8 @@ class Reader extends LogReader
 				}
 			}
 		}
+		if( 0 === count( $visitors ) )
+			return 0.0;
 		return round( array_sum( $visitors ) / count( $visitors ), 1 );
 	}
 
@@ -173,7 +178,7 @@ class Reader extends LogReader
 		foreach( $this->data as $entry ){
 			if( $entry['remote_addr'] != $this->skip ){
 				if( $entry['referer_uri'] ){
-					if( $skip && preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
+					if( $skip && preg_match( "#".preg_quote( $skip, '#' )."#i", $entry['referer_uri'] ) )
 						continue;
 					if( isset( $referrers[$entry['referer_uri']] ) )
 						$referrers[$entry['referer_uri']] ++;
@@ -199,9 +204,10 @@ class Reader extends LogReader
 		$data	= $this->data;
 		if( $max )
 			$data	= array_reverse( $data );
+		$e	= static fn( $value ): string => htmlspecialchars( (string) $value, ENT_QUOTES, 'UTF-8' );
 		foreach( $data as $entry )
 			if( $entry['remote_addr'] != $this->skip ){
-				$lines[]	= "<tr><td>".$entry['datetime']."</td><td>".$entry['remote_addr']."</td><td>".$entry['request_uri']."</td><!--<td>".$entry['referer_uri']."</td>--><td>".$entry['useragent']."</td></tr>";
+				$lines[]	= "<tr><td>".$e( $entry['datetime'] )."</td><td>".$e( $entry['remote_addr'] )."</td><td>".$e( $entry['request_uri'] )."</td><!--<td>".$e( $entry['referer_uri'] )."</td>--><td>".$e( $entry['useragent'] )."</td></tr>";
 				if( $max && count( $lines ) >= $max )
 					break;
 			}
@@ -253,11 +259,14 @@ class Reader extends LogReader
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function parse()
+	public function parse(): void
 	{
 		$lines	= $this->read();
-		foreach( $lines as $line )
-			$this->data[]	= $this->parseLine( $line );
+		foreach( $lines as $line ){
+			$entry	= $this->parseLine( $line );
+			if( NULL !== $entry )
+				$this->data[]	= $entry;
+		}
 	}
 
 	/**
@@ -266,10 +275,18 @@ class Reader extends LogReader
 	 *	@param		string		$line			Line to parse
 	 *	@return		array
 	 */
-	protected function parseLine( string $line ): array
+	protected function parseLine( string $line ): ?array
 	{
-		$data	= preg_replace_callback( $this->patterns, [$this, 'callback'], $line );
-		return unserialize( $data );
+		if( 1 !== preg_match( $this->patterns, trim( $line ), $matches ) )
+			return NULL;
+		return [
+			'timestamp'		=> $matches[1],
+			'datetime'		=> $matches[2],
+			'remote_addr'	=> $matches[3],
+			'request_uri'	=> $matches[4],
+			'referer_uri'	=> $matches[5],
+			'useragent'		=> $matches[6],
+		];
 	}
 
 	/**

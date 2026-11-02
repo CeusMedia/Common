@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Validator for XML Syntax.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +39,7 @@ use DOMDocument;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -69,7 +72,9 @@ class SyntaxValidator
 	}
 
 	/**
-	 *	Validates XML Document.
+	 *	Validates XML syntax (well-formedness) and stores the DOM document if valid.
+	 *	Errors are collected using libxml, independent of PHP error display settings.
+	 *	No DTD is loaded or validated.
 	 *	@access		public
 	 *	@param		string		$xml		XML to be validated
 	 *	@return		bool
@@ -77,13 +82,19 @@ class SyntaxValidator
 	public function validate( string $xml ): bool
 	{
 		$this->document	= new DOMDocument();
-		ob_start();
-		$this->document->validateOnParse	= TRUE;
-		$this->document->loadXML( $xml );
-		$this->errors	= ob_get_contents() ?: NULL;
-		ob_end_clean();
-		if( !$this->errors )
-			return TRUE;
-		return FALSE;
+		$this->errors	= NULL;
+		$useErrors		= libxml_use_internal_errors( TRUE );
+		libxml_clear_errors();
+		$loaded			= '' !== trim( $xml ) && $this->document->loadXML( $xml, LIBXML_NONET );
+		$messages		= [];
+		foreach( libxml_get_errors() as $error )
+			if( $error->level >= LIBXML_ERR_ERROR )
+				$messages[]	= trim( $error->message ).' in line '.$error->line;
+		libxml_clear_errors();
+		libxml_use_internal_errors( $useErrors );
+		if( !$loaded && [] === $messages )
+			$messages[]	= 'XML could not be parsed';
+		$this->errors	= [] !== $messages ? implode( PHP_EOL, $messages ) : NULL;
+		return NULL === $this->errors;
 	}
 }

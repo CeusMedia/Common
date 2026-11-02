@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Base Tree implementation.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,14 +37,14 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Node
 {
 	/**	@var	array		$children		Array of Children */
-	protected $children		= [];
+	protected array $children		= [];
 
 	/**
 	 *	Adds a child to Tree.
@@ -52,7 +54,7 @@ class Node
 	 *	@return		void
 	 *	@throws		InvalidArgumentException
 	 */
-	public function addChild( string $name, $child )
+	public function addChild( string $name, mixed $child ): void
 	{
 		if( isset( $this->children[$name] ) )
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is already existing.' );
@@ -64,7 +66,7 @@ class Node
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function clearChildren()
+	public function clearChildren(): void
 	{
 		$this->children = [];
 	}
@@ -75,7 +77,7 @@ class Node
 	 *	@param		string		$name		Child name
 	 *	@return		mixed
 	 */
-	public function getChild( string $name )
+	public function getChild( string $name ): mixed
 	{
 		if( !array_key_exists( $name, $this->children ) )
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is not existing.' );

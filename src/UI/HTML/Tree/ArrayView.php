@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\UI\HTML\Tree;
 
 use CeusMedia\Common\UI\HTML\Elements as HtmlElements;
@@ -12,7 +14,7 @@ use InvalidArgumentException;
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview from an Array of Nodes.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -30,7 +32,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -115,7 +117,8 @@ class ArrayView
 			if( !isset( $node['label'] ) )
 				throw new InvalidArgumentException( 'A Node must at least have a Label.' );
 
-			$node['type']	= ( isset( $node['type'] ) && $node['type'] ) ? $node['type'] : isset( $node['children'] ) && $node['children'];
+			$hasChildren	= isset( $node['children'] ) && count( $node['children'] ) > 0;
+			$node['type']	= ( isset( $node['type'] ) && $node['type'] ) ? $node['type'] : ( $hasChildren ? 'node' : 'leaf' );
 			$node['class']	= ( isset( $node['class'] ) && $node['class'] ) ? $node['class'] : $node['type'];
 			$node['linked']	= ( isset( $node['linked'] ) && $node['linked'] ) ? TRUE : $node['type'] == "leaf";
 
@@ -125,7 +128,7 @@ class ArrayView
 				//  generate ID
 				$node['id']	= rawurlencode( $way.$node['label'] );
 
-			$linkClass	= rawurlencode( $currentId ) == $node['id'] ? 'selected' : NULL;
+			$linkClass	= rawurlencode( $currentId ?? '' ) == $node['id'] ? 'selected' : NULL;
 
 			$label	= HtmlTag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
 			//  linked Item
@@ -142,8 +145,8 @@ class ArrayView
 			}
 
 			$children	= new ArrayObject();
-			if( $node['type'] == "node" )
-				$children	= new ArrayObject( $node['children'] );
+			if( $node['type'] == "node" && isset( $node['children'] ) )
+				$children	= new ArrayObject( (array) $node['children'] );
 
 			$sublist	= "\n".$this->constructTree( $children, $currentId, [], $level + 1, $way.$node['label'] );
 			$label		.= $sublist;

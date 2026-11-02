@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -7,7 +9,7 @@
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,7 +27,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -48,7 +50,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -66,7 +68,7 @@ class Editor extends Reader
 	public function __construct( string $folderName, int $creationMode = 0640, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		parent::__construct( $folderName );
-		if( !self::isFolder( $folderName ) && $creationMode !== NULL )
+		if( !self::isFolder( $folderName ) )
 			self::createFolder( $folderName, $creationMode, $creationUser, $creationGroup );
 	}
 
@@ -90,7 +92,7 @@ class Editor extends Reader
 			RecursiveIteratorIterator::SELF_FIRST
 		);
 		foreach( $iterator as $item )
-			$number += (int) chgrp( $item, $groupName );
+			$number += (int) chgrp( (string) $item, $groupName );
 		return $number;
 	}
 
@@ -115,7 +117,7 @@ class Editor extends Reader
 			RecursiveIteratorIterator::SELF_FIRST
 		);
 		foreach( $iterator as $item )
-			$number += (int) chmod( $item, $mode );
+			$number += (int) chmod( (string) $item, $mode );
 		return $number;
  	}
 
@@ -139,7 +141,7 @@ class Editor extends Reader
 			RecursiveIteratorIterator::SELF_FIRST
 		);
 		foreach( $iterator as $item )
-			$number += (int) chown( $item, $userName );
+			$number += (int) chown( (string) $item, $userName );
 		return $number;
 	}
 
@@ -212,7 +214,7 @@ class Editor extends Reader
 	 *	@param		string|NULL	$groupName		Group Name
 	 *	@return		bool
 	 */
-	public static function createFolder( string $folderName, $mode = 0770, ?string $userName = NULL, ?string $groupName = NULL ): bool
+	public static function createFolder( string $folderName, int $mode = 0770, ?string $userName = NULL, ?string $groupName = NULL ): bool
 	{
 		if( self::isFolder( $folderName ) )
 			return FALSE;

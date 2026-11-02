@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Access to DDNSS (ddnss.de) API.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -30,6 +32,7 @@ namespace CeusMedia\Common\Net\API;
 
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
+use RuntimeException;
 
 /**
  *	Access to DDNSS (ddnss.de) API.
@@ -37,14 +40,14 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class DDNSS
 {
 	/**	@var		string		Base URL for update */
-	public static $urlUpdate	= "https://ddnss.de/upd.php?key=%s&host=%s";
+	public static string $urlUpdate	= "https://ddnss.de/upd.php?key=%s&host=%s";
 
 	/**
 	 *	Updated host or hosts.
@@ -52,14 +55,15 @@ class DDNSS
 	 *	@param		string			$key		Auth key from DDNSS
 	 *	@param		string|array	$hosts		Host or list of hosts
 	 *	@return		integer			Number of updated hosts
+	 *	@throws		RuntimeException	if request failed
 	 *	@todo		parse response header DDNSS-Response
 	 *	@todo		and handle update errors
 	 */
-	public static function update( string $key, $hosts ): int
+	public static function update( string $key, string|array $hosts ): int
 	{
 		if( is_array( $hosts ) )
 			$hosts	= implode( ",", $hosts );
-		$url	= sprintf( self::$urlUpdate, $key, $hosts );
+		$url	= sprintf( self::$urlUpdate, rawurlencode( $key ), rawurlencode( $hosts ) );
 		try{
 			$reader		= new NetReader( $url );
 			$reader->setUserAgent( "cURL" );
@@ -70,7 +74,7 @@ class DDNSS
 			return (int) $number;
 		}
 		catch( Exception $e ){
-			die( $e->getMessage() );
+			throw new RuntimeException( 'DDNSS update failed: '.$e->getMessage(), 0, $e );
 		}
 	}
 }

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -29,13 +31,14 @@
 namespace CeusMedia\Common\ADT\JSON;
 
 use InvalidArgumentException;
+use JsonException;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			code doc
@@ -46,21 +49,24 @@ class Converter
 {
 	public static function convertToArray( string $json ): array
 	{
-		$json	= json_decode( $json );
-		if( $json === FALSE )
-			throw new InvalidArgumentException( 'JSON String is not valid.' );
-		$array	= [];
-		self::convertToArrayRecursive( $json, $array );
+		try{
+			$array	= json_decode( $json, TRUE, 512, JSON_THROW_ON_ERROR );
+		}
+		catch( JsonException $e ){
+			throw new InvalidArgumentException( 'JSON String is not valid.', 0, $e );
+		}
+		if( !is_array( $array ) )
+			throw new InvalidArgumentException( 'JSON String does not contain an object or array.' );
 		return $array;
 	}
 
 	/**
-	 *	@param		object|array		$node
+	 *	@param		mixed				$node
 	 *	@param		array				$array
 	 *	@param		string|int|NULL		$name
 	 *	@return		void
 	 */
-	protected static function convertToArrayRecursive( $node, &$array, $name = NULL )
+	protected static function convertToArrayRecursive( mixed $node, &$array, string|int|NULL $name = NULL ): void
 	{
 		if( $name ){
 			if( is_object( $node ) )

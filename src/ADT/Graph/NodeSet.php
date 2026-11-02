@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	NodeSet to store and manipulate nodes in a graph.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -52,15 +54,15 @@ class NodeSet implements Countable
 	 *	@param		mixed			$nodeValue		Value of the new Node
 	 *	@return 	Node
 	 */
-	public function addNode( string $nodeName, $nodeValue = '' ): Node
+	public function addNode( string $nodeName, mixed $nodeValue = '' ): Node
 	{
-		$newNode = new Node( $nodeName, $nodeValue );
-		if( !$this->isNode( $newNode ) ){
-			$this->nodes[] = $newNode;
-			return $newNode;
-		}
-		else
-			return $this->getNode( $nodeName );
+		//  node names are unique, so an existing node is returned
+		$existing	= $this->getNode( $nodeName );
+		if( NULL !== $existing )
+			return $existing;
+		$newNode		= new Node( $nodeName, $nodeValue );
+		$this->nodes[]	= $newNode;
+		return $newNode;
 	}
 
 	/**
@@ -120,7 +122,7 @@ class NodeSet implements Countable
 	private function getNodeIndex( Node $node ): int
 	{
 		for( $i=0; $i<$this->count(); $i++ )
-			if( $this->nodes[$i] == $node )
+			if( $this->nodes[$i] === $node )
 				return $i;
 		return -1;
 	}
@@ -156,10 +158,10 @@ class NodeSet implements Countable
 	public function removeNode( Node $node ): self
 	{
 		if( !$this->isNode( $node ) )
-			throw new Exception( 'Edge is not existing.' );
+			throw new Exception( 'Node is not existing.' );
 		$index = $this->getNodeIndex( $node );
 		unset( $this->nodes[$index] );
-		sort( $this->nodes );
+		$this->nodes	= array_values( $this->nodes );
 		return $this;
 	}
 }

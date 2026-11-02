@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Sniffer for Languages accepted by an HTTP Request.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,13 +23,14 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\Net\HTTP\Sniffer;
 
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 
 /**
@@ -34,7 +38,7 @@ use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -53,7 +57,7 @@ class Language
 	 */
 	public static function getLanguage( array $allowed, ?string $default = NULL ): ?string
 	{
-		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' ) ?: '';
+		$accept	= Env::getServerVariable( 'HTTP_ACCEPT_LANGUAGE' ) ?: '';
 		return static::getLanguageFromString( $accept, $allowed, $default );
 	}
 

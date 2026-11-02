@@ -1,5 +1,7 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 namespace CeusMedia\Common\ADT\JSON;
 
 use CeusMedia\Common\Exception\Conversion as ConversionException;
@@ -20,9 +22,8 @@ class Encoder
 	public function encode( mixed $data, int $flags = 0 ): string
 	{
 		try{
-			/**	@var string $json */
 			$json	= json_encode( $data, $flags | JSON_THROW_ON_ERROR );
-			return $json;
+			return $json ?: '';
 		}
 		catch( Throwable $t ){
 			throw ConversionException::create( 'Conversion to JSON failed: '.$t->getMessage(), 0, $t );

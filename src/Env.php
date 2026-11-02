@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handler for system environment variables.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -40,7 +42,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -91,6 +93,24 @@ class Env
 		return $default;
 	}
 
+	/**
+	 *	Get server or request variable, like REQUEST_URI, REMOTE_ADDR or HTTP_HOST.
+	 *	Reads the environment first, then $_SERVER, since some SAPIs (e.g. the built-in web server, php -S)
+	 *	provide request variables in $_SERVER only.
+	 *	@param		string			$key
+	 *	@param		string|NULL		$default
+	 *	@return		string|NULL
+	 */
+	public static function getServerVariable( string $key, ?string $default = NULL ): ?string
+	{
+		$value	= getenv( $key );
+		if( FALSE !== $value )
+			return $value;
+		if( isset( $_SERVER[$key] ) && is_scalar( $_SERVER[$key] ) )
+			return (string) $_SERVER[$key];
+		return $default;
+	}
+
 	public static function getAllAsJson(): string
 	{
 		$env	= getenv();
@@ -137,11 +157,11 @@ class Env
 		if( $reader->usesSections() )
 			foreach( $reader->getSections() as $section )
 				foreach( $reader->getProperties( TRUE, $section ) as $key => $value )
-					Env::set( str_replace( '.', '_', $section.'_'.$key ), $value );
+					Env::set( str_replace( '.', '_', $section.'_'.$key ), is_bool( $value ) ? (int) $value : $value );
 
 		else
 			foreach( $reader->getProperties() as $key => $value )
-				Env::set( str_replace( '.', '_', $key ), $value );
+				Env::set( str_replace( '.', '_', (string) $key ), is_bool( $value ) ? (int) $value : $value );
 	}
 
 	/**
@@ -160,6 +180,6 @@ class Env
 
 	public function __construct()
 	{
-		$this->workingPath	= getCwd();
+		$this->workingPath	= (string) getCwd();
 	}
 }

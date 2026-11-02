@@ -16,14 +16,13 @@ namespace CeusMedia\CommonTest\Net\FTP;
 
 use CeusMedia\Common\Net\FTP\Client;
 use CeusMedia\Common\Net\FTP\Connection;
-use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_FTP_Client.
  *	@package		Tests.net.ftp
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class ClientTest extends BaseCase
+class ClientTest extends FtpTestCase
 {
 	/** @var ?Client  */
 	protected ?Client $client			= NULL;
@@ -59,7 +58,7 @@ class ClientTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->config	= self::$_config['unitTest-FTP'] ?? [];
+		$this->config	= self::getFtpConfig();
 		$this->host		= $this->config['host'] ?? NULL;
 		$this->port		= (int) ( $this->config['port'] ?? 0 );
 		$this->username	= $this->config['user'] ?? NULL;
@@ -80,7 +79,7 @@ class ClientTest extends BaseCase
 		@file_put_contents( $this->local."source.txt", "source file" );
 		@file_put_contents( $this->local."folder/source.txt", "source file" );
 
-		$this->client	= new Client( $this->host, $this->port, $this->username, $this->password );
+		$this->client	= new Client( $this->host, $this->port, NULL, $this->username, $this->password );
 		if( $this->path )
 			$this->client->setPath( $this->path );
 	}
@@ -94,7 +93,7 @@ class ClientTest extends BaseCase
 		if( NULL !== $this->client )
 			return TRUE;
 		if( $markSkipped )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+			$this->markTestSkipped( 'Test FTP server is not available' );
 		return FALSE;
 	}
 
@@ -231,21 +230,21 @@ class ClientTest extends BaseCase
 	public function testGetFile()
 	{
 		$this->checkFtpConfig();
-		$creation	= $this->client->getFile( "test1.txt", "test_getFile" );
+		$creation	= $this->client->getFile( "test1.txt", sys_get_temp_dir().'/test_getFile' );
 		self::assertTrue( $creation );
 
 		$assertion	= "test1";
-		$creation	= file_get_contents( "test_getFile" );
+		$creation	= file_get_contents( sys_get_temp_dir().'/test_getFile' );
 		self::assertEquals( $assertion, $creation );
 
-		$creation	= $this->client->getFile( "folder/test3.txt", "test_getFile" );
+		$creation	= $this->client->getFile( "folder/test3.txt", sys_get_temp_dir().'/test_getFile' );
 		self::assertTrue( $creation );
 
 		$assertion	= "test3";
-		$creation	= file_get_contents( "test_getFile" );
+		$creation	= file_get_contents( sys_get_temp_dir().'/test_getFile' );
 		self::assertEquals( $assertion, $creation );
 
-		$creation	= $this->client->getFile( "not_existing", "test_getFile" );
+		$creation	= $this->client->getFile( "not_existing", sys_get_temp_dir().'/test_getFile' );
 		self::assertFalse( $creation );
 	}
 

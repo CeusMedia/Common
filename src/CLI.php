@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Command Line Interface.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -45,7 +47,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -54,8 +56,6 @@ class CLI
 	protected string $base;
 
 	protected ?object $logger		= NULL;
-
-	protected object $size;
 
 	protected string $logFile		= 'cli.log';
 
@@ -69,9 +69,8 @@ class CLI
 
 	public function __construct()
 	{
-		$this->base	= getCwd();
-		$this->size	= CliDimensions::getSize();
-		Text::$defaultLineLength	= $this->size->width - 1;
+		$this->base	= (string) getCwd();
+		Text::$defaultLineLength	= CliDimensions::getWidth() - 1;
 	}
 
 	/**
@@ -123,13 +122,13 @@ class CLI
 				continue;
 			$type		= gettype( $message );
 			if( in_array( $type, ['string', 'integer'] ) ){
-				if( strlen( trim( $message ) ) ){
-					$message	= trim( $message );
+				if( strlen( trim( (string) $message ) ) ){
+					$message	= trim( (string) $message );
 					$isCli ? fwrite( STDERR, $message ) : print( $message );
 				}
 			}
 			else{
-				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE );
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE ) ?? '';
 				$isCli ? fwrite( STDERR, $message ) : print( $message );
 			}
 		}
@@ -151,12 +150,13 @@ class CLI
 				continue;
 			$type		= gettype( $message );
 			if( in_array( $type, ['string', 'integer'] ) ){
+				$message	= (string) $message;
 				if( strlen( trim( $message ) ) ){
 					$isCli ? fwrite( STDOUT, $message ) : print( $message );
 				}
 			}
 			else{
-				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE );
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, NULL, NULL, TRUE ) ?? '';
 				$isCli ? fwrite( STDOUT, $message ) : print( $message );
 			}
 		}
@@ -166,17 +166,17 @@ class CLI
 
 	public function getColors(): int
 	{
-		return $this->size->colors;
+		return CliDimensions::getColors();
 	}
 
 	public function getHeight(): int
 	{
-		return $this->size->getHeight();
+		return CliDimensions::getHeight();
 	}
 
 	public function getWidth(): int
 	{
-		return $this->size->getWidth();
+		return CliDimensions::getWidth();
 	}
 
 	public function log( string $message ): bool
@@ -195,7 +195,7 @@ class CLI
 	 *	@return		void
 	 *	@throws		IoException
 	 */
-	public function ls( string $path = NULL, bool $mimeType = TRUE ): void
+	public function ls( ?string $path = NULL, bool $mimeType = TRUE ): void
 	{
 		$path	??= '.';
 		$path	= $this->realizePath( $path );
@@ -230,7 +230,7 @@ class CLI
 				$sfo	= $item->count( FS::TYPE_FOLDER, TRUE );
 				$sfi	= $item->count( FS::TYPE_FILE | FS::TYPE_LINK, TRUE );
 				$perm	= 'd'.FilePermissions::getStringFromFile( $item->getPathName() );
-				$date	= date( 'y-m-d H:i', $item->getTime() );
+				$date	= date( 'y-m-d H:i', (int) $item->getTime() );
 				CLI::out( join( [
 					Text::padRight( $name, $freeSize ),
 					$mimeType ? Text::padLeft( '[folder]', 20 ) : '',
@@ -248,7 +248,7 @@ class CLI
 				$mime	= self::shortenMimeType( $item->getMimeType() );
 				$size	= Text::formatBytes( $item->getSize() );
 				$perm	= FilePermissions::getStringFromFile( $item->getPathName() );
-				$date	= date( 'y-m-d H:i', $item->getTime() );
+				$date	= date( 'y-m-d H:i', (int) $item->getTime() );
 				CLI::out( join( [
 					Text::padRight( $name, $freeSize ),
 					$mimeType ? Text::padLeft( $mime, 20 ) : '',
@@ -271,7 +271,7 @@ class CLI
 			return self::$mimeTypeLabels[$mimeType];
 		[$topic, $type]	= explode( '/', $mimeType, 2 );
 		$short	= NULL;
-		$type	= preg_replace( '/^x-/', '', $type );
+		$type	= preg_replace( '/^x-/', '', $type ) ?? $type;
 		if( $topic === 'text' )
 			$short = 'T';
 		else if( $topic === 'application' )
@@ -300,8 +300,8 @@ class CLI
 			default:
 				$path	= $this->base.'/'.$path;
 		}
-		if( file_exists( $path ) )
-			return realpath( $path );
+		if( file_exists( $path ) && FALSE !== ( $realPath = realpath( $path ) ) )
+			return $realPath;
 		throw IoException::create( 'Path is not existing' )->setResource( $path );
 	}
 }

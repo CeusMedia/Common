@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Submits sitemap URL to Google webmaster tools.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google_Sitemap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
@@ -29,6 +31,7 @@
 
 namespace CeusMedia\Common\Net\API\Google\Sitemap;
 
+use CeusMedia\Common\Deprecation;
 use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
@@ -40,19 +43,20 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API_Google_Sitemap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
+ *	@deprecated		Google has turned off the sitemap ping endpoint, submit sitemaps via robots.txt or Search Console instead
  */
 class Submit
 {
 
 	/**	@var		string			$baseUrl		Base URL to Google webmaster tools */
-	public static $baseUrl			= "https://www.google.com/webmasters/tools/ping?sitemap=";
+	public static string $baseUrl		= "https://www.google.com/webmasters/tools/ping?sitemap=";
 
 	/**	@var		string|NULL		$lastError		Last error message if request went wrong */
-	protected static $lastError		= NULL;
+	protected static ?string $lastError	= NULL;
 
 	/**
 	 *	Returns error message of latest failed submit request.
@@ -75,6 +79,10 @@ class Submit
 	 */
 	static public function submit( $url ): bool
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '1.1' )
+			->setExceptionVersion( '1.2' )
+			->message( 'Google has turned off the sitemap ping endpoint, submit sitemaps via robots.txt or Search Console instead' );
 		if( $url instanceof URL )
 			$url	= (string) $url;
 		if( !is_string( $url ) )

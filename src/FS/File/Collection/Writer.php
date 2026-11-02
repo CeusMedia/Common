@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	A Class for reading and writing List Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use DomainException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -114,10 +116,10 @@ class Writer
 	 *	@param		string|NULL		$group			Group Name for chgrp()
 	 *	@return		int				Number of written bytes
 	 */
-	public static function save( string $fileName, array $list, $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
+	public static function save( string $fileName, array $list, int $mode = 0755, ?string $user = NULL, ?string $group = NULL ): int
 	{
 		$file	= new FileWriter( $fileName, $mode, $user, $group );
-		return $file->writeArray( $list );
+		return (int) $file->writeArray( $list );
 	}
 
 	/**

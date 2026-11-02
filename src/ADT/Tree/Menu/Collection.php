@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Tree Menu List Data Object used by UI_HTML_Tree_Menu.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -89,7 +91,9 @@ class Collection
 	 */
 	public function getAttribute( string $key ): string
 	{
-		return $this->attributes->get( $key );
+		$value	= $this->attributes->get( $key );
+		//  cast scalar values (like default flag) like weak mode did before strict types; missing values are empty
+		return is_scalar( $value ) ? (string) $value : '';
 	}
 
 	/**
@@ -98,7 +102,7 @@ class Collection
 	 *	@param		bool		$asArray		Return Array instead of Dictionary
 	 *	@return		Dictionary|array
 	 */
-	public function getAttributes( bool $asArray = FALSE )
+	public function getAttributes( bool $asArray = FALSE ): Dictionary|array
 	{
 		if( $asArray )
 			return $this->attributes->getAll();
@@ -154,12 +158,12 @@ class Collection
 	 *	@param		Dictionary|array	$array			Map Array or Dictionary of Attributes to set
 	 *	@return		self
 	 */
-	public function setAttributes( $array ): self
+	public function setAttributes( Dictionary|array $array ): self
 	{
 		if( $array instanceof Dictionary )
 			$array	= $array->getAll();
 		foreach( $array as $key => $value )
-			$this->attributes->set( $key, $value );
+			$this->attributes->set( (string) $key, $value );
 		return $this;
 	}
 

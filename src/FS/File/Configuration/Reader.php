@@ -1,10 +1,12 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +24,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -47,7 +49,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -68,7 +70,8 @@ class Reader extends Dictionary
 	 *	@throws		Exception
 	 *	@throws		InvalidArgumentException
 	 */
-	public function __construct( string $fileName, ?String $cachePath = NULL )
+	// @phpstan-ignore method.childParameterType, method.childParameterType, parameter.notOptional
+	public function __construct( string $fileName, ?string $cachePath = NULL )
 	{
 		parent::__construct();
 		$this->source	= $this->loadFile( $fileName, $cachePath );
@@ -143,7 +146,7 @@ class Reader extends Dictionary
 		if( is_string( $cachePath ) ){
 			$cachePath	= preg_replace( "@([^/])$@", "\\1/", $cachePath );
 			$cacheFile	= $cachePath.basename( $fileName ).".cache";
-			if( $this->tryToLoadFromCache( $cacheFile, filemtime( $fileName ) ) )
+			if( $this->tryToLoadFromCache( $cacheFile, (int) filemtime( $fileName ) ) )
 				return "cache";
 		}
 
@@ -168,7 +171,7 @@ class Reader extends Dictionary
 				throw new InvalidArgumentException( 'File Type "'.$info['extension'].'" is not supported.' );
 		}
 		ksort( $this->pairs );
-		if( is_string( $cachePath ) && isset( $cacheFile ) )
+		if( is_string( $cachePath ) )
 			FileWriter::save( $cacheFile, serialize( $this->pairs ), 0640 );
 		return $info['extension'];
 	}
@@ -355,6 +358,8 @@ class Reader extends Dictionary
 		$lastCache	= @filemtime( $cacheFile );
 		if( $lastCache && $lastChange <= $lastCache ){
 			$content	= file_get_contents( $cacheFile );
+			if( FALSE === $content )
+				return FALSE;
 			$array		= @unserialize( $content );
 			if( is_array( $array ) ){
 				$this->pairs	= $array;

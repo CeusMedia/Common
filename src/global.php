@@ -11,7 +11,7 @@ use CeusMedia\Common\UI\DevOutput;
  *	@param		string		$string	Code to print out
  *	@return		void
  */
-function code( string $string )
+function code( string $string ): void
 {
 	echo "<code>".$string."</code>";
 }
@@ -24,7 +24,7 @@ function code( string $string )
  *	@param		string		$flagKey	...
  *	@return		void
  */
-function dev( string $content, bool $force = FALSE, string $flagKey = 'CM_SHOW_DEV' )
+function dev( string $content, bool $force = FALSE, string $flagKey = 'CM_SHOW_DEV' ): void
 {
 	if( !( !$force && !( defined( $flagKey ) && constant( $flagKey ) ) ) )
 		echo $content;
@@ -38,15 +38,15 @@ function dev( string $content, bool $force = FALSE, string $flagKey = 'CM_SHOW_D
  *	@param		boolean		$return		Flag: Return output instead of printing it
  *	@return		string|NULL
  */
-function print_rx( $variable, bool $return = FALSE ): ?string
+function print_rx( mixed $variable, bool $return = FALSE ): ?string
 {
 	ob_start();
 	print_r( $variable );
 	if( $return )
 		ob_start();
-	xmp( ob_get_clean() );
+	xmp( (string) ob_get_clean() );
 	if( $return )
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	return NULL;
 }
 
@@ -62,7 +62,7 @@ function pre( string $string, bool $dump = FALSE ): ?string
 	ob_start();
 	echo "<pre>".htmlentities( $string, ENT_QUOTES, 'UTF-8' )."</pre>";
 	if( $dump )
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	print( ob_get_clean() );
 	return NULL;
 }
@@ -76,7 +76,7 @@ function pre( string $string, bool $dump = FALSE ): ?string
  *	@param		boolean		$return		Flag: Return output instead of printing it
  *	@return		string|NULL
  */
-function print_j( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
+function print_j( mixed $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
 {
 	$o		= new DevOutput();
 	$break	= DevOutput::$channelSettings[$o->channel]['lineBreak'];
@@ -97,7 +97,7 @@ function print_j( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $retur
  *	@param		string|NULL		$channel	...
  *	@return		string|NULL
  */
-function print_m( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE, ?string $channel = NULL ): ?string
+function print_m( mixed $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE, ?string $channel = NULL ): ?string
 {
 	$o		= new DevOutput();
 	if( $channel )
@@ -117,7 +117,7 @@ function print_m( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $retur
  *	@param		int|NULL		$factor		Space Factor
  *	@return		void
  */
-function print_globals( ?string $sign = NULL, ?int $factor = NULL )
+function print_globals( ?string $sign = NULL, ?int $factor = NULL ): void
 {
 	$globals	= $GLOBALS;
 	unset( $globals['GLOBALS'] );
@@ -132,7 +132,7 @@ function print_globals( ?string $sign = NULL, ?int $factor = NULL )
  *	@param		bool		$break			Flag: break Line before Print
  *	@return		void
  */
-function remark( string $text = '', array $parameters = [], bool $break = TRUE )
+function remark( string $text = '', array $parameters = [], bool $break = TRUE ): void
 {
 	$o = new DevOutput();
 	if( $break )
@@ -148,7 +148,7 @@ function remark( string $text = '', array $parameters = [], bool $break = TRUE )
  *	@param		int|NULL		$factor			Space Factor
  *	@return		void
  */
-function show( $mixed, ?string $sign = NULL, ?int $factor = NULL )
+function show( mixed $mixed, ?string $sign = NULL, ?int $factor = NULL ): void
 {
 	print_m( $mixed, $sign, $factor );
 }
@@ -158,7 +158,7 @@ function show( $mixed, ?string $sign = NULL, ?int $factor = NULL )
  *	@param		DOMNode			$node			DOM node to print
  *	@return		void
  */
-function showDOM( DOMNode $node )
+function showDOM( DOMNode $node ): void
 {
 	$o = new DevOutput();
 	$o->showDOM( $node );
@@ -181,6 +181,6 @@ function xmp( string $string, bool $dump = FALSE ): ?string
 	else
 		echo "<xmp>".$string."</xmp>";
 	if( $dump )
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	return NULL;
 }

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Converter between OPML and Tree Menu Structure.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use CeusMedia\Common\XML\OPML\Parser as OpmlParser;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -56,13 +58,13 @@ class Converter
 		foreach( $lines as $line ){
 			if( isset( $line['outlines'] ) && count( $line['outlines'] ) ){
 				if( isset ( $line['url'] ) )
-					$item	= new Item( $line['url'], $line['text'] );
+					$item	= new Item( $line['url'], $line['text'] ?? '' );
 				else
-					$item	= new TreeMenuCollection( $line['text'] );
+					$item	= new TreeMenuCollection( $line['text'] ?? '' );
 				self::buildMenuListFromOutlines( $line['outlines'], $item );
 			}
 			else{
-				$item	= new Item( $line['url'], $line['text'] );
+				$item	= new Item( $line['url'] ?? '', $line['text'] ?? '' );
 			}
 			$container->addChild( $item );
 		}
@@ -77,7 +79,8 @@ class Converter
 	 *	@param		string|NULL		$rootClass		CSS Class of root node
 	 *	@return		TreeMenuCollection
 	 */
-	public static function convertFromOpml( string $opml, string $labelRoot, string $rootClass = NULL ): TreeMenuCollection
+	public static function convertFromOpml( string $opml, string $labelRoot, ?string $rootClass = NULL ): TreeMenuCollection
+
 	{
 		$parser		= new OpmlParser();
 		$parser->parse( $opml );

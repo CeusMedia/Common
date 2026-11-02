@@ -1,12 +1,14 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2025 Christian Würker
+ *	@copyright		2017-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -19,7 +21,7 @@ namespace CeusMedia\Common\Alg\Time;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2017-2025 Christian Würker
+ *	@copyright		2017-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -86,13 +88,13 @@ class Duration
 		$weeks		= ( $remaining - $days ) / 7;
 
 		if( $shorten && $weeks )
-			$days = $minutes = $seconds = 0;
+			$days = $hours = $minutes = $secs = 0;
 		else if( $shorten && $days )
-			$hours = $minutes = $seconds = 0;
+			$hours = $minutes = $secs = 0;
 		else if( $shorten && $hours )
-			$minutes = $seconds = 0;
+			$minutes = $secs = 0;
 		else if( $shorten && $minutes )
-			$seconds = 0;
+			$secs = 0;
 
 //		$duration	= ( $seconds ? $space.str_pad( $secs, 2, 0, STR_PAD_LEFT ).'s' : '' );
 //		$duration	= ( $minutes ? $space.( $hours ? str_pad( $minutes, 2, 0, STR_PAD_LEFT ).'m' : $minutes.'m' ) : '' ).$duration;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
  *
- *	Copyright (c) 2009-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2025 Christian Würker
+ *	@copyright		2009-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +37,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2025 Christian Würker
+ *	@copyright		2009-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -111,15 +111,17 @@ class Trimmer
 	protected static function strlen( string $string, ?string $encoding = NULL ): int
 	{
 		if( !function_exists( 'mb_strlen' ) )
-			return strlen( utf8_decode( $string ) );
+			return (int) preg_match_all( '/./su', $string );
 		$encoding	= $encoding ?: mb_internal_encoding();
 		return mb_strlen( $string, $encoding );
 	}
 
 	protected static function substr( string $string, int $start, ?int $length = NULL, ?string $encoding = NULL ): string
 	{
-		if( !function_exists( 'mb_substr' ) )
-			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
+		if( !function_exists( 'mb_substr' ) ){
+			$characters	= preg_split( '//u', $string, -1, PREG_SPLIT_NO_EMPTY ) ?: [];
+			return implode( '', array_slice( $characters, $start, $length ) );
+		}
 		$encoding	= $encoding ?: mb_internal_encoding();
 		return mb_substr( $string, $start, $length, $encoding );
 	}

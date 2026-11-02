@@ -1,11 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	This is a Bar Visualization Class.
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the {@link Chart} class.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -93,12 +95,12 @@ class BarAcross
 				$ani1	= HtmlTag::create( "animate", "", ['attributeName' => "width", 'attributeType' => "XML", 'begin' => "0s", 'dur' => "1s", 'fill' => "freeze", 'from' => 0, 'to' => $width] );
 				$ani2	= HtmlTag::create( "animate", "", ['attributeName' => "visibility", 'attributeType' => "CSS", 'begin' => "1s", 'dur' => "0.1s", 'fill' => "freeze", 'from' => 'hidden', 'to' => 'visible', 'calcMode' => 'discrete'] );
 				$tags[]	= HtmlTag::create( "rect", $ani1, ['x' => $barX, 'y' => $y, 'width' => 0, 'height' => 15, 'fill' => $color, 'style' => "filter: url(#flt)"] );
-				$tags[]	= HtmlTag::create( "text", $obj->desc, ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
+				$tags[]	= HtmlTag::create( "text", htmlspecialchars( $obj->desc, ENT_QUOTES, 'UTF-8' ), ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
 				$tags[]	= HtmlTag::create( "text", "[".$percent."%]".$ani2, ['x' => $descX, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right; visibility: hidden"] );
 			}
 			else{
 				$tags[]	= HtmlTag::create( "rect", "", ['x' => $barX, 'y' => $y, 'width' => $width, 'height' => 15, 'fill' => $color, 'style' => "filter: url(#flt)"] );
-				$tags[]	= HtmlTag::create( "text", $obj->desc, ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
+				$tags[]	= HtmlTag::create( "text", htmlspecialchars( $obj->desc, ENT_QUOTES, 'UTF-8' ), ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
 				$tags[]	= HtmlTag::create( "text", "[".$percent."%]", ['x' => $descX, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
 			}
 			$y = $y + 27;

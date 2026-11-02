@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for HTML Meta Tags.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,7 +35,7 @@ namespace CeusMedia\Common\Alg;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -54,7 +56,7 @@ class HtmlMetaTagReader
 	public static function getMetaTags( string $string, int $transformKeys = self::TRANSFORM_NO ): array
 	{
 		$metaTags	= [];
-		$match		= preg_match_all( "@<meta.*/?>@", $string, $tags );
+		$match		= preg_match_all( "@<meta\b[^>]*>@i", $string, $tags );
 		if( FALSE !== $match ){
 			foreach( $tags[0] as $tag ){
 				//  read HTML Tag Attributes

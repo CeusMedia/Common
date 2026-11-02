@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for HTTP Resources.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -29,7 +31,6 @@
 namespace CeusMedia\Common\Net\HTTP;
 
 use CeusMedia\Common\Net\CURL;
-use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Response\Decompressor as ResponseDecompressor;
 use CeusMedia\Common\Net\HTTP\Response\Parser as ResponseParser;
@@ -41,7 +42,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -79,7 +80,7 @@ class Reader
 	 *	@param		array		$options			Map of cURL Options
 	 *	@return		void
 	 */
-	protected function applyCurlOptions( CURL $curl, array $options = [] )
+	protected function applyCurlOptions( CURL $curl, array $options = [] ): void
 	{
 		foreach( $options as $key => $value ){
 			if( is_string( $key ) ){
@@ -101,7 +102,7 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function get( string $url, $headers = [], array $curlOptions = [] ): Response
+	public function get( string $url, array|HeaderSection $headers = [], array $curlOptions = [] ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
@@ -110,7 +111,7 @@ class Reader
 				$header	= $headers;
 			else
 				$header	= HeaderSection::getInstance()->addFieldPairs( $headers );
-			$curlOptions[CURLOPT_HTTPHEADER]	= HeaderRenderer::render( $header );
+			$curlOptions[CURLOPT_HTTPHEADER]	= array_map( static fn( $field ) => $field->toString(), $header->getFields() );
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 		$response		= $curl->exec( TRUE, TRUE );
@@ -131,14 +132,14 @@ class Reader
 	/**
 	 *	Returns Info Array or single Information from last cURL Request.
 	 *	@access		public
-	 *	@param		integer|NULL		$key		Information Key
+	 *	@param		string|NULL			$key		Information Key, like http_code or content_type
 	 *	@return		mixed
 	 */
-	public function getCurlInfo( ?int $key = NULL )
+	public function getCurlInfo( ?string $key = NULL ): mixed
 	{
 		if( !$this->curlInfo )
 			throw new RuntimeException( "No Request has been sent, yet." );
-		if( !$key )
+		if( NULL === $key || '' === $key )
 			return $this->curlInfo;
 		if( !array_key_exists( $key, $this->curlInfo ) )
 			throw new InvalidArgumentException( 'Status Key "'.$key.'" is invalid.' );
@@ -146,14 +147,18 @@ class Reader
 	}
 
 	/**
-	 *	...
+	 *	Returns value of a response header field of last GET request, case-insensitive.
+	 *	Values of repeated header fields are combined, separated by comma.
 	 *	@access		public
-	 *	@param		string		$key
+	 *	@param		string		$key		Header field name, like Content-Type
 	 *	@return		string|NULL
 	 */
 	public function getResponseHeader( string $key ): ?string
 	{
-		return $this->responseHeaders[$key] ?? NULL;
+		foreach( $this->responseHeaders as $name => $values )
+			if( 0 === strcasecmp( (string) $name, $key ) )
+				return implode( ', ', (array) $values );
+		return NULL;
 	}
 
 	/**
@@ -165,7 +170,7 @@ class Reader
 	 *	@param		array					$curlOptions	Map of cURL Options
 	 *	@return		Response
 	 */
-	public function post( string $url, array $data, $headers = [], array $curlOptions = [] ): Response
+	public function post( string $url, array $data, array|HeaderSection $headers = [], array $curlOptions = [] ): Response
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
@@ -174,7 +179,7 @@ class Reader
 				$header	= $headers;
 			else
 				$header	= HeaderSection::getInstance()->addFieldPairs( $headers );
-			$curlOptions[CURLOPT_HTTPHEADER]	= HeaderRenderer::render( $header );
+			$curlOptions[CURLOPT_HTTPHEADER]	= array_map( static fn( $field ) => $field->toString(), $header->getFields() );
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 

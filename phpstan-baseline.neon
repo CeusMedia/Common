@@ -1,0 +1,835 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Parameter \#1 \$array of function array_keys expects array, array\|CeusMedia\\Common\\ADT\\Collection\\Dictionary given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Alg/Obj/Constant.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, array\|CeusMedia\\Common\\ADT\\Collection\\Dictionary given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Alg/Obj/Constant.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\Alg\\Time\\Converter\:\:convertToTimestamp\(\) should return int but returns int\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Alg/Time/Converter.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\Alg\\Validation\\DefinitionValidator\:\:\$validator \(CeusMedia\\Common\\Alg\\Validation\\PredicateValidator\) does not accept object\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Alg/Validation/DefinitionValidator.php
+
+		-
+			message: '#^Call to an undefined method object\:\:log\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/CLI.php
+
+		-
+			message: '#^Non\-static access to static property CeusMedia\\Common\\CLI\\Dimensions\:\:\$colors\.$#'
+			identifier: staticProperty.nonStaticAccess
+			count: 1
+			path: src/CLI.php
+
+		-
+			message: '#^Non\-static access to static property CeusMedia\\Common\\CLI\\Dimensions\:\:\$height\.$#'
+			identifier: staticProperty.nonStaticAccess
+			count: 1
+			path: src/CLI.php
+
+		-
+			message: '#^Non\-static access to static property CeusMedia\\Common\\CLI\\Dimensions\:\:\$width\.$#'
+			identifier: staticProperty.nonStaticAccess
+			count: 2
+			path: src/CLI.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\CLI\:\:\$size \(CeusMedia\\Common\\CLI\\Dimensions\) does not accept object\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/CLI.php
+
+		-
+			message: '#^Parameter \#1 \$separator of function explode expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CLI/ArgumentParser.php
+
+		-
+			message: '#^Parameter \#3 \$value of function curl_setopt expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CLI/Downloader.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function preg_replace expects array\<float\|int\|string\>\|string, class\-string\<Throwable\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CLI/Exception/View.php
+
+		-
+			message: '#^Parameter \#2 \$length of function fgets expects int\<0, max\>\|null, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CLI/Prompt.php
+
+		-
+			message: '#^Instantiated class CeusMedia\\Common\\CLI\\RuntimeException not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/CLI/Question.php
+
+		-
+			message: '#^Parameter \#1 \$key of function array_key_exists expects int\|string, float\|int\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CLI/Question.php
+
+		-
+			message: '#^Throwing object of an unknown class CeusMedia\\Common\\CLI\\RuntimeException\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/CLI/Question.php
+
+		-
+			message: '#^Parameter \#1 \$separator of function explode expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CLI/RequestReceiver.php
+
+		-
+			message: '#^Parameter \#2 \$length of function fgets expects int\<0, max\>\|null, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CLI/Shell.php
+
+		-
+			message: '#^Cannot access offset ''gid'' on array\{0\: int, 1\: int, 2\: int, 3\: int, 4\: int, 5\: int, 6\: int, 7\: int, \.\.\.\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/FS/File/Arc/Tar.php
+
+		-
+			message: '#^Cannot access offset ''mode'' on array\{0\: int, 1\: int, 2\: int, 3\: int, 4\: int, 5\: int, 6\: int, 7\: int, \.\.\.\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/FS/File/Arc/Tar.php
+
+		-
+			message: '#^Cannot access offset ''mtime'' on array\{0\: int, 1\: int, 2\: int, 3\: int, 4\: int, 5\: int, 6\: int, 7\: int, \.\.\.\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/FS/File/Arc/Tar.php
+
+		-
+			message: '#^Cannot access offset ''size'' on array\{0\: int, 1\: int, 2\: int, 3\: int, 4\: int, 5\: int, 6\: int, 7\: int, \.\.\.\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/FS/File/Arc/Tar.php
+
+		-
+			message: '#^Cannot access offset ''uid'' on array\{0\: int, 1\: int, 2\: int, 3\: int, 4\: int, 5\: int, 6\: int, 7\: int, \.\.\.\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/FS/File/Arc/Tar.php
+
+		-
+			message: '#^Parameter \#1 \$directory of function chdir expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FS/File/Arc/Tar.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\FS\\File\\Backup\:\:getVersions\(\) should return array\<int\> but returns array\<int\<0, max\>, int\<0, max\>\|false\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/FS/File/Backup.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function touch expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FS/File/Backup.php
+
+		-
+			message: '#^Parameter \#2 \$mtime of function touch expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/FS/File/Backup.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function preg_replace_callback expects callable\(array\<string\>\)\: string, array\{string, ''_processUriCB''\} given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/FS/File/CSS/Relocator.php
+
+		-
+			message: '#^Cannot assign offset non\-falsy\-string to array\<string, string\>\|string\.$#'
+			identifier: offsetAssign.dimType
+			count: 1
+			path: src/FS/File/CSS/Theme/Finder.php
+
+		-
+			message: '#^Parameter \#2 \$length of function fgets expects int\<0, max\>\|null, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/FS/File/CSV/Iterator.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\FS\\File\\Collection\\Reader\:\:getIndex\(\) should return int but returns int\|string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/FS/File/Collection/Reader.php
+
+		-
+			message: '#^Argument of an invalid type array\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/FS/File/Configuration/Reader.php
+
+		-
+			message: '#^Offset ''extension'' might not exist on array\{dirname\?\: string, basename\: string, extension\?\: string, filename\: string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/FS/File/Configuration/Reader.php
+
+		-
+			message: '#^Parameter \#1 \$separator of function explode expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FS/File/ICal/Parser.php
+
+		-
+			message: '#^Argument of an invalid type array\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/FS/File/INI.php
+
+		-
+			message: '#^Parameter \#1 \$array of class CeusMedia\\Common\\ADT\\Collection\\Dictionary constructor expects array, array\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FS/File/INI.php
+
+		-
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FS/File/INI/Editor.php
+
+		-
+			message: '#^Cannot access offset 0 on list\<string\>\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/FS/File/INI/Reader.php
+
+		-
+			message: '#^Cannot access offset 1 on list\<string\>\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/FS/File/INI/Reader.php
+
+		-
+			message: '#^Cannot access offset string\|null on array\<string, bool\|string\|null\>\|bool\|string\|null\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/FS/File/INI/Reader.php
+
+		-
+			message: '#^Cannot assign new offset to list\<string\|null\>\|string\|null\.$#'
+			identifier: offsetAssign.dimType
+			count: 1
+			path: src/FS/File/INI/Reader.php
+
+		-
+			message: '#^Cannot assign offset string to array\<string, string\>\|string\.$#'
+			identifier: offsetAssign.dimType
+			count: 1
+			path: src/FS/File/INI/Reader.php
+
+		-
+			message: '#^Cannot use \+\+ on int\<0, max\>\|false\.$#'
+			identifier: preInc.type
+			count: 1
+			path: src/FS/File/INI/Reader.php
+
+		-
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FS/File/INI/Reader.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\FS\\File\\INI\\SectionReader\:\:\$data \(array\) does not accept array\|false\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/FS/File/INI/SectionReader.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\FS\\File\\JSON\\Reader\:\:load\(\) should return array\|object but returns array\|float\|int\|object\|string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/FS/File/JSON/Reader.php
+
+		-
+			message: '#^Argument of an invalid type list\<string\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/FS/File/Log/JSON/Reader.php
+
+		-
+			message: '#^Parameter \#1 \$stream of function fgets expects resource, resource\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/FS/File/PHP/Encoder.php
+
+		-
+			message: '#^Cannot access offset ''class'' on CeusMedia\\PhpParser\\Structure\\File_\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/FS/File/PHP/Test/Creator.php
+
+		-
+			message: '#^Offset 1 might not exist on array\{\}\|array\{non\-falsy\-string, non\-empty\-string\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/FS/File/PHP/Test/Creator.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\FS\\File\\Reader\:\:readArray\(\) should return array but returns list\<string\>\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/FS/File/Reader.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\FS\\Folder\\Reader\:\:getSize\(\) should return int but returns float\|int\|string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/FS/Folder/Reader.php
+
+		-
+			message: '#^Call to an undefined method object\:\:checkFile\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FS/Folder/SyntaxChecker.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getShortError\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/FS/Folder/SyntaxChecker.php
+
+		-
+			message: '#^Cannot access offset 9 on array\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Net/AtomTime.php
+
+		-
+			message: '#^Cannot call method setTimezone\(\) on DateTime\|false\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Net/AtomTime.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\Net\\AtomTime\:\:get\(\) should return DateTime but returns DateTime\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Net/AtomTime.php
+
+		-
+			message: '#^Argument of an invalid type list\<string\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Net/CURL.php
+
+		-
+			message: '#^Cannot access offset 0 on list\<string\>\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/Net/CURL.php
+
+		-
+			message: '#^Cannot access offset 1 on list\<string\>\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Net/CURL.php
+
+		-
+			message: '#^Cannot access offset 0 on list\<string\>\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Net/FTP/Reader.php
+
+		-
+			message: '#^Parameter \#3 \$value of function curl_setopt expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/HTTP/CrossDomainProxy.php
+
+		-
+			message: '#^Argument of an invalid type list\<string\>\|false supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Net/HTTP/Header/Field/Parser.php
+
+		-
+			message: '#^Parameter \#2 \$value of class CeusMedia\\Common\\Net\\HTTP\\Header\\Field constructor expects float\|int\|string, array\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/HTTP/Header/Field/Parser.php
+
+		-
+			message: '#^Cannot cast array\|float\|int\|string\|null to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Net/HTTP/Request.php
+
+		-
+			message: '#^Cannot assign new offset to list\<string\|null\>\|string\.$#'
+			identifier: offsetAssign.dimType
+			count: 1
+			path: src/Net/HTTP/Request/QueryParser.php
+
+		-
+			message: '#^Parameter \#1 \$separator of function explode expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/HTTP/Request/QueryParser.php
+
+		-
+			message: '#^Cannot cast array\|float\|int\|string\|null to string\.$#'
+			identifier: cast.string
+			count: 1
+			path: src/Net/HTTP/Request/Receiver.php
+
+		-
+			message: '#^Cannot access offset 0 on non\-empty\-array\<CeusMedia\\Common\\Net\\HTTP\\Header\\Field\>\|CeusMedia\\Common\\Net\\HTTP\\Header\\Field\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Net/HTTP/Response.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_reverse expects array, array\|CeusMedia\\Common\\Net\\HTTP\\Header\\Field given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/HTTP/Response/Decompressor.php
+
+		-
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, array\|CeusMedia\\Common\\Net\\HTTP\\Header\\Field given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/HTTP/Response/Decompressor.php
+
+		-
+			message: '#^Parameter \#1 \$parts of method CeusMedia\\Common\\Net\\Site\\Crawler\:\:buildUrl\(\) expects array, array\|CeusMedia\\Common\\ADT\\Collection\\Dictionary given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/Site/Crawler.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\Net\\XMPP\\XMPPHP\\BOSH\:\:__sendBody\(\) should return string but returns bool\|string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Net/XMPP/XMPPHP/BOSH.php
+
+		-
+			message: '#^Parameter \#2 \$data of function xml_parse expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/XMPP/XMPPHP/BOSH.php
+
+		-
+			message: '#^Parameter \#3 \$value of function curl_setopt expects array\|string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/XMPP/XMPPHP/BOSH.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\Net\\XMPP\\XMPPHP\\BOSH\:\:\$http_buffer \(array\<string\>\) does not accept array\<bool\|string\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Net/XMPP/XMPPHP/BOSH.php
+
+		-
+			message: '#^Parameter \#2 \$data of function xml_parse expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Net/XMPP/XMPPHP/XMLStream.php
+
+		-
+			message: '#^Parameter \#3 \$length of function mb_substr expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Net/XMPP/XMPPHP/XMLStream.php
+
+		-
+			message: '#^Parameter \#4 \$seconds of function stream_select expects int\|null, float\|int\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Net/XMPP/XMPPHP/XMLStream.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\Net\\XMPP\\XMPPHP\\XMLStream\:\:\$socket \(resource\|null\) does not accept resource\|false\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Net/XMPP/XMPPHP/XMLStream.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\Net\\XMPP\\XMPPHP\\XMLStream\:\:\$until \(array\<int, list\<string\>\>\) does not accept array\<int, array\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Net/XMPP/XMPPHP/XMLStream.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\Net\\XMPP\\XMPPHP\\XMLStream\:\:\$until \(array\<int, list\<string\>\>\) does not accept non\-empty\-array\<int, array\>\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/Net/XMPP/XMPPHP/XMLStream.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_shift expects array, list\<string\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/HTML/Index.php
+
+		-
+			message: '#^Parameter \#3 \$offset of method CeusMedia\\Common\\UI\\HTML\\Pagination\:\:buildButton\(\) expects int\|null, float\|int\<0, max\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/HTML/Pagination.php
+
+		-
+			message: '#^Parameter \#4 \$offset of method CeusMedia\\Common\\UI\\HTML\\Paging\:\:buildButton\(\) expects int\|null, float\|int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/HTML/Paging.php
+
+		-
+			message: '#^Cannot call method get\(\) on array\|CeusMedia\\Common\\ADT\\Collection\\Dictionary\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/UI/HTML/Tree/Menu.php
+
+		-
+			message: '#^Parameter \#3 \$attributes of static method CeusMedia\\Common\\UI\\HTML\\Tag\:\:create\(\) expects array, array\|CeusMedia\\Common\\ADT\\Collection\\Dictionary given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/HTML/Tree/Menu.php
+
+		-
+			message: '#^Parameter \#1 \$resource of method CeusMedia\\Common\\UI\\Image\:\:setResource\(\) expects GdImage, GdImage\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreate expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#2 \$color of function imagecolortransparent expects int\|null, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreate expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#2 \$red of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#3 \$green of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#4 \$blue of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#5 \$alpha of function imagecolorallocatealpha expects int\<0, 127\>, int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/UI/Image.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreate expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Captcha.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreate expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Captcha.php
+
+		-
+			message: '#^Parameter \#6 \$color of function imagettftext expects int, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Captcha.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Parameter \#2 \$red of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Parameter \#3 \$green of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Parameter \#4 \$blue of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Parameter \#5 \$alpha of function imagecolorallocatealpha expects int\<0, 127\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Parameter \#6 \$color of function imagefilledrectangle expects int, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\UI\\Image\\Creator\:\:\$resource \(GdImage\|null\) does not accept GdImage\|false\.$#'
+			identifier: assign.propertyType
+			count: 3
+			path: src/UI/Image/Creator.php
+
+		-
+			message: '#^Parameter \#2 \$red of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Drawer.php
+
+		-
+			message: '#^Parameter \#3 \$green of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Drawer.php
+
+		-
+			message: '#^Parameter \#4 \$blue of function imagecolorallocatealpha expects int\<0, 255\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Drawer.php
+
+		-
+			message: '#^Parameter \#5 \$alpha of function imagecolorallocatealpha expects int\<0, 127\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Drawer.php
+
+		-
+			message: '#^Parameter \#1 \$color of method CeusMedia\\Common\\UI\\Image\\Drawer\:\:fill\(\) expects int, bool\|int given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/UI/Image/Histogram.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arg1 of function max expects non\-empty\-array, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Histogram.php
+
+		-
+			message: '#^Parameter \#5 \$color of method CeusMedia\\Common\\UI\\Image\\Drawer\:\:drawLine\(\) expects int, bool\|int given\.$#'
+			identifier: argument.type
+			count: 4
+			path: src/UI/Image/Histogram.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\UI\\Image\\Modifier\:\:\$source \(GdImage\|null\) does not accept GdImage\|false\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/UI/Image/Modifier.php
+
+		-
+			message: '#^Parameter \#1 \$resource of method CeusMedia\\Common\\UI\\Image\:\:setResource\(\) expects GdImage, GdImage\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/Processing.php
+
+		-
+			message: '#^Property CeusMedia\\Common\\UI\\Image\\Modifier\:\:\$target \(GdImage\|null\) does not accept GdImage\|false\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: src/UI/Image/Rotator.php
+
+		-
+			message: '#^Parameter \#1 \$width of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/ThumbnailCreator.php
+
+		-
+			message: '#^Parameter \#2 \$height of function imagecreatetruecolor expects int\<1, max\>, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/UI/Image/ThumbnailCreator.php
+
+		-
+			message: '#^Parameter \#2 \$src_image of function imagecopyresampled expects GdImage, GdImage\|false given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/UI/Image/ThumbnailCreator.php
+
+		-
+			message: '#^Cannot access offset 0 on array\{0\: int\<0, max\>, 1\: int\<0, max\>, 2\: int, 3\: string, mime\: string, channels\?\: int, bits\?\: int\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/UI/Image/TransparentWatermark.php
+
+		-
+			message: '#^Cannot access offset 1 on array\{0\: int\<0, max\>, 1\: int\<0, max\>, 2\: int, 3\: string, mime\: string, channels\?\: int, bits\?\: int\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/UI/Image/TransparentWatermark.php
+
+		-
+			message: '#^Cannot access offset 2 on array\{0\: int\<0, max\>, 1\: int\<0, max\>, 2\: int, 3\: string, mime\: string, channels\?\: int, bits\?\: int\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: src/UI/Image/TransparentWatermark.php
+
+		-
+			message: '#^Parameter \#2 \$color of function imagecolorsforindex expects int, int\<0, max\>\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/UI/Image/TransparentWatermark.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$options\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/UI/SVG/Chart.php
+
+		-
+			message: '#^Call to an undefined method object\:\:build\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: src/UI/SVG/Chart.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$attributes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/XML/Converter.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$children\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/XML/Converter.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$content\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/XML/Converter.php
+
+		-
+			message: '#^Parameter \#1 \$string of function addslashes expects string, class\-string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/XML/DOM/ObjectSerializer.php
+
+		-
+			message: '#^Cannot assign new offset to list\<array\>\|string\|null\.$#'
+			identifier: offsetAssign.dimType
+			count: 3
+			path: src/XML/DOM/PEAR/PackageReader.php
+
+		-
+			message: '#^Cannot assign new offset to list\<array\|string\|null\>\|string\|null\.$#'
+			identifier: offsetAssign.dimType
+			count: 2
+			path: src/XML/DOM/PEAR/PackageReader.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, array\<string\>\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/XML/Element.php
+
+		-
+			message: '#^Cannot access property \$length on DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/XML/FeedIdentifier.php
+
+		-
+			message: '#^Cannot call method item\(\) on DOMNodeList\<DOMNameSpaceNode\|DOMNode\>\|false\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/XML/FeedIdentifier.php
+
+		-
+			message: '#^Method CeusMedia\\Common\\XML\\Namespaces\:\:getNamespacesFromSimpleXmlElement\(\) should return array but returns array\<string\>\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/XML/Namespaces.php
+
+		-
+			message: '#^Access to an undefined property DOMNameSpaceNode\|DOMNode\:\:\$attributes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/XML/RSS/Parser.php
+
+		-
+			message: '#^Parameter \#2 \$node of method CeusMedia\\Common\\XML\\DOM\\XPathQuery\:\:query\(\) expects DOMNode\|null, DOMNameSpaceNode\|DOMNode given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/XML/RSS/Parser.php

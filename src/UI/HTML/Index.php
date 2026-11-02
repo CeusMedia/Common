@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Generates HTML of an index structure, parsed headings within HTML or given by OPML (or [several] tree structures and objects).
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,7 +36,7 @@ namespace CeusMedia\Common\UI\HTML;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo		implement import of trees and perhaps normal setters
@@ -77,7 +79,7 @@ class Index
 		array_shift( $parts );
 		//  iterate blocks
 		foreach( $parts as $nr => $part ){
-			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//
+			$heading	= strip_tags( $headings[1][$nr] );							//
 			$id			= strtolower( trim( $heading ) );											//
 			$id			= str_replace( [" ", "_"], "-", $id );								//
 			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//
@@ -142,9 +144,11 @@ class Index
 	protected function setHeadingIds( string &$content, int $level = 1 ): string
 	{
 		foreach( $this->headings as $heading ){														//
-			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//
+			$find		= "/<h".$heading->level."([^>]*)>".preg_quote( $heading->label, '/' )."/";						//
 			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//
-			$content	= preg_replace( $find, $replace, $content );								//
+			$result		= preg_replace( $find, $replace, $content );								//
+			if( $result !== null )
+				$content = $result;
 		}
 		return $content;
 	}

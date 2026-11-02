@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Base gzip File implementation.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +40,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -63,11 +65,15 @@ class Gzip extends FileEditor
 	 *	Reads gzip File and returns it as String.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException	if decompression failed
 	 */
  	public function readString(): string
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
-		return gzuncompress( parent::readString() );
+		$content	= gzuncompress( parent::readString() ?? '' );
+		if( FALSE === $content )
+			throw new RuntimeException( 'Decompressing gzip content failed' );
+		return $content;
 	}
 
 	/**
@@ -78,10 +84,14 @@ class Gzip extends FileEditor
 	 *	@throws		IoException			if strict and file is not writable
 	 *	@throws		IoException			if strict and fallback file creation failed
 	 *	@throws		IoException			if number of written bytes does not match content length
+	 *	@throws		RuntimeException	if compression failed
 	 */
 	public function writeString( string $string, bool $strict = TRUE ): int|bool
 	{
 		/** @noinspection PhpComposerExtensionStubsInspection */
-		return parent::writeString( gzcompress( $string ), $strict );
+		$content	= gzcompress( $string );
+		if( FALSE === $content )
+			throw new RuntimeException( 'Compressing content using gzip failed' );
+		return parent::writeString( $content, $strict );
 	}
 }

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	DirectedGraph.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Documentation
@@ -243,26 +245,27 @@ class DirectedWeighted extends Weighted
 	}
 
 	/**
-	 *	Breitendurchlauf
+	 *	Traverses the graph breadth-first, starting at the given node.
+	 *	Returns the distances of all reached nodes, summing up the edge values along the traversal path.
+	 *	Each node is visited once, so cycles do not lead to endless loops.
+	 *	@access		public
+	 *	@param		Node		$startNode		Node to start traversal at
+	 *	@return		array<string,int>			Map of node names and distances, in order of traversal
 	 */
 	public function traverseBreadth( Node $startNode ): array
 	{
-		$distance	= [];
-		$state		= [];
-		$q = new Queue();
-		foreach( $this->nodeSet->getNodes() as $node )
-			$state[$node->getNodeName()] = 0;
-		$state[$startNode->getNodeName()] = 1;
-		$distance[$startNode->getNodeName()] = 0;
-		$q->push( $startNode );
-		while( !$q->isEmpty() ){
-			$current = $q->top();
-			foreach( $this->getTargetNodes($current) as $node ){
-				$state[$node->getNodeName()]	= 0;
-				$distance[$node->getNodeName()]	= $distance[$current->getNodeName()] + $this->getEdgeValue($current, $node);
-				$q->push( $node );
+		$distance	= [$startNode->getNodeName() => 0];
+		$queue		= new Queue();
+		$queue->push( $startNode );
+		while( !$queue->isEmpty() ){
+			/** @var Node $current */
+			$current	= $queue->pop();
+			foreach( $this->getTargetNodes( $current ) as $node ){
+				if( array_key_exists( $node->getNodeName(), $distance ) )
+					continue;
+				$distance[$node->getNodeName()]	= $distance[$current->getNodeName()] + $this->getEdgeValue( $current, $node );
+				$queue->push( $node );
 			}
-			$q->pop();
 		}
 		return $distance;
 	}

@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  *	Implementation of a priority queue using an array with sections.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Collection
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use OutOfBoundsException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Collection
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -105,10 +107,10 @@ class PriorityQueue implements \Countable
 
 	/**
 	 *	@param		mixed		$item
-	 *	@param		int|float|NULL		$priority
+	 *	@param		int|NULL	$priority
 	 *	@return		static
 	 */
-	public function enqueue( $item, int|float $priority = NULL ): static
+	public function enqueue( mixed $item, int|NULL $priority = NULL ): static
 	{
 		$priority	= $priority ?? $this->defaultPriority;
 		if( !array_key_exists( $priority, $this->items ) ){
@@ -123,7 +125,7 @@ class PriorityQueue implements \Countable
 	 *	@param		int|NULL		$priority
 	 *	@return		bool
 	 */
-	public function has( int $priority = NULL ): bool
+	public function has( ?int $priority = NULL ): bool
 	{
 		if( NULL === $priority )
 			return [] !== $this->items;

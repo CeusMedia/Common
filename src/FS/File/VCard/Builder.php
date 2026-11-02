@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builds vCard String from vCard Data Object.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_VCard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			https://www.ietf.org/rfc/rfc2426.txt
@@ -38,7 +40,7 @@ use CeusMedia\Common\Alg\Text\EncodingConverter;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_VCard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			https://www.ietf.org/rfc/rfc2426.txt
@@ -93,15 +95,15 @@ class Builder
 
 		//  EMAIL ADDRESSES
 		foreach( $card->getEmails() as $address => $types )
-			$lines[]	= self::renderLine( 'email', $address, $types );
+			$lines[]	= self::renderLine( 'email', (string) $address, $types );
 
 		//  URLS
 		foreach( $card->getUrls() as $url => $types )
-			$lines[]	= self::renderLine( 'url', $url, $types, FALSE );
+			$lines[]	= self::renderLine( 'url', (string) $url, $types, FALSE );
 
 		//  PHONES
 		foreach( $card->getPhones() as $number => $types )
-			$lines[]	= self::renderLine( 'tel', $number, $types );
+			$lines[]	= self::renderLine( 'tel', (string) $number, $types );
 
 		//  GEO TAGS
 		foreach( $card->getGeoTags() as $geo )
@@ -123,9 +125,8 @@ class Builder
 
 	protected static function escape( string $value ): string
 	{
-		$value	= str_replace( ',', "\,", $value );
-		$value	= str_replace( ';', "\;", $value );
-		return str_replace( ':', "\:", $value );
+		//  escape backslash, comma, semicolon, colon and line breaks (backslash and line breaks: RFC 2426, 4)
+		return str_replace( ['\\', ',', ';', ':', "\r\n", "\n"], ['\\\\', '\\,', '\\;', '\\:', '\\n', '\\n'], $value );
 	}
 
 	/**
@@ -143,9 +144,10 @@ class Builder
 		if( is_array( $values ) ){
 			if( $escape ){
 				$list	= [];
+				//  empty fields are kept, since fields are identified by their position
 				foreach( $values as $key => $value )
-					if( 'types' !== $key && NULL !== $value )
-						$list[]	= self::escape( $value );
+					if( 'types' !== $key )
+						$list[]	= self::escape( (string) $value );
 				$values	= $list;
 			}
 			$values	= implode( $delimiter, $values );

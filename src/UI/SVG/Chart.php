@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -136,19 +138,23 @@ class Chart
 	}
 
 	/**
-	 *	This function simply enclosoures the received svg code with the beginning- and ending <svg> or </svg> tags.
-	 *	Also it includes an <?xml ... ?> header.
+	 *	This function simply encloses the received svg code with the beginning- and ending <svg> or </svg> tags.
+	 *	Also, it includes an <?xml ... ?> header.
 	 *	@access		public
 	 *	@param		string		$svg        SVG code to encapsulate
 	 *	@return		string		The encapsulated SVG code
 	 */
-	public function encapsulate( string $svg ): string
+	public function encapsulate( string $svg, int|float $width = 300, int|float $height = 200 ): string
 	{
-		$data = '<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "https://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink">';
-		$data .= $svg;
-		$data .= "</svg>";
+		$svgNode	= HtmlTag::create( 'svg', $svg, [
+			'xmlns'			=> "http://www.w3.org/2000/svg",
+			'version'		=> "1.1",
+			'width'			=> (string) $width,
+			'height'		=> (string) $height,
+		] );
 
-		return $data;
+		$xmlHeader	= '<?xml version="1.0" encoding="iso-8859-1"?>';
+		return $xmlHeader.$svgNode;
 	}
 
 	/**
@@ -156,7 +162,7 @@ class Chart
 	 *	Supplied is a number.
 	 *	@access		public
 	 *	@param		integer		$id     The id of the color
-	 *	@return		string		color name or hexadeciaml triplet
+	 *	@return		string		color name or hexadecimal triplet
 	 */
 	public function getColor( int $id ): string
 	{
@@ -202,7 +208,7 @@ class Chart
 			$textX	= $x + 20;
 			$color	= $colors[$count % count( $colors )];
 			$tags[]	= HtmlTag::create( "rect", NULL, array( 'x' => $x, 'y' => $y, 'width' => 15, 'height' => 15, 'fill' => $color ) );
-			$tags[]	= HtmlTag::create( "text", $obj->desc, array( 'x' => $textX, 'y' => $textY ) );
+			$tags[]	= HtmlTag::create( "text", htmlspecialchars( $obj->desc, ENT_QUOTES, 'UTF-8' ), array( 'x' => $textX, 'y' => $textY ) );
 			$y		+= 20;
 			$count++;
 		}
@@ -241,6 +247,7 @@ class Chart
 	 *	@access		public
 	 *	@param		string		$fileName		File to save to
 	 *	@return		int
+	 *	@throws		RuntimeException			if rendering SVG failed
 	 */
 	public function save( string $fileName ): int
 	{
@@ -250,7 +257,9 @@ class Chart
 		$doc->formatOutput = true;
 		$doc->loadXml( $svg );
 		$svg	= $doc->saveXml();
-		return FileWriter::save( $fileName, $svg );
+		if( FALSE === $svg )
+			throw new RuntimeException( 'Rendering SVG failed' );
+		return (int) FileWriter::save( $fileName, $svg );
 	}
 
 	/**
@@ -266,7 +275,7 @@ class Chart
 			$sum += $obj->value;
 
 		foreach( $data as $key => $obj ){
-			$obj->percent = $obj->value / $sum * 100;
+			$obj->percent = $sum ? $obj->value / $sum * 100 : 0;
 			$this->data[$key] = $obj;
 		}
 		return $this;

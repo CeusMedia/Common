@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Base Object with options.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,14 +40,14 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class OptionObject implements ArrayAccess, Countable
 {
 	/**	@var		array		$options		Associative Array of options */
-	protected $options	= [];
+	protected array $options	= [];
 
 	/**
 	 *	Constructor.
@@ -98,7 +100,7 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		array		$optionKeys		List of Option Keys
 	 *	@return		void
 	 */
-	public function declareOptions( array $optionKeys = [] )
+	public function declareOptions( array $optionKeys = [] ): void
 	{
 		foreach( $optionKeys as $key ){
 			if( !is_string( $key ) )
@@ -115,7 +117,7 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@throws		OutOfRangeException			if key is not set and $throwException is true
 	 *	@return		mixed
 	 */
-	public function getOption( string $key, bool $throwException = TRUE )
+	public function getOption( string $key, bool $throwException = TRUE ): mixed
 	{
 		if( !$this->hasOption( $key ) )
 		{
@@ -153,9 +155,9 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		string		$offset			Option Key
 	 *	@return		bool
 	 */
-	public function offsetExists( $offset ): bool
+	public function offsetExists( mixed $offset ): bool
 	{
-		return $this->hasOption( $offset );
+		return $this->hasOption( (string) $offset );
 	}
 
 	/**
@@ -164,21 +166,21 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		string		$offset			Option key
 	 *	@return		mixed
 	 */
-	public function offsetGet( $offset ): mixed
+	public function offsetGet( mixed $offset ): mixed
 	{
-		return $this->getOption( $offset );
+		return $this->getOption( (string) $offset );
 	}
 
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string		$offset			Option Key
-	 *	@param		string		$value			Option Value
+	 *	@param		mixed		$value			Option Value
 	 *	@return		void
 	 */
-	public function offsetSet( $offset, $value ): void
+	public function offsetSet( mixed $offset, mixed $value ): void
 	{
-		$this->setOption( $offset, $value );
+		$this->setOption( (string) $offset, $value );
 	}
 
 	/**
@@ -187,9 +189,9 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		string		$offset			Option Key
 	 *	@return		void
 	 */
-	public function offsetUnset( $offset ): void
+	public function offsetUnset( mixed $offset ): void
 	{
-		$this->removeOption( $offset );
+		$this->removeOption( (string) $offset );
 	}
 
 	/**
@@ -213,7 +215,7 @@ class OptionObject implements ArrayAccess, Countable
 	 *	@param		mixed		$value			Option Value
 	 *	@return		bool
 	 */
-	public function setOption( string $key, $value ): bool
+	public function setOption( string $key, mixed $value ): bool
 	{
 		if( isset( $this->options[$key] ) && $this->options[$key] === $value )
 			return FALSE;

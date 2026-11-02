@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Visualisation of Exception Stack Trace.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +24,7 @@
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Romain Boisnard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use Throwable;
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Romain Boisnard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -81,7 +83,7 @@ class TraceViewer
 	public static function buildTrace( Throwable $exception, int $breakMode = 0 ): string
 	{
 		$content	= 'Type: '.get_class( $exception ).'<br/>';
-		$content	.= 'Message: '.$exception->getMessage().'<br/>';
+		$content	.= 'Message: '.htmlspecialchars( $exception->getMessage(), ENT_QUOTES, 'UTF-8' ).'<br/>';
 		$content	.= 'Code: '.$exception->getCode()."<br/>";
 		$content	.= 'File: '.self::trimRootPath( $exception->getFile() ).'<br/>';
 		$content	.= 'Line: '.$exception->getLine().'<br/>';
@@ -95,7 +97,7 @@ class TraceViewer
 			}
 		}
 		$content	.= '#'.$stepNr.' {main}<br/></span>';
-		if( method_exists( $exception, 'getPrevious' ) && $exception->getPrevious() ){
+		if( NULL !== $exception->getPrevious() ){
 			$view	= self::buildTrace( $exception->getPrevious(), $breakMode );
 			$block	= Tag::create( 'blockquote', $view );
 			$content	.= 'Previous: '.$block.'<br/>';
@@ -170,7 +172,7 @@ class TraceViewer
 	 *	@param		int			$level
 	 *	@return		string
 	 */
-	protected static function convertArgumentToString( $argument, int $breakMode, int $level = 0 ): string
+	protected static function convertArgumentToString( mixed $argument, int $breakMode, int $level = 0 ): string
 	{
 		$value	= $argument;
 		switch( gettype( $argument ) ){
@@ -179,7 +181,7 @@ class TraceViewer
 			case 'string':
 				if( strlen( $value ) > 70 )
 					$value	= TextTrimmer::trimCentric( $value, 70);
-				return '"'.htmlentities($value ).'"';
+				return '"'.htmlentities( $value, ENT_QUOTES, 'UTF-8' ).'"';
 			case 'array':
 				return self::convertArrayToString( $argument, $breakMode, $level );
 			case 'object':
@@ -211,7 +213,7 @@ class TraceViewer
 		$list = [];
 		foreach( $array as $key => $value ){
 			$string	= self::convertArgumentToString( $value, $breakMode, $level+1 );
-			$list[]	= $key.":".$string;
+			$list[]	= htmlspecialchars( (string) $key, ENT_QUOTES, 'UTF-8' ).":".$string;
 		}
 		$block	= implode( ", ", $list );
 		if( $breakMode == 2 ){
@@ -235,9 +237,10 @@ class TraceViewer
 	 */
 	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= $_SERVER['DOCUMENT_ROOT'] ?? '';
+		$rootPath	= (string) ( $_SERVER['DOCUMENT_ROOT'] ?? '' );
+		//  without document root (e.g. CLI), keep the full path
 		if( !$rootPath || !$fileName )
-			return '';
+			return $fileName;
 		$fileName	= str_replace( '\\', "/", $fileName );
 		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
 		if( $cut == $rootPath )

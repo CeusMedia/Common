@@ -8,7 +8,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Obj
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -29,7 +29,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Obj
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -50,18 +50,19 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@param		bool			$asDictionary		Flag: return as ADT\Collection\Dictionary
 	 *	@return		array|Dictionary
-	 *	@throws		ReflectionException					if reflection on class failed / class not exists
 	 */
 	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE ): Dictionary|array
 	{
-		$reflection	= new ReflectionClass( $this->className );
+		/** @var class-string $className */
+		$className	= $this->className;
+		$reflection	= new ReflectionClass( $className );
 		$constants	= $reflection->getConstants();
 		if( $prefix ){
 			$prefix		= rtrim( $prefix, '_' );
 			$dictionary	= new Dictionary( $constants );
-			$constants	= $dictionary->getAll( $prefix.'_', $asDictionary );
+			$constants	= $dictionary->getAll( $prefix.'_' );
 		}
-		return $constants;
+		return $asDictionary ? new Dictionary( $constants ) : $constants;
 	}
 
 	/**
@@ -72,7 +73,7 @@ class Constant
 	 *	@throws		RangeException			if no constant having this value is defined (within this prefix)
 	 *	@throws		AmbiguousDataException	if there are several constants having this value (within this prefix)
 	 */
-	public function getKeyByValue( $value, ?string $prefix = NULL ): string
+	public function getKeyByValue( mixed $value, ?string $prefix = NULL ): string
 	{
 		$constants	= $this->getAll( $prefix );
 		$list		= [];
@@ -95,11 +96,11 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@return		mixed
 	 *	@throws		DomainException			if constant is not defined
-	 *	@throws		ReflectionException		if reflection on class failed
 	 */
-	public function getValue( string $constantKey, ?string $prefix = NULL )
+	public function getValue( string $constantKey, ?string $prefix = NULL ): mixed
 	{
-		$constants	= $this->getAll( $prefix );
+		/** @var array $constants */
+		$constants	= $this->getAll( $prefix, FALSE );
 		if( array_key_exists( $constantKey, $constants ) )
 			return $constants[$constantKey];
 		$constantKey	= $prefix ? rtrim( $prefix, '_' ).'_'.$constantKey : $constantKey;
@@ -111,22 +112,24 @@ class Constant
 	 *	@param		string			$constantKey
 	 *	@param		string|NULL		$prefix
 	 *	@return		bool
-	 *	@throws		ReflectionException		if reflection on class failed / class not exists
 	 */
 	public function hasKey( string $constantKey, ?string $prefix = NULL ): bool
 	{
-		return in_array( $constantKey, $this->getAll( $prefix ), TRUE );
+		/** @var array $constants */
+		$constants	= $this->getAll( $prefix, FALSE );
+		return in_array( $constantKey, array_keys( $constants ), TRUE );
 	}
 
 	/**
 	 *	@param		mixed				$value
 	 *	@param		string|NULL			$prefix
 	 *	@return		bool
-	 *	@throws		ReflectionException
 	 */
-	public function hasValue( $value, ?string $prefix = NULL ): bool
+	public function hasValue( mixed $value, ?string $prefix = NULL ): bool
 	{
-		return array_key_exists( $value, $this->getAll( $prefix ) );
+		/** @var array $constants */
+		$constants	= $this->getAll( $prefix, FALSE );
+		return array_key_exists( $value, $constants );
 	}
 
 	public static function fromClassName( string $className ): self
@@ -139,9 +142,8 @@ class Constant
 	 *	@param		string|NULL		$prefix
 	 *	@param		bool			$asDictionary		Flag: return as ADT\Collection\Dictionary
 	 *	@return		array|Dictionary
-	 *	@throws		ReflectionException					if reflection on class failed / class not exists
 	 */
-	public static function staticGetAll( string $className, ?string $prefix = NULL, bool $asDictionary = FALSE )
+	public static function staticGetAll( string $className, ?string $prefix = NULL, bool $asDictionary = FALSE ): Dictionary|array
 	{
 		return self::fromClassName( $className )->getAll( $prefix, $asDictionary );
 	}
@@ -151,9 +153,8 @@ class Constant
 	 *	@param		string			$constantKey
 	 *	@param		string|NULL		$prefix
 	 *	@return		mixed
-	 *	@throws		ReflectionException
 	 */
-	public static function staticGetValue( string $className, string $constantKey, ?string $prefix = NULL )
+	public static function staticGetValue( string $className, string $constantKey, ?string $prefix = NULL ): mixed
 	{
 		return self::fromClassName( $className )->getValue( $constantKey, $prefix );
 	}
@@ -166,7 +167,8 @@ class Constant
 	 *	@throws		ReflectionException
 	 *	@throws		AmbiguousDataException
 	 */
-	public static function staticGetKeyByValue( string $className, $value, ?string $prefix = NULL ): string
+	public static function staticGetKeyByValue( string $className, mixed $value, ?string $prefix = NULL ): string
+
 	{
 		$object		= new Constant( $className );
 		return $object->getKeyByValue( $value, $prefix );

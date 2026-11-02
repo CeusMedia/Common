@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Progress bar for console output.
  *
- *	Copyright (c) 2019-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2019-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Output
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2019-2025 Christian Würker
+ *	@copyright		2019-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -42,7 +45,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Output
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2019-2025 Christian Würker
+ *	@copyright		2019-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -238,7 +241,7 @@ class Progress
 	 *	@param		string|int			$with
 	 *	@return		string
 	 */
-	protected function padLeft( $input, int $length, $with ): string
+	protected function padLeft( float|int|string $input, int $length, int|string $with ): string
 	{
 		return str_pad( (string) $input, $length, (string) $with, STR_PAD_LEFT );
 	}
@@ -254,7 +257,7 @@ class Progress
 		if( Env::isHeadless() )
 			return '';
 		$count		= min( $count, $this->total );
-		$timeLeft	= ceil( microtime( TRUE ) - $this->startTime );
+		$timeLeft	= (int) ceil( microtime( TRUE ) - $this->startTime );
 		if( $count !== $this->total )
 			$timeLeft	= $this->estimateTimeLeft( $count );
 		$timeLeft	= $this->padLeft( $this->formatTime( $timeLeft ), 8, ' ' );

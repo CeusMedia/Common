@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Converter for different Formats of Colors.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,7 +35,7 @@ namespace CeusMedia\Common\Alg;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Documentation
@@ -51,6 +53,9 @@ class ColorConverter
 	{
 		[$c, $m, $y]	= $cmy;
 		$k	= min( $c, $m, $y );
+		//  black: no color components
+		if( $k >= 1 )
+			return [0, 0, 0, 1];
 		$c	= ( $c - $k ) / ( 1 - $k );
 		$m	= ( $m - $k ) / ( 1 - $k );
 		$y	= ( $y - $k ) / ( 1 - $k );
@@ -124,6 +129,8 @@ class ColorConverter
 	{
 		[$h, $s, $v]	= $hsv;
 		$rgb = [];
+		//  hue is an angle, so 360 equals 0
+		$h	= fmod( fmod( (float) $h, 360 ) + 360, 360 );
 		$h	= $h / 60;
 		$s	= $s / 100;
 		$v	= $v / 100;
@@ -191,8 +198,7 @@ class ColorConverter
 	 */
 	public static function html2hsv( string $html ): array
 	{
-		sscanf( $html, "%2X%2X%2X", $r, $g, $b );
-		return self::rgb2hsv( [$r, $g, $b] );
+		return self::rgb2hsv( self::html2rgb( $html ) );
 	}
 
 	/**
@@ -204,8 +210,16 @@ class ColorConverter
 	 */
 	public static function html2rgb( string $html ): array
 	{
-		sscanf( $html, "%2X%2X%2X", $r, $g, $b );
-		return [$r, $g, $b];
+		//  supports leading hash and short notation, e.g. #F80
+		$html	= ltrim( trim( $html ), '#' );
+		if( 3 === strlen( $html ) )
+			$html	= $html[0].$html[0].$html[1].$html[1].$html[2].$html[2];
+		if( 1 !== preg_match( '/^[0-9a-f]{6}$/i', $html ) ){
+			//  invalid color: keep former behaviour (list of NULL values)
+			sscanf( $html, "%2X%2X%2X", $r, $g, $b );
+			return [$r, $g, $b];
+		}
+		return [(int) hexdec( substr( $html, 0, 2 ) ), (int) hexdec( substr( $html, 2, 2 ) ), (int) hexdec( substr( $html, 4, 2 ) )];
 	}
 
 	/**
@@ -264,6 +278,7 @@ class ColorConverter
 		return [round( $h ), round( $s * 100 ), round( $v / 2.55 )];
 	}
 
+	/** @phpstan-ignore method.unused */
 	private function rgb2hsv_2( array $rgb ): array
 	{
 		[$r, $g, $b]	= $rgb;
@@ -311,9 +326,8 @@ class ColorConverter
 	 */
 	public static function rgb2html( array $rgb ): string
 	{
-		[$r, $g, $b]	= $rgb;
-		$html	= sprintf( "%2X%2X%2X", $r, $g, $b );
-		return str_replace( " ", "0", $html );
+		$values	= array_map( static fn( $value ): int => (int) max( 0, min( 255, round( (float) $value ) ) ), array_slice( array_values( $rgb ), 0, 3 ) );
+		return vsprintf( "%02X%02X%02X", $values );
 	}
 
 	/**

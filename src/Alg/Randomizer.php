@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Randomizer supporting different sign types.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,44 +40,44 @@ use UnderflowException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Randomizer
 {
 	/**	@var		string		$digits			String with Digits */
-	public $digits				= '0123456789';
+	public string $digits		= '0123456789';
 
 	/**	@var		string		$larges		String with large Letters */
-	public $larges				= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	public string $larges		= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 	/**	@var		string		$smalls			String with small Letters */
-	public $smalls				= 'abcdefghijklmnopqrstuvwxyz';
+	public string $smalls		= 'abcdefghijklmnopqrstuvwxyz';
 
 	/**	@var		string		$signs			String with Signs */
-	public $signs				= '.:_-+*=/\!§$%&(){}[]#@?~';
+	public string $signs		= '.:_-+*=/\!§$%&(){}[]#@?~';
 
 	/**	@var		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100) */
-	public $strength			= 0;
+	public int $strength		= 0;
 
 	/**	@var		integer		$maxTurns		Number of Turns to try to create a strong String */
-	public $maxTurns			= 10;
+	public int $maxTurns		= 10;
 
 	/**	@var		boolean		$unique			Flag: every Sign may only appear once in randomized String */
-	public $unique				= TRUE;
+	public bool $unique			= TRUE;
 
 	/**	@var		boolean		$useDigits		Flag: use Digits */
-	public $useDigits			= TRUE;
+	public bool $useDigits		= TRUE;
 
 	/**	@var		boolean		$useSmalls		Flag: use small Letters */
-	public $useSmalls			= TRUE;
+	public bool $useSmalls		= TRUE;
 
 	/**	@var		boolean		$useLarges		Flag: use large Letters */
-	public $useLarges			= TRUE;
+	public bool $useLarges		= TRUE;
 
 	/**	@var		boolean		$useSigns		Flag: use Signs */
-	public $useSigns			= TRUE;
+	public bool $useSigns		= TRUE;
 
 	/**
 	 *	Defines characters to be used for string generation.
@@ -87,7 +89,8 @@ class Randomizer
 	 *	@param		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100)
 	 *	@return		void
 	 */
-	public function configure( bool $useDigits, bool $useSmalls, bool $useLarges, bool $useSigns, int $strength )
+	public function configure( bool $useDigits, bool $useSmalls, bool $useLarges, bool $useSigns, int $strength ): void
+
 	{
 		if( !( $useDigits || $useSmalls || $useLarges || $useSigns ) )
 			throw new InvalidArgumentException( 'At least one type of characters must be enabled' );

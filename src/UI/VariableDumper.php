@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ define( 'SERVICE_TEST_VAR_DUMP', 1 );
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -79,9 +81,9 @@ class VariableDumper
 				var_dump( $variable );
 				if( !$hasXDebug ){
 					//  get buffered Dump
-					$dump	= ob_get_clean();
+					$dump	= (string) ob_get_clean();
 					//  remove Line Break on Relations
-					$dump	= preg_replace( "@=>\n +@", ": ", $dump );
+					$dump	= (string) preg_replace( "@=>\n +@", ": ", $dump );
 					//  remove Array Opener
 					$dump	= str_replace( "{\n", "\n", $dump );
 					//  remove Array Closer
@@ -91,9 +93,9 @@ class VariableDumper
 					//  remove Variable Key Closer
 					$dump	= str_replace( '"]:', ":", $dump );
 					//  remove Variable Type for Strings
-					$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );
+					$dump	= (string) preg_replace( '@string\([0-9]+\)@', "", $dump );
 					//  remove Variable Type for Arrays
-					$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );
+					$dump	= (string) preg_replace( '@array\([0-9]+\)@', "", $dump );
 					//  open Buffer
 					ob_start();
 					//  print Dump with XMP
@@ -106,10 +108,10 @@ class VariableDumper
 				break;
 		}
 		//  return buffered Dump
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 }
-function dumpVar( string $variable, int $mode = VariableDumper::MODE_DUMP, int $modeIfNotXDebug = VariableDumper::MODE_PRINT ): string
+function dumpVar( mixed $variable, int $mode = VariableDumper::MODE_DUMP, int $modeIfNotXDebug = VariableDumper::MODE_PRINT ): string
 {
 	return VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
 }

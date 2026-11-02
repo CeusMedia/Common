@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder_Treeview
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +38,7 @@ use SplFileInfo;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder_Treeview
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -45,7 +47,7 @@ class JsonExtended extends Json
 {
 	protected function buildFileItem( SplFileInfo $entry ): array
 	{
-		$label		= $entry->getFilename();
+		$label		= htmlspecialchars( $entry->getFilename(), ENT_QUOTES, 'UTF-8' );
 		$extension	= $this->getFileExtension( $entry );
 		$attributes	= [
 			'href' 		=> $this->getFileUrl( $entry ),
@@ -61,7 +63,7 @@ class JsonExtended extends Json
 	protected function buildFolderItem( SplFileInfo $entry ): array
 	{
 		return [
-			'text'			=> $entry->getFilename(),#." (".$children.")",
+			'text'			=> htmlspecialchars( $entry->getFilename(), ENT_QUOTES, 'UTF-8' ),#." (".$children.")",
 			'id'			=> rawurlencode( $this->getPathName( $entry ) ),
 			'hasChildren'	=> $this->hasChildren( $entry ),
 			'classes'		=> $this->classNode,

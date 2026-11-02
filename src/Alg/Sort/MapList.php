@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Sorts a List of Maps (=associative Arrays) by one Column or many Columns.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +35,7 @@ namespace CeusMedia\Common\Alg\Sort;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -68,40 +68,17 @@ class MapList
 	 */
 	public static function sortByMultipleColumns( array $data, array $orders ): array
 	{
-		//  get first Column
-		$key		= array_key_first( $orders );
-		//  get first Direction
-		$direction	= $orders[$key];
-		//  remove Order from Order Map
-		$orders		= array_slice( $orders, 1 );
-		//  prepare Index List
-		$list		= [];
-		//  iterate Data Array
-		foreach( $data as $entry )
-			//  index by Column Key
-			$list[$entry[$key]][]	= $entry;
-
-		//  ascending
-		if( $direction == self::DIRECTION_ASC )
-			//  sort Index List
-			ksort( $list );
-		//  descending
-		else
-			//  reverse sort Index List
-			krsort( $list );
-		//  prepare new Data Array
-		$array	= [];
-		//  iterate Index List
-		foreach( $list as $entries )
-		{
-			if( $orders && count( $entries ) > 1 )
-				$entries	= self::sortByMultipleColumns( $entries, $orders );
-			//  ...
-			foreach( $entries as $entry)
-				//  fill new Data Array
-				$array[]	= $entry;
-		}
-		//  return new Data Array
-		return $array;
+		if( [] === $orders )
+			return array_values( $data );
+		//  usort is stable, so entries with equal values keep their order
+		usort( $data, static function( array $a, array $b ) use ( $orders ): int {
+			foreach( $orders as $key => $direction ){
+				$result	= ( $a[$key] ?? NULL ) <=> ( $b[$key] ?? NULL );
+				if( 0 !== $result )
+					return $direction == self::DIRECTION_DESC ? -$result : $result;
+			}
+			return 0;
+		} );
+		return $data;
 	}
 }

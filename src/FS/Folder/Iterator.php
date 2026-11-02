@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Iterates all Folders and Files within a Folder.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,20 +39,20 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Iterator extends FilterIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
-	protected $showFiles;
+	protected bool $showFiles;
 
 	/**	@var		 bool		$showFolders		Flag: show Folders */
-	protected $showFolders;
+	protected bool $showFolders;
 
 	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
-	protected $stripDotEntries;
+	protected bool $stripDotEntries;
 
 	/**
 	 *	Constructor.
@@ -78,9 +80,11 @@ class Iterator extends FilterIterator
 	 */
 	public function accept(): bool
 	{
-		if( $this->getInnerIterator()->isDot() )
+		/** @var DirectoryIterator $iterator */
+		$iterator	= $this->getInnerIterator();
+		if( $iterator->isDot() )
 			return FALSE;
-		$isDir	= $this->getInnerIterator()->isDir();
+		$isDir	= $iterator->isDir();
 		if( !$this->showFolders && $isDir )
 			return FALSE;
 		if( !$this->showFiles && !$isDir )
@@ -88,7 +92,7 @@ class Iterator extends FilterIterator
 
 		if( $this->stripDotEntries )
 		{
-			$folderName	= $this->getInnerIterator()->getFilename();
+			$folderName	= $iterator->getFilename();
 			if( preg_match( "@^\.\w@", $folderName ) )
 				return FALSE;
 		}

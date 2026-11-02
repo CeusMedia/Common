@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Visualisation of Exception Stack Trace.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -29,6 +31,7 @@
 namespace CeusMedia\Common\UI\HTML\Exception;
 
 use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\UI\HTML\Tag;
 use Countable;
 use Exception;
@@ -40,7 +43,7 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -52,7 +55,7 @@ class Trace
 	 *	@param		Throwable	$exception		Exception
 	 *	@return		void
 	 */
-	public static function display( Throwable $exception )
+	public static function display( Throwable $exception ): void
 	{
 		print self::render( $exception );
 	}
@@ -99,7 +102,7 @@ class Trace
 	 *	@param		mixed		$argument		Array to render
 	 *	@return		string
 	 */
-	protected static function renderArgument( $argument ): string
+	protected static function renderArgument( mixed $argument ): string
 	{
 		switch( gettype( $argument ) )
 		{
@@ -134,7 +137,7 @@ class Trace
 		foreach( $array as $key => $value ){
 			$type	= self::renderArgumentType( $value );
 			$string	= self::renderArgument( $value );
-			$list[]	= Tag::create( 'dt', $type." ".$key );
+			$list[]	= Tag::create( 'dt', $type." ".htmlspecialchars( (string) $key, ENT_QUOTES, 'UTF-8' ) );
 			$list[]	= Tag::create( 'dd', $string );
 		}
 		$list	= Tag::create( 'dl', implode( $list ) );
@@ -208,7 +211,7 @@ class Trace
 	 *	@param		mixed		$argument		Argument to render type for
 	 *	@return		string
 	 */
-	protected static function renderArgumentType( $argument ): string
+	protected static function renderArgumentType( mixed $argument ): string
 	{
 		$type		= gettype( $argument );
 		$length		= '';
@@ -232,7 +235,7 @@ class Trace
 	protected static function secureString( string $string, int $maxLength = 0, string $mask = '&hellip;' ): string
 	{
 		if( $maxLength && strlen( $string ) > $maxLength )
-			$value	= TextTrimmer::trimCentric( $string, $maxLength, $mask );
+			$string	= TextTrimmer::trimCentric( $string, $maxLength, $mask );
 //		$string	= addslashes( $string );
 		$string	= htmlentities( $string, ENT_QUOTES, 'UTF-8' );
 		$string	= nl2br( $string );
@@ -248,7 +251,7 @@ class Trace
 	 */
 	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= realpath( getEnv( 'DOCUMENT_ROOT' ) );
+		$rootPath	= realpath( (string) Env::getServerVariable( 'DOCUMENT_ROOT' ) );
 		if( strlen( trim( $fileName ) ) && $rootPath )
 			$fileName	= preg_replace( "/^".preg_quote( $rootPath.'/', '/' )."/", "", $fileName );
 		return $fileName;

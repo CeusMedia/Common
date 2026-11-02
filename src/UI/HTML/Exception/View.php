@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Visualisation of Exception.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -41,7 +43,7 @@ use Throwable;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -73,7 +75,7 @@ class View
 		$list[]	= Tag::create( 'dd', $msg, ['class' => 'exception-message'] );
 
 		if( $e->getCode() !== 0 ){
-			$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
+			$code	= htmlentities( (string) $e->getCode(), ENT_COMPAT, 'UTF-8' );
 			$list[]	= Tag::create( 'dt', 'Code', ['class' => 'exception-code'] );
 			$list[]	= Tag::create( 'dd', $code, ['class' => 'exception-code'] );
 		}
@@ -104,7 +106,7 @@ class View
 			}
 		}
 		if( $showPrevious ){
-			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() ){
+			if( NULL !== $e->getPrevious() ){
 				$list[]	= Tag::create( 'dt', 'Previous' );
 				$list[]	= Tag::create( 'dd', View::render( $e->getPrevious() ) );
 			}
@@ -125,7 +127,7 @@ class View
 				$meaning	= SQLSTATE::getMeaning( $e->getSQLSTATE() );
 				if( NULL !== $meaning ){
 					$list[]	= Tag::create( 'dt', 'SQLSTATE', ['class' => 'exception-code-sqlstate'] );
-					$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, ['class' => 'exception-code-sqlstate'] );
+					$list[]	= Tag::create( 'dd', htmlspecialchars( $e->getSQLSTATE().': '.$meaning, ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-code-sqlstate'] );
 					$blacklist[]	= 'SQLSTATE';
 				}
 			}
@@ -134,12 +136,12 @@ class View
 			/** @var Runtime $e */
 			if( '' !== $e->getDescription() ){
 				$list[]	= Tag::create( 'dt', 'Description', ['class' => 'exception-description'] );
-				$list[]	= Tag::create( 'dd', $e->getDescription(), ['class' => 'exception-description'] );
+				$list[]	= Tag::create( 'dd', htmlspecialchars( $e->getDescription(), ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-description'] );
 			}
 
 			if( '' !== $e->getSuggestion() ){
 				$list[]	= Tag::create( 'dt', 'Suggestion', ['class' => 'exception-suggestion'] );
-				$list[]	= Tag::create( 'dd', $e->getSuggestion(), ['class' => 'exception-suggestion'] );
+				$list[]	= Tag::create( 'dd', htmlspecialchars( $e->getSuggestion(), ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-suggestion'] );
 			}
 			foreach( $e->getAdditionalProperties() as $key => $value ){
 				if( in_array( $key, $blacklist, TRUE ) )
@@ -152,8 +154,8 @@ class View
 					default:
 						$value ??= '-empty-';
 				}
-				$list[]	= Tag::create( 'dt', ucfirst( $key ), ['class' => 'exception-'.$key] );
-				$list[]	= Tag::create( 'dd', $value, ['class' => 'exception-'.$key] );
+				$list[]	= Tag::create( 'dt', htmlspecialchars( ucfirst( (string) $key ), ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-'.$key] );
+				$list[]	= Tag::create( 'dd', htmlspecialchars( is_scalar( $value ) ? (string) $value : '', ENT_QUOTES, 'UTF-8' ), ['class' => 'exception-'.$key] );
 			}
 		}
 	}
@@ -167,9 +169,10 @@ class View
 	 */
 	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= $_SERVER['DOCUMENT_ROOT'] ?? '';
+		$rootPath	= (string) ( $_SERVER['DOCUMENT_ROOT'] ?? '' );
+		//  without document root (e.g. CLI), keep the full path
 		if( !$rootPath || !$fileName )
-			return '';
+			return $fileName;
 		$fileName	= str_replace( '\\', "/", $fileName );
 		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
 		if( $cut == $rootPath )

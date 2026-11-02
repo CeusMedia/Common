@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +37,7 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -66,11 +68,11 @@ class Writer
 	{
 		$list	= [];
 		foreach( $blocks as $name => $content ){
-			$list[]	= str_replace( "{#name#}", $name, $this->patternSection );
+			$list[]	= str_replace( "{#name#}", (string) $name, $this->patternSection );
 			$list[]	= $content;
 			$list[]	= "";
 		}
 		$file	= new FileWriter( $this->fileName );
-		return $file->writeArray( $list );
+		return (int) $file->writeArray( $list );
 	}
 }

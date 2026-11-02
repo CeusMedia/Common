@@ -1,11 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -20,7 +22,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -75,7 +77,7 @@ class BackupCleaner
 	{
 		$dates	= [];
 		foreach( $this->index() as $date ){
-			$time	= strtotime( $date );
+			$time	= (int) strtotime( $date );
 			$year	= (int) date( "Y", $time );
 			$month	= (int)	date( "m", $time );
 			$day	= (int) date( "d", $time );
@@ -94,11 +96,12 @@ class BackupCleaner
 	public function index(): array
 	{
 		$dates	= [];
-		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
+		$regExp	= "/^".preg_quote( $this->prefix, '/' )."([0-9-]+)\.".preg_quote( $this->ext, '/' )."$/";
 		$index	= new RegexFilter( $this->path, $regExp );
 		foreach( $index as $entry ){
-			$regExp		= "/^".$this->prefix."([0-9-]+)\.".$this->ext."$/";
-			$dates[]	= preg_replace( $regExp, "\\1", $entry->getFilename() );
+			//  only files named by date, other files with same prefix and extension are not touched
+			if( 1 === preg_match( $regExp, $entry->getFilename(), $matches ) && FALSE !== strtotime( $matches[1] ) )
+				$dates[]	= $matches[1];
 		}
 		return $dates;
 	}
@@ -112,7 +115,7 @@ class BackupCleaner
 	 *	@return		void
 	 *	@throws		Exception
 	 */
-	public function keepLastOfMonth( array $filters = [], bool $verbose = FALSE, bool $testOnly = FALSE )
+	public function keepLastOfMonth( array $filters = [], bool $verbose = FALSE, bool $testOnly = FALSE ): void
 	{
 		$dates	= $this->filterDateTree( $this->getDateTree(), $filters );
 		foreach( $dates as $year => $months ){

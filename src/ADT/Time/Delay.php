@@ -1,8 +1,10 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +22,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,14 +36,14 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Delay
 {
 	protected float $seconds;
-	protected float $time;
+	protected ?float $time		= NULL;
 	protected int $numberRuns	= 0;
 	protected int $numberChecks	= 0;
 
@@ -57,7 +59,7 @@ class Delay
 		if( $msec < 1 )
 			throw new RangeException( 'Delay must be at least 1 ms' );
 		$this->seconds	= (float) $msec / 1000;
-		$this->restart();
+		$this->restart( TRUE );
 	}
 
 	/**
@@ -87,7 +89,7 @@ class Delay
 	 */
 	public function getStartTime(): float
 	{
-		return $this->time;
+		return $this->time ?? 0.0;
 	}
 
 	/**
@@ -97,6 +99,8 @@ class Delay
 	 */
 	public function isActive(): bool
 	{
+		if( NULL === $this->time )
+			return FALSE;
 		$this->numberChecks++;
 		$time	= microtime( TRUE ) - $this->time;
 		return $time < $this->seconds;

@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	String Class wrapping most of the PHP functions in a usable way.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +41,7 @@ use OutOfBoundsException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -131,16 +134,14 @@ class String_
 	 */
 	public function countSubstring( String_|string $string, int $offset = 0, int $limit = 0 ): int
 	{
-		if( !is_int( $offset ) )
-			throw new InvalidArgumentException( 'Offset must be integer' );
 		if( abs( $offset ) > $this->getLength() )
 			throw new OutOfBoundsException( 'Offset excesses string length' );
 		if( abs( $limit ) > 0 ){
 			if( $offset + $limit > $this->getLength() )
 				throw new OutOfBoundsException( 'Offset and limit excess string length' );
-			return substr_count( $this->string, $string, $offset, $limit );
+			return substr_count( $this->string, (string) $string, $offset, $limit );
 		}
-		return substr_count( $this->string, $string, $offset );
+		return substr_count( $this->string, (string) $string, $offset );
 	}
 
 	/**
@@ -224,9 +225,9 @@ class String_
 				if( abs( $start ) < $length )
 					throw new OutOfBoundsException( 'Length (from start) excesses string length from start (from right)' );
 			}
-			return new String_( substr( $this->string, $start, $length ) );
+			return substr( $this->string, $start, $length );
 		}
-		return new String_( substr( $this->string, $start ) );
+		return substr( $this->string, $start );
 	}
 
 	/**
@@ -253,7 +254,7 @@ class String_
 	{
 		$string	= $this->string;
 		foreach( $characters as $character ){
-			$pattern	= '/'.preg_quote( $character, '/' ).'+/s';
+			$pattern	= '/'.preg_quote( (string) $character, '/' ).'+/s';
 			$string		= preg_replace( $pattern, $hyphen, $string );
 		}
 		return $string;
@@ -268,13 +269,15 @@ class String_
 	public function isRTL(): bool
 	{
 		$RandALCat	= file( __DIR__.'/StringRandALCat.txt', FILE_IGNORE_NEW_LINES );
-		$codePoints	= unpack( 'V*', iconv( 'UTF-8', 'UTF-32LE', $this->string ) );
+		$codePoints	= unpack( 'V*', (string) iconv( 'UTF-8', 'UTF-32LE', $this->string ) );
+		if( FALSE === $codePoints || FALSE === $RandALCat )
+			return FALSE;
 		foreach( $codePoints as $codePoint ){
 			$hexCode	= strtoupper( str_pad( dechex( $codePoint ), 6, '0', STR_PAD_LEFT ) );
 			if( array_search( $hexCode, $RandALCat, TRUE ) )
-				return true;
+				return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	public function render( array $variables = []): string
@@ -345,9 +348,11 @@ class String_
 	{
 		$list	= [$this->string];
 		if( is_int( $delimiter ) )
-			$list	= str_split( $this->string, $delimiter );
-		else if( is_string( $delimiter ) )
-			$list	= explode( $delimiter, $this->string );
+			$list	= str_split( $this->string, max( 1, $delimiter ) );
+		else{
+			if( $delimiter !== '' )
+				$list	= explode( $delimiter, $this->string );
+		}
 		return new ArrayObject( $list );
 	}
 

@@ -1,11 +1,14 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 /** @noinspection PhpUnused */
 
 /**
  *	Converts XML strings statically to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +26,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Ceus Media
+ *	@copyright		2010-2026 Ceus Media
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -44,7 +47,7 @@ use stdClass;
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Ceus Media
+ *	@copyright		2010-2026 Ceus Media
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -93,7 +96,7 @@ class Converter
 	 *	@param		object		$object		Tree for objects
 	 *	@return		void
 	 */
-	protected static function convertToObjectRecursive( DomNode $node, object $object )
+	protected static function convertToObjectRecursive( DomNode $node, object $object ): void
 	{
 		$object->children	= new stdClass();
 		$object->attributes	= new stdClass();

@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -29,6 +31,7 @@
 namespace CeusMedia\Common\FS\Folder;
 
 use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\FS\File\SyntaxChecker as FileSyntaxChecker;
 
 /**
@@ -36,23 +39,23 @@ use CeusMedia\Common\FS\File\SyntaxChecker as FileSyntaxChecker;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class SyntaxChecker
 {
 	/**	@var		string		$phpExtension	Extension of PHP Files, by default 'php5' */
-	public static $phpExtension	= 'php5';
+	public static string $phpExtension	= 'php5';
 
 	/**	@var		object		$checker		Instance of SyntaxChecker */
-	protected $checker;
+	protected object $checker;
 
 	/**	@var		string		$lineBreak		Line break, depending on environment */
-	protected $lineBreak;
+	protected string $lineBreak;
 
 	/**	@var		array		$failures		List of collected features */
-	protected $failures;
+	protected array $failures	= [];
 
 	/**
 	 *	Constructor.
@@ -61,7 +64,7 @@ class SyntaxChecker
 	 */
 	public function __construct()
 	{
-		$this->lineBreak	= getEnv( 'HTTP_HOST' ) ? "<br/>" : "\n";
+		$this->lineBreak	= Env::getServerVariable( 'HTTP_HOST' ) ? "<br/>" : "\n";
 		$this->checker		= new FileSyntaxChecker;
 	}
 
@@ -78,7 +81,7 @@ class SyntaxChecker
 		$counter	= 0;
 		$invalid	= [];
 		$clock		= new Clock;
-		$index		= new RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
+		$index		= new RecursiveRegexFilter( $pathName, "@\.".preg_quote( self::$phpExtension, '@' )."$@" );
 		$this->failures	= [];
 		foreach( $index as $file ){
 			$counter++;
@@ -111,7 +114,7 @@ class SyntaxChecker
 	 *	@param		float		$time			Time needed to check Folder in Seconds
 	 *	@return		void
 	 */
-	protected function printResults( array $invalid, int $counter, float $time )
+	protected function printResults( array $invalid, int $counter, float $time ): void
 	{
 		remark( str_repeat( '-', 79 ) );
 		if( count( $invalid ) ){

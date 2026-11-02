@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Image resource reader and writer.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -40,7 +43,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -153,9 +156,9 @@ class Image
 	/**
 	 *	...
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getFileName(): string
+	public function getFileName(): ?string
 	{
 		return $this->fileName;
 	}
@@ -230,6 +233,8 @@ class Image
 	public static function isAnimated( string $filePath ): bool
 	{
 		$content	= file_get_contents( $filePath );
+		if( FALSE === $content )
+			throw new RuntimeException( 'Image "'.$filePath.'" is not readable' );
 		$pos1		= 0;
 		$count		= 0;
 		while( $count < 2 ){ # There is no point in continuing after we find a 2nd frame
@@ -290,7 +295,7 @@ class Image
 	{
 		ob_start();
 		$this->display( FALSE );
-		return ob_get_clean();
+		return (string) ob_get_clean();
 	}
 
 	/**
@@ -370,7 +375,8 @@ class Image
 
 	public function setType( int $type ): self
 	{
-		if( !( ImageTypes() & $type ) )
+		//  only these types can be saved and displayed
+		if( !in_array( $type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG], TRUE ) )
 			throw new InvalidArgumentException( 'Invalid type' );
 		$this->type	= $type;
 		if( $this->fileName ){

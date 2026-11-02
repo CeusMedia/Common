@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Writer for short Log Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,19 +23,21 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\File\Log;
 
+use CeusMedia\Common\Env;
+
 /**
  *	Writer for short Log Files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -56,10 +60,10 @@ class ShortWriter
 		$this->uri	= $uri;
 		$this->setPatterns( [
 			time(),
-			getEnv( 'REMOTE_ADDR'),
-			getEnv( 'REQUEST_URI' ),
-			getEnv( 'HTTP_REFERER' ),
-			getEnv( 'HTTP_USER_AGENT' )
+			Env::getServerVariable( 'REMOTE_ADDR' ),
+			Env::getServerVariable( 'REQUEST_URI' ),
+			Env::getServerVariable( 'HTTP_REFERER' ),
+			Env::getServerVariable( 'HTTP_USER_AGENT' )
 		] );
 	}
 
@@ -69,7 +73,7 @@ class ShortWriter
 	 *	@param		string|array	$line		Entry to add to Log File
 	 *	@return		bool
 	 */
-	public function note( $line ): bool
+	public function note( array|string $line ): bool
 	{
 		if( is_array( $line ) )
 			$line	= implode( "|", $line );

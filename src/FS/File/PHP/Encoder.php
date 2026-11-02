@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	Class for encoding PHP File.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,14 +23,13 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\File\PHP;
 
-use CeusMedia\Common\FS\File\Editor as FileEditor;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 use RuntimeException;
@@ -37,29 +39,29 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Encoder
 {
 	/**	@var		string		$incodePrefix		Prefix of inner Code Wrapper */
-	protected $incodePrefix		= "";
+	protected string $incodePrefix		= "";
 
 	/**	@var		string		$incodeSuffix		Suffix of inner Code Wrapper */
-	protected $incodeSuffix		= "";
+	protected string $incodeSuffix		= "";
 
 	/**	@var		string		$outcodePrefix		Prefix of outer Code Wrapper */
-	protected $outcodePrefix	= "";
+	protected string $outcodePrefix	= "";
 
 	/**	@var		string		$outcodeSuffix		Suffix of outer Code Wrapper */
-	protected $outcodeSuffix	= "";
+	protected string $outcodeSuffix	= "";
 
 	/**	@var		string		$filePrefix			Prefix of compressed PHP File */
-	public $filePrefix			= "code.";
+	public string $filePrefix			= "code.";
 
 	/**	@var		string		$fileSuffix			Suffix of compressed PHP File */
-	public $fileSuffix			= "";
+	public string $fileSuffix			= "";
 
 	/**
 	 *	Constructor.
@@ -97,21 +99,22 @@ class Encoder
 	 */
 	public function decodeFile( string $fileName, bool $overwrite = FALSE ): bool
 	{
-		if( file_exists( $fileName ) ){
-			if( $this->isEncoded( $fileName ) ){
-				$file	= new FileEditor( $fileName );
-				$php	= $file->readString();
-				$code	= $this->encode( $php );
-				$dirname	= dirname( $fileName );
-				$basename	= basename( $fileName );
-				$target	= $dirname."/".substr( $basename, strlen( $this->filePrefix) , -strlen( $this->fileSuffix ) );
-				if( $fileName == $target && !$overwrite )
-					throw new RuntimeException( 'File cannot be overwritten, use Parameter "overwrite".' );
-				$file->writeString( $code );
-				return TRUE;
-			}
-		}
-		return FALSE;
+		if( !file_exists( $fileName ) )
+			return FALSE;
+		if( !$this->isEncoded( $fileName ) )
+			return FALSE;
+		$code		= FileReader::load( $fileName );
+		$php		= $this->decode( $code );
+		$dirname	= dirname( $fileName );
+		$basename	= basename( $fileName );
+		if( '' !== $this->filePrefix && str_starts_with( $basename, $this->filePrefix ) )
+			$basename	= substr( $basename, strlen( $this->filePrefix ) );
+		if( '' !== $this->fileSuffix && str_ends_with( $basename, $this->fileSuffix ) )
+			$basename	= substr( $basename, 0, -strlen( $this->fileSuffix ) );
+		$target		= $dirname."/".$basename;
+		if( $fileName == $target && !$overwrite )
+			throw new RuntimeException( 'File cannot be overwritten, use Parameter "overwrite".' );
+		return (bool) FileWriter::save( $target, $php );
 	}
 
 	/**
@@ -119,10 +122,13 @@ class Encoder
 	 *	@access		protected
 	 *	@param		string		$code		Encoded PHP Content
 	 * 	@return		string
+	 *	@throws		RuntimeException	if decoding failed
 	 */
 	protected function decodeHash( string $code ): string
 	{
-		$php	= gzinflate( base64_decode( $code ) );
+		$php	= gzinflate( (string) base64_decode( $code ) );
+		if( FALSE === $php )
+			throw new RuntimeException( 'Decoding of PHP code failed' );
 		$php	= substr( $php, strlen( $this->incodePrefix) , -strlen( $this->incodeSuffix ) );
 		return $php;
 	}
@@ -169,10 +175,14 @@ class Encoder
 	 *	@access		protected
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
+	 *	@throws		RuntimeException	if encoding failed
 	 */
 	protected function encodeHash( string $php ): string
 	{
-		return base64_encode( gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix ) );
+		$code	= gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix );
+		if( FALSE === $code )
+			throw new RuntimeException( 'Encoding of PHP code failed' );
+		return base64_encode( $code );
 	}
 
 	/**
@@ -183,12 +193,13 @@ class Encoder
 	 */
 	public function isEncoded( string $fileName ): bool
 	{
-		if( file_exists( $fileName ) ){
-			$fp	= fopen( $fileName, "r" );
-			$code	= fgets( $fp, strlen( $this->outcodePrefix ) );
-			if( $code == $this->outcodePrefix )
-				return TRUE;
-		}
-		return FALSE;
+		if( !file_exists( $fileName ) )
+			return FALSE;
+		$fp	= fopen( $fileName, "r" );
+		if( FALSE === $fp )
+			return FALSE;
+		$code	= fread( $fp, strlen( $this->outcodePrefix ) );
+		fclose( $fp );
+		return $code === $this->outcodePrefix;
 	}
 }

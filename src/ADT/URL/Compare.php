@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	...
  *
- *	Copyright (c) 2018-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2018-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
@@ -38,24 +40,24 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018-2025 Christian Würker
+ *	@copyright		2018-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			https://www.w3.org/Addressing/URL/url-spec.html
  */
 class Compare
 {
-	protected ?URL $url1;
+	protected ?URL $url1	= NULL;
 
-	protected ?URL $url2;
+	protected ?URL $url2	= NULL;
 
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		URL|string		$url1
-	 *	@param		URL|string		$url2
+	 *	@param		URL|string|NULL		$url1
+	 *	@param		URL|string|NULL		$url2
 	 */
-	public function __construct( $url1 = NULL, $url2 = NULL )
+	public function __construct( URL|string|NULL $url1 = NULL, URL|string|NULL $url2 = NULL )
 	{
 		if( $url1 )
 			$this->setUrl1( $url1 );
@@ -117,7 +119,7 @@ class Compare
 	 *	@param		URL|string		$url2
 	 *	@return		bool
 	 */
-	public static function sameBaseStatic( $url1, $url2 ): bool
+	public static function sameBaseStatic( URL|string $url1, URL|string $url2 ): bool
 	{
 		$that	= new self( $url1, $url2 );
 		return $that->sameBase();

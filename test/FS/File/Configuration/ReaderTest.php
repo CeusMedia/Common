@@ -18,6 +18,9 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ReaderTest extends BaseCase
 {
+	protected $data;
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

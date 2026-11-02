@@ -15,14 +15,13 @@ declare( strict_types = 1 );
 namespace CeusMedia\CommonTest\Net\FTP;
 
 use CeusMedia\Common\Net\FTP\Connection;
-use CeusMedia\CommonTest\BaseCase;
 
 /**
  *	TestUnit of Net_FTP_Connection.
  *	@package		Tests.net.ftp
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class ConnectionTest extends BaseCase
+class ConnectionTest extends FtpTestCase
 {
 	protected ?Connection $connection	= NULL;
 	protected ?string $host;
@@ -47,15 +46,18 @@ class ConnectionTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->config	= self::$_config['unitTest-FTP'] ?? [];
+		$this->config	= self::getFtpConfig();
 		$this->host		= $this->config['host'] ?? NULL;
 		$this->port		= (int) ( $this->config['port'] ?? 0 );
 		$this->username	= $this->config['user'] ?? NULL;
 		$this->password	= $this->config['pass'] ?? NULL;
 		$this->path		= $this->config['path'] ?? NULL;
 		$this->local	= $this->config['local'] ?? NULL;
-		if( $this->checkFtpConfig() )
+		if( [] !== $this->config ){
+			@mkdir( (string) $this->local );
 			$this->connection	= new Connection( $this->host, $this->port );
+		}
+		$this->checkFtpConfig();
 	}
 
 	/**
@@ -67,7 +69,7 @@ class ConnectionTest extends BaseCase
 		if( NULL !== $this->connection )
 			return TRUE;
 		if( $markSkipped )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+			$this->markTestSkipped( 'Test FTP server is not available' );
 		return FALSE;
 	}
 
@@ -80,8 +82,7 @@ class ConnectionTest extends BaseCase
 	{
 		if( empty( $this->local ) )
 			return;
-		$this->connection->close( TRUE );
-		@rmDir( $this->local );
+		$this->connection?->close( TRUE );
 	}
 
 	/**
@@ -92,7 +93,7 @@ class ConnectionTest extends BaseCase
 	public function testConstruct()
 	{
 		$connection	= new Connection( $this->host, $this->port );
-		self::assertIsResource( $connection->getResource() );
+		self::assertInstanceOf( \FTP\Connection::class, $connection->getResource() );
 
 		$assertion	= $this->host;
 		$creation	= $connection->getHost();
@@ -118,9 +119,10 @@ class ConnectionTest extends BaseCase
 	public function testCheckConnection()
 	{
 		$connection	= new Connection( $this->host, $this->port );
-		$creation	= $connection->checkConnection( TRUE, FALSE );
+		self::assertTrue( $connection->checkConnection( TRUE, FALSE ) );
+		self::assertFalse( $connection->checkConnection( TRUE, TRUE, FALSE ) );
 		$connection->login( $this->username, $this->password );
-		$creation	= $connection->checkConnection( TRUE, TRUE );
+		self::assertTrue( $connection->checkConnection( TRUE, TRUE ) );
 	}
 
 	/**
@@ -164,15 +166,15 @@ class ConnectionTest extends BaseCase
 	 */
 	public function testConnect()
 	{
-		$connection	= new Connection( "127.0.0.1", 21, 2 );
-		self::assertIsResource( $connection->getResource() );
+		$connection	= new Connection( $this->host, $this->port, 2 );
+		self::assertInstanceOf( \FTP\Connection::class, $connection->getResource() );
 
 		$assertion	= 2;
 		$creation	= $connection->getTimeout();
 		self::assertEquals( $assertion, $creation );
 
-		$connection	= new Connection( "not_existing", 1, 1 );
-		self::assertIsNotResource( $connection->getResource() );
+		$connection	= new Connection( "127.0.0.1", 1, 1 );
+		self::assertNull( $connection->getResource() );
 	}
 
 	/**
@@ -234,7 +236,7 @@ class ConnectionTest extends BaseCase
 	public function testGetResource()
 	{
 		$this->checkFtpConfig();
-		self::assertIsResource( $this->connection->getResource() );
+		self::assertInstanceOf( \FTP\Connection::class, $this->connection->getResource() );
 		$this->connection->close();
 		self::assertNull( $this->connection->getResource() );
 	}

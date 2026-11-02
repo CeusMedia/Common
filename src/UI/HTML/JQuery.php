@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builder for jQuery Plugin Calls for HTML Documents.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,14 +37,14 @@ use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class JQuery
 {
 	/**	@var		string		$jQueryFunctionName		Name of jQuery Function to call, default: $ */
-	public static $jQueryFunctionName	= 'jQuery';
+	public static string $jQueryFunctionName	= 'jQuery';
 
 	/**
 	 *	Builds and returns JavaScript Code of jQuery Plugin Call.
@@ -58,9 +60,11 @@ class JQuery
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );
-		$options		= JsonEncoder::create()->encode( $options );
+		//  encode for use in HTML script blocks: no tags, ampersands or quotes, which could end the script
+		$flags			= JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
+		$options		= JsonEncoder::create()->encode( $options, $flags );
 		$show			= $selector ? '.show()' : "";
-		$selector		= $selector ? '("'.$selector.'")' : "";
+		$selector		= $selector ? '('.json_encode( $selector, $flags ).')' : "";
 		return $outerIndent.self::$jQueryFunctionName.'(document).ready(function(){
 '.$innerIndent.self::$jQueryFunctionName.$selector.'.'.$plugin.'('.$options.')'.$show.';
 '.$outerIndent.'});';

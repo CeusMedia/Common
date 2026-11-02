@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Binary Search Algorithm.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Search
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +35,7 @@ namespace CeusMedia\Common\Alg\Search;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Search
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -45,37 +45,25 @@ class Binary
 	protected $counter;
 
 	/**
-	 *	Searches in List and returns position if found, else 0.
+	 *	Searches in sorted List and returns position if found, else -1.
 	 *	@access		public
-	 *	@param		array		$list		List to search in
+	 *	@param		array		$list		Sorted list to search in
 	 *	@param		mixed		$search		Element to search
-	 *	@param		int			$pos		Position (initial = 0)
-	 *	@return 	int
+	 *	@param		int			$pos		Position offset of list (initial = 0)
+	 *	@return 	int			Position of element or -1 if not found
 	 */
-	public function search( $list, $search, $pos = 0 )
+	public function search( array $list, mixed $search, int $pos = 0 ): int
 	{
-		$size = sizeof( $list );
-		if( $size == 1 )
-		{
-			if( $list[0] == $search )
-				return $list[0];
-			else
-				return -1;
-		}
-		else
-		{
-			$this->counter++;
-			$mid = (int) floor( $size / 2 );
-			if( $search < $list[$mid] )
-			{
-				$list = array_slice( $list, 0, $mid );
-				return $this->search( $list, $search, $pos );
-			}
-			else
-			{
-				$list = array_slice( $list, $mid );
-				return $this->search( $list, $search, $pos );
-			}
-		}
+		$list	= array_values( $list );
+		$size	= count( $list );
+		if( 0 === $size )
+			return -1;
+		if( 1 === $size )
+			return $list[0] == $search ? $pos : -1;
+		$this->counter++;
+		$mid	= intdiv( $size, 2 );
+		if( $search < $list[$mid] )
+			return $this->search( array_slice( $list, 0, $mid ), $search, $pos );
+		return $this->search( array_slice( $list, $mid ), $search, $pos + $mid );
 	}
 }

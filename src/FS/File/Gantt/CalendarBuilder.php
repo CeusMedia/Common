@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Builds iCal File with Meeting Dates from "Gantt Project" File.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Gantt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,14 +38,14 @@ use CeusMedia\Common\XML\DOM\Node;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Gantt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class CalendarBuilder
 {
 	/**	@var		string		$title		Title of iCal Root Node */
-	protected $title;
+	protected string $title;
 
 	/**
 	 *	Constructor.
@@ -69,8 +71,8 @@ class CalendarBuilder
 		$cal		= new Node( "vcalendar" );
 		$cal->addChild( new Node( "version", "2.0" ) );
 		foreach( $projects as $project ){
-			$start		= strtotime( $project['start'] );
-			$end		= strtotime( $project['end'] );
+			$start		= (int) strtotime( $project['start'] );
+			$end		= (int) strtotime( $project['end'] );
 			$event		= new Node( "vevent" );
 			$start		= new Node( "dtstart", date( "Ymd", $start ) );
 			$end		= new Node( "dtend", date( "Ymd", $end ) );
@@ -82,8 +84,8 @@ class CalendarBuilder
 		}
 
 		foreach( $meetings as $meeting ){
-			$start		= strtotime( $meeting['start'] );
-			$end		= strtotime( $meeting['end'] );
+			$start		= (int) strtotime( $meeting['start'] );
+			$end		= (int) strtotime( $meeting['end'] );
 			$event		= new Node( "vevent" );
 			$start		= new Node( "dtstart", date( "Ymd", $start ) );
 			$end		= new Node( "dtend", date( "Ymd", $end ) );

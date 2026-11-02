@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Bubble Sort.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -35,7 +35,7 @@ namespace CeusMedia\Common\Alg\Sort;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -51,6 +51,7 @@ class Bubble
 	 */
 	public static function sort( array $list ): array
 	{
+		$list	= array_values( $list );
 		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
 			for( $j=0; $j<$i; $j++ )
 				if( $list[$j] > $list[$j+1] )
@@ -67,7 +68,8 @@ class Bubble
 	 *	@param		int			$pos2		Position of second Element
 	 *	@return		void
 	 */
-	protected static function swap( &$list, $pos1, $pos2 )
+	protected static function swap( array &$list, int $pos1, int $pos2 ): void
+
 	{
 		$memory	= $list[$pos1];
 		$list[$pos1] = $list[$pos2];

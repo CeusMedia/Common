@@ -1,10 +1,12 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML  will be supported if Spyc is improved.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +24,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -49,14 +51,14 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Converter
 {
 	/**	@var		string		$iniTypePattern		Pattern for Types in INI Comments */
-	public static $iniTypePattern = '@^(string|integer|int|double|boolean|bool)[ \t]*[:-]*[ \t]*(.*)$@';
+	public static string $iniTypePattern = '@^(string|integer|int|double|boolean|bool)[ \t]*[:-]*[ \t]*(.*)$@';
 
 	/**
 	 *	Converts Configuration File from INI to JSON and returns Length of Target File.
@@ -247,11 +249,11 @@ class Converter
 	{
 		$creator	= new IniFileCreator( TRUE );
 		foreach( $data as $sectionName => $sectionData ){
-			$creator->addSection( $sectionName );
+			$creator->addSection( (string) $sectionName );
 			foreach( $sectionData as $pair ){
 				switch( $pair['type'] ){
 					case 'string':
-						$pair['value']	= '"'.addslashes( $pair['value'] ).'"';
+						$pair['value']	= '"'.addslashes( (string) $pair['value'] ).'"';
 						break;
 					case 'bool':
 					case 'boolean':
@@ -259,7 +261,7 @@ class Converter
 						break;
 				}
 				$pair['comment']	= isset( $pair['comment'] ) ? $pair['type'].": ".$pair['comment'] : $pair['type'];
-				$creator->addProperty( $pair['key'], $pair['value'], $pair['comment'] );
+				$creator->addProperty( (string) $pair['key'], (string) $pair['value'], $pair['comment'] );
 			}
 		}
 		return $creator->write( $fileName );
@@ -285,7 +287,7 @@ class Converter
 		}
 //		$json	= json_encode( $json, JSON_PRETTY_PRINT );
 		$json	= JsonPretty::print( JsonBuilder::encode( $json ), TRUE );
-		return FileWriter::save( $fileName, $json );
+		return (int) FileWriter::save( $fileName, $json );
 	}
 
 	/**
@@ -302,12 +304,12 @@ class Converter
 		$root	= new Node( "configuration" );
 		foreach( $data as $sectionName => $sectionData ){
 			$sectionNode	= new Node( "section" );
-			$sectionNode->setAttribute( 'name', $sectionName );
+			$sectionNode->setAttribute( 'name', (string) $sectionName );
 			foreach( $sectionData as $pair ){
 				$comment	= $pair['comment'] ?? NULL;
-				$valueNode	= new Node( "value", $pair['value'] );
+				$valueNode	= new Node( "value", NULL === $pair['value'] ? NULL : (string) $pair['value'] );
 				$valueNode->setAttribute( 'type', $pair['type'] );
-				$valueNode->setAttribute( 'name', $pair['key'] );
+				$valueNode->setAttribute( 'name', (string) $pair['key'] );
 				if( isset( $pair['comment'] ) )
 					$valueNode->setAttribute( 'comment', $comment );
 				$sectionNode->addChild( $valueNode );

@@ -1,9 +1,12 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a
  *	pie chart and so on.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +24,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,7 +37,7 @@ namespace CeusMedia\Common\UI\SVG;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -52,7 +55,8 @@ class ChartData
 	 *	@var float
 	 *	@access public
 	 */
-	public $value;
+	public float $value;
+	public float $percent	= 0;
 
 	/**
 	 * 	The constructor.
@@ -62,7 +66,7 @@ class ChartData
 	 *	@param		string		$desc       Description
 	 *	@return		void
 	 */
-	public function __construct( $value, string $desc = '' )
+	public function __construct( float $value, string $desc = '' )
 	{
 		$this->desc = $desc;
 		$this->value = $value;

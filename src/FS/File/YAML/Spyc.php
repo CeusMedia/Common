@@ -186,7 +186,7 @@ class Spyc
      *
      * @access public
      * @return string
-     * @param array|\stdClass $array PHP array
+     * @param array|\stdClass $array
      * @param int $indent Pass in false to use the default, which is 2
      * @param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
      * @param bool $no_opening_dashes Do not start YAML file with "---\n"
@@ -595,7 +595,7 @@ class Spyc
     if ($value === '') return "";
 
     if ($this->setting_empty_hash_as_object && $value === '{}') {
-      return new stdClass();
+      return new \stdClass();
     }
 
     $first_character = $value[0];

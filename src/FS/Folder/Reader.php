@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Reader for Folders.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,14 +23,13 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 
 namespace CeusMedia\Common\FS\Folder;
 
-use CeusMedia\Common\Alg\UnitFormater;
 use FilterIterator;
 use RuntimeException;
 
@@ -37,15 +38,20 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement getFileTree, getFolderTree, getTree
  */
 class Reader
 {
+	public const SIZE_BYTE			= 1024 ** 0;
+	public const SIZE_KILOBYTE		= 1024 ** 1;
+	public const SIZE_MEGABYTE		= 1024 ** 2;
+	public const SIZE_GIGABYTE		= 1024 ** 3;
+
 	/**	@var		string		$folderName		Folder Name, relative or absolute */
-	protected $folderName;
+	protected string $folderName;
 
 	/**
 	 *	Constructor.
@@ -67,7 +73,7 @@ class Reader
 	 */
 	public static function correctPath( string $path ): string
 	{
-		return preg_replace( "@([^/])$@", "\\1/", $path );
+		return preg_replace( "@([^/])$@", "\\1/", $path ) ?? $path;
 	}
 
 	/**
@@ -224,7 +230,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedFileList( string $pattern = NULL ): FilterIterator
+	public function getNestedFileList( ?string $pattern = NULL ): FilterIterator
 	{
 		return RecursiveLister::getFileList( $this->folderName, $pattern );
 	}
@@ -235,7 +241,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedFolderCount( string $pattern = NULL ): int
+	public function getNestedFolderCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedFolderList( $pattern ) as $entry )
@@ -268,18 +274,14 @@ class Reader
 	/**
 	 *	Returns Size of all nested Files and Folders within current Folder.
 	 *	@access		public
-	 *	@param		string		$pattern		RegEx Pattern for Name Filter
-	 *	@param		int			$unit			Unit (SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
-	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
+	 *	@param		string|NULL		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedSize( string $pattern = NULL, int $unit = NULL, int $precision = NULL ): int
+	public function getNestedSize( ?string $pattern = NULL ): int
 	{
 		$size	= 0;
 		foreach( $this->getNestedFileList( $pattern ) as $entry )
 			$size	+= $entry->getSize();
-		if( $unit )
-			$size	= UnitFormater::formatNumber( $size, $unit, $precision );
 		return $size;
 	}
 
@@ -309,19 +311,21 @@ class Reader
 	/**
 	 *	Returns Size of Files within current Folder.
 	 *	@access		public
-	 *	@param		string		$pattern		RegEx Pattern for Name Filter
-	 *	@param		int			$unit			Unit (SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
-	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
-	 *	@return		int
+	 *	@param		string|NULL		$pattern		RegEx Pattern for Name Filter
+	 *	@param		int|NULL		$unit			Unit as number of bytes, e.g. self::SIZE_KILOBYTE (one of SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
+	 *	@param		int|NULL		$precision		Precision of rounded Size (only if unit is set, default: 0)
+	 *	@return		int|float		Size in bytes or in given unit
 	 */
-	public function getSize( string $pattern = NULL, int $unit = NULL, int $precision = NULL ): int
+	public function getSize( ?string $pattern = NULL, ?int $unit = NULL, ?int $precision = NULL ): int|float
 	{
 		$size	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )
 			$size	+= $entry->getSize();
-		if( $unit )
-			$size	= UnitFormater::formatBytes( $size, $precision );
-		return $size;
+		if( !$unit )
+			return $size;
+		if( !$precision )
+			return (int) round( $size / $unit );
+		return round( $size / $unit, $precision );
 	}
 
 	/**

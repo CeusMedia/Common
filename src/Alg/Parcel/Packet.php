@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Packet can contain different Articles and has a defined Volume.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,20 +37,20 @@ use OutOfRangeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Packet
 {
 	/**	@var		string		$name		Name of Packet Size */
-	protected $name;
+	protected string $name;
 
 	/**	@var		array		$articles	Array of Articles and their Quantities */
-	protected $articles			= [];
+	protected array $articles	= [];
 
 	/**	@var		float		$volume		Filled Volume as floating Number between 0 and 1 */
-	protected $volume			= 0;
+	protected float $volume		= 0;
 
 	/**
 	 *	Constructor.
@@ -85,7 +85,8 @@ class Packet
 	 *	@param		float		$volume		Article Volume for this Packet Size
 	 *	@return		void
 	 */
-	public function addArticle( string $name, float $volume )
+	public function addArticle( string $name, float $volume ): void
+
 	{
 		if( !$this->hasVolumeLeft( $volume ) )
 			throw new OutOfRangeException( 'Article "'.$name.'" does not fit in this Packet "'.$this->name.'".' );

@@ -1,10 +1,12 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Management for session data with partitions.
  *	Helpful and more secure if several applications are storing data with same session.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +24,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -30,6 +32,7 @@
 namespace CeusMedia\Common\Net\HTTP;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Env;
 
 /**
  *	Management for session data with partitions.
@@ -37,7 +40,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -54,6 +57,7 @@ class PartitionSession extends Dictionary
 	 *	@param		string|NULL		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
+	// @phpstan-ignore method.childParameterType, method.childParameterType, parameter.notOptional
 	public function __construct( string $partitionName, string $sessionName = "sid", ?string $domain = NULL )
 	{
 		parent::__construct();
@@ -62,13 +66,13 @@ class PartitionSession extends Dictionary
 		//  a domain has been specified
 		if( strlen( trim( $domain ?? '' ) ) )
 			//  set cookie domain
-			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );
+			ini_set( 'session.cookie_domain', trim( strtolower( $domain ?? '' ) ) );
 		//  start cookie handler
 		@session_start();
 		//  copy session data resource
 		$this->session	=& $_SESSION;
 		//  get client IP address
-		$ip = getEnv( 'REMOTE_ADDR' );
+		$ip = Env::getServerVariable( 'REMOTE_ADDR' );
 		//  IP has not been noted before
 		if( !isset( $this->session['ip'] ) )
 			//  store IP in session
@@ -116,7 +120,7 @@ class PartitionSession extends Dictionary
 		$this->pairs	= [];
 #		foreach( $this->pairs as $key => $value )
 #			$this->remove( $key );
-		$this->session['ip'] = getEnv( 'REMOTE_ADDR' );
+		$this->session['ip'] = Env::getServerVariable( 'REMOTE_ADDR' );
 	}
 
 	/**
@@ -126,7 +130,7 @@ class PartitionSession extends Dictionary
 	 */
 	public function getSessionID(): string
 	{
-		return session_id();
+		return (string) session_id();
 	}
 
 	/**
@@ -136,6 +140,6 @@ class PartitionSession extends Dictionary
 	 */
 	public function getSessionName(): string
 	{
-		return session_name();
+		return (string) session_name();
 	}
 }

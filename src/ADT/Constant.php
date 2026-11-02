@@ -1,10 +1,12 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Sets and gets constant values.
  *	List all constants with a given prefix.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +24,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +41,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -54,7 +56,7 @@ class Constant
 	 *	@throws		InvalidArgumentException
 	 *	@todo		finish impl
 	 */
-	public static function get( string $key )
+	public static function get( string $key ): mixed
 	{
 		$key	= strtoupper( $key );
 		if( self::has( $key ) )
@@ -73,7 +75,7 @@ class Constant
 	 */
 	public static function getAll( ?string $prefix = NULL, ?string $excludePrefix = NULL ): array
 	{
-		$prefix	= strtoupper( $prefix );
+		$prefix	= strtoupper( $prefix ?? '' );
 		$length	= strlen( $prefix );
 		if( $length	< 2 )
 			throw new InvalidArgumentException( 'Prefix "'.$prefix.'" is to short.' );
@@ -105,7 +107,7 @@ class Constant
 	 *	@param		mixed			$value
 	 *	@return		string|integer
 	 */
-	public static function getKeyByValue( ?string $prefix, $value )
+	public static function getKeyByValue( ?string $prefix, mixed $value ): string|int
 	{
 		$constants	= static::getAll( $prefix );
 		$list		= [];
@@ -146,7 +148,7 @@ class Constant
 	 *	@return		bool
 	 *	@throws		RuntimeException		if Constant has already been set
 	 */
-	public static function set( string $key, $value, bool $strict = TRUE ): bool
+	public static function set( string $key, mixed $value, bool $strict = TRUE ): bool
 	{
 		$key	= strtoupper( $key );
 		if( defined( $key ) && $strict )

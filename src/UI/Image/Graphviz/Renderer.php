@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpUnused */
 
 /**
  *	Renderer graphs in DOT language (Graphviz).
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -40,7 +43,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graphviz
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			implement support for other image formats than PNG
@@ -86,8 +89,10 @@ class Renderer
 		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
+		if( FALSE === $tempFile )
+			throw new RuntimeException( 'Creating temporary file failed' );
 		$this->graph->save( $tempFile, $graphOptions );
-		exec( $this->layoutEngine.' -O -T'.$type.' '.$tempFile );
+		exec( escapeshellarg( $this->layoutEngine ).' -O '.escapeshellarg( '-T'.$type ).' '.escapeshellarg( $tempFile ) );
 		unlink( $tempFile );
 		$mapFile	= $tempFile.".".$type;
 		if( !file_exists( $mapFile ) )
@@ -102,6 +107,8 @@ class Renderer
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
+		if( FALSE === $tempFile )
+			throw new RuntimeException( 'Creating temporary file failed' );
 		$this->saveAsImage( $tempFile, $type, $graphOptions );
 		$image		= FileReader::load( $tempFile );
 		@unlink( $tempFile );
@@ -122,8 +129,10 @@ class Renderer
 #		if( !in_array( $type, ["ismap", "imap", "imap_np", "cmap", "cmapx", "cmapx_np"] ) )
 #			throw new OutOfBoundsException( 'Map type "'.$type.'" is unknown or not supported' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
+		if( FALSE === $tempFile )
+			throw new RuntimeException( 'Creating temporary file failed' );
 		$this->graph->save( $tempFile, $graphOptions );
-		exec( $this->layoutEngine.' -O -T'.$type.' '.$tempFile );
+		exec( escapeshellarg( $this->layoutEngine ).' -O '.escapeshellarg( '-T'.$type ).' '.escapeshellarg( $tempFile ) );
 		unlink( $tempFile );
 		if( !file_exists( $tempFile.".".$type ) )
 			throw new RuntimeException( 'Image file could not been created' );

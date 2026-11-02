@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Mark Image with another Image.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2005-2025 Christian Würker
+ *	@copyright		2005-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +39,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2005-2025 Christian Würker
+ *	@copyright		2005-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -94,7 +97,7 @@ class Watermark
 				$posX	= $this->marginX;
 				break;
 			case 'center':
-				$posX	= ceil( $image->getWidth() / 2 - $this->stamp->getWidth() / 2 );
+				$posX	= (int) ceil( $image->getWidth() / 2 - $this->stamp->getWidth() / 2 );
 				break;
 			case 'right':
 			default:
@@ -106,7 +109,7 @@ class Watermark
 				$posY	= $this->marginY;
 				break;
 			case 'middle':
-				$posY	= ceil( $image->getHeight() / 2 - $this->stamp->getHeight() / 2 );
+				$posY	= (int) ceil( $image->getHeight() / 2 - $this->stamp->getHeight() / 2 );
 				break;
 			case 'bottom':
 			default:

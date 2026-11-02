@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Parser for OPML Files.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,17 +41,17 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Parser
 {
 	/**	@var	OptionObject		$headers			Object containing Headers of OPML Document */
-	protected $headers;
+	protected OptionObject $headers;
 
 	/**	@var	array				$optionKeys			Array of supported Headers */
-	protected $optionKeys	= [
+	protected array $optionKeys	= [
 		"title",
 		"dateCreated",
 		"dateModified",
@@ -64,16 +66,16 @@ class Parser
 	];
 
 	/**	@var	array				$outlines			Array of Outlines */
-	protected $outlines = [];
+	protected array $outlines = [];
 
 	/**	@var	Node				$tree				Loaded XML Tree from OPML Document */
-	protected $tree;
+	protected Node $tree;
 
 	/**	@var	DomParser			$parser				Instance of DOM parser */
-	protected $parser;
+	protected DomParser $parser;
 
 	/**	@var	bool				$parsed				Flag: OPML has been parsed */
-	protected $parsed;
+	protected bool $parsed;
 
 	/**
 	 *	Constructor.
@@ -112,8 +114,10 @@ class Parser
 	{
 		if( !$this->parsed )
 			throw new RuntimeException( "XML_OPML_Parser[getOption]: OPML Document has not been parsed yet." );
-		if( $this->headers->hasOption( $key ) )
-			return $this->headers->getOption( $key );
+		if( $this->headers->hasOption( $key ) ){
+			$value	= $this->headers->getOption( $key );
+			return NULL !== $value ? (string) $value : NULL;
+		}
 		return NULL;
 	}
 
@@ -217,10 +221,9 @@ class Parser
 			$data	= [];
 			foreach( $outline->getAttributes() as $key => $value )
 				$data[$key]	= $value;
+			$data['outlines']	= [];
 			if( $outline->hasChildren() )
 				$this->parseOutlines( $outline, $data['outlines'] );
-			else
-				$data['outlines']	= [];
 			$array[]	= $data;
 		}
 	}

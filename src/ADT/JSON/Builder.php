@@ -5,7 +5,7 @@ declare( strict_types = 1 );
 /**
  *	JSON Implementation for building JSON Code.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare( strict_types = 1 );
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +38,7 @@ use const SORT_STRING;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -51,7 +51,7 @@ class Builder
 	 *	@param		mixed		$data			Data to be encoded
 	 *	@return		string
 	 */
-	public static function encode( $data ): string
+	public static function encode( mixed $data ): string
 	{
 		$builder	= new self();
 		return $builder->get( NULL, $data );
@@ -88,7 +88,7 @@ class Builder
 	 *	@param		string|NULL		$parent			Parent of Pair
 	 *	@return		string
 	 */
-	public function get( $key, $value, ?string $parent = NULL ): string
+	public function get( string|int|NULL $key, mixed $value, ?string $parent = NULL ): string
 	{
 		$type	= self::getType( $key, $value );
 		switch( $type ){
@@ -124,7 +124,7 @@ class Builder
 	 *	@param		mixed			$value			Value of Pair
 	 *	@return		string
 	 */
-	private static function getType( $key, $value ): string
+	private static function getType( string|int|NULL $key, mixed $value ): string
 	{
 		if( is_object( $value ))
 			$type	= 'object';
@@ -167,7 +167,7 @@ class Builder
 	private static function loop( array|object $array, string $type ): string
 	{
 		$builder	= new self();
-		$output		= NULL;
+		$output		= '';
 		foreach( (array) $array as $key => $value )
 			$output	.= $builder->get( $key, $value, $type ).',';
 		return trim( $output, ',' );

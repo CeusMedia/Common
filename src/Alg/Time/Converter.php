@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Converting Unix Timestamps to Human Time in different formats and backwards.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,7 +39,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			revise, internationalise
@@ -64,7 +67,8 @@ class Converter
 		}
 		else if( preg_match( "@^\d{1,2}/(\d{2}){1,2}$@", $string ) ){
 			$pos	= strpos( $string, "/" );
-			$string	= substr( $string, 0, $pos )."/01".substr( $string, $pos );
+			if( false !== $pos )
+				$string	= substr( $string, 0, $pos )."/01".substr( $string, $pos );
 		}
 		else
 			return $string;
@@ -108,7 +112,8 @@ class Converter
 	 *	@param		string			$format			Format of human time (date|monthdate|datetime|duration|custom format)
 	 *	@return		string|NULL
 	 */
-	public static function convertToHuman( $timestamp, string $format ): ?string
+	public static function convertToHuman( int|string $timestamp, string $format ): ?string
+
 	{
 		$timestamp	= (int) $timestamp;
 		if( $format == "date" )
@@ -199,22 +204,22 @@ class Converter
 					"i"	=> "minute",
 					"s"	=> "second"
 				];
-				$parts	= [];
-				foreach( $components as $key => $name ){
-					${$name}	= 0;
-					if( array_search( $key, $matches1 ) )
-						if( isset( $matches2[array_search( $key, $matches1 )] ) )
-							$parts[$name] = $matches2[array_search( $key, $matches1 )];
-				}
+ 			$parts	= [];
+ 			foreach( $components as $key => $name ){
+ 				${$name}	= 0;
+ 				$searchPos	= array_search( $key, $matches1 );
+ 				if( $searchPos !== false && isset( $matches2[$searchPos] ) )
+ 					$parts[$name] = $matches2[$searchPos];
+ 			}
 
-				$timestamp = mktime(
-					intval( $parts['hour'] ),
-					intval( $parts['minute'] ),
-					intval( $parts['second'] ),
-					intval( $parts['month'] ),
-					intval( $parts['day'] ),
-					intval( $parts['year'] )
-				);
+ 			$timestamp = mktime(
+ 				intval( $parts['hour'] ?? 0 ),
+ 				intval( $parts['minute'] ?? 0 ),
+ 				intval( $parts['second'] ?? 0 ),
+ 				intval( $parts['month'] ?? 0 ),
+ 				intval( $parts['day'] ?? 0 ),
+ 				intval( $parts['year'] ?? 0 )
+ 			);
 			}
 		}
 		return $timestamp;

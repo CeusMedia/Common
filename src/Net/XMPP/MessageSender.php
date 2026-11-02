@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Sender for Messages via Jabber.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,32 +39,32 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class MessageSender
 {
 	/**	@var	bool			$encryption				Flag: use TLS Encryption */
-	protected $encryption		= TRUE;
+	protected bool $encryption	= TRUE;
 
 	/**	@var	int				$logLevel				Log Level */
-	protected $logLevel			= Log::LEVEL_INFO;
+	protected int $logLevel		= Log::LEVEL_INFO;
 
 	/**	@var	int				$port					Server Port */
-	protected $port				= 5222;
+	protected int $port			= 5222;
 
 	/**	@var	bool			$printLog				Flag: use Logging */
-	protected $printLog			= FALSE;
+	protected bool $printLog	= FALSE;
 
-	/**	@var	JID|string|NULL	$receiver				Receiver JID */
-	protected $receiver			= NULL;
+	/**	@var	JID|NULL		$receiver				Receiver JID */
+	protected ?JID $receiver	= NULL;
 
 	/**	@var	string			$resource				??? */
-	protected $resource			= "xmpphp";
+	protected string $resource	= "xmpphp";
 
 	/**	@var	XMPP|NULL		$xmpp					XMPP Instance */
-	public $xmpp				= NULL;
+	public ?XMPP $xmpp			= NULL;
 
 	/**
 	 *	Constructor.
@@ -103,12 +105,12 @@ class MessageSender
 	 *	@return		void
 	 *	@throws		XMPPHP\Exception
 	 */
-	public function connect( JID $sender, string $password )
+	public function connect( JID $sender, string $password ): void
 	{
 		$this->xmpp		= new XMPP(
 			$sender->getDomain(),
 			$this->port,
-			$sender->getNode(),
+			$sender->getNode() ?? '',
 			$password,
 			$sender->getResource() ?: $this->resource,
 			$sender->getDomain(),
@@ -144,7 +146,7 @@ class MessageSender
 	 *	@return		void
 	 *	@throws		RuntimeException			if no receiver has been set
 	 */
-	public function sendMessage( string $message )
+	public function sendMessage( string $message ): void
 	{
 		if( NULL === $this->receiver )
 			throw new RuntimeException( 'No Receiver set.' );
@@ -159,7 +161,7 @@ class MessageSender
 	 *	@return		void
 	 *	@throws		RuntimeException			if XMPP connection is not established
 	 */
-	public function sendMessageTo( string $message, $receiver )
+	public function sendMessageTo( string $message, JID|string $receiver ): void
 	{
 		if( is_string( $receiver ) )
 			$receiver	= new JID( $receiver );
@@ -234,7 +236,7 @@ class MessageSender
 	 *	@param		JID|string		$receiver		JID of Receiver
 	 *	@return		self
 	 */
-	public function setReceiver( $receiver ): self
+	public function setReceiver( JID|string $receiver ): self
 	{
 		if( is_string( $receiver ) )
 			$receiver	= new JID( $receiver );
@@ -260,6 +262,8 @@ class MessageSender
 	 */
 	public function setStatus( string $status ): self
 	{
+		if( !$this->xmpp )
+			throw new RuntimeException( 'Not connected to Server.' );
 		$this->xmpp->presence( $status );
 		return $this;
 	}

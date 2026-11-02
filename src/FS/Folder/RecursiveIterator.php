@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
- *	Copyright (c) 2008-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2025 Christian Würker
+ *	@copyright		2008-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +40,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2025 Christian Würker
+ *	@copyright		2008-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -74,7 +76,7 @@ class RecursiveIterator extends FilterIterator
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
 		$this->path				= str_replace( "\\", "/", $path );
-		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
+		$this->realPath			= str_replace( "\\", "/", (string) realpath( $path ) );
 		$this->realPathLength	= strlen( $this->realPath );
 		$this->showFiles		= $showFiles;
 		$this->showFolders		= $showFolders;

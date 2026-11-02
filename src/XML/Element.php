@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	XML element based on SimpleXMLElement with improved attribute and content handling.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -38,7 +41,7 @@ use SimpleXMLElement;
  *	@category		Library
  *	@package		CeusMedia_Common_XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			namespace handling: implement detection "Prefix or URI?", see https://www.w3.org/TR/REC-xml/#NT-Name
@@ -60,7 +63,7 @@ class Element extends SimpleXMLElement
 	 */
 //	public function addAttribute( string $qualifiedName, string $value, $namespace = NULL, ?string $nsURI = NULL ): void
 //	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
-	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, string $nsURI = NULL ): void
+	public function addAttribute( string $qualifiedName, $value = NULL, ?string $namespace = NULL, ?string $nsURI = NULL ): void
 	{
 		if( NULL !== $namespace ) {
 			$namespaces	= $this->getDocNamespaces() ?: [];
@@ -68,18 +71,18 @@ class Element extends SimpleXMLElement
 			if( $this->hasAttribute( $qualifiedName, $namespace ) )
 				throw new RuntimeException( 'Attribute "'.$qualifiedName.'" is already set' );
 			if( array_key_exists( $namespace, $namespaces ) ){
-				parent::addAttribute( $key, $value, $namespaces[$namespace] );
+				parent::addAttribute( $key, (string) $value, $namespaces[$namespace] );
 				return;
 			}
 			if( $nsURI ){
-				parent::addAttribute( $key, $value, $nsURI );
+				parent::addAttribute( $key, (string) $value, $nsURI );
 				return;
 			}
 			throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
 		}
 		if( $this->hasAttribute( $qualifiedName ) )
 			throw new RuntimeException( 'Attribute "'.$qualifiedName.'" is already set' );
-		parent::addAttribute( $qualifiedName, $value );
+		parent::addAttribute( $qualifiedName, (string) $value );
 	}
 
 	/**
@@ -145,10 +148,13 @@ class Element extends SimpleXMLElement
 	 *	@access		public
 	 *	@param		string		$fileName		File name for XML file
 	 *	@return		int|FALSE
+	 *	@throws		RuntimeException		if rendering XML failed
 	 */
 	public function asFile( string $fileName ): int|FALSE
 	{
 		$xml	= $this->asXML();
+		if( FALSE === $xml )
+			throw new RuntimeException( 'Rendering XML failed' );
 		return FileWriter::save( $fileName, $xml );
 	}
 

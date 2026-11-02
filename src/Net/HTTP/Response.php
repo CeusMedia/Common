@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -37,7 +39,7 @@ use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -112,21 +114,18 @@ class Response
 	 */
 	public function getBodyLength(): int
 	{
-		if( NULL === $this->body )
-			return 0;
-		if( function_exists( 'mb_strlen' ) )
-			return mb_strlen( $this->body );
-		return strlen( $this->body );
+		//  Content-Length is given in bytes, not characters
+		return strlen( $this->body ?? '' );
 	}
 
 	/**
 	 *	Returns response headers.
 	 *	@access		public
 	 *	@param		string		$key			Header name
-	 *	@param		bool		$first			Flag: return first header only
+	 *	@param		bool|NULL	$first			Flag: return first header only
 	 *	@return		array|HeaderField		List of header fields or only one header field if requested so
 	 */
-	public function getHeader( string $key, bool $first = NULL ): array|HeaderField
+	public function getHeader( string $key, ?bool $first = NULL ): array|HeaderField
 	{
 		//  get all header fields with this header name
 		$fields	= $this->headers->getFieldsByName( $key );
@@ -309,16 +308,10 @@ class Response
 	 */
 	public function toString(): string
 	{
-		$lines		= [];
-		//  add main protocol header
-		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;
-		//  add header fields and line break
-		$lines[]	= $this->headers->render();
-		//  response body is set
-		if( 0 !== $this->getBodyLength() )
-			//  add response body
-			$lines[]	= $this->body;
-		//  glue parts with line break and return result
-		return join( "\r\n", $lines );
+		//  status line, header fields (each ending with line break), empty line, body
+		return $this->protocol.'/'.$this->version.' '.$this->status."\r\n"
+			.$this->headers->render()
+			."\r\n"
+			.( $this->body ?? '' );
 	}
 }

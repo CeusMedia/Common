@@ -1,11 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
  *	All Method work with complete Keys and single Values or Prefix Keys and Arrays.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -40,7 +42,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
@@ -55,12 +57,11 @@ class LevelMap extends Dictionary
 	 *	@param		array		$array
 	 *	@param		string		$divider		Level dividing sign
 	 */
+	// @phpstan-ignore method.childParameterType
 	public function __construct( array $array = [], string $divider = '.' )
 	{
 		parent::__construct( $array );
-		if( 0 === strlen( $divider ) )
-			throw new MissingDataException( 'Divider cannot be empty' );
-		$this->divider	= $divider;
+		$this->setDivider( $divider );
 	}
 
 	/**
@@ -92,9 +93,9 @@ class LevelMap extends Dictionary
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( str_starts_with( $pairKey, $key ) )
+			if( str_starts_with( (string) $pairKey, $key ) )
 				//  collect Pair
-				$list[substr( $pairKey, $length )]	= $pairValue;
+				$list[substr( (string) $pairKey, $length )]	= $pairValue;
 		}
 		//  found Pairs
 		if( count( $list ) )
@@ -107,7 +108,7 @@ class LevelMap extends Dictionary
 	/**
 	 *	@todo	test + rename + code doc + inline doc
 	 */
-	public function getKeySections( string $prefix = NULL ): array
+	public function getKeySections( ?string $prefix = NULL ): array
 	{
 		/** @var array $pairs */
 		$pairs		= $this->getAll( $prefix );
@@ -116,6 +117,7 @@ class LevelMap extends Dictionary
 		$sections		= [];
 		$lastSection	= NULL;
 		foreach( $keys as $key ){
+			$key	= (string) $key;
 			if( !substr_count( $key, $this->divider ) )
 				continue;
 			$parts		= explode( $this->divider, $key );
@@ -151,7 +153,7 @@ class LevelMap extends Dictionary
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue )
 			//  Prefix Key is found
-			if( str_starts_with( $pairKey, $key ) )
+			if( str_starts_with( (string) $pairKey, $key ) )
 				return TRUE;
 		return FALSE;
 	}
@@ -182,7 +184,7 @@ class LevelMap extends Dictionary
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  Prefix Key is found
-			if( str_starts_with( $pairKey, $key ) ){
+			if( str_starts_with( (string) $pairKey, $key ) ){
 				//  remove Pair
 				unset( $this->pairs[$pairKey] );
 				$count++;
@@ -220,5 +222,17 @@ class LevelMap extends Dictionary
 			//  sort stored Pairs by Keys
 			ksort( $this->pairs );
 		return TRUE;
+	}
+
+	/**
+	 *	@param		string		$divider		Level dividing sign
+	 *	@return		static
+	 */
+	public function setDivider( string $divider = '.' ): static
+	{
+		if( '' === trim( $divider ) )
+			throw new MissingDataException( 'Divider cannot be empty' );
+		$this->divider	= $divider;
+		return $this;
 	}
 }

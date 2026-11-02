@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Table for console output.
  *
- *	Copyright (c) 2020-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2020-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Output
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2020-2025 Christian Würker
+ *	@copyright		2020-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -34,7 +36,7 @@ namespace CeusMedia\Common\CLI\Output;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Output
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2020-2025 Christian Würker
+ *	@copyright		2020-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -127,7 +129,7 @@ class Table
 		foreach( $this->columns as $columnKey => $column ){
 			$value	= $data[$columnKey] ?? '';
 			$dir = $column['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
-			$line[]	= $padding.str_pad( $value, $column['size'], ' ', $dir ).$padding;
+			$line[]	= $padding.str_pad( (string) $value, $column['size'], ' ', $dir ).$padding;
 		}
 		return $border->ol.join( $border->iv, $line ).$border->or.PHP_EOL;
 	}
@@ -179,7 +181,7 @@ class Table
 		}
 		foreach( $this->data as $row ){
 			foreach( $row as $key => $value ){
-				$this->columns[$key]['size']	= max( $this->columns[$key]['size'], strlen( $value ) );
+				$this->columns[$key]['size']	= max( $this->columns[$key]['size'], strlen( (string) $value ) );
 			}
 		}
 		if( $this->sizeMode === self::SIZE_MODE_MAX && $this->sizeMax ){
@@ -189,12 +191,12 @@ class Table
 				$spaceUsed	+= $column['size'];
 			foreach( $this->columns as $columnKey => $column ){
 				$ratio	= $this->columns[$columnKey]['size'] / $spaceUsed;
-				$this->columns[$columnKey]['size']	= floor( $ratio * $spaceLeft );
+				$this->columns[$columnKey]['size']	= (int) floor( $ratio * $spaceLeft );
 			}
 		}
 	}
 
-	protected function getBorderStyleObject(): object
+	protected function getBorderStyleObject(): TableBorderTheme
 	{
 		return TableBorderTheme::createFromArray( self::$borderStyles[$this->borderStyle] );
 	}
@@ -206,7 +208,7 @@ class Table
 		$line		= [];
 		foreach( $this->columns as $columnKey => $column ){
 			$dir = $column['type'] === 'string' ? STR_PAD_RIGHT : STR_PAD_LEFT;
-			$line[]	= $padding.str_pad( $columnKey, $column['size'], ' ', $dir ).$padding;
+			$line[]	= $padding.str_pad( (string) $columnKey, $column['size'], ' ', $dir ).$padding;
 		}
 		return $border->ol.join( $border->iv, $line ).$border->or.PHP_EOL;
 	}

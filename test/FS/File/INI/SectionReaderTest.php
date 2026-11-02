@@ -18,6 +18,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class SectionReaderTest extends BaseCase
 {
+	protected $reader;
+
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 

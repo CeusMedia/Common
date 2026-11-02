@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 
 /**
  *	Simple CAPTCHA Generator.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -40,7 +43,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			apply background color
@@ -114,7 +117,7 @@ class Captcha
 	 *	@param		string|NULL		$fileName	File Name to write Captcha Image to
 	 *	@return		int|string
 	 */
-	public function generateImage( string $word, ?string $fileName = NULL )
+	public function generateImage( string $word, ?string $fileName = NULL ): int|string
 	{
 		if( !$this->font )
 			throw new RuntimeException( 'No font defined' );
@@ -143,7 +146,7 @@ class Captcha
 				//  randomize Float between -1 and 1
 				$rand	= 2 * rand() / getrandmax() - 1;
 				//  calculate rounded Offset
-				$offset	= round( $rand * $this->offsetX );
+				$offset	= (int) round( $rand * $this->offsetX );
 			}
 			$posX	= $i * 20 + $offset + 10;
 
@@ -166,7 +169,7 @@ class Captcha
 		if( FALSE === $content )
 			throw new RuntimeException( 'Generating image failed' );
 		if( $fileName )
-			return FileWriter::save( $fileName, $content );
+			return (int) FileWriter::save( $fileName, $content );
 		return $content;
 	}
 

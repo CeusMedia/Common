@@ -1,10 +1,13 @@
 <?php /** @noinspection PhpComposerExtensionStubsInspection */
+
+declare(strict_types=1);
+
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Base ZIP File implementation.
  *
- *	Copyright (c) 2015-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2015-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +42,7 @@ use ZipArchive;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2025 Christian Würker
+ *	@copyright		2015-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			ATTENTION!!! This is a hydrid of existing gzip class and ZIP injection.
@@ -89,7 +92,7 @@ class Zip
 	public function addFile( string $fileName, ?string $localFileName = NULL ): bool
 	{
 		$this->checkFileOpened();
-		return $this->archive->addFile( $fileName, $localFileName );
+		return $this->archive->addFile( $fileName, $localFileName ?? '' );
 	}
 
 	protected function checkFileOpened( bool $throwException = TRUE ): bool
@@ -125,21 +128,52 @@ class Zip
 		return class_exists( 'ZipArchive' );
 	}
 
+	/**
+	 *	Writes changes to archive file, or to another file (keeping the original archive file unchanged).
+	 *	The archive stays open for further changes.
+	 *	@access		public
+	 *	@param		string|NULL		$fileName		File name to save archive as, default: current archive file
+	 *	@return		boolean
+	 */
 	public function save( ?string $fileName = NULL ): bool
 	{
-		$instance	= $this;
-		if( !is_null( $fileName ) ){
-			$instance	= clone $this;
-			$instance->setFileName( $fileName );
+		$this->checkFileOpened();
+		$current	= $this->fileName;
+		if( NULL === $fileName || $fileName === $current ){
+			$result	= $this->archive->close();
+			$this->open( $current );
+			return $result;
 		}
-		return $instance->archive->close();
+		//  save as: keep original archive file, write changes into a copy
+		$original	= file_exists( $current ) ? (string) file_get_contents( $current ) : NULL;
+		$result		= $this->archive->close();
+		if( $result ){
+			$result	= file_exists( $current ) ? copy( $current, $fileName ) : FALSE;
+			if( NULL !== $original )
+				file_put_contents( $current, $original );
+			else
+				@unlink( $current );
+		}
+		$this->open( $current );
+		return $result;
 	}
 
 	public function setFileName( string $fileName ): self
 	{
 		$this->fileName	= $fileName;
-		$this->archive->open( $fileName, ZipArchive::CREATE );
+		$this->open( $fileName );
 		return $this;
+	}
+
+	/**
+	 *	Opens (or creates) archive file.
+	 *	@access		protected
+	 *	@param		string		$fileName		Archive file name
+	 *	@return		bool
+	 */
+	protected function open( string $fileName ): bool
+	{
+		return TRUE === $this->archive->open( $fileName, ZipArchive::CREATE );
 	}
 
 	public function index(): array

@@ -1,11 +1,14 @@
 <?php /** @noinspection PhpUnused */
+
+declare(strict_types=1);
+
 /** @noinspection PhpComposerExtensionStubsInspection */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Premailer API PHP class.
  *
- *	Copyright (c) 2012-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +25,7 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -33,6 +36,7 @@
 
 namespace CeusMedia\Common\Net\API;
 
+use CeusMedia\Common\Deprecation;
 use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\Net\HTTP\Post;
@@ -53,13 +57,14 @@ use RuntimeException;
  *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
- *	@copyright		2012-2025 Christian Würker
+ *	@copyright		2012-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@author			Marcus Bointon <marcus@synchromedia.co.uk>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://premailer.dialect.ca/api
  *	@link			https://github.com/CeusMedia/Common
+ *	@deprecated		The Premailer API service is not available anymore, use a local CSS inliner instead
  */
 class Premailer
 {
@@ -90,6 +95,10 @@ class Premailer
 
 	public function __construct( ?SimpleCacheInterface $cache = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '1.1' )
+			->setExceptionVersion( '1.2' )
+			->message( 'The Premailer API service is not available anymore, use a local CSS inliner instead' );
 		if( $cache )
 			$this->setCache( $cache );
 	}

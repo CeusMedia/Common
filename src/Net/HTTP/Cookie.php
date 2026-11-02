@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Cookie Management.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -33,7 +35,7 @@ namespace CeusMedia\Common\Net\HTTP;
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -57,7 +59,7 @@ class Cookie
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string|NULL		$path			Default path of cookie
+	 *	@param		string|NULL		$path			Default path of cookie, default: /
 	 *	@param		string|NULL		$domain			Domain of cookie
 	 *	@param		boolean			$secure			Flag: only with secured HTTPS connection
 	 *	@param		boolean			$httpOnly		Flag: allow access via HTTP protocol only
@@ -66,7 +68,7 @@ class Cookie
 	public function __construct( ?string $path = NULL, ?string $domain = NULL, bool $secure = FALSE, bool $httpOnly = FALSE )
 	{
 		$this->data		=& $_COOKIE;
-		$this->setPath( $path );
+		$this->setPath( $path ?? '/' );
 		if (NULL !== $domain )
 			$this->setDomain( $domain );
 		$this->setSecure( $secure );
@@ -158,7 +160,7 @@ class Cookie
 			'secure'		=> $secure ?? $this->secure,
 			'httponly'		=> $httpOnly ?? $this->httpOnly
 		];
-		return setcookie( $key, $value, $options );
+		return setcookie( $key, (string) $value, $options );
 	}
 
 	/**

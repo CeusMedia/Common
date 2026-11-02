@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Data Object for vCard.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			https://www.ietf.org/rfc/rfc2426.txt
@@ -39,7 +41,7 @@ use InvalidArgumentException;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			https://www.ietf.org/rfc/rfc2426.txt
@@ -274,9 +276,9 @@ class VCard
 	 *	Returns a specific Name Field by its Key.
 	 *	@access		public
 	 *	@param		string		$key					Field Key
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getNameField( string $key ):string
+	public function getNameField( string $key ): ?string
 	{
 		if( !array_key_exists( $key, $this->types['n'] ) )
 			throw new InvalidArgumentException( 'Name Key "'.$key.'" is invalid.' );
@@ -307,9 +309,9 @@ class VCard
 	 *	Returns a specific Organisation Field by its Key.
 	 *	@access		public
 	 *	@param		string		$key					Field Key
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getOrganisationField( string $key ): string
+	public function getOrganisationField( string $key ): ?string
 	{
 		if( !array_key_exists( $key, $this->types['org'] ) )
 			throw new InvalidArgumentException( 'Organisation Key "'.$key.'" is invalid.' );

@@ -9,10 +9,10 @@ declare( strict_types = 1 );
  *
  */
 
-namespace CeusMedia\Common\XML\DOM\PEAR;
+namespace CeusMedia\CommonTest\XML\DOM\PEAR;
 
 use CeusMedia\CommonTest\BaseCase;
-use  CeusMedia\Common\XML\DOM\PEAR\PackageReader;
+use CeusMedia\Common\XML\DOM\PEAR\PackageReader;
 
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
@@ -23,6 +23,9 @@ use  CeusMedia\Common\XML\DOM\PEAR\PackageReader;
  */
 class PackageReaderTest extends BaseCase
 {
+	protected $path;
+	protected $reader;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

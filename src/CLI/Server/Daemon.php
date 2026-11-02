@@ -1,9 +1,11 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
+declare(strict_types=1);
+
 /**
  *	Base Implementation of a Unix Demon.
  *
- *	Copyright (c) 2007-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +23,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -36,12 +38,14 @@ use CeusMedia\Common\CLI;
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2025 Christian Würker
+ *	@copyright		2007-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class Daemon extends Application
 {
+	protected bool $shallQuit	= FALSE;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -62,10 +66,11 @@ class Daemon extends Application
 	 */
 	public function main(): void
 	{
-		while( TRUE ){
+		while( !$this->shallQuit ){
 			$this->serve();
 			ob_flush();
-			$this->sleep();
+			if( $this->shallQuit )
+				$this->sleep();
 		}
 	}
 

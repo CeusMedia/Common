@@ -5,7 +5,7 @@ declare(strict_types=1);
 /**
  *	Handles Callbacks on Object or Class Methods for triggered Events.
  *
- *	Copyright (c) 2010-2025 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2026 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -39,7 +39,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2025 Christian Würker
+ *	@copyright		2010-2026 Christian Würker
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -62,7 +62,8 @@ class EventHandler
 	 *	@return		self
 	 *	@throws		ReflectionException
 	 */
-	public function addCallback( string $eventName, $mixed, string $methodName, array $methodParameters = [], array $classParameters = [] ): self
+	public function addCallback( string $eventName, object|string $mixed, string $methodName, array $methodParameters = [], array $classParameters = [] ): self
+
 	{
 		if( is_object( $mixed ) )
 			$this->addObjectCallback( $eventName, $mixed, $methodName, $methodParameters );
@@ -101,8 +102,6 @@ class EventHandler
 	 */
 	public function addObjectCallback( string $eventName, object $object, string $methodName, array $methodParameters = [] ): self
 	{
-		if( !is_object( $object ) )
-			throw new InvalidArgumentException( 'Not an object given' );
 		$this->callbacks[$eventName][]	= (object) [
 			'object'			=> $object,
 			'methodName'		=> $methodName,
