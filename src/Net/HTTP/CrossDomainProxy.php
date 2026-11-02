@@ -55,6 +55,9 @@ class CrossDomainProxy
 	/**	@var		string|NULL		$username			Username of HTTP Basic Authentication */
 	protected ?string $username	= NULL;
 
+	/**	@var		bool			$verifySsl			Flag: verify TLS certificate and host of service */
+	protected bool $verifySsl	= TRUE;
+
 	/**	@var		string|NULL		$password			Password of HTTP Basic Authentication */
 	protected ?string $password	= NULL;
 
@@ -86,7 +89,7 @@ class CrossDomainProxy
 		$query	= Env::getServerVariable( 'QUERY_STRING' );
 		//  build Service Request URL
 		$url	= $this->url."?".$query;
-		return static::requestUrl( $url, $this->username, $this->password, $throwException );
+		return static::requestUrl( $url, $this->username, $this->password, $throwException, $this->verifySsl );
 	}
 
 	/**
@@ -96,17 +99,17 @@ class CrossDomainProxy
 	 *	@param		string|NULL		$username			Username of HTTP Basic Authentication
 	 *	@param		string|NULL		$password			Password of HTTP Basic Authentication
 	 *	@param		bool			$throwException		Check Service Response for Exception and throw a found Exception further
+	 *	@param		bool			$verifySsl			Flag: verify TLS certificate and host of service, default: yes
 	 *	@return		string|bool
 	 *	@throws		Exception
 	 */
-	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE ): bool|string
+	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE, bool $verifySsl = TRUE ): bool|string
 	{
 		//  open cURL Handler
 		$curl	= curl_init();
-		//  skip Peer Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, FALSE );
-		//  skip Host Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
+		//  verify peer and host, unless disabled
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, $verifySsl );
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, $verifySsl ? 2 : 0 );
 		//  set Service Request URL
 		curl_setopt( $curl, CURLOPT_URL, $url );
 		//  catch Response
@@ -141,15 +144,44 @@ class CrossDomainProxy
 		curl_close( $curl );
 
 		//  check Response for Exception
-		if( $throwException )
-			//  Response is an Object
-			if( is_string( $response ) && ( $object = @unserialize( $response ) ) )
-				//  Response is an Exception
-				if( $object instanceof Exception )
-					//  throw this Exception
-					throw $object;
+		if( $throwException && is_string( $response ) ){
+			$exception	= static::unserializeException( $response );
+			if( NULL !== $exception )
+				throw $exception;
+		}
 
 		//  return Service Response
 		return $response;
+	}
+
+	/**
+	 *	Sets whether TLS certificate and host of service are verified.
+	 *	@access		public
+	 *	@param		bool		$verifySsl		Flag: verify TLS certificate and host, default: yes
+	 *	@return		static
+	 */
+	public function setVerifySsl( bool $verifySsl ): static
+	{
+		$this->verifySsl	= $verifySsl;
+		return $this;
+	}
+
+	/**
+	 *	Returns exception serialized in response, if response is a serialized exception.
+	 *	Only the found exception class may be created, so no other objects (and their magic methods) are unserialized.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$response		Response of service
+	 *	@return		Exception|NULL
+	 */
+	protected static function unserializeException( string $response ): ?Exception
+	{
+		if( 1 !== preg_match( '/^O:\d+:"([A-Za-z0-9_\\\\]+)":/', $response, $matches ) )
+			return NULL;
+		$className	= $matches[1];
+		if( !class_exists( $className ) || !is_a( $className, Exception::class, TRUE ) )
+			return NULL;
+		$object	= @unserialize( $response, ['allowed_classes' => [$className]] );
+		return $object instanceof Exception ? $object : NULL;
 	}
 }

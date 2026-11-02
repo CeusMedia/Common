@@ -128,21 +128,55 @@ class Zip
 		return class_exists( 'ZipArchive' );
 	}
 
+	/**
+	 *	Writes changes to archive file, or to another file (keeping the original archive file unchanged).
+	 *	The archive stays open for further changes.
+	 *	@access		public
+	 *	@param		string|NULL		$fileName		File name to save archive as, default: current archive file
+	 *	@return		boolean
+	 */
 	public function save( ?string $fileName = NULL ): bool
 	{
-		$instance	= $this;
-		if( !is_null( $fileName ) ){
-			$instance	= clone $this;
-			$instance->setFileName( $fileName );
+		$this->checkFileOpened();
+		$current	= $this->fileName;
+		if( NULL === $fileName || $fileName === $current ){
+			$result	= $this->archive->close();
+			$this->open( $current );
+			return $result;
 		}
-		return $instance->archive->close();
+		//  save as: keep original archive file, write changes into a copy
+		$original	= file_exists( $current ) ? (string) file_get_contents( $current ) : NULL;
+		$result		= $this->archive->close();
+		if( $result ){
+			$result	= file_exists( $current ) ? copy( $current, $fileName ) : FALSE;
+			if( NULL !== $original )
+				file_put_contents( $current, $original );
+			else
+				@unlink( $current );
+		}
+		$this->open( $current );
+		return $result;
 	}
 
 	public function setFileName( string $fileName ): self
 	{
 		$this->fileName	= $fileName;
-		$this->archive->open( $fileName, ZipArchive::CREATE );
+		$this->open( $fileName );
 		return $this;
+	}
+
+	/**
+	 *	Opens (or creates) archive file.
+	 *	@access		protected
+	 *	@param		string		$fileName		Archive file name
+	 *	@return		void
+	 *	@throws		RuntimeException			if archive file could not be opened
+	 */
+	protected function open( string $fileName ): void
+	{
+		$result	= $this->archive->open( $fileName, ZipArchive::CREATE );
+		if( TRUE !== $result )
+			throw new RuntimeException( 'Opening archive "'.$fileName.'" failed: '.( static::$errors[$result] ?? 'Error '.$result ) );
 	}
 
 	public function index(): array

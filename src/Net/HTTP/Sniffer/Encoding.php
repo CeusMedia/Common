@@ -62,22 +62,26 @@ class Encoding
 		else if( !in_array( $default, $allowed ) )
 			throw new InvalidArgumentException( 'Default Encoding Method must be an allowed Encoding Method.' );
 
-		$pattern	= '/^([a-z]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 		$accepted	= Env::getServerVariable( 'HTTP_ACCEPT_ENCODING' );
 		if( !$accepted )
 			return $default;
-		$accepted		= preg_split( '/,\s*/', $accepted ) ?: [];
 		$currentCode	= $default;
-		$currentQuality	= 0;
-		foreach( $accepted as $accept ){
-			if( !preg_match ( $pattern, $accept, $matches ) )
-				continue;
-			$codeQuality	=  isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-			if( in_array( $matches[1], $allowed ) ){
-				if( $codeQuality > $currentQuality ){
-					$currentCode	= $matches[1];
-					$currentQuality	= $codeQuality;
+		$currentQuality	= 0.0;
+		foreach( explode( ',', $accepted ) as $accept ){
+			$parts		= explode( ';', $accept );
+			$code		= strtolower( trim( (string) array_shift( $parts ) ) );
+			$quality	= 1.0;
+			foreach( $parts as $parameter )
+				if( 1 === preg_match( '/^\s*q\s*=\s*([0-9.]+)\s*$/i', $parameter, $matches ) )
+					$quality	= (float) $matches[1];
+			foreach( $allowed as $allowedCode ){
+				if( strtolower( $allowedCode ) !== $code && '*' !== $code )
+					continue;
+				if( $quality > $currentQuality ){
+					$currentCode	= $allowedCode;
+					$currentQuality	= $quality;
 				}
+				break;
 			}
 		}
 		return $currentCode;

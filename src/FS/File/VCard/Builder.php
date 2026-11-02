@@ -125,9 +125,8 @@ class Builder
 
 	protected static function escape( string $value ): string
 	{
-		$value	= str_replace( ',', "\,", $value );
-		$value	= str_replace( ';', "\;", $value );
-		return str_replace( ':', "\:", $value );
+		//  escape backslash, comma, semicolon and line breaks (RFC 2426, 4)
+		return str_replace( ['\\', ',', ';', "\r\n", "\n"], ['\\\\', '\\,', '\\;', '\\n', '\\n'], $value );
 	}
 
 	/**
@@ -145,8 +144,9 @@ class Builder
 		if( is_array( $values ) ){
 			if( $escape ){
 				$list	= [];
+				//  empty fields are kept, since fields are identified by their position
 				foreach( $values as $key => $value )
-					if( 'types' !== $key && NULL !== $value )
+					if( 'types' !== $key )
 						$list[]	= self::escape( (string) $value );
 				$values	= $list;
 			}

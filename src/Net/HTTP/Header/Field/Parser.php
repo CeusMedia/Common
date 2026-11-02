@@ -93,7 +93,7 @@ class Parser
 	 */
 	public static function parse( string $headerFieldString, bool $decodeQualifiedValues = FALSE ): HeaderField
 	{
-		if( !preg_match( '/^\S+:\s*.+$/', trim( $headerFieldString ) ) )
+		if( !preg_match( '/^[^\s:]+:.*$/', trim( $headerFieldString ) ) )
 		 	throw new InvalidArgumentException( 'Given string is not an HTTP header' );
 		[$key, $value]	= explode( ':', trim( $headerFieldString ), 2 );
 		$value	= trim( $value );

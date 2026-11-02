@@ -78,6 +78,8 @@ class Finder
 			$themeName		= $entry->getFilename();
 			if( $withBrowsers ){
 				$cssPath	= $this->themePath.$entry->getFilename()."/".$this->cssPath;
+				if( !is_dir( $cssPath ) )
+					continue;
 				$subdir	= new DirectoryIterator( $cssPath );
 				foreach( $subdir as $browser ){
 					if( !$browser->isDir() )

@@ -117,7 +117,8 @@ class ArrayView
 			if( !isset( $node['label'] ) )
 				throw new InvalidArgumentException( 'A Node must at least have a Label.' );
 
-			$node['type']	= ( isset( $node['type'] ) && $node['type'] ) ? $node['type'] : isset( $node['children'] ) && $node['children'];
+			$hasChildren	= isset( $node['children'] ) && count( $node['children'] ) > 0;
+			$node['type']	= ( isset( $node['type'] ) && $node['type'] ) ? $node['type'] : ( $hasChildren ? 'node' : 'leaf' );
 			$node['class']	= ( isset( $node['class'] ) && $node['class'] ) ? $node['class'] : $node['type'];
 			$node['linked']	= ( isset( $node['linked'] ) && $node['linked'] ) ? TRUE : $node['type'] == "leaf";
 
@@ -144,8 +145,8 @@ class ArrayView
 			}
 
 			$children	= new ArrayObject();
-			if( $node['type'] == "node" )
-				$children	= new ArrayObject( $node['children'] );
+			if( $node['type'] == "node" && isset( $node['children'] ) )
+				$children	= new ArrayObject( (array) $node['children'] );
 
 			$sublist	= "\n".$this->constructTree( $children, $currentId, [], $level + 1, $way.$node['label'] );
 			$label		.= $sublist;

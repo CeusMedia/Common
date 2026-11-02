@@ -333,8 +333,9 @@ class File extends AbstractNode
 		$user	??= get_current_user();
 		if( !function_exists( 'posix_getpwuid' ) )
 			return TRUE;
-		$uid	= fileowner( $this->getPathName() );
-		if( !$uid )
+		$uid	= @fileowner( $this->getPathName() );
+		//  owner could not be detected (uid 0 is root and must be compared)
+		if( FALSE === $uid )
 			return TRUE;
 		$owner	= posix_getpwuid( $uid );
 		if( !$owner )

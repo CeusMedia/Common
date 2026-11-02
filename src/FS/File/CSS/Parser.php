@@ -72,10 +72,10 @@ class Parser
 		foreach( explode( ';', trim( $string ) ) as $line ){
 			if( !trim( $line ) )
 				continue;
-			$parts	= explode( ':', $line );
-			$key	= array_shift( $parts );
-			$value	= trim( implode( ':', $parts ) );
-			$list[]	= new CssProperty( $key, $value );
+			$parts	= explode( ':', $line, 2 );
+			if( count( $parts ) < 2 || '' === trim( $parts[0] ) )
+				continue;
+			$list[]	= new CssProperty( trim( $parts[0] ), trim( $parts[1] ) );
 		}
 		return $list;
 	}
@@ -91,8 +91,10 @@ class Parser
 	{
 		if( substr_count( $string, "{" ) !== substr_count( $string, "}" ) )
 			throw new Exception( 'Invalid parenthesis' );
-		$string	= preg_replace( '/\/\*.+\*\//sU', '', $string );
-		$string	= preg_replace( '/(\t|\r|\n)/s', '', $string );
+		//  remove comments (also empty ones like /**/)
+		$string	= (string) preg_replace( '/\/\*.*?\*\//s', '', $string );
+		//  line breaks and tabs are whitespace, which may separate selector parts or values
+		$string	= (string) preg_replace( '/\s+/', ' ', $string );
 		$state	= (int) ( $buffer = $key = '' );
 		$sheet	= new CssSheet();
 		for( $i=0; $i<strlen( $string ); $i++ ){
@@ -104,7 +106,8 @@ class Parser
 			else if( $state && $char == '}' ){
 				$properties	= self::parseProperties( $buffer );
 				foreach( explode( ',', $key ) as $selector )
-					$sheet->addRule( new CssRule( $selector, $properties ) );
+					if( '' !== trim( $selector ) )
+						$sheet->addRule( new CssRule( trim( $selector ), $properties ) );
 				$state	= (boolean) ($buffer = '');
 			}
 			else

@@ -58,29 +58,45 @@ class MimeType
 			throw new DataMissingException( 'List of allowed mime types cannot be empty' );
 		if( !$default)
 			$default = $allowed[0];
-		$pattern	= '@^([a-z*+]+(/[a-z*+]+)*)(?:;\s*q=(0(?:\.\d{1,3})?|1(?:\.0{1,3})?))?$@i';
 		$accepted	= Env::getServerVariable( 'HTTP_ACCEPT' );
 		if( !$accepted )
 			return $default;
-
-		$quality	= 0;
+		$quality	= 0.0;
 		$mimeType	= $default;
-		foreach( preg_split( '/,\s*/', $accepted ) ?: [] as $accept ){
-			if( !preg_match ( $pattern, $accept, $matches ) )
+		foreach( explode( ',', $accepted ) as $accept ){
+			$parts			= explode( ';', $accept );
+			$acceptedType	= strtolower( trim( (string) array_shift( $parts ) ) );
+			$acceptedQuality	= 1.0;
+			foreach( $parts as $parameter )
+				if( 1 === preg_match( '/^\s*q\s*=\s*([0-9.]+)\s*$/i', $parameter, $matches ) )
+					$acceptedQuality	= (float) $matches[1];
+			if( $acceptedQuality <= $quality )
 				continue;
-			$mimeCode = explode ( '/', $matches[1] );
-			$mimeQuality =  isset( $matches[3] ) ? (float) $matches[3] : 1.0;
-			while( count( $mimeCode ) ){
-				if( in_array( strtolower( join( '/', $mimeCode ) ), $allowed ) ){
-					if( $mimeQuality > $quality ){
-						$mimeType	= strtolower( join( '/', $mimeCode ) );
-						$quality	= $mimeQuality;
-						break;
-					}
+			foreach( $allowed as $allowedType ){
+				if( static::matches( $acceptedType, strtolower( $allowedType ) ) ){
+					$mimeType	= $allowedType;
+					$quality	= $acceptedQuality;
+					break;
 				}
-				array_pop( $mimeCode );
 			}
 		}
 		return $mimeType;
+	}
+
+	/**
+	 *	Indicates whether an accepted MIME type (maybe with wildcards like text/* or a single star) matches a MIME type.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$accepted		Accepted MIME type, lowercase
+	 *	@param		string		$mimeType		MIME type to check, lowercase
+	 *	@return		bool
+	 */
+	protected static function matches( string $accepted, string $mimeType ): bool
+	{
+		if( $accepted === $mimeType || '*/*' === $accepted || '*' === $accepted )
+			return TRUE;
+		if( str_ends_with( $accepted, '/*' ) )
+			return str_starts_with( $mimeType, substr( $accepted, 0, -1 ) );
+		return FALSE;
 	}
 }

@@ -66,7 +66,7 @@ class Download
 		if( (int) $size > 0 )
 			header( "Content-Length: ".( (int) $size ) );
 		$timestamp	= ( (float) $timestamp ) > 1 ? $timestamp : time();
-		header( "Last-Modified: ".date( 'r', $timestamp ) );
+		header( "Last-Modified: ".gmdate( 'D, d M Y H:i:s', (int) $timestamp )." GMT" );
 
 	}
 
@@ -96,14 +96,16 @@ class Download
 	{
 		$filename	= strlen( $filename ?? '' ) ? $filename : basename( $url );
 		//  avoid messing with path
-		$url		= str_replace( '../', '', $url );
+		//  remove parent folder references repeatedly, so constructs like "....//" do not lead to "../"
+		while( str_contains( $url, '../' ) )
+			$url	= str_replace( '../', '', $url );
 		if( !file_exists( $url ) )
 			throw new RuntimeException( 'File "'.$url.'" is not existing' );
 		static::clearOutputBuffers();
 		static::setMimeType();
 		static::disableCompression();
 		static::applyDefaultHeaders( filesize( $url ) ?: NULL, filemtime( $url ) ?: NULL );
-		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
+		header( static::renderContentDisposition( $filename ) );
 		$fp = @fopen( $url, "rb" );
 		if( FALSE === $fp )
 			header("HTTP/1.0 500 Internal Server Error");
@@ -128,7 +130,7 @@ class Download
 		static::setMimeType();
 		static::disableCompression();
 		static::applyDefaultHeaders( strlen( $string ) );
-		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
+		header( static::renderContentDisposition( $filename ) );
 		print( $string );
 		if( $andExit )
 			exit;
@@ -162,5 +164,23 @@ class Download
 	{
 		while( ob_get_level() )
 			ob_end_clean();
+	}
+
+	/**
+	 *	Returns Content-Disposition header for a file name, safe for quotes, line breaks and non-ASCII characters.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$filename		Name of file to download
+	 *	@return		string
+	 */
+	protected static function renderContentDisposition( string $filename ): string
+	{
+		$filename	= str_replace( ["\r", "\n"], '', $filename );
+		$fallback	= (string) preg_replace( '/[^\x20-\x7E]/u', '_', $filename );
+		$fallback	= str_replace( ['\\', '"'], ['\\\\', '\\"'], $fallback );
+		$header		= 'Content-Disposition: attachment; filename="'.$fallback.'"';
+		if( $fallback !== $filename )
+			$header	.= "; filename*=UTF-8''".rawurlencode( $filename );
+		return $header;
 	}
 }

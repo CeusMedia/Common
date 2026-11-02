@@ -100,7 +100,8 @@ class Drawer
 	public function getColor( int $red, int $green, int $blue, int $alpha = 0 ): ?int
 	{
 		$color = imagecolorallocatealpha( $this->image, $red, $green, $blue, $alpha );
-        return $color ?: NULL;
+		//  0 is a valid color (first color of palette images)
+		return FALSE === $color ? NULL : $color;
 	}
 
 	public function getImage(): GdImage

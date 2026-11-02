@@ -137,7 +137,7 @@ class Trace
 		foreach( $array as $key => $value ){
 			$type	= self::renderArgumentType( $value );
 			$string	= self::renderArgument( $value );
-			$list[]	= Tag::create( 'dt', $type." ".$key );
+			$list[]	= Tag::create( 'dt', $type." ".htmlspecialchars( (string) $key, ENT_QUOTES, 'UTF-8' ) );
 			$list[]	= Tag::create( 'dd', $string );
 		}
 		$list	= Tag::create( 'dl', implode( $list ) );

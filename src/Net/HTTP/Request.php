@@ -149,10 +149,10 @@ class Request implements ArrayAccess
 			"SESSION"	=> [],
 			"COOKIE"	=> [],
 		];
-		if( $useSession )
-			$this->sources['session']	=& $_SESSION;
+		if( $useSession && isset( $_SESSION ) )
+			$this->sources['SESSION']	=& $_SESSION;
 		if( $useCookie )
-			$this->sources['cookie']	=& $_COOKIE;
+			$this->sources['COOKIE']	=& $_COOKIE;
 
 		//  retrieve requested path
 		$this->root	= rtrim( dirname( (string) Env::getServerVariable( 'SCRIPT_NAME' ) ), '/' ).'/';

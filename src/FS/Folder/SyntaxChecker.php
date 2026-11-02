@@ -46,7 +46,7 @@ use CeusMedia\Common\FS\File\SyntaxChecker as FileSyntaxChecker;
 class SyntaxChecker
 {
 	/**	@var		string		$phpExtension	Extension of PHP Files, by default 'php5' */
-	public static string $phpExtension	= 'php5';
+	public static string $phpExtension	= 'php';
 
 	/**	@var		object		$checker		Instance of SyntaxChecker */
 	protected object $checker;
@@ -81,7 +81,7 @@ class SyntaxChecker
 		$counter	= 0;
 		$invalid	= [];
 		$clock		= new Clock;
-		$index		= new RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
+		$index		= new RecursiveRegexFilter( $pathName, "@\.".preg_quote( self::$phpExtension, '@' )."$@" );
 		$this->failures	= [];
 		foreach( $index as $file ){
 			$counter++;
@@ -91,9 +91,10 @@ class SyntaxChecker
 			if( !$valid ){
 				$error	= $this->checker->getShortError();
 				$invalid[$fileName]	= $error;
-				remark( $shortName.': '.$error );
+				if( $verbose )
+					remark( $shortName.': '.$error );
 			}
-			else
+			else if( $verbose )
 				remark( $shortName.': valid.' );
 		}
 		if( $verbose )

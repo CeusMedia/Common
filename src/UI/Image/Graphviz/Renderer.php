@@ -92,7 +92,7 @@ class Renderer
 		if( FALSE === $tempFile )
 			throw new RuntimeException( 'Creating temporary file failed' );
 		$this->graph->save( $tempFile, $graphOptions );
-		exec( $this->layoutEngine.' -O -T'.$type.' '.$tempFile );
+		exec( escapeshellarg( $this->layoutEngine ).' -O '.escapeshellarg( '-T'.$type ).' '.escapeshellarg( $tempFile ) );
 		unlink( $tempFile );
 		$mapFile	= $tempFile.".".$type;
 		if( !file_exists( $mapFile ) )
@@ -131,8 +131,10 @@ class Renderer
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		if( FALSE === $tempFile )
 			throw new RuntimeException( 'Creating temporary file failed' );
+		if( 1 !== preg_match( '/^[a-z0-9_:]+$/i', $type ) )
+			throw new OutOfBoundsException( 'Invalid output type "'.$type.'"' );
 		$this->graph->save( $tempFile, $graphOptions );
-		exec( $this->layoutEngine.' -O -T'.$type.' '.$tempFile );
+		exec( escapeshellarg( $this->layoutEngine ).' -O '.escapeshellarg( '-T'.$type ).' '.escapeshellarg( $tempFile ) );
 		unlink( $tempFile );
 		if( !file_exists( $tempFile.".".$type ) )
 			throw new RuntimeException( 'Image file could not been created' );

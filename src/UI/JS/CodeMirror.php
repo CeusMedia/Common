@@ -63,9 +63,11 @@ class CodeMirror
 	{
 		$options	= array_merge( $this->options, $options );
 		ksort( $options );
+		//  encode for use in HTML script blocks
+		$flags		= JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
 		$script		= '
-var cmOptions = '.json_encode( $options ).';
-$("'.$textareaSelector.'").each(function(){
+var cmOptions = '.json_encode( $options, $flags ).';
+$('.json_encode( $textareaSelector, $flags ).').each(function(){
 	$(this).data("codemirror", CodeMirror.fromTextArea(this, cmOptions));
 	$(this).data("codemirror-options", cmOptions);
 })';
@@ -101,7 +103,7 @@ $("'.$textareaSelector.'").each(function(){
 
 	public function setReadOnly( bool $status = TRUE ): self
 	{
-		$this->setOption( 'readonly', $status );
+		$this->setOption( 'readOnly', $status );
 		return $this;
 	}
 

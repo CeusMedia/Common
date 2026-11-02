@@ -31,6 +31,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Net\API\Google\Sitemap;
 
+use CeusMedia\Common\Deprecation;
 use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
@@ -46,6 +47,7 @@ use InvalidArgumentException;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
+ *	@deprecated		Google has turned off the sitemap ping endpoint, submit sitemaps via robots.txt or Search Console instead
  */
 class Submit
 {
@@ -77,6 +79,10 @@ class Submit
 	 */
 	static public function submit( $url ): bool
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '1.1' )
+			->setExceptionVersion( '1.2' )
+			->message( 'Google has turned off the sitemap ping endpoint, submit sitemaps via robots.txt or Search Console instead' );
 		if( $url instanceof URL )
 			$url	= (string) $url;
 		if( !is_string( $url ) )

@@ -135,6 +135,7 @@ class ShortReader extends LogShortReader
 						$visitors[$visitor]	= 0;
 					}
 					$visitors[$visitor] ++;
+					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
 				}
 				else{
 					$visitor++;
@@ -143,6 +144,8 @@ class ShortReader extends LogShortReader
 				}
 			}
 		}
+		if( 0 === count( $visitors ) )
+			return 0.0;
 		return round( array_sum( $visitors ) / count( $visitors ), 1 );
 	}
 
@@ -161,7 +164,7 @@ class ShortReader extends LogShortReader
 		foreach( $this->data as $entry ){
 			if( $entry['remote_addr'] != $this->skip ){
 				if( $entry['http_referer'] ){
-					if( $skip && preg_match( "#.*".$skip.".*#si", $entry['http_referer'] ) )
+					if( $skip && preg_match( "#".preg_quote( $skip, '#' )."#i", $entry['http_referer'] ) )
 						continue;
 					if( isset( $referrers[$entry['http_referer']] ) )
 						$referrers[$entry['http_referer']] ++;
@@ -191,13 +194,14 @@ class ShortReader extends LogShortReader
 			$data	= array_reverse( $data );
 
 		$lines	= [];
+		$e	= static fn( $value ): string => htmlspecialchars( (string) $value, ENT_QUOTES, 'UTF-8' );
 		foreach( $data as $entry )
 			if( $entry['remote_addr'] != $this->skip ) {
 				if( $offset ) {
 					$offset--;
 					continue;
 				}
-				$lines[]	= "<tr><td>".$entry["timestamp"]."</td><td>".$entry['remote_addr']."</td><td>".$entry['request_uri']."</td><!--<td>".$entry['http_referer']."</td><td>".$entry['http_user_agent']."</td>--></tr>";
+				$lines[]	= "<tr><td>".$e( $entry['timestamp'] )."</td><td>".$e( $entry['remote_addr'] )."</td><td>".$e( $entry['request_uri'] )."</td><!--<td>".$e( $entry['http_referer'] )."</td><td>".$e( $entry['http_user_agent'] )."</td>--></tr>";
 				if( $max && count( $lines ) >= $max )
 					break;
 			}
@@ -256,8 +260,12 @@ class ShortReader extends LogShortReader
 	public function parse(): void
 	{
 		$this->read();
-		foreach( $this->data as $nr => $line )
+		$count	= count( $this->patterns );
+		foreach( $this->data as $nr => $line ){
+			//  additional fields (noted by ShortWriter::note) are ignored, missing fields are empty
+			$line	= array_pad( array_slice( $line, 0, $count ), $count, '' );
 			$this->data[$nr]	= array_combine( $this->patterns, $line );
+		}
 	}
 
 	/**

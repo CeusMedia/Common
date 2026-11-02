@@ -68,8 +68,9 @@ class MeetingReader
 	 */
 	protected static function calculateEndDate( string $startDate, int $durationDays ): string
 	{
-		$time	= strtotime( $startDate ) + $durationDays * 24 * 60 * 60;
-		return date( "Y-m-d", $time );
+		//  calendar arithmetic, since days are not always 24 hours long (daylight saving time)
+		$date	= new \DateTimeImmutable( $startDate );
+		return $date->modify( ( $durationDays >= 0 ? '+' : '' ).$durationDays.' days' )->format( "Y-m-d" );
 	}
 
 	/**

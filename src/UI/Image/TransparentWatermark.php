@@ -115,6 +115,10 @@ class TransparentWatermark
 		}
 
 		$imageInfos	= @getimagesize( $imageFile );
+		if( !$imageInfos ){
+			$this->errorMsg = 'Error on loading "'.$imageFile.'", image must be a valid PNG or JPEG file.';
+			return FALSE;
+		}
 		$type		= $imageInfos[2];
 		$image		= $this->readImage( $imageFile, $type );
 		if( !$image ){
@@ -238,7 +242,11 @@ class TransparentWatermark
 	 */
 	public function setStamp( string $stampFile ): bool
     {
-		$imageInfos	= @getimagesize( $stampFile );
+		$imageInfos	= '' !== $stampFile ? @getimagesize( $stampFile ) : FALSE;
+		if( !$imageInfos ){
+			$this->errorMsg = 'Error on loading "'.$stampFile.'", stamp image must be a valid PNG or JPEG file.';
+			return FALSE;
+		}
 		$width		= $imageInfos[0];
 		$height		= $imageInfos[1];
 		$type		= $imageInfos[2];

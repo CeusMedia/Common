@@ -47,7 +47,7 @@ class JID
 	protected ?string $node			= NULL;
 	protected ?string $resource		= NULL;
 
-	static protected string $regexJid	= "#^(?:([^@/<>'\"]+)@)?([^@/<>'\"]+)(?:/([^<>'\"]*))?#";
+	static protected string $regexJid	= "#^(?:([^@/<>'\"\s]+)@)?([^@/<>'\"\s]+)(?:/([^<>'\"]*))?$#";
 
 	/**
 	 *	Constructor.
@@ -59,7 +59,7 @@ class JID
 	 */
 	public function __construct( string $domain, ?string $node = NULL, ?string $resource = NULL )
 	{
-		if( str_contains( $domain, "@" ) ){
+		if( str_contains( $domain, "@" ) || str_contains( $domain, "/" ) ){
 			$struct	= self::disassemble( $domain );
 			extract( $struct );
 		}
@@ -82,8 +82,8 @@ class JID
 		preg_match_all( self::$regexJid, $jid, $matches );
 		return [
 			'domain'	=> $matches[2][0],
-			'node'		=> $matches[1][0],
-			'resource'	=> $matches[3][0],
+			'node'		=> '' !== $matches[1][0] ? $matches[1][0] : NULL,
+			'resource'	=> '' !== ( $matches[3][0] ?? '' ) ? $matches[3][0] : NULL,
 		];
 	}
 

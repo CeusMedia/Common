@@ -105,7 +105,7 @@ class FolderView
 	 *	@param		string		$classLeaf			CSS Class of Leafs / Files
 	 *	@return		void
 	 */
-	protected function readRecursive( string $path, string $currentId, ArrayObject &$nodes, bool $linkNodes = FALSE, string $classNode = "folder", string $classLeaf = "file" ): void
+	protected function readRecursive( string $path, string $currentId, ArrayObject &$nodes, bool $linkNodes = FALSE, string $classNode = "folder", string $classLeaf = "file", string $relativePath = '' ): void
 	{
 		$files	= [];
 		$index	= new DirectoryIterator( $path );
@@ -116,9 +116,11 @@ class FolderView
 				continue;
 			if( $file->isDir() ){
 				$children	= new ArrayObject();
-				$this->readRecursive( $file->getPathname(), $currentId, $children, $linkNodes, $classNode, $classLeaf );
+				$this->readRecursive( $file->getPathname(), $currentId, $children, $linkNodes, $classNode, $classLeaf, $relativePath.$file->getFilename().'/' );
+				//  labels are HTML, so file names are escaped; IDs are built from the unescaped path
 				$dir	= array(
-					'label'		=> basename( $file->getPathname() ),
+					'id'		=> rawurlencode( $relativePath.$file->getFilename() ),
+					'label'		=> htmlspecialchars( basename( $file->getPathname() ), ENT_QUOTES, 'UTF-8' ),
 					'type'		=> "node",
 					'class'		=> $classNode,
 					'linked'	=> $linkNodes,
@@ -135,7 +137,8 @@ class FolderView
 					$classes[]	= "file-".strtolower( $info['extension'] );
 				$classes	= implode( " ", $classes );
 				$files[]	= array(
-					'label'		=> $file->getFilename(),
+					'id'		=> rawurlencode( $relativePath.$file->getFilename() ),
+					'label'		=> htmlspecialchars( $file->getFilename(), ENT_QUOTES, 'UTF-8' ),
 					'type'		=> "leaf",
 					'class'		=> $classes,
 					'linked'	=> TRUE,

@@ -71,6 +71,7 @@ class VariableDump
 		$children	= [];
 		$keyLabel	= ( $key !== NULL ) ? htmlentities( $key, ENT_QUOTES, 'UTF-8' ).' -> ' : '';
 		$event		= NULL;
+		$note		= NULL;
 		self::$count++;
 		switch( $type ){
 			case 'array':
@@ -92,11 +93,12 @@ class VariableDump
 				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
 				break;
 			case 'boolean':
-				$mixed	= self::$noteOpen.( $mixed ? 'TRUE' : 'FALSE' ).self::$noteClose;
+				$note	= $mixed ? 'TRUE' : 'FALSE';
+				$mixed	= '';
 				break;
 			case 'NULL':
-				if( $mixed === NULL )
-					$mixed	= self::$noteOpen.'NULL'.self::$noteClose;
+				$note	= 'NULL';
+				$mixed	= '';
 				break;
 			case 'unknown type':
 				throw new RuntimeException( 'Unknown type' );
@@ -107,6 +109,8 @@ class VariableDump
 		}
 		$children	= $children ? "\n".HtmlElements::unorderedList( $children, $level + 2 ) : '';
 		$pair		= $keyLabel.htmlentities( (string) $mixed, ENT_QUOTES, 'UTF-8' );
+		if( NULL !== $note )
+			$pair	.= self::$noteOpen.$note.self::$noteClose;
 		$label		= HtmlTag::create( 'span', $pair, array( 'onclick' => $event ) );
 		$classes	= [$type];
 		if( $closed )

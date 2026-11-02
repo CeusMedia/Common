@@ -83,7 +83,8 @@ class Compressor
 	{
 		$compressed	= match( $type ){
 			NULL		=> $content,
-			'deflate'	=> gzdeflate( $content ),
+			//  HTTP "deflate" means zlib format (RFC 9110, 8.4.1.2)
+			'deflate'	=> gzcompress( $content ),
 			'gzip'		=> gzencode( $content, 9 ),
 			default		=> throw NotSupportedException::create()
 				->setMessage( 'Compression "' . $type . '" is not supported' )

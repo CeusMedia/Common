@@ -86,20 +86,29 @@ class Writer
 	{
 		$output = [];
 		if( $headers )
-			$output[] = implode( $this->separator, $headers );
-		foreach( $data as $line ){
-			//  iterate line values
-			foreach( $line as $nr => $value )
-				//  separator found in value
-				if( substr_count( (string) $value, $this->separator ) > 0 )
-					//  value is not masked
-					if( substr( (string) $value, 0, 1 ).substr( (string) $value, -1 ) != '""' )
-						//  mask value
-						$line[$nr]	= '"'.addslashes( (string) $value ).'"';
-			$line = implode( $this->separator, $line );
-			$output[] = $line;
-		}
+			$output[] = $this->renderLine( $headers );
+		foreach( $data as $line )
+			$output[] = $this->renderLine( $line );
 		$file	= new FileWriter( $this->fileName );
 		return (int) $file->writeArray( $output );
+	}
+
+	/**
+	 *	Renders a CSV line (RFC 4180): values containing separator, quotes or line breaks are enclosed in quotes,
+	 *	quotes within values are doubled.
+	 *	@access		protected
+	 *	@param		array		$values			List of values
+	 *	@return		string
+	 */
+	protected function renderLine( array $values ): string
+	{
+		$list	= [];
+		foreach( $values as $value ){
+			$value	= (string) $value;
+			if( strpbrk( $value, $this->separator."\"\r\n" ) !== FALSE )
+				$value	= '"'.str_replace( '"', '""', $value ).'"';
+			$list[]	= $value;
+		}
+		return implode( $this->separator, $list );
 	}
 }

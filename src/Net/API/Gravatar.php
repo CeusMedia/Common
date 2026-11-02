@@ -124,7 +124,7 @@ class Gravatar
 			'd'	=> $this->default,
 			'r'	=> $this->rate,
 		];
-		return $this->url.$hash.'?'.http_build_query( $query, '', '&amp;' );
+		return $this->url.$hash.'?'.http_build_query( $query, '', '&' );
 	}
 
 	public function listAddresses( string $email, string $password ): array

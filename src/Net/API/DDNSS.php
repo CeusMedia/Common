@@ -32,6 +32,7 @@ namespace CeusMedia\Common\Net\API;
 
 use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
+use RuntimeException;
 
 /**
  *	Access to DDNSS (ddnss.de) API.
@@ -54,6 +55,7 @@ class DDNSS
 	 *	@param		string			$key		Auth key from DDNSS
 	 *	@param		string|array	$hosts		Host or list of hosts
 	 *	@return		integer			Number of updated hosts
+	 *	@throws		RuntimeException	if request failed
 	 *	@todo		parse response header DDNSS-Response
 	 *	@todo		and handle update errors
 	 */
@@ -61,7 +63,7 @@ class DDNSS
 	{
 		if( is_array( $hosts ) )
 			$hosts	= implode( ",", $hosts );
-		$url	= sprintf( self::$urlUpdate, $key, $hosts );
+		$url	= sprintf( self::$urlUpdate, rawurlencode( $key ), rawurlencode( $hosts ) );
 		try{
 			$reader		= new NetReader( $url );
 			$reader->setUserAgent( "cURL" );
@@ -72,7 +74,7 @@ class DDNSS
 			return (int) $number;
 		}
 		catch( Exception $e ){
-			die( $e->getMessage() );
+			throw new RuntimeException( 'DDNSS update failed: '.$e->getMessage(), 0, $e );
 		}
 	}
 }

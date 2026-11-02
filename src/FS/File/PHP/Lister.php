@@ -70,7 +70,7 @@ class Lister extends FilterIterator
 		$this->verbose	= $verbose;
 		parent::__construct(
 			new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator( $path )
+				new RecursiveDirectoryIterator( $path, RecursiveDirectoryIterator::SKIP_DOTS )
 			)
 		);
 	}

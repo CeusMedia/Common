@@ -103,7 +103,8 @@ class Combiner
 		$this->statistics['numberFiles']	= 0;
 		$this->statistics['filesFound']		= [];
 		$this->statistics['filesSkipped']	= [];
-		$content	= preg_replace( '/\/\*.+\*\//sU', '', $content );
+		//  remove comments (also empty ones like /**/)
+		$content	= (string) preg_replace( '/\/\*.*?\*\//s', '', $content );
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line ){
 			$line	= trim( $line );
@@ -132,8 +133,9 @@ class Combiner
 				$this->statistics['numberFiles']	++;
 				$this->statistics['sizeOriginal']	+= strlen( $content );
 //			$depth	= substr
-				if( substr_count( $fileName, "/" ) )
-					$content	= preg_replace( "@(\.\./){1}([^\.])@i", "\\2", $content );
+				//  relative URLs in imported files are relative to their folder, so prepend it
+				if( str_contains( $fileName, "/" ) )
+					$content	= Relocator::prepend( $content, dirname( $fileName ).'/' );
 				$listImport[]	= "/*  --  ".$fileName."  --  */";
 				$listImport[]	= $content."\n";
 			}

@@ -92,7 +92,8 @@ class AtomServerTime
 			}
 		}
 		$this->syncTime	= time();
-		$this->syncDiff	= $this->syncTime - AtomTime::getTimestamp();
+		//  difference to add to local time to get atom time
+		$this->syncDiff	= AtomTime::getTimestamp() - $this->syncTime;
 		FileWriter::save( $this->syncFile, (string) $this->syncDiff );
 		touch( $this->syncFile );
 	}
