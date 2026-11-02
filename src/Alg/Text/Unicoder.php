@@ -101,7 +101,7 @@ class Unicoder
 	 */
 	public static function isUnicode( string $string ): bool
 	{
-		if( function_exists( 'mb_convert_encoding ') )
+		if( function_exists( 'mb_check_encoding' ) )
 			return mb_check_encoding( $string, 'UTF-8' );
 
 		$length = strlen( $string );

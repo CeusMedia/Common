@@ -101,6 +101,7 @@ class Builder
 					$param	.= substr( $rest, 0, 74 ).self::$lineBreak;
 					$rest	= " ".substr( $rest, 74 );
 				}
+				$param	.= $rest;
 			}
 			$param	= self::$lineBreak.$param;
 		}
@@ -113,6 +114,7 @@ class Builder
 				$content	.= substr( $rest, 0, 74 ).self::$lineBreak;
 				$rest	= " ".substr( $rest, 74 );
 			}
+			$content	.= $rest;
 		}
 
 		return strtoupper( $name ).$param.$content;

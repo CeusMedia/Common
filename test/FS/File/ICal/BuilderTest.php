@@ -61,4 +61,18 @@ class BuilderTest extends BaseCase
 		$creation	= Builder::build();
 		self::assertEquals( $assertion, $creation );
 	}
+
+	/**
+	 *	Tests that folding of long lines keeps the whole content.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testBuildLineFoldingKeepsContent(): void
+	{
+		$content	= str_repeat( 'abcdefghij', 20 );
+		new Builder( "\r\n" );
+		$method		= new \ReflectionMethod( Builder::class, 'buildLine' );
+		$line		= $method->invoke( NULL, 'description', [], $content );
+		self::assertSame( 'DESCRIPTION:'.$content, str_replace( "\r\n ", '', $line ) );
+	}
 }

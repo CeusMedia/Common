@@ -141,7 +141,7 @@ class Minimizer
 		//  set Combiner Prefix
 		$this->combiner->setPrefix( $this->combinerPrefix );
 		//  set Combiner Suffix
-		$this->combiner->setPrefix( $this->combinerSuffix );
+		$this->combiner->setSuffix( $this->combinerSuffix );
 
 		//  --  LAUNCH COMBINER  --  //
 		//  combine CSS Files
@@ -155,7 +155,7 @@ class Minimizer
 			//  set Compressor Prefix
 			$this->compressor->setPrefix( $this->compressorPrefix );
 			//  set Compressor Suffix
-			$this->compressor->setPrefix( $this->compressorSuffix );
+			$this->compressor->setSuffix( $this->compressorSuffix );
 
 			//  --  LAUNCH COMPRESSOR  --  //
 			//  compress CSS File

@@ -88,13 +88,13 @@ class Duration
 		$weeks		= ( $remaining - $days ) / 7;
 
 		if( $shorten && $weeks )
-			$days = $minutes = $seconds = 0;
+			$days = $hours = $minutes = $secs = 0;
 		else if( $shorten && $days )
-			$hours = $minutes = $seconds = 0;
+			$hours = $minutes = $secs = 0;
 		else if( $shorten && $hours )
-			$minutes = $seconds = 0;
+			$minutes = $secs = 0;
 		else if( $shorten && $minutes )
-			$seconds = 0;
+			$secs = 0;
 
 //		$duration	= ( $seconds ? $space.str_pad( $secs, 2, 0, STR_PAD_LEFT ).'s' : '' );
 //		$duration	= ( $minutes ? $space.( $hours ? str_pad( $minutes, 2, 0, STR_PAD_LEFT ).'m' : $minutes.'m' ) : '' ).$duration;

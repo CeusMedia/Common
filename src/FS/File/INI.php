@@ -109,7 +109,7 @@ class INI
 
 	public function remove( string $key, ?string $section = NULL ): bool
 	{
-		$result	= NULL;
+		$result	= FALSE;
 		if( !is_null( $this->sections ) && NULL !== $section && $this->sections->has( $section ) )
 			$result	= $this->sections->get( $section )->remove( $key );
 		else if( !is_null( $this->pairs ) )

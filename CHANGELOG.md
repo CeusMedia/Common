@@ -7,6 +7,31 @@ Releases before 1.0.0 used a four-part version scheme (e.g. 0.8.5.9) and contain
 
 Entries for releases up to 1.0.1 were reconstructed from git history, tags and GitHub release notes.
 
+## [Unreleased]
+
+### Changed
+- `FS\Folder\Reader::getSize()` with a unit returns the size as number in that unit (`int`, or `float` when a precision is given) instead of a formatted string.
+- `FS\File\Block\Reader::getBlock()` returns a string (`''` for missing blocks) instead of a list of lines.
+- `Net\HTTP\Reader::getCurlInfo()` takes the info key as string (e.g. `http_code`), like `Net\CURL::getInfo()`.
+- `FS\File\INI::remove()` returns `FALSE` instead of `NULL` if nothing was removed.
+- `CLI\Server\Cron\Job::checkMaturity()` is public now.
+
+### Added
+- `XML\DOM\Node::removeChildAt()` removes a child node by its index.
+
+### Fixed
+- `CLI\Server\Cron\Daemon` failed because `Job::checkMaturity()` was not accessible.
+- `FS\File\PHP\Encoder::decodeFile()` encoded instead of decoding, wrote into the source file and computed an empty target file name; `isEncoded()` read only part of the prefix.
+- `FS\File\CSS\Theme\Minimizer` overwrote the prefix when setting the suffix.
+- `FS\File\ICal\Builder` dropped the last piece of folded lines.
+- `Alg\Search\Binary::search()` returned wrong positions and recursed endlessly on empty lists; it returns `-1` if nothing is found.
+- `XML\DOM\FileEditor`: `removeNode()` did not remove the node; top-level nodes could not be addressed, and editing nested nodes replaced the whole tree by the edited subnode when saving.
+- `Net\HTTP\Header\Field\Parser::parse()` failed when decoding qualified values was enabled.
+- `Alg\Time\Duration::render()` did not shorten the rendered duration.
+- `Alg\Text\Unicoder::isUnicode()` did not use `mb_check_encoding()` when available.
+- `FS\File\Backup`: `store()` saved the first backup as version 1 instead of 0; requesting the latest version without any backup throws a `RuntimeException` now instead of failing on a missing version.
+- Development: `FS\File\BackupTest` is part of the unit test suite again.
+
 ## [1.1.0] - 2026-11-02
 
 ### Breaking changes

@@ -132,14 +132,14 @@ class Reader
 	/**
 	 *	Returns Info Array or single Information from last cURL Request.
 	 *	@access		public
-	 *	@param		integer|NULL		$key		Information Key
+	 *	@param		string|NULL			$key		Information Key, like http_code or content_type
 	 *	@return		mixed
 	 */
-	public function getCurlInfo( ?int $key = NULL ): mixed
+	public function getCurlInfo( ?string $key = NULL ): mixed
 	{
 		if( !$this->curlInfo )
 			throw new RuntimeException( "No Request has been sent, yet." );
-		if( !$key )
+		if( NULL === $key || '' === $key )
 			return $this->curlInfo;
 		if( !array_key_exists( $key, $this->curlInfo ) )
 			throw new InvalidArgumentException( 'Status Key "'.$key.'" is invalid.' );

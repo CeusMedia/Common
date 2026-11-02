@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace CeusMedia\Common\XML\DOM;
 
 use InvalidArgumentException;
+use OutOfRangeException;
 
 /**
  *	Simplified XML Node DOM Implementation.
@@ -268,6 +269,21 @@ class Node
 		}
 		if( $children !== $this->children )
 			$this->children = $children;
+		return $this;
+	}
+
+	/**
+	 *	Removes Child Node at given position.
+	 *	@access		public
+	 *	@param		int			$index			Position of Child Node to be removed
+	 *	@return		self
+	 *	@throws		OutOfRangeException			if no child node exists at given position
+	 */
+	public function removeChildAt( int $index ): self
+	{
+		if( !array_key_exists( $index, $this->children ) )
+			throw new OutOfRangeException( 'No child node at position '.$index );
+		array_splice( $this->children, $index, 1 );
 		return $this;
 	}
 
