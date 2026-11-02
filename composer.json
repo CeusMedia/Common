@@ -46,6 +46,25 @@
     "php-parallel-lint/php-parallel-lint": "1.*",
     "rector/rector": "*"
   },
+  "suggest": {
+    "ext-bz2": "for FS\\File\\Arc\\Bzip",
+    "ext-curl": "for Net\\CURL, Net\\HTTP\\Reader, Net\\HTTP\\CrossDomainProxy and CLI\\Downloader",
+    "ext-dom": "for XML\\DOM, XML\\XSL and XML\\Namespaces",
+    "ext-exif": "for UI\\Image\\Exif",
+    "ext-fileinfo": "for detecting MIME types in FS\\File",
+    "ext-ftp": "for Net\\FTP",
+    "ext-gd": "for UI\\Image (processing, thumbnails, watermarks)",
+    "ext-iconv": "for Alg\\Text\\EncodingConverter, ADT\\String_ and XML\\DOM\\Formater",
+    "ext-imagick": "for FS\\File\\PdfToImage",
+    "ext-pcntl": "for CLI\\Fork",
+    "ext-posix": "for CLI\\Fork and file owner information in FS\\File",
+    "ext-simplexml": "for XML\\Element, XML\\RSS\\SimpleParser and XML\\Namespaces",
+    "ext-sockets": "for CLI\\Fork\\Server",
+    "ext-xml": "for XML\\Parser and XML\\Validator",
+    "ext-xsl": "for XML\\XSL\\Transformator",
+    "ext-zip": "for FS\\File\\Arc\\Zip",
+    "ext-zlib": "for FS\\File\\Arc\\Gzip and HTTP response compression"
+  },
   "autoload": {
     "psr-4": {
       "CeusMedia\\Common\\": "src/"

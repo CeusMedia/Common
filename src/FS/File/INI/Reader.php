@@ -369,8 +369,9 @@ class Reader extends FileReader
 		$commentOpen		= 0;
 		$lines				= $this->readArray();
 		foreach( $lines as $line ){
+			//  keep original line (without line break) for editor, but parse trimmed line
+			$this->lines[]	= rtrim( $line, "\r\n" );
 			$line			= trim( $line );
-			$this->lines[]	= $line;
 
 			$commentOpen	+= preg_match( "@^/\*@", trim( $line ) );
 			$commentOpen	-= preg_match( "@\*/$@", trim( $line ) );

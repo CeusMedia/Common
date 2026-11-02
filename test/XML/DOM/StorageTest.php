@@ -144,4 +144,33 @@ class StorageTest extends BaseCase
 		$creation	= $this->storage->set( "tests.test2.key2", "value22", true );
 		self::assertFalse( $creation );
 	}
+
+	/**
+	 *	Tests that UTF-8 values are stored as plain UTF-8 and read back unchanged.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetAndWriteUtf8(): void
+	{
+		$value	= 'Größe: 5 €';
+		$this->storage->set( "tests.test3.key3", $value, TRUE );
+		self::assertStringContainsString( $value, (string) file_get_contents( $this->fileName ) );
+
+		$storage	= new Storage( $this->fileName );
+		self::assertSame( $value, $storage->get( "tests.test3.key3" ) );
+	}
+
+	/**
+	 *	Tests that values double-encoded by older versions are read correctly.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testReadLegacyDoubleEncodedValue(): void
+	{
+		$value		= 'Größe: 5 €';
+		$legacy		= mb_convert_encoding( $value, 'UTF-8', 'ISO-8859-1' );
+		$this->storage->set( "tests.test4.key4", $legacy, TRUE );
+		$storage	= new Storage( $this->fileName );
+		self::assertSame( $value, $storage->get( "tests.test4.key4" ) );
+	}
 }

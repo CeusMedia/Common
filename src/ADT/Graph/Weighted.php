@@ -334,7 +334,7 @@ class Weighted
 						$newStack->push( $node );
 						$newWays[] = $newStack;
 					}
-					$hadNodes[] = $node;
+					$hadNodes[] = $node->getNodeName();
 					$ways = $newWays;
 				}
 			}
@@ -343,8 +343,7 @@ class Weighted
 	}
 
 	/**
-	 *	Hat Zyklus ? --> Zyklus = geschlossene Kantenfolge
-	 *	//  hier beim ungerichteten Graphen FEHLERHAFT !!!
+	 *	Indicates whether the graph has a cycle (closed path of edges), including loops.
 	 *	@access		public
 	 *	@return		bool
 	 */
@@ -352,11 +351,36 @@ class Weighted
 	{
 		if( $this->hasLoop() )
 			return TRUE;
+		//  undirected graph: depth-first search, an already visited neighbour (except the parent) closes a cycle
+		$visited	= [];
 		foreach( $this->getNodes() as $node )
-			if( $this->isPath( $node, $node ) )
+			if( !isset( $visited[$node->getNodeName()] ) && $this->hasCycleFrom( $node, NULL, $visited ) )
 				return TRUE;
 		return FALSE;
 	}
+
+	/**
+	 *	Indicates whether a cycle is reachable from a node, for undirected graphs.
+	 *	@access		protected
+	 *	@param		Node		$node		Current node
+	 *	@param		Node|NULL	$parent		Node visited before
+	 *	@param		array		$visited	Map of visited node names
+	 *	@return		bool
+	 */
+	protected function hasCycleFrom( Node $node, ?Node $parent, array &$visited ): bool
+	{
+		$visited[$node->getNodeName()]	= TRUE;
+		foreach( $this->getTargetNodes( $node ) as $neighbour ){
+			if( $neighbour === $node || $neighbour === $parent )
+				continue;
+			if( isset( $visited[$neighbour->getNodeName()] ) )
+				return TRUE;
+			if( $this->hasCycleFrom( $neighbour, $node, $visited ) )
+				return TRUE;
+		}
+		return FALSE;
+	}
+
 
 	/**
 	 *	Hat Schlingen ? --> Schlinge = Kante {u,u}
@@ -401,8 +425,6 @@ class Weighted
 	 */
 	public function isEdge( Node $source, Node $target ): bool
 	{
-		if( $source === $target )
-			return FALSE;
 		if( $source->getNodeName() < $target->getNodeName() )
 			return $this->edgeSet->isEdge( $source, $target );
 		return $this->edgeSet->isEdge( $target, $source );
@@ -456,19 +478,14 @@ class Weighted
 	}
 
 	/**
-	 *	Ist Wald ? -> Eingangsgrad aller Knoten > 1
+	 *	Indicates whether the graph is a forest (has no cycle).
 	 *	@access		public
 	 *	@return		bool
 	 */
 	public function isForrest(): bool
 	{
-		if( $this->hasCycle() )
-			return TRUE;
-		$nodes = $this->getNodes();
-		foreach( $nodes as $node )
-			if( 0 === $this->getEntranceGrade( $node ) )
-				return FALSE;
-		return TRUE;
+		//  a forest is a graph without cycles
+		return !$this->hasCycle();
 	}
 
 	/**
@@ -525,7 +542,8 @@ class Weighted
 	{
 		foreach( $this->getNodes() as $_node )
 			//  remove all Edges of Node
-			$this->removeEdge( $_node, $node );
+			if( $this->isEdge( $_node, $node ) )
+				$this->removeEdge( $_node, $node );
 		//  remove Node
 		$this->nodeSet->removeNode( $node );
 		return $this;

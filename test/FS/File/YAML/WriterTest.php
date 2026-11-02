@@ -21,6 +21,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class WriterTest extends BaseCase
 {
+	protected $data;
+
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 

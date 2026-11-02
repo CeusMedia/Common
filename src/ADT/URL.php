@@ -449,7 +449,7 @@ class URL implements Renderable, Stringable
 	public function setQuery( array|string $query ): static
 	{
 		if( is_array( $query ) )
-			$query	= http_build_query( $query, '&' );
+			$query	= http_build_query( $query, '', '&' );
 		$this->parts->query	= $query;
 		return $this;
 	}

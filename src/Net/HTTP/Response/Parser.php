@@ -57,15 +57,10 @@ class Parser
 #		$string		= trim( $string );
 		$parts		= explode( "\r\n\r\n", $string );
 		$response	= new Response();
-		while( $part = array_shift( $parts ) ){
-			$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
-			if( !preg_match( $pattern, $part ) ){
-				array_unshift( $parts, $part );
-				break;
-			}
-			if( 0 === count( $response->headers->getFields() ) )
-				$response	= static::parseHeadersFromString( $part );
-		}
+		//  there may be several header blocks (e.g. 100 Continue or redirects), the last one is the final response
+		$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
+		while( [] !== $parts && 1 === preg_match( $pattern, $parts[0] ) )
+			$response	= static::parseHeadersFromString( (string) array_shift( $parts ) );
 		$body	= implode( "\r\n\r\n", $parts );
 
 /*		$encodings	= $response->headers->getField( 'content-encoding' );

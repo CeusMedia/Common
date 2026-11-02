@@ -89,7 +89,12 @@ class PieGraph
 
 			$rotate180	= $obj->percent > 50 ? 1 : 0;
 			$color		= $this->chart->getColor( $count );
-
+			//  a single arc cannot describe a full circle (start equals end point)
+			if( $obj->percent >= 100 ){
+				$output .= HtmlTag::create( "circle", NULL, ['cx' => $cx, 'cy' => $cy, 'r' => $r, 'fill' => $color, 'opacity' => 0.8] );
+				$count++;
+				continue;
+			}
 			$attributes	= array(
 				'd'			=> "M{$cx},{$cy} L$x1,$y1 A{$r},{$r} 0 $rotate180,1 $x2,$y2 Z",
 				'fill'		=> $color,

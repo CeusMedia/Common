@@ -52,20 +52,22 @@ class Insertion
 	 */
 	public function sort( array $list ): array
 	{
-//		echo "list: ".implode (" | ", $list)."<br>";
-		$n	= sizeof( $list );
-		for( $i=0; $i<$n; $i++ ){
-			$temp	= $list[$i];
-			$j		= $n - 1;
-			while( $j>=0 && $this->moves < 100 ){
-				if( $list[$j] > $temp ){
-					$this->moves ++;
-					$list = self::swap( $list, $j + 1, $j );
-//					echo "list[$i|$j]: ".implode (" | ", $list)."<br>";
-					$j--;
-				}
-				$this->compares ++;
+		$list			= array_values( $list );
+		$this->compares	= 0;
+		$this->moves	= 0;
+		$n				= count( $list );
+		for( $i = 1; $i < $n; $i++ ){
+			$current	= $list[$i];
+			$j			= $i - 1;
+			while( $j >= 0 ){
+				$this->compares++;
+				if( $list[$j] <= $current )
+					break;
+				$list[$j + 1]	= $list[$j];
+				$this->moves++;
+				$j--;
 			}
+			$list[$j + 1]	= $current;
 		}
 		return $list;
 	}

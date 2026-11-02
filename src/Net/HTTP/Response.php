@@ -114,11 +114,8 @@ class Response
 	 */
 	public function getBodyLength(): int
 	{
-		if( NULL === $this->body )
-			return 0;
-		if( function_exists( 'mb_strlen' ) )
-			return mb_strlen( $this->body );
-		return strlen( $this->body );
+		//  Content-Length is given in bytes, not characters
+		return strlen( $this->body ?? '' );
 	}
 
 	/**
@@ -311,16 +308,10 @@ class Response
 	 */
 	public function toString(): string
 	{
-		$lines		= [];
-		//  add main protocol header
-		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;
-		//  add header fields and line break
-		$lines[]	= $this->headers->render();
-		//  response body is set
-		if( 0 !== $this->getBodyLength() )
-			//  add response body
-			$lines[]	= $this->body;
-		//  glue parts with line break and return result
-		return join( "\r\n", $lines );
+		//  status line, header fields (each ending with line break), empty line, body
+		return $this->protocol.'/'.$this->version.' '.$this->status."\r\n"
+			.$this->headers->render()
+			."\r\n"
+			.( $this->body ?? '' );
 	}
 }

@@ -72,7 +72,7 @@ class MethodOrder
 		$content	= file_get_contents( $this->fileName );
 		if( FALSE === $content )
 			throw new Exception( "File '".$this->fileName."' is not readable." );
-		$content	= preg_replace( "@/\*.+\*/@sU", "", $content );
+		$content	= (string) preg_replace( "@/\*.*?\*/@s", "", $content );
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line )
 		{

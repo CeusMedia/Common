@@ -125,8 +125,8 @@ class Storage extends OptionObject
 			$value	= $node->getContent();
 			if( $type = $node->getAttribute( 'type' ) )
 				settype( $value, $type );
-			if( gettype( $value ) == "string" )
-				$array[$nodeName]	= utf8_decode( $value );
+			if( is_string( $value ) )
+				$array[$nodeName]	= self::decodeLegacyValue( $value );
 			else
 				$array[$nodeName]	= $value;
 		}
@@ -248,9 +248,30 @@ class Storage extends OptionObject
 				$child	= new Node( $this->getOption( 'tag_pair' ) );
 				$child->setAttribute( 'name', (string) $key );
 				$child->setAttribute( 'type', gettype( $value ) );
-				$child->setContent( utf8_encode( (string) $value ) );
+				$child->setContent( (string) $value );
 			}
 			$node->addChild( $child );
 		}
+	}
+
+	/**
+	 *	Returns string value, decoding values double-encoded to UTF-8 by older versions.
+	 *	Older versions stored UTF-8 strings encoded again (utf8_encode). Such values are decoded,
+	 *	if decoding leads to valid UTF-8 and is lossless. Other values are returned unchanged.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$value		String value read from file
+	 *	@return		string
+	 */
+	protected static function decodeLegacyValue( string $value ): string
+	{
+		if( 1 !== preg_match( '/[\x80-\xFF]/', $value ) )
+			return $value;
+		$decoded	= mb_convert_encoding( $value, 'ISO-8859-1', 'UTF-8' );
+		if( !mb_check_encoding( $decoded, 'UTF-8' ) )
+			return $value;
+		if( mb_convert_encoding( $decoded, 'UTF-8', 'ISO-8859-1' ) !== $value )
+			return $value;
+		return $decoded;
 	}
 }

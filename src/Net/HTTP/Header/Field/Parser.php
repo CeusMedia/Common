@@ -86,18 +86,19 @@ class Parser
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$headerFieldString		String to header field to parse
-	 *	@param		boolean		$decodeQualifiedValues	Flag: decode qualified values (default: FALSE)
+	 *	Qualified values are kept as raw string, since the field decodes them on demand: use getValue( TRUE ).
+	 *	@param		boolean		$decodeQualifiedValues	Flag: validate qualified values, decode later using getValue( TRUE ) (default: FALSE)
 	 *	@return		HeaderField							Header field object
 	 *	@throws		InvalidArgumentException			If given string is not a valid header field
 	 */
 	public static function parse( string $headerFieldString, bool $decodeQualifiedValues = FALSE ): HeaderField
 	{
-		if( !preg_match( '/^\S+:\s*.+$/', trim( $headerFieldString ) ) )
+		if( !preg_match( '/^[^\s:]+:.*$/', trim( $headerFieldString ) ) )
 		 	throw new InvalidArgumentException( 'Given string is not an HTTP header' );
 		[$key, $value]	= explode( ':', trim( $headerFieldString ), 2 );
 		$value	= trim( $value );
-		if( $decodeQualifiedValues )
-			$value	= self::decodeQualifiedValues( $value );
+		if( $decodeQualifiedValues && [] === self::decodeQualifiedValues( $value ) )
+			throw new InvalidArgumentException( 'Header value contains no qualified values' );
 		return new HeaderField( trim( $key ), $value );
 	}
 }

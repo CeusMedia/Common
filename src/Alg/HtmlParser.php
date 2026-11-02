@@ -330,7 +330,7 @@ class HtmlParser
 					$value	= $node->data;
 				else if( $node instanceof \DOMElement )
 					$value	= $node->textContent;
-				else if( $node instanceof \DOMAttr )
+				else
 					$value	= $node->textContent;
 			}
 			else

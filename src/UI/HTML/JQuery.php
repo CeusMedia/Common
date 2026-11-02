@@ -60,9 +60,11 @@ class JQuery
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );
-		$options		= JsonEncoder::create()->encode( $options );
+		//  encode for use in HTML script blocks: no tags, ampersands or quotes, which could end the script
+		$flags			= JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
+		$options		= JsonEncoder::create()->encode( $options, $flags );
 		$show			= $selector ? '.show()' : "";
-		$selector		= $selector ? '("'.$selector.'")' : "";
+		$selector		= $selector ? '('.json_encode( $selector, $flags ).')' : "";
 		return $outerIndent.self::$jQueryFunctionName.'(document).ready(function(){
 '.$innerIndent.self::$jQueryFunctionName.$selector.'.'.$plugin.'('.$options.')'.$show.';
 '.$outerIndent.'});';

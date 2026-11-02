@@ -209,13 +209,14 @@ class TodoLister
 		$list1	= array_merge( $list1, $this->{$member.'s'} );
 		$list2	= [];
 		foreach( $list1 as $item )
-			$list2[]	= str_replace( '.', '\.', $item );
+			$list2[]	= preg_quote( ltrim( (string) $item, '.' ), '%' );
 		if( 1 === count( $list2 ) )
 			$pattern	= array_pop( $list2 );
 		else
 			$pattern	= '('.implode( '|', $list2 ).')';
+		//  extensions must follow a dot at the end of the file name
 		if( $member == 'extension' )
-			$pattern	.= "$";
+			$pattern	= '\.'.$pattern."$";
 		return '%'.$pattern.'%';
 	}
 }

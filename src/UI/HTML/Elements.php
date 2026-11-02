@@ -96,8 +96,8 @@ class Elements extends FormElements
 	{
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
 		$code = '
-		<input id="chkbut_'.$name.'" type="submit" class="'.$ins_class.'" value="'.$text.'" onClick="switchCheckButton(\''.$name.'\', \''.( $class ? $class."_" : "" ).'\');" onFocus="this.blur()"/>
-		<input id="'.$name.'" type="hidden" name="'.$name.'" value="'.$value.'"/>';
+		<input id="chkbut_'.self::escapeAttribute( $name ).'" type="submit" class="'.self::escapeAttribute( $ins_class ).'" value="'.self::escapeAttribute( $text ).'" onClick="switchCheckButton(\''.self::escapeAttribute( $name ).'\', \''.self::escapeAttribute( $class ? $class."_" : "" ).'\');" onFocus="this.blur()"/>
+		<input id="'.self::escapeAttribute( $name ).'" type="hidden" name="'.self::escapeAttribute( $name ).'" value="'.self::escapeAttribute( $value ).'"/>';
 		return $code;
 	}
 
@@ -141,7 +141,7 @@ class Elements extends FormElements
 			$crypt	= str_replace( "@", " (at) ", $crypt );
 			$crypt	= str_replace( ".", " [dot] ", $crypt );
 
-			return '<span class="'.$class.'"><span class="mailAddress">'.$crypt.'</span><span class="mailName">'.$label.'</span></span>';
+			return '<span class="'.self::escapeAttribute( $class ).'"><span class="mailAddress">'.htmlspecialchars( $crypt, ENT_QUOTES, 'UTF-8' ).'</span><span class="mailName">'.$label.'</span></span>';
 		}
 		else
 			return self::Link( "mailto:".$address, $label, $class );
@@ -216,7 +216,7 @@ class Elements extends FormElements
 	 */
 	public static function Anchor( string $name ): string
 	{
-		$code	= "<a name='".$name."'></a>";
+		$code	= "<a name='".self::escapeAttribute( $name )."'></a>";
 		return $code;
 	}
 
@@ -273,8 +273,8 @@ class Elements extends FormElements
 	 */
 	public static function Acronym( mixed $text, mixed $description, string $class = "" ): string
 	{
-		$ins_title		= " title=\"".$description."\"";
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
+		$ins_title		= " title=\"".self::escapeAttribute( $description )."\"";
+		$ins_class	= $class ? " class=\"".self::escapeAttribute( $class )."\"" : "";
 		$code		= "<acronym".$ins_title.$ins_class.">".$text."</acronym>";
 		return $code;
 	}
@@ -430,7 +430,7 @@ class Elements extends FormElements
 			'tabindex'	=> $tabindex	?: NULL,
 			'target'	=> $target		?: NULL,
 			'rel'		=> $relation	?: NULL,
-			'onclick'	=> $confirm		? "return confirm('".$confirm."')" : NULL,
+			'onclick'	=> $confirm		? "return confirm(".json_encode( $confirm, JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP ).")" : NULL,
 		);
 		return Tag::create( "a", $name, $attributes );
 	}
@@ -482,7 +482,7 @@ class Elements extends FormElements
 		$code	= "
 <span onclick=\"ImagePreview.change('div_".$id."');\">".$html."</span>
 <div id=\"div_".$id."\" class=\"".$class."\">".$ins_zoom."
-  <img id=\"img_".$id."\" class=\"".$class."\" src=\"".$url."\" alt=\"".$title."\" title=\"".$title."\" onclick=\"ImagePreview.hide('div_".$id."');\"/>
+  <img id=\"img_".$id."\" class=\"".$class."\" src=\"".self::escapeAttribute( $url )."\" alt=\"".self::escapeAttribute( $title )."\" title=\"".self::escapeAttribute( $title )."\" onclick=\"ImagePreview.hide('div_".$id."');\"/>
 </div>";
 		return $code;
 	}
@@ -602,5 +602,17 @@ class Elements extends FormElements
 		$content	= "\n".implode( "\n", $items )."\n".$indent1;
 		$tag		= Tag::create( "ul", $content, $attributes );
 		return $indent1.$tag."\n".$indent2;
+	}
+
+	/**
+	 *	Escapes a value for use in an HTML attribute; already escaped entities are kept.
+	 *	@access		protected
+	 *	@static
+	 *	@param		mixed		$value		Value to escape
+	 *	@return		string
+	 */
+	protected static function escapeAttribute( mixed $value ): string
+	{
+		return htmlspecialchars( (string) $value, ENT_QUOTES, 'UTF-8', FALSE );
 	}
 }

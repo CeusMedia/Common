@@ -30,7 +30,6 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\FS\Folder;
 
-use CeusMedia\Common\Alg\UnitFormater;
 use FilterIterator;
 use RuntimeException;
 
@@ -46,6 +45,11 @@ use RuntimeException;
  */
 class Reader
 {
+	public const SIZE_BYTE			= 1024 ** 0;
+	public const SIZE_KILOBYTE		= 1024 ** 1;
+	public const SIZE_MEGABYTE		= 1024 ** 2;
+	public const SIZE_GIGABYTE		= 1024 ** 3;
+
 	/**	@var		string		$folderName		Folder Name, relative or absolute */
 	protected string $folderName;
 
@@ -307,19 +311,21 @@ class Reader
 	/**
 	 *	Returns Size of Files within current Folder.
 	 *	@access		public
-	 *	@param		string		$pattern		RegEx Pattern for Name Filter
-	 *	@param		int			$unit			Unit (SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
-	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
-	 *	@return		int
+	 *	@param		string|NULL		$pattern		RegEx Pattern for Name Filter
+	 *	@param		int|NULL		$unit			Unit as number of bytes, e.g. self::SIZE_KILOBYTE (one of SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
+	 *	@param		int|NULL		$precision		Precision of rounded Size (only if unit is set, default: 0)
+	 *	@return		int|float		Size in bytes or in given unit
 	 */
-	public function getSize( ?string $pattern = NULL, ?int $unit = NULL, ?int $precision = NULL ): int
+	public function getSize( ?string $pattern = NULL, ?int $unit = NULL, ?int $precision = NULL ): int|float
 	{
 		$size	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )
 			$size	+= $entry->getSize();
-		if( $unit )
-			$size	= UnitFormater::formatBytes( $size, $precision );
-		return $size;
+		if( !$unit )
+			return $size;
+		if( !$precision )
+			return (int) round( $size / $unit );
+		return round( $size / $unit, $precision );
 	}
 
 	/**

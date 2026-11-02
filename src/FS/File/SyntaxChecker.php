@@ -52,8 +52,9 @@ class SyntaxChecker
 	 */
 	public function checkFile( string $fileName ): bool
 	{
-		$output = (string) shell_exec('php -l "'.$fileName.'"');
-		if( preg_match( "@^No syntax errors detected@", $output	) )
+		$command	= escapeshellarg( PHP_BINARY ).' -l '.escapeshellarg( $fileName ).' 2>&1';
+		$output		= (string) shell_exec( $command );
+		if( preg_match( "@^No syntax errors detected@m", $output ) )
 			return TRUE;
 		$this->error	= $output;
 		return FALSE;

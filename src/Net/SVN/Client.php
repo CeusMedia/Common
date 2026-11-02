@@ -60,7 +60,7 @@ class Client
 		if( !file_exists( $path ) )
 			throw IoException::create( 'Invalid path' )->setResource( $path );
 		$this->path		= realpath( $path ).'/';
-		$this->pathExp	= '^('.str_replace( '/', '\/', $this->path ).')';
+		$this->pathExp	= '^('.preg_quote( $this->path, '/' ).')';
 	}
 
 	/**
@@ -127,9 +127,9 @@ class Client
 	public function info( string $path = '' ): XmlElement
 	{
 		$path	= $this->path.$path;
-		if( !strlen( (string) `svn info $path` ) )
-			throw new Exception( 'Path '.$path.' is not under SVN conrol' );
-		$xml	= `svn info $path --xml 2>&1`;
+		$xml	= (string) shell_exec( 'svn info --xml '.escapeshellarg( $path ).' 2>/dev/null' );
+		if( !str_contains( $xml, '<entry' ) )
+			throw new Exception( 'Path '.$path.' is not under SVN control' );
 		return new XmlElement( (string) $xml );
 	}
 

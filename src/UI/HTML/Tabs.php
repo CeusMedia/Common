@@ -31,6 +31,7 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\UI\HTML;
 
+use CeusMedia\Common\Env;
 use CeusMedia\Common\UI\HTML\JQuery as JQuery;
 use Exception;
 
@@ -175,8 +176,8 @@ class Tabs
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );
 
-		$belowV3	= version_compare( "3", (string) self::$version );
-		$urlPrefix	= ( $belowV3 && getEnv( 'REDIRECT_URL' ) ) ? getEnv( 'REDIRECT_URL' ) : '';
+		$belowV3	= self::$version < 3;
+		$urlPrefix	= ( $belowV3 && Env::getServerVariable( 'REDIRECT_URL' ) ) ? Env::getServerVariable( 'REDIRECT_URL' ) : '';
 		$tabs		= [];
 		$divs		= [];
 		foreach( $labels as $index => $label ) {

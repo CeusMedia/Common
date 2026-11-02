@@ -88,7 +88,7 @@ class File extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !touch( $this->pathName ) ){
+		if( !@touch( $this->pathName ) ){
 			if( $strict )
 				throw IoException::create( 'File creation failed' )->setResource( $this->pathName );
 			return FALSE;
@@ -291,6 +291,8 @@ class File extends AbstractNode
 	public function getSize( ?int $precision = NULL ): int|string
 	{
 		$this->check();
+		//  file may have been changed since last stat call
+		clearstatcache( TRUE, $this->pathName );
 		$size	= filesize( $this->pathName );
 		if( FALSE === $size )
 			throw new RuntimeException( 'Could not get size of file "'.$this->pathName.'"' );
@@ -333,8 +335,9 @@ class File extends AbstractNode
 		$user	??= get_current_user();
 		if( !function_exists( 'posix_getpwuid' ) )
 			return TRUE;
-		$uid	= fileowner( $this->getPathName() );
-		if( !$uid )
+		$uid	= @fileowner( $this->getPathName() );
+		//  owner could not be detected (uid 0 is root and must be compared)
+		if( FALSE === $uid )
 			return TRUE;
 		$owner	= posix_getpwuid( $uid );
 		if( !$owner )

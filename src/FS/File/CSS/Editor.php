@@ -80,6 +80,8 @@ class Editor
 	{
 		$this->checkIsLoaded();
 		$rule	= $this->sheet->getRuleBySelector( $selector );
+		if( !$rule )
+			throw new OutOfRangeException( 'Rule with selector "'.$selector.'" is not existing' );
 		if( !$rule->hasPropertyByKey( $keyOld ) )
 			throw new OutOfRangeException( 'Property with key "'.$keyOld.'" is not existing' );
 		$property	= $rule->getPropertyByKey( $keyOld );

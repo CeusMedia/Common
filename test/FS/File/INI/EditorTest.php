@@ -19,6 +19,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class EditorTest extends BaseCase
 {
+	protected $path;
+
 	protected $fileList;
 	protected $fileSections;
 
@@ -65,14 +67,15 @@ class EditorTest extends BaseCase
 	 */
 	public function testWriteIdempotency()
 	{
-		$this->markTestSkipped( 'Not idempotent :-(' );
 		$assertion	= FileReader::load( $this->fileList );
 		$this->list->setProperty( "key1", "value1", "not_important" );
 		$creation	= FileReader::load( $this->fileList );
+		self::assertSame( $assertion, $creation );
 
 		$assertion	= FileReader::load( $this->fileSections );
 		$this->sections->setProperty( "key1", "value1", "section1" );
 		$creation	= FileReader::load( $this->fileSections );
+		self::assertSame( $assertion, $creation );
 	}
 
 	/**
@@ -542,5 +545,26 @@ class EditorTest extends BaseCase
 		$assertion	= "new_value_of KEY 'x'";
 		$creation	= $this->sections->getProperty( 'key_x', 'section2' );
 		self::assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests that changing a property rewrites only its line and keeps comment blocks untouched.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetPropertyKeepsOtherLines(): void
+	{
+		$original	= explode( "\n", FileReader::load( $this->fileSections ) );
+		$this->sections->setProperty( "key3", "changed", "section2" );
+		$changed	= explode( "\n", FileReader::load( $this->fileSections ) );
+
+		self::assertCount( count( $original ), $changed );
+		$diff	= array_diff_assoc( $changed, $original );
+		self::assertCount( 1, $diff );
+		self::assertStringContainsString( '"changed"', (string) current( $diff ) );
+		self::assertSame( 'changed', $this->sections->getProperty( "key3", "section2" ) );
+		self::assertSame( 'value1', $this->sections->getProperty( "key1", "section1" ) );
+		self::assertContains( 'key1			=not', $changed );
+		self::assertContains( '   over several lines */', $changed );
 	}
 }

@@ -18,6 +18,9 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class LockTest extends BaseCase
 {
+	protected $lock;
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

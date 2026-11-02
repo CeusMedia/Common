@@ -18,6 +18,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class RecursiveNameFilterTest extends BaseCase
 {
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

@@ -56,6 +56,7 @@ class ChartData
 	 *	@access public
 	 */
 	public float $value;
+	public float $percent	= 0;
 
 	/**
 	 * 	The constructor.

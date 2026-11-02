@@ -85,6 +85,6 @@ abstract class Request
 		$query		.= '&key='.$this->apiKey;
 		$url		= $this->apiUrl.$query;
 		$response	= NetReader::readUrl( $url );
-		return utf8_encode( $response );
+		return $response;
 	}
 }

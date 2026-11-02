@@ -55,13 +55,10 @@ class EncodingConverter
 	public static function convert( string $string, string $charsetIn, string $charsetOut ): string
 	{
 		self::checkIconv();
-		ob_start();
 		/** @noinspection PhpComposerExtensionStubsInspection */
-		$string	= iconv( $charsetIn, $charsetOut, $string );
-		$buffer = ob_get_clean();
-		if( !$buffer && FALSE !== $string )
-
-			return $string;
+		$converted	= @iconv( $charsetIn, $charsetOut, $string );
+		if( FALSE !== $converted )
+			return $converted;
 		throw new InvalidArgumentException( 'String cannot be converted from '.$charsetIn.' to '.$charsetOut );
 	}
 

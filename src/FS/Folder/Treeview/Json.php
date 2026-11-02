@@ -37,6 +37,7 @@ use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\Common\Exception\Conversion as ConversionException;
 use CeusMedia\Common\UI\HTML\Tag;
 use DirectoryIterator;
+use InvalidArgumentException;
 use SplFileInfo;
 
 /**
@@ -76,6 +77,9 @@ class Json
 	public function buildJson( string $path = '' ): string
 	{
 		$clock		= new Clock;
+		//  do not allow to leave base path
+		if( 1 === preg_match( '@(^|[/\\\\])\.\.([/\\\\]|$)@', $path ) )
+			throw new InvalidArgumentException( 'Invalid path' );
 		$index		= new DirectoryIterator( $this->basePath.$path );
 		$folders	= [];
 		$files		= [];
@@ -98,7 +102,7 @@ class Json
 
 	protected function buildFileItem( SplFileInfo $entry ): array
 	{
-		$label		= $entry->getFilename();
+		$label		= htmlspecialchars( $entry->getFilename(), ENT_QUOTES, 'UTF-8' );
 		$url		= $this->getFileUrl( $entry );
 		$attributes	= [
 			'href' 		=> $url,
@@ -114,7 +118,7 @@ class Json
 	protected function buildFolderItem( SplFileInfo $entry ): array
 	{
 		return [
-			'text'			=> $entry->getFilename(),
+			'text'			=> htmlspecialchars( $entry->getFilename(), ENT_QUOTES, 'UTF-8' ),
 			'id'			=> rawurlencode( $this->getPathName( $entry ) ),
 			'hasChildren'	=> $this->hasChildren( $entry ),
 			'classes'		=> $this->classNode,

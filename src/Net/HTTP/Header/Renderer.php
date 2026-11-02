@@ -47,7 +47,7 @@ class Renderer
 	{
 		$list	= [];
 		foreach( $section->getFields() as $field )
-			$list[]	= $field->toString();
-		return join( "\r\n", $list )."\r\n";
+			$list[]	= $field->toString()."\r\n";
+		return join( $list );
 	}
 }

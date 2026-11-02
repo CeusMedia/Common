@@ -156,9 +156,9 @@ class Image
 	/**
 	 *	...
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string|NULL
 	 */
-	public function getFileName(): string
+	public function getFileName(): ?string
 	{
 		return $this->fileName;
 	}
@@ -375,7 +375,8 @@ class Image
 
 	public function setType( int $type ): self
 	{
-		if( !( ImageTypes() & $type ) )
+		//  only these types can be saved and displayed
+		if( !in_array( $type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG], TRUE ) )
 			throw new InvalidArgumentException( 'Invalid type' );
 		$this->type	= $type;
 		if( $this->fileName ){

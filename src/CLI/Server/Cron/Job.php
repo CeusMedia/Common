@@ -57,10 +57,10 @@ class Job extends OptionObject
 
 	/**
 	 *	Indicates whether this job is mature.
-	 *	@access		protected
+	 *	@access		public
 	 *	@return		bool
 	 */
-	protected function checkMaturity(): bool
+	public function checkMaturity(): bool
 	{
 		$time	= time();
 		$c_minute	= date( "i", $time );

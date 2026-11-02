@@ -14,7 +14,6 @@ declare( strict_types = 1 );
 
 namespace CeusMedia\CommonTest\Net\FTP;
 
-use CeusMedia\CommonTest\BaseCase;
 use CeusMedia\Common\Net\FTP\Connection;
 use CeusMedia\Common\Net\FTP\Reader;
 use CeusMedia\Common\Net\FTP\Writer;
@@ -24,7 +23,7 @@ use CeusMedia\Common\Net\FTP\Writer;
  *	@package		Tests.net.ftp
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class WriterTest extends BaseCase
+class WriterTest extends FtpTestCase
 {
 	/** @var ?Connection  */
 	protected ?Connection $connection	= NULL;
@@ -282,7 +281,7 @@ class WriterTest extends BaseCase
 		if( NULL !== $this->writer )
 			return TRUE;
 		if( $markSkipped )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+			$this->markTestSkipped( 'Test FTP server is not available' );
 		return FALSE;
 	}
 
@@ -293,7 +292,7 @@ class WriterTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$config		= self::$_config['unitTest-FTP'] ?? [];
+		$config		= self::getFtpConfig();
 		$host		= $config['host'] ?? NULL;
 		$port		= (int) ( $config['port'] ?? 0 );
 		$username	= $config['user'] ?? NULL;

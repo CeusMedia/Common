@@ -73,10 +73,14 @@ class ReaderTest extends BaseCase
 	 */
 	public function testGetBlock()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Reader::getBlock();
-		self::assertEquals( $assertion, $creation );
+		$fileName	= sys_get_temp_dir().'/'.uniqid( 'BlockReaderTest' ).'.txt';
+		file_put_contents( $fileName, "[first]\nline 1\nline 2\n\n[second]\nline 3\n" );
+		$reader		= new Reader( $fileName );
+		unlink( $fileName );
+
+		self::assertSame( "line 1\nline 2", $reader->getBlock( 'first' ) );
+		self::assertSame( 'line 3', $reader->getBlock( 'second' ) );
+		self::assertSame( '', $reader->getBlock( 'not_existing' ) );
 	}
 
 	/**

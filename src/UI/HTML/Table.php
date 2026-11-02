@@ -98,7 +98,7 @@ class Table
 		if( !$this->bodyRows )
 			$this->bodyRows[]	= [];
 		$current	= count( $this->bodyRows ) - 1;
-		if( empty( $label ) )
+		if( '' === $label )
 			$label	= "&#160;";
 		$this->bodyRows[$current][]	= Tag::create( "td", $label, $attributes );
 		return $this;

@@ -43,7 +43,7 @@ use RuntimeException;
 class Delay
 {
 	protected float $seconds;
-	protected float $time;
+	protected ?float $time		= NULL;
 	protected int $numberRuns	= 0;
 	protected int $numberChecks	= 0;
 
@@ -59,7 +59,7 @@ class Delay
 		if( $msec < 1 )
 			throw new RangeException( 'Delay must be at least 1 ms' );
 		$this->seconds	= (float) $msec / 1000;
-		$this->restart();
+		$this->restart( TRUE );
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Delay
 	 */
 	public function getStartTime(): float
 	{
-		return $this->time;
+		return $this->time ?? 0.0;
 	}
 
 	/**
@@ -99,6 +99,8 @@ class Delay
 	 */
 	public function isActive(): bool
 	{
+		if( NULL === $this->time )
+			return FALSE;
 		$this->numberChecks++;
 		$time	= microtime( TRUE ) - $this->time;
 		return $time < $this->seconds;

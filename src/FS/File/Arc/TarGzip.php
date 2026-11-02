@@ -71,8 +71,7 @@ class TarGzip extends Tar
 		$f = new Gzip( $fileName );
 		$this->content = $f->readString();
 		// Parse the TAR file
-		$this->parseTar();
-		return TRUE;
+		return $this->parseTar();
 	}
 
 	/**

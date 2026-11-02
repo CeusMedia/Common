@@ -58,6 +58,11 @@ class BackupTest extends BaseCase
 		self::assertEquals( $this->time, $this->file->getContent( 0 ) );
 	}
 
+	public function testGetContentWithoutBackup(){
+		$this->expectException( 'RuntimeException' );
+		$this->file->getContent( -1 );
+	}
+
 	/**
 	 */
 	public function test_getContent_fromString_expectTypeError()
@@ -175,7 +180,7 @@ class BackupTest extends BaseCase
 	/**
 	 */
 	public function testRemoveException1(){
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
 		$this->file->remove( "a" );
 	}
 
@@ -275,7 +280,7 @@ class BackupTest extends BaseCase
 	/**
 	 */
 	public function testRestoreException1(){
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
 		$this->file->restore( "a" );
 	}
 
@@ -308,7 +313,7 @@ class BackupTest extends BaseCase
 	/**
 	 */
 	public function testSetContentException1(){
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( 'TypeError' );
 		$this->file->store();
 		$this->file->setContent( 'wrong', 'new content' );
 	}

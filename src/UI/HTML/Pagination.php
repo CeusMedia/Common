@@ -120,7 +120,7 @@ class Pagination extends OptionObject
 		$cover			= $this->getOption( 'coverage' );
 		$showMore		= $this->getOption( 'showMore' );
 		$showFirstLast	= $this->getOption( 'showFirstLast' );
-		$showPrevNext	= $this->getOption( 'showFirstLast' );
+		$showPrevNext	= $this->getOption( 'showPrevNext' );
 
 		//  --  FIRST PAGE --  //
 		//  show first link
@@ -187,7 +187,7 @@ class Pagination extends OptionObject
 				$pages[]	= $this->buildButton( 'textNext', 'classSkip', $offset );
 			else
 				//  next link disabled it at last page
-				$pages[]	= $this->buildButton( 'textNext', 'classSkip disabled' );
+				$pages[]	= $this->buildButton( 'textNext', 'classSkip classDisabled' );
 		}
 
 		//  --  LAST PAGE --  //
@@ -198,7 +198,7 @@ class Pagination extends OptionObject
 				$pages[]	= $this->buildButton( 'textLast', 'classExtreme', $offset );
 			else
 				//  last link disabled if at last page
-				$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );
+				$pages[]	= $this->buildButton( 'textLast', 'classExtreme classDisabled' );
 		}
 		return Elements::unorderedList( $pages, 0, ['class' => $this->getOption( 'classList' )] );
 	}
@@ -260,7 +260,7 @@ class Pagination extends OptionObject
 		$param[$this->getOption( 'keyOffset' )] = $offset;
 		$list	= [];
 		foreach( $param as $key => $value )
-			$list[]	= $key.$this->getOption( 'keyAssign' ).$value;
+			$list[]	= rawurlencode( (string) $key ).$this->getOption( 'keyAssign' ).rawurlencode( (string) $value );
 		$param	= implode( $this->getOption( 'keyParam' ), $list );
 		return  $this->getOption( 'uri' ).$this->getOption( 'keyRequest' ).$param;
 	}

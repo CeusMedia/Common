@@ -95,12 +95,12 @@ class BarAcross
 				$ani1	= HtmlTag::create( "animate", "", ['attributeName' => "width", 'attributeType' => "XML", 'begin' => "0s", 'dur' => "1s", 'fill' => "freeze", 'from' => 0, 'to' => $width] );
 				$ani2	= HtmlTag::create( "animate", "", ['attributeName' => "visibility", 'attributeType' => "CSS", 'begin' => "1s", 'dur' => "0.1s", 'fill' => "freeze", 'from' => 'hidden', 'to' => 'visible', 'calcMode' => 'discrete'] );
 				$tags[]	= HtmlTag::create( "rect", $ani1, ['x' => $barX, 'y' => $y, 'width' => 0, 'height' => 15, 'fill' => $color, 'style' => "filter: url(#flt)"] );
-				$tags[]	= HtmlTag::create( "text", $obj->desc, ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
+				$tags[]	= HtmlTag::create( "text", htmlspecialchars( $obj->desc, ENT_QUOTES, 'UTF-8' ), ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
 				$tags[]	= HtmlTag::create( "text", "[".$percent."%]".$ani2, ['x' => $descX, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right; visibility: hidden"] );
 			}
 			else{
 				$tags[]	= HtmlTag::create( "rect", "", ['x' => $barX, 'y' => $y, 'width' => $width, 'height' => 15, 'fill' => $color, 'style' => "filter: url(#flt)"] );
-				$tags[]	= HtmlTag::create( "text", $obj->desc, ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
+				$tags[]	= HtmlTag::create( "text", htmlspecialchars( $obj->desc, ENT_QUOTES, 'UTF-8' ), ['x' => $x, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
 				$tags[]	= HtmlTag::create( "text", "[".$percent."%]", ['x' => $descX, 'y' => $textY, 'style' => "font-size: 12px; text-anchor: right"] );
 			}
 			$y = $y + 27;

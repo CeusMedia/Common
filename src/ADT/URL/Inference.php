@@ -65,7 +65,9 @@ class Inference extends URL
 		$parameters	= $this->buildQueryString( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
-		return $this->get( $this->isAbsolute() ).$parameters;
+		//  query and fragment of this URL are replaced by the built ones
+		$url	= (string) preg_replace( '/[?#].*$/', '', $this->get( $this->isAbsolute() ) );
+		return $url.$parameters;
 	}
 
 	/**
@@ -90,7 +92,7 @@ class Inference extends URL
 			unset( $mapRequest[$key] );
 
 		// making link parameter string
-		return http_build_query( $mapRequest, "test_", $this->separator );
+		return http_build_query( $mapRequest, '', $this->separator );
 	}
 
 	/**
@@ -135,7 +137,9 @@ class Inference extends URL
 		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
-		$url		= new URL( self::$staticScheme, self::$staticAddress );
+		$url		= new URL( self::$staticAddress );
+		if( '' !== self::$staticScheme )
+			$url->setScheme( self::$staticScheme );
 		return $url->get( $absolute ).$parameters;
 	}
 }

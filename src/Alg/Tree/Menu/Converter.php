@@ -58,13 +58,13 @@ class Converter
 		foreach( $lines as $line ){
 			if( isset( $line['outlines'] ) && count( $line['outlines'] ) ){
 				if( isset ( $line['url'] ) )
-					$item	= new Item( $line['url'], $line['text'] );
+					$item	= new Item( $line['url'], $line['text'] ?? '' );
 				else
-					$item	= new TreeMenuCollection( $line['text'] );
+					$item	= new TreeMenuCollection( $line['text'] ?? '' );
 				self::buildMenuListFromOutlines( $line['outlines'], $item );
 			}
 			else{
-				$item	= new Item( $line['url'], $line['text'] );
+				$item	= new Item( $line['url'] ?? '', $line['text'] ?? '' );
 			}
 			$container->addChild( $item );
 		}

@@ -81,8 +81,12 @@ class Parser
 		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
 			$string	= EncodingConverter::convert( $string, $charsetIn, $charsetOut );
 
+		//  unfold folded lines (line break followed by space or tab) and support CRLF
+		$string	= str_replace( ["\r\n", "\r"], "\n", $string );
+		$string	= (string) preg_replace( "/\n[ \t]/", '', $string );
 		foreach( explode( "\n", $string ) as $line )
-			self::parseLine( $vcard, $line );
+			if( '' !== trim( $line ) )
+				self::parseLine( $vcard, $line );
 		return $vcard;
 	}
 
@@ -96,11 +100,14 @@ class Parser
 	{
 		$list	= [];
 		foreach( explode( ';', $string ) as $part ){
-			$parts1	= explode( '=', $part );
-			$key	= array_shift( $parts1 );
-			$values	= explode( ',', array_shift( $parts1 ) ?? '' );
+			if( '' === trim( $part ) )
+				continue;
+			//  bare types like WORK (vCard 2.1) or TYPE=work,pref
+			$parts1	= explode( '=', $part, 2 );
+			$values	= explode( ',', $parts1[1] ?? $parts1[0] );
 			foreach( $values as $value )
-				$list[]	= $value;
+				if( '' !== trim( $value ) )
+					$list[]	= trim( $value );
 		}
 		return $list;
 	}
@@ -124,14 +131,11 @@ class Parser
 		$attributes	= self::parseAttributes( $attributes );
 
 		//  --  GET VALUES  --  //
-		$values		= implode( ':', $partsLine );
-		$values		= explode( ';', $values );
+		$rawValue	= implode( ':', $partsLine );
+		$values		= self::splitValue( $rawValue, ';' );
 
 		//  --  BUILD ARRAY(10) FOR VALUE FIELDS  --  //
-		$list	= array_fill( 0, 10, NULL );
-		for( $i=0; $i<count( $values); $i++ )
-			$list[$i]	= $values[$i];
-		$values	= $list;
+		$values		= array_pad( $values, 10, '' );
 
 		//  --  FILL VCARD OBJECT  --  //
 		switch( strtolower( $key ) ){
@@ -139,9 +143,9 @@ class Parser
 				$vcard->setName(
 					$values[0],
 					$values[1],
-					$values[2],
-					$values[3],
-					$values[4],
+					'' !== $values[2] ? $values[2] : NULL,
+					'' !== $values[3] ? $values[3] : NULL,
+					'' !== $values[4] ? $values[4] : NULL,
 				);
 				break;
 			case 'fn':
@@ -154,19 +158,22 @@ class Parser
 				$vcard->addGeoTag( $values[0], $values[1], $attributes );
 				break;
 			case 'org':
-				$vcard->setOrganisation( $values[0], $values[1] );
+				$vcard->setOrganisation( $values[0], '' !== $values[1] ? $values[1] : NULL );
 				break;
 			case 'title':
 				$vcard->setTitle( $values[0] );
 				break;
 			case 'nickname':
-				$vcard->addNickname( $values[0] );
+				foreach( self::splitValue( $rawValue, ',' ) as $nickname )
+					if( '' !== $nickname )
+						$vcard->addNickname( $nickname );
 				break;
 			case 'role':
 				$vcard->setRole( $values[0] );
 				break;
 			case 'url':
-				$vcard->addUrl( $values[0], $attributes );
+				//  URLs are not escaped
+				$vcard->addUrl( $rawValue, $attributes );
 				break;
 			case 'tel':
 				$vcard->addPhone( $values[0], $attributes );
@@ -179,10 +186,40 @@ class Parser
 					$values[4],
 					$values[5],
 					$values[6],
-					$values[0],
+					'' !== $values[0] ? $values[0] : NULL,
 					$attributes
 				);
 				break;
 		}
+	}
+
+	/**
+	 *	Splits a value by unescaped delimiter and unescapes the parts (RFC 2426, 4).
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$value			Value to split
+	 *	@param		string		$delimiter		Delimiter, ; or ,
+	 *	@return		string[]
+	 */
+	protected static function splitValue( string $value, string $delimiter ): array
+	{
+		$parts		= [];
+		$current	= '';
+		$length		= strlen( $value );
+		for( $i = 0; $i < $length; $i++ ){
+			$char	= $value[$i];
+			if( '\\' === $char && $i + 1 < $length ){
+				$next		= $value[++$i];
+				$current	.= in_array( $next, ['n', 'N'], TRUE ) ? "\n" : $next;
+			}
+			else if( $delimiter === $char ){
+				$parts[]	= $current;
+				$current	= '';
+			}
+			else
+				$current	.= $char;
+		}
+		$parts[]	= $current;
+		return $parts;
 	}
 }

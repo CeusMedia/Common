@@ -20,6 +20,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class ConverterTest extends BaseCase
 {
+	protected $xml;
+
 	protected string $fileRead;
 
 	public function testToJson(): void

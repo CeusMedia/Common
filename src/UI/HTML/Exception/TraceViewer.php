@@ -83,7 +83,7 @@ class TraceViewer
 	public static function buildTrace( Throwable $exception, int $breakMode = 0 ): string
 	{
 		$content	= 'Type: '.get_class( $exception ).'<br/>';
-		$content	.= 'Message: '.$exception->getMessage().'<br/>';
+		$content	.= 'Message: '.htmlspecialchars( $exception->getMessage(), ENT_QUOTES, 'UTF-8' ).'<br/>';
 		$content	.= 'Code: '.$exception->getCode()."<br/>";
 		$content	.= 'File: '.self::trimRootPath( $exception->getFile() ).'<br/>';
 		$content	.= 'Line: '.$exception->getLine().'<br/>';
@@ -181,7 +181,7 @@ class TraceViewer
 			case 'string':
 				if( strlen( $value ) > 70 )
 					$value	= TextTrimmer::trimCentric( $value, 70);
-				return '"'.htmlentities($value ).'"';
+				return '"'.htmlentities( $value, ENT_QUOTES, 'UTF-8' ).'"';
 			case 'array':
 				return self::convertArrayToString( $argument, $breakMode, $level );
 			case 'object':
@@ -213,7 +213,7 @@ class TraceViewer
 		$list = [];
 		foreach( $array as $key => $value ){
 			$string	= self::convertArgumentToString( $value, $breakMode, $level+1 );
-			$list[]	= $key.":".$string;
+			$list[]	= htmlspecialchars( (string) $key, ENT_QUOTES, 'UTF-8' ).":".$string;
 		}
 		$block	= implode( ", ", $list );
 		if( $breakMode == 2 ){
@@ -237,9 +237,10 @@ class TraceViewer
 	 */
 	protected static function trimRootPath( string $fileName ): string
 	{
-		$rootPath	= $_SERVER['DOCUMENT_ROOT'] ?? '';
+		$rootPath	= (string) ( $_SERVER['DOCUMENT_ROOT'] ?? '' );
+		//  without document root (e.g. CLI), keep the full path
 		if( !$rootPath || !$fileName )
-			return '';
+			return $fileName;
 		$fileName	= str_replace( '\\', "/", $fileName );
 		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
 		if( $cut == $rootPath )

@@ -97,6 +97,8 @@ class Post
 	 */
 	public function send( array $curlOptions = [] ): string
 	{
+		if( !isset( $this->url ) )
+			throw new RuntimeException( 'No URL set' );
 		$this->checkContentLength( $this->content ?? '' );
 
 		return match( $this->transport ){

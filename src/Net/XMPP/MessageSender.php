@@ -262,6 +262,8 @@ class MessageSender
 	 */
 	public function setStatus( string $status ): self
 	{
+		if( !$this->xmpp )
+			throw new RuntimeException( 'Not connected to Server.' );
 		$this->xmpp->presence( $status );
 		return $this;
 	}

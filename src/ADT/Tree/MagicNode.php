@@ -32,6 +32,7 @@ namespace CeusMedia\Common\ADT\Tree;
 
 use CeusMedia\Common\ADT\JSON\Encoder as JsonEncoder;
 
+use InvalidArgumentException;
 /**
  *	Magic Node.
  *	@category		Library
@@ -126,7 +127,10 @@ class MagicNode
 	 */
 	public function fromJson( string $json ): void
 	{
-		$this->fromArray( json_decode( $json, TRUE ) );
+		$data	= json_decode( $json, TRUE );
+		if( !is_array( $data ) )
+			throw new InvalidArgumentException( 'JSON does not contain an object or array' );
+		$this->fromArray( $data );
 	}
 
 	/**

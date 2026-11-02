@@ -25,6 +25,8 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class CreatorTest extends BaseCase
 {
+	use ImageAssertions;
+
 	/** @var Creator  */
 	protected $creator;
 	protected $path;
@@ -49,7 +51,6 @@ class CreatorTest extends BaseCase
 
 	public function testCreate()
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$creator	= new Creator();
 		$creator->create( 100, 200 );
 		imagepng( $creator->getResource(), $this->path."targetCreator1.png" );
@@ -61,33 +62,29 @@ class CreatorTest extends BaseCase
 
 	public function testLoadImagePng()
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$image	= new Creator();
 		$image->loadImage( $this->path."sourceCreator.png" );
 		imagepng( $image->getResource(), $this->path."targetCreator.png" );
 
-		$file		= new FileReader( $this->path."sourceCreator.png" );
-		self::assertTrue( $file->equals( $this->path."targetCreator.png" ) );
+		self::assertImageEquals( $this->path."sourceCreator.png", $this->path."targetCreator.png" );
 	}
 
 	public function testLoadImageJpeg()
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$image	= new Creator();
 		$image->loadImage( $this->path."sourceCreator.jpg" );
 
-		self::assertIsResource( $image->getResource() );
+		self::assertInstanceOf( \GdImage::class, $image->getResource() );
+		self::assertImageEquals( $this->path."sourceCreator.jpg", $image->getResource() );
 	}
 
 	public function testLoadImageGif()
 	{
-		$this->markTestSkipped( 'No image tests.' );
 		$creator	= new Creator();
 		$creator->loadImage( $this->path."sourceCreator.gif" );
 		imagegif( $creator->getResource(), $this->path."targetCreator.gif" );
 
-		$file		= new FileReader( $this->path."sourceCreator.gif" );
-		self::assertTrue( $file->equals( $this->path."targetCreator.gif" ) );
+		self::assertImageEquals( $this->path."sourceCreator.gif", $this->path."targetCreator.gif" );
 	}
 
 	public function testLoadImageException1()

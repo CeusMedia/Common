@@ -70,10 +70,9 @@ class Reader
 	{
 		$file	= new FileReader( $fileName );
 		$lines	= $file->readArray();
-		if( $offset !== 0 && $limit !==  0 )
-			$lines	= array_slice( $lines, abs( $offset ), $limit );
-		else if( $offset !== 0 )
-			$lines	= array_slice( $lines, abs( $offset ) );
+		//  negative offset counts from end
+		if( $offset !== 0 || $limit !== 0 )
+			$lines	= array_slice( $lines, $offset, $limit !== 0 ? $limit : NULL );
 		return $lines;
 	}
 

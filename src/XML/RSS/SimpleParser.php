@@ -80,7 +80,7 @@ class SimpleParser
 		}
 		$attributes	= $xml->attributes();
 		return [
-			'encoding'		=> $attributes['encoding'],
+			'encoding'		=> isset( $attributes['encoding'] ) ? (string) $attributes['encoding'] : NULL,
 			'channelData'	=> $channelData,
 			'itemList'		=> $itemList,
 		];

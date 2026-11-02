@@ -119,8 +119,8 @@ class Histogram
 	public static function getData( Image $image ): array
 	{
 		$pixels		= $image->getWidth() * $image->getHeight();
-		if( $pixels > 2 * 1000 * 1000 ){
-			$tempFile	= uniqid().'.image';
+		if( $pixels > 2 * 1000 * 1000 && NULL !== $image->getFileName() ){
+			$tempFile	= sys_get_temp_dir().'/'.uniqid( 'histogram' ).'.image';
 			$thumb	= new ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
 			$thumb->thumbizeByLimit( 1000, 1000 );
 			$image	= new Image( $tempFile );
@@ -133,9 +133,15 @@ class Histogram
 			'b'	=> array_fill( 0, 256, 0 ),
 		);
 		$resource	= $image->getResource();
+		$trueColor	= imageistruecolor( $resource );
 		for( $x=0; $x<$image->getWidth(); $x++ ){
 			for( $y=0; $y<$image->getHeight(); $y++ ){
 				$rgb	= imagecolorat( $resource, $x, $y );
+				if( !$trueColor ){
+					//  palette images return color index, not RGB value
+					$color	= imagecolorsforindex( $resource, (int) $rgb );
+					$rgb	= ( $color['red'] << 16 ) | ( $color['green'] << 8 ) | $color['blue'];
+				}
 				$r		= ($rgb >> 16) & 0xFF;
 				$g		= ($rgb >> 8) & 0xFF;
 				$b		= $rgb & 0xFF;

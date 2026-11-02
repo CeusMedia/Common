@@ -210,7 +210,7 @@ class Backup
 		//  get current backup version
 		$version	= $this->getVersion();
 		//  increase version if any backups exist
-		$version	= !$this->keepOnlyOne ? ( $version + 1 ) : 0;
+		$version	= ( !$this->keepOnlyOne && NULL !== $version ) ? $version + 1 : 0;
 		$filePath	= $this->getVersionFilename( $version );
 		if( !@copy( $this->filePath, $filePath ) )
 			throw new RuntimeException( 'Storing backup into file '.$filePath.' failed' );
@@ -240,17 +240,22 @@ class Backup
 	 *	...
 	 *	@param		integer		$version
 	 *	@return		integer
-	 *	@throws		OutOfRangeException
-	 *	@throws		OutOfBoundsException
+	 *	@throws		OutOfRangeException		if version is not existing
+	 *	@throws		OutOfBoundsException	if version is lower than -1
+	 *	@throws		RuntimeException		if latest version (-1) is requested but no backup is existing
 	 */
 	protected function sanitizeVersion( int $version ): int
 	{
 		if( $version < -1 )
 			throw new OutOfBoundsException( 'Version must be a positive zero-based index or -1 for last' );
-		if( $version > $this->getVersion() )
+		$latest	= $this->getVersion();
+		if( $version > ( $latest ?? 0 ) )
 			throw new OutOfRangeException( 'Version '.$version.' not existing' );
-		if( $version === -1 )
-			$version	= $this->getVersion();
+		if( $version === -1 ){
+			if( NULL === $latest )
+				throw new RuntimeException( 'No backup existing' );
+			$version	= $latest;
+		}
 		return $version;
 	}
 }

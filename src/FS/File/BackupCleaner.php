@@ -96,11 +96,12 @@ class BackupCleaner
 	public function index(): array
 	{
 		$dates	= [];
-		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
+		$regExp	= "/^".preg_quote( $this->prefix, '/' )."([0-9-]+)\.".preg_quote( $this->ext, '/' )."$/";
 		$index	= new RegexFilter( $this->path, $regExp );
 		foreach( $index as $entry ){
-			$regExp		= "/^".$this->prefix."([0-9-]+)\.".$this->ext."$/";
-			$dates[]	= preg_replace( $regExp, "\\1", $entry->getFilename() );
+			//  only files named by date, other files with same prefix and extension are not touched
+			if( 1 === preg_match( $regExp, $entry->getFilename(), $matches ) && FALSE !== strtotime( $matches[1] ) )
+				$dates[]	= $matches[1];
 		}
 		return $dates;
 	}

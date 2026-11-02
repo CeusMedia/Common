@@ -6,7 +6,7 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\CommonTest\FS\File\JSON;
+namespace CeusMedia\CommonTest\FS\File\Log;
 
 use CeusMedia\Common\FS\File\Log\Writer;
 use CeusMedia\CommonTest\BaseCase;
@@ -18,6 +18,9 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class WriterTest extends BaseCase
 {
+	protected $fileName;
+	protected $path;
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

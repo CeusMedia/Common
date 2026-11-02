@@ -81,7 +81,7 @@ class GoogleSitemapBuilder
 	public static function buildSitemap( array $links, string $baseUrl = '' ): string
 	{
 		$root	= new Node( "urlset" );
-		$root->setAttribute( 'xmlns', "https://www.google.com/schemas/sitemap/0.84" );
+		$root->setAttribute( 'xmlns', "http://www.sitemaps.org/schemas/sitemap/0.9" );
 		foreach( $links as $link )
 		{
 			$child	= new Node( "url" );

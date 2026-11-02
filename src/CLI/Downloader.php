@@ -36,6 +36,7 @@ namespace CeusMedia\Common\CLI;
 use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\Common\Alg\UnitFormater;
+use CeusMedia\Common\Env;
 use RuntimeException;
 
 /**
@@ -108,7 +109,7 @@ class Downloader
 	public function downloadUrl( URL|string $url, string $savePath = '', bool $force = FALSE ): int
 	{
 		//  called via Browser
-		if( getenv( 'HTTP_HOST' ) )
+		if( Env::getServerVariable( 'HTTP_HOST' ) )
 			die( "Usage in Console, only." );
 
 		//  clear Size of current Load

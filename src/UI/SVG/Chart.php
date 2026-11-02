@@ -147,7 +147,7 @@ class Chart
 	public function encapsulate( string $svg, int|float $width = 300, int|float $height = 200 ): string
 	{
 		$svgNode	= HtmlTag::create( 'svg', $svg, [
-			'xmlns'			=> "https://www.w3.org/2000/svg",
+			'xmlns'			=> "http://www.w3.org/2000/svg",
 			'version'		=> "1.1",
 			'width'			=> (string) $width,
 			'height'		=> (string) $height,
@@ -208,7 +208,7 @@ class Chart
 			$textX	= $x + 20;
 			$color	= $colors[$count % count( $colors )];
 			$tags[]	= HtmlTag::create( "rect", NULL, array( 'x' => $x, 'y' => $y, 'width' => 15, 'height' => 15, 'fill' => $color ) );
-			$tags[]	= HtmlTag::create( "text", $obj->desc, array( 'x' => $textX, 'y' => $textY ) );
+			$tags[]	= HtmlTag::create( "text", htmlspecialchars( $obj->desc, ENT_QUOTES, 'UTF-8' ), array( 'x' => $textX, 'y' => $textY ) );
 			$y		+= 20;
 			$count++;
 		}
@@ -275,7 +275,7 @@ class Chart
 			$sum += $obj->value;
 
 		foreach( $data as $key => $obj ){
-			$obj->percent = $obj->value / $sum * 100;
+			$obj->percent = $sum ? $obj->value / $sum * 100 : 0;
 			$this->data[$key] = $obj;
 		}
 		return $this;

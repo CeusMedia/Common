@@ -33,6 +33,7 @@ namespace CeusMedia\Common\Net\HTTP;
 use ArrayAccess;
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Env;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use Exception;
@@ -139,7 +140,7 @@ class Request implements ArrayAccess
 	public function fromEnv( bool $useSession = FALSE, bool $useCookie = FALSE ): static
 	{
 		//  store HTTP method
-		$this->method->set( getEnv( 'REQUEST_METHOD' ) ?: 'GET' );
+		$this->method->set( Env::getServerVariable( 'REQUEST_METHOD' ) ?: 'GET' );
 
 		$this->sources	= [
 			"GET"		=> &$_GET,
@@ -148,14 +149,14 @@ class Request implements ArrayAccess
 			"SESSION"	=> [],
 			"COOKIE"	=> [],
 		];
-		if( $useSession )
-			$this->sources['session']	=& $_SESSION;
+		if( $useSession && isset( $_SESSION ) )
+			$this->sources['SESSION']	=& $_SESSION;
 		if( $useCookie )
-			$this->sources['cookie']	=& $_COOKIE;
+			$this->sources['COOKIE']	=& $_COOKIE;
 
 		//  retrieve requested path
-		$this->root	= rtrim( dirname( (string) getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
-		$this->path	= substr( (string) getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		$this->root	= rtrim( dirname( (string) Env::getServerVariable( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path	= substr( (string) Env::getServerVariable( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( str_contains( $this->path, '?' ) )
 			$this->path = substr( $this->path, 0, (int) strpos( $this->path, '?' ) );
 
@@ -168,7 +169,7 @@ class Request implements ArrayAccess
 		$this->headers->addFieldPairs( static::getAllEnvHeaders() );
 
 		//  store IP of requesting client; X-Forwarded-For only counts if sent by a trusted proxy
-		$this->remoteAddress	= getEnv( 'REMOTE_ADDR' ) ?: '';
+		$this->remoteAddress	= Env::getServerVariable( 'REMOTE_ADDR' ) ?: '';
 		$this->ip				= $this->resolveClientIp();
 
 		//  store raw POST, PUT or FILE data
@@ -498,10 +499,10 @@ class Request implements ArrayAccess
 	 */
 	public function getUrl( bool $absolute = TRUE ): URL
 	{
-		$url	= new URL( (string) getEnv( 'REQUEST_URI' ) );
+		$url	= new URL( (string) Env::getServerVariable( 'REQUEST_URI' ) );
 		if( $absolute ){
-			$url->setScheme( (string) getEnv( 'REQUEST_SCHEME' ) );
-			$url->setHost( (string) getEnv( 'HTTP_HOST' ) );
+			$url->setScheme( (string) Env::getServerVariable( 'REQUEST_SCHEME' ) );
+			$url->setHost( (string) Env::getServerVariable( 'HTTP_HOST' ) );
 		}
 		return $url;
 	}

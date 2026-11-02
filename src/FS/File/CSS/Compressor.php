@@ -82,7 +82,7 @@ class Compressor
 		$content	= file_get_contents( $fileUri );
 		if( FALSE === $content )
 			throw new Exception( "Style File '".$fileUri."' is not readable." );
-		$content	= self::compressString( $content );
+		$content	= $this->compress( $content );
 		$pathName	= dirname( $fileUri );
 		$styleFile	= basename( $fileUri );
 		$styleName	= preg_replace( "@\.css$@", "", $styleFile );
@@ -107,15 +107,13 @@ class Compressor
 	static public function compressString( string $string, bool $oneLine = FALSE ): string
 	{
 		//  remove comments
-		$string	= preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $string );
+		$string	= (string) preg_replace( '!/\*.*?\*/!s', '', $string );
+		//  collapse whitespace (line breaks may separate selector parts and values, so keep one space)
+		$string	= (string) preg_replace( '/\s+/', ' ', $string );
+		//  remove spaces around braces, semicolons, commas and child combinators
+		$string	= (string) preg_replace( '/\s*([{};,>])\s*/', '$1', $string );
 		//  remove space after colons
 		$string	= str_replace( ': ', ':', $string );
-		//  remove whitespace
-		$string	= str_replace( ["\r\n", "\r", "\n", "\t", '  ', '    '], '', $string );
-		//  remove spaces after selectors
-		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );
-		//  remove spaces after selectors
-		$string	= preg_replace( '@\s*\}@s', "}", $string );
 		//  remove leading and trailing space
 		return trim( $string );
 	}
