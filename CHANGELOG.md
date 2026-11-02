@@ -62,6 +62,8 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `Net\API\Google\ClosureCompiler`, `Net\API\Google\Sitemap\Submit` and `Net\API\Premailer`: the services they use have been shut down. They trigger a deprecation error now and will throw a `DeprecationException` from 1.2 on.
 
 ### Fixed
+- `UI\SVG\Chart::encapsulate()` accepts width and height again, like in 1.0.x (the parameters were lost in 1.1.0). Unlike 1.0.x, no size is set by default.
+- `FS\File::getSize()` returned an outdated size after the file had been changed (stat cache, e.g. after `setContent()` on PHP 8.1).
 - `CLI\Server\Cron\Daemon` failed because `Job::checkMaturity()` was not accessible.
 - `FS\File\PHP\Encoder::decodeFile()` encoded instead of decoding, wrote into the source file and computed an empty target file name; `isEncoded()` read only part of the prefix.
 - `FS\File\CSS\Theme\Minimizer` overwrote the prefix when setting the suffix.

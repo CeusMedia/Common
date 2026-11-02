@@ -16,6 +16,7 @@ namespace CeusMedia\CommonTest\Alg;
 
 use CeusMedia\Common\Alg\UnitParser;
 use CeusMedia\CommonTest\BaseCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  *	TestUnit of Unit Formater.
@@ -24,9 +25,7 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class UnitParserTest extends BaseCase
 {
-	/**
-	 * @dataProvider provideCases
-	 */
+	#[DataProvider( 'provideCases' )]
 	public function testParse( string $input, int $expected ): void
 	{
 		self::assertEquals( $expected, UnitParser::parse( $input ) );

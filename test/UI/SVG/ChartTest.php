@@ -39,6 +39,19 @@ class ChartTest extends BaseCase
 		self::assertSame( 0.0, $chart->data[0]->percent );
 	}
 
+	public function testEncapsulate(): void
+	{
+		$chart	= new Chart( [new ChartData( 1, 'a' )] );
+		$svg	= $chart->encapsulate( '<g/>' );
+		self::assertStringContainsString( 'xmlns="http://www.w3.org/2000/svg"', $svg );
+		self::assertStringNotContainsString( 'width=', $svg );
+		self::assertStringNotContainsString( 'height=', $svg );
+
+		$svg	= $chart->encapsulate( '<g/>', 300, 200.5 );
+		self::assertStringContainsString( 'width="300"', $svg );
+		self::assertStringContainsString( 'height="200.5"', $svg );
+	}
+
 	public function testCodeMirror(): void
 	{
 		$script	= ( new CodeMirror() )->setReadOnly()->build( 'textarea[name="code"]' );

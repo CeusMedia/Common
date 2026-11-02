@@ -291,6 +291,8 @@ class File extends AbstractNode
 	public function getSize( ?int $precision = NULL ): int|string
 	{
 		$this->check();
+		//  file may have been changed since last stat call
+		clearstatcache( TRUE, $this->pathName );
 		$size	= filesize( $this->pathName );
 		if( FALSE === $size )
 			throw new RuntimeException( 'Could not get size of file "'.$this->pathName.'"' );

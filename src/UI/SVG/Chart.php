@@ -143,15 +143,22 @@ class Chart
 	 *	Also, it includes doctype with SVG graphics DTD.
 	 *	Also, it includes xlink namespace.
 	 *	@access		public
-	 *	@param		string		$svg        SVG code to encapsulate
+	 *	@param		string				$svg        SVG code to encapsulate
+	 *	@param		int|float|NULL		$width		Width of SVG, not set if NULL (default)
+	 *	@param		int|float|NULL		$height		Height of SVG, not set if NULL (default)
 	 *	@return		string		The encapsulated SVG code
 	 */
-	public function encapsulate( string $svg ): string
+	public function encapsulate( string $svg, int|float|NULL $width = NULL, int|float|NULL $height = NULL ): string
 	{
-		$svgNode	= HtmlTag::create( 'svg', $svg, [
+		$attributes	= [
 			'xmlns'			=> "http://www.w3.org/2000/svg",
-			'xmlns:xlink'	=> "http://www.w3.org/1999/xlink"
-		] );
+			'xmlns:xlink'	=> "http://www.w3.org/1999/xlink",
+		];
+		if( NULL !== $width )
+			$attributes['width']	= (string) $width;
+		if( NULL !== $height )
+			$attributes['height']	= (string) $height;
+		$svgNode	= HtmlTag::create( 'svg', $svg, $attributes );
 		$docType	= '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
 
 		$xmlHeader	= '<?xml version="1.0" encoding="iso-8859-1"?>';

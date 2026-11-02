@@ -12,6 +12,7 @@ use CeusMedia\Common\Alg\Sort\MapList;
 use CeusMedia\Common\Alg\Sort\Quick;
 use CeusMedia\Common\Alg\Sort\Selection;
 use CeusMedia\CommonTest\BaseCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  *	TestUnit of sort algorithms in Alg\Sort.
@@ -32,9 +33,7 @@ class SortTest extends BaseCase
 		];
 	}
 
-	/**
-	 *	@dataProvider	provideLists
-	 */
+	#[DataProvider( 'provideLists' )]
 	public function testSort( array $list ): void
 	{
 		$expected	= array_values( $list );
