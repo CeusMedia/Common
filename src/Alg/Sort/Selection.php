@@ -54,10 +54,11 @@ class Selection
 	{
 		$lowest = $pos1;
 		for( $i=$pos1; $i<$pos2; $i++ )
-			if( $list[$lowest] == $list[$i] )
+			if( $list[$i] < $list[$lowest] )
 				$lowest = $i;
 		return $lowest;
 	}
+
 
 	/**
 	 *	Sorts List with Selection Sort.
@@ -68,7 +69,8 @@ class Selection
 	 */
 	public static function sort( array $list ): array
 	{
-		$n = sizeof( $list );
+		$list	= array_values( $list );
+		$n		= count( $list );
 		for( $i=0; $i<= $n -1; $i++ )
 		{
 #			echo "List: ".implode( ", ", $list )."<br>";

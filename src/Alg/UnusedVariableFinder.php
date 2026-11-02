@@ -146,12 +146,10 @@ class UnusedVariableFinder
 					if( !$countCalls && $count )
 						//  skip to next line
 						continue;
-					if( preg_match( "/\(/", $name ) || preg_match( "/\)/", $name ) )
-						xmp( $method."::".$name.' ('.join( ",", array_keys( $this->methods ) ).')' );
-					//  remove variable assignment if found
-					$line		= preg_replace( "/\$".addslashes( (string) $name )."\s*=/", "", $line );
-					//  if variable is used in this line
-					if( preg_match( '@\$'.addslashes( (string) $name ).'[^a-z0-9_]@i', $line ) ){
+					//  remove assignments to the variable, so only reading it counts as usage
+					$quoted		= preg_quote( (string) $name, '@' );
+					$line		= (string) preg_replace( '@\$'.$quoted.'\s*=(?![=>])@', '', $line );
+					if( preg_match( '@\$'.$quoted.'(?![a-z0-9_])@i', $line ) ){
 						//  increate variable's use counter
 						$this->methods[$method]['variables'][$name]++;
 					}

@@ -92,8 +92,8 @@ class Collection
 	public function getAttribute( string $key ): string
 	{
 		$value	= $this->attributes->get( $key );
-		//  cast scalar values (like default flag) like weak mode did before strict types
-		return is_scalar( $value ) ? (string) $value : $value;
+		//  cast scalar values (like default flag) like weak mode did before strict types; missing values are empty
+		return is_scalar( $value ) ? (string) $value : '';
 	}
 
 	/**

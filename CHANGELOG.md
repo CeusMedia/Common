@@ -41,6 +41,12 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `XML\DOM\SyntaxValidator` checks well-formedness only and no longer loads and validates DTDs (no network access); errors are collected via libxml.
 - `XML\RPC\Client` decodes values without type element as strings, decodes `nil`, `i8` and `base64` and throws a `RuntimeException` for fault responses (they were returned as empty result).
 - `XML\DOM\UrlReader` accepts Atom and RDF feeds (`application/atom+xml`, `application/rdf+xml`).
+- `Alg\ColorConverter::html2rgb()` and `html2hsv()` accept colors with leading `#` and in short notation (`#F80`) and throw an `InvalidArgumentException` for invalid colors (returned `NULL` values before).
+- `Alg\Turing\Machine::run()` does not print each step anymore (new parameter `$verbose`), halts if no transition matches and throws a `RuntimeException` after a maximum number of steps (new parameter `$maxSteps`, default 1000; it stopped silently after 200 steps).
+- `Alg\Sort\MapList` sorts with comparisons instead of grouping by value, so floats, booleans and mixed values are sorted correctly; entries with equal values keep their order.
+- `ADT\JSON\Converter::convertToArray()` decodes nested objects in arrays as arrays and throws an `InvalidArgumentException` for invalid JSON and for JSON without object or array.
+- `ADT\Graph\NodeSet::addNode()` and `ADT\Graph\Weighted::addNode()` return the existing node for a known name (a second node with the same name was added before).
+- `ADT\Graph\Weighted::isForrest()` returns whether the graph has no cycle.
 - `ADT\Graph\DirectedWeighted::traverseBreadth()` returns the distances of all reachable nodes in order of traversal.
 - `FS\File\ICal\Builder` folds lines without moving parameters to a separate line.
 - `XML\DOM\Storage` writes strings as plain UTF-8 (they were encoded twice before); files written by older versions are still read correctly.
@@ -137,6 +143,23 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `XML\DOM\FeedIdentifier` did not identify Atom 1.0 feeds (they have no version attribute).
 - `XML\DOM\Formater::recode()` failed for XML without encoding declaration.
 - `XML\UnitTestResultReader::getTestSuiteCount()` counted the root element as test suite.
+- `Alg\Sort\Insertion::sort()` never finished; `Alg\Sort\Selection::sort()` returned the list unsorted (it compared with `==` instead of `<`); `Alg\Sort\MapList` grouped floats by their integer value, so `1.2` and `1.5` were not sorted. `Bubble`, `Insertion` and `Selection` failed for lists without sequential keys.
+- `Alg\Search\Interpolation` failed with a division by zero for equal values and missed values when the search range was narrowed to one element; `Alg\Search\Strange` recursed endlessly for values smaller than the first element.
+- `Alg\ColorConverter`: `rgb2cmyk()` and `cmy2cmyk()` failed with a division by zero for black; `hsv2rgb()` returned magenta instead of red for hue 360; `rgb2html()` returned invalid codes for values outside 0-255.
+- `Alg\HtmlMetaTagReader` read several meta tags in one line as one tag and ignored uppercase tags.
+- `Alg\Text\EncodingConverter::convert()` emitted a PHP notice in addition to the exception for invalid input.
+- `Alg\UnusedVariableFinder` counted assignments as usage, so assigned but unused variables were never found; it also printed debug output.
+- `Alg\Turing\Machine` started reading at the blank in front of the input instead of its first symbol.
+- `Alg\Tree\Menu\Converter` failed for outlines without URL or text.
+- `ADT\Graph\Weighted`: `hasCycle()` found a cycle in every undirected graph with an edge, `isForrest()` returned `TRUE` for graphs with cycle, `hasLoop()` never found loops and `removeNode()` failed for nodes not connected to all other nodes; `NodeSet::removeNode()` and `EdgeSet::removeEdge()` reordered all nodes and edges.
+- `ADT\JSON\Converter::convertToArray()` failed with a `TypeError` for invalid JSON and merged objects with key `0` into their parent; `ADT\JSON\Pretty::print()` lost the formatting after strings ending with an escaped backslash, and its validation never failed.
+- `ADT\JSON\Parser` reported the error state of the last JSON function call anywhere in PHP instead of its own last parsing.
+- `ADT\Time\Delay` could not be constructed (`Error` on uninitialized property).
+- `ADT\URL\Inference::buildStatic()` always failed; `build()` created URLs with two query strings and used `test_` as prefix for numeric parameter keys; `ADT\URL::setQuery()` with an array used `&` as prefix for numeric keys instead of as separator.
+- `ADT\URL\Compare::sameBase()` failed with an `Error` instead of a `RuntimeException` if not both URLs were set.
+- `ADT\CSS\Sheet::get()` threw an exception for missing properties instead of returning `NULL`; `ADT\CSS\Rule::getPropertyByIndex()` returned wrong properties after removing one.
+- `ADT\URN` failed with a `TypeError` instead of an `InvalidArgumentException` without specific string.
+- `ADT\Tree\MagicNode::fromJson()` failed with a `TypeError` for invalid JSON; `ADT\Tree\Menu\Collection::getAttribute()` failed for attributes set to `NULL`; `ADT\VCard::getNameField()` and `getOrganisationField()` failed for empty fields.
 - Development: `FS\File\BackupTest` is part of the unit test suite again.
 - Development: tests for `FS\File\CSS\Theme\Minimizer` and `Net\HTTP\Reader` (using PHP's built-in web server); the unit test suite runs without deprecations and warnings (undeclared test properties, wrong test namespaces).
 - Development: the FTP tests run against a small local test FTP server (they were always skipped before, even with access data configured); image tests compare pixels instead of file contents and are not skipped anymore. No tests are skipped anymore.

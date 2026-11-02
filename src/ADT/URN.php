@@ -58,7 +58,7 @@ class URN
 			$nss	= implode( ":", $parts );
 		}
 		$this->setIdentifier( $nid );
-		$this->setSpecificString( $nss );
+		$this->setSpecificString( (string) $nss );
 	}
 
 	public function getIdentifier(): string

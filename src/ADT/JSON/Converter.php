@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace CeusMedia\Common\ADT\JSON;
 
 use InvalidArgumentException;
+use JsonException;
 
 /**
  *	...
@@ -48,13 +49,17 @@ class Converter
 {
 	public static function convertToArray( string $json ): array
 	{
-		$json	= json_decode( $json );
-		if( $json === FALSE )
-			throw new InvalidArgumentException( 'JSON String is not valid.' );
-		$array	= [];
-		self::convertToArrayRecursive( $json, $array );
+		try{
+			$array	= json_decode( $json, TRUE, 512, JSON_THROW_ON_ERROR );
+		}
+		catch( JsonException $e ){
+			throw new InvalidArgumentException( 'JSON String is not valid.', 0, $e );
+		}
+		if( !is_array( $array ) )
+			throw new InvalidArgumentException( 'JSON String does not contain an object or array.' );
 		return $array;
 	}
+
 
 	/**
 	 *	@param		mixed				$node

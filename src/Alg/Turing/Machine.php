@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Alg\Turing;
 
+use RuntimeException;
+
 /**
  *	Turing Machine with one tape.
  *	@category		Library
@@ -100,81 +102,59 @@ class Machine
 			$tape = substr( $tape, 0, -1 );
 	}
 
-	/**
-	 *	Checks and extends the pseudo infinite tape.
-	 *	@access		private
-	 *	@param		string		$tape			current tape to be cleaned up
-	 *	@param		int			$pointer		current Position on tape
-	 *	@return		void
-	 */
-	private function extendTape( string &$tape, int $pointer ): void
-	{
-		if( $pointer < 0 )
-			$tape = $this->blank.$tape;
-		else if( $pointer >= strlen( $tape ) )
-			$tape .= $this->blank;
-	}
+
 
 	/**
-	 *	Returns current Sign.
-	 *	@access		private
-	 *	@param		string		$tape			current tape to be cleaned up
-	 *	@param		int			$pointer		current Position on tape
-	 *	@return		string
-	 */
-	private function getCurrent( string &$tape, int $pointer ): string
-	{
-		if( $pointer < 0 || $pointer >= strlen( $tape ) ){
-			$current = $this->blank;
-			$this->extendTape( $tape, $pointer );
-		}
-		else $current = substr( $tape, $pointer, 1 );
-		return $current;
-	}
-
-	/**
-	 *	Runs the Machine.
+	 *	Runs the machine on an input and returns the tape (without leading and trailing blanks).
+	 *	Transitions are lists of [[state, symbol], [newState, symbolToWrite, direction (l|r|n)]].
+	 *	The machine halts in a final state or if no transition matches.
 	 *	@access		public
-	 *	@param		string		$input			Input to be worked
+	 *	@param		string		$input			Input written on tape
+	 *	@param		int			$maxSteps		Maximum number of steps
+	 *	@param		bool		$verbose		Flag: print tape as HTML table row after each step
 	 *	@return		string
+	 *	@throws		RuntimeException			if maximum number of steps is exceeded
 	 */
-	public function run( string $input ): string
+	public function run( string $input, int $maxSteps = 1000, bool $verbose = FALSE ): string
 	{
-		$this->state = $this->start;
-		$this->pointer = 0;
-		$output		= $input;
-		$_counter	= 0;
-		$this->wrapTape( $output );
+		$this->state	= $this->start;
+		$this->pointer	= 0;
+		$output			= '' !== $input ? $input : $this->blank;
+		$steps			= 0;
 		while( !in_array( $this->state, $this->finals ) ){
-			if( $_counter > 200 )
-				break;
-			$_counter++;
-			$_current = $this->getCurrent( $output, $this->pointer );
-			reset( $this->transition );
+			if( ++$steps > $maxSteps )
+				throw new RuntimeException( 'Machine did not halt within '.$maxSteps.' steps' );
+			$current	= substr( $output, $this->pointer, 1 );
+			$found		= FALSE;
 			foreach( $this->transition as $trans ){
-				if( $trans[0] == [$this->state, $_current] ){
-					$value = $trans[1];
-					$state = $value[0];
-					$this->state = $state;
-					$write = $value[1];
-					$left = substr( $output, 0, $this->pointer );
-					$right = substr( $output, $this->pointer+1 );
-					$output = $left.$write.$right;
-					$direction = $value[2];
-					if( $direction == "l" )
-						$this->pointer--;
-					else if( $direction == "r" )
-						$this->pointer++;
-					$this->extendTape( $output, $this->pointer );
-					$this->wrapTape( $output );
-					break;
+				if( $trans[0] != [$this->state, $current] )
+					continue;
+				[$state, $write, $direction]	= $trans[1];
+				$this->state	= $state;
+				$output			= substr( $output, 0, $this->pointer ).$write.substr( $output, $this->pointer + 1 );
+				if( $direction == "l" )
+					$this->pointer--;
+				else if( $direction == "r" )
+					$this->pointer++;
+				//  extend tape by blanks, keeping the head on its symbol
+				if( $this->pointer < 0 ){
+					$output			= $this->blank.$output;
+					$this->pointer	= 0;
 				}
+				else if( $this->pointer >= strlen( $output ) )
+					$output	.= $this->blank;
+				$found	= TRUE;
+				break;
 			}
-			echo $this->showTape( $output );
+			if( $verbose )
+				echo $this->showTape( $output );
+			if( !$found )
+				break;
 		}
 		$this->cleanTape( $output );
 		return $output;
 	}
+
 
 	/**
 	 *	Generates HTML Visualisation of current tape.
@@ -196,18 +176,4 @@ class Machine
 		return "<tr><td>(".$this->state.")</td>".implode( "", $lines )."</tr>";
 	}
 
-	/**
-	 *	Adds Blanks at start and end of the tape.
-	 *	@access		private
-	 *	@param		string		$tape			current tape to be cleaned up
-	 *	@return		void
-	 */
-	private function wrapTape( string &$tape ): void
-
-	{
-		if( substr( $tape, 0, 1 ) != $this->blank )
-			$tape = $this->blank.$tape;
-		if( substr( $tape, -1 ) != $this->blank )
-			$tape = $tape.$this->blank;
-	}
 }

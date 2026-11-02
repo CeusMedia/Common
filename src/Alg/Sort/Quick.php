@@ -61,7 +61,6 @@ class Quick
 			$last = count( $array ) - 1;
 		if( $first < $last )
 		{
-			$middle		= $first + $last;
 			$middle		= intdiv( $first + $last, 2 );
 			$compare	= $array[$middle];
 			$left		= $first;

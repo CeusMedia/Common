@@ -30,6 +30,8 @@ declare(strict_types=1);
 
 namespace CeusMedia\Common\Alg;
 
+use InvalidArgumentException;
+
 /**
  *	Converter for Colors.
  *	@category		Library
@@ -53,6 +55,9 @@ class ColorConverter
 	{
 		[$c, $m, $y]	= $cmy;
 		$k	= min( $c, $m, $y );
+		//  black: no color components
+		if( $k >= 1 )
+			return [0, 0, 0, 1];
 		$c	= ( $c - $k ) / ( 1 - $k );
 		$m	= ( $m - $k ) / ( 1 - $k );
 		$y	= ( $y - $k ) / ( 1 - $k );
@@ -126,6 +131,8 @@ class ColorConverter
 	{
 		[$h, $s, $v]	= $hsv;
 		$rgb = [];
+		//  hue is an angle, so 360 equals 0
+		$h	= fmod( fmod( (float) $h, 360 ) + 360, 360 );
 		$h	= $h / 60;
 		$s	= $s / 100;
 		$v	= $v / 100;
@@ -193,8 +200,7 @@ class ColorConverter
 	 */
 	public static function html2hsv( string $html ): array
 	{
-		sscanf( $html, "%2X%2X%2X", $r, $g, $b );
-		return self::rgb2hsv( [$r, $g, $b] );
+		return self::rgb2hsv( self::html2rgb( $html ) );
 	}
 
 	/**
@@ -206,8 +212,13 @@ class ColorConverter
 	 */
 	public static function html2rgb( string $html ): array
 	{
-		sscanf( $html, "%2X%2X%2X", $r, $g, $b );
-		return [$r, $g, $b];
+		//  supports leading hash and short notation, e.g. #F80
+		$html	= ltrim( trim( $html ), '#' );
+		if( 3 === strlen( $html ) )
+			$html	= $html[0].$html[0].$html[1].$html[1].$html[2].$html[2];
+		if( 1 !== preg_match( '/^[0-9a-f]{6}$/i', $html ) )
+			throw new InvalidArgumentException( 'Invalid HTML color "'.$html.'"' );
+		return [(int) hexdec( substr( $html, 0, 2 ) ), (int) hexdec( substr( $html, 2, 2 ) ), (int) hexdec( substr( $html, 4, 2 ) )];
 	}
 
 	/**
@@ -314,9 +325,8 @@ class ColorConverter
 	 */
 	public static function rgb2html( array $rgb ): string
 	{
-		[$r, $g, $b]	= $rgb;
-		$html	= sprintf( "%2X%2X%2X", $r, $g, $b );
-		return str_replace( " ", "0", $html );
+		$values	= array_map( static fn( $value ): int => (int) max( 0, min( 255, round( (float) $value ) ) ), array_slice( array_values( $rgb ), 0, 3 ) );
+		return vsprintf( "%02X%02X%02X", $values );
 	}
 
 	/**
