@@ -1,0 +1,551 @@
+site_name: CeusMedia Common
+site_description: PHP library with 400+ classes for everyday tasks - file system, network and HTTP, CLI, UI and images, XML, data structures and algorithms.
+site_author: Christian Würker
+repo_url: https://github.com/CeusMedia/Common
+repo_name: CeusMedia/Common
+edit_uri: ""
+copyright: Copyright &copy; 2007-2026 Christian Würker &middot; GPL-3.0-or-later
+
+docs_dir: ../../doc/Manual
+site_dir: ../../doc/Site
+use_directory_urls: false
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/toolbox-outline
+    repo: fontawesome/brands/github
+  favicon: assets/favicon.svg
+  font:
+    text: Fira Sans
+    code: Fira Code
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/theme-light-dark
+        name: "Theme: system – switch to light"
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: "Theme: light – switch to dark"
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: "Theme: dark – switch to system"
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+
+extra_css:
+  - assets/extra.css
+
+plugins:
+  - search
+  - offline
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      extend_pygments_lang:
+        - name: php
+          lang: php
+          options:
+            startinline: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/CeusMedia/Common
+    - icon: simple/packagist
+      link: https://packagist.org/packages/ceus-media/common
+
+nav:
+  - Home: index.md
+  - Guide:
+      - guide/index.md
+      - guide/installation.md
+      - guide/upgrading.md
+      - guide/core.md
+      - guide/filesystem.md
+      - guide/network.md
+      - guide/xml.md
+      - guide/ui.md
+      - guide/cli.md
+      - guide/data-types.md
+      - guide/algorithms.md
+      - guide/development.md
+  - API Reference:
+    # api-nav:start
+    - api/index.md
+    - Core:
+      - "CLI": api/CLI.md
+      - "Deprecation": api/Deprecation.md
+      - "Env": api/Env.md
+      - "FS": api/FS.md
+      - "Loader": api/Loader.md
+      - "Renderable": api/Renderable.md
+    - Data types:
+      - "Bitmask": api/ADT/Bitmask.md
+      - "Collection": api/ADT/Collection.md
+      - "Collection\\Dictionary": api/ADT/Collection/Dictionary.md
+      - "Collection\\LevelMap": api/ADT/Collection/LevelMap.md
+      - "Collection\\PriorityQueue": api/ADT/Collection/PriorityQueue.md
+      - "Collection\\Queue": api/ADT/Collection/Queue.md
+      - "Collection\\SectionList": api/ADT/Collection/SectionList.md
+      - "Collection\\Stack": api/ADT/Collection/Stack.md
+      - "Constant": api/ADT/Constant.md
+      - "CSS\\Property": api/ADT/CSS/Property.md
+      - "CSS\\Rule": api/ADT/CSS/Rule.md
+      - "CSS\\Sheet": api/ADT/CSS/Sheet.md
+      - "Event\\Callback": api/ADT/Event/Callback.md
+      - "Event\\Data": api/ADT/Event/Data.md
+      - "Event\\Handler": api/ADT/Event/Handler.md
+      - "Graph\\DirectedAcyclicWeighted": api/ADT/Graph/DirectedAcyclicWeighted.md
+      - "Graph\\DirectedWeighted": api/ADT/Graph/DirectedWeighted.md
+      - "Graph\\Edge": api/ADT/Graph/Edge.md
+      - "Graph\\EdgeSet": api/ADT/Graph/EdgeSet.md
+      - "Graph\\Node": api/ADT/Graph/Node.md
+      - "Graph\\NodeSet": api/ADT/Graph/NodeSet.md
+      - "Graph\\Weighted": api/ADT/Graph/Weighted.md
+      - "JSON\\Builder": api/ADT/JSON/Builder.md
+      - "JSON\\Converter": api/ADT/JSON/Converter.md
+      - "JSON\\Encoder": api/ADT/JSON/Encoder.md
+      - "JSON\\Parser": api/ADT/JSON/Parser.md
+      - "JSON\\Pretty": api/ADT/JSON/Pretty.md
+      - "Multiplexer": api/ADT/Multiplexer.md
+      - "Null_": api/ADT/Null_.md
+      - "Object_": api/ADT/Object_.md
+      - "OptionObject": api/ADT/OptionObject.md
+      - "Registry": api/ADT/Registry.md
+      - "Singleton": api/ADT/Singleton.md
+      - "String_": api/ADT/String_.md
+      - "StringBuffer": api/ADT/StringBuffer.md
+      - "Time\\Delay": api/ADT/Time/Delay.md
+      - "Tree\\MagicNode": api/ADT/Tree/MagicNode.md
+      - "Tree\\Menu\\Collection": api/ADT/Tree/Menu/Collection.md
+      - "Tree\\Menu\\Item": api/ADT/Tree/Menu/Item.md
+      - "Tree\\Node": api/ADT/Tree/Node.md
+      - "URL": api/ADT/URL.md
+      - "URL\\Compare": api/ADT/URL/Compare.md
+      - "URL\\Inference": api/ADT/URL/Inference.md
+      - "URL\\Parts": api/ADT/URL/Parts.md
+      - "URN": api/ADT/URN.md
+      - "VCard": api/ADT/VCard.md
+    - Algorithms:
+      - "ColorConverter": api/Alg/ColorConverter.md
+      - "Crypt\\Caesar": api/Alg/Crypt/Caesar.md
+      - "Crypt\\PasswordStrength": api/Alg/Crypt/PasswordStrength.md
+      - "Crypt\\Rot13": api/Alg/Crypt/Rot13.md
+      - "HtmlMetaTagReader": api/Alg/HtmlMetaTagReader.md
+      - "HtmlParser": api/Alg/HtmlParser.md
+      - "ID": api/Alg/ID.md
+      - "JS\\Minifier": api/Alg/JS/Minifier.md
+      - "Obj\\Constant": api/Alg/Obj/Constant.md
+      - "Obj\\Delegation": api/Alg/Obj/Delegation.md
+      - "Obj\\EventHandler": api/Alg/Obj/EventHandler.md
+      - "Obj\\Factory": api/Alg/Obj/Factory.md
+      - "Obj\\MethodDocBlockInspector": api/Alg/Obj/MethodDocBlockInspector.md
+      - "Obj\\MethodFactory": api/Alg/Obj/MethodFactory.md
+      - "Parcel\\Factory": api/Alg/Parcel/Factory.md
+      - "Parcel\\Packer": api/Alg/Parcel/Packer.md
+      - "Parcel\\Packet": api/Alg/Parcel/Packet.md
+      - "Randomizer": api/Alg/Randomizer.md
+      - "Search\\Binary": api/Alg/Search/Binary.md
+      - "Search\\Interpolation": api/Alg/Search/Interpolation.md
+      - "Search\\Strange": api/Alg/Search/Strange.md
+      - "SgmlTagReader": api/Alg/SgmlTagReader.md
+      - "Sort\\Bubble": api/Alg/Sort/Bubble.md
+      - "Sort\\Gnome": api/Alg/Sort/Gnome.md
+      - "Sort\\Insertion": api/Alg/Sort/Insertion.md
+      - "Sort\\MapList": api/Alg/Sort/MapList.md
+      - "Sort\\Quick": api/Alg/Sort/Quick.md
+      - "Sort\\Selection": api/Alg/Sort/Selection.md
+      - "Text\\CamelCase": api/Alg/Text/CamelCase.md
+      - "Text\\EncodingConverter": api/Alg/Text/EncodingConverter.md
+      - "Text\\Extender": api/Alg/Text/Extender.md
+      - "Text\\Filter": api/Alg/Text/Filter.md
+      - "Text\\PascalCase": api/Alg/Text/PascalCase.md
+      - "Text\\SnakeCase": api/Alg/Text/SnakeCase.md
+      - "Text\\TermExtractor": api/Alg/Text/TermExtractor.md
+      - "Text\\Trimmer": api/Alg/Text/Trimmer.md
+      - "Text\\Unicoder": api/Alg/Text/Unicoder.md
+      - "Time\\Clock": api/Alg/Time/Clock.md
+      - "Time\\Converter": api/Alg/Time/Converter.md
+      - "Time\\Duration": api/Alg/Time/Duration.md
+      - "Time\\DurationPhraser": api/Alg/Time/DurationPhraser.md
+      - "Time\\DurationPhraseRanges": api/Alg/Time/DurationPhraseRanges.md
+      - "Tree\\Menu\\Converter": api/Alg/Tree/Menu/Converter.md
+      - "Turing\\Machine": api/Alg/Turing/Machine.md
+      - "UnitFormater": api/Alg/UnitFormater.md
+      - "UnitParser": api/Alg/UnitParser.md
+      - "UnusedVariableFinder": api/Alg/UnusedVariableFinder.md
+      - "Validation\\DefinitionValidator": api/Alg/Validation/DefinitionValidator.md
+      - "Validation\\LanguageValidator": api/Alg/Validation/LanguageValidator.md
+      - "Validation\\Predicates": api/Alg/Validation/Predicates.md
+      - "Validation\\PredicateValidator": api/Alg/Validation/PredicateValidator.md
+    - CLI:
+      - "Application": api/CLI/Application.md
+      - "ArgumentParser": api/CLI/ArgumentParser.md
+      - "Color": api/CLI/Color.md
+      - "Command\\ArgumentParser": api/CLI/Command/ArgumentParser.md
+      - "Command\\BackgroundProcess": api/CLI/Command/BackgroundProcess.md
+      - "Command\\Program": api/CLI/Command/Program.md
+      - "Dimensions": api/CLI/Dimensions.md
+      - "Downloader": api/CLI/Downloader.md
+      - "Exception\\View": api/CLI/Exception/View.md
+      - "Fork\\Abstraction": api/CLI/Fork/Abstraction.md
+      - "Fork\\Server\\Abstraction": api/CLI/Fork/Server/Abstraction.md
+      - "Fork\\Server\\Client\\Abstraction": api/CLI/Fork/Server/Client/Abstraction.md
+      - "Fork\\Server\\Client\\WebProxy": api/CLI/Fork/Server/Client/WebProxy.md
+      - "Fork\\Server\\Dynamic": api/CLI/Fork/Server/Dynamic.md
+      - "Fork\\Server\\Exception": api/CLI/Fork/Server/Exception.md
+      - "Fork\\Server\\Reflect": api/CLI/Fork/Server/Reflect.md
+      - "Fork\\Server\\SocketException": api/CLI/Fork/Server/SocketException.md
+      - "Fork\\Worker\\Abstraction": api/CLI/Fork/Worker/Abstraction.md
+      - "Output": api/CLI/Output.md
+      - "Output\\Progress": api/CLI/Output/Progress.md
+      - "Output\\Table": api/CLI/Output/Table.md
+      - "Output\\TableBorderTheme": api/CLI/Output/TableBorderTheme.md
+      - "Password": api/CLI/Password.md
+      - "Prompt": api/CLI/Prompt.md
+      - "Question": api/CLI/Question.md
+      - "RequestReceiver": api/CLI/RequestReceiver.md
+      - "Server\\Cron\\Daemon": api/CLI/Server/Cron/Daemon.md
+      - "Server\\Cron\\Job": api/CLI/Server/Cron/Job.md
+      - "Server\\Cron\\Parser": api/CLI/Server/Cron/Parser.md
+      - "Server\\Daemon": api/CLI/Server/Daemon.md
+      - "Shell": api/CLI/Shell.md
+    - File system:
+      - "AbstractNode": api/FS/AbstractNode.md
+      - "Autoloader\\Psr0": api/FS/Autoloader/Psr0.md
+      - "Autoloader\\Psr4": api/FS/Autoloader/Psr4.md
+      - "File": api/FS/File.md
+      - "File\\Arc\\Bzip": api/FS/File/Arc/Bzip.md
+      - "File\\Arc\\Gzip": api/FS/File/Arc/Gzip.md
+      - "File\\Arc\\Tar": api/FS/File/Arc/Tar.md
+      - "File\\Arc\\TarBzip": api/FS/File/Arc/TarBzip.md
+      - "File\\Arc\\TarGzip": api/FS/File/Arc/TarGzip.md
+      - "File\\Arc\\Zip": api/FS/File/Arc/Zip.md
+      - "File\\Backup": api/FS/File/Backup.md
+      - "File\\BackupCleaner": api/FS/File/BackupCleaner.md
+      - "File\\Block\\Reader": api/FS/File/Block/Reader.md
+      - "File\\Block\\Writer": api/FS/File/Block/Writer.md
+      - "File\\CodeLineCounter": api/FS/File/CodeLineCounter.md
+      - "File\\Collection\\Editor": api/FS/File/Collection/Editor.md
+      - "File\\Collection\\Reader": api/FS/File/Collection/Reader.md
+      - "File\\Collection\\SectionReader": api/FS/File/Collection/SectionReader.md
+      - "File\\Collection\\SectionWriter": api/FS/File/Collection/SectionWriter.md
+      - "File\\Collection\\Writer": api/FS/File/Collection/Writer.md
+      - "File\\Configuration\\Converter": api/FS/File/Configuration/Converter.md
+      - "File\\Configuration\\Reader": api/FS/File/Configuration/Reader.md
+      - "File\\CSS\\Combiner": api/FS/File/CSS/Combiner.md
+      - "File\\CSS\\Compressor": api/FS/File/CSS/Compressor.md
+      - "File\\CSS\\Converter": api/FS/File/CSS/Converter.md
+      - "File\\CSS\\Editor": api/FS/File/CSS/Editor.md
+      - "File\\CSS\\Parser": api/FS/File/CSS/Parser.md
+      - "File\\CSS\\Reader": api/FS/File/CSS/Reader.md
+      - "File\\CSS\\Relocator": api/FS/File/CSS/Relocator.md
+      - "File\\CSS\\Theme\\Combiner": api/FS/File/CSS/Theme/Combiner.md
+      - "File\\CSS\\Theme\\Finder": api/FS/File/CSS/Theme/Finder.md
+      - "File\\CSS\\Theme\\Minimizer": api/FS/File/CSS/Theme/Minimizer.md
+      - "File\\CSS\\Writer": api/FS/File/CSS/Writer.md
+      - "File\\CSV\\Iterator": api/FS/File/CSV/Iterator.md
+      - "File\\CSV\\Reader": api/FS/File/CSV/Reader.md
+      - "File\\CSV\\Writer": api/FS/File/CSV/Writer.md
+      - "File\\Editor": api/FS/File/Editor.md
+      - "File\\Gantt\\CalendarBuilder": api/FS/File/Gantt/CalendarBuilder.md
+      - "File\\Gantt\\MeetingCollector": api/FS/File/Gantt/MeetingCollector.md
+      - "File\\Gantt\\MeetingReader": api/FS/File/Gantt/MeetingReader.md
+      - "File\\ICal\\Builder": api/FS/File/ICal/Builder.md
+      - "File\\ICal\\Parser": api/FS/File/ICal/Parser.md
+      - "File\\INI": api/FS/File/INI.md
+      - "File\\INI\\Creator": api/FS/File/INI/Creator.md
+      - "File\\INI\\Editor": api/FS/File/INI/Editor.md
+      - "File\\INI\\Reader": api/FS/File/INI/Reader.md
+      - "File\\INI\\SectionEditor": api/FS/File/INI/SectionEditor.md
+      - "File\\INI\\SectionReader": api/FS/File/INI/SectionReader.md
+      - "File\\Iterator": api/FS/File/Iterator.md
+      - "File\\JSON\\Config": api/FS/File/JSON/Config.md
+      - "File\\JSON\\Reader": api/FS/File/JSON/Reader.md
+      - "File\\JSON\\Writer": api/FS/File/JSON/Writer.md
+      - "File\\Lock": api/FS/File/Lock.md
+      - "File\\Log\\File": api/FS/File/Log/File.md
+      - "File\\Log\\JSON\\Reader": api/FS/File/Log/JSON/Reader.md
+      - "File\\Log\\JSON\\Writer": api/FS/File/Log/JSON/Writer.md
+      - "File\\Log\\Reader": api/FS/File/Log/Reader.md
+      - "File\\Log\\ShortReader": api/FS/File/Log/ShortReader.md
+      - "File\\Log\\ShortWriter": api/FS/File/Log/ShortWriter.md
+      - "File\\Log\\Tracker\\Reader": api/FS/File/Log/Tracker/Reader.md
+      - "File\\Log\\Tracker\\ShortReader": api/FS/File/Log/Tracker/ShortReader.md
+      - "File\\Log\\Writer": api/FS/File/Log/Writer.md
+      - "File\\NameFilter": api/FS/File/NameFilter.md
+      - "File\\PdfToImage": api/FS/File/PdfToImage.md
+      - "File\\Permissions": api/FS/File/Permissions.md
+      - "File\\PHP\\Check\\MethodOrder": api/FS/File/PHP/Check/MethodOrder.md
+      - "File\\PHP\\Check\\MethodVisibility": api/FS/File/PHP/Check/MethodVisibility.md
+      - "File\\PHP\\Encoder": api/FS/File/PHP/Encoder.md
+      - "File\\PHP\\Lister": api/FS/File/PHP/Lister.md
+      - "File\\PHP\\Test\\Creator": api/FS/File/PHP/Test/Creator.md
+      - "File\\Reader": api/FS/File/Reader.md
+      - "File\\RecursiveIterator": api/FS/File/RecursiveIterator.md
+      - "File\\RecursiveNameFilter": api/FS/File/RecursiveNameFilter.md
+      - "File\\RecursiveRegexFilter": api/FS/File/RecursiveRegexFilter.md
+      - "File\\RecursiveTodoLister": api/FS/File/RecursiveTodoLister.md
+      - "File\\RegexFilter": api/FS/File/RegexFilter.md
+      - "File\\SyntaxChecker": api/FS/File/SyntaxChecker.md
+      - "File\\TodoLister": api/FS/File/TodoLister.md
+      - "File\\Unicoder": api/FS/File/Unicoder.md
+      - "File\\VCard\\Builder": api/FS/File/VCard/Builder.md
+      - "File\\VCard\\Parser": api/FS/File/VCard/Parser.md
+      - "File\\VCard\\Reader": api/FS/File/VCard/Reader.md
+      - "File\\VCard\\Writer": api/FS/File/VCard/Writer.md
+      - "File\\Writer": api/FS/File/Writer.md
+      - "File\\YAML\\Reader": api/FS/File/YAML/Reader.md
+      - "File\\YAML\\Spyc": api/FS/File/YAML/Spyc.md
+      - "File\\YAML\\Writer": api/FS/File/YAML/Writer.md
+      - "Folder": api/FS/Folder.md
+      - "Folder\\CodeLineCounter": api/FS/Folder/CodeLineCounter.md
+      - "Folder\\Editor": api/FS/Folder/Editor.md
+      - "Folder\\Iterator": api/FS/Folder/Iterator.md
+      - "Folder\\Lister": api/FS/Folder/Lister.md
+      - "Folder\\MethodSortCheck": api/FS/Folder/MethodSortCheck.md
+      - "Folder\\MethodVisibilityCheck": api/FS/Folder/MethodVisibilityCheck.md
+      - "Folder\\Reader": api/FS/Folder/Reader.md
+      - "Folder\\RecursiveIterator": api/FS/Folder/RecursiveIterator.md
+      - "Folder\\RecursiveLister": api/FS/Folder/RecursiveLister.md
+      - "Folder\\RecursiveRegexFilter": api/FS/Folder/RecursiveRegexFilter.md
+      - "Folder\\RegexFilter": api/FS/Folder/RegexFilter.md
+      - "Folder\\SyntaxChecker": api/FS/Folder/SyntaxChecker.md
+      - "Folder\\Treeview\\Json": api/FS/Folder/Treeview/Json.md
+      - "Folder\\Treeview\\JsonExtended": api/FS/Folder/Treeview/JsonExtended.md
+      - "Link": api/FS/Link.md
+    - Network:
+      - "API\\DDNSS": api/Net/API/DDNSS.md
+      - "API\\Dyn": api/Net/API/Dyn.md
+      - "API\\Google\\ClosureCompiler": api/Net/API/Google/ClosureCompiler.md
+      - "API\\Google\\Maps\\Geocoder": api/Net/API/Google/Maps/Geocoder.md
+      - "API\\Google\\Request": api/Net/API/Google/Request.md
+      - "API\\Google\\Sitemap\\Submit": api/Net/API/Google/Sitemap/Submit.md
+      - "API\\Gravatar": api/Net/API/Gravatar.md
+      - "API\\Premailer": api/Net/API/Premailer.md
+      - "AtomServerTime": api/Net/AtomServerTime.md
+      - "AtomTime": api/Net/AtomTime.md
+      - "Connectivity": api/Net/Connectivity.md
+      - "CURL": api/Net/CURL.md
+      - "FTP\\Client": api/Net/FTP/Client.md
+      - "FTP\\Connection": api/Net/FTP/Connection.md
+      - "FTP\\Reader": api/Net/FTP/Reader.md
+      - "FTP\\Writer": api/Net/FTP/Writer.md
+      - "HTTP\\Cookie": api/Net/HTTP/Cookie.md
+      - "HTTP\\CrossDomainProxy": api/Net/HTTP/CrossDomainProxy.md
+      - "HTTP\\Download": api/Net/HTTP/Download.md
+      - "HTTP\\Header\\Field": api/Net/HTTP/Header/Field.md
+      - "HTTP\\Header\\Field\\Parser": api/Net/HTTP/Header/Field/Parser.md
+      - "HTTP\\Header\\Parser": api/Net/HTTP/Header/Parser.md
+      - "HTTP\\Header\\Renderer": api/Net/HTTP/Header/Renderer.md
+      - "HTTP\\Header\\Section": api/Net/HTTP/Header/Section.md
+      - "HTTP\\Method": api/Net/HTTP/Method.md
+      - "HTTP\\PartitionCookie": api/Net/HTTP/PartitionCookie.md
+      - "HTTP\\PartitionSession": api/Net/HTTP/PartitionSession.md
+      - "HTTP\\Post": api/Net/HTTP/Post.md
+      - "HTTP\\Reader": api/Net/HTTP/Reader.md
+      - "HTTP\\Request": api/Net/HTTP/Request.md
+      - "HTTP\\Request\\QueryParser": api/Net/HTTP/Request/QueryParser.md
+      - "HTTP\\Request\\Receiver": api/Net/HTTP/Request/Receiver.md
+      - "HTTP\\Response": api/Net/HTTP/Response.md
+      - "HTTP\\Response\\Compressor": api/Net/HTTP/Response/Compressor.md
+      - "HTTP\\Response\\Decompressor": api/Net/HTTP/Response/Decompressor.md
+      - "HTTP\\Response\\Parser": api/Net/HTTP/Response/Parser.md
+      - "HTTP\\Response\\Sender": api/Net/HTTP/Response/Sender.md
+      - "HTTP\\Session": api/Net/HTTP/Session.md
+      - "HTTP\\Sniffer\\Charset": api/Net/HTTP/Sniffer/Charset.md
+      - "HTTP\\Sniffer\\Client": api/Net/HTTP/Sniffer/Client.md
+      - "HTTP\\Sniffer\\Encoding": api/Net/HTTP/Sniffer/Encoding.md
+      - "HTTP\\Sniffer\\Language": api/Net/HTTP/Sniffer/Language.md
+      - "HTTP\\Sniffer\\MimeType": api/Net/HTTP/Sniffer/MimeType.md
+      - "HTTP\\Status": api/Net/HTTP/Status.md
+      - "HTTP\\UploadErrorHandler": api/Net/HTTP/UploadErrorHandler.md
+      - "Reader": api/Net/Reader.md
+      - "Site\\Crawler": api/Net/Site/Crawler.md
+      - "Site\\MapBuilder": api/Net/Site/MapBuilder.md
+      - "Site\\MapCreator": api/Net/Site/MapCreator.md
+      - "Site\\MapWriter": api/Net/Site/MapWriter.md
+      - "SVN\\Client": api/Net/SVN/Client.md
+      - "XMPP\\JID": api/Net/XMPP/JID.md
+      - "XMPP\\MessageSender": api/Net/XMPP/MessageSender.md
+      - "XMPP\\XMPPHP\\BOSH": api/Net/XMPP/XMPPHP/BOSH.md
+      - "XMPP\\XMPPHP\\Exception": api/Net/XMPP/XMPPHP/Exception.md
+      - "XMPP\\XMPPHP\\Log": api/Net/XMPP/XMPPHP/Log.md
+      - "XMPP\\XMPPHP\\Roster": api/Net/XMPP/XMPPHP/Roster.md
+      - "XMPP\\XMPPHP\\XMLObj": api/Net/XMPP/XMPPHP/XMLObj.md
+      - "XMPP\\XMPPHP\\XMLStream": api/Net/XMPP/XMPPHP/XMLStream.md
+      - "XMPP\\XMPPHP\\XMPP": api/Net/XMPP/XMPPHP/XMPP.md
+    - User interface:
+      - "DevOutput": api/UI/DevOutput.md
+      - "HTML\\CollapsePanel": api/UI/HTML/CollapsePanel.md
+      - "HTML\\ContextMenu": api/UI/HTML/ContextMenu.md
+      - "HTML\\Elements": api/UI/HTML/Elements.md
+      - "HTML\\Exception\\Page": api/UI/HTML/Exception/Page.md
+      - "HTML\\Exception\\Trace": api/UI/HTML/Exception/Trace.md
+      - "HTML\\Exception\\TraceViewer": api/UI/HTML/Exception/TraceViewer.md
+      - "HTML\\Exception\\View": api/UI/HTML/Exception/View.md
+      - "HTML\\FormElements": api/UI/HTML/FormElements.md
+      - "HTML\\Index": api/UI/HTML/Index.md
+      - "HTML\\Indicator": api/UI/HTML/Indicator.md
+      - "HTML\\JQuery": api/UI/HTML/JQuery.md
+      - "HTML\\Ladder": api/UI/HTML/Ladder.md
+      - "HTML\\Options": api/UI/HTML/Options.md
+      - "HTML\\PageFrame": api/UI/HTML/PageFrame.md
+      - "HTML\\Pagination": api/UI/HTML/Pagination.md
+      - "HTML\\Paging": api/UI/HTML/Paging.md
+      - "HTML\\Panel": api/UI/HTML/Panel.md
+      - "HTML\\Table": api/UI/HTML/Table.md
+      - "HTML\\Tabs": api/UI/HTML/Tabs.md
+      - "HTML\\Tag": api/UI/HTML/Tag.md
+      - "HTML\\Tree\\ArrayView": api/UI/HTML/Tree/ArrayView.md
+      - "HTML\\Tree\\FolderCheckView": api/UI/HTML/Tree/FolderCheckView.md
+      - "HTML\\Tree\\FolderView": api/UI/HTML/Tree/FolderView.md
+      - "HTML\\Tree\\LayerMenu": api/UI/HTML/Tree/LayerMenu.md
+      - "HTML\\Tree\\Menu": api/UI/HTML/Tree/Menu.md
+      - "HTML\\Tree\\VariableDump": api/UI/HTML/Tree/VariableDump.md
+      - "Image": api/UI/Image.md
+      - "Image\\Captcha": api/UI/Image/Captcha.md
+      - "Image\\Creator": api/UI/Image/Creator.md
+      - "Image\\Drawer": api/UI/Image/Drawer.md
+      - "Image\\Error": api/UI/Image/Error.md
+      - "Image\\Exif": api/UI/Image/Exif.md
+      - "Image\\Filter": api/UI/Image/Filter.md
+      - "Image\\Graphviz\\Graph": api/UI/Image/Graphviz/Graph.md
+      - "Image\\Graphviz\\Renderer": api/UI/Image/Graphviz/Renderer.md
+      - "Image\\Histogram": api/UI/Image/Histogram.md
+      - "Image\\Modifier": api/UI/Image/Modifier.md
+      - "Image\\Printer": api/UI/Image/Printer.md
+      - "Image\\Processing": api/UI/Image/Processing.md
+      - "Image\\Rotator": api/UI/Image/Rotator.md
+      - "Image\\ThumbnailCreator": api/UI/Image/ThumbnailCreator.md
+      - "Image\\TransparentWatermark": api/UI/Image/TransparentWatermark.md
+      - "Image\\Watermark": api/UI/Image/Watermark.md
+      - "JS\\CodeMirror": api/UI/JS/CodeMirror.md
+      - "OutputBuffer": api/UI/OutputBuffer.md
+      - "SVG\\BarAcross": api/UI/SVG/BarAcross.md
+      - "SVG\\Chart": api/UI/SVG/Chart.md
+      - "SVG\\ChartData": api/UI/SVG/ChartData.md
+      - "SVG\\PieGraph": api/UI/SVG/PieGraph.md
+      - "Template": api/UI/Template.md
+      - "Text": api/UI/Text.md
+      - "VariableDumper": api/UI/VariableDumper.md
+    - XML:
+      - "Atom\\Parser": api/XML/Atom/Parser.md
+      - "Atom\\Reader": api/XML/Atom/Reader.md
+      - "Atom\\Validator": api/XML/Atom/Validator.md
+      - "Converter": api/XML/Converter.md
+      - "DOM\\Builder": api/XML/DOM/Builder.md
+      - "DOM\\FeedIdentifier": api/XML/DOM/FeedIdentifier.md
+      - "DOM\\FileEditor": api/XML/DOM/FileEditor.md
+      - "DOM\\FileReader": api/XML/DOM/FileReader.md
+      - "DOM\\FileWriter": api/XML/DOM/FileWriter.md
+      - "DOM\\Formater": api/XML/DOM/Formater.md
+      - "DOM\\GoogleSitemapBuilder": api/XML/DOM/GoogleSitemapBuilder.md
+      - "DOM\\GoogleSitemapWriter": api/XML/DOM/GoogleSitemapWriter.md
+      - "DOM\\Node": api/XML/DOM/Node.md
+      - "DOM\\ObjectDeserializer": api/XML/DOM/ObjectDeserializer.md
+      - "DOM\\ObjectFileDeserializer": api/XML/DOM/ObjectFileDeserializer.md
+      - "DOM\\ObjectFileSerializer": api/XML/DOM/ObjectFileSerializer.md
+      - "DOM\\ObjectSerializer": api/XML/DOM/ObjectSerializer.md
+      - "DOM\\Parser": api/XML/DOM/Parser.md
+      - "DOM\\PEAR\\PackageReader": api/XML/DOM/PEAR/PackageReader.md
+      - "DOM\\Storage": api/XML/DOM/Storage.md
+      - "DOM\\SyntaxValidator": api/XML/DOM/SyntaxValidator.md
+      - "DOM\\UrlReader": api/XML/DOM/UrlReader.md
+      - "DOM\\XPathQuery": api/XML/DOM/XPathQuery.md
+      - "Element": api/XML/Element.md
+      - "ElementReader": api/XML/ElementReader.md
+      - "FeedIdentifier": api/XML/FeedIdentifier.md
+      - "Namespaces": api/XML/Namespaces.md
+      - "OPML\\Builder": api/XML/OPML/Builder.md
+      - "OPML\\FileReader": api/XML/OPML/FileReader.md
+      - "OPML\\FileWriter": api/XML/OPML/FileWriter.md
+      - "OPML\\Outline": api/XML/OPML/Outline.md
+      - "OPML\\Parser": api/XML/OPML/Parser.md
+      - "Parser": api/XML/Parser.md
+      - "RPC\\Client": api/XML/RPC/Client.md
+      - "RSS\\Builder": api/XML/RSS/Builder.md
+      - "RSS\\GoogleBaseBuilder": api/XML/RSS/GoogleBaseBuilder.md
+      - "RSS\\Parser": api/XML/RSS/Parser.md
+      - "RSS\\Reader": api/XML/RSS/Reader.md
+      - "RSS\\SimpleParser": api/XML/RSS/SimpleParser.md
+      - "RSS\\SimpleReader": api/XML/RSS/SimpleReader.md
+      - "RSS\\Writer": api/XML/RSS/Writer.md
+      - "UnitTestResultReader": api/XML/UnitTestResultReader.md
+      - "Validator": api/XML/Validator.md
+      - "XSL\\Transformator": api/XML/XSL/Transformator.md
+    - Exceptions:
+      - "Access": api/Exception/Access.md
+      - "Conversion": api/Exception/Conversion.md
+      - "Data\\Ambiguous": api/Exception/Data/Ambiguous.md
+      - "Data\\InvalidTypeCast": api/Exception/Data/InvalidTypeCast.md
+      - "Data\\Missing": api/Exception/Data/Missing.md
+      - "Deprecation": api/Exception/Deprecation.md
+      - "FileNotExisting": api/Exception/FileNotExisting.md
+      - "HTTP\\Client": api/Exception/HTTP/Client.md
+      - "HTTP\\Server": api/Exception/HTTP/Server.md
+      - "IO": api/Exception/IO.md
+      - "Logic": api/Exception/Logic.md
+      - "MissingExtension": api/Exception/MissingExtension.md
+      - "NotEnabled": api/Exception/NotEnabled.md
+      - "NotFound": api/Exception/NotFound.md
+      - "NotSupported": api/Exception/NotSupported.md
+      - "Runtime": api/Exception/Runtime.md
+      - "Serializable": api/Exception/Serializable.md
+      - "SQL": api/Exception/SQL.md
+      - "Template": api/Exception/Template.md
+      - "Traits\\Creatable": api/Exception/Traits/Creatable.md
+      - "Traits\\Descriptive": api/Exception/Traits/Descriptive.md
+      - "Traits\\Jsonable": api/Exception/Traits/Jsonable.md
+      - "Traits\\Renderable": api/Exception/Traits/Renderable.md
+      - "Traits\\Serializable": api/Exception/Traits/Serializable.md
+      - "Validation": api/Exception/Validation.md
+    # api-nav:end
+  - Changelog: changelog.md

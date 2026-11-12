@@ -132,7 +132,7 @@ class Parser extends OptionObject
 					if( !$this->parseRecursive( $child, $node ) )
 						$node->setContent( $child->textContent );
 					foreach( $attributes as $attribute)
-						$node->setAttribute( $attribute->nodeName, stripslashes( $attribute->nodeValue ) );
+						$node->setAttribute( $attribute->nodeName, $attribute->nodeValue );
 					$tree->addChild( $node );
 					break;
 				case XML_TEXT_NODE:
@@ -142,7 +142,7 @@ class Parser extends OptionObject
 						return FALSE;
 					break;
 				case XML_CDATA_SECTION_NODE:
-					$tree->setContent( stripslashes( $child->textContent ) );
+					$tree->setContent( $child->textContent );
 					break;
 			}
 		}

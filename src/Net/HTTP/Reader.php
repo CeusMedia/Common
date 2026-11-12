@@ -272,17 +272,19 @@ class Reader
 
 	/**
 	 *	Sets up SSL Verification.
+	 *	Without calling this method, the defaults of cURL apply (certificate and host are verified).
+	 *	CURLOPT_SSL_VERIFYHOST is set to 2 (TRUE) or 0 (FALSE).
 	 *	@access		public
 	 *	@param		boolean			$host		Flag: verify Host
-	 *	@param		integer			$peer		Flag: verify Peer
+	 *	@param		boolean|integer	$peer		Flag: verify Peer
 	 *	@param		string|NULL		$caPath		Path to certificates
 	 *	@param		string|NULL		$caInfo		Certificate File Name
 	 *	@return		static
 	 */
-	public function setVerify( bool $host = FALSE, int $peer = 0, ?string $caPath = NULL, ?string $caInfo = NULL ): static
+	public function setVerify( bool $host = FALSE, bool|int $peer = FALSE, ?string $caPath = NULL, ?string $caInfo = NULL ): static
 	{
-		$this->curl->setOption( CURLOPT_SSL_VERIFYHOST, $host );
-		$this->curl->setOption( CURLOPT_SSL_VERIFYPEER, $peer );
+		$this->curl->setOption( CURLOPT_SSL_VERIFYHOST, $host ? 2 : 0 );
+		$this->curl->setOption( CURLOPT_SSL_VERIFYPEER, (bool) $peer );
 		$this->curl->setOption( CURLOPT_CAPATH, $caPath );
 		$this->curl->setOption( CURLOPT_CAINFO, $caInfo );
 		return $this;

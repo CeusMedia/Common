@@ -62,7 +62,7 @@ class Reader
 	protected ?string $url				= NULL;
 
 	/**	@var		string				$agent			User Agent */
-	protected static string $userAgent	= "cmClasses:Net_Reader/0.7";
+	protected static string $userAgent	= 'CeusMedia-Common/1.1 Net\\Reader';
 
 	/**	@var		string				$username		Username for Basic Authentication */
 	protected string $username			= "";
@@ -70,11 +70,17 @@ class Reader
 	/**	@var		string				$password		Password for Basic Authentication */
 	protected string $password			= "";
 
-	/**	@var		boolean				$verifyHost		Flag: verify Host */
-	protected bool $verifyHost 			= FALSE;
+	/**	@var		boolean				$verifyHost		Flag: verify Host, enabled by default */
+	protected bool $verifyHost 			= TRUE;
 
-	/**	@var		boolean				$verifyPeer		Flag: verify Peer */
-	protected bool $verifyPeer			= FALSE;
+	/**	@var		boolean				$verifyPeer		Flag: verify Peer, enabled by default */
+	protected bool $verifyPeer			= TRUE;
+
+	/**	@var		integer				$timeout		Maximum time of request in seconds, 0 for default of cURL (no limit until 1.2) */
+	protected int $timeout				= 0;
+
+	/**	@var		integer				$connectTimeout	Maximum time to connect in seconds, 0 for default of cURL (until 1.2) */
+	protected int $connectTimeout		= 0;
 
 	/**	@var		string|NULL			$proxyAddress	Domain or IP (and port) of proxy server */
 	protected ?string $proxyAddress		= NULL;
@@ -95,6 +101,52 @@ class Reader
 	{
 		if( $url !== NULL )
 			$this->setUrl( $url );
+	}
+
+	/**
+	 *	Creates cURL instance for set URL, configured by reader settings and given cURL options.
+	 *	TLS certificate and host are verified by default, see setVerifyPeer() and setVerifyHost().
+	 *	@access		protected
+	 *	@param		array		$curlOptions		Map of cURL options, overriding reader settings
+	 *	@return		CURL
+	 *	@throws		InvalidArgumentException	if an option key is invalid
+	 */
+	protected function createCurl( array $curlOptions = [] ): CURL
+	{
+		$curl		= new CURL( $this->url );
+
+		$curl->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost ? 2 : 0 );
+		$curl->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
+		//  timeouts are only set if configured, so a global timeout set by Net\CURL::setTimeOut() still applies
+		if( $this->timeout > 0 )
+			$curl->setOption( CURLOPT_TIMEOUT, $this->timeout );
+		if( $this->connectTimeout > 0 )
+			$curl->setOption( CURLOPT_CONNECTTIMEOUT, $this->connectTimeout );
+		$curl->setOption( CURLOPT_FOLLOWLOCATION, !ini_get( 'safe_mode' ) && !ini_get( 'open_basedir' ) );
+		$curl->setOption( CURLOPT_HEADER, TRUE );
+		if( self::$userAgent )
+			$curl->setOption( CURLOPT_USERAGENT, self::$userAgent );
+		if( $this->username )
+			$curl->setOption( CURLOPT_USERPWD, $this->username.":".$this->password );
+		if( $this->proxyAddress ){
+			$curl->setOption( CURLOPT_HTTPPROXYTUNNEL, TRUE);
+			$curl->setOption( CURLOPT_PROXY, $this->proxyAddress );
+			$curl->setOption( CURLOPT_PROXYTYPE, $this->proxyType );
+			if( $this->proxyAuth )
+				$curl->setOption( CURLOPT_PROXYUSERPWD, $this->proxyAuth );
+		}
+
+		foreach( $curlOptions as $key => $value ){
+			if( is_string( $key ) ){
+				if( !( str_starts_with( $key, "CURLOPT_" ) && defined( $key ) ) )
+					throw new InvalidArgumentException( 'Invalid option constant key "'.$key.'"' );
+				$key	= constant( $key );
+			}
+			if( !is_int( $key ) )
+				throw new InvalidArgumentException( 'Option must be given as integer or string' );
+			$curl->setOption( $key, $value );
+		}
+		return $curl;
 	}
 
 	public function getBody(): string
@@ -174,34 +226,7 @@ class Reader
 	 */
 	public function read( array $curlOptions = [] ): string
 	{
-		$curl		= new CURL( $this->url );
-
-		$curl->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost );
-		$curl->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
-		$curl->setOption( CURLOPT_FOLLOWLOCATION, !ini_get( 'safe_mode' ) && !ini_get( 'open_basedir' ) );
-		$curl->setOption( CURLOPT_HEADER, TRUE );
-		if( self::$userAgent )
-			$curl->setOption( CURLOPT_USERAGENT, self::$userAgent );
-		if( $this->username )
-			$curl->setOption( CURLOPT_USERPWD, $this->username.":".$this->password );
-		if( $this->proxyAddress ){
-			$curl->setOption( CURLOPT_HTTPPROXYTUNNEL, TRUE);
-			$curl->setOption( CURLOPT_PROXY, $this->proxyAddress );
-			$curl->setOption( CURLOPT_PROXYTYPE, $this->proxyType );
-			if( $this->proxyAuth )
-				$curl->setOption( CURLOPT_PROXYUSERPWD, $this->proxyAuth );
-		}
-
-		foreach( $curlOptions as $key => $value ){
-			if( is_string( $key ) ){
-				if( !( str_starts_with( $key, "CURLOPT_" ) && defined( $key ) ) )
-					throw new InvalidArgumentException( 'Invalid option constant key "'.$key.'"' );
-				$key	= constant( $key );
-			}
-			if( !is_int( $key ) )
-				throw new InvalidArgumentException( 'Option must be given as integer or string' );
-			$curl->setOption( $key, $value );
-		}
+		$curl			= $this->createCurl( $curlOptions );
 		$result			= $curl->exec( TRUE, FALSE );
 		$response		= HttpResponseParser::fromString( $result );
 
@@ -250,6 +275,20 @@ class Reader
 	}
 
 	/**
+	 *	Sets maximum time to connect in seconds (CURLOPT_CONNECTTIMEOUT).
+	 *	Default: 0, which keeps the default of cURL (300 seconds) or Net\CURL::setTimeOut().
+	 *	A default of 10 seconds will follow in 1.2.
+	 *	@access		public
+	 *	@param		integer		$seconds	Maximum time to connect in seconds
+	 *	@return		self
+	 */
+	public function setConnectTimeout( int $seconds ): self
+	{
+		$this->connectTimeout	= max( 0, $seconds );
+		return $this;
+	}
+
+	/**
 	 *	Sets proxy domain or IP.
 	 *	@access		public
 	 *	@param		string			$address	Domain or IP (and Port) of proxy server
@@ -262,6 +301,20 @@ class Reader
 		$this->proxyAddress	= $address;
 		$this->proxyType	= $type;
 		$this->proxyAuth	= $auth;
+		return $this;
+	}
+
+	/**
+	 *	Sets maximum time of request in seconds (CURLOPT_TIMEOUT).
+	 *	Default: 0, which keeps the default of cURL (no limit) or Net\CURL::setTimeOut().
+	 *	A default of 30 seconds will follow in 1.2.
+	 *	@access		public
+	 *	@param		integer		$seconds	Maximum time of request in seconds
+	 *	@return		self
+	 */
+	public function setTimeout( int $seconds ): self
+	{
+		$this->timeout	= max( 0, $seconds );
 		return $this;
 	}
 
@@ -292,7 +345,7 @@ class Reader
 	}
 
 	/**
-	 *	Sets Option CURLOPT_SSL_VERIFYHOST.
+	 *	Sets Option CURLOPT_SSL_VERIFYHOST (TRUE: 2, FALSE: 0). Enabled by default.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Host
 	 *	@return		self
@@ -304,7 +357,7 @@ class Reader
 	}
 
 	/**
-	 *	Sets Option CURLOPT_SSL_VERIFYPEER.
+	 *	Sets Option CURLOPT_SSL_VERIFYPEER. Enabled by default.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Peer
 	 *	@return		self

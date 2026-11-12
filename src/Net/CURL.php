@@ -113,7 +113,8 @@ class CURL
 	private static int $timeOut		= 0;
 
 	/**
-	 *	cURL class constructor
+	 *	cURL class constructor.
+	 *	Allowed protocols for requests and redirects are restricted to HTTP and HTTPS.
 	 *	@access		public
 	 *	@param		string|NULL		$url 		URL to be accessed.
 	 *	@return		void
@@ -132,6 +133,8 @@ class CURL
 //		$this->setOption( CURLOPT_FOLLOWLOCATION, !ini_get( 'safe_mode' ) && !ini_get( 'open_basedir' ) );
 		$this->setOption( CURLOPT_HEADER, TRUE );
 		$this->setOption( CURLOPT_RETURNTRANSFER, TRUE );
+		$this->setOption( CURLOPT_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS );
+		$this->setOption( CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS );
 		if( self::$timeOut )
 		{
 			$this->setOption( CURLOPT_TIMEOUT, self::$timeOut );

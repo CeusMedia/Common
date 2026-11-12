@@ -45,6 +45,9 @@ use CeusMedia\Common\XML\Element as XmlElement;
  */
 class Validator
 {
+	/**	@var		string			XPath of alternate links: a link without rel attribute is an alternate link (RFC 4287, 4.2.7.2) */
+	protected const XPATH_LINK_ALTERNATE	= 'atom:link[@rel="alternate" or not(@rel)]';
+
 	/**	@var		array			$errors			List of broken Atom Rules */
 	protected array $errors	= [];
 
@@ -70,7 +73,7 @@ class Validator
 		'entry_source'		=> "Entry Element MUST NOT contain more than one source element.",
 		'entry_summary'		=> "Entry Element MUST NOT contain more than one summary element.",
 		'entry_title'		=> "Entry Element MUST contain exactly one title element.",
-		'entry_updates'		=> "Entry Element MUST contain exactly one updated element.",
+		'entry_updated'		=> "Entry Element MUST contain exactly one updated element.",
 		'entry_link_unique'	=> "Entry Element MUST NOT contain more than one link element with a rel attribute value of \"alternate\" that has the same combination of type and hreflang attribute values.",
 	];
 
@@ -149,7 +152,7 @@ class Validator
 		if( count( $xmlElement->xpath( $key.'atom:updated' ) ?: [] ) != 1 )
 			$errors[]	= "feed_updated";
 		$ids	= [];
-		foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) ?: [] as $link ){
+		foreach( $xmlElement->xpath( $key.self::XPATH_LINK_ALTERNATE ) ?: [] as $link ){
 			$id	= "";
 			if( $link->hasAttribute( 'type' ) )
 				$id	= $link->getAttribute( 'type' );
@@ -171,7 +174,7 @@ class Validator
 				$errors[]	= "entry_content";
 			if( count( $xmlElement->xpath( $key.'atom:id' ) ?: [] ) != 1 )
 				$errors[]	= "entry_id";
-			if( !count( $xmlElement->xpath( $key.'atom:content' ) ?: [] ) && !count( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) ?: [] ) )
+			if( !count( $xmlElement->xpath( $key.'atom:content' ) ?: [] ) && !count( $xmlElement->xpath( $key.self::XPATH_LINK_ALTERNATE ) ?: [] ) )
 				$errors[]	= "entry_link_alt";
 			if( count( $xmlElement->xpath( $key.'atom:published' ) ?: [] ) > 1 )
 				$errors[]	= "entry_published";
@@ -187,17 +190,17 @@ class Validator
 				$errors[]	= "entry_updated";
 
 			$keys	= [];
-			foreach( $xmlElement->xpath( $key.'atom:link[@rel="alternate"]' ) ?: [] as $link ){
-				$key	= "";
+			foreach( $xmlElement->xpath( $key.self::XPATH_LINK_ALTERNATE ) ?: [] as $link ){
+				$linkKey	= "";
 				if( $link->hasAttribute( 'type' ) )
-					$key	= $link->getAttribute( 'type' );
+					$linkKey	= $link->getAttribute( 'type' );
 				if( $link->hasAttribute( 'hreflang' ) )
-					$key	.= "_".$link->getAttribute( 'hreflang');
-				if( in_array( $key, $keys, TRUE ) ){
+					$linkKey	.= "_".$link->getAttribute( 'hreflang');
+				if( in_array( $linkKey, $keys, TRUE ) ){
 					$errors[]	= "entry_link_unique";
 					break;
 				}
-				$keys[]	= $key;
+				$keys[]	= $linkKey;
 			}
 		}
 		$this->errors	= $errors;

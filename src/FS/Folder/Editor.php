@@ -288,17 +288,19 @@ class Editor extends Reader
 	}
 
 	/**
-	 *	Moves current Folder to another Path.
+	 *	Moves current Folder into another Path, like moveFolder().
+	 *	Afterward, the editor works on the moved Folder (Target Path + Folder Name).
 	 *	@access		public
-	 *	@param		string		$folderPath		Folder Path of Target Folder
+	 *	@param		string		$folderPath		Path to move current Folder into
 	 *	@param		bool		$force			Flag: continue if Target Folder is already existing, otherwise break
 	 *	@return		bool
 	 */
 	public function move( string $folderPath, bool $force = FALSE ): bool
 	{
-		if( !static::moveFolder($this->folderName, $folderPath, $force) )
+		$folderName	= basename( $this->folderName );
+		if( !static::moveFolder( $this->folderName, $folderPath, $force ) )
 			return FALSE;
-		$this->folderName	= $folderPath;
+		$this->folderName	= self::correctPath( $folderPath ).$folderName;
 		return TRUE;
 	}
 

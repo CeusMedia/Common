@@ -56,13 +56,14 @@ class Gzip extends FileEditor
 	 */
 	public function __construct( string $fileName )
 	{
-		if( !function_exists( "gzcompress" ) )
+		if( !function_exists( "gzencode" ) )
 			throw new RuntimeException( "Gzip Extension is not available." );
 		parent::__construct( $fileName );
 	}
 
 	/**
 	 *	Reads gzip File and returns it as String.
+	 *	Files in zlib format, written by versions before 1.1.1, are read as well.
 	 *	@access		public
 	 *	@return		string
 	 *	@throws		RuntimeException	if decompression failed
@@ -70,14 +71,15 @@ class Gzip extends FileEditor
  	public function readString(): string
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
-		$content	= gzuncompress( parent::readString() ?? '' );
+		$data		= parent::readString() ?? '';
+		$content	= str_starts_with( $data, "\x1f\x8b" ) ? @gzdecode( $data ) : @gzuncompress( $data );
 		if( FALSE === $content )
 			throw new RuntimeException( 'Decompressing gzip content failed' );
 		return $content;
 	}
 
 	/**
-	 *	Writes a String to the File.
+	 *	Writes a String to the File, compressed in gzip format (RFC 1952), readable by gunzip.
 	 *	@access		public
 	 *	@param		string		$string			String to write to File
 	 *	@return		integer|boolean		Number of written bytes or FALSE on fail
@@ -89,7 +91,7 @@ class Gzip extends FileEditor
 	public function writeString( string $string, bool $strict = TRUE ): int|bool
 	{
 		/** @noinspection PhpComposerExtensionStubsInspection */
-		$content	= gzcompress( $string );
+		$content	= gzencode( $string );
 		if( FALSE === $content )
 			throw new RuntimeException( 'Compressing content using gzip failed' );
 		return parent::writeString( $content, $strict );

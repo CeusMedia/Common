@@ -4,6 +4,9 @@
 /tool/config/.phpunit.result.cache
 /.phpunit.result.cache
 /doc/*
+!/doc/Manual
+/doc/Manual/api
+/tool/docs/.venv
 ;/.idea
 /tool/config/.phpunit.cache/
 /demo/UI/SVG/test.svg

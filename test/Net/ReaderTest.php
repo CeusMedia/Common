@@ -189,4 +189,117 @@ class ReaderTest extends BaseCase
 		$this->expectException( "InvalidArgumentException" );
 		$this->reader->setUrl( "" );
 	}
+
+	/**
+	 *	Tests defaults: TLS verification is enabled and timeouts are not set (until 1.2).
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testCreateCurlDefaults()
+	{
+		$curl	= $this->createExposedReader()->exposeCreateCurl();
+
+		self::assertSame( 2, $curl->getOption( CURLOPT_SSL_VERIFYHOST ) );
+		self::assertTrue( $curl->getOption( CURLOPT_SSL_VERIFYPEER ) );
+		self::assertNull( $curl->getOption( CURLOPT_TIMEOUT ) );
+		self::assertNull( $curl->getOption( CURLOPT_CONNECTTIMEOUT ) );
+		self::assertSame( CURLPROTO_HTTP | CURLPROTO_HTTPS, $curl->getOption( CURLOPT_PROTOCOLS ) );
+	}
+
+	/**
+	 *	Tests that TLS verification can be enabled and disabled explicitly.
+	 *	CURLOPT_SSL_VERIFYHOST must be set as integer 2, not as boolean.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testCreateCurlWithVerification()
+	{
+		$reader	= $this->createExposedReader();
+		$reader->setVerifyHost( FALSE )->setVerifyPeer( FALSE );
+		$curl	= $reader->exposeCreateCurl();
+		self::assertSame( 0, $curl->getOption( CURLOPT_SSL_VERIFYHOST ) );
+		self::assertFalse( $curl->getOption( CURLOPT_SSL_VERIFYPEER ) );
+
+		$reader->setVerifyHost( TRUE )->setVerifyPeer( TRUE );
+		$curl	= $reader->exposeCreateCurl();
+		self::assertSame( 2, $curl->getOption( CURLOPT_SSL_VERIFYHOST ) );
+		self::assertTrue( $curl->getOption( CURLOPT_SSL_VERIFYPEER ) );
+	}
+
+	/**
+	 *	Tests that a global timeout set by Net\CURL::setTimeOut() still applies, if no timeout is set on the reader.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testCreateCurlKeepsGlobalTimeout()
+	{
+		\CeusMedia\Common\Net\CURL::setTimeOut( 15 );
+		try{
+			$curl	= $this->createExposedReader()->exposeCreateCurl();
+			self::assertSame( 15, $curl->getOption( CURLOPT_TIMEOUT ) );
+			self::assertSame( 15, $curl->getOption( CURLOPT_CONNECTTIMEOUT ) );
+
+			$curl	= $this->createExposedReader()->setTimeout( 5 )->exposeCreateCurl();
+			self::assertSame( 5, $curl->getOption( CURLOPT_TIMEOUT ) );
+		}
+		finally{
+			\CeusMedia\Common\Net\CURL::setTimeOut( 0 );
+		}
+	}
+
+	/**
+	 *	Tests Methods 'setTimeout' and 'setConnectTimeout' and overriding by given cURL options.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testCreateCurlTimeouts()
+	{
+		$reader	= $this->createExposedReader();
+		$reader->setTimeout( 5 )->setConnectTimeout( 2 );
+		$curl	= $reader->exposeCreateCurl();
+		self::assertSame( 5, $curl->getOption( CURLOPT_TIMEOUT ) );
+		self::assertSame( 2, $curl->getOption( CURLOPT_CONNECTTIMEOUT ) );
+
+		$reader->setTimeout( 0 )->setConnectTimeout( -1 );
+		$curl	= $reader->exposeCreateCurl();
+		self::assertNull( $curl->getOption( CURLOPT_TIMEOUT ) );
+		self::assertNull( $curl->getOption( CURLOPT_CONNECTTIMEOUT ) );
+
+		$curl	= $reader->exposeCreateCurl( ['CURLOPT_TIMEOUT' => 7] );
+		self::assertSame( 7, $curl->getOption( CURLOPT_TIMEOUT ) );
+	}
+
+	/**
+	 *	Tests default user agent.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDefaultUserAgent()
+	{
+		$property	= new \ReflectionProperty( NetReader::class, 'userAgent' );
+		self::assertSame( 'CeusMedia-Common/1.1 Net\\Reader', $property->getDefaultValue() );
+	}
+
+	/**
+	 *	Tests that local files cannot be read.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testReadFileUrlException()
+	{
+		$reader		= new NetReader( 'file://localhost'.__FILE__ );
+		$this->expectException( "RuntimeException" );
+		$reader->read();
+	}
+
+	protected function createExposedReader(): NetReader
+	{
+		return new class( 'https://localhost/' ) extends NetReader
+		{
+			public function exposeCreateCurl( array $curlOptions = [] ): NetCURL
+			{
+				return $this->createCurl( $curlOptions );
+			}
+		};
+	}
 }

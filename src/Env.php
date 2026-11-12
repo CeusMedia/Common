@@ -166,16 +166,14 @@ class Env
 
 	/**
 	 *	Set environment variable.
+	 *	The value is stored as given: putenv() does not interpret quotes, so they must not be added.
 	 *	@param		string				$key
 	 *	@param		string|int|float	$value
 	 *	@return		bool
 	 */
 	public static function set( string $key, string|int|float $value ): bool
 	{
-		$assign	= $key.'='.$value;
-		if( is_string( $value ) )
-			$assign	= $key.'="'.$value.'"';
-		return putenv( $assign );
+		return putenv( $key.'='.$value );
 	}
 
 	public function __construct()

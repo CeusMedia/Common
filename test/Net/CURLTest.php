@@ -24,6 +24,106 @@ use CeusMedia\CommonTest\BaseCase;
  */
 class CURLTest extends BaseCase
 {
+	/** @var resource|NULL */
+	protected static $process		= NULL;
+
+	protected static string $url	= '';
+
+	public static function setUpBeforeClass(): void
+	{
+		if( !extension_loaded( 'curl' ) || !function_exists( 'proc_open' ) )
+			return;
+		$socket	= @stream_socket_server( 'tcp://127.0.0.1:0' );
+		if( FALSE === $socket )
+			return;
+		$address	= (string) stream_socket_get_name( $socket, FALSE );
+		fclose( $socket );
+		$port		= (int) substr( $address, strrpos( $address, ':' ) + 1 );
+
+		$command	= [PHP_BINARY, '-S', '127.0.0.1:'.$port, __DIR__.'/assets/curlServer.php'];
+		$pipes		= [];
+		$process	= proc_open( $command, [1 => ['file', '/dev/null', 'w'], 2 => ['file', '/dev/null', 'w']], $pipes );
+		if( !is_resource( $process ) )
+			return;
+		for( $i = 0; $i < 50; $i++ ){
+			$connection	= @fsockopen( '127.0.0.1', $port, $errorCode, $errorMessage, 0.1 );
+			if( FALSE !== $connection ){
+				fclose( $connection );
+				self::$process	= $process;
+				self::$url		= 'http://127.0.0.1:'.$port.'/';
+				return;
+			}
+			usleep( 100_000 );
+		}
+		proc_terminate( $process );
+		proc_close( $process );
+	}
+
+	public static function tearDownAfterClass(): void
+	{
+		if( is_resource( self::$process ) ){
+			proc_terminate( self::$process );
+			proc_close( self::$process );
+		}
+		self::$process	= NULL;
+	}
+
+	/**
+	 *	Tests that only HTTP and HTTPS are allowed, for requests and redirects.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstructRestrictsProtocols()
+	{
+		$curl	= new Net_CURL();
+		self::assertSame( CURLPROTO_HTTP | CURLPROTO_HTTPS, $curl->getOption( CURLOPT_PROTOCOLS ) );
+		self::assertSame( CURLPROTO_HTTP | CURLPROTO_HTTPS, $curl->getOption( CURLOPT_REDIR_PROTOCOLS ) );
+	}
+
+	/**
+	 *	Tests that method 'exec' does not read local files or use other protocols.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testExecRejectsDisallowedProtocols()
+	{
+		$urls	= [
+			'file://localhost'.__FILE__,
+			'gopher://localhost/_test',
+			'dict://localhost/test',
+		];
+		foreach( $urls as $url ){
+			$curl	= new Net_CURL( $url );
+			$result	= $curl->exec();
+			self::assertSame( '', $result, $url );
+			self::assertSame( CURLE_UNSUPPORTED_PROTOCOL, $curl->getInfo( Net_CURL::INFO_ERRNO ), $url );
+		}
+
+		$curl	= new Net_CURL( 'file://localhost'.__FILE__ );
+		$this->expectException( 'RuntimeException' );
+		$curl->exec( TRUE );
+	}
+
+	/**
+	 *	Tests that method 'exec' does not follow redirects to other protocols.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testExecRejectsRedirectToFile()
+	{
+		if( NULL === self::$process )
+			$this->markTestSkipped( 'Built-in web server could not be started' );
+
+		$curl	= new Net_CURL( self::$url );
+		self::assertSame( 'hello', $curl->exec( TRUE ) );
+
+		$curl	= new Net_CURL( self::$url.'redirect-file' );
+		$curl->setOption( CURLOPT_FOLLOWLOCATION, TRUE );
+		$result	= $curl->exec();
+		self::assertStringNotContainsString( 'Router script', $result );
+		self::assertSame( CURLE_UNSUPPORTED_PROTOCOL, $curl->getInfo( Net_CURL::INFO_ERRNO ) );
+	}
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

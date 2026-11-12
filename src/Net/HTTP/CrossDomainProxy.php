@@ -55,8 +55,8 @@ class CrossDomainProxy
 	/**	@var		string|NULL		$username			Username of HTTP Basic Authentication */
 	protected ?string $username	= NULL;
 
-	/**	@var		bool			$verifySsl			Flag: verify TLS certificate and host of service, default: no */
-	protected bool $verifySsl	= FALSE;
+	/**	@var		bool			$verifySsl			Flag: verify TLS certificate and host of service, default: yes */
+	protected bool $verifySsl	= TRUE;
 
 	/**	@var		string|NULL		$password			Password of HTTP Basic Authentication */
 	protected ?string $password	= NULL;
@@ -99,11 +99,11 @@ class CrossDomainProxy
 	 *	@param		string|NULL		$username			Username of HTTP Basic Authentication
 	 *	@param		string|NULL		$password			Password of HTTP Basic Authentication
 	 *	@param		bool			$throwException		Check Service Response for Exception and throw a found Exception further
-	 *	@param		bool			$verifySsl			Flag: verify TLS certificate and host of service, default: no (will be yes from 1.2 on)
+	 *	@param		bool			$verifySsl			Flag: verify TLS certificate and host of service, default: yes
 	 *	@return		string|bool
 	 *	@throws		Exception
 	 */
-	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE, bool $verifySsl = FALSE ): bool|string
+	public static function requestUrl( string $url, ?string $username = NULL, ?string $password = NULL, bool $throwException = FALSE, bool $verifySsl = TRUE ): bool|string
 	{
 		//  open cURL Handler
 		$curl	= curl_init();
@@ -157,7 +157,7 @@ class CrossDomainProxy
 	/**
 	 *	Sets whether TLS certificate and host of service are verified.
 	 *	@access		public
-	 *	@param		bool		$verifySsl		Flag: verify TLS certificate and host, default: no (will be yes from 1.2 on)
+	 *	@param		bool		$verifySsl		Flag: verify TLS certificate and host, default: yes
 	 *	@return		static
 	 */
 	public function setVerifySsl( bool $verifySsl ): static

@@ -145,19 +145,27 @@ class EditorTest extends TestCase
 		$creation	= $editor->move( $this->path."moved", FALSE );
 		self::assertTrue( $creation );
 
-		$assertion	= $this->path."moved";
+		//  editor works on moved folder, not on target path
+		$assertion	= $this->path."moved/copy";
 		$creation	= $editor->getFolderName();
 		self::assertEquals( $assertion, $creation );
+		self::assertDirectoryExists( $this->path."moved/copy" );
+		self::assertDirectoryDoesNotExist( $this->path."copy" );
+
+		//  removing via editor removes moved folder only
+		$editor->remove( TRUE );
+		self::assertDirectoryDoesNotExist( $this->path."moved/copy" );
+		self::assertDirectoryExists( $this->path."moved" );
 
 
 		$this->removeFolder( $this->path."moved", TRUE );
 		$this->editor->copy( $this->path."copy" );
 		$editor	= new Editor( $this->path."copy" );
 
-		$creation	= $editor->move( $this->path."moved", TRUE );
+		$creation	= $editor->move( $this->path."moved/", TRUE );
 		self::assertTrue( $creation );
 
-		$assertion	= $this->path."moved";
+		$assertion	= $this->path."moved/copy";
 		$creation	= $editor->getFolderName();
 		self::assertEquals( $assertion, $creation );
 

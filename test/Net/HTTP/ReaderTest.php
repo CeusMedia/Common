@@ -14,6 +14,7 @@ namespace CeusMedia\CommonTest\Net\HTTP;
 use CeusMedia\Common\Net\HTTP\Reader;
 use CeusMedia\CommonTest\BaseCase;
 use InvalidArgumentException;
+use ReflectionProperty;
 use RuntimeException;
 
 /**
@@ -89,6 +90,32 @@ class ReaderTest extends BaseCase
 		$response	= $reader->post( self::$url, ['key' => 'value'] );
 		self::assertSame( 'posted:value', $response->getBody() );
 		self::assertSame( 200, $reader->getCurlInfo( 'http_code' ) );
+	}
+
+	/**
+	 *	Tests that setVerify() sets CURLOPT_SSL_VERIFYHOST as 2 or 0 (1 is rejected by cURL with a notice)
+	 *	and CURLOPT_SSL_VERIFYPEER as boolean, also for integer flags.
+	 */
+	public function testSetVerify(): void
+	{
+		$reader	= new Reader();
+		$curl	= ( new ReflectionProperty( Reader::class, 'curl' ) )->getValue( $reader );
+
+		$reader->setVerify( TRUE, TRUE );
+		self::assertSame( 2, $curl->getOption( CURLOPT_SSL_VERIFYHOST ) );
+		self::assertTrue( $curl->getOption( CURLOPT_SSL_VERIFYPEER ) );
+
+		$reader->setVerify( FALSE, 0 );
+		self::assertSame( 0, $curl->getOption( CURLOPT_SSL_VERIFYHOST ) );
+		self::assertFalse( $curl->getOption( CURLOPT_SSL_VERIFYPEER ) );
+
+		$reader->setVerify( TRUE, 1 );
+		self::assertSame( 2, $curl->getOption( CURLOPT_SSL_VERIFYHOST ) );
+		self::assertTrue( $curl->getOption( CURLOPT_SSL_VERIFYPEER ) );
+
+		$reader->setVerify();
+		self::assertSame( 0, $curl->getOption( CURLOPT_SSL_VERIFYHOST ) );
+		self::assertFalse( $curl->getOption( CURLOPT_SSL_VERIFYPEER ) );
 	}
 
 	public function testGetCurlInfo(): void

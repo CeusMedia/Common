@@ -8,6 +8,7 @@ namespace CeusMedia\CommonTest\Net\HTTP;
 use CeusMedia\Common\Net\HTTP\CrossDomainProxy;
 use CeusMedia\CommonTest\BaseCase;
 use ReflectionMethod;
+use ReflectionProperty;
 use RuntimeException;
 
 /**
@@ -16,6 +17,23 @@ use RuntimeException;
  */
 class CrossDomainProxyTest extends BaseCase
 {
+	/**
+	 *	Tests that TLS certificate and host are verified by default and verification can be disabled.
+	 */
+	public function testVerifySslDefault(): void
+	{
+		$property	= new ReflectionProperty( CrossDomainProxy::class, 'verifySsl' );
+		$proxy		= new CrossDomainProxy( 'https://example.org/service' );
+		self::assertTrue( $property->getValue( $proxy ) );
+
+		$proxy->setVerifySsl( FALSE );
+		self::assertFalse( $property->getValue( $proxy ) );
+
+		$parameter	= ( new ReflectionMethod( CrossDomainProxy::class, 'requestUrl' ) )->getParameters()[4];
+		self::assertSame( 'verifySsl', $parameter->getName() );
+		self::assertTrue( $parameter->getDefaultValue() );
+	}
+
 	public function testUnserializeException(): void
 	{
 		$method	= new ReflectionMethod( CrossDomainProxy::class, 'unserializeException' );

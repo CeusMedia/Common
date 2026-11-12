@@ -109,4 +109,29 @@ class ParserTest extends BaseCase
 		$actual	= $root->getChildByIndex(2)->getChild('price')->getContent();
 		self::assertEquals('49.99', $actual);
 	}
+
+	/**
+	 *	Tests that method 'parse' keeps backslashes in attribute values, CDATA and text content.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testParseKeepsBackslashes()
+	{
+		$xml	= '<root>'
+			.'<path value="C:\\Windows\\System32" pattern="/^\\d+\\.\\d+$/"/>'
+			.'<json><![CDATA[{"a":"line\\nbreak","b":"quote\\"d","c":"back\\\\slash"}]]></json>'
+			.'<text>C:\\Temp\\new</text>'
+			.'</root>';
+		$root	= $this->parser->parse( $xml );
+
+		$path	= $root->getChild( 'path' );
+		self::assertSame( 'C:\\Windows\\System32', $path->getAttribute( 'value' ) );
+		self::assertSame( '/^\\d+\\.\\d+$/', $path->getAttribute( 'pattern' ) );
+
+		$json	= $root->getChild( 'json' )->getContent();
+		self::assertSame( '{"a":"line\\nbreak","b":"quote\\"d","c":"back\\\\slash"}', $json );
+		self::assertSame( ['a' => "line\nbreak", 'b' => 'quote"d', 'c' => 'back\\slash'], json_decode( $json, TRUE ) );
+
+		self::assertSame( 'C:\\Temp\\new', $root->getChild( 'text' )->getContent() );
+	}
 }

@@ -1,7 +1,7 @@
 # CeusMedia Common
 
 ![Branch](https://img.shields.io/badge/Branch-1.1.x-blue?style=flat-square)
-![Release](https://img.shields.io/badge/Release-1.1.0-blue?style=flat-square)
+![Release](https://img.shields.io/badge/Release-1.1.1-blue?style=flat-square)
 ![PHP version](https://img.shields.io/badge/PHP-%5E8.3-blue?style=flat-square&color=777BB4)
 ![PHPStan level](https://img.shields.io/badge/PHPStan_level-6-darkgreen?style=flat-square)
 [![Monthly downloads](https://img.shields.io/packagist/dt/ceus-media/common.svg?style=flat-square)](https://packagist.org/packages/ceus-media/common)
@@ -10,7 +10,7 @@
 
 A comprehensive PHP library providing **400+ classes** for everyday development tasks — from file handling and network operations to CLI tools, data structures, and algorithms.
 
-Built with modern PHP 8.3 features: typed properties, strict types, enums, and return types throughout.
+Built for PHP 8.3: strict types, typed properties, parameter and return types throughout.
 
 ## At a Glance
 
@@ -23,7 +23,7 @@ Built with modern PHP 8.3 features: typed properties, strict types, enums, and r
 | **Data Types** (`ADT/`) | 46 | Collections, trees, graphs, registries, singletons, URL/URN parsing, event dispatching |
 | **XML** (`XML/`) | 44 | DOM manipulation, RSS/Atom feeds, OPML, XML-RPC, XSLT, validation |
 | **CLI** (`CLI/`) | 31 | Argument parsing, prompts, questions, output formatting, forked workers, servers |
-| **Exceptions** (`Exception/`) | 24 | HTTP exceptions, SQL exceptions, template exceptions, JSON-serializable errors |
+| **Exceptions** (`Exception/`) | 25 | HTTP exceptions, SQL exceptions, template exceptions, JSON-serializable errors |
 
 ## Installation
 
@@ -44,12 +44,16 @@ $now = AtomTime::get();
 echo 'Current Atom time: ' . $now->format(DATE_COOKIE) . PHP_EOL;
 ```
 
+## Documentation
+
+A manual with guides and an API reference is built by MkDocs from `doc/Manual/`: run `composer dev:docs`, then open `doc/Site/index.html` - or `composer dev:docs-serve` for a live preview. Changes per version are listed in the [changelog](CHANGELOG.md).
+
 ## Why Common?
 
 - **No boilerplate** — Ready-to-use classes for tasks you'd otherwise reimplement
 - **PSR-compliant** — Follows PSR-12 coding standards and PSR-16 Simple Cache
-- **Modern PHP** — Fully leverages PHP 8.3 features: typed properties, enums, match expressions, readonly classes
-- **Well-tested** — 171 PHPUnit tests and PHPStan Level 6 static analysis
+- **Modern PHP** — Strict types, typed properties, union types and match expressions
+- **Well-tested** — 1,500 PHPUnit tests and PHPStan Level 6 static analysis
 - **Single dependency** — Only requires `psr/simple-cache`, no heavy framework dependencies
 - **Namespace-organized** — Clear categorization makes finding the right class intuitive
 
@@ -67,12 +71,10 @@ $file = new File(__FILE__);
 echo 'Size: ' . $file->getSize() . ' bytes' . PHP_EOL;
 echo 'Modified: ' . date('Y-m-d H:i:s', $file->getTime()) . PHP_EOL;
 
-// Iterate folders with filtering
-$iterator = new Iterator('/path/to/dir', [
-    'showFolders' => true,
-    'showFiles' => true,
-    'stripDotEntries' => true,
-]);
+// Iterate folder entries: files, folders, without dot entries
+foreach (new Iterator('/path/to/dir', showFiles: true, showFolders: true, stripDotEntries: true) as $entry) {
+    echo $entry->getFilename() . PHP_EOL;
+}
 ```
 
 ### Time Formatting
@@ -82,16 +84,15 @@ Human-readable time durations with custom phrases:
 ```php
 use CeusMedia\Common\Alg\Time\DurationPhraser;
 
-$phrases = [
-    0       => '{s} seconds',
-    60      => '{m} minutes',
-    3600    => '{h} hours',
-    24*3600 => '{d} days',
-];
+$phraser = DurationPhraser::fromArray([
+    '0s' => 'just now',
+    '1m' => '{m} minutes ago',
+    '1h' => '{h} hours ago',
+    '1D' => '{D} days ago',
+]);
 
-$phraser = DurationPhraser::fromArray($phrases);
-echo $phraser->getPhraseFromTimestamp(filemtime(__FILE__));
-// "3 hours"
+echo $phraser->getPhraseFromSeconds(7200);                      // "2 hours ago"
+echo $phraser->getPhraseFromTimestamp(time() - 3 * 86400);      // "3 days ago"
 ```
 
 ### CLI Applications
@@ -103,13 +104,23 @@ use CeusMedia\Common\CLI\ArgumentParser;
 use CeusMedia\Common\CLI\Question;
 use CeusMedia\Common\CLI\Output\Table;
 
-$parser = new ArgumentParser($argv);
-$name = (new Question('What is your name?'))->ask();
+// php tool.php import users.csv v=1 limit=10
+[$commands, $parameters] = ArgumentParser::parseFromCurrentCall(['v' => 'verbose']);
+// $commands: ['import', 'users.csv'], $parameters: ['verbose' => '1', 'limit' => '10']
+
+$name = Question::askStatic('What is your name?');
 
 $table = new Table();
-$table->setHeaders(['Name', 'Value']);
-$table->addRow(['Key', 'Data']);
+$table->setData([
+    ['name' => 'Alice', 'city' => 'Leipzig'],
+    ['name' => 'Bob', 'city' => 'Berlin'],
+]);
 echo $table->render();
+// ┌───────┬─────────┐
+// │ name  │ city    │
+// ├───────┼─────────┤
+// │ Alice │ Leipzig │
+// ...
 ```
 
 ### Data Structures
@@ -120,11 +131,11 @@ Rich collection types beyond PHP's built-in arrays:
 use CeusMedia\Common\ADT\Collection\PriorityQueue;
 use CeusMedia\Common\ADT\URL;
 
-// Priority queue
+// Priority queue: lower number first
 $queue = new PriorityQueue();
-$queue->add('Low task', 1);
-$queue->add('High task', 10);
-echo $queue->extract(); // "High task"
+$queue->enqueue('Later task', 9);
+$queue->enqueue('Urgent task', 1);
+echo $queue->dequeue(); // "Urgent task"
 
 // URL parsing and manipulation
 $url = new URL('https://example.com/path?query=value');
@@ -139,9 +150,9 @@ Parse and generate RSS, Atom, and OPML feeds:
 ```php
 use CeusMedia\Common\XML\RSS\Reader;
 
-$reader = new Reader('https://example.com/feed.xml');
-$items = $reader->getItems();
-foreach ($items as $item) {
+$feed = Reader::readUrl('https://example.com/feed.xml');
+echo $feed['channelData']['title'] . PHP_EOL;
+foreach ($feed['itemList'] as $item) {
     echo $item['title'] . PHP_EOL;
 }
 ```
@@ -152,24 +163,26 @@ Generate images, charts, and diagrams:
 
 ```php
 use CeusMedia\Common\UI\Image;
+use CeusMedia\Common\UI\Image\Processing;
 
-$image = new Image();
-$image->create(800, 600);
-// ... draw, resize, convert formats ...
+$image = new Image('/path/to/photo.jpg');
+$processor = new Processing($image);
+$processor->resize(400, 300);
+$image->setType(IMAGETYPE_PNG);
 $image->save('/path/to/output.png');
 ```
 
 ### HTTP Client
 
-Fetch web resources with a simple, chainable API:
+Fetch web resources via cURL – TLS certificates are verified, only HTTP and HTTPS are allowed:
 
 ```php
-use CeusMedia\Common\Net\HTTP\Client;
+use CeusMedia\Common\Net\Reader;
 
-$client = new Client();
-$response = $client->get('https://api.example.com/data.json');
-$data = json_decode($response->getBody(), true);
-echo $response->getStatusCode(); // 200
+$reader = new Reader('https://api.example.com/data.json');
+$reader->setTimeout(10);
+$data = json_decode($reader->read(), true);
+echo $reader->getInfo('http_code'); // 200
 ```
 
 ### Password Strength
@@ -179,8 +192,8 @@ Analyze password complexity for validation:
 ```php
 use CeusMedia\Common\Alg\Crypt\PasswordStrength;
 
-$strength = PasswordStrength::getScore('MyP@ssw0rd!');
-echo "Score: {$strength['score']}/100";
+$strength = PasswordStrength::getStrength('MyP@ssw0rd!');
+echo "Strength: {$strength}/100";        // "Strength: 88/100", common passwords are negative
 ```
 
 ### Configuration Reader
@@ -190,9 +203,9 @@ Load and cache configuration files with support for multiple formats:
 ```php
 use CeusMedia\Common\FS\File\Configuration\Reader;
 
-$reader = new Reader('/path/to/config.ini');
-$database = $reader->get('database');
-$host = $reader->get('database.host', 'localhost'); // with default
+$reader = new Reader('/path/to/config.ini');           // INI sections, YAML, XML or own JSON format
+$database = $reader->get('database');                 // ['host' => 'db.local', 'port' => '3306']
+$host = $reader->get('database.host', 'localhost');   // with default
 ```
 
 ### Event Handling
@@ -204,11 +217,11 @@ use CeusMedia\Common\ADT\Event\Handler;
 use CeusMedia\Common\ADT\Event\Data;
 
 $handler = new Handler();
-$handler->attach('user.login', function (Data $event) {
-    echo "User logged in: " . $event->get('username');
+$handler->bind('user.login', function (Data $event) {
+    echo 'User logged in: ' . $event->arguments['username'];
 });
 
-$handler->dispatch('user.login', new Data(['username' => 'alice']));
+$handler->trigger('user.login', null, ['username' => 'alice']);
 ```
 
 ### Color Conversion
@@ -218,23 +231,23 @@ Convert between color spaces for UI and design tools:
 ```php
 use CeusMedia\Common\Alg\ColorConverter;
 
-// Hex to RGB
-$rgb = ColorConverter::hex2rgb('#FF5733'); // [255, 87, 51]
+// HTML color to RGB
+$rgb = ColorConverter::html2rgb('#FF5733'); // [255, 87, 51]
 
-// RGB to HSL
-$hsl = ColorConverter::rgb2hsv($rgb); // [14, 80, 100]
+// RGB to HSV
+$hsv = ColorConverter::rgb2hsv($rgb); // [11, 80, 100]
 
-// CSS color name to hex
-$hex = ColorConverter::name2hex('crimson'); // '#DC143C'
+// RGB to HTML color
+$html = ColorConverter::rgb2html([220, 20, 60]); // 'DC143C'
 ```
 
 ## Code Quality
 
 The codebase is maintained with strict static analysis and automated tooling:
 
-- **PHPStan Level 6** — all 418 source files pass with zero errors
+- **PHPStan Level 6** — all 419 analysed source files pass with zero errors, without baseline
 - **Rector** — automated code modernization rules applied
-- **PHPUnit** — 171 test files covering core functionality
+- **PHPUnit** — 1,508 tests in 207 test files
 - **PHP Parallel Lint** — syntax validation across the entire codebase
 
 ## Development
@@ -251,19 +264,15 @@ All development tasks are available as Composer scripts:
 | `composer run dev:rector` | Dry-run Rector code modernization |
 | `composer run dev:rector-fix` | Apply Rector fixes |
 | `composer run dev:create-docs` | Generate API documentation |
+| `composer run dev:docs` | Generate API reference and build documentation (MkDocs) into `doc/Site/` |
+| `composer run dev:docs-serve` | Live preview of documentation on http://localhost:8000 |
 | `composer run dev:test-syntax` | Lint all PHP files for syntax errors |
 
 > **Note:** Running `composer update` on feature branches requires `COMPOSER_ROOT_VERSION` because dev dependencies reference the root package. Use `composer run dev:update` instead.
 
-## Migration from 0.8.x
+## Upgrading
 
-When migrating older projects based on version `0.8.x`, enable backwards compatibility:
-
-```php
-require 'vendor/ceus-media/common/src/compat8.php';
-```
-
-> Avoid using compatibility mode in production for best performance.
+Version 1.1 requires PHP 8.3 and declares strict types in all classes. The compatibility layers for code written for 0.8.x and 0.9.x (`compat8.php`, `compat9.php`) have been removed in 1.1.0. See the guide page *Upgrading* in the manual (`doc/Manual/guide/upgrading.md`) and the [changelog](CHANGELOG.md) for all changes which may need changes in your code.
 
 ## Project Structure
 

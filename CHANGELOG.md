@@ -9,6 +9,8 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-12
+
 ### Changed
 - Fixes from the refactoring branch (1.1.x-refactor) have been taken over. Changes of behaviour which would break existing code are not included and will follow in 1.2.
 - `FS\Folder\Reader::getSize()` with a unit returns the size as number in that unit (`int`, or `float` when a precision is given); it failed with a `TypeError` before.
@@ -17,7 +19,9 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `CLI\Server\Cron\Job::checkMaturity()` is public now.
 - `Net\FTP\Connection::getResource()` returns `NULL` if not connected (failed with a `TypeError` before).
 - Composer: optional extensions are listed as suggestions, with the classes needing them.
-- `Net\HTTP\CrossDomainProxy` can verify TLS certificates and hosts, using `setVerifySsl( TRUE )` or the new last argument of `requestUrl()`. Verification stays disabled by default and will be enabled by default from 1.2 on.
+- `Net\HTTP\CrossDomainProxy` verifies TLS certificates and hosts of the service by default (verification was disabled before). It can be disabled using `setVerifySsl( FALSE )` or the new last argument of `requestUrl()`.
+- `Net\Reader` verifies TLS certificates and hosts by default (verification was disabled before); `CURLOPT_SSL_VERIFYHOST` is set to `2` (a boolean was passed before). It can be disabled using `setVerifyPeer( FALSE )` and `setVerifyHost( FALSE )`, e.g. for self-signed certificates. This also applies to all classes using `Net\Reader`, like `XML\DOM\UrlReader`, `XML\RSS\Reader`, `XML\Atom\Reader`, `XML\FeedIdentifier` and `Net\Site\Crawler`.
+- `Net\Reader` sends the user agent `CeusMedia-Common/1.1 Net\Reader` by default (was `cmClasses:Net_Reader/0.7`).
 - `Net\HTTP\Response\Decompressor` accepts both zlib and raw deflate data for `deflate`.
 - `Net\Site\Crawler` respects the crawl depth given to the constructor (it was ignored), resolves relative links against the current page (or its `base` element), ignores URL fragments and stores cookies in a temporary file instead of `cookies.txt` in the working directory. New static method `resolveUrl()`.
 - `Net\Site\MapBuilder` uses the sitemap namespace `http://www.sitemaps.org/schemas/sitemap/0.9`.
@@ -46,6 +50,8 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - `Env::getServerVariable()` reads server and request variables from the environment or `$_SERVER`.
 - `XML\DOM\Node::removeChildAt()` removes a child node by its index.
 - `FS\Folder\Reader::SIZE_BYTE`, `SIZE_KILOBYTE`, `SIZE_MEGABYTE` and `SIZE_GIGABYTE` as units for `getSize()`.
+- `Net\Reader::setTimeout()` and `setConnectTimeout()` (seconds). By default no timeouts are set, so the defaults of cURL or `Net\CURL::setTimeOut()` still apply; defaults of 30 and 10 seconds will follow in 1.2.
+- Documentation: manual with guides and an API reference generated from the code, built by MkDocs (Material) into `doc/Site/` (`composer dev:docs`, live preview with `composer dev:docs-serve`).
 
 ### Deprecated
 - `Net\API\Google\ClosureCompiler`, `Net\API\Google\Sitemap\Submit` and `Net\API\Premailer`: the services they use have been shut down. They trigger a deprecation error now and will throw a `DeprecationException` from 1.2 on.
@@ -154,6 +160,15 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - Development: the FTP tests run against a small local test FTP server (they were always skipped before, even with access data configured); image tests compare pixels instead of file contents and are not skipped anymore. No tests are skipped anymore.
 - `FS\File::getSize()` returned an outdated size after the file had been changed (stat cache, e.g. after `setContent()` on PHP 8.1).
 - Development: Composer constraint for PHPUnit is `^10.5` again (release 1.1.0 was tagged with `>=10`, which installs PHPUnit 12 and breaks the test suite).
+- `XML\DOM\Parser` keeps backslashes in attribute values and CDATA content (they were removed by `stripslashes()`, which corrupted Windows paths, regular expressions and escaped JSON).
+- `Net\HTTP\Reader::setVerify()` passed the host flag as boolean to `CURLOPT_SSL_VERIFYHOST`, so enabling it caused a PHP notice from cURL; it sets `2` (or `0`) now. The peer flag accepts a boolean (integers are still accepted).
+- `XML\Atom\Validator` (and so `XML\Atom\Reader` and `Parser`) failed with a `TypeError` for entries without `updated` element, since the rule had a different key (`entry_updates`, now `entry_updated`); links without `rel` attribute were not accepted as alternate links (RFC 4287).
+- `FS\Folder\Editor::move()` switched the editor to the target path instead of the moved folder inside it, so following calls like `remove()` worked on the target path (e.g. `archive` instead of `archive/<name>`).
+- `Env::set()` and so `Env::load()` stored string values with surrounding double quotes (`Env::get()` returned `"dev"` instead of `dev`).
+- `FS\File\Arc\Gzip` and so `FS\File\Arc\TarGzip` wrote and read the zlib format instead of gzip, so their files could not be read by `gunzip` or `tar`, and gzip files of other tools could not be read. Files in zlib format, written by older versions, are still read.
+
+### Security
+- `Net\CURL` only allows HTTP and HTTPS, for requests and redirects (`CURLOPT_PROTOCOLS`, `CURLOPT_REDIR_PROTOCOLS`). URLs like `file://`, `gopher://` or `dict://` were requested before.
 
 ## [1.1.0] - 2026-11-02
 
@@ -724,7 +739,8 @@ Entries for releases up to 1.0.1 were reconstructed from git history, tags and G
 - Google Maps geocoder checks query limit.
 - Updated code doc (`@package`, `@category`, `@link`, `@copyright`).
 
-[Unreleased]: https://github.com/CeusMedia/Common/compare/1.1.0...HEAD
+[Unreleased]: https://github.com/CeusMedia/Common/compare/1.1.1...HEAD
+[1.1.1]: https://github.com/CeusMedia/Common/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/CeusMedia/Common/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/CeusMedia/Common/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/CeusMedia/Common/compare/0.9.1...1.0.0
